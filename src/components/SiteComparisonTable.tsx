@@ -28,7 +28,7 @@ function ComparisonRichIcon({ comparisonValue, vsIndex }) {
   return (
     <>
       <div className={`py-4 md:border-b ${vsIndex ? 'border-b-vs-blue/20':'border-b-gray-200'} `}>
-        <p className="flex flex-row gap-2 justify-start items-center text-left flex-shrink-0">
+        <p className="flex flex-row gap-2 justify-center md:justify-start items-center text-left flex-shrink-0">
           <Image
             className="object-contain"
             src={icon.url}
@@ -61,14 +61,16 @@ export default function SiteComparisonTable({ data, mainIndex, currentIndex, isM
 
     <div className='flex flex-col gap-2'>
       <div
-        className={`${currentChildIndex === mainIndex ? 'bg-gray-100 text-gray-700' : 'bg-gray-100 text-gray-700 '} flex items-center 
-        gap-2 px-4 py-3 border border-gray-100 bg-gray-50 rounded-[6px] justify-start text-center font-inter text-sm font-medium leading-[145%] cursor-pointer md:hidden`}
+        className={`${currentChildIndex === mainIndex ? 'bg-gray-100 text-gray-900' : 'bg-gray-100 text-gray-900 '} flex items-center 
+        gap-2 justify-between px-4 py-3 border border-gray-100 bg-gray-50 rounded-[6px] text-center text-sm font-medium leading-[145%] cursor-pointer md:hidden`}
         onClick={toggle}
       >
-        {data.tableData.iconSvgCode && (
-          <span dangerouslySetInnerHTML={{__html: data.tableData.iconSvgCode}}></span>
-        )}
-        {data.tableData.name}
+        <div className='flex items-center gap-2'>
+          {data.tableData.iconSvgCode && (
+            <span dangerouslySetInnerHTML={{__html: data.tableData.iconSvgCode}}></span>
+          )}
+          {data.tableData.name}
+        </div>
         {currentChildIndex === mainIndex ?  <Minus height={16} width={16}></Minus> : <Plus height={16} width={16}></Plus>}
       </div>
       <div className={`${(mainIndex === currentIndex  && !isMobile) || (mainIndex === currentChildIndex && isMobile) ? 'block' : 'hidden'}`}>

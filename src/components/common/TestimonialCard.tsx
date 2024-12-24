@@ -24,7 +24,7 @@ const TestimonialCard = forwardRef<HTMLDivElement, TestimonialCardProps>(
   
   const video  = data.video
   return (
-    <div className={`md:sticky testimonial-card`} ref={ref} id={`${index}`}  data-index={index}
+    <div className={`md:sticky testimonial-card shadow-[0px_-4px_40px_0px_rgba(0,0,0,0.05)]`} ref={ref} id={`${index}`}  data-index={index}
       style={{
         top:topValue,
         transform: (isSticky && !isMobile) ? `scale(${scale})` : "scale(1)",
@@ -38,7 +38,7 @@ const TestimonialCard = forwardRef<HTMLDivElement, TestimonialCardProps>(
         <div className="flex flex-col md:flex-row">
           {/* Image */}
           {data?.image?.url && (
-            <div className="flex-1 md:max-w-[250px] lg:max-w-[343px] overflow-hidden relative self-end">
+            <div className="flex-1 md:max-w-[250px] lg:max-w-[343px] overflow-hidden relative md:self-end">
               <Image
                 width={293}
                 height={407}
@@ -59,7 +59,7 @@ const TestimonialCard = forwardRef<HTMLDivElement, TestimonialCardProps>(
           
           <div className="flex-1 flex flex-col md:flex-row justify-between">
             {/*  */}
-              <div className="flex flex-col flex-1 p-8">
+              <div className="flex flex-col flex-1 pt-6 pb-3 px-4 md:p-8">
                 {data.listItems &&
                   data.listItems.length > 0 &&
                   data.listItems.map((item: any, index: number) => {
@@ -109,7 +109,7 @@ const TestimonialCard = forwardRef<HTMLDivElement, TestimonialCardProps>(
               </div>
 
               {data.keyFeatures && data.keyFeatures.length > 0 && (
-                <div className="flex-1 flex flex-col px-6 pt-12 pb-8 gap-8 border-l border-gray-200 md:max-w-[200px] lg:max-w-[270px]">
+                <div className="flex-1 flex flex-col  py-6 px-4 md:px-6 md:pt-12 md:pb-8 gap-6 md:gap-8 border-t md:border-t-0 md:border-l border-gray-200 md:max-w-[200px] lg:max-w-[270px]">
                     <h3 className="text-gray-500 font-inter text-sm font-medium leading-[110%]">Key Features Used</h3>
                     <ul className="flex flex-wrap gap-3">
                       {data.keyFeatures.map((item:any, index:number) => {
@@ -127,19 +127,22 @@ const TestimonialCard = forwardRef<HTMLDivElement, TestimonialCardProps>(
           </div>
 
         {/* Testimonee Details bottom strip */}
-        <div className="flex flex-col md:flex-row items-center gap-8 border-t border-dashed border-gray-300 py-4 px-8 justify-between">
+        <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8 border-t border-dashed border-gray-300 px-4 py-6 md:py-4 md:px-8 justify-between">
           {/* name and designation */}
           <div>
-            <p className="text-base text-gray-900 font-semibold leading-[140%]">{data?.name || "Unknown Name"}</p>
+            <p className="text-base text-gray-900 font-semibold leading-[140%]">{data?.name || ""}</p>
             <p className="text-sm text-gray-500 font-medium leading-[140%]">
               {data?.designation}
             </p>
           </div>
-          {/* region */}
-          <div className="flex flex-col gap-1">
-            <span className="text-gray-900 text-base font-semibold leading-[140%]">{data?.place}</span>
-            <span className="text-gray-500 text-sm font-medium leading-[140%]">{data?.region }</span>
-          </div>
+
+          <div className="flex items-center gap-8 md:justify-between flex-grow max-w-[320px]">
+            
+            {/* region */}
+            <div className="flex flex-col gap-1">
+              <span className="text-gray-900 text-base font-semibold leading-[140%]">{data?.place}</span>
+              <span className="text-gray-500 text-sm font-medium leading-[140%]">{data?.region }</span>
+            </div>
 
             {/* no of locations */}
             {data.locations && (
@@ -152,22 +155,23 @@ const TestimonialCard = forwardRef<HTMLDivElement, TestimonialCardProps>(
                 </span>
               </div>
             )}
-
-            {/* Logo */}
-            {data?.logo && data.logo.url && (
-              <div className="flex-shrink-0">
-                <Image
-                  src={`${data.logo.url}`}
-                  alt="Company Logo"
-                  className="max-w-full"
-                  width={188}
-                  height={64}
-                />
-              </div>
-            )}
           </div>
+
+          {/* Logo */}
+          {data?.logo && data.logo.url && (
+            <div className="flex-shrink-0">
+              <Image
+                src={`${data.logo.url}`}
+                alt="Company Logo"
+                className="max-w-full"
+                width={188}
+                height={64}
+              />
+            </div>
+          )}
         </div>
       </div>
+    </div>
     )
   },
 )

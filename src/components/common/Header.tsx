@@ -76,7 +76,7 @@ const Header = ({data}) => {
                   </Link>
 
                   <div className={`lg:flex flex-col lg:flex-row lg:gap-6 justify-between rounded-[4px] lg:rounded-none items-center 
-                    lg:static absolute top-[45px] left-0 right-0 bg-white pb-4 lg:pb-0 
+                    lg:static absolute top-[45px] left-0 right-0 bg-white pb-12 lg:pb-0 
                     h-[calc(100vh-77px)] lg:h-auto shadow-[0px_40px_40px_0px_rgba(0,0,0,0.10)] lg:shadow-none
                     ${showMenu ? 'flex': 'hidden'}`}>
 
@@ -85,15 +85,16 @@ const Header = ({data}) => {
                       gap-2 justify-between items-center flex`}>
                       <nav className="flex flex-col lg:flex-row gap-y-4 gap-x-4 lg:gap-x-8 flex-wrap ">
                         {data?.heroHeaderSection && data?.heroHeaderSection?.map((link:any, i:number) => {
-                          if (link?.headerMenu === "Comparison" && isUk) {
-                            return null;
-                          }
+                          // if (link?.headerMenu === "Comparison" && isUk) {
+                          //   return null;
+                          // }
                         
                           return (
                             <Link
                               key={link?.href + i}
                               href={link?.href}
                               className="text-gray-700 text-base font-medium leading-[1.15] text-center"
+                              onClick={toggleMenu}
                             >
                               {link.headerMenu}
                             </Link>
@@ -107,7 +108,7 @@ const Header = ({data}) => {
                     <div className='flex flex-col md:flex-row gap-3 md:gap-5 items-center lg:hidden'>
                       <div className='flex-shrink-0'>
                         <a href="tel:+(407) 833-6123" className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
-                        border border-gray-300'><TelIcon/>(407) 833-6123</a>
+                        border border-gray-300'><TelIcon/>{data?.phoneNumber}</a>
                       </div>
                       <Button type='primarySm'  onClick={() => {setOpenForm(true)}}>
                         <ButtonArrow></ButtonArrow>

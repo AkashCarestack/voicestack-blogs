@@ -269,3 +269,64 @@ html {
 #hubspotForm .hs-form-field input {
   @apply text-base border py-2 px-4 rounded w-full focus:outline-gray-950;
 }
+
+
+/* legal css */
+/* In your Tailwind-compatible file */
+.legal-content h1 {
+  @apply text-4xl font-semibold mb-10 text-center;
+}
+
+.legal-content h2 {
+  @apply text-2xl font-semibold mb-2;
+}
+
+.legal-content li, .legal-content p {
+  @apply mb-5 text-justify !text-gray-800;
+}
+
+.legal-content a {
+  @apply text-blue-600 hover:underline underline-offset-2;
+}
+
+.legal-content h1 {
+  @apply text-4xl font-semibold mb-10 text-center;
+}
+
+.legal--inner table, .legal--inner td, .legal--inner th {
+  border: 1px solid #000;
+  border-collapse: collapse;
+}
+
+.legal--inner th {
+  padding: 12px;
+  font-weight: 700;
+}
+
+.legal--inner td {
+  padding: 12px;
+}
+
+.legal-content h2 {
+  @apply text-2xl font-semibold mb-2;
+}
+
+.legal-content li, .legal-content p {
+  @apply mb-5 text-justify !text-gray-800;
+}
+
+.legal-content a {
+  @apply text-blue-600 hover:underline underline-offset-2;
+}
+
+.legal-content table {
+  @apply table-auto;
+}
+
+.legal-content td {
+  @apply border p-4;
+}
+
+.legal-content tr:nth-child(odd) {
+  @apply bg-gray-50;
+}

@@ -28,7 +28,7 @@ const CardsListingSection = () => {
 
  
   return (
-    <Section className="py-sm md:py-md md:pt-0 pb-8 bg-gray-900">
+    <Section className="py-xs md:py-md md:pt-0 pb-8 bg-gray-900">
       <Container >
         <div className='flex flex-col gap-16 items-center w-full'>
           <div className='flex flex-wrap gap-4 md:gap-0 flex-col md:flex-row justify-center'>

@@ -92,7 +92,14 @@ export default function AppearFeature({
           <div className="flex flex-col gap-4">
             <PreText>
               <span className=" text-vs-blue">
-                <PhoneIcon></PhoneIcon>
+              {data.testimonialIcon && data.testimonialIcon.url &&
+                    <div className=''>
+                      <motion.img
+                        src={data.testimonialIcon.url}
+                        alt="testimonial icon"
+                      />
+                    </div>
+                  }
               </span>
               {data?.testimonialSubheading}
             </PreText>
