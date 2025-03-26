@@ -329,8 +329,8 @@ const Header = ({ data, refer=null }) => {
                   <div className={`lg:flex flex-col lg:flex-row lg:gap-6 justify-between lg:rounded-none items-center 
                     lg:static absolute top-[44px] left-0 right-0 bg-white pb-20 lg:pb-0 
                     h-[calc(100vh-40px)] lg:h-auto shadow-[0px_40px_40px_0px_rgba(0,0,0,0.10)] lg:shadow-none
-                    xl:flex-grow xl:justify-end xl:mr-10
-                    ${showMenu ? 'flex': 'hidden'}`}>
+                    xl:flex-grow 
+                    ${showMenu ? 'flex': 'hidden'} ${data.phoneNumber ? 'xl:justify-end xl:mr-10': 'xl:justify-center'}`}>
 
                     {/* nav items */}
                     <div className={`lg:flex-row top-[110px] right-0 px-4 pt-4 pb-8 w-full lg:w-auto lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col 
@@ -361,10 +361,13 @@ const Header = ({ data, refer=null }) => {
 
                       {/* mob cta and phone */}
                       <div className='flex flex-col md:flex-row gap-3 md:gap-5 items-center lg:hidden'>
-                        <div className='flex-shrink-0'>
-                          <Anchor href={`tel:${data?.phoneNumber}`} className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
-                          border border-gray-300'><TelIcon/>{data?.phoneNumber}</Anchor>
-                        </div>
+                        {data.phoneNumber && (
+
+                          <div className='flex-shrink-0'>
+                            <Anchor href={`tel:${data?.phoneNumber}`} className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
+                            border border-gray-300'><TelIcon/>{data?.phoneNumber}</Anchor>
+                          </div>
+                        )}
                         <Button type='primarySm'  onClick={() => {setOpenForm(true)}}>
                           <ButtonArrow></ButtonArrow>
                           <span className="text-base font-medium">{data?.ctabutton}</span>
@@ -410,11 +413,12 @@ const Header = ({ data, refer=null }) => {
 
                   {/* dt cta and phone */}
                   <div className='lg:flex gap-3 items-center lg:justify-end hidden'>
-                    <div className='flex-shrink-0'>
-                      <Anchor href={`tel:${data?.phoneNumber}`} className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
-                      border border-gray-300'><TelIcon/>{data?.phoneNumber}</Anchor>
-                    </div>
-                   
+                    {data.phoneNumber && (
+                      <div className='flex-shrink-0'>
+                        <Anchor href={`tel:${data?.phoneNumber}`} className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
+                        border border-gray-300'><TelIcon/>{data?.phoneNumber}</Anchor>
+                      </div>
+                    )}
                     {refer == "carestack" ? (
                       <Button type='primarySm' link={`/demo?region=${router.locale}`} locale={false}  target='_blank'>
                         <ButtonArrow></ButtonArrow>
