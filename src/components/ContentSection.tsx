@@ -6,7 +6,6 @@ import SanityPortableText from '~/components/blockEditor/sanityBlockEditor'
 import H1 from './typography/H1'
 import HeroBg from 'public/assets/hero-bg.png'
 import Image from 'next/image'
-import HeroInner from './common/HeroInner'
 
 const ContentSection = ({ content, draftMode, token }) => {
   const router = useRouter()
@@ -14,7 +13,6 @@ const ContentSection = ({ content, draftMode, token }) => {
 
   return (
     <>
-      <HeroInner data={content}/>
       <Section className="py-sm md:py-md relative scroll-smooth scroll-m-16">
         <Container className='justify-center'>
           <div className="flex justify-center w-full max-w-[822px]">

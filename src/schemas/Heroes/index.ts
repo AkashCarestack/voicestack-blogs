@@ -77,6 +77,7 @@ export default defineType({
         list: [
           { title: 'Feature', value: 'feature' },
           { title: 'Integration', value: 'integration' },
+          { title: 'System Requirements', value: 'system-requirements' },
         ],
       },
       validation: (Rule) => Rule.required().error('Content type is required.'),
