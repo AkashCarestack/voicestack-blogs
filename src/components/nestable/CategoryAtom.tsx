@@ -21,7 +21,7 @@ const CategoryAtom = ({ data }) => {
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 					viewport={{ once: true }}
-					transition={{ duration: 0.6 }}
+					transition={{ duration: 0.6, delay : 0 }}
 				>
 					<div className="grid md:grid-cols-[1fr_1fr] gap-6 items-center">
 						<motion.div
@@ -85,7 +85,7 @@ const CategoryAtom = ({ data }) => {
 								key={index}
 								className="p-6 border rounded-lg text-center shadow-sm"
 								variants={{
-									hidden: { opacity: 0, y: 20 },
+									hidden: { opacity: 0, y: 0 },
 									visible: { opacity: 1, y: 0 }
 								}}
 							>
