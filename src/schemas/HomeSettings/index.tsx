@@ -5,8 +5,7 @@ export default defineType({
   title: 'Home Settings',
   type: 'document',
   options: {
-    // show language filter for this document type, regardless of how documentTypes for the plugin is configured
-    languageFilter: true,
+      // Additional options can be added here if needed
   },
   fields: [
     defineField({
