@@ -14,8 +14,25 @@ body {
   padding: 0;
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Apply animation */
+.fade-in {
+  opacity: 0; /* Start hidden */
+  animation: fadeIn 0.5s ease-in-out;
+  animation-delay: 1s; /* Delay before animation starts */
+  animation-fill-mode: forwards; /* Keeps the final opacity (1) */
+}
 
 @layer base {
   :root {

@@ -1,6 +1,6 @@
-import { createClient, type SanityClient } from 'next-sanity'
-
+import { createClient, type ClientConfig } from 'next-sanity'
 import { apiVersion, dataset, projectId, useCdn } from '~/lib/sanity.api'
+import type { SanityClient } from 'next-sanity'
 
 export function getClient(preview?: { token: string }): SanityClient {
   const client = createClient({
@@ -9,7 +9,8 @@ export function getClient(preview?: { token: string }): SanityClient {
     apiVersion,
     useCdn,
     perspective: 'published',
-  })
+  } as ClientConfig) as SanityClient
+
   if (preview) {
     if (!preview.token) {
       throw new Error('You must provide a token to preview drafts')

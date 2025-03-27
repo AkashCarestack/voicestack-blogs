@@ -5,8 +5,7 @@ export default defineType({
   title: 'Home Settings',
   type: 'document',
   options: {
-    // show language filter for this document type, regardless of how documentTypes for the plugin is configured
-    languageFilter: true,
+      // Additional options can be added here if needed
   },
   fields: [
     defineField({
@@ -61,6 +60,12 @@ export default defineType({
     defineField({
       name: 'heroImage',
       title: 'Hero Section Image',
+      type: 'image',
+    }),
+
+    defineField({
+      name: 'heroImageSecondary',
+      title: 'Hero Section Image Secondary',
       type: 'image',
     }),
 
