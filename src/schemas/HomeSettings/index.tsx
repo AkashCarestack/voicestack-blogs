@@ -64,6 +64,12 @@ export default defineType({
     }),
 
     defineField({
+      name: 'heroImageSecondary',
+      title: 'Hero Section Image Secondary',
+      type: 'image',
+    }),
+
+    defineField({
       name: 'heroStripDescription',
       title: 'Hero Strip Description Header',
       type: 'string',
