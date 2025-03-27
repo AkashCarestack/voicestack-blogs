@@ -89,6 +89,7 @@ const Header = ({ data, refer=null }) => {
   const matchedRegion = regions.find((region) => region.locale === router.locale);
   const toggleRef = useRef(null);
   const isMobile = useMediaQuery(767);
+  const { locale, asPath } = useRouter();
 
   const { query } = router;
 
@@ -253,14 +254,24 @@ const Header = ({ data, refer=null }) => {
     );
   },[router])
 
+  
+  const baseUrl =  process.env.NEXT_PUBLIC_BASE_URL || "https://www.voicestack.com"; 
+
+  const locales = [
+    { code: "en-us", href: `${baseUrl}${asPath}` },
+    { code: "en-gb", href: `${baseUrl}/en-GB${asPath}` },
+    { code: "en-au", href: `${baseUrl}/en-AU${asPath}` },
+  ];
+
+
 
   const btnClass = "bg-vs-blue hover:bg-vs-blue text-white border border-vs-blue px-[17px] py-[10px] rounded-[7px] text-gray-900 font-inter text-base font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]";
   return (
     <>
       <Head>
-        <link rel="alternate" hrefLang="en-us" href="https://www.voicestack.com" />
-        <link rel="alternate" hrefLang="en-gb" href="https://www.voicestack.com/en-GB" />
-        <link rel="alternate" hrefLang="en-au" href="https://www.voicestack.com/en-AU" />
+          {locales.map(({ code, href }) => (
+            <link key={code} rel="alternate" hrefLang={code} href={href} />
+          ))}
         <link rel="alternate" hrefLang="x-default" href="https://www.voicestack.com" />
       </Head>
       <ProgressBar/>
