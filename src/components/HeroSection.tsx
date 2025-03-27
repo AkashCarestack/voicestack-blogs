@@ -6,10 +6,6 @@ import Container from './structure/Container'
 import H1 from './typography/H1'
 import { VideoItem, VideoModal } from './common/VideoModal'
 import device from 'public/assets/voicestack-device.png'
-import voicestack from 'public/assets/voicestack-ui.png'
-import voicestackUk from 'public/assets/voicestack-ui-uk-v2.png'
-import voicemail from 'public/assets/voicemail.png'
-import voiceMobile from 'public/assets/VoiceStack Mobile.png'
 import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
 import { FormModal } from './common/FormModal'
@@ -25,13 +21,9 @@ const HeroSection = ({ data, refer = null, video }) => {
   const router = useRouter();
   const videoId = router.locale == "en" ? "3CsThXKvcvRrR3hwRsWWJY" : "Hj4GYLXARVjqQEnaejq3Bz";
   // console.log(video[0]);
+  // console.log({data});
   
-  const [isUk, setIsUk] = useState(false);
-  
-  useEffect(()=>{
-    setIsUk(router.locale == "en-GB");
-  },[router.locale]);
-  
+    
   const overviewVideo: VideoItem = {
     videoPlatform: 'vidyard',
     videoId: videoId,
@@ -186,22 +178,29 @@ const HeroSection = ({ data, refer = null, video }) => {
 
           <div className="relative w-full fade-in">
             {/* <Image src={device} alt='device'></Image> */}
-            <div className={`relative pt-[58%] lg:pt-0 ${isUk ? 'lg:h-[520px]' : 'lg:h-[480px]'} overflow-hidden w-full`}>
-              <div className={`absolute left-0 top-[23%] lg:top-[80px] ${isUk ? 'w-[100%]' : 'w-[85%]'}`}>
-                <Image
-                  className="w-full h-full object-cover"
-                  src={isUk ? voicestackUk : voicestack}
-                  title="VoiceStack"
-                  alt="voicestack"
-                ></Image>
-              </div>
-              {!isUk && (
+            <div className={`relative pt-[58%] lg:pt-0 ${data.heroImageSecondary ? 'lg:h-[480px]' : 'lg:h-[520px]'} overflow-hidden w-full`}>
+              {data.heroImage && (
+                
+                <div className={`absolute left-0 top-[23%] lg:top-[80px] ${data.heroImageSecondary ? 'w-[85%]' : 'w-[100%]'}`}>
+                  <Image
+                    className="w-full h-full object-cover"
+                    src={data.heroImage.url}
+                    title="VoiceStack"
+                    alt={data.heroImage.altText}
+                    width={data.heroImage.metadata.dimensions.width}
+                    height={data.heroImage.metadata.dimensions.height}
+                  ></Image>
+                </div>
+              )}
+              {data.heroImageSecondary && (
                 <div className="absolute right-0 bottom-[-40px] lg:bottom-auto lg:top-0 min-w-[105px] w-[30%] md:w-[25%]">
                   <Image
                     className="w-full h-full object-cover"
-                    src={voiceMobile}
+                    src={data.heroImageSecondary.url}
                     alt="voicemail"
                     title="Voice Mail"
+                    width={data.heroImageSecondary.metadata.dimensions.width}
+                    height={data.heroImageSecondary.metadata.dimensions.height}
                   ></Image>
                 </div>
               )}

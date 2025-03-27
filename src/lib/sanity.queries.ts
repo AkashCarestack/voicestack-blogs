@@ -91,6 +91,32 @@ export const AboutQuery = groq`*[_type == "siteSettings"]{"about":ogDescription
 export async function getHeroSectionData(client: SanityClient, region: string) {
   const query = groq`*[_type == "homeSettings" && language == $region][0]{
       ...,
+      "heroImage": heroImage.asset-> {
+        _id,
+        url,
+        altText,
+        title,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          }
+        }
+      },
+      "heroImageSecondary": heroImageSecondary.asset-> {
+        _id,
+        url,
+        altText,
+        title,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          }
+        }
+      },
       "heroSubFeature": heroSubFeature[]->{
         "heading": heroSubFeatureHeading,
         "description": heroSubFeatureContent,
