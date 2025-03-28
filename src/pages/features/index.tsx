@@ -1,7 +1,6 @@
 import { GetStaticProps } from 'next'
 import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
-import { SanityClient } from 'sanity'
 import Header from '~/components/common/Header'
 import {
   getALLHomeSettings,
@@ -13,17 +12,18 @@ import {
   getHeroes,
   getHeroSectionData,
   getIntegrationList,
-  getContactAndVideoInfo
+  getContactAndVideoInfo,
+  getAllSlugs
 } from '~/lib/sanity.queries'
 import { useContext, useEffect } from 'react'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
-import SanityPortableText from '~/components/blockEditor/sanityBlockEditor'
 import NumberSection from '~/components/NumberSection'
 import Footer from '~/components/common/Footer'
 import HeroMainSection from '~/components/common/HeroMainSection'
 import CategoryFeatureSection from '~/components/CategoryFeatureSection'
 import BannerSection from '~/components/BannerSection'
 import AnimatedBeamSection from '~/components/ui/animated/AnimatedBeamSection'
+import { SanityClient } from 'next-sanity'
 
 export interface PageProps {
   heroes: {
@@ -42,9 +42,12 @@ export interface PageProps {
   integrationPlatforms: any
   bannerData: any
   contactAndVideoData: any
+  allSlugs: any
+  faqSectionData?: any
+  page?: any
 }
 
-export default function Page({ heroes, homeSettings, heroData, region, categories, footerData, globalSettings,bannerData,integrationPlatforms, contactAndVideoData }: PageProps) {
+export default function Page({ heroes, homeSettings, heroData, region, categories, footerData, globalSettings,bannerData,integrationPlatforms, contactAndVideoData,allSlugs }: PageProps) {
   const { isDemoPopUpShown, setIsDemoPopUpShown } = useContext(BookDemoContext);
   const videoData = contactAndVideoData?.video;
   useEffect(() => {
@@ -58,7 +61,7 @@ export default function Page({ heroes, homeSettings, heroData, region, categorie
   
   return (
     <>
-      <Header data={homeSettings} />
+      <Header data={homeSettings} allSlugs={allSlugs} />
       
         <HeroMainSection data={heroes}></HeroMainSection>
         <NumberSection data={globalSettings} />
@@ -79,7 +82,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
   const slug = params?.slug as string
   
   const client = getClient(draftMode ? { token: readToken } : undefined) as SanityClient
-  const [heroes, homeSettings, heroData, categories, footerData, globalSettings, bannerData,integrationPlatforms,contactAndVideoData ] = await Promise.all([
+  const [heroes, homeSettings, heroData, categories, footerData, globalSettings, bannerData,integrationPlatforms,contactAndVideoData,allSlugs ] = await Promise.all([
     getHeroes(client, 'feature', region),
     getALLHomeSettings(client, region),
     getHeroSectionData(client, region),
@@ -88,7 +91,9 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
     getGlobalSettings(client, 'features', region),
     getBannerData(client, region),
     getIntegrationList(client, region),
-    getContactAndVideoInfo(client, region)
+    getContactAndVideoInfo(client, region),
+    getAllSlugs(client)
+
   ])
 
   if (!heroes) {
@@ -109,6 +114,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
       bannerData,
       integrationPlatforms,
       contactAndVideoData,
+      allSlugs,
       draftMode,
       token: draftMode ? readToken : '',
     },

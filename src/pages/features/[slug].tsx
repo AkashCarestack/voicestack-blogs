@@ -1,10 +1,9 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { groq } from 'next-sanity'
+import { groq, SanityClient } from 'next-sanity'
 import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
-import { SanityClient } from 'sanity'
 import Header from '~/components/common/Header'
-import { fetchFaq, getALLHomeSettings, getBannerData, getFeaturePageData, getFooterData, getContactAndVideoInfo } from '~/lib/sanity.queries'
+import { fetchFaq, getALLHomeSettings, getBannerData, getFeaturePageData, getFooterData, getContactAndVideoInfo, getAllSlugs } from '~/lib/sanity.queries'
 import { getHeroSectionData } from '~/lib/sanity.queries'
 import { useContext, useEffect, useState } from 'react'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
@@ -33,9 +32,10 @@ export interface PageProps {
   bannerData: any;
   footerData: any;
   contactAndVideoData: any;
+  allSlugs: any
 }
 
-export default function Page({ page, homeSettings, heroData, region, faqSectionData, bannerData, footerData, contactAndVideoData }: PageProps) {
+export default function Page({ page, homeSettings, heroData, region, faqSectionData, bannerData, footerData, contactAndVideoData,allSlugs }: PageProps) {
   const { isDemoPopUpShown, setIsDemoPopUpShown } = useContext(BookDemoContext);
   const [refer, setRefer] = useState(null);
   const videoData = contactAndVideoData?.video;
@@ -52,7 +52,7 @@ export default function Page({ page, homeSettings, heroData, region, faqSectionD
   return (
     <>
       <SeoHeader seoData={page}/>
-      <Header data={homeSettings} />
+      <Header allSlugs={allSlugs} data={homeSettings} />
       <InnerHeroSection data={page.heroSection}/>
       <FeatureBenefitSection data={page?.featureSubSection} />
       <FeatureImageSection data={page?.featureBenefitsSection} />
@@ -72,14 +72,15 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
   const slug = params?.slug as string
 
   const client = getClient(draftMode ? { token: readToken } : undefined) as SanityClient
-  const [page, homeSettings, heroData, faqSectionData, footerData, bannerData, contactAndVideoData] = await Promise.all([
+  const [page, homeSettings, heroData, faqSectionData, footerData, bannerData, contactAndVideoData,allSlugs] = await Promise.all([
       getFeaturePageData(client, slug, region),
       getALLHomeSettings(client, region),
       getHeroSectionData(client, region),
       fetchFaq(client, region),
       getFooterData(client, region),
       getBannerData(client, region),
-      getContactAndVideoInfo(client, region)
+      getContactAndVideoInfo(client, region),
+      getAllSlugs(client)
     ])
 
   if (!page) {
@@ -94,7 +95,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
       homeSettings,
       heroData,
       region,
-      faqSectionData, footerData, bannerData, contactAndVideoData
+      faqSectionData, footerData, bannerData, contactAndVideoData,allSlugs
     },
   }
 }

@@ -24,8 +24,7 @@ import Anchor from './anchor';
 
 
 
-const Header = ({ data, refer=null }) => {
-
+const Header = ({allSlugs, data, refer=null }: any) => {
   const [showMenu, setShowMenu] = useState(false);
   const [headerFixed, setHeaderFixed] = useState(false);
   const [openForm, setOpenForm] = useState(false);
@@ -256,20 +255,27 @@ const Header = ({ data, refer=null }) => {
 
   
   const baseUrl =  process.env.NEXT_PUBLIC_BASE_URL || "https://www.voicestack.com"; 
+  const currentSlug = asPath.replace("/features/", "").split("?")[0];
 
-  const locales = [
-    { code: "en-us", href: `${baseUrl}${asPath}` },
+
+  const availableLocales = allSlugs
+    ?.filter((item) => item.slug === currentSlug)
+    .map((item) => item.locales.toLowerCase()); 
+
+  const filteredLocales = [
     { code: "en-gb", href: `${baseUrl}/en-GB${asPath}` },
     { code: "en-au", href: `${baseUrl}/en-AU${asPath}` },
-  ];
-
+  ].filter(({ code }) => availableLocales.includes(code.toLowerCase())); 
+  if (availableLocales.includes("en")) {
+    filteredLocales.push({ code: "en-us", href: `${baseUrl}${asPath}` });
+  }
 
 
   const btnClass = "bg-vs-blue hover:bg-vs-blue text-white border border-vs-blue px-[17px] py-[10px] rounded-[7px] text-gray-900 font-inter text-base font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]";
   return (
     <>
       <Head>
-          {locales.map(({ code, href }) => (
+          {filteredLocales?.map(({ code, href }) => (
             <link key={code} rel="alternate" hrefLang={code} href={href} />
           ))}
         <link rel="alternate" hrefLang="x-default" href="https://www.voicestack.com" />

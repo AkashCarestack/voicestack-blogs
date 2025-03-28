@@ -17,6 +17,7 @@ import {
   getBannerData,
   getHeaderData,
   getContactAndVideoInfo,
+  getAllSlugs,
 } from '~/lib/sanity.queries'
 import Layout from '../components/Layout'
 import CustomHead from '~/components/common/CustomHead'
@@ -47,26 +48,46 @@ export const getStaticProps: GetStaticProps<any> = async ({
   locale,
   draftMode = false,
 }) => {
-  const region = locale
-  const client = getClient(draftMode ? { token: readToken } : undefined)
-  const homeSettings = await getHeaderData(client, region)
-  const siteSettings = await runQuery(getALLSiteSettings(region))
-  const founderDetails = await runQuery(getFounderDetails(region))
-  const comparisonTableData = await runQuery(getComparisonTableData(region))
-  const integrationPlatforms = await getIntegrationList(client, region);
-  const heroSectionData = await getHeroSectionData(client, region);
-  const testimonialSecitonData = await getTestimonialSecitonData(client, region)
-  const logoSectionData = await logoSection(client,region);
-  const featureSectionData = await featureSectionQuery(client, region);
-  const faqSectionData = await fetchFaq(client,region)
-  const cardsListingData = await getCardsSectionData(client,region)
-  const cSCardsListingData = await getCsCardsSectionData(client,region)
-  const testimonialHighlightsData = await getTestimonialHighlightSectionData(client,region)
-  const footerData = await getFooterData(client, region)
-  const bannerData = await getBannerData(client, region)
-  const contactAndVideoData = await getContactAndVideoInfo(client, region)
-  
-  
+  const region = locale;
+  const client = getClient(draftMode ? { token: readToken } : undefined);
+
+  const [
+    homeSettings,
+    siteSettings,
+    founderDetails,
+    comparisonTableData,
+    integrationPlatforms,
+    heroSectionData,
+    testimonialSecitonData,
+    logoSectionData,
+    featureSectionData,
+    faqSectionData,
+    cardsListingData,
+    cSCardsListingData,
+    testimonialHighlightsData,
+    footerData,
+    bannerData,
+    contactAndVideoData,
+    allSlugs
+  ] = await Promise.all([
+    getHeaderData(client, region),
+    runQuery(getALLSiteSettings(region)),
+    runQuery(getFounderDetails(region)),
+    runQuery(getComparisonTableData(region)),
+    getIntegrationList(client, region),
+    getHeroSectionData(client, region),
+    getTestimonialSecitonData(client, region),
+    logoSection(client, region),
+    featureSectionQuery(client, region),
+    fetchFaq(client, region),
+    getCardsSectionData(client, region),
+    getCsCardsSectionData(client, region),
+    getTestimonialHighlightSectionData(client, region),
+    getFooterData(client, region),
+    getBannerData(client, region),
+    getContactAndVideoInfo(client, region),
+    getAllSlugs(client)
+  ]);
 
   return {
     props: {
@@ -89,9 +110,11 @@ export const getStaticProps: GetStaticProps<any> = async ({
       footerData,
       bannerData,
       contactAndVideoData,
+      allSlugs
     },
-  }
-}
+  };
+};
+
 
 export default function IndexPage(
   props: InferGetStaticPropsType<any>,
@@ -155,7 +178,8 @@ export default function IndexPage(
     testimonialHighlightsData,
     footerData,
     bannerData,
-    contactAndVideoData
+    contactAndVideoData,
+    allSlugs
   } = props
 
   const comparisonSectionData = {
@@ -168,7 +192,6 @@ export default function IndexPage(
   }
   const linkCardSectionData: any = heroSectionData?.heroSubFeature;
   const videoData = contactAndVideoData?.video;
-  
 
   return (
     <Track>
@@ -176,7 +199,7 @@ export default function IndexPage(
       <Layout {...props}>
         <CustomHead {...props} />
         <div className="">
-          <Header data ={homeSettings} refer={refer}/>
+          <Header allSlugs={allSlugs} data ={homeSettings} refer={refer}/>
           <HeroSection data={heroSectionData} refer={refer} video={videoData}/>
           <LinksCardsSection data={linkCardSectionData} />
           <Testimonails data={testimonialSecitonData} refer={refer}/>

@@ -373,6 +373,17 @@ export const getFounderDetails = (region) => groq`*[_type == "person"]{
     'description':personDescription
 }`
 
+export async function getAllSlugs(client: SanityClient) {
+  const query = groq`
+    *[_type in ["page", "featureList"] && defined(slug.current)]{
+      _type,
+      "slug": slug.current,
+      "locales": coalesce(language, [])
+    }
+  `;
+  return await client.fetch(query);
+}
+
 export async function getFeatureList(client: SanityClient, region: string) {
   const query = groq`*[_type == "featureList" && language == $region]{
     language,
