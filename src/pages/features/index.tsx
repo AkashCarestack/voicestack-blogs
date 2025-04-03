@@ -62,7 +62,6 @@ export default function Page({ heroes, homeSettings, heroData, region, categorie
   return (
     <>
       <Header data={homeSettings} allSlugs={allSlugs} />
-      
         <HeroMainSection data={heroes}></HeroMainSection>
         <NumberSection data={globalSettings} />
         <CategoryFeatureSection data={categories} />

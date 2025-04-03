@@ -18,6 +18,7 @@ import {
   getHeaderData,
   getContactAndVideoInfo,
   getAllSlugs,
+  getCategoryWithFeatures,
 } from '~/lib/sanity.queries'
 import Layout from '../components/Layout'
 import CustomHead from '~/components/common/CustomHead'
@@ -68,7 +69,8 @@ export const getStaticProps: GetStaticProps<any> = async ({
     footerData,
     bannerData,
     contactAndVideoData,
-    allSlugs
+    allSlugs,
+    categories
   ] = await Promise.all([
     getHeaderData(client, region),
     runQuery(getALLSiteSettings(region)),
@@ -86,7 +88,8 @@ export const getStaticProps: GetStaticProps<any> = async ({
     getFooterData(client, region),
     getBannerData(client, region),
     getContactAndVideoInfo(client, region),
-    getAllSlugs(client)
+    getAllSlugs(client),
+    getCategoryWithFeatures(client, region),
   ]);
 
   return {
@@ -110,7 +113,8 @@ export const getStaticProps: GetStaticProps<any> = async ({
       footerData,
       bannerData,
       contactAndVideoData,
-      allSlugs
+      allSlugs,
+      categories
     },
   };
 };
@@ -179,7 +183,8 @@ export default function IndexPage(
     footerData,
     bannerData,
     contactAndVideoData,
-    allSlugs
+    allSlugs,
+    categories
   } = props
 
   const comparisonSectionData = {
@@ -193,6 +198,9 @@ export default function IndexPage(
   const linkCardSectionData: any = heroSectionData?.heroSubFeature;
   const videoData = contactAndVideoData?.video;
 
+  console.log(categories,'categories');
+  
+
   return (
     <Track>
     <div className='font-sans'>
@@ -205,7 +213,7 @@ export default function IndexPage(
           <Testimonails data={testimonialSecitonData} refer={refer}/>
           <CardsListingSection data={cardsListingData}/>
           <LogoListingSection data={logoSectionData}  refer={refer}/>
-          <FeatureSection data={featureSectionData} refer={refer}/>
+          <FeatureSection data={categories} refer={refer}/>
           <AnimatedBeamSection data={integrationPlatforms} refer={refer} />
           <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection>
           <SiteComparisonSection data={comparisonSectionData} refer={refer}/>

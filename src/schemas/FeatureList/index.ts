@@ -45,6 +45,14 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'isLink',
+      title: 'Is Link',
+      description: 'Enable for external link',
+      group: 'basic',
+      type: 'boolean',
+      initialValue: false
+    }),
+    defineField({
       name: 'contentType',
       title: 'Content Type',
       description: 'This is used in sitemap and for internal reference',

@@ -16,20 +16,23 @@ import { BookDemoContext } from '~/providers/BookDemoProvider'
 import { useRouter } from 'next/router'
 
 export default function FeatureSection({ data, refer=null }) {
+  console.log(data, 'data');
+
   const [openForm, setOpenForm] = useState(false)
   const testimonialIndex: number = data?.findIndex(
-    (e: any) => e.testimonialSubSection != null,
+    (e: any) => e.name == "Conversational AI",
   )
   const router = useRouter();
   const sampleImages = useMemo(() => {
     return (
-      data[testimonialIndex]?.testimonialSubSection.map((e) => ({
-        url: e.image.url,
-        altText: e.image.altText,
-        title: e.image.title,
+      data[testimonialIndex]?.features.map((e) => ({
+        url: e.secondaryImage?.url,
+        altText: e.secondaryImage?.altText,
+        title: e.secondaryImage?.title,
       })) || []
     );
   }, [data, testimonialIndex]);
+
   const [activeImage, setActiveImage] = useState(null)
   const [currentIndex, setActiveIndex] = useState(0)
   const featureRefs = useRef([])
@@ -37,8 +40,7 @@ export default function FeatureSection({ data, refer=null }) {
   const imageRef = useRef(null);
   const { isDemoPopUpShown } = useContext(BookDemoContext);
 
-  const switchIndex = (percentage = 25) => {
-
+  const switchIndex = (percentage = 25) => {    
     if (isMobile || sampleImages.length === 0) {
       return;
     }
@@ -77,13 +79,17 @@ export default function FeatureSection({ data, refer=null }) {
     }
   }, [currentIndex]);
 
+  const sortedItems = useMemo(() => {
+    return [...data].sort((a, b) => a.featureOrder - b.featureOrder);
+  }, [data]);
+
   return (
     <Section className="relative bg-[#f9f9f9] " id="features">
       {!isMobile && <div className='bg-white md:bg-vs-lemon-green w-1/2 h-full absolute top-0 right-0 z-0'></div>}
       <Container className={`relative flex md:gap-28 md:flex-row flex-col`}>
         <div className="flex md:gap-0 gap-12 md:w-1/2 w-full flex-col flex-1 pt-16">
-          {data.map((feature, index) =>
-            feature?.testimonialSubSection?.length ? (
+          {sortedItems?.map((feature, index) =>
+            feature.name  === "Conversational AI" ? (
               <>
                 <AppearFeature
                   refer={refer}
@@ -143,8 +149,8 @@ export default function FeatureSection({ data, refer=null }) {
                     data-index={index}
                     className={`md:cursor-auto cursor-pointer gap-4 flex flex-col self-start justify-center transform`}
                     onViewportEnter={() => {
-                      if (feature.testimonialImage) {
-                        const { url, altText, title } = feature.testimonialImage;
+                      if (feature.mainImage) {
+                        const { url, altText, title } = feature.mainImage;
                         setActiveImage({
                           url: url,
                           altText: altText || '',
@@ -155,29 +161,29 @@ export default function FeatureSection({ data, refer=null }) {
                   >
                     <PreText>
                       <span className="text-vs-blue">
-                        {feature.testimonialIcon && feature.testimonialIcon.url &&
+                        {feature.icon && feature.icon.url &&
                           <div className=''>
                             <motion.img
                               key={activeImage}
-                              src={feature.testimonialIcon.url}
-                              title={feature.testimonialIcon.title}
-                              alt={feature.testimonialIcon.altText}
+                              src={feature.icon.url}
+                              title={feature.icon.title}
+                              alt={feature.icon.altText}
                             />
                           </div>
                         }
                       </span>{' '}
-                      {feature.testimonialSubheading}
+                      {feature.name}
                     </PreText>
-                    <H2>{feature.testimonialheading}</H2>
-                    <Paragraph>{feature.testimonialDescription}</Paragraph>
+                    <H2>{feature.heading}</H2>
+                    <Paragraph>{feature.description}</Paragraph>
                     <ul className="flex flex-wrap gap-3 mt-4 mb-8 ">
-                      {feature?.testimonialChip &&
-                        feature?.testimonialChip?.map((item, i) => (
+                      {feature?.features &&
+                        feature?.features?.map((item, i) => (
                           <PillItem key={i+item}>
                             <span className="text-green-500">
                               <TickIcon />
                             </span>{' '}
-                            {item}
+                            {item.name}
                           </PillItem>
                         ))}
                     </ul>
@@ -198,13 +204,13 @@ export default function FeatureSection({ data, refer=null }) {
                       )}
                       
                     </div>}
-                    {isMobile && feature.testimonialImage && feature.testimonialImage.url &&
+                    {isMobile && feature?.mainImage && feature?.mainImage.url &&
                       <div className='bg-vs-lemon-green mx-[-16px] h-full z-0'>
                         <motion.img
                           key={activeImage}
-                          src={feature.testimonialImage.url}
-                          title={feature.testimonialImage.title}
-                          alt={feature.testimonialImage.altText}
+                          src={feature.mainImage.url}
+                          title={feature.mainImage.title}
+                          alt={feature.mainImage.altText}
                         />
                       </div>
                     }
