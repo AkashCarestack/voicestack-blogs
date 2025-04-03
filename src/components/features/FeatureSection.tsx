@@ -16,8 +16,7 @@ import { BookDemoContext } from '~/providers/BookDemoProvider'
 import { useRouter } from 'next/router'
 
 export default function FeatureSection({ data, refer=null }) {
-  console.log(data, 'data');
-
+  
   const [openForm, setOpenForm] = useState(false)
   const testimonialIndex: number = data?.findIndex(
     (e: any) => e.name == "Conversational AI",
