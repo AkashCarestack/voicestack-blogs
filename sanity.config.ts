@@ -192,7 +192,41 @@ export default defineConfig({
             S.documentTypeListItem('footer').title('Footer'),
             S.documentTypeListItem('miscellaneous').title('Miscellaneous').icon(ExpandIcon),
             S.documentTypeListItem('page').title('Pages'),
-            S.documentTypeListItem('featureList').title('Features').icon(BoltIcon),
+            // S.documentTypeListItem('featureList').title('Features').icon(BoltIcon),
+            S.listItem()
+            .title('Features')
+            .icon(BoltIcon)
+            .child(
+              S.list()
+                .title('Grouped Features')
+                .items([
+                  S.listItem()
+                    .title('AU Features')
+                    .child(
+                      S.documentList()
+                        .title('AU Features')
+                        .filter('_type == "featureList"  && language == "en-AU"')
+                    ),
+                  S.listItem()
+                    .title('GB Features')
+                    .child(
+                      S.documentList()
+                        .title('GB Features')
+                        .filter('_type == "featureList"  && language == "en-GB"')
+                    ),
+                  S.listItem()
+                    .title('US Features')
+                    .child(
+                      S.documentList()
+                        .title('US Features')
+                        .filter('_type == "featureList"  && language == "en"')
+                    ),
+                  S.divider(),
+                  S.documentTypeListItem('featureList').title('All Features'),
+                ])
+            ),
+
+            
             S.documentTypeListItem('featureCategory').title('Feature Category').icon(BoltIcon),
             S.documentTypeListItem('heroes').title('Heroes').icon(DesktopIcon),
             S.listItem()
