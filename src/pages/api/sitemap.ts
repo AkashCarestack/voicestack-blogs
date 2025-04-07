@@ -66,8 +66,8 @@ function generateSiteMap(sitemapData: any = {}): string {
   });
   
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9"\n';
-  xml += '        xmlns:xhtml="https://www.w3.org/1999/xhtml">\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
+  xml += '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
 
   for (const [_, variants] of urlMap) {
     const uniqueUrls = new Set(Object.values(variants));
