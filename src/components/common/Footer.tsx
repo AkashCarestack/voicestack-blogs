@@ -121,7 +121,7 @@ const Footer = ({data}) => {
                 </li>
                 <li>
                   <a
-                    href={isUk ? "https://www.instagram.com/voicestack_uk/" : "https://www.instagram.com/voicestack.ai/"}
+                    href={isUk ? "https://www.instagram.com/voicestack_uk/" : isAu ? "https://www.instagram.com/voicestack_australia/" : "https://www.instagram.com/voicestack.ai/"}
                     target="_blank"
                     title="Instagram"
                     rel=" noreferrer"
