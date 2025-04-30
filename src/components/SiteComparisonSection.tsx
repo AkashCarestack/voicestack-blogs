@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Section from './structure/Section'
 import Container from './structure/Container'
 import H2 from './typography/H2'
@@ -10,11 +10,13 @@ import ButtonArrow from './icons/ButtonArrow'
 import { FormModal } from './common/FormModal'
 import { useRouter } from 'next/router'
 import LegendSection from './common/LegendSection'
+import { BookDemoContext } from '~/providers/BookDemoProvider'
 
 function SiteComparisonSection({ data, refer=null }) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { isDemoPopUpShown } = useContext(BookDemoContext);
   
   const [openForm, setOpenForm] = useState(false);
   
@@ -113,8 +115,10 @@ function SiteComparisonSection({ data, refer=null }) {
              
             </div>
         </Container>
+          {/*  */}
           {openForm && (
             <FormModal
+              data={isDemoPopUpShown}
               className={`pt-9  flex items-start`}
               onClose={() => setOpenForm(false)}
             />
