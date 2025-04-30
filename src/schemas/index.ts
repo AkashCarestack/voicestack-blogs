@@ -1,5 +1,4 @@
 import { SchemaTypeDefinition } from 'sanity'
-
 import blockContent from './blockContent'
 import layout from './layout'
 import Features from './Features'
@@ -73,7 +72,6 @@ export const schemaTypes = [
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     blockContent,
-    
     layout,
     Features,
     heroSubFeature,

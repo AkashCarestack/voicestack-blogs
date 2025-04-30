@@ -28,13 +28,14 @@ export default function AppearFeature({
   const isMobile: any = useMediaQuery(767)
   const { isDemoPopUpShown } = useContext(BookDemoContext);
   const scrollRef = useRef(null)
-  const numberOfItems = data?.testimonialSubSection?.length
+  const numberOfItems = data?.features?.length
+  
   const actualScrollStart =
     sectionStartY + scrollRef?.current?.offsetHeight + 160
   const sectionEndY = sectionStartY + scrollRef?.current?.offsetHeight * 4
   const percentScrolled =
     ((actualScrollStart - scrollPos) / (actualScrollStart - sectionEndY)) * 100
-  const [activeItemIndex, setActiveItemIndex] = useState(0)
+  const [activeItemIndex, setActiveItemIndex] = useState(0)  
   const router = useRouter();
 
   const switchIndex = (percentage) => {
@@ -98,29 +99,29 @@ export default function AppearFeature({
           <div className="flex flex-col gap-4">
             <PreText>
               <span className=" text-vs-blue">
-              {data.testimonialIcon && data.testimonialIcon.url &&
+              {data.icon && data.icon.url &&
                     <div className=''>
                       <motion.img
-                        src={data.testimonialIcon.url}
+                        src={data.icon.url}
                         alt="testimonial icon"
                       />
                     </div>
                   }
               </span>
-              {data?.testimonialSubheading}
+              {data?.name}
             </PreText>
-            <H2>{props?.testimonialheading}</H2>
-            <Paragraph>{data?.testimonialDescription}</Paragraph>
+            <H2>{data?.heading}</H2>
+            <Paragraph>{data?.description}</Paragraph>
           </div>
           <ul className="flex flex-col gap-4">
-            {data?.testimonialSubSection &&
-              data?.testimonialSubSection?.map((item, i: number) => {
+            {data?.features &&
+              data?.features?.map((item, i: number) => {
                 return (
                   <ListItem
                     onClick={handleClick}
                     key={i}
                     index={i}
-                    title={item.featureSubHead}
+                    title={item.name}
                     numberOfItems={numberOfItems}
                     percentScrolled={percentScrolled}
                     showDesc={
@@ -128,7 +129,7 @@ export default function AppearFeature({
                         ? i == activeItemIndex
                         : i == switchIndex(percentScrolled)
                     }
-                    desc={item.featureSubDescription}
+                    desc={item.description}
                   >
                     {' '}
                   </ListItem>

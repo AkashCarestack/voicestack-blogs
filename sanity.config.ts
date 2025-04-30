@@ -177,22 +177,56 @@ export default defineConfig({
 
             S.documentTypeListItem('homeSettings').title('Home Settings'),
             S.documentTypeListItem('testimonial').title('Feature Section'),
-            S.documentTypeListItem('testimonialSection').title('Testimonial'),
+            S.documentTypeListItem('testimonialSection').title('Testimonial Main'),
             // S.documentTypeListItem('feature').title('Feature'),
-            S.documentTypeListItem('legal').title('Legal'),
-            S.documentTypeListItem('comparisonValue').title('Comparison Value'),
+            // S.documentTypeListItem('legal').title('Legal'),
+            // S.documentTypeListItem('comparisonValue').title('Comparison Value'),
             S.documentTypeListItem('platform').title('Integration List'),
             S.documentTypeListItem('platformList').title('Platform List'),
-            S.documentTypeListItem('logoListing').title('logo Listing'),
+            S.documentTypeListItem('logoListing').title('Logo Listing'),
             S.documentTypeListItem('cardsListing').title('Cards Listing'),
             S.documentTypeListItem('csCardsListing').title('Refer Cards Listing'),
             S.documentTypeListItem('faq').title('Faq'),
-            S.documentTypeListItem('testimonialHighlightSection').title('Testimonial Highlight'),
-            S.documentTypeListItem('banner').title('banner'),
+            S.documentTypeListItem('testimonialHighlightSection').title('Testimonial'),
+            S.documentTypeListItem('banner').title('Banner'),
             S.documentTypeListItem('footer').title('Footer'),
             S.documentTypeListItem('miscellaneous').title('Miscellaneous').icon(ExpandIcon),
             S.documentTypeListItem('page').title('Pages'),
-            S.documentTypeListItem('featureList').title('Features').icon(BoltIcon),
+            // S.documentTypeListItem('featureList').title('Features').icon(BoltIcon),
+            S.listItem()
+            .title('Features')
+            .icon(BoltIcon)
+            .child(
+              S.list()
+                .title('Grouped Features')
+                .items([
+                  S.listItem()
+                    .title('AU Features')
+                    .child(
+                      S.documentList()
+                        .title('AU Features')
+                        .filter('_type == "featureList"  && language == "en-AU"')
+                    ),
+                  S.listItem()
+                    .title('GB Features')
+                    .child(
+                      S.documentList()
+                        .title('GB Features')
+                        .filter('_type == "featureList"  && language == "en-GB"')
+                    ),
+                  S.listItem()
+                    .title('US Features')
+                    .child(
+                      S.documentList()
+                        .title('US Features')
+                        .filter('_type == "featureList"  && language == "en"')
+                    ),
+                  S.divider(),
+                  S.documentTypeListItem('featureList').title('All Features'),
+                ])
+            ),
+
+            
             S.documentTypeListItem('featureCategory').title('Feature Category').icon(BoltIcon),
             S.documentTypeListItem('heroes').title('Heroes').icon(DesktopIcon),
             S.listItem()

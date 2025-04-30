@@ -10,7 +10,11 @@ export default defineType({
       title: 'Category Name',
       type: 'string',
     }),
-
+    defineField({
+      name: 'featureOrder',
+      title: 'Feature Order',
+      type: 'number',
+    }),
     defineField({
       name: 'heading',
       title: 'Category Heading',

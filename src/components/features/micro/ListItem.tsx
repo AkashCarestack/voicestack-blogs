@@ -1,3 +1,4 @@
+import { PortableText, PortableTextReactComponents } from '@portabletext/react';
 import React from 'react'
 import H3 from '~/components/typography/H3'
 import Paragraph from '~/components/typography/Paragraph'
@@ -10,6 +11,12 @@ export default function ListItem(props) {
   const liRef = React.useRef(null)
   const isMobile: any = useMediaQuery(767);
 
+  const customComponents: Partial<PortableTextReactComponents> = {
+    block: {
+      normal: ({ children }) => <span className="your-custom-class">{children}</span>,
+    },
+  };
+
   return (
     <li  onClick={() => props.onClick(props.percentScrolled,props.index,liRef)} className={`group flex w-full gap-3 md:cursor-auto cursor-pointer rounded-lg ${props.showDesc ? "bg-vs-blue/10" : 'bg-vs-blue/0'}`}>
       <div className='bg-gray-200 w-1 rounded-full flex'>
@@ -18,7 +25,11 @@ export default function ListItem(props) {
       <div className={`flex flex-col px-2 ${props.showDesc? 'py-3':' '} `}>
         <H3 className={`${props.showDesc? '!text-lg':' opacity-50 h-[1.75rem]'}`}>{props.title}</H3>
         <div className={`overflow-y-hidden ease-linear transform transition-all delay-100 ${props.showDesc ? 'opacity-100 md:h-16':' h-0 opacity-1'}`}>
-          <Paragraph className={`flex `}>{props.desc}</Paragraph>
+        {props?.desc && (
+          <Paragraph className="flex">
+            <PortableText value={props.desc} components={customComponents} />
+          </Paragraph>
+        )}
         </div>
       </div>
     </li>
