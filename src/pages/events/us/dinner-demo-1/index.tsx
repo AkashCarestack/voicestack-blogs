@@ -84,7 +84,7 @@ function DinnerDemo() {
             </h1>
 
             <p className="text-xl font-medium">
-              The event for practice owners ready to maximize growth
+              The event for practice owners ready to maximise growth
             </p>
           </div>
 
