@@ -89,10 +89,10 @@ function DinnerDemo() {
           </div>
 
           <div className="flex flex-col items-center text-center gap-2">
-            {/* <!-- <p className="uppercase font-bold text-sm">Join us on</p> --> */}
-            {/* <p className="md:text-2xl text-xl font-semibold">
-              Tuesday 18th Feb & Tuesday 25th Feb  2025, 07:00 PM BST
-            </p> */}
+            <p className="uppercase font-bold text-sm">Join us on</p>
+            <p className="md:text-2xl text-xl font-semibold">
+              Friday, June 13, 2025 | 5:00pm - 8:30pm CST
+            </p>
             <div className="flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -589,7 +589,7 @@ export default DinnerDemo;
 const CtaButton = () => {
   return(
     <div className="flex flex-col items-center gap-4">
-        <Button type="primary" link="https://carestack.regfox.com/voicestack-dinner--demo" target="_blank">Secure My Spot</Button>
+        <Button type="primaryLg" link="https://carestack.regfox.com/voicestack-dinner--demo" target="_blank">Secure My Spot</Button>
       {/* <p>
         <span className="text-red-600">*</span>
         <span className="text-sm text-white/60 ml-1">
