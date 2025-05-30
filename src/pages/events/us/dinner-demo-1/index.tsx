@@ -108,7 +108,7 @@ function DinnerDemo() {
               </svg>
 
               <span className="font-light md:text-xl text-base opacity-80">
-                Del Frisco's Double Eagle Steakhouse, Dallas, TX
+                Del Frisco&apos;s Double Eagle Steakhouse, Dallas, TX
               </span>
 
               
