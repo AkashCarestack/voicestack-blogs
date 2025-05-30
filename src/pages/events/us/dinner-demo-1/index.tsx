@@ -84,7 +84,7 @@ function DinnerDemo() {
             </h1>
 
             <p className="text-xl font-medium">
-              The event for practice owners ready to maximise growth
+              The event for practice owners ready to maximize growth
             </p>
           </div>
 
@@ -214,7 +214,7 @@ function DinnerDemo() {
         <Container className="md:gap-20 gap-8 flex-col items-center px-4">
           <H2 className="text-center">
             How VoiceStack can{' '}
-            <span className=" text-vs-purple">revolutionise</span> your
+            <span className=" text-vs-purple">revolutionize</span> your
             practice.
           </H2>
 
