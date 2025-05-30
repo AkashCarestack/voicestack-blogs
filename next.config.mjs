@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const config = {
   images: {
-    remotePatterns: [{ hostname: 'cdn.sanity.io' }],
+    remotePatterns: [{ hostname: 'cdn.sanity.io' }, { hostname: 'cdn.vidyard.com' }],
     dangerouslyAllowSVG: true,
   },
   env: {

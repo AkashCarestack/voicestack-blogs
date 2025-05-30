@@ -37,6 +37,17 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'testimonial',
+      title: 'Testimonial',
+      type:'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'testimonialSection' }],
+        },
+      ],
+    }),
+    defineField({
       name: 'language',
       type: 'string',
       readOnly: true,
