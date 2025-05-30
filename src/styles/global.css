@@ -603,6 +603,48 @@ html {
   list-style-type: none;
 }
 
+/* Position arrows below the slider */
+.slick-prev,
+.slick-next {
+  top: 100% !important;
+  transform: translateY(40px); /* push down */
+  z-index: 10;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px; /* full circle */
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  font-size: 0!important;
+  border: none;
+
+}
+
+/* Left arrow position */
+.slick-prev {
+  left: 0% !important;
+  background-color: #2c52d3; /* Blue background */
+  color: white;
+}
+.slick-prev::before,
+.slick-next::before {
+  content: '' !important; /* remove "Previous"/"Next" text */
+}
+/* Right arrow active */
+.slick-next {
+  right: 0% !important;
+  background-color: #2c52d3;
+  color: white;
+}
+
+/* Disabled arrow state */
+.slick-prev.slick-disabled,
+.slick-next.slick-disabled {
+  background-color: #e5e7eb !important; /* gray-200 */
+  color: #9ca3af !important; /* gray-400 */
+  cursor: not-allowed !important;
+}
+
 /* loader css */
 /* .progress {
   position: fixed;
