@@ -6,7 +6,6 @@ import { cookies } from 'next/headers'
 
 // ##############################################common fragments
 
-
 const bodyFragment = `
   body[] {
     ...,
@@ -17,8 +16,6 @@ const bodyFragment = `
     },
   }
 `
-
-
 
 export const postsQuery = groq`*[_type == "post" && defined(slug.current)] | order(_createdAt desc)`
 
@@ -130,7 +127,10 @@ export async function getHeroSectionData(client: SanityClient, region: string) {
   return await client.fetch(query, { region })
 }
 
-export async function getContactAndVideoInfo(client: SanityClient, region: string) {
+export async function getContactAndVideoInfo(
+  client: SanityClient,
+  region: string,
+) {
   const query = groq`*[_type == "homeSettings" && language == $region][0]{
       contactEmail,
       video,
@@ -141,7 +141,10 @@ export async function getContactAndVideoInfo(client: SanityClient, region: strin
   return await client.fetch(query, { region })
 }
 
-export async function getMiscellaneousData(client: SanityClient, region: string) {
+export async function getMiscellaneousData(
+  client: SanityClient,
+  region: string,
+) {
   const query = groq` *[_type == 'miscellaneous' && language == $region][0]{
     ...,
     contentArea[] {
@@ -231,12 +234,20 @@ export async function logoSection(client: SanityClient, region: string) {
         }},
     logoSectionHeader,
     logoSectionHeaderDescptn,
-    
+    'testimonial': testimonial[]->{
+      ...,
+      thumbnail,
+      locations,
+      
+    }
 }`
   return await client.fetch(query, { region })
 }
 
-export async function getCardsSectionData(client: SanityClient, region: string) {
+export async function getCardsSectionData(
+  client: SanityClient,
+  region: string,
+) {
   const query = groq` *[_type == "cardsListing" && language == $region][0]{
     heading,
     cardItems[]{
@@ -250,21 +261,24 @@ export async function getCardsSectionData(client: SanityClient, region: string) 
   return await client.fetch(query, { region })
 }
 
-export async function getFooterData(client:SanityClient, region:string) {
-  const query = groq ` *[_type == "footer" && language == $region][0]{
+export async function getFooterData(client: SanityClient, region: string) {
+  const query = groq` *[_type == "footer" && language == $region][0]{
     ...,
   }`
   return await client.fetch(query, { region })
 }
 
-export async function getBannerData(client:SanityClient, region:string) {
-  const query = groq ` *[_type == "banner" && language == $region][0]{
+export async function getBannerData(client: SanityClient, region: string) {
+  const query = groq` *[_type == "banner" && language == $region][0]{
     ...,
   }`
   return await client.fetch(query, { region })
 }
 
-export async function getCsCardsSectionData(client: SanityClient, region: string) {
+export async function getCsCardsSectionData(
+  client: SanityClient,
+  region: string,
+) {
   const query = groq` *[_type == "csCardsListing" && language == $region][0]{
     heading,
     subHeading,
@@ -279,7 +293,10 @@ export async function getCsCardsSectionData(client: SanityClient, region: string
   return await client.fetch(query, { region })
 }
 
-export async function getTestimonialHighlightSectionData(client: SanityClient, region: string) {
+export async function getTestimonialHighlightSectionData(
+  client: SanityClient,
+  region: string,
+) {
   const query = groq` *[_type == "testimonialHighlightSection" && language == $region][0]{
     ...,
     testimonials[]{
@@ -370,12 +387,15 @@ export async function getFeatureList(client: SanityClient, region: string) {
     slug,
     _id
   }`
-  
+
   return await client.fetch(query, { region })
 }
 
-
-export async function getFeaturePageData(client: SanityClient, slug: string, region: string) {
+export async function getFeaturePageData(
+  client: SanityClient,
+  slug: string,
+  region: string,
+) {
   const query = groq`*[_type == "featureList" && slug.current == $slug && language == $region][0]{
     name,
     title,
@@ -466,7 +486,7 @@ export async function getFeaturePageData(client: SanityClient, slug: string, reg
         _id
       },
   }`
-  
+
   return await client.fetch(query, { slug, region })
 }
 
@@ -619,7 +639,6 @@ export async function getHeaderData(client: SanityClient, region: string) {
   }`
   return await client.fetch(query, { region })
 }
-
 
 export const getALLSiteSettings = (region) =>
   groq`*[_type == "siteSettings"] | order(_createdAt desc)[0]`

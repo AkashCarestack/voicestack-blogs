@@ -42,8 +42,47 @@ export default defineType({
       type: 'image',
     }),
     defineField({
+      name: 'practiceName',
+      title: 'Practice Name',
+      type: 'string',
+    }),
+    defineField({
+      name: 'thumbnail',
+      title: 'Thumbnail',
+      type: 'string',
+    }),
+    defineField({
       name: 'video',
       title: 'Video',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'videoDetails',
+          title: 'Video Details',
+          fields: [
+            {
+              name: 'videoPlatform',
+              title: 'Video Platform',
+              type: 'string',
+            },
+            {
+              name: 'videoId',
+              title: 'Video Id',
+              type: 'string',
+            },
+            {
+              name: 'videotitle',
+              title: 'Video Title',
+              type: 'string',
+            },
+          ],
+        },
+      ],
+    }),
+     defineField({
+      name: 'secondaryVideo',
+      title: 'Secondary Video',
       type: 'array',
       of: [
         {
