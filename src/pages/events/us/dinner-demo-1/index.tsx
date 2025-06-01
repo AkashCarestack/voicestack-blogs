@@ -213,7 +213,7 @@ function DinnerDemo() {
         <Container className="md:gap-20 gap-8 flex-col items-center px-4">
           <H2 className="text-center">
             How VoiceStack can{' '}
-            <span className=" text-vs-purple">revolutionise</span> your
+            <span className=" text-vs-purple">revolutionize</span> your
             practice.
           </H2>
 
