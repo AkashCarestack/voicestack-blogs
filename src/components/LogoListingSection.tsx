@@ -217,6 +217,7 @@ const LogoListingSection = ({ data, refer = null }) => {
               </div>
             )}
           </div>
+           { data?.testimonial?.length > 0 && (
           <div className="w-full md:hidden pb-28 relative">
             <Slider {...settings}>
               {data?.testimonial?.map((logo: any, i: number) => (
@@ -229,10 +230,25 @@ const LogoListingSection = ({ data, refer = null }) => {
                     onClick={() => handleOpenVideo(logo?.secondaryVideo[0])}
                   >
                     <div className="relative w-full h-[400px]">
-                      <ImageLoader
-                        className="absolute inset-0 h-full w-full object-cover rounded-t-xl"
-                        image={logo?.thumbnail}
-                      />
+                      <video
+                          key={logo?.thumbnail}
+                          style={{
+                            backgroundColor: 'transparent',
+                            backgroundImage: 'none',
+                            backgroundSize: 0,
+                            backgroundPosition: 0,
+                            backgroundRepeat: 'no-repeat',
+                            objectFit: 'cover',
+                          }}
+                          className="absolute h-full w-full object-cover"
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                        >
+                          <source src={logo?.thumbnail} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
                       <div className="absolute bottom-0 h-40 w-full pointer-events-none z-0">
                         <div className="absolute  backdrop-blur-[0.5px]  [mask-image:linear-gradient(180deg,rgba(0,0,0,0),#000_10%)] left-0 top-0 z-[1] w-full h-full " />
                         <div className="absolute backdrop-blur-[2px]  [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_10%,#000_20%)] left-0 top-0 z-[1] w-full h-full" />
@@ -284,6 +300,7 @@ const LogoListingSection = ({ data, refer = null }) => {
               ))}
             </Slider>
           </div>
+          )}
 
           <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 max-w-[1034px]">
             {data?.image &&
