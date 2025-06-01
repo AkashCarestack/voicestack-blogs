@@ -120,8 +120,8 @@ function DinnerDemo() {
               <div className="md:w-40 w-20 md:h-40 h-20 bg-white rounded overflow-hidden">
                 <Image
                   className="md:w-40 w-20 md:h-40 h-20 object-cover"
-                  alt="Simon Chard"
-                  src="/assets/events/simon-chard.png"
+                  alt="Himesh Kana"
+                  src="/assets/events/himesh-kana.jpg"
                   sizes="min(250px, 100vw)"
                   loading="eager"
                   width={200}
@@ -155,12 +155,11 @@ function DinnerDemo() {
                 </svg>
               </div>
               <p className="text-2xl md:text-left text-center font-medium ">
-                With VoiceStack, our Call Conversion Rate has gone from 10% to
-                60%.
+                With VoiceStack, we saw a 15% increase in new patient growth.
               </p>
               <div className="flex flex-col md:text-left text-center">
-                <span className="font-medium"> Dr. Simon Chard </span>
-                <span>Rothley Lodge Dental Practice</span>
+                <span className="font-medium"> Himesh Kana </span>
+                <span>CEO, Dental Depot DFW</span>
               </div>
             </div>
           </div>
@@ -540,9 +539,8 @@ function DinnerDemo() {
                 Do I need to pre-order my food?
               </p>
               <p className="text-base text-gray-500">
-                You can order your food when the demo starts, and it will be
-                ready for you by the time we arrive at the restaurant, just a
-                few minutes&apos; walk away.
+                Prior to the presentation starting the restaurant will take all food orders for dinner service.  
+                At the conclusion of the demonstration, dinner service will begin promptly after.
               </p>
             </li>
             <li className="py-6 border-b border-white/10">
@@ -559,18 +557,10 @@ function DinnerDemo() {
                 What happens after I reserve my spot?
               </p>
               <p className="text-base text-gray-500">
-                You&apos;ll receive confirmation within a two working days over
-                Whatsapp and email from one of the VoiceStack team.
+                Immediately following registration you will receive an automated email confirmation.
               </p>
             </li>
-            <li className="py-6 border-b border-white/10">
-              <p className="text-xl font-medium">
-                What happens after I reserve my spot?
-              </p>
-              <p className="text-base text-gray-500">
-                Click below to register. Act fast—spaces are limited!
-              </p>
-            </li>
+            
           </ul>
 
           
