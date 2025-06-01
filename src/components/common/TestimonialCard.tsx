@@ -22,7 +22,11 @@ const TestimonialCard = forwardRef<HTMLDivElement, TestimonialCardProps>(
     const topValue = isMobile ? 80 + (index * 20) : 160 + (index * 20);
 
     
-    const video  = data.video
+    const video  = data.video;
+    
+    if (!data.keyFeatures) {
+      return null;
+    }
   return (
     <div className={`md:sticky testimonial-card shadow-[0px_-4px_40px_0px_rgba(0,0,0,0.05)]`} ref={ref} id={`${index}`}  data-index={index}
       style={{
