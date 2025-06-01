@@ -60,7 +60,7 @@ function DinnerDemo() {
         
       </Head>
       <Section className="relative flex-col items-center w-full min-h-lvh bg-gradient-to-br from-purple-800 via-black  to-vs-purple text-white overflow-hidden">
-        <Container className="flex flex-col items-center gap-10 z-10 px-4 py-2 leading-[1.375] md:py-32">
+        <Container className="flex flex-col items-center gap-10 z-10 px-4 py-12 leading-[1.375] md:py-32">
           <a href="/" className="text-xl font-semibold">
             <Image
               className={`w-48`}
@@ -192,7 +192,7 @@ function DinnerDemo() {
         
       </Section>
 
-      <Section className="flex py-2 md:py-32  leading-[1.375]0 bg-gray-50">
+      <Section className="flex py-12 md:py-32  leading-[1.375]0 bg-gray-50">
         <Container className="flex flex-col items-center px-4">
           <div className="text-center text-2xl md:text-4xl md:max-w-3xl">
             Discover our{' '}
@@ -209,7 +209,7 @@ function DinnerDemo() {
         </Container>
       </Section>
 
-      <Section className="md:py-32 py-2 leading-[1.375]4">
+      <Section className="md:py-32 py-12 leading-[1.375]4">
         <Container className="md:gap-20 gap-8 flex-col items-center px-4">
           <H2 className="text-center">
             How VoiceStack can{' '}
@@ -251,7 +251,7 @@ function DinnerDemo() {
         id="features"
         className="flex w-full justify-center relative bg-purple-50"
       >
-        <Container className="flex flex-col z-10 md:py-32 py-2 leading-[1.375]4 px-8 gap-3">
+        <Container className="flex flex-col z-10 md:py-32 py-12 leading-[1.375]4 px-8 gap-3">
           <div className="flex gap-3 flex-col items-center text-center">
             <H2 className="md:!text-4xl">
               Integrated AI to{' '}
@@ -359,7 +359,7 @@ function DinnerDemo() {
         </Container>
       </Section>
 
-      <Section className="md:py-32 py-2 leading-[1.375]4 bg-white overflow-hidden">
+      <Section className="md:py-32 py-12 leading-[1.375]4 bg-white overflow-hidden">
         <Container className="flex-col items-center rounded-3xl px-4 md:gap-16 gap-8">
           <div className="max-w-3xl flex text-center flex-col gap-4">
             <H2>
@@ -462,7 +462,7 @@ function DinnerDemo() {
         </Container>
       </Section>
 
-      <Section className="md:py-32 py-2 leading-[1.375]4 bg-purple-50">
+      <Section className="md:py-32 py-12 leading-[1.375]4 bg-purple-50">
         <Container className="flex-col items-center gap-16 px-4">
           <div className="text-center sm:max-w-3xl w-full gap-4 flex flex-col">
             <H2>Who else is attending?</H2>
@@ -506,7 +506,7 @@ function DinnerDemo() {
         </Container>
       </Section>
 
-      <Section className="bg-gray-950 md:py-32 py-2 leading-[1.375]4 text-white ">
+      <Section className="bg-gray-950 md:py-32 py-12 leading-[1.375]4 text-white ">
         <Container className="flex-col items-center gap-16 px-8">
           <div className="text-center md:max-w-3xl gap-4 flex flex-col">
             <H2>Frequently Asked Questions</H2>
