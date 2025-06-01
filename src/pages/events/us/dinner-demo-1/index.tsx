@@ -155,7 +155,7 @@ function DinnerDemo() {
                 </svg>
               </div>
               <p className="text-2xl md:text-left text-center font-medium ">
-                "With VoiceStack, we saw a 15% increase in new patient growth."
+                With VoiceStack, we saw a 15% increase in new patient growth.
               </p>
               <div className="flex flex-col md:text-left text-center">
                 <span className="font-medium"> Himesh Kana </span>
