@@ -270,7 +270,7 @@ const LogoListingSection = ({ data, refer = null }) => {
                             {logo?.practiceName}
                           </h3>
                           <p className="text-sm font-normal">
-                            {logo?.locations}{logo?.locations > 1 ? "Locations": "Location"} 
+                            {logo?.locations} {logo?.locations > 1 ? "Locations": "Location"} 
                           </p>
                         </div>
 
