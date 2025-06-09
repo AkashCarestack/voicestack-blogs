@@ -185,7 +185,7 @@ const LogoListingSection = ({ data, refer = null }) => {
                                 {logo?.practiceName}
                               </h3>
                               <p className="text-base font-normal">
-                                {logo?.locations} Locations
+                                {logo?.locations} {logo?.locations > 1 ? "Locations": "Location"} 
                               </p>
                             </div>
                             <Button
@@ -270,7 +270,7 @@ const LogoListingSection = ({ data, refer = null }) => {
                             {logo?.practiceName}
                           </h3>
                           <p className="text-sm font-normal">
-                            {logo?.locations} Locations
+                            {logo?.locations}{logo?.locations > 1 ? "Locations": "Location"} 
                           </p>
                         </div>
 
