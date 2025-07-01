@@ -306,7 +306,7 @@ html {
 }
 
 .legal-content li, .legal-content p {
-  @apply mb-5 text-justify !text-gray-800;
+  @apply mb-5 !text-gray-800;
 }
 
 .legal-content a, .legal a {
@@ -336,7 +336,7 @@ html {
 }
 
 .legal-content li, .legal-content p {
-  @apply mb-5 text-justify !text-gray-800;
+  @apply mb-5 !text-gray-800;
 }
 
 .legal-content a {
