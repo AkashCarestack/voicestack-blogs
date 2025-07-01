@@ -12,7 +12,7 @@ function UkPrivacyPolicy() {
         </div>
 
         <div className="legal-content">
-        <p>EFFECTIVE DATE: 14th November 2024</p>
+        <p>Effective Date: 1st July 2025</p>
 
 <p>Good Methods UK Limited (” VoiceStack”) takes data protection and people’s privacy seriously and we are committed to continuing to comply with the Data Protection Act 2018 which may be amended from time to time (“Data Protection Law”).</p>
 

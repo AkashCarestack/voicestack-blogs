@@ -10,7 +10,7 @@ function AusPrivacyPolicy() {
         </div>
 
         <div className="legal-content">
-  <p className="c1"><span className="c5">Effective Date: 14th November 2024</span></p>
+  <p className="c1"><span className="c5">Effective Date: 1st July 2025</span></p>
   <p className="c1"><span className="c0">Good Methods Pty Ltd (ACN 664 796 310) located at, Level 6, 200 Adelaide Street,
       Brisbane City, Queensland 4000
       (&quot;VoiceStack&rdquo;,&nbsp;&quot;us&quot;,&nbsp;&quot;we&quot;,&nbsp;&quot;our&quot;) takes your privacy
@@ -20,7 +20,7 @@ function AusPrivacyPolicy() {
   <p className="c1"><span>This Privacy Policy applies to information collected and handled in our interactions with you,
       including information that we may collect about you on our website (located at&nbsp;</span><span className="c7"><a
         className="c11"
-        href="https://www.google.com/url?q=https://www.voicestack.com/en-AU&amp;sa=D&amp;source=editors&amp;ust=1751361259172030&amp;usg=AOvVaw0dA_5dfmCaP7goCPBoxP32">https://www.voicestack.com/en-AU</a></span><span
+        href="https://www.voicestack.com/en-AU&amp;sa=D&amp;source=editors&amp;ust=1751361259172030&amp;usg=AOvVaw0dA_5dfmCaP7goCPBoxP32">https://www.voicestack.com/en-AU</a></span><span
       className="c0">&nbsp;)&nbsp;(Website) if and when you access (directly or indirectly) the VoiceStack Platform and on
       using our Mobile Application (Mobile App), or any booking or appointment form used by VoiceStack
       (Applications).</span></p>
@@ -30,7 +30,7 @@ function AusPrivacyPolicy() {
       with you from time to time (if any) and should be read accordingly. When we use a capitalised term in this Privacy
       Policy that is not defined, it will have the definition provided in our Terms of Use(</span><span className="c7"><a
         className="c11"
-        href="https://www.google.com/url?q=https://voicestack.com/legal/aus/2024-11/saas-customer-agreement&amp;sa=D&amp;source=editors&amp;ust=1751361259173944&amp;usg=AOvVaw1zsKgVhXevsXNoWFHofFq7">https://voicestack.com/legal/aus/2024-11/saas-customer-agreement</a></span><span
+        href="https://voicestack.com/legal/aus/2024-11/saas-customer-agreement&amp;sa=D&amp;source=editors&amp;ust=1751361259173944&amp;usg=AOvVaw1zsKgVhXevsXNoWFHofFq7">https://voicestack.com/legal/aus/2024-11/saas-customer-agreement</a></span><span
       className="c0">)</span></p>
   <h2 className="c1"><span className="c4">1.&nbsp;What is personal information?</span></h2>
   <p className="c1"><span className="c0">In this Privacy Policy, &#39;personal information&#39; has the meaning set out in
