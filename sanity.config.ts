@@ -23,8 +23,9 @@ import {
   previewSecretId,
   projectId,
 } from '~/lib/sanity.api'
-import { schema } from '~/schemas'
+import { schema, schemaTypes } from '~/schemas'
 import { media } from 'sanity-plugin-media'
+import { createDeskStructure } from '~/lib/deskStructure'
 
 const iframeOptions = {
   url: defineUrlResolver({
@@ -136,63 +137,7 @@ export default defineConfig({
           S.view.component(Iframe).options(iframeOptions).title('Preview'),
         ])
       },
-      structure: (S) =>
-        S.list()
-          .title('Base')
-          .items([
-            // S.listItem()
-            //   .title('Home Page')
-            //   .child(
-            //     S.document()
-            //       .schemaType('homeSettings')
-            //       .documentId('homeSettings'),
-            //   ),
-
-            S.listItem()
-              .title('Site Configuration')
-              .child(
-                S.document()
-                  .schemaType('siteSettings')
-                  .documentId('siteSettings'),
-              ),
-            S.listItem()
-              .title('Comparison Table')
-              .child(
-                S.document()
-                  .schemaType('comparisonTable')
-                  .documentId('comparisonTable'),
-              ),
-
-            // S.listItem()
-            // .title('Platform')
-            // .child(
-            //   S.document()
-            //     .schemaType('platform')
-            //     .documentId('platform'),
-            // ),
-
-            S.documentTypeListItem('homeSettings').title('Home Settings'),
-            S.documentTypeListItem('testimonial').title('Feature Section'),
-            S.documentTypeListItem('testimonialSection').title('Testimonial'),
-            // S.documentTypeListItem('feature').title('Feature'),
-            S.documentTypeListItem('legal').title('Legal'),
-            S.documentTypeListItem('comparisonValue').title('Comparison Value'),
-            S.documentTypeListItem('platform').title('Integration List'),
-            S.documentTypeListItem('platformList').title('Platform List'),
-            S.documentTypeListItem('logoListing').title('logo Listing'),
-            S.documentTypeListItem('cardsListing').title('Cards Listing'),
-            S.documentTypeListItem('csCardsListing').title('Refer Cards Listing'),
-            S.documentTypeListItem('faq').title('Faq'),
-            S.documentTypeListItem('testimonialHighlightSection').title('Testimonial Highlight'),
-            S.documentTypeListItem('banner').title('banner'),
-            S.documentTypeListItem('footer').title('Footer'),
-            S.documentTypeListItem('miscellaneous').title('Miscellaneous').icon(ExpandIcon),
-            S.documentTypeListItem('page').title('Pages'),
-            S.documentTypeListItem('featureList').title('Features').icon(BoltIcon),
-            S.documentTypeListItem('featureCategory').title('Feature Category').icon(BoltIcon),
-
-            // S.documentTypeListItem('platform').title('Platform'),
-          ]),
+      structure: (S) => createDeskStructure(S, schemaTypes.map(type => type.name)),
     }),
 
     media({
