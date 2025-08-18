@@ -11,16 +11,15 @@ This project now has a clean, organized desk structure that groups related schem
 
 ### 📄 **Management**
 - Pages
-- Testimonials
-- Testimonial Sections
 - Testimonial Highlights
 
 ### ⚡ **Features & Components**
-- Features
 - Feature Lists
 - Feature Categories
 - Feature Sub-sections
 - Hero Sub-features
+- Testimonial Sections
+- Features
 
 ### 📝 **Legal & Documentation**
 - Legal

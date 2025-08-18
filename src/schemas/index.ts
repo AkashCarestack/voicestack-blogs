@@ -19,6 +19,7 @@ import CsCardsListing from './CsCardsListing/index'
 import featureSubSection from './featureSubSection'
 import faq from './faq'
 import testimonialSection from './testimonial'
+import feature from './Feature'
 import customBlockContent from './customBlockContent'
 import TestimonialHighlight from './TestimonialHighlight'
 import Miscellaneous from './Miscellaneous'
@@ -49,16 +50,21 @@ export const schemaTypes = [
   PlatformList,
   LogoListing,
   CardsListing,
+  CsCardsListing,
   featureSubSection,
   testimonialSection,
+  feature,
   faq,
   customBlockContent,
+  TestimonialHighlight,
   Miscellaneous,
   page,
   DynamicComponent,
   customContent,
   ListingBlock,
   BrowserList,
+  footer,
+  banner,
   FeatureCategory,
   FeatureList,
   ListingAtom,

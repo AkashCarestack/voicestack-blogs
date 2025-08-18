@@ -74,8 +74,20 @@ const schemaIconMap: Record<string, any> = {
   multipleString: DocumentTextIcon
 }
 
+// Custom title mapping for specific schemas
+const customTitleMap: Record<string, string> = {
+  testimonial: 'Feature Main',
+  testimonialSection: 'Testimonial Section',
+  testimonialHighlightSection: 'Testimonial Highlight Section'
+}
+
 // Convert camelCase to Title Case
 function toTitleCase(str: string): string {
+  // Check if we have a custom title for this schema
+  if (customTitleMap[str]) {
+    return customTitleMap[str]
+  }
+  
   return str
     .replace(/([A-Z])/g, ' $1')
     .replace(/^./, (str) => str.toUpperCase())
@@ -114,10 +126,13 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     settings: ['siteSettings', 'homeSettings', 'layout'],
     
     // Management
-    content: ['page', 'testimonial', 'testimonialSection', 'testimonialHighlightSection'],
+    content: ['page', 'testimonialHighlightSection'],
     
     // Features & Components
-    features: ['Features', 'feature', 'featureList', 'featureCategory', 'featureSubSection', 'heroSubFeature'],
+    features: ['featureList', 'featureCategory', 'featureSubSection', 'heroSubFeature', 'testimonial'],
+    
+    // Testimonial Section
+    testimonialSection: ['testimonialSection'],
     
     // Legal & Documentation
     legal: ['legal', 'faq'],
@@ -153,7 +168,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     const categoryIcon = getCategoryIcon(category)
     const categoryTitle = getCategoryTitle(category)
 
-    if (existingSchemas.length === 1) {
+ if (existingSchemas.length === 1) {
       // Single schema - show directly
       const schemaName = existingSchemas[0]
       const icon = schemaIconMap[schemaName] || DocumentIcon
@@ -207,6 +222,7 @@ function getCategoryIcon(category: string) {
     settings: CogIcon,
     content: DocumentIcon,
     features: BoltIcon,
+    testimonialSection: CommentIcon,
     legal: DocumentTextIcon,
     comparisons: StackIcon,
     platforms: EarthGlobeIcon,
@@ -223,6 +239,7 @@ function getCategoryTitle(category: string) {
     settings: 'Settings & Configuration',
     content: 'Management',
     features: 'Features & Components',
+    testimonialSection: 'Testimonial Section',
     legal: 'Legal & Documentation',
     comparisons: 'Comparisons & Analysis',
     platforms: 'Platforms & Integrations',
