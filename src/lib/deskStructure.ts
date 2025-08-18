@@ -27,8 +27,10 @@ const schemaIconMap: Record<string, any> = {
   homeSettings: HomeIcon,
   layout: CogIcon,
   
-  // Content Types
+  // Pages & Content Management
   page: DocumentIcon,
+  
+  // Content Types
   testimonial: StarIcon,
   testimonialSection: CommentIcon,
   testimonialHighlightSection: CommentIcon,
@@ -68,7 +70,8 @@ const schemaIconMap: Record<string, any> = {
   footer: WrenchIcon,
   miscellaneous: ExpandIcon,
   
-  
+  // Dynamic Components
+  DynamicComponent: BoltIcon,
   
   // Utilities
   multipleString: DocumentTextIcon
@@ -76,9 +79,11 @@ const schemaIconMap: Record<string, any> = {
 
 // Custom title mapping for specific schemas
 const customTitleMap: Record<string, string> = {
+  page: 'Pages',
   testimonial: 'Feature Main',
   testimonialSection: 'Testimonial Section',
-  testimonialHighlightSection: 'Testimonial Highlight Section'
+  testimonialHighlightSection: 'Testimonial Highlight Section',
+  DynamicComponent: 'Dynamic Components'
 }
 
 // Convert camelCase to Title Case
@@ -125,8 +130,11 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     // Core Settings & Configuration
     settings: ['siteSettings', 'homeSettings', 'layout'],
     
-    // Management
-    content: ['page', 'testimonialHighlightSection'],
+    // Pages & Content Management - NEW PROMINENT SECTION
+    pages: ['page'],
+    
+    // Content Management (existing)
+    content: ['testimonialHighlightSection'],
     
     // Features & Components
     features: ['featureList', 'featureCategory', 'featureSubSection', 'heroSubFeature', 'testimonial'],
@@ -149,7 +157,8 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     // Media & UI
     media: ['banner', 'footer', 'miscellaneous'],
     
-
+    // Dynamic Components
+    dynamic: ['DynamicComponent'],
     
     // Utilities
     utilities: ['multipleString']
@@ -168,7 +177,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     const categoryIcon = getCategoryIcon(category)
     const categoryTitle = getCategoryTitle(category)
 
- if (existingSchemas.length === 1) {
+    if (existingSchemas.length === 1) {
       // Single schema - show directly
       const schemaName = existingSchemas[0]
       const icon = schemaIconMap[schemaName] || DocumentIcon
@@ -220,6 +229,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
 function getCategoryIcon(category: string) {
   const iconMap: Record<string, any> = {
     settings: CogIcon,
+    pages: DocumentIcon,
     content: DocumentIcon,
     features: BoltIcon,
     testimonialSection: CommentIcon,
@@ -228,6 +238,7 @@ function getCategoryIcon(category: string) {
     platforms: EarthGlobeIcon,
     blocks: ListIcon,
     media: ImageIcon,
+    dynamic: BoltIcon,
     utilities: WrenchIcon
   }
   return iconMap[category] || FolderIcon
@@ -237,7 +248,8 @@ function getCategoryIcon(category: string) {
 function getCategoryTitle(category: string) {
   const titleMap: Record<string, string> = {
     settings: 'Settings & Configuration',
-    content: 'Management',
+    pages: 'Pages & Content Management',
+    content: 'Content Management',
     features: 'Features & Components',
     testimonialSection: 'Testimonial Section',
     legal: 'Legal & Documentation',
@@ -245,6 +257,7 @@ function getCategoryTitle(category: string) {
     platforms: 'Platforms & Integrations',
     blocks: 'Blocks & Lists',
     media: 'Media & UI Elements',
+    dynamic: 'Dynamic Components',
     utilities: 'Utilities'
   }
   return titleMap[category] || toTitleCase(category)

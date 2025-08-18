@@ -23,7 +23,7 @@ import {
   previewSecretId,
   projectId,
 } from '~/lib/sanity.api'
-import { schema, schemaTypes } from '~/schemas'
+import { schema } from '~/schemas'
 import { media } from 'sanity-plugin-media'
 import { createDeskStructure } from '~/lib/deskStructure'
 
@@ -137,7 +137,7 @@ export default defineConfig({
           S.view.component(Iframe).options(iframeOptions).title('Preview'),
         ])
       },
-      structure: (S) => createDeskStructure(S, schemaTypes.map(type => type.name)),
+      structure: (S) => createDeskStructure(S, schema.types.map(type => type.name)),
     }),
 
     media({

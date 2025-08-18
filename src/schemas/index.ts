@@ -36,46 +36,9 @@ import ListingAtom from './NestableBlocks/ListingAtom'
 import portableContent from './portableContent'
 import HtmlCode from './Utilis/HtmlCode'
 
-export const schemaTypes = [
-  layout,
-  Features,
-  SiteSettings,
-  Testimonials,
-  HomeSettings,
-  legal,
-  heroSubFeature,
-  comparison,
-  comparisonValue,
-  Platforms,
-  PlatformList,
-  LogoListing,
-  CardsListing,
-  CsCardsListing,
-  featureSubSection,
-  testimonialSection,
-  feature,
-  faq,
-  customBlockContent,
-  TestimonialHighlight,
-  Miscellaneous,
-  page,
-  DynamicComponent,
-  customContent,
-  ListingBlock,
-  BrowserList,
-  footer,
-  banner,
-  FeatureCategory,
-  FeatureList,
-  ListingAtom,
-  portableContent,
-  HtmlCode
-]
-
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     blockContent,
-    
     layout,
     Features,
     heroSubFeature,
@@ -109,6 +72,5 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     ListingAtom,
     portableContent,
     HtmlCode
-    
   ],
 }
