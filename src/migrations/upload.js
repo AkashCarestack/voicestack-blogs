@@ -24,7 +24,7 @@ async function uploadIcon(iconPath) {
 
 
 (async () => {
-    console.log({badcross: await uploadIcon("/home/gopi/osdental-website/public/badcross.png")})
-    console.log({exclamation: await uploadIcon("/home/gopi/osdental-website/public/exclamation.png")})
-    console.log({goodtick: await uploadIcon("/home/gopi/osdental-website/public/goodtick.png")})
+    await uploadIcon("/home/gopi/osdental-website/public/badcross.png")
+    await uploadIcon("/home/gopi/osdental-website/public/exclamation.png")
+    await uploadIcon("/home/gopi/osdental-website/public/goodtick.png")
 })()

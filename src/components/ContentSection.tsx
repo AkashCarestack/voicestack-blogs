@@ -10,7 +10,7 @@ import HeroInner from './common/HeroInner'
 
 const ContentSection = ({ content, draftMode, token }) => {
   const router = useRouter()
-  // console.log({ content })
+
 
   return (
     <>

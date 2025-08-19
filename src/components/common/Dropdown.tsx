@@ -18,7 +18,7 @@ function Dropdown({ items = [], value = "Select", onSelect, alt = false }: IDrop
     const router = useRouter();
     const localeValue:any = router.locale;
 
-    // console.log({items, value});
+  
     
     const regionItems = items;
     const localeIndex = regionItems.findIndex(item => item.locale == value);

@@ -85,7 +85,6 @@ export default async function handler(
     res.write(sitemap);
     res.end();
   } catch (error) {
-    console.error('Sitemap generation error:', error);
     res.status(500).json({ error: 'Failed to generate sitemap' });
   }
 }

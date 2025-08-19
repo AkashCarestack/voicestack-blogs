@@ -16,7 +16,7 @@ export default async function trackEvents(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  // console.log({rhh:req.headers.host, r:req.headers});
+
   const allowedMethods = ['GET', 'POST', 'PATCH'];
   if (!allowedMethods.includes(req.method!)) {
     return res.status(405).json({ 
@@ -76,6 +76,7 @@ export default async function trackEvents(
             return res.json({ id });
           } catch (error) {
             console.log(error);
+
             if (error !== null && typeof error === "object") {
               if (
                 (error as any)?.details?.includes(

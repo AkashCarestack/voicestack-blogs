@@ -9,7 +9,7 @@ import FaqItem from './FaqItem';
 import { useRouter } from 'next/router';
 
 const FaqSection = ({data,mailId}) => {
-// console.log(data,'data faq');
+
 
   const [region, setRegion] = useState('us'); // default to US
   const router = useRouter();

@@ -9,7 +9,7 @@ interface ListingBlockProps {
 }
 
 const ListingBlock: React.FC<ListingBlockProps> = ({ itemHeading, listingItem }) => {
-  // console.log(itemHeading,'itemHeading', listingItem, 'listingItem');
+
   
   return (
     <div className="flex flex-col gap-3">
