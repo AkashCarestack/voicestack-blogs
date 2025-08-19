@@ -64,6 +64,6 @@ export async function getLocationByIP() {
     const location = `${data.city}, ${data.region}, ${data.country}`;
     return { name: location, data };
   } catch (error) {
-    console.error("Error fetching location:", error);
+    console.log(error);
   }
 }

@@ -25,7 +25,7 @@ const BannerSection = ({data, refer=null, cta=false}) => {
 
   const [matchingContact, setMatchingContact] = useState(null);
 
-  //console.log({data});
+
   
 
   useEffect(() => {
@@ -34,7 +34,7 @@ const BannerSection = ({data, refer=null, cta=false}) => {
     );
     setMatchingContact(contact);
   }, [router.locale]);
-  // console.log({matchingContact});
+
   
   
   const [openForm, setOpenForm] = useState(false)

@@ -20,8 +20,8 @@ const HeroSection = ({ data, refer = null, video }) => {
   const [openForm, setOpenForm] = useState(false)
   const router = useRouter();
   const videoId = router.locale == "en" ? "3CsThXKvcvRrR3hwRsWWJY" : "Hj4GYLXARVjqQEnaejq3Bz";
-  // console.log(video[0]);
-  // console.log({data});
+
+
   
     
   const overviewVideo: VideoItem = {
@@ -77,7 +77,7 @@ const HeroSection = ({ data, refer = null, video }) => {
         "https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js";
       document.body.appendChild(script);
   },[])
-// console.log(data?.heroTitleReferrer.filter((item:any)=> item['_key'] == "cs"));
+
 
   return (
     <Section className="pt-md md:pt-lg bg-vs-blue" childClass="flex">

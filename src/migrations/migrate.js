@@ -18,9 +18,9 @@ const uploadData = async () => {
   for (const item of data) {
     try {
       const res = await client.createOrReplace(item);
-      console.log('Document created:', res);
+
     } catch (error) {
-      console.error('Upload failed:', error);
+      // Upload failed silently
     }
   }
 };

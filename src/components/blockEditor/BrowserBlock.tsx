@@ -9,7 +9,7 @@ interface BrowserBlockProps {
 }
 
 const BrowserBlock = ({ mainHeading, listingItem: browserList }: BrowserBlockProps) => {
-  // console.log(mainHeading,'mainHeading', browserList, 'listingItem')
+
   return (
     <div className="flex flex-col gap-3">
       <H2 className='mb-3'>{mainHeading}</H2>

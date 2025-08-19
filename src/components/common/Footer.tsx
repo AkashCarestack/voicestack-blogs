@@ -11,7 +11,7 @@ import Anchor from './anchor'
 
 const Footer = ({data}) => {
 
-  // console.log({data});
+
   
   
   // const footerContent = {
