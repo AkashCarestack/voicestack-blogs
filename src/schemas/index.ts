@@ -6,7 +6,7 @@ import Features from './Features'
 import SiteSettings from './SiteSettings'
 import Testimonials from './Feature'
 import HomeSettings from './HomeSettings/index'
-import multipleString from './multipleString'
+
 import legal from './Legal'
 import comparison from './Comparison'
 import comparisonValue from "./ComparisonValue"
@@ -35,6 +35,7 @@ import FeatureList from './FeatureList'
 import ListingAtom from './NestableBlocks/ListingAtom'
 import portableContent from './portableContent'
 import HtmlCode from './Utilis/HtmlCode'
+import WhoWeServe from './Pages/WhoWeServe'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -45,7 +46,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     SiteSettings,
     Testimonials,
     HomeSettings,
-    multipleString,
+
     legal,
     comparison,
     comparisonValue,
@@ -71,6 +72,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     FeatureList,
     ListingAtom,
     portableContent,
-    HtmlCode
+    HtmlCode,
+    WhoWeServe
   ],
 }

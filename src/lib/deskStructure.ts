@@ -29,6 +29,7 @@ const schemaIconMap: Record<string, any> = {
   
   // Pages & Content Management
   page: DocumentIcon,
+  whoWeServe: UsersIcon,
   
   // Content Types
   testimonial: StarIcon,
@@ -73,13 +74,13 @@ const schemaIconMap: Record<string, any> = {
   // Dynamic Components
   DynamicComponent: BoltIcon,
   
-  // Utilities
-  multipleString: DocumentTextIcon
+
 }
 
 // Custom title mapping for specific schemas
 const customTitleMap: Record<string, string> = {
   page: 'Pages',
+  whoWeServe: 'Who We Serve',
   testimonial: 'Feature Main',
   testimonialSection: 'Testimonial Section',
   testimonialHighlightSection: 'Testimonial Highlight Section',
@@ -131,7 +132,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     settings: ['siteSettings', 'homeSettings', 'layout'],
     
     // Pages & Content Management - NEW PROMINENT SECTION
-    pages: ['page'],
+    pages: ['page', 'whoWeServe'],
     
     // Content Management (existing)
     content: ['testimonialHighlightSection'],
@@ -161,7 +162,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     dynamic: ['DynamicComponent'],
     
     // Utilities
-    utilities: ['multipleString']
+    utilities: []
   }
 
   const items = []
