@@ -119,7 +119,9 @@ export default defineConfig({
         'page',
         'miscellaneous',
         'featureList',
-        'featureCategory'
+        'featureCategory',
+        'whoWeServe',
+        'dentalSoftware'
       ],
     }),
 
