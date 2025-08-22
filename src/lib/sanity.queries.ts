@@ -796,3 +796,161 @@ export interface LegalInformation {
   privacyPolicy: string
   termsAndCondition: string
 }
+
+// Who We Serve Queries
+export const whoWeServeQueries = {
+  // Get the home page content for Who We Serve
+  getWhoWeServeHome: `
+    *[_type == "whoWeServe" && slug.current == "home" && (language == $language || language == null)] {
+      _id,
+      title,
+      slug,
+      description,
+      icon,
+      heroSection {
+        heroTitle,
+        heroSubtitle,
+        heroImage,
+        heroBackground
+      },
+      content,
+      sections[] {
+        sectionTitle,
+        sectionContent,
+        sectionOrder
+      },
+      metaTitle,
+      metaDescription,
+      order,
+      isPublished,
+      language
+    }[0]
+  `,
+
+  // Get all Who We Serve pages for listing
+  getAllWhoWeServePages: `
+    *[_type == "whoWeServe" && (language == $language || language == null)] | order(order asc) {
+      _id,
+      title,
+      slug,
+      description,
+      icon,
+      order,
+      language
+    }
+  `,
+
+  // Get specific Who We Serve page by slug
+  getWhoWeServePageBySlug: `
+    *[_type == "whoWeServe" && slug.current == $slug && (language == $language || language == null)] {
+      _id,
+      title,
+      slug,
+      description,
+      icon,
+      heroSection {
+        heroTitle,
+        heroSubtitle,
+        heroImage,
+        heroBackground
+      },
+      content,
+      sections[] {
+        sectionTitle,
+        sectionContent,
+        sectionOrder
+      },
+      metaTitle,
+      metaDescription,
+      order,
+      isPublished,
+      language
+    }[0]
+  `,
+
+  // Get Who We Serve page slugs for routing
+  getWhoWeServeSlugs: `
+    *[_type == "whoWeServe" && (language == $language || language == null)] {
+      slug
+    }
+  `
+}
+
+// Dental Software Queries
+export const dentalSoftwareQueries = {
+  // Get the home page content for Dental Software
+  getDentalSoftwareHome: `
+    *[_type == "dentalSoftware" && slug.current == "home" && (language == $language || language == null)] {
+      _id,
+      title,
+      slug,
+      description,
+      icon,
+      heroSection {
+        heroTitle,
+        heroSubtitle,
+        heroImage,
+        heroBackground
+      },
+      content,
+      sections[] {
+        sectionTitle,
+        sectionContent,
+        sectionOrder
+      },
+      metaTitle,
+      metaDescription,
+      order,
+      isPublished,
+      language
+    }[0]
+  `,
+
+  // Get all Dental Software pages for listing
+  getAllDentalSoftwarePages: `
+    *[_type == "dentalSoftware" && (language == $language || language == null)] | order(order asc) {
+      _id,
+      title,
+      slug,
+      description,
+      icon,
+      order,
+      language
+    }
+  `,
+
+  // Get specific Dental Software page by slug
+  getDentalSoftwarePageBySlug: `
+    *[_type == "dentalSoftware" && slug.current == $slug && (language == $language || language == null)] {
+      _id,
+      title,
+      slug,
+      description,
+      icon,
+      heroSection {
+        heroTitle,
+        heroSubtitle,
+        heroImage,
+        heroBackground
+      },
+      content,
+      sections[] {
+        sectionTitle,
+        sectionContent,
+        sectionOrder
+      },
+      metaTitle,
+      metaDescription,
+      order,
+      isPublished,
+      language
+    }[0]
+  `,
+
+  // Get Dental Software page slugs for routing
+  getDentalSoftwareSlugs: `
+    *[_type == "dentalSoftware" && (language == $language || language == null)] {
+      slug
+    }
+  `
+}
