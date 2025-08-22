@@ -73,43 +73,32 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage }: Wh
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-                Our Solutions
-              </h2>
-              
+              <h2 className="text-3xl font-bold text-center mb-12">Explore Our Solutions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {pages
-                  .filter(page => page.slug.current !== 'landing')
-                  .sort((a, b) => a.order - b.order)
+                  .filter((page) => page.slug.current !== 'landing')
                   .map((page) => (
                     <a
                       key={page._id}
                       href={`${currentLanguage !== 'en' ? `/${currentLanguage}` : ''}/who-we-serve/${page.slug.current}`}
-                      className="group block bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+                      className="block group"
                     >
-                      <div className="p-6">
+                      <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
                         {page.icon && (
-                          <div className="mb-4">
+                          <div className="w-16 h-16 mx-auto mb-4">
                             <img
-                              src={urlForImage(page.icon, { width: 64, height: 64 })}
+                              src={urlForImage(page.icon).width(64).height(64).url()}
                               alt={page.title}
-                              className="w-16 h-16 mx-auto group-hover:scale-110 transition-transform duration-300"
+                              className="w-full h-full object-contain"
                             />
                           </div>
                         )}
-                        <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                           {page.title}
                         </h3>
-                        {page.description && (
-                          <p className="text-gray-600 text-sm leading-relaxed">
-                            {page.description}
-                          </p>
-                        )}
-                        <div className="mt-4 flex items-center justify-center">
-                          <span className="text-blue-600 font-medium group-hover:translate-x-1 transition-transform duration-300">
-                            Learn More →
-                          </span>
-                        </div>
+                        <p className="text-gray-600 text-sm">
+                          {page.description}
+                        </p>
                       </div>
                     </a>
                   ))}
@@ -146,46 +135,33 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage }: Wh
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-              Our Solutions
-            </h2>
-            
+            <h2 className="text-3xl font-bold text-center mb-12">Explore Our Solutions</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {pages
-                .filter(page => page.slug.current !== 'landing')
-                .sort((a, b) => a.order - b.order)
-                .map((page) => (
-                  <a
-                    key={page._id}
-                    href={`${currentLanguage !== 'en' ? `/${currentLanguage}` : ''}/who-we-serve/${page.slug.current}`}
-                    className="group block bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                  >
-                    <div className="p-6">
-                      {page.icon && (
-                        <div className="mb-4">
-                          <img
-                            src={urlForImage(page.icon, { width: 64, height: 64 })}
-                            alt={page.title}
-                            className="w-16 h-16 mx-auto group-hover:scale-110 transition-transform duration-300"
-                          />
-                        </div>
-                      )}
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                        {page.title}
-                      </h3>
-                      {page.description && (
-                        <p className="text-gray-600 text-sm leading-relaxed">
-                          {page.description}
-                        </p>
-                      )}
-                      <div className="mt-4 flex items-center justify-center">
-                        <span className="text-blue-600 font-medium group-hover:translate-x-1 transition-transform duration-300">
-                          Learn More →
-                        </span>
+              {pages.map((page) => (
+                <a
+                  key={page._id}
+                  href={`${currentLanguage !== 'en' ? `/${currentLanguage}` : ''}/who-we-serve/${page.slug.current}`}
+                  className="block group"
+                >
+                  <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                    {page.icon && (
+                      <div className="w-16 h-16 mx-auto mb-4">
+                        <img
+                          src={urlForImage(page.icon).width(64).height(64).url()}
+                          alt={page.title}
+                          className="w-full h-full object-contain"
+                        />
                       </div>
-                    </div>
-                  </a>
-                ))}
+                    )}
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                      {page.title}
+                    </h3>
+                    <p className="text-gray-600 text-sm">
+                      {page.description}
+                    </p>
+                  </div>
+                </a>
+              ))}
             </div>
           </div>
         </div>

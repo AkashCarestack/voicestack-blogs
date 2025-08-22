@@ -32,11 +32,10 @@ export default defineType({
       title: 'question',
       language:'language',
     },
-    prepare(selection) {
-      return {
-        title: ` ${selection?.title}`,
-        media:<img src={showCountryFlag(selection?.language)}/>
-      };
-    },
+          prepare(selection) {
+        return {
+          title: ` ${selection?.title}`
+        };
+      },
   },
 })

@@ -69,24 +69,22 @@ export default defineConfig({
   plugins: [
     languageFilter({
       supportedLanguages: [
-        {id: 'en', title: 'English'},
-        {id: 'cs', title: 'CareStack'},
-        {id: 'fmc', title: 'FMC'},
-        //...
+        {id: 'en', title: 'US English'},
+        {id: 'en-GB', title: 'UK English'},
+        {id: 'en-AU', title: 'Australia English'},
       ],
-      // Select Norwegian (Bokmål) by default
+      // Select US English by default
       defaultLanguages: ['en'],
-      // Only show language filter for document type `page` (schemaType.name)
-      documentTypes: ['homeSettings'],
-      // filterField: (enclosingType, member, selectedLanguageIds) =>
-      //   !enclosingType.name.startsWith('locale') || !enclosingType.name.startsWith('language') || selectedLanguageIds.includes(member.name),
+      // Show language filter for these document types
+      documentTypes: ['homeSettings', 'whoWeServe', 'page'],
     }),
 
     internationalizedArray({
       languages: [
         {id: 'default', title: 'Default'},
-        {id: 'cs', title: 'CareStack'},
-        {id: 'fmc', title: 'FMC'},
+        {id: 'en', title: 'US English'},
+        {id: 'en-GB', title: 'UK English'},
+        {id: 'en-AU', title: 'Australia English'},
       ],
       defaultLanguages: ['default'],
       fieldTypes: ['string', 'customBlockContent'],
@@ -118,7 +116,7 @@ export default defineConfig({
         'footer',
         'page',
         'miscellaneous',
-        'featureList',
+                'featureList',
         'featureCategory',
         'whoWeServe',
         'dentalSoftware'

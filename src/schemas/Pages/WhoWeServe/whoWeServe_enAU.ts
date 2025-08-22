@@ -1,4 +1,5 @@
 import { SchemaTypeDefinition } from 'sanity'
+import showCountryFlag from "~/components/utils/common"
 
 const WhoWeServe_enAU: SchemaTypeDefinition = {
   name: 'whoWeServe_enAU',
@@ -132,6 +133,15 @@ const WhoWeServe_enAU: SchemaTypeDefinition = {
       type: 'boolean',
       initialValue: false,
     },
+    {
+      name: 'language',
+      title: 'Language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+      initialValue: 'en-AU',
+      validation: (Rule: any) => Rule.required()
+    },
   ],
   preview: {
     select: {
@@ -139,13 +149,14 @@ const WhoWeServe_enAU: SchemaTypeDefinition = {
       description: 'description',
       icon: 'icon',
       slug: 'slug.current',
+      language: 'language'
     },
-    prepare({ title, description, icon, slug }: { title: string; description: string; icon: any; slug: string }) {
+    prepare(selection) {
       return {
-        title,
-        subtitle: `${description || 'No description'} • /${slug} (AU)`,
-        media: icon,
-      }
+        title: `🇦🇺 ${selection?.title}`,
+        subtitle: `${selection?.description || 'No description'} • /${selection?.slug?.current || ''}`,
+        media: selection?.icon
+      };
     },
   },
 }

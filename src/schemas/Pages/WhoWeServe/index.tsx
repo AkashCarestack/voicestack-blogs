@@ -5,7 +5,13 @@ const WhoWeServe = {
   title: 'Who We Serve',
   type: 'document',
   // This ensures the page works with document internationalization
-  i18n: true,
+  i18n: {
+    base: 'en',
+    languages: ['en', 'en-GB', 'en-AU'],
+    fieldNames: {
+      lang: 'language'
+    }
+  },
   fields: [
     {
       name: 'title',
@@ -136,9 +142,13 @@ const WhoWeServe = {
     },
     {
       name: 'language',
+      title: 'Language',
       type: 'string',
       readOnly: true,
       hidden: true,
+      initialValue: 'en',
+      validation: (Rule: any) => Rule.required(),
+      description: 'Language is automatically set by the i18n plugin'
     },
   ],
   preview: {
@@ -147,14 +157,19 @@ const WhoWeServe = {
       description: 'description',
       icon: 'icon',
       slug: 'slug.current',
-      language: 'language',
+      language: 'language'
     },
     prepare(selection) {
+      const languageLabel = selection?.language === 'en' ? '🇺🇸' : 
+                           selection?.language === 'en-GB' ? '🇬🇧' : 
+                           selection?.language === 'en-AU' ? '🇦🇺' : 
+                           '🌐';
+      
       return {
-        title: `${selection?.title}`,
-        subtitle: `${selection?.description || 'No description'} • /${selection?.slug}`,
-        media: selection?.language ? <img src={showCountryFlag(selection?.language)} /> : selection?.icon,
-      }
+        title: `${languageLabel} ${selection?.title}`,
+        subtitle: `${selection?.description || 'No description'} • /${selection?.slug?.current || ''}`,
+        media: selection?.icon
+      };
     },
   },
 }

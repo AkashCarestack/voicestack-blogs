@@ -27,10 +27,10 @@ const schemaIconMap: Record<string, any> = {
   homeSettings: HomeIcon,
   layout: CogIcon,
   
-  // Pages & Content Management
-  page: DocumentIcon,
-  whoWeServe: UsersIcon,
-  dentalSoftware: DocumentIcon,
+      // Pages & Content Management
+    page: DocumentIcon,
+    whoWeServe: UsersIcon,
+    dentalSoftware: DocumentIcon,
   
   // Content Types
   testimonial: StarIcon,
@@ -186,15 +186,80 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
       const icon = schemaIconMap[schemaName] || DocumentIcon
       const title = toTitleCase(schemaName)
       
-      items.push(
-        S.listItem()
-          .title(title)
-          .icon(icon)
-          .child(
-            S.documentTypeList(schemaName)
-              .title(title)
-          )
-      )
+      // Special handling for Who We Serve to show language indicators
+      if (schemaName === 'whoWeServe') {
+        items.push(
+          S.listItem()
+            .title(title)
+            .icon(icon)
+            .child(
+              S.list()
+                .title(title)
+                .items([
+                  // All Who We Serve documents
+                  S.listItem()
+                    .title('All Who We Serve')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('whoWeServe')
+                        .title('All Who We Serve')
+                        .filter('_type == "whoWeServe"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // US English
+                  S.listItem()
+                    .title('US English (en)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('whoWeServe')
+                        .title('US English Who We Serve')
+                        .filter('_type == "whoWeServe" && language == "en"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // UK English
+                  S.listItem()
+                    .title('UK English (en-GB)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('whoWeServe')
+                        .title('UK English Who We Serve')
+                        .filter('_type == "whoWeServe" && language == "en-GB"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // Australia English
+                  S.listItem()
+                    .title('Australia English (en-AU)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('whoWeServe')
+                        .title('Australia English Who We Serve')
+                        .filter('_type == "whoWeServe" && language == "en-AU"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // Create new
+                  S.listItem()
+                    .title('Create New Who We Serve')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('whoWeServe')
+                        .title('Create New Who We Serve')
+                        .filter('_type == "whoWeServe"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    )
+                ])
+            )
+        )
+      } else {
+        items.push(
+          S.listItem()
+            .title(title)
+            .icon(icon)
+            .child(
+              S.documentTypeList(schemaName)
+                .title(title)
+            )
+        )
+      }
     } else {
       // Multiple schemas - create folder
       items.push(

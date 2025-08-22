@@ -38,105 +38,127 @@ interface WhoWeServePageProps {
 export default function WhoWeServePage({ page, allPages, currentLanguage }: WhoWeServePageProps) {
   const router = useRouter()
 
-  console.log('Page props:', { page, allPages, currentLanguage })
-
   if (router.isFallback) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
-        </div>
-      </div>
-    )
+    return <div>Loading...</div>
   }
 
   if (!page) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">Page Not Found</h1>
-          <p className="text-gray-600">The requested page could not be found.</p>
-        </div>
-      </div>
-    )
+    return <div>Page not found</div>
   }
 
   return (
-    <div className="min-h-screen bg-white p-8">
+    <div>
       <SimpleHead
         title={page.metaTitle || page.title}
         description={page.metaDescription || page.description}
       />
 
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold text-blue-600 mb-8 text-center">
-          {page.title}
-        </h1>
-
-        {/* Debug Info */}
-        <div className="bg-yellow-100 p-6 rounded-lg mb-8">
-          <h2 className="text-2xl font-bold text-yellow-800 mb-4">Debug Information</h2>
-          <p className="text-yellow-700 mb-2">
-            <strong>URL:</strong> {router.asPath}
-          </p>
-          <p className="text-yellow-700 mb-2">
-            <strong>Language:</strong> {currentLanguage}
-          </p>
-          <p className="text-yellow-700">
-            <strong>Page Found:</strong> Yes
-          </p>
-        </div>
-
-        {/* Page Content */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Page Content</h2>
-          
-          {page.description && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">Description</h3>
-              <p className="text-gray-600">{page.description}</p>
-            </div>
-          )}
-
-          {page.content && page.content.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">Content Blocks</h3>
-              <p className="text-gray-600">Content has {page.content.length} blocks</p>
-            </div>
-          )}
-
-          {page.sections && page.sections.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">Sections</h3>
-              <p className="text-gray-600">Page has {page.sections.length} sections</p>
-            </div>
-          )}
-        </div>
-
-        {/* Raw Data Display */}
-        <div className="bg-gray-100 p-6 rounded-lg">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Raw Page Data</h2>
-          <pre className="text-xs text-gray-700 bg-white p-4 rounded border overflow-auto max-h-96">
-            {JSON.stringify(page, null, 2)}
-          </pre>
-        </div>
-
-        {/* All Pages */}
-        {allPages && allPages.length > 0 && (
-          <div className="mt-8 bg-blue-50 p-6 rounded-lg">
-            <h2 className="text-2xl font-bold text-blue-800 mb-4">All Available Pages</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {allPages.map((otherPage) => (
-                <div key={otherPage._id} className="bg-white p-4 rounded border">
-                  <h3 className="font-semibold text-gray-800">{otherPage.title}</h3>
-                  <p className="text-sm text-gray-600">/{otherPage.slug.current}</p>
-                </div>
-              ))}
+      {/* Hero Section */}
+      {page.heroSection && (
+        <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="text-5xl font-bold mb-6">
+                {page.heroSection.heroTitle || page.title}
+              </h1>
+              {page.heroSection.heroSubtitle && (
+                <p className="text-xl opacity-90">
+                  {page.heroSection.heroSubtitle}
+                </p>
+              )}
             </div>
           </div>
-        )}
-      </div>
+        </section>
+      )}
+
+      {/* Main Content */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            {/* Page Description */}
+            {page.description && (
+              <div className="text-center mb-12">
+                <p className="text-xl text-gray-600">
+                  {page.description}
+                </p>
+              </div>
+            )}
+
+            {/* Page Content */}
+            {page.content && page.content.length > 0 && (
+              <div className="prose prose-lg max-w-none">
+                {/* You can add PortableText here to render the content */}
+                <div className="text-gray-700">
+                  {/* For now showing basic content - you can enhance this with PortableText */}
+                  <p>{page.description}</p>
+                </div>
+              </div>
+            )}
+
+            {/* Page Sections */}
+            {page.sections && page.sections.length > 0 && (
+              <div className="mt-16">
+                {page.sections
+                  .sort((a, b) => a.sectionOrder - b.sectionOrder)
+                  .map((section, index) => (
+                    <div key={index} className="mb-12">
+                      <h2 className="text-3xl font-bold mb-6 text-gray-900">
+                        {section.sectionTitle}
+                      </h2>
+                      <div className="prose prose-lg max-w-none">
+                        {/* You can add PortableText here to render the section content */}
+                        <div className="text-gray-700">
+                          {/* For now showing basic content - you can enhance this with PortableText */}
+                          <p>{section.sectionContent}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Navigation to other pages */}
+      {allPages && allPages.length > 1 && (
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl font-bold text-center mb-12">Explore More Solutions</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {allPages
+                  .filter((p) => p._id !== page._id)
+                  .map((otherPage) => (
+                    <a
+                      key={otherPage._id}
+                      href={`${currentLanguage !== 'en' ? `/${currentLanguage}` : ''}/who-we-serve/${otherPage.slug.current}`}
+                      className="block group"
+                    >
+                      <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
+                        {otherPage.icon && (
+                          <div className="w-16 h-16 mx-auto mb-4">
+                            <img
+                              src={otherPage.icon}
+                              alt={otherPage.title}
+                              className="w-full h-full object-contain"
+                            />
+                          </div>
+                        )}
+                        <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                          {otherPage.title}
+                        </h3>
+                        <p className="text-gray-600 text-sm">
+                          {otherPage.description}
+                        </p>
+                      </div>
+                    </a>
+                  ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
     </div>
   )
 }
