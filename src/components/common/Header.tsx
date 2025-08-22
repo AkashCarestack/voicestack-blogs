@@ -362,19 +362,33 @@ const Header = ({ data, refer=null }) => {
                           // if (link?.headerMenu === "Comparison" && isUk) {
                           //   return null;
                           // }
-                        
+                        let isExternal = link?.href?.includes('http')
                           return (
+                            isExternal ? (
+                              <Anchor
+                                elementId={`header-menu-${link.headerMenu}`}
+                                key={link?.href + i}
+                                href={link?.href}
+                                target="_blank"
+                                className="text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
+                                onClick={toggleMenu}
+                              >
+                                {link.headerMenu}
+                              </Anchor>
+                            ) : (
+                        
                             <Anchor
                               elementId={`header-menu-${link.headerMenu}`}
                               key={link?.href + i}
                               href={link?.href}
+                              target={isExternal ? "_blank" : "_self"}
                               className="text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
                               onClick={toggleMenu}
                             >
                               {link.headerMenu}
                             </Anchor>
-                          );
-
+                          )
+                        )
                         })}
                       </nav>
                     </div>
