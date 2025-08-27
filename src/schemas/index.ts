@@ -37,10 +37,6 @@ import portableContent from './portableContent'
 import HtmlCode from './Utilis/HtmlCode'
 import WhoWeServe from './Pages/WhoWeServe'
 import DentalSoftware from './Pages/DentalSoftware'
-import WhoWeServe_enGB from './Pages/WhoWeServe/whoWeServe_enGB'
-import WhoWeServe_enAU from './Pages/WhoWeServe/whoWeServe_enAU'
-import DentalSoftware_enGB from './Pages/DentalSoftware/dentalSoftware_enGB'
-import DentalSoftware_enAU from './Pages/DentalSoftware/dentalSoftware_enAU'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -79,10 +75,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     portableContent,
     HtmlCode,
     WhoWeServe,
-    DentalSoftware,
-    WhoWeServe_enGB,
-    WhoWeServe_enAU,
-    DentalSoftware_enGB,
-    DentalSoftware_enAU
+    DentalSoftware
   ],
 }

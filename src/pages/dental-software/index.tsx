@@ -9,26 +9,20 @@ import Layout from '~/components/Layout'
 
 interface DentalSoftwarePage {
   _id: string
-  title: string
-  slug: { current: string }
-  description: string
-  icon: any
-  order: number
-  language: string
-  content?: any
-  heroSection?: {
-    heroTitle?: string
-    heroSubtitle?: string
-    heroImage?: any
-    heroBackground?: any
+  basicInfo: {
+    title: string
+    slug: { current: string }
+    description: string
+    icon: any
   }
-  sections?: Array<{
-    sectionTitle?: string
-    sectionContent?: any[]
-    sectionOrder?: number
-  }>
-  metaTitle?: string
-  metaDescription?: string
+  content?: {
+    mainContent: any[]
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+  }
+  language: string
 }
 
 interface DentalSoftwareIndexProps {
@@ -45,35 +39,33 @@ export default function DentalSoftwareIndex({ pages, currentLanguage, homePage }
     return (
       <Layout>
         <SimpleHead
-          title={homePage.metaTitle || homePage.title}
-          description={homePage.metaDescription || homePage.description}
+          title={homePage.seo?.metaTitle || homePage.basicInfo.title}
+          description={homePage.seo?.metaDescription || homePage.basicInfo.description}
         />
 
         {/* Hero Section */}
-        {homePage.heroSection && (
-          <section className="bg-gradient-to-r from-green-900 to-green-700 text-white py-20">
-            <div className="container mx-auto px-4">
-              <div className="max-w-4xl mx-auto text-center">
-                <h1 className="text-5xl font-bold mb-6">
-                  {homePage.heroSection.heroTitle || homePage.title}
-                </h1>
-                {homePage.heroSection.heroSubtitle && (
-                  <p className="text-xl opacity-90">
-                    {homePage.heroSection.heroSubtitle}
-                  </p>
-                )}
-              </div>
+        <section className="bg-gradient-to-r from-green-900 to-green-700 text-white py-20">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              <h1 className="text-5xl font-bold mb-6">
+                {homePage.basicInfo?.title || 'Dental Software'}
+              </h1>
+              {homePage.basicInfo?.description && (
+                <p className="text-xl opacity-90">
+                  {homePage.basicInfo.description}
+                </p>
+              )}
             </div>
-          </section>
-        )}
+          </div>
+        </section>
 
         {/* Main Content */}
-        {homePage.content && (
+        {homePage.content?.mainContent && (
           <section className="py-16">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto prose prose-lg">
                 {/* Render the content blocks */}
-                {homePage.content.map((block: any, index: number) => {
+                {homePage.content.mainContent.map((block: any, index: number) => {
                   if (block._type === 'block') {
                     return (
                       <div key={index} className="mb-6">
@@ -89,39 +81,6 @@ export default function DentalSoftwareIndex({ pages, currentLanguage, homePage }
           </section>
         )}
 
-        {/* Sections */}
-        {homePage.sections && homePage.sections.length > 0 && (
-          <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-4">
-              <div className="max-w-6xl mx-auto">
-                {homePage.sections
-                  .sort((a: any, b: any) => (a.sectionOrder || 0) - (b.sectionOrder || 0))
-                  .map((section: any, index: number) => (
-                    <div key={index} className="mb-12">
-                      {section.sectionTitle && (
-                        <h2 className="text-3xl font-bold text-gray-900 text-center mb-8">
-                          {section.sectionTitle}
-                        </h2>
-                      )}
-                      <div className="prose prose-lg max-w-4xl mx-auto">
-                        {section.sectionContent?.map((block: any, blockIndex: number) => {
-                          if (block._type === 'block') {
-                            return (
-                              <div key={blockIndex} className="mb-4">
-                                <p>{block.children?.[0]?.text || ''}</p>
-                              </div>
-                            )
-                          }
-                          return null
-                        })}
-                      </div>
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </section>
-        )}
-
         {/* Other Pages Listing */}
         <section className="py-16">
           <div className="container mx-auto px-4">
@@ -132,30 +91,30 @@ export default function DentalSoftwareIndex({ pages, currentLanguage, homePage }
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {pages
-                  .filter(page => page.slug.current !== 'landing')
-                  .sort((a, b) => a.order - b.order)
+                  .filter(page => page.basicInfo.slug.current !== 'landing')
+                  .sort((a, b) => a.basicInfo.title.localeCompare(b.basicInfo.title))
                   .map((page) => (
                     <a
                       key={page._id}
-                      href={`/dental-software/${page.slug.current}`}
+                      href={`/dental-software/${page.basicInfo.slug.current}`}
                       className="group block bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                     >
                       <div className="p-6">
-                        {page.icon && (
+                        {page.basicInfo.icon && (
                           <div className="mb-4">
                             <img
-                              src={urlForImage(page.icon, { width: 64, height: 64 })}
-                              alt={page.title}
+                              src={urlForImage(page.basicInfo.icon, { width: 64, height: 64 })}
+                              alt={page.basicInfo.title}
                               className="w-16 h-16 mx-auto group-hover:scale-110 transition-transform duration-300"
                             />
                           </div>
                         )}
                         <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
-                          {page.title}
+                          {page.basicInfo.title}
                         </h3>
-                        {page.description && (
+                        {page.basicInfo.description && (
                           <p className="text-gray-600 text-sm leading-relaxed">
-                            {page.description}
+                            {page.basicInfo.description}
                           </p>
                         )}
                         <div className="mt-4 flex items-center justify-center">
@@ -206,30 +165,30 @@ export default function DentalSoftwareIndex({ pages, currentLanguage, homePage }
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {pages
-                .filter(page => page.slug.current !== 'landing')
-                .sort((a, b) => a.order - b.order)
+                .filter(page => page.basicInfo.slug.current !== 'landing')
+                .sort((a, b) => a.basicInfo.title.localeCompare(b.basicInfo.title))
                 .map((page) => (
                   <a
                     key={page._id}
-                    href={`/dental-software/${page.slug.current}`}
+                    href={`/dental-software/${page.basicInfo.slug.current}`}
                     className="group block bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                   >
                     <div className="p-6">
-                      {page.icon && (
+                      {page.basicInfo.icon && (
                         <div className="mb-4">
                           <img
-                            src={urlForImage(page.icon, { width: 64, height: 64 })}
-                            alt={page.title}
+                            src={urlForImage(page.basicInfo.icon, { width: 64, height: 64 })}
+                            alt={page.basicInfo.title}
                             className="w-16 h-16 mx-auto group-hover:scale-110 transition-transform duration-300"
                           />
                         </div>
                       )}
                       <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
-                        {page.title}
+                        {page.basicInfo.title}
                       </h3>
-                      {page.description && (
+                      {page.basicInfo.description && (
                         <p className="text-gray-600 text-sm leading-relaxed">
-                          {page.description}
+                          {page.basicInfo.description}
                         </p>
                       )}
                       <div className="mt-4 flex items-center justify-center">

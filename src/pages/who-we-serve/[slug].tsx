@@ -6,26 +6,19 @@ import SimpleHead from '~/components/common/SimpleHead'
 
 interface WhoWeServePage {
   _id: string
-  title: string
-  slug: { current: string }
-  description: string
-  icon: any
-  heroSection?: {
-    heroTitle?: string
-    heroSubtitle?: string
-    heroImage?: any
-    heroBackground?: any
+  basicInfo: {
+    title: string
+    slug: { current: string }
+    description: string
+    icon: any
   }
-  content: any[]
-  sections?: Array<{
-    sectionTitle: string
-    sectionContent: any[]
-    sectionOrder: number
-  }>
-  metaTitle?: string
-  metaDescription?: string
-  order: number
-  isPublished: boolean
+  content: {
+    mainContent: any[]
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+  }
   language: string
 }
 
@@ -49,71 +42,47 @@ export default function WhoWeServePage({ page, allPages, currentLanguage }: WhoW
   return (
     <div>
       <SimpleHead
-        title={page.metaTitle || page.title}
-        description={page.metaDescription || page.description}
+        title={page.basicInfo.title}
+        description={page.basicInfo.description}
       />
 
       {/* Hero Section */}
-      {page.heroSection && (
-        <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-5xl font-bold mb-6">
-                {page.heroSection.heroTitle || page.title}
-              </h1>
-              {page.heroSection.heroSubtitle && (
-                <p className="text-xl opacity-90">
-                  {page.heroSection.heroSubtitle}
-                </p>
-              )}
-            </div>
+      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-5xl font-bold mb-6">
+              {page.basicInfo.title}
+            </h1>
+            {page.basicInfo.description && (
+              <p className="text-xl opacity-90">
+                {page.basicInfo.description}
+              </p>
+            )}
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/* Main Content */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             {/* Page Description */}
-            {page.description && (
+            {page.basicInfo?.description && (
               <div className="text-center mb-12">
                 <p className="text-xl text-gray-600">
-                  {page.description}
+                  {page.basicInfo.description}
                 </p>
               </div>
             )}
 
             {/* Page Content */}
-            {page.content && page.content.length > 0 && (
+            {page.content && page.content.mainContent && page.content.mainContent.length > 0 && (
               <div className="prose prose-lg max-w-none">
                 {/* You can add PortableText here to render the content */}
                 <div className="text-gray-700">
                   {/* For now showing basic content - you can enhance this with PortableText */}
-                  <p>{page.description}</p>
+                  <p>{page.basicInfo?.description || 'No description available'}</p>
                 </div>
-              </div>
-            )}
-
-            {/* Page Sections */}
-            {page.sections && page.sections.length > 0 && (
-              <div className="mt-16">
-                {page.sections
-                  .sort((a, b) => a.sectionOrder - b.sectionOrder)
-                  .map((section, index) => (
-                    <div key={index} className="mb-12">
-                      <h2 className="text-3xl font-bold mb-6 text-gray-900">
-                        {section.sectionTitle}
-                      </h2>
-                      <div className="prose prose-lg max-w-none">
-                        {/* You can add PortableText here to render the section content */}
-                        <div className="text-gray-700">
-                          {/* For now showing basic content - you can enhance this with PortableText */}
-                          <p>{section.sectionContent}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
               </div>
             )}
           </div>
@@ -128,28 +97,28 @@ export default function WhoWeServePage({ page, allPages, currentLanguage }: WhoW
               <h2 className="text-3xl font-bold text-center mb-12">Explore More Solutions</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {allPages
-                  .filter((p) => p._id !== page._id)
+                  .filter((p) => p._id !== page._id && p.basicInfo)
                   .map((otherPage) => (
                     <a
                       key={otherPage._id}
-                      href={`${currentLanguage !== 'en' ? `/${currentLanguage}` : ''}/who-we-serve/${otherPage.slug.current}`}
+                      href={`${currentLanguage !== 'en' ? `/${currentLanguage}` : ''}/who-we-serve/${otherPage.basicInfo?.slug?.current}`}
                       className="block group"
                     >
                       <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-                        {otherPage.icon && (
+                        {otherPage.basicInfo?.icon && (
                           <div className="w-16 h-16 mx-auto mb-4">
                             <img
-                              src={otherPage.icon}
-                              alt={otherPage.title}
+                              src={otherPage.basicInfo.icon}
+                              alt={otherPage.basicInfo?.title || 'Page'}
                               className="w-full h-full object-contain"
                             />
                           </div>
                         )}
                         <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                          {otherPage.title}
+                          {otherPage.basicInfo?.title || 'Untitled'}
                         </h3>
                         <p className="text-gray-600 text-sm">
-                          {otherPage.description}
+                          {otherPage.basicInfo?.description || 'No description available'}
                         </p>
                       </div>
                     </a>
@@ -180,13 +149,19 @@ export const getStaticPaths: GetStaticPaths = async () => {
       
       // Add all slugs as paths
       for (const slugData of slugs) {
-        if (slugData.slug && slugData.slug.current) {
+        if (slugData.basicInfo && slugData.basicInfo.slug && slugData.basicInfo.slug.current) {
           paths.push({
-            params: { slug: slugData.slug.current },
+            params: { slug: slugData.basicInfo.slug.current },
             locale: language === 'en' ? 'en' : language
           })
         }
       }
+      
+      // Add landing page path for redirect
+      paths.push({
+        params: { slug: 'landing' },
+        locale: language === 'en' ? 'en' : language
+      })
     }
 
     console.log('Final generated paths:', paths)
@@ -196,11 +171,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
     }
   } catch (error) {
     console.error('Error in getStaticPaths:', error)
-    // Return some basic paths as fallback
+    // Return empty paths as fallback
     return {
-      paths: [
-        { params: { slug: 'home' }, locale: 'en' }
-      ],
+      paths: [],
       fallback: 'blocking'
     }
   }
@@ -211,6 +184,16 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const currentLanguage = locale || 'en'
 
   console.log('getStaticProps called with:', { slug, currentLanguage })
+
+  // Redirect landing page to main who-we-serve page
+  if (slug === 'landing') {
+    return {
+      redirect: {
+        destination: '/who-we-serve',
+        permanent: false,
+      },
+    }
+  }
 
   try {
     const client = getClient()

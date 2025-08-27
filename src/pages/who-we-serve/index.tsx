@@ -1,6 +1,4 @@
 import { GetStaticProps } from 'next'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 import { getClient } from '~/lib/sanity.client'
 import { whoWeServeQueries } from '~/lib/sanity.queries'
 import { urlForImage } from '~/lib/sanity.image'
@@ -9,19 +7,20 @@ import Layout from '~/components/Layout'
 
 interface WhoWeServePage {
   _id: string
-  title: string
-  slug: { current: string }
-  description: string
-  icon: any
-  order: number
-  language: string
-  content?: any
-  heroSection?: {
-    heroTitle?: string
-    heroSubtitle?: string
-    heroImage?: any
-    heroBackground?: any
+  basicInfo: {
+    title: string
+    slug: { current: string }
+    description: string
+    icon: any
   }
+  content?: {
+    mainContent: any[]
+  }
+  seo?: {
+    metaTitle?: string
+    metaDescription?: string
+  }
+  language: string
 }
 
 interface WhoWeServeIndexProps {
@@ -31,29 +30,6 @@ interface WhoWeServeIndexProps {
 }
 
 export default function WhoWeServeIndex({ pages, currentLanguage, homePage }: WhoWeServeIndexProps) {
-  const router = useRouter()
-
-  // If there's a home page, redirect to it
-  useEffect(() => {
-    if (homePage && router.isReady) {
-      router.replace(`/who-we-serve/${homePage.slug.current}`)
-    }
-  }, [homePage, router])
-
-  // If redirecting, show loading
-  if (homePage) {
-    return (
-      <Layout>
-        <div className="flex items-center justify-center min-h-screen">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-green-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Loading...</p>
-          </div>
-        </div>
-      </Layout>
-    )
-  }
-
   return (
     <Layout>
       <SimpleHead
@@ -83,32 +59,32 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage }: Wh
               Our Solutions
             </h2>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
               {pages
-                .filter(page => page.slug.current !== 'home')
-                .sort((a, b) => a.order - b.order)
+                .filter(page => page.basicInfo.slug.current !== 'landing')
+                .sort((a, b) => a.basicInfo.title.localeCompare(b.basicInfo.title))
                 .map((page) => (
                   <a
                     key={page._id}
-                    href={`/who-we-serve/${page.slug.current}`}
+                    href={`/who-we-serve/${page.basicInfo.slug.current}`}
                     className="group block bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                   >
                     <div className="p-6">
-                      {page.icon && (
+                      {page.basicInfo.icon && (
                         <div className="mb-4">
                           <img
-                            src={urlForImage(page.icon, { width: 64, height: 64 })}
-                            alt={page.title}
+                            src={urlForImage(page.basicInfo.icon, { width: 64, height: 64 })}
+                            alt={page.basicInfo.title}
                             className="w-16 h-16 mx-auto group-hover:scale-110 transition-transform duration-300"
                           />
                         </div>
                       )}
                       <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
-                        {page.title}
+                        {page.basicInfo.title}
                       </h3>
-                      {page.description && (
+                      {page.basicInfo.description && (
                         <p className="text-gray-600 text-sm leading-relaxed">
-                          {page.description}
+                          {page.basicInfo.description}
                         </p>
                       )}
                       <div className="mt-4 flex items-center justify-center">
@@ -138,7 +114,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     })
 
     // Get home page if it exists
-    const homePage = pages.find((page: WhoWeServePage) => page.slug.current === 'home')
+    const homePage = pages.find((page: WhoWeServePage) => page.basicInfo.slug.current === 'landing')
 
     return {
       props: {

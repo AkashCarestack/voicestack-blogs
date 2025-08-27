@@ -8,60 +8,38 @@ const DentalSoftware = {
   i18n: true,
   fields: [
     {
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-        source: 'title',
-        maxLength: 96,
-      },
-      validation: (Rule: any) => Rule.required(),
-    },
-    {
-      name: 'description',
-      title: 'Description',
-      type: 'text',
-    },
-    {
-      name: 'icon',
-      title: 'Icon',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    },
-    {
-      name: 'heroSection',
-      title: 'Hero Section',
+      name: 'basicInfo',
+      title: 'Basic Information',
       type: 'object',
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
       fields: [
         {
-          name: 'heroTitle',
-          title: 'Hero Title',
+          name: 'title',
+          title: 'Title',
           type: 'string',
+          validation: (Rule: any) => Rule.required(),
         },
         {
-          name: 'heroSubtitle',
-          title: 'Hero Subtitle',
+          name: 'slug',
+          title: 'Slug',
+          type: 'slug',
+          options: {
+            source: 'basicInfo.title',
+            maxLength: 96,
+          },
+          validation: (Rule: any) => Rule.required(),
+        },
+        {
+          name: 'description',
+          title: 'Description',
           type: 'text',
         },
         {
-          name: 'heroImage',
-          title: 'Hero Image',
-          type: 'image',
-          options: {
-            hotspot: true,
-          },
-        },
-        {
-          name: 'heroBackground',
-          title: 'Hero Background',
+          name: 'icon',
+          title: 'Icon',
           type: 'image',
           options: {
             hotspot: true,
@@ -72,67 +50,45 @@ const DentalSoftware = {
     {
       name: 'content',
       title: 'Content',
-      type: 'array',
-      of: [
-        { type: 'block' },
-        { type: 'image' },
-      ],
-    },
-    {
-      name: 'sections',
-      title: 'Page Sections',
-      type: 'array',
-      of: [
+      type: 'object',
+      options: {
+        collapsible: true,
+        collapsed: false,
+      },
+      fields: [
         {
-          type: 'object',
-          name: 'section',
-          fields: [
-            {
-              name: 'sectionTitle',
-              title: 'Section Title',
-              type: 'string',
-            },
-            {
-              name: 'sectionContent',
-              title: 'Section Content',
-              type: 'array',
-              of: [
-                { type: 'block' },
-                { type: 'image' },
-              ],
-            },
-            {
-              name: 'sectionOrder',
-              title: 'Section Order',
-              type: 'number',
-            },
+          name: 'mainContent',
+          title: 'Main Content',
+          type: 'array',
+          of: [
+            { type: 'block' },
+            { type: 'image' },
           ],
         },
       ],
     },
     {
-      name: 'metaTitle',
-      title: 'Meta Title',
-      type: 'string',
-      description: 'Title for SEO purposes',
-    },
-    {
-      name: 'metaDescription',
-      title: 'Meta Description',
-      type: 'text',
-      description: 'Description for SEO purposes',
-    },
-    {
-      name: 'order',
-      title: 'Display Order',
-      type: 'number',
-      validation: (Rule: any) => Rule.positive().integer(),
-    },
-    {
-      name: 'isPublished',
-      title: 'Published',
-      type: 'boolean',
-      initialValue: false,
+      name: 'seo',
+      title: 'SEO & Meta',
+      type: 'object',
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+      fields: [
+        {
+          name: 'metaTitle',
+          title: 'Meta Title',
+          type: 'string',
+          description: 'Title for SEO purposes',
+        },
+        {
+          name: 'metaDescription',
+          title: 'Meta Description',
+          type: 'text',
+          description: 'Description for SEO purposes',
+        },
+      ],
     },
     {
       name: 'language',
@@ -143,10 +99,10 @@ const DentalSoftware = {
   ],
   preview: {
     select: {
-      title: 'title',
-      description: 'description',
-      icon: 'icon',
-      slug: 'slug.current',
+      title: 'basicInfo.title',
+      description: 'basicInfo.description',
+      icon: 'basicInfo.icon',
+      slug: 'basicInfo.slug.current',
       language: 'language',
     },
     prepare(selection) {
