@@ -4,6 +4,7 @@ import { whoWeServeQueries } from '~/lib/sanity.queries'
 import { urlForImage } from '~/lib/sanity.image'
 import SimpleHead from '~/components/common/SimpleHead'
 import Layout from '~/components/Layout'
+import DynamicComponentRenderer from '~/components/DynamicComponentRenderer'
 
 interface WhoWeServePage {
   _id: string
@@ -15,6 +16,7 @@ interface WhoWeServePage {
   }
   content?: {
     mainContent: any[]
+    sections: any[]
   }
   seo?: {
     metaTitle?: string
@@ -50,6 +52,40 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage }: Wh
           </div>
         </div>
       </section>
+
+      {/* Landing Page Content - Display CMS content if available */}
+      {homePage && homePage.content && homePage.content.sections && homePage.content.sections.length > 0 && (
+        <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="max-w-6xl mx-auto">
+              <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
+                {homePage.basicInfo.title}
+              </h2>
+              {homePage.basicInfo.description && (
+                <p className="text-xl text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+                  {homePage.basicInfo.description}
+                </p>
+              )}
+              
+              {/* Dynamic Content Sections from CMS */}
+              <div className="space-y-16">
+                {homePage.content.sections.map((section: any, index: number) => (
+                  <div key={index} className="bg-white rounded-lg shadow-lg p-8">
+                    {section.title && (
+                      <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                        {section.title}
+                      </h3>
+                    )}
+                    {section.component && (
+                      <DynamicComponentRenderer component={section.component} />
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Pages Listing */}
       <section className="py-16">

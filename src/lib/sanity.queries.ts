@@ -828,6 +828,11 @@ export const whoWeServeQueries = {
         description,
         icon
       },
+      content,
+      seo {
+        metaTitle,
+        metaDescription
+      },
       language
     }
   `,

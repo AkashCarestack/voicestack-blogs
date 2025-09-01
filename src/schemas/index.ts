@@ -25,6 +25,7 @@ import TestimonialHighlight from './TestimonialHighlight'
 import Miscellaneous from './Miscellaneous'
 import page from './page'
 import DynamicComponent from './DynamicComponent'
+import { componentSchemas } from './DynamicComponent/Components'
 import customContent from './customContent'
 import ListingBlock from './ListingBlock'
 import BrowserList from './BrowserList'
@@ -64,6 +65,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     Miscellaneous,
     page,
     DynamicComponent,
+    ...componentSchemas,
     customContent,
     ListingBlock,
     BrowserList,

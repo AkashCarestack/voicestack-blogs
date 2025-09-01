@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { getClient } from '~/lib/sanity.client'
 import { whoWeServeQueries } from '~/lib/sanity.queries'
 import SimpleHead from '~/components/common/SimpleHead'
+import DynamicComponentRenderer from '~/components/DynamicComponentRenderer'
 
 interface WhoWeServePage {
   _id: string
@@ -13,7 +14,7 @@ interface WhoWeServePage {
     icon: any
   }
   content: {
-    mainContent: any[]
+    sections: any[]
   }
   seo?: {
     metaTitle?: string
@@ -62,32 +63,18 @@ export default function WhoWeServePage({ page, allPages, currentLanguage }: WhoW
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            {/* Page Description */}
-            {page.basicInfo?.description && (
-              <div className="text-center mb-12">
-                <p className="text-xl text-gray-600">
-                  {page.basicInfo.description}
-                </p>
-              </div>
-            )}
-
-            {/* Page Content */}
-            {page.content && page.content.mainContent && page.content.mainContent.length > 0 && (
-              <div className="prose prose-lg max-w-none">
-                {/* You can add PortableText here to render the content */}
-                <div className="text-gray-700">
-                  {/* For now showing basic content - you can enhance this with PortableText */}
-                  <p>{page.basicInfo?.description || 'No description available'}</p>
-                </div>
-              </div>
-            )}
-          </div>
+      {/* Dynamic Content Sections */}
+      {page.content && page.content.sections && page.content.sections.length > 0 && (
+        <div>
+          {page.content.sections.map((section: any, index: number) => (
+            <div key={index}>
+              {section.component && (
+                <DynamicComponentRenderer component={section.component} />
+              )}
+            </div>
+          ))}
         </div>
-      </section>
+      )}
 
       {/* Navigation to other pages */}
       {allPages && allPages.length > 1 && (

@@ -55,7 +55,7 @@ const WhoWeServe = {
     },
     {
       name: 'content',
-      title: 'Content',
+      title: 'Page Content',
       type: 'object',
       options: {
         collapsible: true,
@@ -63,12 +63,61 @@ const WhoWeServe = {
       },
       fields: [
         {
-          name: 'mainContent',
-          title: 'Main Content',
+          name: 'sections',
+          title: 'Content Sections',
           type: 'array',
           of: [
-            { type: 'block' },
-            { type: 'image' },
+            {
+              type: 'object',
+              name: 'contentSection',
+              title: 'Content Section',
+              fields: [
+                {
+                  name: 'title',
+                  title: 'Section Title',
+                  type: 'string',
+                  description: 'Optional title for this section (will be shown in CMS)',
+                },
+                {
+                  name: 'component',
+                  title: 'Component',
+                  type: 'dynamicComponent',
+                  validation: (Rule: any) => Rule.required(),
+                },
+              ],
+              preview: {
+                select: {
+                  title: 'title',
+                  componentType: 'component.componentType',
+                  componentTitle: 'component.listingComponent.title',
+                  rightImageTitle: 'component.rightImageComponent.title',
+                  featureGridTitle: 'component.featureGridComponent.title',
+                  testimonialTitle: 'component.testimonialComponent.title',
+                },
+                prepare(selection: any) {
+                  const { title, componentType, componentTitle, rightImageTitle, featureGridTitle, testimonialTitle } = selection;
+                  
+                  let displayTitle = title || 'Untitled Section';
+                  let subtitle = componentType || 'No Component';
+                  
+                  // Get the actual title from the selected component
+                  if (componentType === 'listingComponent' && componentTitle) {
+                    subtitle = componentTitle;
+                  } else if (componentType === 'rightImageComponent' && rightImageTitle) {
+                    subtitle = rightImageTitle;
+                  } else if (componentType === 'featureGridComponent' && featureGridTitle) {
+                    subtitle = featureGridTitle;
+                  } else if (componentType === 'testimonialComponent' && testimonialTitle) {
+                    subtitle = testimonialTitle;
+                  }
+                  
+                  return {
+                    title: displayTitle,
+                    subtitle: subtitle,
+                  };
+                },
+              },
+            },
           ],
         },
       ],
