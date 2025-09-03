@@ -10,55 +10,43 @@ const TestimonialComponent = {
     },
     {
       name: 'testimonials',
-      title: 'Testimonials',
+      title: 'Select Testimonials',
       type: 'array',
       of: [
         {
-          type: 'object',
-          fields: [
-            {
-              name: 'quote',
-              title: 'Quote',
-              type: 'text',
-              // Removed required validation to fix CMS validation errors
-            },
-            {
-              name: 'author',
-              title: 'Author Name',
-              type: 'string',
-              // Removed required validation to fix CMS validation errors
-            },
-            {
-              name: 'position',
-              title: 'Position/Title',
-              type: 'string',
-            },
-            {
-              name: 'company',
-              title: 'Company',
-              type: 'string',
-            },
-            {
-              name: 'avatar',
-              title: 'Avatar',
-              type: 'image',
-              options: {
-                hotspot: true,
-              },
-            },
-            {
-              name: 'rating',
-              title: 'Rating',
-              type: 'number',
-              options: {
-                list: [1, 2, 3, 4, 5],
-              },
-              initialValue: 5,
-            },
-          ],
+          type: 'reference',
+          to: [{ type: 'testimonialSection' }],
         },
       ],
-      validation: (Rule: any) => Rule.max(6), // Removed min(1) requirement
+      description: 'Select testimonials from the centralized testimonial collection',
+      validation: (Rule: any) => Rule.max(6),
+    },
+    {
+      name: 'filterByCategory',
+      title: 'Filter by Category',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'All Categories', value: 'all' },
+          { title: 'General Practice', value: 'general-practice' },
+          { title: 'Orthodontics', value: 'orthodontics' },
+          { title: 'Oral Surgery', value: 'oral-surgery' },
+          { title: 'Pediatric Dentistry', value: 'pediatric' },
+          { title: 'Endodontics', value: 'endodontics' },
+          { title: 'Periodontics', value: 'periodontics' },
+          { title: 'Multi-Location', value: 'multi-location' },
+          { title: 'DSO', value: 'dso' },
+        ],
+      },
+      initialValue: 'all',
+      description: 'Optionally filter testimonials by category',
+    },
+    {
+      name: 'featuredOnly',
+      title: 'Show Featured Only',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Only show testimonials marked as featured',
     },
     {
       name: 'layout',

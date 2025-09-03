@@ -1,7 +1,7 @@
 import { InsertBelowIcon } from '@sanity/icons'
 import { componentSchemas } from './Components'
 
-export default {
+const dynamicComponent = {
   name: 'dynamicComponent',
   title: 'Dynamic Component',
   icon: InsertBelowIcon,
@@ -17,8 +17,7 @@ export default {
           { title: 'Right Image Component', value: 'rightImageComponent' },
           { title: 'Feature Grid Component', value: 'featureGridComponent' },
           { title: 'Testimonial Component', value: 'testimonialComponent' },
-          { title: 'Listing Block', value: 'listingBlock' },
-          { title: 'Browser List', value: 'browserList' },
+          { title: 'Custom Component', value: 'customComponent' },
         ],
       },
       validation: (Rule: any) => Rule.required(),
@@ -48,19 +47,13 @@ export default {
       type: 'testimonialComponent',
       hidden: ({ parent }: any) => parent?.componentType !== 'testimonialComponent',
     },
-    // Existing component fields
     {
-      name: 'listingBlock',
-      title: 'Listing Block',
-      type: 'listingBlock',
-      hidden: ({ parent }: any) => parent?.componentType !== 'listingBlock',
+      name: 'customComponent',
+      title: 'Custom Component',
+      type: 'customComponent',
+      hidden: ({ parent }: any) => parent?.componentType !== 'customComponent',
     },
-    {
-      name: 'browserList',
-      title: 'Browser List',
-      type: 'browserList',
-      hidden: ({ parent }: any) => parent?.componentType !== 'browserList',
-    },
+    // Removed listingBlock and browserList - not needed
   ],
   preview: {
     select: {
@@ -69,9 +62,10 @@ export default {
       rightImageTitle: 'rightImageComponent.title',
       featureGridTitle: 'featureGridComponent.title',
       testimonialTitle: 'testimonialComponent.title',
+      customTitle: 'customComponent.title',
     },
     prepare(selection: any) {
-      const { componentType, componentTitle, rightImageTitle, featureGridTitle, testimonialTitle } = selection;
+      const { componentType, componentTitle, rightImageTitle, featureGridTitle, testimonialTitle, customTitle } = selection;
       
       let title = componentType || 'Dynamic Component';
       let subtitle = '';
@@ -85,6 +79,8 @@ export default {
         subtitle = featureGridTitle;
       } else if (componentType === 'testimonialComponent' && testimonialTitle) {
         subtitle = testimonialTitle;
+      } else if (componentType === 'customComponent' && customTitle) {
+        subtitle = customTitle;
       }
       
       return {
@@ -94,3 +90,5 @@ export default {
     },
   },
 }
+
+export default [dynamicComponent, ...componentSchemas]

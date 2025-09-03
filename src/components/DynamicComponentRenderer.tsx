@@ -1,5 +1,6 @@
 import React from 'react'
 import { urlForImage } from '~/lib/sanity.image'
+import CallToActionSection from './custom/CallToActionSection'
 
 interface DynamicComponentProps {
   component: any
@@ -21,10 +22,6 @@ const DynamicComponentRenderer: React.FC<DynamicComponentProps> = ({ component }
       return <FeatureGridComponent data={component.featureGridComponent} />
     case 'testimonialComponent':
       return <TestimonialComponent data={component.testimonialComponent} />
-    case 'listingBlock':
-      return <ListingBlock data={component.listingBlock} />
-    case 'browserList':
-      return <BrowserList data={component.browserList} />
     default:
       return <div>Unknown component type: {componentType}</div>
   }
@@ -260,7 +257,7 @@ const TestimonialComponent: React.FC<{ data: any }> = ({ data }) => {
                     </div>
                   )}
                   <blockquote className="text-gray-700 mb-4 italic">
-                    "{testimonial.quote}"
+                    &ldquo;{testimonial.quote}&rdquo;
                   </blockquote>
                   <div>
                     <p className="font-semibold">{testimonial.author}</p>
@@ -281,13 +278,6 @@ const TestimonialComponent: React.FC<{ data: any }> = ({ data }) => {
   )
 }
 
-// Placeholder components for existing types
-const ListingBlock: React.FC<{ data: any }> = ({ data }) => {
-  return <div>Listing Block Component (implement as needed)</div>
-}
 
-const BrowserList: React.FC<{ data: any }> = ({ data }) => {
-  return <div>Browser List Component (implement as needed)</div>
-}
 
 export default DynamicComponentRenderer

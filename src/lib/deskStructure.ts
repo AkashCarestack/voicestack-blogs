@@ -75,6 +75,11 @@ const schemaIconMap: Record<string, any> = {
   // Dynamic Components
   DynamicComponent: BoltIcon,
   
+  // Content Management
+  author: UsersIcon,
+  centralizedTestimonial: CommentIcon,
+  featureItem: StarIcon,
+  
 
 }
 
@@ -135,6 +140,9 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     
     // Pages & Content Management - NEW PROMINENT SECTION
     pages: ['page', 'whoWeServe', 'dentalSoftware'],
+    
+    // Content Management - Centralized Data
+    contentManagement: ['author', 'centralizedTestimonial', 'featureItem'],
     
     // Content Management (existing)
     content: ['testimonialHighlightSection'],
@@ -298,6 +306,7 @@ function getCategoryIcon(category: string) {
   const iconMap: Record<string, any> = {
     settings: CogIcon,
     pages: DocumentIcon,
+    contentManagement: UsersIcon,
     content: DocumentIcon,
     features: BoltIcon,
     testimonialSection: CommentIcon,
@@ -317,6 +326,7 @@ function getCategoryTitle(category: string) {
   const titleMap: Record<string, string> = {
     settings: 'Settings & Configuration',
     pages: 'Pages & Content Management',
+    contentManagement: 'Centralized Content Management',
     content: 'Content Management',
     features: 'Features & Components',
     testimonialSection: 'Testimonial Section',

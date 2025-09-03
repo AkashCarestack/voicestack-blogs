@@ -15,17 +15,18 @@ const FeatureGridComponent = {
     },
     {
       name: 'features',
-      title: 'Features',
+      title: 'Feature List',
       type: 'array',
       of: [
         {
           type: 'object',
+          name: 'feature',
+          title: 'Feature',
           fields: [
             {
               name: 'title',
               title: 'Feature Title',
               type: 'string',
-              // Removed required validation to fix CMS validation errors
             },
             {
               name: 'description',
@@ -40,15 +41,45 @@ const FeatureGridComponent = {
                 hotspot: true,
               },
             },
-            {
-              name: 'link',
-              title: 'Link',
-              type: 'url',
-            },
           ],
         },
       ],
-      validation: (Rule: any) => Rule.max(12), // Removed min(1) requirement
+      description: 'Add features to display in the grid',
+      validation: (Rule: any) => Rule.max(12),
+    },
+    {
+      name: 'filterByCategory',
+      title: 'Filter by Category',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'All Categories', value: 'all' },
+          { title: 'Communication', value: 'communication' },
+          { title: 'Scheduling', value: 'scheduling' },
+          { title: 'Analytics', value: 'analytics' },
+          { title: 'Integration', value: 'integration' },
+          { title: 'Automation', value: 'automation' },
+          { title: 'Support', value: 'support' },
+          { title: 'Security', value: 'security' },
+          { title: 'Reporting', value: 'reporting' },
+        ],
+      },
+      initialValue: 'all',
+      description: 'Optionally filter features by category',
+    },
+    {
+      name: 'sortBy',
+      title: 'Sort Features By',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Priority (High to Low)', value: 'priority' },
+          { title: 'Title A-Z', value: 'title' },
+          { title: 'Category', value: 'category' },
+        ],
+      },
+      initialValue: 'priority',
+      description: 'How to sort the selected features',
     },
     {
       name: 'gridColumns',

@@ -125,7 +125,7 @@ export default defineType({
       of: [
         {
           type: 'reference',
-          to: [{ type: 'testimonial' }],
+          to: [{ type: 'testimonialSection' }],
         },
       ],
     }),

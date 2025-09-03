@@ -25,7 +25,6 @@ import TestimonialHighlight from './TestimonialHighlight'
 import Miscellaneous from './Miscellaneous'
 import page from './page'
 import DynamicComponent from './DynamicComponent'
-import { componentSchemas } from './DynamicComponent/Components'
 import customContent from './customContent'
 import ListingBlock from './ListingBlock'
 import BrowserList from './BrowserList'
@@ -38,6 +37,7 @@ import portableContent from './portableContent'
 import HtmlCode from './Utilis/HtmlCode'
 import WhoWeServe from './Pages/WhoWeServe'
 import DentalSoftware from './Pages/DentalSoftware'
+
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -64,8 +64,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     TestimonialHighlight,
     Miscellaneous,
     page,
-    DynamicComponent,
-    ...componentSchemas,
+    ...DynamicComponent,
     customContent,
     ListingBlock,
     BrowserList,
@@ -77,6 +76,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     portableContent,
     HtmlCode,
     WhoWeServe,
-    DentalSoftware
+    DentalSoftware,
   ],
 }
