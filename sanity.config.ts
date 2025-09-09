@@ -119,7 +119,8 @@ export default defineConfig({
                 'featureList',
         'featureCategory',
         'whoWeServe',
-        'dentalSoftware'
+        'dentalSoftware',
+        'globalData'
       ],
     }),
 

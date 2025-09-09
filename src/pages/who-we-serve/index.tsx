@@ -29,9 +29,10 @@ interface WhoWeServeIndexProps {
   pages: WhoWeServePage[]
   currentLanguage: string
   homePage?: WhoWeServePage
+  globalData?: any
 }
 
-export default function WhoWeServeIndex({ pages, currentLanguage, homePage }: WhoWeServeIndexProps) {
+export default function WhoWeServeIndex({ pages, currentLanguage, homePage, globalData }: WhoWeServeIndexProps) {
   return (
     <Layout>
       <SimpleHead
@@ -77,7 +78,16 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage }: Wh
                       </h3>
                     )}
                     {section.component && (
-                      <DynamicComponentRenderer component={section.component} />
+                      <DynamicComponentRenderer 
+                        component={section.component}
+                        slugData={{
+                          slug: section.slug?.current,
+                          title: section.title,
+                          pageType: 'whoWeServe',
+                          language: currentLanguage,
+                          sectionIndex: index
+                        }}
+                      />
                     )}
                   </div>
                 ))}
@@ -86,6 +96,43 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage }: Wh
           </div>
         </section>
       )}
+
+      {/* Test Comparison Table Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
+              Test Comparison Table
+            </h2>
+            <p className="text-xl text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+              This is a test section to show how the comparison table works with Global Data
+            </p>
+            
+            <div className="bg-gray-50 rounded-lg shadow-lg p-8">
+              <DynamicComponentRenderer 
+                component={{
+                  componentType: 'Custom',
+                  customComponent: {
+                    title: 'Software Comparison',
+                    subtitle: 'Compare our different plans',
+                    content: 'Choose the perfect plan for your dental practice needs.',
+                    backgroundColor: 'white',
+                    referenceGlobalSchema: globalData,
+                    referenceSchemaSlug: globalData?.slug?.current || 'dental-software-comparison'
+                  }
+                }}
+                slugData={{
+                  slug: 'customSection',
+                  title: 'Software Comparison',
+                  pageType: 'whoWeServe',
+                  language: currentLanguage,
+                  sectionIndex: 0
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Pages Listing */}
       <section className="py-16">
@@ -152,11 +199,23 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     // Get home page if it exists
     const homePage = pages.find((page: WhoWeServePage) => page.basicInfo.slug.current === 'landing')
 
+    // Get Global Data for comparison table
+    const globalData = await client.fetch(`
+      *[_type == "globalData" && dataType == "comparisonTable"][0] {
+        _id,
+        name,
+        slug,
+        dataType,
+        comparisonTable
+      }
+    `)
+
     return {
       props: {
         pages,
         currentLanguage,
-        homePage: homePage || null
+        homePage: homePage || null,
+        globalData: globalData || null
       },
       revalidate: 60 // Revalidate every minute
     }
@@ -166,7 +225,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pages: [],
         currentLanguage,
-        homePage: null
+        homePage: null,
+        globalData: null
       }
     }
   }

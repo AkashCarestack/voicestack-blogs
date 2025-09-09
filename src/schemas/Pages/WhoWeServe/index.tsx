@@ -79,6 +79,15 @@ const WhoWeServe = {
                   description: 'Optional title for this section (will be shown in CMS)',
                 },
                 {
+                  name: 'slug',
+                  title: 'Section Slug',
+                  type: 'slug',
+                  options: {
+                    maxLength: 96,
+                  },
+                  description: 'Unique slug for this section (enter manually)',
+                },
+                {
                   name: 'component',
                   title: 'Component',
                   type: 'dynamicComponent',
@@ -88,6 +97,7 @@ const WhoWeServe = {
               preview: {
                 select: {
                   title: 'title',
+                  slug: 'slug.current',
                   componentType: 'component.componentType',
                   componentTitle: 'component.listingComponent.title',
                   rightImageTitle: 'component.rightImageComponent.title',
@@ -95,7 +105,7 @@ const WhoWeServe = {
                   testimonialTitle: 'component.testimonialComponent.title',
                 },
                 prepare(selection: any) {
-                  const { title, componentType, componentTitle, rightImageTitle, featureGridTitle, testimonialTitle } = selection;
+                  const { title, slug, componentType, componentTitle, rightImageTitle, featureGridTitle, testimonialTitle } = selection;
                   
                   let displayTitle = title || 'Untitled Section';
                   let subtitle = componentType || 'No Component';
@@ -113,7 +123,7 @@ const WhoWeServe = {
                   
                   return {
                     title: displayTitle,
-                    subtitle: subtitle,
+                    subtitle: `${subtitle}${slug ? ` • /${slug}` : ''}`,
                   };
                 },
               },

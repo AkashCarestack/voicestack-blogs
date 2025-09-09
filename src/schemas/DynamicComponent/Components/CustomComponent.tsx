@@ -51,6 +51,22 @@ const CustomComponent = {
         hotspot: true,
       },
     },
+        // Reference fields for pulling data from global common schemas
+        {
+          name: 'referenceGlobalSchema',
+          title: 'Reference Global Schema',
+          type: 'reference',
+          to: [
+            { type: 'globalData' }
+          ],
+          description: 'Reference data from global common schemas',
+        },
+        {
+          name: 'referenceSchemaSlug',
+          title: 'Reference Schema Slug',
+          type: 'string',
+          description: 'Slug of the specific common schema to reference',
+        },
   ],
   preview: {
     select: {

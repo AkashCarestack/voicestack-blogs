@@ -13,11 +13,11 @@ const dynamicComponent = {
       type: 'string',
       options: {
         list: [
-          { title: 'Listing Component', value: 'listingComponent' },
-          { title: 'Right Image Component', value: 'rightImageComponent' },
-          { title: 'Feature Grid Component', value: 'featureGridComponent' },
-          { title: 'Testimonial Component', value: 'testimonialComponent' },
-          { title: 'Custom Component', value: 'customComponent' },
+          { title: 'Listing Component', value: 'Listing' },
+          { title: 'Right Image Component', value: 'RightImage' },
+          { title: 'Feature Grid Component', value: 'FeatureGrid' },
+          { title: 'Testimonial Component', value: 'Testimonial' },
+          { title: 'Custom Component', value: 'Custom' },
         ],
       },
       validation: (Rule: any) => Rule.required(),
@@ -27,31 +27,31 @@ const dynamicComponent = {
       name: 'listingComponent',
       title: 'Listing Component',
       type: 'listingComponent',
-      hidden: ({ parent }: any) => parent?.componentType !== 'listingComponent',
+      hidden: ({ parent }: any) => parent?.componentType !== 'Listing',
     },
     {
       name: 'rightImageComponent',
       title: 'Right Image Component',
       type: 'rightImageComponent',
-      hidden: ({ parent }: any) => parent?.componentType !== 'rightImageComponent',
+      hidden: ({ parent }: any) => parent?.componentType !== 'RightImage',
     },
     {
       name: 'featureGridComponent',
       title: 'Feature Grid Component',
       type: 'featureGridComponent',
-      hidden: ({ parent }: any) => parent?.componentType !== 'featureGridComponent',
+      hidden: ({ parent }: any) => parent?.componentType !== 'FeatureGrid',
     },
     {
       name: 'testimonialComponent',
       title: 'Testimonial Component',
       type: 'testimonialComponent',
-      hidden: ({ parent }: any) => parent?.componentType !== 'testimonialComponent',
+      hidden: ({ parent }: any) => parent?.componentType !== 'Testimonial',
     },
     {
       name: 'customComponent',
       title: 'Custom Component',
       type: 'customComponent',
-      hidden: ({ parent }: any) => parent?.componentType !== 'customComponent',
+      hidden: ({ parent }: any) => parent?.componentType !== 'Custom',
     },
     // Removed listingBlock and browserList - not needed
   ],
@@ -71,15 +71,15 @@ const dynamicComponent = {
       let subtitle = '';
       
       // Get the actual title from the selected component
-      if (componentType === 'listingComponent' && componentTitle) {
+      if (componentType === 'Listing' && componentTitle) {
         subtitle = componentTitle;
-      } else if (componentType === 'rightImageComponent' && rightImageTitle) {
+      } else if (componentType === 'RightImage' && rightImageTitle) {
         subtitle = rightImageTitle;
-      } else if (componentType === 'featureGridComponent' && featureGridTitle) {
+      } else if (componentType === 'FeatureGrid' && featureGridTitle) {
         subtitle = featureGridTitle;
-      } else if (componentType === 'testimonialComponent' && testimonialTitle) {
+      } else if (componentType === 'Testimonial' && testimonialTitle) {
         subtitle = testimonialTitle;
-      } else if (componentType === 'customComponent' && customTitle) {
+      } else if (componentType === 'Custom' && customTitle) {
         subtitle = customTitle;
       }
       

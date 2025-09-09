@@ -69,7 +69,16 @@ export default function WhoWeServePage({ page, allPages, currentLanguage }: WhoW
           {page.content.sections.map((section: any, index: number) => (
             <div key={index}>
               {section.component && (
-                <DynamicComponentRenderer component={section.component} />
+                <DynamicComponentRenderer 
+                  component={section.component}
+                  slugData={{
+                    slug: section.slug?.current,
+                    title: section.title,
+                    pageType: 'whoWeServe',
+                    language: currentLanguage,
+                    sectionIndex: index
+                  }}
+                />
               )}
             </div>
           ))}
@@ -134,7 +143,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
       const slugs = await client.fetch(whoWeServeQueries.getWhoWeServeSlugs, { language })
       console.log(`Found slugs for ${language}:`, slugs)
       
-      // Add all slugs as paths
       for (const slugData of slugs) {
         if (slugData.basicInfo && slugData.basicInfo.slug && slugData.basicInfo.slug.current) {
           paths.push({
@@ -144,7 +152,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
         }
       }
       
-      // Add landing page path for redirect
       paths.push({
         params: { slug: 'landing' },
         locale: language === 'en' ? 'en' : language

@@ -37,6 +37,7 @@ import portableContent from './portableContent'
 import HtmlCode from './Utilis/HtmlCode'
 import WhoWeServe from './Pages/WhoWeServe'
 import DentalSoftware from './Pages/DentalSoftware'
+import GlobalData from './GlobalData'
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -77,5 +78,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     HtmlCode,
     WhoWeServe,
     DentalSoftware,
+    GlobalData,
   ],
 }

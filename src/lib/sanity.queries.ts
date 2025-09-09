@@ -929,3 +929,52 @@ export const dentalSoftwareQueries = {
     }
   `
 }
+
+// Content Section Queries
+export const contentSectionQueries = {
+  // Get content section by slug from Who We Serve pages
+  getWhoWeServeSectionBySlug: `
+    *[_type == "whoWeServe" && (language == $language || language == null)] {
+      content {
+        sections[] {
+          title,
+          slug,
+          component
+        }
+      }
+    }[0].content.sections[slug.current == $sectionSlug][0]
+  `,
+
+  // Get content section by slug from Dental Software pages
+  getDentalSoftwareSectionBySlug: `
+    *[_type == "dentalSoftware" && (language == $language || language == null)] {
+      content {
+        sections[] {
+          title,
+          slug,
+          component
+        }
+      }
+    }[0].content.sections[slug.current == $sectionSlug][0]
+  `,
+
+  // Get all content sections with slugs for listing
+  getAllContentSections: `
+    *[_type in ["whoWeServe", "dentalSoftware"] && (language == $language || language == null)] {
+      _type,
+      basicInfo {
+        title,
+        slug
+      },
+      content {
+        sections[] {
+          title,
+          slug,
+          component {
+            componentType
+          }
+        }
+      }
+    }
+  `
+}
