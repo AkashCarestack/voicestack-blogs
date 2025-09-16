@@ -1,7 +1,8 @@
-import Header from './common/Header'
 import Footer from './common/Footer'
-import NavigationContextProvider from '~/providers/NavigationContextProvider'
+import Header from './common/Header'
 import ImageSwitchProvider from '~/providers/ImageSwitchProvider'
+import NavigationContextProvider from '~/providers/NavigationContextProvider'
+import { useLayoutData } from '~/providers/LayoutDataProvider'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -30,19 +31,36 @@ export default function Layout({
   fullWidth = false,
 }: LayoutProps) {
 
+  const { headerData, footerData, loading } = useLayoutData();
+
+  console.log('Layout component - headerData:', headerData);
+  console.log('Layout component - footerData:', footerData);
+  console.log('Layout component - loading:', loading);
+
+  if (loading) {
+    return (
+      <NavigationContextProvider>
+        <ImageSwitchProvider>
+          <div className={`flex flex-col w-full items-center}`}>
+            <div className="w-full flex flex-col">{children}</div>
+          </div>
+        </ImageSwitchProvider>
+      </NavigationContextProvider>
+    );
+  }
 
   return (
-    <NavigationContextProvider>
-      <ImageSwitchProvider>
+    // <NavigationContextProvider>
+    //   <ImageSwitchProvider>
 
         <div
           className={`flex flex-col w-full items-center}`}
         >
-          {/* <Header /> */}
+          <Header data={headerData} />
           <div className="w-full flex flex-col">{children}</div>
-          {/* <Footer className={`w-full flex `} /> */}
+          <Footer data={footerData} />
         </div>
-      </ImageSwitchProvider>
-    </NavigationContextProvider>
+    //   </ImageSwitchProvider>
+    // </NavigationContextProvider>
   )
 }

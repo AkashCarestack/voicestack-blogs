@@ -81,10 +81,10 @@ export default function SystemRequirements({ homeSettings, heroData, bannerData,
       <title>VoiceStack® | System Requirements</title>
       <meta name="description"  content="To ensure optimal performance of VoiceStack, your system should meet the following specifications"></meta>
     </Head>
-      <Header data={homeSettings} />
+      {/* <Header data={homeSettings} /> */}
       <ContentSection content={miscellaneousData} draftMode={draftMode} token={token}/>
       <BannerSection data={bannerData}></BannerSection>
-      <Footer data={footerData}></Footer>
+      {/* <Footer data={footerData}></Footer> */}
       
     </>
   )

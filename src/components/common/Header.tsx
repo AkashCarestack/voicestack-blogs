@@ -66,7 +66,7 @@ const Header = ({ data, refer=null }) => {
     },
     {
       "flag": {
-        "url": "https://cdn.sanity.io/images/76tr0pyh/develop/b5c24305b7dedfaf1197c61f6f7a0b5fa991b48f-44x44.png",
+        "url": "https://cdn.sanity.io/images/76tr0pyh/production/2aeef6cefdae34058558224d10484ea63763ef77-24x24.svg",
         "title": "AU"
       },
       "url": "./en-AU",
@@ -251,6 +251,28 @@ const Header = ({ data, refer=null }) => {
     );
   },[router])
 
+  const openDemoPopup = () => {
+    setOpenForm(true);
+  }
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const checkHash = () => {
+      if (window.location.hash === "#demo") {
+        openDemoPopup();
+      }
+    };
+
+    checkHash();
+    window.addEventListener("hashchange", checkHash);
+
+    return () => {
+      window.removeEventListener("hashchange", checkHash);
+    };
+  }, []);
+  
+
 
   const btnClass = "bg-vs-blue hover:bg-vs-blue text-white border border-vs-blue px-[17px] py-[10px] rounded-[7px] text-gray-900 font-inter text-base font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]";
   return (
@@ -330,7 +352,7 @@ const Header = ({ data, refer=null }) => {
                     lg:static absolute top-[44px] left-0 right-0 bg-white pb-20 lg:pb-0 
                     h-[calc(100vh-40px)] lg:h-auto shadow-[0px_40px_40px_0px_rgba(0,0,0,0.10)] lg:shadow-none
                     xl:flex-grow 
-                    ${showMenu ? 'flex': 'hidden'} ${data.phoneNumber ? 'xl:justify-end xl:mr-10': 'xl:justify-center'}`}>
+                    ${showMenu ? 'flex': 'hidden'} ${data?.phoneNumber ? 'xl:justify-end xl:mr-10': 'xl:justify-center'}`}>
 
                     {/* nav items */}
                     <div className={`lg:flex-row top-[110px] right-0 px-4 pt-4 pb-8 w-full lg:w-auto lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col 
@@ -340,19 +362,33 @@ const Header = ({ data, refer=null }) => {
                           // if (link?.headerMenu === "Comparison" && isUk) {
                           //   return null;
                           // }
-                        
+                        let isExternal = link?.href?.includes('http')
                           return (
+                            isExternal ? (
+                              <Anchor
+                                elementId={`header-menu-${link.headerMenu}`}
+                                key={link?.href + i}
+                                href={link?.href}
+                                target="_blank"
+                                className="text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
+                                onClick={toggleMenu}
+                              >
+                                {link.headerMenu}
+                              </Anchor>
+                            ) : (
+                        
                             <Anchor
                               elementId={`header-menu-${link.headerMenu}`}
                               key={link?.href + i}
                               href={link?.href}
+                              target={isExternal ? "_blank" : "_self"}
                               className="text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
                               onClick={toggleMenu}
                             >
                               {link.headerMenu}
                             </Anchor>
-                          );
-
+                          )
+                        )
                         })}
                       </nav>
                     </div>
@@ -361,7 +397,7 @@ const Header = ({ data, refer=null }) => {
 
                       {/* mob cta and phone */}
                       <div className='flex flex-col md:flex-row gap-3 md:gap-5 items-center lg:hidden'>
-                        {data.phoneNumber && (
+                        {data?.phoneNumber && (
 
                           <div className='flex-shrink-0'>
                             <Anchor href={`tel:${data?.phoneNumber}`} className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
@@ -413,7 +449,7 @@ const Header = ({ data, refer=null }) => {
 
                   {/* dt cta and phone */}
                   <div className='lg:flex gap-3 items-center lg:justify-end hidden'>
-                    {data.phoneNumber && (
+                    {data?.phoneNumber && (
                       <div className='flex-shrink-0'>
                         <Anchor href={`tel:${data?.phoneNumber}`} className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
                         border border-gray-300'><TelIcon/>{data?.phoneNumber}</Anchor>

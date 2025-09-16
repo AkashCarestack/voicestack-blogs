@@ -52,9 +52,9 @@ const TestComparisonPage = () => {
           <ol className="list-decimal list-inside space-y-2 text-gray-700">
             <li>Go to Sanity CMS → Global Data</li>
             <li>Create a new Global Data document</li>
-            <li>Set Data Type to "Comparison Table"</li>
+            <li>Set Data Type to &quot;Comparison Table&quot;</li>
             <li>Fill in the comparison table data (columns, rows, etc.)</li>
-            <li>Set the Data Slug to "dental-software-comparison"</li>
+            <li>Set the Data Slug to &quot;dental-software-comparison&quot;</li>
             <li>Save the document</li>
             <li>Refresh this page to see the comparison table</li>
           </ol>
