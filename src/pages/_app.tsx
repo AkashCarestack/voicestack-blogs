@@ -50,6 +50,10 @@ function App({
 }: AppProps<SharedPageProps>) {
   const { draftMode, token } = pageProps
   const router = useRouter();
+  
+  // Check if current page is studio page
+  const isStudioPage = router.pathname.startsWith('/studio') || router.pathname.startsWith('/legal');
+  
   return (
     <main className={`${inter.variable} ${manrope.variable} font-sans`}>
       <TrackUserProvider>
@@ -139,19 +143,25 @@ function App({
           style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
         {/* <!--[END Google Tag Manager (noscript)]--> */}
       
-        <BookDemoContextProvider>
-          <LayoutDataProvider>
-            <Layout>
-              {draftMode ? (
-                <PreviewProvider token={token}>
+        {isStudioPage ? (
+          // Render studio page without layout
+          <Component {...pageProps}/>
+        ) : (
+          // Render regular pages with layout
+          <BookDemoContextProvider>
+            <LayoutDataProvider>
+              <Layout>
+                {draftMode ? (
+                  <PreviewProvider token={token}>
+                    <Component {...pageProps}/>
+                  </PreviewProvider>
+                ) : (
                   <Component {...pageProps}/>
-                </PreviewProvider>
-              ) : (
-                <Component {...pageProps}/>
-              )}
-            </Layout>
-          </LayoutDataProvider>
-        </BookDemoContextProvider>
+                )}
+              </Layout>
+            </LayoutDataProvider>
+          </BookDemoContextProvider>
+        )}
       </TrackUserProvider>
     </main>
   )
