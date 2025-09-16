@@ -16,6 +16,7 @@ import {
   getBannerData,
   getHeaderData,
   getContactAndVideoInfo,
+  getVerticalTestimonialListing,
 } from '~/lib/sanity.queries'
 import CustomHead from '~/components/common/CustomHead'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
@@ -39,6 +40,7 @@ import { getParams } from '~/helpers/getQueryParams'
 import CsCardsListingSection from '~/components/CsCardsListingSection'
 import { useSearchParams } from 'next/navigation'
 import TestimonialHighlightSection from '~/components/TestimonialHighlightSection'
+import VerticalTestimonialListing from '~/components/VerticalTestimonialListing'
 
 export const getStaticProps: GetStaticProps<any> = async ({
   locale,
@@ -61,7 +63,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const testimonialHighlightsData = await getTestimonialHighlightSectionData(client,region)
   const bannerData = await getBannerData(client, region)
   const contactAndVideoData = await getContactAndVideoInfo(client, region)
-  
+  const verticalTestimonialData = await getVerticalTestimonialListing(client, region)
   
 
   return {
@@ -84,6 +86,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
       testimonialHighlightsData,
       bannerData,
       contactAndVideoData,
+      verticalTestimonialData,
     },
     revalidate: 60
   }
@@ -150,7 +153,8 @@ export default function IndexPage(
     cSCardsListingData,
     testimonialHighlightsData,
     bannerData,
-    contactAndVideoData
+    contactAndVideoData,
+    verticalTestimonialData,
   } = props
 
   const comparisonSectionData = {
@@ -174,6 +178,7 @@ export default function IndexPage(
         <LinksCardsSection data={linkCardSectionData} />
         <Testimonails data={testimonialSecitonData} refer={refer}/>
         <CardsListingSection data={cardsListingData}/>
+        <VerticalTestimonialListing data={verticalTestimonialData}  refer={refer}/>
         <LogoListingSection data={logoSectionData}  refer={refer}/>
         <FeatureSection data={featureSectionData} refer={refer}/>
         <AnimatedBeamSection data={integrationPlatforms} refer={refer} />
