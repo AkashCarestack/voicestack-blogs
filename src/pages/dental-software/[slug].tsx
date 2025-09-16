@@ -6,6 +6,7 @@ import { urlForImage } from '~/lib/sanity.image'
 import { PortableText } from '@portabletext/react'
 import SimpleHead from '~/components/common/SimpleHead'
 import Layout from '~/components/Layout'
+import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
 
 interface DentalSoftwarePage {
   _id: string
@@ -17,6 +18,7 @@ interface DentalSoftwarePage {
   }
   content: {
     mainContent: any[]
+    sections: any[]
   }
   seo?: {
     metaTitle?: string
@@ -29,9 +31,10 @@ interface DentalSoftwarePageProps {
   page: DentalSoftwarePage
   allPages: DentalSoftwarePage[]
   currentLanguage: string
+  comparisonTableData?: any
 }
 
-export default function DentalSoftwarePage({ page, allPages, currentLanguage }: DentalSoftwarePageProps) {
+export default function DentalSoftwarePage({ page, allPages, currentLanguage, comparisonTableData }: DentalSoftwarePageProps) {
   const router = useRouter()
 
   if (router.isFallback) {
@@ -77,8 +80,33 @@ export default function DentalSoftwarePage({ page, allPages, currentLanguage }: 
               </div>
             )}
 
-            {/* Page Sections */}
-            {/* The sections field was removed from the interface, so this block is removed */}
+            {/* Dynamic Content Sections from CMS */}
+            {page.content?.sections && page.content.sections.length > 0 && (
+              <div className="space-y-16 mb-12">
+                {page.content.sections.map((section: any, index: number) => (
+                  <div key={index} className="bg-white rounded-lg shadow-lg p-8">
+                    {section.title && (
+                      <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                        {section.title}
+                      </h3>
+                    )}
+                    {section.component && (
+                      <DynamicComponentRenderer 
+                        component={section.component}
+                        slugData={{
+                          slug: section.slug?.current,
+                          title: section.title,
+                          pageType: 'dentalSoftware',
+                          language: currentLanguage,
+                          sectionIndex: index,
+                          comparisonTableData: comparisonTableData
+                        }}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
 
             {/* Navigation to other pages */}
             {!isHomePage && allPages.length > 1 && (
@@ -155,11 +183,45 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   // Handle landing page - don't redirect during build
   if (slug === 'landing') {
-    // Return the landing page data instead of redirecting
-    const page = await client.fetch(dentalSoftwareQueries.getDentalSoftwarePageBySlug, {
+    // First try to get the actual landing page
+    let page = await client.fetch(dentalSoftwareQueries.getDentalSoftwarePageBySlug, {
       slug: 'landing',
       language: currentLanguage
     })
+    
+    // If no landing page exists, create one from existing data
+    if (!page) {
+      console.log('No dental software landing page found, creating from existing data')
+      const existingPage = await client.fetch(dentalSoftwareQueries.createLandingPageFromExisting, {
+        language: currentLanguage
+      })
+      
+      if (existingPage) {
+        // Transform existing page into landing page format
+        page = {
+          ...existingPage,
+          basicInfo: {
+            ...existingPage.basicInfo,
+            title: 'Dental Software Solutions',
+            slug: { _type: 'slug', current: 'landing' },
+            description: 'Comprehensive dental software solutions for modern practices.'
+          },
+          content: existingPage.content || {
+            mainContent: [
+              {
+                _type: 'block',
+                children: [
+                  {
+                    _type: 'span',
+                    text: 'Discover our comprehensive dental software solutions designed to streamline your practice operations and improve patient care.'
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+    }
     
     if (!page) {
       return {
@@ -170,12 +232,42 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     const allPages = await client.fetch(dentalSoftwareQueries.getAllDentalSoftwarePages, {
       language: currentLanguage
     })
+
+    // Get comparison table data for CustomComponent - use the same ID as other pages
+    const comparisonTableData = await client.fetch(`
+      *[_id == "85f555da-0aba-406c-812c-1ef3e652d099"][0] {
+        _id,
+        title,
+        comparisonTable {
+          title,
+          columns[] {
+            _key,
+            _type,
+            header,
+            highlighted
+          },
+          rows[] {
+            _key,
+            _type,
+            feature,
+            values[] {
+              _key,
+              _type,
+              text,
+              value
+            }
+          }
+        },
+        dataType
+      }
+    `)
     
     return {
       props: {
         page,
         allPages: allPages || [],
-        currentLanguage
+        currentLanguage,
+        comparisonTableData: comparisonTableData || null
       },
       revalidate: 60
     }
@@ -193,6 +285,35 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       language: currentLanguage
     })
 
+    // Get comparison table data for CustomComponent - use the same ID as other pages
+    const comparisonTableData = await client.fetch(`
+      *[_id == "85f555da-0aba-406c-812c-1ef3e652d099"][0] {
+        _id,
+        title,
+        comparisonTable {
+          title,
+          columns[] {
+            _key,
+            _type,
+            header,
+            highlighted
+          },
+          rows[] {
+            _key,
+            _type,
+            feature,
+            values[] {
+              _key,
+              _type,
+              text,
+              value
+            }
+          }
+        },
+        dataType
+      }
+    `)
+
     if (!page) {
       return {
         notFound: true
@@ -203,7 +324,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       props: {
         page,
         allPages,
-        currentLanguage
+        currentLanguage,
+        comparisonTableData: comparisonTableData || null
       },
       revalidate: 60 // Revalidate every minute
     }

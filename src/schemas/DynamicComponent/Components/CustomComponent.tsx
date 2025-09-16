@@ -59,13 +59,7 @@ const CustomComponent = {
           to: [
             { type: 'globalData' }
           ],
-          description: 'Reference data from global common schemas',
-        },
-        {
-          name: 'referenceSchemaSlug',
-          title: 'Reference Schema Slug',
-          type: 'string',
-          description: 'Slug of the specific common schema to reference',
+          description: 'Reference data from global common schemas - data flows automatically!',
         },
   ],
   preview: {
