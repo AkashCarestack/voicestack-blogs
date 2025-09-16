@@ -84,7 +84,7 @@ const LogoListingSection = ({ data, refer = null }) => {
     setIsOpen(true)
   }
 
-  console.log({ ldata: data })
+
   const settings = {
     dots: false,
     infinite: false,

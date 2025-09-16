@@ -36,7 +36,6 @@ export async function isUniqueAcrossAllDocuments(slug, context) {
     const result = await client.fetch(query, params)
     return result
   } catch (error) {
-    console.error('Slug check error:', error)
     return false
   }
 }

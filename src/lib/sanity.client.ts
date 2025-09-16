@@ -1,5 +1,5 @@
 import { createClient, type ClientConfig } from 'next-sanity'
-import { apiVersion, dataset, projectId, useCdn } from '~/lib/sanity.api'
+import { apiVersion, dataset, projectId, useCdn, writeToken } from '~/lib/sanity.api'
 import type { SanityClient } from 'next-sanity'
 
 export function getClient(preview?: { token: string }): SanityClient {
@@ -23,4 +23,19 @@ export function getClient(preview?: { token: string }): SanityClient {
     })
   }
   return client
+}
+
+export function getWriteClient(): SanityClient {
+  if (!writeToken) {
+    throw new Error('Write token is required for write operations')
+  }
+  
+  return createClient({
+    projectId,
+    dataset,
+    apiVersion,
+    useCdn: false,
+    token: writeToken,
+    perspective: 'published',
+  } as ClientConfig) as SanityClient
 }

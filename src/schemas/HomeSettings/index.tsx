@@ -125,7 +125,7 @@ export default defineType({
       of: [
         {
           type: 'reference',
-          to: [{ type: 'testimonial' }],
+          to: [{ type: 'testimonialSection' }],
         },
       ],
     }),
@@ -227,7 +227,7 @@ export default defineType({
     prepare(selection) {
       return {
         title: ` ${selection?.title}`,
-        media:<img src={showCountryFlag(selection?.language)}/>
+
       };
     },
   },

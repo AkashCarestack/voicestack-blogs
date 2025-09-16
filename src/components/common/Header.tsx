@@ -94,10 +94,10 @@ const Header = ({ data, refer=null }) => {
 
   const queryString = new URLSearchParams(query as Record<string, string>).toString();
   const query1 = queryString ? `?${queryString}` : "";
-  // console.log({queryString});
+
   
 
-  // console.log({matchedRegion});
+
   const country:any = getCookie("__vs_ver");
   useEffect(() => {
 
@@ -107,13 +107,13 @@ const Header = ({ data, refer=null }) => {
       const hasCountrySet = country !== null;
 
       if (!hasCountrySet) {
-        console.log("Not getting cc from mw");
+
         
         const handleGeoData = async () => {
           try {
             const res = await getGeoData();
             if (!res || !res.country) {
-              console.log("No country data available.");
+
               setCookie("__vs_ver", "1");
               setCookie("__vs_pl", "en");
               return;
@@ -128,7 +128,7 @@ const Header = ({ data, refer=null }) => {
             setCookie("__vs_ver", countryCodeNum);
             
           } catch (error) {
-            console.error("Error fetching geo data:", error);
+            console.log(error);
           }
         };
         

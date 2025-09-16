@@ -197,7 +197,7 @@ export function generateHref(locale: any, linkHref: string): string {
   // const cleanPath = linkHref === '/' ? '/' : normalizePath(linkHref).replace(/^\/+/, '');
   const cleanPath = normalizePath(linkHref).replace(/^\/+/, '');
 
-  // console.log({locale: locale, lh: linkHref, cp: cleanPath});
+
   // if (!cleanPath || cleanPath === '') {
   //   return '/';
   // }

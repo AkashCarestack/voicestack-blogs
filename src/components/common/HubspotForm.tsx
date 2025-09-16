@@ -15,7 +15,7 @@ const HubSpotForm = ({
 
 }) => {
 
-  console.log(id,eventName, meetingLink)
+
   const { trackEvent } = useTracking({}, {});
   const router = useRouter();
   useEffect(() => {
@@ -75,7 +75,7 @@ const HubSpotForm = ({
                   }
                 }
 
-                // console.log({paramsstring:params.toString(), params:params});
+
                 
 
                 const email = form.querySelector('input[name="email"]').value

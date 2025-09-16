@@ -25,6 +25,7 @@ import {
 } from '~/lib/sanity.api'
 import { schema } from '~/schemas'
 import { media } from 'sanity-plugin-media'
+import { createDeskStructure } from '~/lib/deskStructure'
 
 const iframeOptions = {
   url: defineUrlResolver({
@@ -68,24 +69,22 @@ export default defineConfig({
   plugins: [
     languageFilter({
       supportedLanguages: [
-        {id: 'en', title: 'English'},
-        {id: 'cs', title: 'CareStack'},
-        {id: 'fmc', title: 'FMC'},
-        //...
+        {id: 'en', title: 'US English'},
+        {id: 'en-GB', title: 'UK English'},
+        {id: 'en-AU', title: 'Australia English'},
       ],
-      // Select Norwegian (Bokmål) by default
+      // Select US English by default
       defaultLanguages: ['en'],
-      // Only show language filter for document type `page` (schemaType.name)
-      documentTypes: ['homeSettings'],
-      // filterField: (enclosingType, member, selectedLanguageIds) =>
-      //   !enclosingType.name.startsWith('locale') || !enclosingType.name.startsWith('language') || selectedLanguageIds.includes(member.name),
+      // Show language filter for these document types
+      documentTypes: ['homeSettings', 'whoWeServe', 'page'],
     }),
 
     internationalizedArray({
       languages: [
         {id: 'default', title: 'Default'},
-        {id: 'cs', title: 'CareStack'},
-        {id: 'fmc', title: 'FMC'},
+        {id: 'en', title: 'US English'},
+        {id: 'en-GB', title: 'UK English'},
+        {id: 'en-AU', title: 'Australia English'},
       ],
       defaultLanguages: ['default'],
       fieldTypes: ['string', 'customBlockContent'],
@@ -117,8 +116,11 @@ export default defineConfig({
         'footer',
         'page',
         'miscellaneous',
-        'featureList',
-        'featureCategory'
+                'featureList',
+        'featureCategory',
+        'whoWeServe',
+        'dentalSoftware',
+        'globalData'
       ],
     }),
 
@@ -136,63 +138,7 @@ export default defineConfig({
           S.view.component(Iframe).options(iframeOptions).title('Preview'),
         ])
       },
-      structure: (S) =>
-        S.list()
-          .title('Base')
-          .items([
-            // S.listItem()
-            //   .title('Home Page')
-            //   .child(
-            //     S.document()
-            //       .schemaType('homeSettings')
-            //       .documentId('homeSettings'),
-            //   ),
-
-            S.listItem()
-              .title('Site Configuration')
-              .child(
-                S.document()
-                  .schemaType('siteSettings')
-                  .documentId('siteSettings'),
-              ),
-            S.listItem()
-              .title('Comparison Table')
-              .child(
-                S.document()
-                  .schemaType('comparisonTable')
-                  .documentId('comparisonTable'),
-              ),
-
-            // S.listItem()
-            // .title('Platform')
-            // .child(
-            //   S.document()
-            //     .schemaType('platform')
-            //     .documentId('platform'),
-            // ),
-
-            S.documentTypeListItem('homeSettings').title('Home Settings'),
-            S.documentTypeListItem('testimonial').title('Feature Section'),
-            S.documentTypeListItem('testimonialSection').title('Testimonial'),
-            // S.documentTypeListItem('feature').title('Feature'),
-            S.documentTypeListItem('legal').title('Legal'),
-            S.documentTypeListItem('comparisonValue').title('Comparison Value'),
-            S.documentTypeListItem('platform').title('Integration List'),
-            S.documentTypeListItem('platformList').title('Platform List'),
-            S.documentTypeListItem('logoListing').title('logo Listing'),
-            S.documentTypeListItem('cardsListing').title('Cards Listing'),
-            S.documentTypeListItem('csCardsListing').title('Refer Cards Listing'),
-            S.documentTypeListItem('faq').title('Faq'),
-            S.documentTypeListItem('testimonialHighlightSection').title('Testimonial Highlight'),
-            S.documentTypeListItem('banner').title('banner'),
-            S.documentTypeListItem('footer').title('Footer'),
-            S.documentTypeListItem('miscellaneous').title('Miscellaneous').icon(ExpandIcon),
-            S.documentTypeListItem('page').title('Pages'),
-            S.documentTypeListItem('featureList').title('Features').icon(BoltIcon),
-            S.documentTypeListItem('featureCategory').title('Feature Category').icon(BoltIcon),
-
-            // S.documentTypeListItem('platform').title('Platform'),
-          ]),
+      structure: (S) => createDeskStructure(S, schema.types.map(type => type.name)),
     }),
 
     media({

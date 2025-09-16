@@ -1,12 +1,21 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
-import DynamicComponent from './DynamicComponent'
+import { componentSchemas } from './DynamicComponent/Components'
 
 export default defineType({
   title: 'Content Area',
   name: 'customContent',
   type: 'array',
   of: [
-    defineArrayMember(DynamicComponent),
+    ...componentSchemas.map(schema => defineArrayMember({
+      ...schema,
+      preview: {
+        select: {
+          title: 'title',
+          subtitle: 'subtitle',
+          media: 'icon'
+        }
+      }
+    })),
     defineArrayMember({
       title: 'Block',
       type: 'block',

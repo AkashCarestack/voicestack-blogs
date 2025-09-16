@@ -173,7 +173,6 @@ function dispatchEvent(data: any) {
   const pageVersion:any = getCookie("__cs_pc");       
                 
   if((cookieAnalytics && cookieAnalytics !== "yes") && countryVersion == 2 && !(pageVersion === "ph-c")){
-    console.log("returned from tracker in app.tsx");
     return
   }
 
@@ -185,7 +184,7 @@ function dispatchEvent(data: any) {
     trackData.push(temp);
     const domain = window.location.origin;
     // if (window !== undefined && trackData.length > 0 && !isSending) {
-    // console.log({domain});
+
     
     if (window !== undefined && trackData.length > 0 && !isSending && (domain == "https://voicestack.com" || domain == "https://www.voicestack.com") ) {
       const user = getUser()

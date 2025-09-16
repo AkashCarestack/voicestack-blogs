@@ -6,7 +6,7 @@ import Features from './Features'
 import SiteSettings from './SiteSettings'
 import Testimonials from './Feature'
 import HomeSettings from './HomeSettings/index'
-import multipleString from './multipleString'
+
 import legal from './Legal'
 import comparison from './Comparison'
 import comparisonValue from "./ComparisonValue"
@@ -19,6 +19,7 @@ import CsCardsListing from './CsCardsListing/index'
 import featureSubSection from './featureSubSection'
 import faq from './faq'
 import testimonialSection from './testimonial'
+import feature from './Feature'
 import customBlockContent from './customBlockContent'
 import TestimonialHighlight from './TestimonialHighlight'
 import Miscellaneous from './Miscellaneous'
@@ -34,49 +35,21 @@ import FeatureList from './FeatureList'
 import ListingAtom from './NestableBlocks/ListingAtom'
 import portableContent from './portableContent'
 import HtmlCode from './Utilis/HtmlCode'
+import WhoWeServe from './Pages/WhoWeServe'
+import DentalSoftware from './Pages/DentalSoftware'
+import GlobalData from './GlobalData'
 
-export const schemaTypes = [
-  layout,
-  Features,
-  SiteSettings,
-  Testimonials,
-  HomeSettings,
-  legal,
-  heroSubFeature,
-  comparison,
-  comparisonValue,
-  Platforms,
-  PlatformList,
-  LogoListing,
-  CardsListing,
-  featureSubSection,
-  testimonialSection,
-  faq,
-  customBlockContent,
-  Miscellaneous,
-  page,
-  DynamicComponent,
-  customContent,
-  ListingBlock,
-  BrowserList,
-  FeatureCategory,
-  FeatureList,
-  ListingAtom,
-  portableContent,
-  HtmlCode
-]
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     blockContent,
-    
     layout,
     Features,
     heroSubFeature,
     SiteSettings,
     Testimonials,
     HomeSettings,
-    multipleString,
+
     legal,
     comparison,
     comparisonValue,
@@ -92,7 +65,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     TestimonialHighlight,
     Miscellaneous,
     page,
-    DynamicComponent,
+    ...DynamicComponent,
     customContent,
     ListingBlock,
     BrowserList,
@@ -102,7 +75,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     FeatureList,
     ListingAtom,
     portableContent,
-    HtmlCode
-    
+    HtmlCode,
+    WhoWeServe,
+    DentalSoftware,
+    GlobalData,
   ],
 }

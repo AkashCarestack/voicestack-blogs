@@ -56,7 +56,7 @@ export default {
       prepare(selection) {
         return {
           title: ` ${selection?.title}`,
-          media:<img src={showCountryFlag(selection?.language)}/>
+  
         };
       },
     },

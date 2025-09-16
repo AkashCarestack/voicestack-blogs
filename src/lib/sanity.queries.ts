@@ -796,3 +796,185 @@ export interface LegalInformation {
   privacyPolicy: string
   termsAndCondition: string
 }
+
+// Who We Serve Queries
+export const whoWeServeQueries = {
+  // Get the home page content for Who We Serve
+  getWhoWeServeHome: `
+    *[_type == "whoWeServe" && basicInfo.slug.current == "landing" && (language == $language || language == null)] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content,
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }[0]
+  `,
+
+  // Get all Who We Serve pages for listing
+  getAllWhoWeServePages: `
+    *[_type == "whoWeServe" && (language == $language || language == null)] | order(basicInfo.title asc) {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content,
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }
+  `,
+
+  // Get specific Who We Serve page by slug
+  getWhoWeServePageBySlug: `
+    *[_type == "whoWeServe" && basicInfo.slug.current == $slug && (language == $language || language == null)] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content,
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }[0]
+  `,
+
+  // Get Who We Serve page slugs for routing
+  getWhoWeServeSlugs: `
+    *[_type == "whoWeServe" && (language == $language || language == null)] {
+      basicInfo {
+        slug
+      }
+    }
+  `
+}
+
+// Dental Software Queries
+export const dentalSoftwareQueries = {
+  // Get the home page content for Dental Software
+  getDentalSoftwareHome: `
+    *[_type == "dentalSoftware" && basicInfo.slug.current == "landing" && (language == $language || language == null)] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content,
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }[0]
+  `,
+
+  // Get all Dental Software pages for listing
+  getAllDentalSoftwarePages: `
+    *[_type == "dentalSoftware" && (language == $language || language == null)] | order(basicInfo.title asc) {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      language
+    }
+  `,
+
+  // Get specific Dental Software page by slug
+  getDentalSoftwarePageBySlug: `
+    *[_type == "dentalSoftware" && basicInfo.slug.current == $slug && (language == $language || language == null)] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content,
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }[0]
+  `,
+
+  // Get Dental Software page slugs for routing
+  getDentalSoftwareSlugs: `
+    *[_type == "dentalSoftware" && (language == $language || language == null)] {
+      basicInfo {
+        slug
+      }
+    }
+  `
+}
+
+// Content Section Queries
+export const contentSectionQueries = {
+  // Get content section by slug from Who We Serve pages
+  getWhoWeServeSectionBySlug: `
+    *[_type == "whoWeServe" && (language == $language || language == null)] {
+      content {
+        sections[] {
+          title,
+          slug,
+          component
+        }
+      }
+    }[0].content.sections[slug.current == $sectionSlug][0]
+  `,
+
+  // Get content section by slug from Dental Software pages
+  getDentalSoftwareSectionBySlug: `
+    *[_type == "dentalSoftware" && (language == $language || language == null)] {
+      content {
+        sections[] {
+          title,
+          slug,
+          component
+        }
+      }
+    }[0].content.sections[slug.current == $sectionSlug][0]
+  `,
+
+  // Get all content sections with slugs for listing
+  getAllContentSections: `
+    *[_type in ["whoWeServe", "dentalSoftware"] && (language == $language || language == null)] {
+      _type,
+      basicInfo {
+        title,
+        slug
+      },
+      content {
+        sections[] {
+          title,
+          slug,
+          component {
+            componentType
+          }
+        }
+      }
+    }
+  `
+}

@@ -82,7 +82,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
       heroData,
       region
     },
-    // revalidate: 60
+    revalidate: 60
   }
 }
 

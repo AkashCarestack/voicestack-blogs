@@ -84,12 +84,12 @@ export const VideoModal: React.FC<VideoProps> = ({
   const handleParentClick = (e) => {
     // Check if the click target is the parent
     if (e.target === e.currentTarget) {
-      // console.log("clooooooose");
+  
       onClose();
       
     }
   };
-  // console.log({videoData});
+  
   
 
   if (!videoData) {

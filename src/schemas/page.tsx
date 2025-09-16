@@ -55,9 +55,13 @@ export default {
         language:'language',
       },
       prepare(selection) {
+        const languageLabel = selection?.language === 'en' ? '🇺🇸' : 
+                             selection?.language === 'en-GB' ? '🇬🇧' : 
+                             selection?.language === 'en-AU' ? '🇦🇺' : 
+                             '📄';
+        
         return {
-          title: ` ${selection?.title}`,
-          media:<img src={showCountryFlag(selection?.language)}/>
+          title: `${languageLabel} ${selection?.title}`
         };
       },
     },

@@ -20,7 +20,6 @@ function paramsToObject(entries: any): { [key: string]: string } {
     }
     return result;
   } catch (error) {
-    console.error('Error converting URL parameters to object:', error);
     throw error;
   }
 }
@@ -32,7 +31,6 @@ export const getParams = (): { [key: string]: string } => {
     const params = paramsToObject(entries);
     return params;
   } catch (error) {
-    console.error('Error getting URL parameters:', error);
     throw error;
   }
 };

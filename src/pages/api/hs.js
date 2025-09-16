@@ -14,13 +14,13 @@ export default async function handler(req, res) {
     } else {
       // const email = decodeURIComponent(req.query.email);
       const email = req.query.email;
-      console.log({email, enc:req.query.email});
+
       
 
         try{
           const response = await fetch(`https://api.hubapi.com/crm/v3/objects/contacts/${email}?idProperty=email`, requestOptionsGET)
           const data = await response.json();
-          console.log({data});
+
           
 
           var raw = JSON.stringify({
@@ -48,7 +48,7 @@ export default async function handler(req, res) {
           }
 
           
-          console.log({raw});
+
 
           var requestOptionsPOST = {
               method: 'PATCH',

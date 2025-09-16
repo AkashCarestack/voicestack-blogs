@@ -90,6 +90,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
       bannerData,
       contactAndVideoData,
     },
+    revalidate: 60
   }
 }
 
