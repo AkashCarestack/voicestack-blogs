@@ -13,12 +13,10 @@ import {
   getCardsSectionData,
   getCsCardsSectionData,
   getTestimonialHighlightSectionData,
-  getFooterData,
   getBannerData,
   getHeaderData,
   getContactAndVideoInfo,
 } from '~/lib/sanity.queries'
-import Layout from '../components/Layout'
 import CustomHead from '~/components/common/CustomHead'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
 import runQuery from '~/utils/runQuery'
@@ -33,7 +31,6 @@ import SiteComparisonSection from '~/components/SiteComparisonSection'
 import LinksCardsSection from '~/components/LinksCardSection'
 import Testimonails from '~/components/testimonials/Testimonials'
 import FaqSection from '~/components/FaqSection'
-import Footer from '~/components/common/Footer'
 import { getClient } from '~/lib/sanity.client'
 import { isEmpty } from 'lodash'
 import { useContext, useEffect, useState } from 'react'
@@ -62,7 +59,6 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const cardsListingData = await getCardsSectionData(client,region)
   const cSCardsListingData = await getCsCardsSectionData(client,region)
   const testimonialHighlightsData = await getTestimonialHighlightSectionData(client,region)
-  const footerData = await getFooterData(client, region)
   const bannerData = await getBannerData(client, region)
   const contactAndVideoData = await getContactAndVideoInfo(client, region)
   
@@ -86,7 +82,6 @@ export const getStaticProps: GetStaticProps<any> = async ({
       cardsListingData,
       cSCardsListingData,
       testimonialHighlightsData,
-      footerData,
       bannerData,
       contactAndVideoData,
     },
@@ -154,7 +149,6 @@ export default function IndexPage(
     cardsListingData,
     cSCardsListingData,
     testimonialHighlightsData,
-    footerData,
     bannerData,
     contactAndVideoData
   } = props
@@ -173,28 +167,23 @@ export default function IndexPage(
 
   return (
     <Track>
-    <div className='font-sans'>
-      <Layout {...props}>
-        <CustomHead {...props} />
-        <div className="">
-          <Header data ={homeSettings} refer={refer}/>
-          <HeroSection data={heroSectionData} refer={refer} video={videoData}/>
-          <LinksCardsSection data={linkCardSectionData} />
-          <Testimonails data={testimonialSecitonData} refer={refer}/>
-          <CardsListingSection data={cardsListingData}/>
-          <LogoListingSection data={logoSectionData}  refer={refer}/>
-          <FeatureSection data={featureSectionData} refer={refer}/>
-          <AnimatedBeamSection data={integrationPlatforms} refer={refer} />
-          <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection>
-          <SiteComparisonSection data={comparisonSectionData} refer={refer}/>
-          <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/>
-          <FaqSection data={faqSectionData} mailId={heroSectionData?.contactEmail}/>
-          <BannerSection data={bannerData} refer={refer}></BannerSection>
-          <Footer data={footerData}></Footer>
-        </div>
-      </Layout>
-      
-    </div>
+      <CustomHead {...props} />
+      <div className="">
+        {/* <Header data ={homeSettings} refer={refer}/> */}
+        <HeroSection data={heroSectionData} refer={refer} video={videoData}/>
+        <LinksCardsSection data={linkCardSectionData} />
+        <Testimonails data={testimonialSecitonData} refer={refer}/>
+        <CardsListingSection data={cardsListingData}/>
+        <LogoListingSection data={logoSectionData}  refer={refer}/>
+        <FeatureSection data={featureSectionData} refer={refer}/>
+        <AnimatedBeamSection data={integrationPlatforms} refer={refer} />
+        <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection>
+        <SiteComparisonSection data={comparisonSectionData} refer={refer}/>
+        <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/>
+        <FaqSection data={faqSectionData} mailId={heroSectionData?.contactEmail}/>
+        <BannerSection data={bannerData} refer={refer}></BannerSection>
+        {/* <Footer data={footerData}></Footer> */}
+      </div>
     </Track>
   )
 }

@@ -15,6 +15,7 @@ import { getUser } from '~/utils/tracker/user'
 import { cookieSelector } from '~/helpers/cookieSelector'
 import { Inter, Manrope } from 'next/font/google'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
+import LayoutDataProvider from '~/providers/LayoutDataProvider'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -139,15 +140,17 @@ function App({
         {/* <!--[END Google Tag Manager (noscript)]--> */}
       
         <BookDemoContextProvider>
-
-          {draftMode ? (
-            <PreviewProvider token={token}>
-              <Component {...pageProps}/>
-            </PreviewProvider>
-          ) : (
-            <Component {...pageProps}/>
-          )}
-
+          <LayoutDataProvider>
+            <Layout>
+              {draftMode ? (
+                <PreviewProvider token={token}>
+                  <Component {...pageProps}/>
+                </PreviewProvider>
+              ) : (
+                <Component {...pageProps}/>
+              )}
+            </Layout>
+          </LayoutDataProvider>
         </BookDemoContextProvider>
       </TrackUserProvider>
     </main>

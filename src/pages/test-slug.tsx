@@ -103,7 +103,7 @@ export default function TestSlugPage() {
               <li><strong>Keep Original Data:</strong> Original component data is preserved and used</li>
               <li><strong>Type Override:</strong> Only the component type changes based on slug</li>
               <li><strong>Data Flow:</strong> Original component data flows to the new component type</li>
-              <li><strong>Fallback:</strong> When slug doesn't match, uses original component type and data</li>
+              <li><strong>Fallback:</strong> When slug doesn&apos;t match, uses original component type and data</li>
             </ol>
             
             <div className="mt-4 p-4 bg-yellow-50 rounded-lg">
