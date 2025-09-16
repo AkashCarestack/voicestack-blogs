@@ -1,5 +1,5 @@
 import React from 'react'
-import DynamicComponentRenderer from '~/components/DynamicComponentRenderer'
+import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
 
 const TestComparisonPage = () => {
   // Mock data to test the comparison table functionality

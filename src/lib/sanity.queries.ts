@@ -801,7 +801,7 @@ export interface LegalInformation {
 export const whoWeServeQueries = {
   // Get the home page content for Who We Serve
   getWhoWeServeHome: `
-    *[_type == "whoWeServe" && basicInfo.slug.current == "landing" && (language == $language || language == null)] {
+    *[_type in ["whoWeServe", "whoWeServePage"] && basicInfo.slug.current == "landing" && (language == $language || language == null)] {
       _id,
       basicInfo {
         title,
@@ -820,7 +820,7 @@ export const whoWeServeQueries = {
 
   // Get all Who We Serve pages for listing
   getAllWhoWeServePages: `
-    *[_type == "whoWeServe" && (language == $language || language == null)] | order(basicInfo.title asc) {
+    *[_type in ["whoWeServe", "whoWeServePage"] && (language == $language || language == null)] | order(basicInfo.title asc) {
       _id,
       basicInfo {
         title,
@@ -839,7 +839,101 @@ export const whoWeServeQueries = {
 
   // Get specific Who We Serve page by slug
   getWhoWeServePageBySlug: `
-    *[_type == "whoWeServe" && basicInfo.slug.current == $slug && (language == $language || language == null)] {
+    *[_type in ["whoWeServe", "whoWeServePage"] && basicInfo.slug.current == $slug && (language == $language || language == null)] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content {
+        sections[] {
+          title,
+          slug,
+          component {
+            componentType,
+            listingComponent {
+              title,
+              description,
+              items[] {
+                title,
+                description,
+                icon
+              },
+              layout
+            },
+            rightImageComponent {
+              title,
+              description,
+              image,
+              imageAlt,
+              contentAlignment,
+              backgroundColor
+            },
+            featureGridComponent {
+              title,
+              description,
+              features[] {
+                title,
+                description,
+                icon,
+                link
+              },
+              gridColumns,
+              showIcons
+            },
+            testimonialComponent {
+              title,
+              testimonials[] {
+                quote,
+                author,
+                position,
+                company,
+                rating,
+                avatar
+              },
+              layout,
+              showRating
+            },
+            customComponent {
+              title,
+              subtitle,
+              content,
+              buttonText,
+              buttonLink,
+              backgroundColor,
+              image,
+              referenceGlobalSchema-> {
+                _id,
+                title,
+                comparisonTable,
+                dataType
+              }
+            }
+          }
+        }
+      },
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }[0]
+  `,
+
+  // Get Who We Serve page slugs for routing
+  getWhoWeServeSlugs: `
+    *[_type in ["whoWeServe", "whoWeServePage"] && (language == $language || language == null)] {
+      basicInfo {
+        slug
+      }
+    }
+  `,
+
+  // Create landing page from existing data if no landing page exists
+  createLandingPageFromExisting: `
+    *[_type in ["whoWeServe", "whoWeServePage"] && (language == $language || language == null)] | order(_createdAt asc)[0] {
       _id,
       basicInfo {
         title,
@@ -853,15 +947,6 @@ export const whoWeServeQueries = {
         metaDescription
       },
       language
-    }[0]
-  `,
-
-  // Get Who We Serve page slugs for routing
-  getWhoWeServeSlugs: `
-    *[_type == "whoWeServe" && (language == $language || language == null)] {
-      basicInfo {
-        slug
-      }
     }
   `
 }
@@ -878,7 +963,74 @@ export const dentalSoftwareQueries = {
         description,
         icon
       },
-      content,
+      content {
+        mainContent,
+        sections[] {
+          title,
+          slug,
+          component {
+            componentType,
+            listingComponent {
+              title,
+              description,
+              items[] {
+                title,
+                description,
+                icon
+              },
+              layout
+            },
+            rightImageComponent {
+              title,
+              description,
+              image,
+              imageAlt,
+              contentAlignment,
+              backgroundColor
+            },
+            featureGridComponent {
+              title,
+              description,
+              features[] {
+                title,
+                description,
+                icon,
+                link
+              },
+              gridColumns,
+              showIcons
+            },
+            testimonialComponent {
+              title,
+              testimonials[] {
+                quote,
+                author,
+                position,
+                company,
+                rating,
+                avatar
+              },
+              layout,
+              showRating
+            },
+            customComponent {
+              title,
+              subtitle,
+              content,
+              buttonText,
+              buttonLink,
+              backgroundColor,
+              image,
+              referenceGlobalSchema-> {
+                _id,
+                title,
+                comparisonTable,
+                dataType
+              }
+            }
+          }
+        }
+      },
       seo {
         metaTitle,
         metaDescription
@@ -911,7 +1063,74 @@ export const dentalSoftwareQueries = {
         description,
         icon
       },
-      content,
+      content {
+        mainContent,
+        sections[] {
+          title,
+          slug,
+          component {
+            componentType,
+            listingComponent {
+              title,
+              description,
+              items[] {
+                title,
+                description,
+                icon
+              },
+              layout
+            },
+            rightImageComponent {
+              title,
+              description,
+              image,
+              imageAlt,
+              contentAlignment,
+              backgroundColor
+            },
+            featureGridComponent {
+              title,
+              description,
+              features[] {
+                title,
+                description,
+                icon,
+                link
+              },
+              gridColumns,
+              showIcons
+            },
+            testimonialComponent {
+              title,
+              testimonials[] {
+                quote,
+                author,
+                position,
+                company,
+                rating,
+                avatar
+              },
+              layout,
+              showRating
+            },
+            customComponent {
+              title,
+              subtitle,
+              content,
+              buttonText,
+              buttonLink,
+              backgroundColor,
+              image,
+              referenceGlobalSchema-> {
+                _id,
+                title,
+                comparisonTable,
+                dataType
+              }
+            }
+          }
+        }
+      },
       seo {
         metaTitle,
         metaDescription
@@ -926,6 +1145,25 @@ export const dentalSoftwareQueries = {
       basicInfo {
         slug
       }
+    }
+  `,
+
+  // Create landing page from existing data if no landing page exists
+  createLandingPageFromExisting: `
+    *[_type == "dentalSoftware" && (language == $language || language == null)] | order(_createdAt asc)[0] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content,
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
     }
   `
 }

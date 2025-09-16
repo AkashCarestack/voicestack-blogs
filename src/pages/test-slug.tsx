@@ -1,5 +1,5 @@
 import React from 'react'
-import DynamicComponentRenderer from '~/components/DynamicComponentRenderer'
+import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
 
 export default function TestSlugPage() {
   // Mock data to test the predefined slug functionality

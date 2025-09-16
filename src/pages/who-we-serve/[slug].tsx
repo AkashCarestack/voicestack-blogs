@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { getClient } from '~/lib/sanity.client'
 import { whoWeServeQueries } from '~/lib/sanity.queries'
 import SimpleHead from '~/components/common/SimpleHead'
-import DynamicComponentRenderer from '~/components/DynamicComponentRenderer'
+import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
 
 interface WhoWeServePage {
   _id: string
@@ -64,24 +64,53 @@ export default function WhoWeServePage({ page, allPages, currentLanguage }: WhoW
       </section>
 
       {/* Dynamic Content Sections */}
-      {page.content && page.content.sections && page.content.sections.length > 0 && (
+      {page.content && page.content.sections && page.content.sections.length > 0 ? (
         <div>
-          {page.content.sections.map((section: any, index: number) => (
-            <div key={index}>
-              {section.component && (
-                <DynamicComponentRenderer 
-                  component={section.component}
-                  slugData={{
-                    slug: section.slug?.current,
-                    title: section.title,
-                    pageType: 'whoWeServe',
-                    language: currentLanguage,
-                    sectionIndex: index
-                  }}
-                />
-              )}
+          {page.content.sections.map((section: any, index: number) => {
+            // Debug logging
+            if (process.env.NODE_ENV === 'development') {
+              console.log(`Section ${index} Debug:`, {
+                section,
+                hasComponent: !!section.component,
+                componentType: section.component?.componentType,
+                slug: section.slug?.current
+              })
+            }
+            
+            return (
+              <div key={index}>
+                {section.component ? (
+                  <DynamicComponentRenderer 
+                    component={section.component}
+                    slugData={{
+                      slug: section.slug?.current,
+                      title: section.title,
+                      pageType: 'whoWeServe',
+                      language: currentLanguage,
+                      sectionIndex: index
+                    }}
+                  />
+                ) : (
+                  <div className="py-8 bg-yellow-50 border border-yellow-200 rounded-lg mx-4">
+                    <p className="text-yellow-800 text-center">
+                      <strong>Section {index + 1}:</strong> No component data found
+                    </p>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+      ) : (
+        <div className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="max-w-6xl mx-auto text-center">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">No Content Sections</h2>
+              <p className="text-gray-600">
+                This page doesn't have any content sections configured in the CMS.
+              </p>
             </div>
-          ))}
+          </div>
         </div>
       )}
 
@@ -181,12 +210,67 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   // Handle landing page - don't redirect during build
   if (slug === 'landing') {
-    // Return the landing page data instead of redirecting
     const client = getClient()
-    const page = await client.fetch(whoWeServeQueries.getWhoWeServePageBySlug, {
+    
+    // First try to get the actual landing page
+    let page = await client.fetch(whoWeServeQueries.getWhoWeServePageBySlug, {
       slug: 'landing',
       language: currentLanguage
     })
+    
+    // If no landing page exists, create one from existing data
+    if (!page) {
+      console.log('No landing page found, creating from existing data')
+      const existingPage = await client.fetch(whoWeServeQueries.createLandingPageFromExisting, {
+        language: currentLanguage
+      })
+      
+      if (existingPage) {
+        // Transform existing page into landing page format
+        page = {
+          ...existingPage,
+          basicInfo: {
+            ...existingPage.basicInfo,
+            title: 'Who We Serve',
+            slug: { _type: 'slug', current: 'landing' },
+            description: 'Discover the industries and organizations we serve with our innovative solutions.'
+          },
+          content: existingPage.content || {
+            sections: [
+              {
+                title: 'Our Featured Solutions',
+                slug: { _type: 'slug', current: 'heroGrid' },
+                component: {
+                  componentType: 'Listing',
+                  listingComponent: {
+                    title: 'Industries We Serve',
+                    description: 'We provide tailored solutions for various industries and organization types.',
+                    items: [
+                      {
+                        title: 'Dental Practices',
+                        description: 'Comprehensive dental practice management solutions',
+                        icon: null
+                      },
+                      {
+                        title: 'Healthcare Organizations',
+                        description: 'Advanced healthcare communication systems',
+                        icon: null
+                      },
+                      {
+                        title: 'Small Businesses',
+                        description: 'Scalable solutions for growing businesses',
+                        icon: null
+                      }
+                    ],
+                    layout: 'grid'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
     
     if (!page) {
       return {
@@ -218,6 +302,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     })
 
     console.log('Fetched page:', page)
+    console.log('Page content sections:', page?.content?.sections)
+    console.log('Page content sections length:', page?.content?.sections?.length)
 
     // Get all pages for navigation
     const allPages = await client.fetch(whoWeServeQueries.getAllWhoWeServePages, {

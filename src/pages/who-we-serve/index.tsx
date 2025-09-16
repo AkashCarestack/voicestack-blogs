@@ -4,7 +4,7 @@ import { whoWeServeQueries } from '~/lib/sanity.queries'
 import { urlForImage } from '~/lib/sanity.image'
 import SimpleHead from '~/components/common/SimpleHead'
 import Layout from '~/components/Layout'
-import DynamicComponentRenderer from '~/components/DynamicComponentRenderer'
+import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
 
 interface WhoWeServePage {
   _id: string
@@ -29,10 +29,10 @@ interface WhoWeServeIndexProps {
   pages: WhoWeServePage[]
   currentLanguage: string
   homePage?: WhoWeServePage
-  globalData?: any
+  comparisonTableData?: any
 }
 
-export default function WhoWeServeIndex({ pages, currentLanguage, homePage, globalData }: WhoWeServeIndexProps) {
+export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comparisonTableData }: WhoWeServeIndexProps) {
   return (
     <Layout>
       <SimpleHead
@@ -85,7 +85,8 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage, glob
                           title: section.title,
                           pageType: 'whoWeServe',
                           language: currentLanguage,
-                          sectionIndex: index
+                          sectionIndex: index,
+                          comparisonTableData: comparisonTableData
                         }}
                       />
                     )}
@@ -97,42 +98,6 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage, glob
         </section>
       )}
 
-      {/* Test Comparison Table Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-              Test Comparison Table
-            </h2>
-            <p className="text-xl text-gray-600 text-center mb-12 max-w-3xl mx-auto">
-              This is a test section to show how the comparison table works with Global Data
-            </p>
-            
-            <div className="bg-gray-50 rounded-lg shadow-lg p-8">
-              <DynamicComponentRenderer 
-                component={{
-                  componentType: 'Custom',
-                  customComponent: {
-                    title: 'Software Comparison',
-                    subtitle: 'Compare our different plans',
-                    content: 'Choose the perfect plan for your dental practice needs.',
-                    backgroundColor: 'white',
-                    referenceGlobalSchema: globalData,
-                    referenceSchemaSlug: globalData?.slug?.current || 'dental-software-comparison'
-                  }
-                }}
-                slugData={{
-                  slug: 'customSection',
-                  title: 'Software Comparison',
-                  pageType: 'whoWeServe',
-                  language: currentLanguage,
-                  sectionIndex: 0
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Pages Listing */}
       <section className="py-16">
@@ -144,28 +109,28 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage, glob
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
               {pages
-                .filter(page => page.basicInfo.slug.current !== 'landing')
-                .sort((a, b) => a.basicInfo.title.localeCompare(b.basicInfo.title))
+                .filter(page => page.basicInfo?.slug?.current && page.basicInfo.slug.current !== 'landing')
+                .sort((a, b) => (a.basicInfo?.title || '').localeCompare(b.basicInfo?.title || ''))
                 .map((page) => (
                   <a
                     key={page._id}
-                    href={`/who-we-serve/${page.basicInfo.slug.current}`}
+                    href={`/who-we-serve/${page.basicInfo?.slug?.current || '#'}`}
                     className="group block bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
                   >
                     <div className="p-6">
-                      {page.basicInfo.icon && (
+                      {page.basicInfo?.icon && (
                         <div className="mb-4">
                           <img
                             src={urlForImage(page.basicInfo.icon, { width: 64, height: 64 })}
-                            alt={page.basicInfo.title}
+                            alt={page.basicInfo?.title || 'Page'}
                             className="w-16 h-16 mx-auto group-hover:scale-110 transition-transform duration-300"
                           />
                         </div>
                       )}
                       <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
-                        {page.basicInfo.title}
+                        {page.basicInfo?.title || 'Untitled'}
                       </h3>
-                      {page.basicInfo.description && (
+                      {page.basicInfo?.description && (
                         <p className="text-gray-600 text-sm leading-relaxed">
                           {page.basicInfo.description}
                         </p>
@@ -197,16 +162,34 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     })
 
     // Get home page if it exists
-    const homePage = pages.find((page: WhoWeServePage) => page.basicInfo.slug.current === 'landing')
+    const homePage = pages.find((page: WhoWeServePage) => page.basicInfo?.slug?.current === 'landing')
 
-    // Get Global Data for comparison table
-    const globalData = await client.fetch(`
-      *[_type == "globalData" && dataType == "comparisonTable"][0] {
+    // Get comparison table data for CustomComponent - use the same ID as DENTAL PRACTICES page
+    const comparisonTableData = await client.fetch(`
+      *[_id == "85f555da-0aba-406c-812c-1ef3e652d099"][0] {
         _id,
-        name,
-        slug,
-        dataType,
-        comparisonTable
+        title,
+        comparisonTable {
+          title,
+          columns[] {
+            _key,
+            _type,
+            header,
+            highlighted
+          },
+          rows[] {
+            _key,
+            _type,
+            feature,
+            values[] {
+              _key,
+              _type,
+              text,
+              value
+            }
+          }
+        },
+        dataType
       }
     `)
 
@@ -215,7 +198,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         pages,
         currentLanguage,
         homePage: homePage || null,
-        globalData: globalData || null
+        comparisonTableData: comparisonTableData || null
       },
       revalidate: 60 // Revalidate every minute
     }
@@ -225,8 +208,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pages: [],
         currentLanguage,
-        homePage: null,
-        globalData: null
+        homePage: null
       }
     }
   }

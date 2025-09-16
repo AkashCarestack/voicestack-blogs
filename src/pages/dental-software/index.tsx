@@ -6,6 +6,7 @@ import { dentalSoftwareQueries } from '~/lib/sanity.queries'
 import { urlForImage } from '~/lib/sanity.image'
 import SimpleHead from '~/components/common/SimpleHead'
 import Layout from '~/components/Layout'
+import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
 
 interface DentalSoftwarePage {
   _id: string
@@ -17,6 +18,7 @@ interface DentalSoftwarePage {
   }
   content?: {
     mainContent: any[]
+    sections: any[]
   }
   seo?: {
     metaTitle?: string
@@ -29,9 +31,10 @@ interface DentalSoftwareIndexProps {
   pages: DentalSoftwarePage[]
   currentLanguage: string
   homePage?: DentalSoftwarePage
+  comparisonTableData?: any
 }
 
-export default function DentalSoftwareIndex({ pages, currentLanguage, homePage }: DentalSoftwareIndexProps) {
+export default function DentalSoftwareIndex({ pages, currentLanguage, homePage, comparisonTableData }: DentalSoftwareIndexProps) {
   const router = useRouter()
 
   // If there's a landing page, serve its content directly
@@ -76,6 +79,50 @@ export default function DentalSoftwareIndex({ pages, currentLanguage, homePage }
                   }
                   return null
                 })}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* Dynamic Content Sections from CMS */}
+        {homePage.content?.sections && homePage.content.sections.length > 0 && (
+          <section className="py-16 bg-gray-50">
+            <div className="container mx-auto px-4">
+              <div className="max-w-6xl mx-auto">
+                <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
+                  {homePage.basicInfo.title}
+                </h2>
+                {homePage.basicInfo.description && (
+                  <p className="text-xl text-gray-600 text-center mb-12 max-w-3xl mx-auto">
+                    {homePage.basicInfo.description}
+                  </p>
+                )}
+                
+                {/* Dynamic Content Sections from CMS */}
+                <div className="space-y-16">
+                  {homePage.content.sections.map((section: any, index: number) => (
+                    <div key={index} className="bg-white rounded-lg shadow-lg p-8">
+                      {section.title && (
+                        <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                          {section.title}
+                        </h3>
+                      )}
+                      {section.component && (
+                        <DynamicComponentRenderer 
+                          component={section.component}
+                          slugData={{
+                            slug: section.slug?.current,
+                            title: section.title,
+                            pageType: 'dentalSoftware',
+                            language: currentLanguage,
+                            sectionIndex: index,
+                            comparisonTableData: comparisonTableData
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </section>
@@ -223,11 +270,41 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       language: currentLanguage
     })
 
+    // Get comparison table data for CustomComponent - use the same ID as other pages
+    const comparisonTableData = await client.fetch(`
+      *[_id == "85f555da-0aba-406c-812c-1ef3e652d099"][0] {
+        _id,
+        title,
+        comparisonTable {
+          title,
+          columns[] {
+            _key,
+            _type,
+            header,
+            highlighted
+          },
+          rows[] {
+            _key,
+            _type,
+            feature,
+            values[] {
+              _key,
+              _type,
+              text,
+              value
+            }
+          }
+        },
+        dataType
+      }
+    `)
+
     return {
       props: {
         pages,
         currentLanguage,
-        homePage: homePage || null
+        homePage: homePage || null,
+        comparisonTableData: comparisonTableData || null
       },
       revalidate: 60 // Revalidate every minute
     }
