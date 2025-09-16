@@ -153,13 +153,31 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const currentLanguage = locale || 'en'
   const client = getClient()
 
-  // Redirect landing page to main dental-software page
+  // Handle landing page - don't redirect during build
   if (slug === 'landing') {
+    // Return the landing page data instead of redirecting
+    const page = await client.fetch(dentalSoftwareQueries.getDentalSoftwarePageBySlug, {
+      slug: 'landing',
+      language: currentLanguage
+    })
+    
+    if (!page) {
+      return {
+        notFound: true
+      }
+    }
+    
+    const allPages = await client.fetch(dentalSoftwareQueries.getAllDentalSoftwarePages, {
+      language: currentLanguage
+    })
+    
     return {
-      redirect: {
-        destination: '/dental-software',
-        permanent: false,
+      props: {
+        page,
+        allPages: allPages || [],
+        currentLanguage
       },
+      revalidate: 60
     }
   }
 

@@ -6,7 +6,16 @@ export default defineType({
   name: 'customContent',
   type: 'array',
   of: [
-    ...componentSchemas.map(schema => defineArrayMember(schema)),
+    ...componentSchemas.map(schema => defineArrayMember({
+      ...schema,
+      preview: {
+        select: {
+          title: 'title',
+          subtitle: 'subtitle',
+          media: 'icon'
+        }
+      }
+    })),
     defineArrayMember({
       title: 'Block',
       type: 'block',

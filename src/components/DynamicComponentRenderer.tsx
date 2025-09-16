@@ -37,7 +37,11 @@ const DynamicComponentRenderer: React.FC<DynamicComponentProps> = ({
   let componentToRender = component
   let componentType = component?.componentType
 
-  // If we have a predefined component for this slug, just use the component type
+  console.log('predefinedComponent', predefinedComponent)
+  console.log('componentType', componentType)
+  console.log('componentToRender', componentToRender)
+  console.log('component', component)
+
   if (predefinedComponent) {
     componentType = predefinedComponent.componentType
     componentToRender = {

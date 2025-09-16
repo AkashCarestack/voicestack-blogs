@@ -179,13 +179,32 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
   console.log('getStaticProps called with:', { slug, currentLanguage })
 
-  // Redirect landing page to main who-we-serve page
+  // Handle landing page - don't redirect during build
   if (slug === 'landing') {
+    // Return the landing page data instead of redirecting
+    const client = getClient()
+    const page = await client.fetch(whoWeServeQueries.getWhoWeServePageBySlug, {
+      slug: 'landing',
+      language: currentLanguage
+    })
+    
+    if (!page) {
+      return {
+        notFound: true
+      }
+    }
+    
+    const allPages = await client.fetch(whoWeServeQueries.getAllWhoWeServePages, {
+      language: currentLanguage
+    })
+    
     return {
-      redirect: {
-        destination: '/who-we-serve',
-        permanent: false,
+      props: {
+        page,
+        allPages: allPages || [],
+        currentLanguage
       },
+      revalidate: 60
     }
   }
 
