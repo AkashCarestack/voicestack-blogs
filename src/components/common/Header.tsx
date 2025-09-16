@@ -66,7 +66,7 @@ const Header = ({ data, refer=null }) => {
     },
     {
       "flag": {
-        "url": "https://cdn.sanity.io/images/76tr0pyh/production/b5c24305b7dedfaf1197c61f6f7a0b5fa991b48f-44x44.png",
+        "url": "https://cdn.sanity.io/images/76tr0pyh/production/2aeef6cefdae34058558224d10484ea63763ef77-24x24.svg",
         "title": "AU"
       },
       "url": "./en-AU",
