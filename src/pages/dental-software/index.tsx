@@ -5,7 +5,6 @@ import { getClient } from '~/lib/sanity.client'
 import { dentalSoftwareQueries } from '~/lib/sanity.queries'
 import { urlForImage } from '~/lib/sanity.image'
 import SimpleHead from '~/components/common/SimpleHead'
-import Layout from '~/components/Layout'
 import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
 
 interface DentalSoftwarePage {
@@ -40,7 +39,7 @@ export default function DentalSoftwareIndex({ pages, currentLanguage, homePage, 
   // If there's a landing page, serve its content directly
   if (homePage) {
     return (
-      <Layout>
+      <div>
         <SimpleHead
           title={homePage.seo?.metaTitle || homePage.basicInfo.title}
           description={homePage.seo?.metaDescription || homePage.basicInfo.description}
@@ -176,13 +175,13 @@ export default function DentalSoftwareIndex({ pages, currentLanguage, homePage, 
             </div>
           </div>
         </section>
-      </Layout>
+      </div>
     )
   }
 
   // If no landing page, show the default listing page
   return (
-    <Layout>
+    <div>
       <SimpleHead
         title="Dental Software"
         description="Explore our comprehensive dental software solutions and integrations"
@@ -250,7 +249,7 @@ export default function DentalSoftwareIndex({ pages, currentLanguage, homePage, 
           </div>
         </div>
       </section>
-    </Layout>
+    </div>
   )
 }
 

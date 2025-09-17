@@ -90,19 +90,6 @@ const DynamicComponentRenderer: React.FC<DynamicComponentProps> = ({
   let componentToRender = component
   let componentType = component?.componentType
 
-  // Debug logging (only in development)
-  if (process.env.NODE_ENV === 'development') {
-    console.log('DynamicComponentRenderer Debug:', {
-      slug,
-      predefinedComponent,
-      originalComponentType: component?.componentType,
-      finalComponentType: componentType,
-      hasComponentData: !!componentToRender,
-      componentData: componentToRender,
-      slugData
-    })
-  }
-
   // Apply slug-based override if exists
   if (predefinedComponent) {
     componentType = predefinedComponent.componentType
