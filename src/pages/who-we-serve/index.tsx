@@ -34,7 +34,7 @@ interface WhoWeServeIndexProps {
 
 export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comparisonTableData }: WhoWeServeIndexProps) {
   return (
-    <Layout>
+    <div>
       <SimpleHead
         title="Who We Serve"
         description="Discover how our solutions serve different segments of the dental industry"
@@ -100,7 +100,7 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comp
 
 
       {/* Pages Listing */}
-      <section className="py-16">
+      {/* <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
@@ -146,8 +146,8 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comp
             </div>
           </div>
         </div>
-      </section>
-    </Layout>
+      </section> */}
+    </div>
   )
 }
 
