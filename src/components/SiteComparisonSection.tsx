@@ -11,8 +11,9 @@ import { FormModal } from './common/FormModal'
 import { useRouter } from 'next/router'
 import LegendSection from './common/LegendSection'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
+import ComparisonTable from './ComparisonTable'
 
-function SiteComparisonSection({ data, refer=null }) {
+function SiteComparisonSection({ data, legendData, refer=null }) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -41,6 +42,9 @@ function SiteComparisonSection({ data, refer=null }) {
     // Cleanup
     return () => window.removeEventListener('resize', checkWidth);
   }, []);
+
+  console.log(legendData, "legendData");
+  
   
   return (
     hideTable ? (
@@ -56,16 +60,18 @@ function SiteComparisonSection({ data, refer=null }) {
             </div>
           </div>
           <div className='flex flex-col gap-12 items-center w-full'>
-            <TableTabset
+            {/* <TableTabset
               tabs={data?.table.rowCategories}
               currentIndex={currentIndex}
               setCurrentIndex={setCurrentIndex}
-            />
+            /> */}
   
             <div className='w-full flex flex-col gap-2 '>
-              {data.table.rowCategories.length && (
+              {/* {data.table.rowCategories.length && (
                 data.table.rowCategories.map((tableData:any, index:number) =>{
                   return (
+                    <>
+                    
                     <SiteComparisonTable 
                       key={index+1}
                       mainIndex={index}
@@ -77,15 +83,26 @@ function SiteComparisonSection({ data, refer=null }) {
                         tableData,
                       }}
                     />
+
+                    
+                    </>
                   )
                 })
-              )}
+              )} */}
               {/* <SiteComparisonTable
                 data={{
                   columnDimensionName: data.columnDimensionName,
                   ...data.table,
                 }}
               /> */}
+              <ComparisonTable
+              data={{
+                columnDimensionName: data.columnDimensionName,
+                ...data.table,
+              }}
+              legendData={legendData}
+              demoLink={null}
+            />
             </div>
           </div>
           {/* <CTAButton

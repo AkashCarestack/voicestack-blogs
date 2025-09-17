@@ -716,6 +716,24 @@ export const getComparisonTableData = (region) =>
       }
     }
   } | order(_createdAt desc)[0]`
+
+export const getAllComparisonValues = (region) =>
+  groq`*[_type == "comparisonValue"] {
+    _id,
+    text,
+    "icon": icon.asset-> {
+      _id,
+      url,
+      metadata {
+        dimensions {
+          width,
+          height,
+          aspectRatio
+        }
+      }
+    }
+  } | order(text asc)`
+
 export async function getIntegrationList(client: SanityClient, region: string) {
   const query = groq`*[_type == "platform" && language == $region] {
     ...,

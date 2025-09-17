@@ -17,6 +17,7 @@ import {
   getHeaderData,
   getContactAndVideoInfo,
   getVerticalTestimonialListing,
+  getAllComparisonValues,
 } from '~/lib/sanity.queries'
 import CustomHead from '~/components/common/CustomHead'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
@@ -52,6 +53,8 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const siteSettings = await runQuery(getALLSiteSettings(region))
   const founderDetails = await runQuery(getFounderDetails(region))
   const comparisonTableData = await runQuery(getComparisonTableData(region))
+  
+  const comparisonLegendData = await runQuery(getAllComparisonValues(region))
   const integrationPlatforms = await getIntegrationList(client, region);
   const heroSectionData = await getHeroSectionData(client, region);
   const testimonialSecitonData = await getTestimonialSecitonData(client, region)
@@ -72,6 +75,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
       siteSettings,
       founderDetails,
       comparisonTableData,
+      comparisonLegendData,
       integrationPlatforms,
       draftMode,
       token: draftMode ? readToken : '',
@@ -148,6 +152,7 @@ export default function IndexPage(
     featureSectionData,
     integrationPlatforms,
     comparisonTableData,
+    comparisonLegendData,
     faqSectionData,
     cardsListingData,
     cSCardsListingData,
@@ -183,7 +188,7 @@ export default function IndexPage(
         <FeatureSection data={featureSectionData} refer={refer}/>
         <AnimatedBeamSection data={integrationPlatforms} refer={refer} />
         <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection>
-        <SiteComparisonSection data={comparisonSectionData} refer={refer}/>
+        <SiteComparisonSection data={comparisonSectionData} legendData={comparisonLegendData} refer={refer}/>
         <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/>
         <FaqSection data={faqSectionData} mailId={heroSectionData?.contactEmail}/>
         <BannerSection data={bannerData} refer={refer}></BannerSection>
