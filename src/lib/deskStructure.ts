@@ -17,7 +17,7 @@ import {
   WrenchIcon,
   FolderIcon,
   StringIcon,
-  ListIcon
+  OlistIcon
 } from '@sanity/icons'
 
 // Schema type to icon mapping
@@ -66,7 +66,7 @@ const schemaIconMap: Record<string, any> = {
   csCardsListing: StackIcon,
   listingBlock: StackIcon,
   listingAtom: StackIcon,
-  browserList: ListIcon,
+  browserList: OlistIcon,
   
   // Media & Content
   banner: ImageIcon,
@@ -315,7 +315,7 @@ function getCategoryIcon(category: string) {
     legal: DocumentTextIcon,
     comparisons: StackIcon,
     platforms: EarthGlobeIcon,
-    blocks: ListIcon,
+    blocks: OlistIcon,
     media: ImageIcon,
     dynamic: BoltIcon,
     utilities: WrenchIcon

@@ -51,3 +51,5 @@ studio/.env.development
 package-lock.json
 
 .github
+
+backup/production.tar.gz
