@@ -13,7 +13,8 @@ module.exports = {
   	extend: {
   		
 			fontFamily: {
-				'sans': ['var(--font-inter)','sans-serif'],
+				// 'sans': ['var(--font-inter)','sans-serif'],
+				'geist': ['var(--font-geist-sans)','sans-serif'],
 				'manrope': ['var(--font-manrope)', 'system-ui', 'sans-serif'],
 			},
   		borderRadius: {
