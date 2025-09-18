@@ -64,6 +64,7 @@ const schemaIconMap: Record<string, any> = {
   logoListing: ImageIcon,
   cardsListing: StackIcon,
   csCardsListing: StackIcon,
+  verticalTestimonialListing: StackIcon,
   listingBlock: StackIcon,
   listingAtom: StackIcon,
   browserList: OlistIcon,
@@ -165,7 +166,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     platforms: ['Platforms', 'platform', 'platformList'],
     
     // Blocks & Lists
-    blocks: ['logoListing', 'cardsListing', 'csCardsListing', 'listingBlock', 'listingAtom', 'browserList'],
+    blocks: ['logoListing', 'verticalTestimonialListing', 'cardsListing', 'csCardsListing', 'listingBlock', 'listingAtom', 'browserList'],
     
     // Media & UI
     media: ['banner', 'footer', 'miscellaneous'],

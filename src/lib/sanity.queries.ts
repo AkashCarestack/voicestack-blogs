@@ -244,6 +244,22 @@ export async function logoSection(client: SanityClient, region: string) {
   return await client.fetch(query, { region })
 }
 
+export async function getVerticalTestimonialListing(client: SanityClient, region: string) {
+  const query = groq` *[_type == "verticalTestimonialListing" && language == $region][0]{
+    ...,
+  
+    heading,
+    description,
+    'testimonial': testimonial[]->{
+      ...,
+      thumbnail,
+      locations,
+      
+    }
+}`
+  return await client.fetch(query, { region })
+}
+
 export async function getCardsSectionData(
   client: SanityClient,
   region: string,
@@ -700,6 +716,24 @@ export const getComparisonTableData = (region) =>
       }
     }
   } | order(_createdAt desc)[0]`
+
+export const getAllComparisonValues = (region) =>
+  groq`*[_type == "comparisonValue"] {
+    _id,
+    text,
+    "icon": icon.asset-> {
+      _id,
+      url,
+      metadata {
+        dimensions {
+          width,
+          height,
+          aspectRatio
+        }
+      }
+    }
+  } | order(text asc)`
+
 export async function getIntegrationList(client: SanityClient, region: string) {
   const query = groq`*[_type == "platform" && language == $region] {
     ...,
