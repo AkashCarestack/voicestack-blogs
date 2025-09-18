@@ -7,6 +7,7 @@ import RightImageComponent from './RightImageComponent'
 import FeatureGridComponent from './FeatureGridComponent'
 import TestimonialComponent from './TestimonialComponent'
 import CustomComponent from './CustomComponent'
+import TabsListingComponent from './TabsListingComponent'
 
 /**
  * DYNAMIC COMPONENT RENDERER
@@ -112,6 +113,9 @@ const DynamicComponentRenderer: React.FC<DynamicComponentProps> = ({
 
   // Render the appropriate component based on type
   switch (componentType) {
+    case 'TabsListing':
+      console.log('Rendering TabsListing component with data:', enhancedComponent.tabsListingComponent)
+      return <TabsListingComponent data={enhancedComponent.tabsListingComponent} slugData={slugData} />
     case 'Listing':
       console.log('Rendering Listing component with data:', enhancedComponent.listingComponent)
       return <ListingComponent data={enhancedComponent.listingComponent} slugData={slugData} />
