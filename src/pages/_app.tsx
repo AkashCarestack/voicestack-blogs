@@ -17,6 +17,8 @@ import { Inter, Manrope } from 'next/font/google'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
 import LayoutDataProvider from '~/providers/LayoutDataProvider'
 
+import { GeistSans } from 'geist/font/sans';
+
 const inter = Inter({
   subsets: ['latin'],
   variable: '--font-inter',
@@ -55,7 +57,7 @@ function App({
   const isStudioPage = router.pathname.startsWith('/studio') || router.pathname.startsWith('/legal');
   
   return (
-    <main className={`${inter.variable} ${manrope.variable} font-sans`}>
+    <main className={`${inter.variable} ${manrope.variable} font-geist ${GeistSans.variable}`}>
       <TrackUserProvider>
       {/* <style jsx global>{`
           body {
