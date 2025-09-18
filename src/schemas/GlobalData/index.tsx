@@ -34,98 +34,100 @@ const GlobalData = {
       },
       validation: (Rule: any) => Rule.required(),
     },
-    // Comparison Table Fields
+    // Comparison Table Fields - Using the same structure as comparisonTable schema
     {
       name: 'comparisonTable',
       title: 'Comparison Table Data',
       type: 'object',
-      hidden: ({ parent }: any) => parent?.dataType !== 'comparisonTable',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'comparisonTable',
       fields: [
         {
           name: 'title',
-          title: 'Table Title',
-          type: 'string',
-        },
-        {
-          name: 'subtitle',
-          title: 'Table Subtitle',
+          title: 'Title',
           type: 'string',
         },
         {
           name: 'columns',
-          title: 'Table Columns',
+          title: 'Columns',
           type: 'array',
           of: [
             {
               type: 'object',
-              name: 'column',
-              title: 'Column',
               fields: [
                 {
-                  name: 'header',
-                  title: 'Column Header',
+                  name: 'name',
+                  title: 'Column Name',
                   type: 'string',
                   validation: (Rule: any) => Rule.required(),
                 },
                 {
-                  name: 'highlighted',
-                  title: 'Highlighted Column',
-                  type: 'boolean',
-                  initialValue: false,
+                  name: 'logo',
+                  title: 'Logo',
+                  type: 'image',
                 },
                 {
-                  name: 'badge',
-                  title: 'Badge Text',
-                  type: 'string',
+                  name: 'logoMobile',
+                  title: 'Logo Mobile',
+                  type: 'image',
                 },
               ],
             },
           ],
         },
         {
-          name: 'rows',
-          title: 'Table Rows',
+          name: 'rowCategories',
+          title: 'Row Categories',
           type: 'array',
           of: [
             {
               type: 'object',
-              name: 'row',
-              title: 'Row',
               fields: [
                 {
-                  name: 'feature',
-                  title: 'Feature Name',
+                  name: 'name',
+                  title: 'Category Name',
                   type: 'string',
                   validation: (Rule: any) => Rule.required(),
                 },
                 {
-                  name: 'values',
-                  title: 'Values',
+                  name: 'iconSvgCode',
+                  title: 'Icon Svg Code',
+                  type: 'string',
+                  validation: (Rule: any) => Rule.required(),
+                },
+                {
+                  name: 'icon',
+                  title: 'Icon',
+                  type: 'image',
+                },
+                {
+                  name: 'rows',
+                  title: 'Rows',
                   type: 'array',
                   of: [
                     {
                       type: 'object',
-                      name: 'value',
-                      title: 'Value',
                       fields: [
                         {
-                          name: 'text',
-                          title: 'Value Text',
+                          name: 'heading',
+                          title: 'Row Heading',
+                          type: 'string',
+                          validation: (Rule: any) => Rule.required(),
+                        },
+                        {
+                          name: 'description',
+                          title: 'Description',
                           type: 'string',
                         },
                         {
-                          name: 'type',
-                          title: 'Value Type',
-                          type: 'string',
-                          options: {
-                            list: [
-                              { title: 'Checkmark', value: 'check' },
-                              { title: 'Cross', value: 'cross' },
-                              { title: 'Text', value: 'text' },
-                              { title: 'Number', value: 'number' },
-                            ],
-                          },
-                          initialValue: 'text',
+                          name: 'comparisons',
+                          title: 'Comparisons',
+                          type: 'array',
+                          of: [
+                            {
+                              type: 'reference',
+                              to: [{ type: 'comparisonValue' }],
+                            }
+                          ],
                         },
                       ],
                     },
@@ -135,6 +137,12 @@ const GlobalData = {
             },
           ],
         },
+        {
+          name: 'language',
+          type: 'string',
+          readOnly: true,
+          hidden: true,
+        },
       ],
     },
     // Feature List Fields
@@ -142,7 +150,7 @@ const GlobalData = {
       name: 'featureList',
       title: 'Feature List Data',
       type: 'object',
-      hidden: ({ parent }: any) => parent?.dataType !== 'featureList',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'featureList',
       fields: [
         {
           name: 'title',
@@ -181,12 +189,130 @@ const GlobalData = {
         },
       ],
     },
+    // Pricing Data Fields
+    {
+      name: 'pricingData',
+      title: 'Pricing Data',
+      type: 'object',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'pricingData',
+      fields: [
+        {
+          name: 'title',
+          title: 'Pricing Title',
+          type: 'string',
+        },
+        {
+          name: 'subtitle',
+          title: 'Pricing Subtitle',
+          type: 'string',
+        },
+        {
+          name: 'plans',
+          title: 'Pricing Plans',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {
+                  name: 'name',
+                  title: 'Plan Name',
+                  type: 'string',
+                  validation: (Rule: any) => Rule.required(),
+                },
+                {
+                  name: 'price',
+                  title: 'Price',
+                  type: 'string',
+                  validation: (Rule: any) => Rule.required(),
+                },
+                {
+                  name: 'period',
+                  title: 'Billing Period',
+                  type: 'string',
+                },
+                {
+                  name: 'features',
+                  title: 'Features',
+                  type: 'array',
+                  of: [{ type: 'string' }],
+                },
+                {
+                  name: 'isPopular',
+                  title: 'Popular Plan',
+                  type: 'boolean',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    // Testimonial Data Fields
+    {
+      name: 'testimonialData',
+      title: 'Testimonial Data',
+      type: 'object',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'testimonialData',
+      fields: [
+        {
+          name: 'title',
+          title: 'Testimonial Section Title',
+          type: 'string',
+        },
+        {
+          name: 'subtitle',
+          title: 'Testimonial Section Subtitle',
+          type: 'string',
+        },
+        {
+          name: 'testimonials',
+          title: 'Testimonials',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {
+                  name: 'name',
+                  title: 'Customer Name',
+                  type: 'string',
+                  validation: (Rule: any) => Rule.required(),
+                },
+                {
+                  name: 'company',
+                  title: 'Company',
+                  type: 'string',
+                },
+                {
+                  name: 'quote',
+                  title: 'Testimonial Quote',
+                  type: 'text',
+                  validation: (Rule: any) => Rule.required(),
+                },
+                {
+                  name: 'rating',
+                  title: 'Rating',
+                  type: 'number',
+                  validation: (Rule: any) => Rule.min(1).max(5),
+                },
+                {
+                  name: 'avatar',
+                  title: 'Customer Avatar',
+                  type: 'image',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
     // Custom Content Fields (fallback)
     {
       name: 'customContent',
       title: 'Custom Content Data',
       type: 'object',
-      hidden: ({ parent }: any) => parent?.dataType !== 'customContent',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'customContent',
       fields: [
         {
           name: 'title',
@@ -252,7 +378,7 @@ const GlobalData = {
         subtitle: `${dataType || 'Unknown'} - ${subtitle || 'Global data'}`,
       };
     },
-  },
+  }
 }
 
 export default GlobalData
