@@ -33,9 +33,9 @@ export default function Layout({
 
   const { headerData, footerData, loading } = useLayoutData();
 
-  console.log('Layout component - headerData:', headerData);
-  console.log('Layout component - footerData:', footerData);
-  console.log('Layout component - loading:', loading);
+  // console.log('Layout component - headerData:', headerData);
+  // console.log('Layout component - footerData:', footerData);
+  // console.log('Layout component - loading:', loading);
 
   if (loading) {
     return (

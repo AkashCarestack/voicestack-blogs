@@ -107,7 +107,7 @@ export default function WhoWeServePage({ page, allPages, currentLanguage }: WhoW
             <div className="max-w-6xl mx-auto text-center">
               <h2 className="text-2xl font-bold text-gray-900 mb-4">No Content Sections</h2>
               <p className="text-gray-600">
-                This page doesn't have any content sections configured in the CMS.
+                This page doesn&apos;t have any content sections configured in the CMS.
               </p>
             </div>
           </div>

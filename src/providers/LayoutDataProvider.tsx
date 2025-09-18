@@ -44,9 +44,6 @@ export default function LayoutDataProvider({ children }: LayoutDataProviderProps
           getFooterData(client, region)
         ]);
         
-        console.log('LayoutDataProvider - headerData:', header);
-        console.log('LayoutDataProvider - footerData:', footer);
-        
         setHeaderData(header);
         setFooterData(footer);
       } catch (error) {

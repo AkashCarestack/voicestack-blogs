@@ -14,6 +14,7 @@ const GlobalData = {
           { title: 'Pricing Data', value: 'pricingData' },
           { title: 'Testimonial Data', value: 'testimonialData' },
           { title: 'Custom Content', value: 'customContent' },
+          { title: 'Tabs Listing', value: 'tabsListingComponent' },
         ],
       },
       validation: (Rule: any) => Rule.required(),
@@ -241,6 +242,140 @@ const GlobalData = {
                   name: 'isPopular',
                   title: 'Popular Plan',
                   type: 'boolean',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    // Tabs Listing Component Fields
+    {
+      name: 'tabsListingComponent',
+      title: 'Tabs Listing Component Data',
+      type: 'object',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'tabsListingComponent',
+      fields: [
+        {
+          name: 'headline',
+          title: 'Headline',
+          type: 'string',
+        },
+        {
+          name: 'subheadline',
+          title: 'SubHeadline',
+          type: 'string',
+        },
+        {
+          name: 'showCTA',
+          title: 'Show CTA',
+          type: 'boolean',
+        },
+        {
+          name: 'subDescription',
+          title: 'Description',
+          type: 'string',
+        },
+        {
+          name: 'tabs',
+          title: 'Tabs',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {
+                  name: 'tabHeading',
+                  title: 'Heading',
+                  type: 'string',
+                },
+                {
+                  name: 'tabSubHeading',
+                  title: 'SubHeading',
+                  type: 'string',
+                },
+                {
+                  name: 'description',
+                  title: 'Description',
+                  type: 'string',
+                },
+                {
+                  name: 'image',
+                  title: 'Image',
+                  type: 'image',
+                },
+                {
+                  name: 'listItems',
+                  title: 'List Items',
+                  type: 'array',
+                  of: [
+                    {
+                      type: 'object',
+                      fields: [
+                        {
+                          name: 'listHeading',
+                          title: 'List Heading',
+                          type: 'string',
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  name: 'icon',
+                  title: 'Icon (SVG)',
+                  type: 'text',
+                },
+                {
+                  name: 'ctaListItems',
+                  title: 'Call to Action List',
+                  type: 'array',
+                  of: [
+                    {
+                      type: 'object',
+                      fields: [
+                        {
+                          name: 'ctaLink',
+                          title: 'CTA Link',
+                          type: 'string',
+                        },
+                        {
+                          name: 'ctaText',
+                          title: 'CTA Text',
+                          type: 'string',
+                        },
+                        {
+                          name: 'ctaType',
+                          title: 'Button type',
+                          type: 'string',
+                          options: {
+                            list: [
+                              { title: 'Primary', value: 'primary' },
+                              { title: 'Secondary', value: 'secondary' },
+                              { title: 'Outline', value: 'outline' },
+                              { title: 'Ghost', value: 'ghost' },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  name: 'Link',
+                  title: 'Link (href)',
+                  type: 'string',
+                },
+                {
+                  name: 'LinkText',
+                  title: 'Link Text',
+                  type: 'string',
+                },
+                {
+                  name: 'testimonial',
+                  title: 'Testimonial Reference',
+                  type: 'reference',
+                  to: [{ type: 'testimonial' }],
                 },
               ],
             },

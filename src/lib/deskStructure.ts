@@ -17,7 +17,7 @@ import {
   WrenchIcon,
   FolderIcon,
   StringIcon,
-  ListIcon
+  OlistIcon
 } from '@sanity/icons'
 
 // Schema type to icon mapping
@@ -64,9 +64,10 @@ const schemaIconMap: Record<string, any> = {
   logoListing: ImageIcon,
   cardsListing: StackIcon,
   csCardsListing: StackIcon,
+  verticalTestimonialListing: StackIcon,
   listingBlock: StackIcon,
   listingAtom: StackIcon,
-  browserList: ListIcon,
+  browserList: OlistIcon,
   
   // Media & Content
   banner: ImageIcon,
@@ -165,7 +166,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     platforms: ['Platforms', 'platform', 'platformList'],
     
     // Blocks & Lists
-    blocks: ['logoListing', 'cardsListing', 'csCardsListing', 'listingBlock', 'listingAtom', 'browserList'],
+    blocks: ['logoListing', 'verticalTestimonialListing', 'cardsListing', 'csCardsListing', 'listingBlock', 'listingAtom', 'browserList'],
     
     // Media & UI
     media: ['banner', 'footer', 'miscellaneous'],
@@ -315,7 +316,7 @@ function getCategoryIcon(category: string) {
     legal: DocumentTextIcon,
     comparisons: StackIcon,
     platforms: EarthGlobeIcon,
-    blocks: ListIcon,
+    blocks: OlistIcon,
     media: ImageIcon,
     dynamic: BoltIcon,
     utilities: WrenchIcon
