@@ -14,6 +14,7 @@ const GlobalData = {
           { title: 'Pricing Data', value: 'pricingData' },
           { title: 'Testimonial Data', value: 'testimonialData' },
           { title: 'Custom Content', value: 'customContent' },
+          { title: 'Tabs Listing', value: 'tabsListingComponent' },
         ],
       },
       validation: (Rule: any) => Rule.required(),
@@ -82,6 +83,137 @@ const GlobalData = {
             },
           ],
         },
+        {
+          name: 'tabsListing',
+          title: 'Tabs Listing',
+          type: 'object',
+          hidden: ({ parent }: any) => parent?.dataType !== 'tabsListingComponent',
+          fields: [
+            {
+                name: 'headline',
+                title: 'Headline',
+                type: 'string',
+            },
+            {
+                name: 'subheadline',
+                title: 'SubHeadline',
+                type: 'string',
+            },
+            {
+                name:'showCTA',
+                title: 'Show CTA',
+                type: 'boolean',
+                
+            },
+            
+            {
+                name: 'subDescription',
+                title: 'Description',
+                type: 'string',
+            },
+            {
+                name: 'tabs',
+                title: 'Tabs',
+                type: 'array',
+                of: [
+                    {
+                        type: 'object',
+                        fields: [
+                            {
+                                name: 'tabHeading',
+                                title: 'Heading',
+                                type: 'string',
+                            },
+                            {
+                                name: 'tabSubHeading',
+                                title: 'SubHeading',
+                                type: 'string',
+                            },
+                            {
+                                name: 'description',
+                                title: 'Description',
+                                type: 'string',
+                            },
+                            {
+                                name: 'image',
+                                title: 'Image',
+                                type: 'image',
+                            },
+                            {
+                                name:'listItems',
+                                title: 'List Items',
+                                type: 'array',
+                                of: [
+                                    {
+                                        type: 'object',
+                                        fields: [
+                                            {
+                                                name: 'listHeading',
+                                                title: 'List Heading',
+                                                type: 'string',
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                name: 'icon',
+                                title: 'Icon (SVG)',
+                                type: 'text',
+                            },
+                            {
+                                name:'ctaListItems',
+                                title: 'Call to Action List',
+                                type: 'array',
+                                of: [
+                                    {
+                                        type: 'object',
+                                        fields: [
+                                            {
+                                                name: 'ctaLink',
+                                                title: 'CTA Link',
+                                                type: 'string',
+                                            },
+                                            {
+                                                name: 'ctaText',
+                                                title: 'CTA Text',
+                                                type: 'string',
+                                            },
+                                            {
+                                                name: 'ctaType',
+                                                title: 'Button type',
+                                                type: 'string',
+                                                //dropdwon akanm
+                                            },
+                                        ],
+                                    },
+                                ],
+                            },
+                            {
+                                name: 'Link',
+                                title: 'Link (href)',
+                                type: 'string',
+                            },
+                            {
+                                name: 'LinkText',
+                                title: 'Link Text',
+                                type: 'string',
+                            },
+                            {
+                                name: 'testimonial',
+                                title: 'testimonial (referenced region Based)',
+                                type: 'string',
+                            },
+                        ],
+                    },
+                ],
+            },
+           
+     
+        ],
+        },
+
+
         {
           name: 'rows',
           title: 'Table Rows',
@@ -173,6 +305,146 @@ const GlobalData = {
                 {
                   name: 'icon',
                   title: 'Feature Icon',
+                  type: 'string',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    // Tabs Listing Component Fields
+    {
+      name: 'tabsListingComponent',
+      title: 'Tabs Listing Component Data',
+      type: 'object',
+      hidden: ({ parent }: any) => parent?.dataType !== 'tabsListingComponent',
+      fields: [
+        {
+          name: 'headline',
+          title: 'Headline',
+          type: 'string',
+        },
+        {
+          name: 'subheadline',
+          title: 'SubHeadline',
+          type: 'string',
+        },
+        {
+          name:'showCTA',
+          title: 'Show CTA',
+          type: 'boolean',
+        },
+        {
+          name: 'subDescription',
+          title: 'Description',
+          type: 'string',
+        },
+        {
+          name: 'tabs',
+          title: 'Tabs',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                {
+                  name: 'tabHeading',
+                  title: 'Heading',
+                  type: 'string',
+                },
+                {
+                  name: 'tabSubHeading',
+                  title: 'SubHeading',
+                  type: 'string',
+                },
+                {
+                  name: 'description',
+                  title: 'Description',
+                  type: 'string',
+                },
+                {
+                  name: 'image',
+                  title: 'Image',
+                  type: 'image',
+                },
+                {
+                  name:'listItems',
+                  title: 'Feature List Items',
+                  type: 'array',
+                  of: [
+                    {
+                      type: 'object',
+                      fields: [
+                        {
+                          name: 'subfeatureHeading',
+                          title: 'Heading',
+                          type: 'string',
+                        },
+                        {
+                          name: 'subfeatureSubheading',
+                          title: 'Subheading ',
+                          type: 'string',
+                        },
+                        {
+                          name: 'subfeatureDescription',
+                          title: 'Description',
+                          type: 'string',
+                        },
+                        {
+                          name: 'subfeatureImage',
+                          title: 'Image',
+                          type: 'image',
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  name: 'icon',
+                  title: 'Icon (SVG)',
+                  type: 'text',
+                },
+                {
+                  name:'ctaListItems',
+                  title: 'Call to Action List',
+                  type: 'array',
+                  of: [
+                    {
+                      type: 'object',
+                      fields: [
+                        {
+                          name: 'ctaLink',
+                          title: 'CTA Link',
+                          type: 'string',
+                        },
+                        {
+                          name: 'ctaText',
+                          title: 'CTA Text',
+                          type: 'string',
+                        },
+                        {
+                          name: 'ctaType',
+                          title: 'Button type',
+                          type: 'string',
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  name: 'Link',
+                  title: 'Link (href)',
+                  type: 'string',
+                },
+                {
+                  name: 'LinkText',
+                  title: 'Link Text',
+                  type: 'string',
+                },
+                {
+                  name: 'testimonial',
+                  title: 'testimonial (referenced region Based)',
                   type: 'string',
                 },
               ],
