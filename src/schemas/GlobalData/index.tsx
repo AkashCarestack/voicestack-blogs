@@ -144,6 +144,18 @@ const GlobalData = {
           readOnly: true,
           hidden: true,
         },
+        {
+          name: 'comparisonValues',
+          title: 'Comparison Values (Referenced)',
+          type: 'array',
+          of: [
+            {
+              type: 'reference',
+              to: [{ type: 'comparisonValue' }],
+            }
+          ],
+          description: 'These are the comparison values that can be referenced in the table rows above. Each comparison value contains an icon and text (e.g., "Advanced", "Basic", "Does Not Exist"). Create and manage them in the Comparisons & Analysis section.',
+        },
       ],
     },
     // Feature List Fields
