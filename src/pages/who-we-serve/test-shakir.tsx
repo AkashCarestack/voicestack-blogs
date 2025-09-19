@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import Queries from '~/components/revamp/queries'
 
 export default function TestShakir() {
-  const queries = new Queries('dev-testdata')
+  const queries = new Queries('dev-adolf-h')
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
@@ -16,7 +16,7 @@ export default function TestShakir() {
     console.log(data)
   }, [data])
   return (
-    <div>test-shakir</div>
+    <div className='text-red-500 h-screen w-20'>test-shakir</div>
   )
 }
 
