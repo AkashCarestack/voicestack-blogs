@@ -206,12 +206,6 @@ const Header = ({ data, refer=null }) => {
     : country === "3" ? "en-AU"
     : null;
   }
-  <Head>
-    <link rel="alternate" hrefLang="en-us" href="https://www.voicestack.com" />
-    <link rel="alternate" hrefLang="en-gb" href="https://www.voicestack.com/en-GB" />
-    <link rel="alternate" hrefLang="en-au" href="https://www.voicestack.com/en-AU" />
-    <link rel="alternate" hrefLang="x-default" href="https://www.voicestack.com" />
-  </Head>
   
   function shouldRenderPopup() {
     
@@ -283,6 +277,7 @@ const Header = ({ data, refer=null }) => {
         <link rel="alternate" hrefLang="en-au" href="https://www.voicestack.com/en-AU" />
         <link rel="alternate" hrefLang="x-default" href="https://www.voicestack.com" />
       </Head>
+      
       <ProgressBar/>
     {/* region popup main */}
     {regionSwitcher &&  
