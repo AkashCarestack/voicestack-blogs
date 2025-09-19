@@ -1,16 +1,14 @@
-import groq from 'groq'
+import { NextApiRequest, NextApiResponse } from 'next'
 import { getClient } from '~/lib/sanity.client'
 
-class Queries {
-  slug: string
-  client = getClient()
-  constructor(slug: string) {
-    this.slug = slug
-  }
-
-  private fetchCommonData(slug: string) {
-
-    return groq`
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    const client = getClient()
+    
+    console.log('Testing dynamic component query...')
+    
+    // Test the updated query with conditional component selection
+    const dynamicQuery = `
       *[_type == "whoWeServe" && basicInfo.slug.current == "dev-adolf-h"][0]{
         content {
           sections[]{
@@ -57,16 +55,33 @@ class Queries {
             )
           }
         }
-}
+      }
     `
-  }
-
-
-  public async getData() {
-    const query = this.fetchCommonData(this.slug)
-    const params = { slug: this.slug }
-    return await this.client.fetch(query, params)
+    
+    const result = await client.fetch(dynamicQuery)
+    
+    // Analyze the result to show what component types we got and their data
+    const analysis = result?.content?.sections?.map((section: any) => ({
+      componentType: section.componentType,
+      hasData: !!section.data,
+      dataKeys: section.data ? Object.keys(section.data) : [],
+      dataSize: section.data ? JSON.stringify(section.data).length : 0
+    })) || []
+    
+    console.log('Query result analysis:', analysis)
+    
+    res.status(200).json({
+      success: true,
+      message: 'Dynamic component query test completed',
+      analysis,
+      fullResult: result,
+      query: dynamicQuery
+    })
+  } catch (error) {
+    console.error('Dynamic query test error:', error)
+    res.status(500).json({ 
+      message: 'Error testing dynamic query',
+      error: error.message 
+    })
   }
 }
-
-export default Queries
