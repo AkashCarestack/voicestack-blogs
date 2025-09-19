@@ -10,11 +10,8 @@ const GlobalData = {
       options: {
         list: [
           { title: 'Comparison Table', value: 'comparisonTable' },
-          { title: 'Feature List', value: 'featureList' },
-          { title: 'Pricing Data', value: 'pricingData' },
-          { title: 'Testimonial Data', value: 'testimonialData' },
-          { title: 'Custom Content', value: 'customContent' },
           { title: 'Tabs Listing', value: 'tabsListingComponent' },
+          { title: 'Custom Content', value: 'customContent' },
         ],
       },
       validation: (Rule: any) => Rule.required(),
@@ -35,229 +32,100 @@ const GlobalData = {
       },
       validation: (Rule: any) => Rule.required(),
     },
-    // Comparison Table Fields
+    // Comparison Table Fields - Using the same structure as comparisonTable schema
     {
       name: 'comparisonTable',
       title: 'Comparison Table Data',
       type: 'object',
-      hidden: ({ parent }: any) => parent?.dataType !== 'comparisonTable',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'comparisonTable',
       fields: [
         {
           name: 'title',
-          title: 'Table Title',
-          type: 'string',
-        },
-        {
-          name: 'subtitle',
-          title: 'Table Subtitle',
+          title: 'Title',
           type: 'string',
         },
         {
           name: 'columns',
-          title: 'Table Columns',
+          title: 'Columns',
           type: 'array',
           of: [
             {
               type: 'object',
-              name: 'column',
-              title: 'Column',
               fields: [
                 {
-                  name: 'header',
-                  title: 'Column Header',
+                  name: 'name',
+                  title: 'Column Name',
                   type: 'string',
                   validation: (Rule: any) => Rule.required(),
                 },
                 {
-                  name: 'highlighted',
-                  title: 'Highlighted Column',
-                  type: 'boolean',
-                  initialValue: false,
+                  name: 'logo',
+                  title: 'Logo',
+                  type: 'image',
                 },
                 {
-                  name: 'badge',
-                  title: 'Badge Text',
-                  type: 'string',
+                  name: 'logoMobile',
+                  title: 'Logo Mobile',
+                  type: 'image',
                 },
               ],
             },
           ],
         },
         {
-          name: 'tabsListing',
-          title: 'Tabs Listing',
-          type: 'object',
-          hidden: ({ parent }: any) => parent?.dataType !== 'tabsListingComponent',
-          fields: [
-            {
-                name: 'headline',
-                title: 'Headline',
-                type: 'string',
-            },
-            {
-                name: 'subheadline',
-                title: 'SubHeadline',
-                type: 'string',
-            },
-            {
-                name:'showCTA',
-                title: 'Show CTA',
-                type: 'boolean',
-                
-            },
-            
-            {
-                name: 'subDescription',
-                title: 'Description',
-                type: 'string',
-            },
-            {
-                name: 'tabs',
-                title: 'Tabs',
-                type: 'array',
-                of: [
-                    {
-                        type: 'object',
-                        fields: [
-                            {
-                                name: 'tabHeading',
-                                title: 'Heading',
-                                type: 'string',
-                            },
-                            {
-                                name: 'tabSubHeading',
-                                title: 'SubHeading',
-                                type: 'string',
-                            },
-                            {
-                                name: 'description',
-                                title: 'Description',
-                                type: 'string',
-                            },
-                            {
-                                name: 'image',
-                                title: 'Image',
-                                type: 'image',
-                            },
-                            {
-                                name:'listItems',
-                                title: 'List Items',
-                                type: 'array',
-                                of: [
-                                    {
-                                        type: 'object',
-                                        fields: [
-                                            {
-                                                name: 'listHeading',
-                                                title: 'List Heading',
-                                                type: 'string',
-                                            },
-                                        ],
-                                    },
-                                ],
-                            },
-                            {
-                                name: 'icon',
-                                title: 'Icon (SVG)',
-                                type: 'text',
-                            },
-                            {
-                                name:'ctaListItems',
-                                title: 'Call to Action List',
-                                type: 'array',
-                                of: [
-                                    {
-                                        type: 'object',
-                                        fields: [
-                                            {
-                                                name: 'ctaLink',
-                                                title: 'CTA Link',
-                                                type: 'string',
-                                            },
-                                            {
-                                                name: 'ctaText',
-                                                title: 'CTA Text',
-                                                type: 'string',
-                                            },
-                                            {
-                                                name: 'ctaType',
-                                                title: 'Button type',
-                                                type: 'string',
-                                                //dropdwon akanm
-                                            },
-                                        ],
-                                    },
-                                ],
-                            },
-                            {
-                                name: 'Link',
-                                title: 'Link (href)',
-                                type: 'string',
-                            },
-                            {
-                                name: 'LinkText',
-                                title: 'Link Text',
-                                type: 'string',
-                            },
-                            {
-                                name: 'testimonial',
-                                title: 'testimonial (referenced region Based)',
-                                type: 'string',
-                            },
-                        ],
-                    },
-                ],
-            },
-           
-     
-        ],
-        },
-
-
-        {
-          name: 'rows',
-          title: 'Table Rows',
+          name: 'rowCategories',
+          title: 'Row Categories',
           type: 'array',
           of: [
             {
               type: 'object',
-              name: 'row',
-              title: 'Row',
               fields: [
                 {
-                  name: 'feature',
-                  title: 'Feature Name',
+                  name: 'name',
+                  title: 'Category Name',
                   type: 'string',
                   validation: (Rule: any) => Rule.required(),
                 },
                 {
-                  name: 'values',
-                  title: 'Values',
+                  name: 'iconSvgCode',
+                  title: 'Icon Svg Code',
+                  type: 'string',
+                  validation: (Rule: any) => Rule.required(),
+                },
+                {
+                  name: 'icon',
+                  title: 'Icon',
+                  type: 'image',
+                },
+                {
+                  name: 'rows',
+                  title: 'Rows',
                   type: 'array',
                   of: [
                     {
                       type: 'object',
-                      name: 'value',
-                      title: 'Value',
                       fields: [
                         {
-                          name: 'text',
-                          title: 'Value Text',
+                          name: 'heading',
+                          title: 'Row Heading',
+                          type: 'string',
+                          validation: (Rule: any) => Rule.required(),
+                        },
+                        {
+                          name: 'description',
+                          title: 'Description',
                           type: 'string',
                         },
                         {
-                          name: 'type',
-                          title: 'Value Type',
-                          type: 'string',
-                          options: {
-                            list: [
-                              { title: 'Checkmark', value: 'check' },
-                              { title: 'Cross', value: 'cross' },
-                              { title: 'Text', value: 'text' },
-                              { title: 'Number', value: 'number' },
-                            ],
-                          },
-                          initialValue: 'text',
+                          name: 'comparisons',
+                          title: 'Comparisons',
+                          type: 'array',
+                          of: [
+                            {
+                              type: 'reference',
+                              to: [{ type: 'comparisonValue' }],
+                            }
+                          ],
                         },
                       ],
                     },
@@ -267,49 +135,23 @@ const GlobalData = {
             },
           ],
         },
-      ],
-    },
-    // Feature List Fields
-    {
-      name: 'featureList',
-      title: 'Feature List Data',
-      type: 'object',
-      hidden: ({ parent }: any) => parent?.dataType !== 'featureList',
-      fields: [
         {
-          name: 'title',
-          title: 'List Title',
+          name: 'language',
           type: 'string',
+          readOnly: true,
+          hidden: true,
         },
         {
-          name: 'features',
-          title: 'Features',
+          name: 'comparisonValues',
+          title: 'Comparison Values (Referenced)',
           type: 'array',
           of: [
             {
-              type: 'object',
-              name: 'feature',
-              title: 'Feature',
-              fields: [
-                {
-                  name: 'title',
-                  title: 'Feature Title',
-                  type: 'string',
-                  validation: (Rule: any) => Rule.required(),
-                },
-                {
-                  name: 'description',
-                  title: 'Feature Description',
-                  type: 'text',
-                },
-                {
-                  name: 'icon',
-                  title: 'Feature Icon',
-                  type: 'string',
-                },
-              ],
-            },
+              type: 'reference',
+              to: [{ type: 'comparisonValue' }],
+            }
           ],
+          description: 'These are the comparison values that can be referenced in the table rows above. Each comparison value contains an icon and text (e.g., "Advanced", "Basic", "Does Not Exist"). Create and manage them in the Comparisons & Analysis section.',
         },
       ],
     },
@@ -318,7 +160,7 @@ const GlobalData = {
       name: 'tabsListingComponent',
       title: 'Tabs Listing Component Data',
       type: 'object',
-      hidden: ({ parent }: any) => parent?.dataType !== 'tabsListingComponent',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'tabsListingComponent',
       fields: [
         {
           name: 'headline',
@@ -331,7 +173,7 @@ const GlobalData = {
           type: 'string',
         },
         {
-          name:'showCTA',
+          name: 'showCTA',
           title: 'Show CTA',
           type: 'boolean',
         },
@@ -369,32 +211,17 @@ const GlobalData = {
                   type: 'image',
                 },
                 {
-                  name:'listItems',
-                  title: 'Feature List Items',
+                  name: 'listItems',
+                  title: 'List Items',
                   type: 'array',
                   of: [
                     {
                       type: 'object',
                       fields: [
                         {
-                          name: 'subfeatureHeading',
-                          title: 'Heading',
+                          name: 'listHeading',
+                          title: 'List Heading',
                           type: 'string',
-                        },
-                        {
-                          name: 'subfeatureSubheading',
-                          title: 'Subheading ',
-                          type: 'string',
-                        },
-                        {
-                          name: 'subfeatureDescription',
-                          title: 'Description',
-                          type: 'string',
-                        },
-                        {
-                          name: 'subfeatureImage',
-                          title: 'Image',
-                          type: 'image',
                         },
                       ],
                     },
@@ -406,7 +233,7 @@ const GlobalData = {
                   type: 'text',
                 },
                 {
-                  name:'ctaListItems',
+                  name: 'ctaListItems',
                   title: 'Call to Action List',
                   type: 'array',
                   of: [
@@ -427,6 +254,14 @@ const GlobalData = {
                           name: 'ctaType',
                           title: 'Button type',
                           type: 'string',
+                          options: {
+                            list: [
+                              { title: 'Primary', value: 'primary' },
+                              { title: 'Secondary', value: 'secondary' },
+                              { title: 'Outline', value: 'outline' },
+                              { title: 'Ghost', value: 'ghost' },
+                            ],
+                          },
                         },
                       ],
                     },
@@ -444,8 +279,9 @@ const GlobalData = {
                 },
                 {
                   name: 'testimonial',
-                  title: 'testimonial (referenced region Based)',
-                  type: 'string',
+                  title: 'Testimonial Reference',
+                  type: 'reference',
+                  to: [{ type: 'testimonial' }],
                 },
               ],
             },
@@ -458,7 +294,7 @@ const GlobalData = {
       name: 'customContent',
       title: 'Custom Content Data',
       type: 'object',
-      hidden: ({ parent }: any) => parent?.dataType !== 'customContent',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'customContent',
       fields: [
         {
           name: 'title',
@@ -524,7 +360,7 @@ const GlobalData = {
         subtitle: `${dataType || 'Unknown'} - ${subtitle || 'Global data'}`,
       };
     },
-  },
+  }
 }
 
 export default GlobalData

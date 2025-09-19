@@ -886,48 +886,38 @@ export const whoWeServeQueries = {
           slug,
           component {
             componentType,
-            listingComponent {
-              title,
-              description,
-              items[] {
+            tabsListingComponent {
+              headline,
+              subheadline,
+              subDescription,
+              showCTA,
+              globalData-> {
+                _id,
                 title,
-                description,
-                icon
+                comparisonTable,
+                dataType
               },
-              layout
-            },
-            rightImageComponent {
-              title,
-              description,
-              image,
-              imageAlt,
-              contentAlignment,
-              backgroundColor
-            },
-            featureGridComponent {
-              title,
-              description,
-              features[] {
-                title,
+              tabs[] {
+                tabHeading,
+                tabSubHeading,
                 description,
+                image,
+                listItems[] {
+                  subfeatureHeading,
+                  subfeatureSubheading,
+                  subfeatureDescription,
+                  subfeatureImage
+                },
                 icon,
-                link
-              },
-              gridColumns,
-              showIcons
-            },
-            testimonialComponent {
-              title,
-              testimonials[] {
-                quote,
-                author,
-                position,
-                company,
-                rating,
-                avatar
-              },
-              layout,
-              showRating
+                ctaListItems[] {
+                  ctaLink,
+                  ctaText,
+                  ctaType
+                },
+                Link,
+                LinkText,
+                testimonial
+              }
             },
             customComponent {
               title,
@@ -1003,48 +993,38 @@ export const dentalSoftwareQueries = {
           slug,
           component {
             componentType,
-            listingComponent {
-              title,
-              description,
-              items[] {
+            tabsListingComponent {
+              headline,
+              subheadline,
+              subDescription,
+              showCTA,
+              globalData-> {
+                _id,
                 title,
-                description,
-                icon
+                comparisonTable,
+                dataType
               },
-              layout
-            },
-            rightImageComponent {
-              title,
-              description,
-              image,
-              imageAlt,
-              contentAlignment,
-              backgroundColor
-            },
-            featureGridComponent {
-              title,
-              description,
-              features[] {
-                title,
+              tabs[] {
+                tabHeading,
+                tabSubHeading,
                 description,
+                image,
+                listItems[] {
+                  subfeatureHeading,
+                  subfeatureSubheading,
+                  subfeatureDescription,
+                  subfeatureImage
+                },
                 icon,
-                link
-              },
-              gridColumns,
-              showIcons
-            },
-            testimonialComponent {
-              title,
-              testimonials[] {
-                quote,
-                author,
-                position,
-                company,
-                rating,
-                avatar
-              },
-              layout,
-              showRating
+                ctaListItems[] {
+                  ctaLink,
+                  ctaText,
+                  ctaType
+                },
+                Link,
+                LinkText,
+                testimonial
+              }
             },
             customComponent {
               title,
@@ -1103,48 +1083,38 @@ export const dentalSoftwareQueries = {
           slug,
           component {
             componentType,
-            listingComponent {
-              title,
-              description,
-              items[] {
+            tabsListingComponent {
+              headline,
+              subheadline,
+              subDescription,
+              showCTA,
+              globalData-> {
+                _id,
                 title,
-                description,
-                icon
+                comparisonTable,
+                dataType
               },
-              layout
-            },
-            rightImageComponent {
-              title,
-              description,
-              image,
-              imageAlt,
-              contentAlignment,
-              backgroundColor
-            },
-            featureGridComponent {
-              title,
-              description,
-              features[] {
-                title,
+              tabs[] {
+                tabHeading,
+                tabSubHeading,
                 description,
+                image,
+                listItems[] {
+                  subfeatureHeading,
+                  subfeatureSubheading,
+                  subfeatureDescription,
+                  subfeatureImage
+                },
                 icon,
-                link
-              },
-              gridColumns,
-              showIcons
-            },
-            testimonialComponent {
-              title,
-              testimonials[] {
-                quote,
-                author,
-                position,
-                company,
-                rating,
-                avatar
-              },
-              layout,
-              showRating
+                ctaListItems[] {
+                  ctaLink,
+                  ctaText,
+                  ctaType
+                },
+                Link,
+                LinkText,
+                testimonial
+              }
             },
             customComponent {
               title,

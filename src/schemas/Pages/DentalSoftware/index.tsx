@@ -93,26 +93,20 @@ const DentalSoftware = {
                   title: 'title',
                   slug: 'slug.current',
                   componentType: 'component.componentType',
-                  componentTitle: 'component.listingComponent.title',
-                  rightImageTitle: 'component.rightImageComponent.title',
-                  featureGridTitle: 'component.featureGridComponent.title',
-                  testimonialTitle: 'component.testimonialComponent.title',
+                  tabsTitle: 'component.tabsListingComponent.headline',
+                  customTitle: 'component.customComponent.title',
                 },
                 prepare(selection: any) {
-                  const { title, slug, componentType, componentTitle, rightImageTitle, featureGridTitle, testimonialTitle } = selection;
+                  const { title, slug, componentType, tabsTitle, customTitle } = selection;
                   
                   let displayTitle = title || 'Untitled Section';
                   let subtitle = componentType || 'No Component';
                   
                   // Get the actual title from the selected component
-                  if (componentType === 'listingComponent' && componentTitle) {
-                    subtitle = componentTitle;
-                  } else if (componentType === 'rightImageComponent' && rightImageTitle) {
-                    subtitle = rightImageTitle;
-                  } else if (componentType === 'featureGridComponent' && featureGridTitle) {
-                    subtitle = featureGridTitle;
-                  } else if (componentType === 'testimonialComponent' && testimonialTitle) {
-                    subtitle = testimonialTitle;
+                  if (componentType === 'TabsListing' && tabsTitle) {
+                    subtitle = tabsTitle;
+                  } else if (componentType === 'Custom' && customTitle) {
+                    subtitle = customTitle;
                   }
                   
                   return {
