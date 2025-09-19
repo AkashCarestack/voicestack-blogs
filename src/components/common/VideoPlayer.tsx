@@ -1,36 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import useMediaQuery from '~/utils/mediaQuery';
+import React, { useState, useEffect } from 'react'
+import { urlForVideo } from '~/lib/sanity.image'
+import useMediaQuery from '~/utils/mediaQuery'
 
-export default function VideoPlayer({videoData, refer=null}) {
-  const desktopVideoSrc = refer == "carestack" ? 'https://cdn.sanity.io/files/76tr0pyh/production/8e8ce91e26c183d130278cd4f6bf29859428101e.mp4' : videoData?.bgVideoUrl || 'https://cdn.sanity.io/files/76tr0pyh/production/29c4fd446f073ca4f54cc3894cb9aebfeac2b62e.mp4';
-  const mobileVideoSrc = refer == "carestack" ? 'https://cdn.sanity.io/files/76tr0pyh/production/d2aed3780f97baf45a538423e7b9fc7fcaf80186.mp4' : videoData?.bgVideoUrlMobile || 'https://cdn.sanity.io/files/76tr0pyh/production/d2aed3780f97baf45a538423e7b9fc7fcaf80186.mp4';
-  const fallBackVideoSrc = 'https://cdn.sanity.io/files/76tr0pyh/production/d2aed3780f97baf45a538423e7b9fc7fcaf80186.mp4';
+export default function VideoPlayers({
+  video,
+  thumbnail,
+}: {
+  video: any
+  thumbnail: any
+}) {
+console.log("thumbnail",thumbnail)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [showThumbnail, setShowThumbnail] = useState(true)
 
-  const isMobile = useMediaQuery(767);
-  const [videoSrc, setVideoSrc] = useState(desktopVideoSrc);
+  const getVideoEmbedUrl = () => {
+    const { videoPlatform, videoId } = video
 
-  useEffect(() => {
-    setVideoSrc(isMobile ? fallBackVideoSrc : desktopVideoSrc);
-  }, [isMobile, mobileVideoSrc, desktopVideoSrc ,fallBackVideoSrc]);
+    switch (videoPlatform) {
+      case 'youtube':
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`
+      case 'vimeo':
+        return `https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0`
+      case 'vidyard':
+        return `https://play.vidyard.com/${videoId}?autoplay=1`
+      default:
+        return null
+    }
+  }
+
+  const handlePlay = () => {
+    setIsPlaying(true)
+    setShowThumbnail(false)
+  }
+
+  const handleClose = () => {
+    setIsPlaying(false)
+    setShowThumbnail(true)
+  }
 
   return (
-    
-    <video
-      key={videoSrc}
-      style={{
-        backgroundColor: 'transparent',
-        backgroundImage: 'none',
-        backgroundSize: 0,
-        backgroundPosition: 0,
-        backgroundRepeat: 'no-repeat',
-        objectFit: 'cover',
-      }}
-      className="w-full h-full"
-      autoPlay
-      loop muted playsInline
+    <div
+      className="relative w-full h-full group cursor-pointer"
+      onClick={handlePlay}
     >
-      <source src={videoSrc} type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-  );
+      {isPlaying ? (
+        <div className="relative w-full h-full">
+          <iframe
+            src={getVideoEmbedUrl()}
+            className="w-full h-full rounded-2xl"
+            frameBorder="0"
+            allow="autoplay; fullscreen; picture-in-picture"
+            allowFullScreen
+          />
+          
+        </div>
+      ) : (
+        <>
+          {thumbnail ? (
+            <video
+              muted
+              loop
+              playsInline
+              autoPlay
+              className="w-full h-full object-cover"
+            >
+              <source
+                src={urlForVideo(thumbnail)}
+                type="video/mp4"
+              />
+              Your browser does not support HTML5 video.
+            </video>
+          ) : (
+            // Fallback when no thumbnail
+            null
+          )}
+        </>
+      )}
+    </div>
+  )
 }

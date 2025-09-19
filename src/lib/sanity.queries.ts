@@ -126,14 +126,7 @@ export async function getHeroSectionData(client: SanityClient, region: string) {
           url,
           originalFilename,
           size,
-          mimeType,
-          metadata {
-            dimensions {
-              width,
-              height,
-              aspectRatio
-            }
-          }
+          mimeType
         }
       },
       
