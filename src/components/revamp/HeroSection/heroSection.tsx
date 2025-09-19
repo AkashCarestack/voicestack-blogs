@@ -64,7 +64,7 @@ const HeroSection = ({ data, refer = null, video }) => {
   }, [])
 
   return (
-    <section className="min-h-screen bg-[#F9F9F9] px-12 pt-3 pb-6 font-geist">
+    <section className=" bg-[#F9F9F9] px-12 pt-3 pb-6 font-geist">
       <div className=" rounded-[24px] bg-[linear-gradient(270deg,rgba(202,197,255,0.70)_0%,rgba(202,197,255,0.15)_51.44%,rgba(202,197,255,0.20)_100%)] justify-center">
         <Container className="justify-center py-12">
           <div className="">

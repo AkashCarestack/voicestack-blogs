@@ -14,6 +14,7 @@ import FeatureSection from '~/components/features/FeatureSection'
 import LinksCardsSection from '~/components/LinksCardSection'
 import LogoListingSection from '~/components/LogoListingSection'
 import HeroSection from '~/components/revamp/HeroSection/heroSection'
+import Queries from '~/components/revamp/queries'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import TestimonialHighlightSection from '~/components/TestimonialHighlightSection'
 import Testimonails from '~/components/testimonials/Testimonials'
@@ -34,7 +35,6 @@ import {
   getCsCardsSectionData,
   getFounderDetails,
   getHeaderData,
-  getHeroSectionData,
   getIntegrationList,
   getTestimonialHighlightSectionData,
   getTestimonialSecitonData,
@@ -49,6 +49,8 @@ export const getStaticProps: GetStaticProps<any> = async ({
   draftMode = false,
 }) => {
   const region = locale
+  const queries = new Queries('home')
+  const heroSectionData = await queries.getHeroData(region);
   const client = getClient(draftMode ? { token: readToken } : undefined)
   const homeSettings = await getHeaderData(client, region)
   const siteSettings = await runQuery(getALLSiteSettings(region))
@@ -57,7 +59,6 @@ export const getStaticProps: GetStaticProps<any> = async ({
   
   const comparisonLegendData = await runQuery(getAllComparisonValues(region))
   const integrationPlatforms = await getIntegrationList(client, region);
-  const heroSectionData = await getHeroSectionData(client, region);
   const testimonialSecitonData = await getTestimonialSecitonData(client, region)
   const logoSectionData = await logoSection(client,region);
   const featureSectionData = await featureSectionQuery(client, region);
