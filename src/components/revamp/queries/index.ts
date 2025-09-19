@@ -14,7 +14,7 @@ class Queries {
       *[_type == "whoWeServe" && basicInfo.slug.current == "dev-adolf-h"][0]{
         content {
           sections[]{
-            ...,
+            
             'componentType':component.componentType,
             'data': select(
               component.componentType == "TabsListing" => component.tabsListingComponent{
