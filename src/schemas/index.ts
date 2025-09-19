@@ -39,6 +39,7 @@ import WhoWeServe from './Pages/WhoWeServe'
 import DentalSoftware from './Pages/DentalSoftware'
 import GlobalData from './GlobalData'
 import VerticalTestimonialListing from './VerticalTestimonialListing'
+import button from './button'
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -81,5 +82,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     DentalSoftware,
     GlobalData,
     VerticalTestimonialListing,
+    button,
   ],
 }

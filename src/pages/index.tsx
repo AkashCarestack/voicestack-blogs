@@ -1,47 +1,48 @@
+import { useTracking } from 'cs-tracker'
+import { isEmpty } from 'lodash'
 import type { GetStaticProps, InferGetStaticPropsType } from 'next'
+import { useSearchParams } from 'next/navigation'
+import { useContext, useEffect, useState } from 'react'
+
+import BannerSection from '~/components/BannerSection'
+import CardsListingSection from '~/components/CardsListingSection'
+import CustomHead from '~/components/common/CustomHead'
+import Header from '~/components/common/Header'
+import CsCardsListingSection from '~/components/CsCardsListingSection'
+import FaqSection from '~/components/FaqSection'
+import FeatureSection from '~/components/features/FeatureSection'
+import LinksCardsSection from '~/components/LinksCardSection'
+import LogoListingSection from '~/components/LogoListingSection'
+import HeroSection from '~/components/revamp/HeroSection/heroSection'
+import SiteComparisonSection from '~/components/SiteComparisonSection'
+import TestimonialHighlightSection from '~/components/TestimonialHighlightSection'
+import Testimonails from '~/components/testimonials/Testimonials'
+import AnimatedBeamSection from '~/components/ui/animated/AnimatedBeamSection'
+import VerticalTestimonialListing from '~/components/VerticalTestimonialListing'
+import { getParams } from '~/helpers/getQueryParams'
 import { readToken } from '~/lib/sanity.api'
+import { getClient } from '~/lib/sanity.client'
 import {
-  getALLSiteSettings,
-  getComparisonTableData,
-  getFounderDetails,
-  getIntegrationList,
-  logoSection,
   featureSectionQuery,
   fetchFaq,
-  getHeroSectionData,
-  getTestimonialSecitonData,
-  getCardsSectionData,
-  getCsCardsSectionData,
-  getTestimonialHighlightSectionData,
-  getBannerData,
-  getHeaderData,
-  getContactAndVideoInfo,
-  getVerticalTestimonialListing,
   getAllComparisonValues,
+  getALLSiteSettings,
+  getBannerData,
+  getCardsSectionData,
+  getComparisonTableData,
+  getContactAndVideoInfo,
+  getCsCardsSectionData,
+  getFounderDetails,
+  getHeaderData,
+  getHeroSectionData,
+  getIntegrationList,
+  getTestimonialHighlightSectionData,
+  getTestimonialSecitonData,
+  getVerticalTestimonialListing,
+  logoSection,
 } from '~/lib/sanity.queries'
-import CustomHead from '~/components/common/CustomHead'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
 import runQuery from '~/utils/runQuery'
-import HeroSection from '~/components/HeroSection'
-import FeatureSection from '~/components/features/FeatureSection'
-import LogoListingSection from '~/components/LogoListingSection'
-import CardsListingSection from '~/components/CardsListingSection'
-import Header from '~/components/common/Header'
-import AnimatedBeamSection from '~/components/ui/animated/AnimatedBeamSection'
-import BannerSection from '~/components/BannerSection'
-import SiteComparisonSection from '~/components/SiteComparisonSection'
-import LinksCardsSection from '~/components/LinksCardSection'
-import Testimonails from '~/components/testimonials/Testimonials'
-import FaqSection from '~/components/FaqSection'
-import { getClient } from '~/lib/sanity.client'
-import { isEmpty } from 'lodash'
-import { useContext, useEffect, useState } from 'react'
-import { useTracking } from 'cs-tracker'
-import { getParams } from '~/helpers/getQueryParams'
-import CsCardsListingSection from '~/components/CsCardsListingSection'
-import { useSearchParams } from 'next/navigation'
-import TestimonialHighlightSection from '~/components/TestimonialHighlightSection'
-import VerticalTestimonialListing from '~/components/VerticalTestimonialListing'
 
 export const getStaticProps: GetStaticProps<any> = async ({
   locale,

@@ -17,6 +17,7 @@ import { getClient } from '~/lib/sanity.client'
            }
          }`
    }
+   
  }
 
  export default Queries
