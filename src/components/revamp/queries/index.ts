@@ -9,55 +9,25 @@ class Queries {
   }
 
   private fetchCommonData(slug: string) {
-
     return groq`
-      *[_type == "whoWeServe" && basicInfo.slug.current == "dev-adolf-h"][0]{
+      *[_type == "whoWeServe" && basicInfo.slug.current == $slug][0]{
         content {
           sections[]{
-            
-            'componentType':component.componentType,
+            'componentType': component.componentType,
             'data': select(
-              component.componentType == "TabsListing" => component.tabsListingComponent{
-                ...,
-                'globalData':globalData->{
-                  ...,
-                }
-              },
-              component.componentType == "RightImage" => component.rightImageComponent{
-                ...,
-                'globalData':globalData->{
-                  ...,
-                }
-              },
-              component.componentType == "Listing" => component.listingComponent{
-                ...,
-                'globalData':globalData->{
-                  ...,
-                }
-              },
-              component.componentType == "FeatureGrid" => component.featureGridComponent{
-                ...,
-                'globalData':globalData->{
-                  ...,
-                }
-              },
-              component.componentType == "Testimonial" => component.testimonialComponent{
-                ...,
-                'globalData':globalData->{
-                  ...,
-                }
-              },
-              component.componentType == "Custom" => component.customComponent{
-                ...,
-                'globalData':globalData->{
-                  ...,
-                }
-              },
-              null
-            )
+              component.componentType == "TabsListing" => component.tabsListingComponent,
+              component.componentType == "RightImage" => component.rightImageComponent,
+              component.componentType == "Listing" => component.listingComponent,
+              component.componentType == "FeatureGrid" => component.featureGridComponent,
+              component.componentType == "Testimonial" => component.testimonialComponent,
+              component.componentType == "Custom" => component.customComponent
+            ){
+              ...,
+              globalData->{...}
+            }
           }
         }
-}
+      }
     `
   }
 
