@@ -10,11 +10,8 @@ const GlobalData = {
       options: {
         list: [
           { title: 'Comparison Table', value: 'comparisonTable' },
-          { title: 'Feature List', value: 'featureList' },
-          { title: 'Pricing Data', value: 'pricingData' },
-          { title: 'Testimonial Data', value: 'testimonialData' },
-          { title: 'Custom Content', value: 'customContent' },
           { title: 'Tabs Listing', value: 'tabsListingComponent' },
+          { title: 'Custom Content', value: 'customContent' },
         ],
       },
       validation: (Rule: any) => Rule.required(),
@@ -158,109 +155,6 @@ const GlobalData = {
         },
       ],
     },
-    // Feature List Fields
-    {
-      name: 'featureList',
-      title: 'Feature List Data',
-      type: 'object',
-      hidden: ({ parent }: any) => !parent || parent.dataType !== 'featureList',
-      fields: [
-        {
-          name: 'title',
-          title: 'List Title',
-          type: 'string',
-        },
-        {
-          name: 'features',
-          title: 'Features',
-          type: 'array',
-          of: [
-            {
-              type: 'object',
-              name: 'feature',
-              title: 'Feature',
-              fields: [
-                {
-                  name: 'title',
-                  title: 'Feature Title',
-                  type: 'string',
-                  validation: (Rule: any) => Rule.required(),
-                },
-                {
-                  name: 'description',
-                  title: 'Feature Description',
-                  type: 'text',
-                },
-                {
-                  name: 'icon',
-                  title: 'Feature Icon',
-                  type: 'string',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    // Pricing Data Fields
-    {
-      name: 'pricingData',
-      title: 'Pricing Data',
-      type: 'object',
-      hidden: ({ parent }: any) => !parent || parent.dataType !== 'pricingData',
-      fields: [
-        {
-          name: 'title',
-          title: 'Pricing Title',
-          type: 'string',
-        },
-        {
-          name: 'subtitle',
-          title: 'Pricing Subtitle',
-          type: 'string',
-        },
-        {
-          name: 'plans',
-          title: 'Pricing Plans',
-          type: 'array',
-          of: [
-            {
-              type: 'object',
-              fields: [
-                {
-                  name: 'name',
-                  title: 'Plan Name',
-                  type: 'string',
-                  validation: (Rule: any) => Rule.required(),
-                },
-                {
-                  name: 'price',
-                  title: 'Price',
-                  type: 'string',
-                  validation: (Rule: any) => Rule.required(),
-                },
-                {
-                  name: 'period',
-                  title: 'Billing Period',
-                  type: 'string',
-                },
-                {
-                  name: 'features',
-                  title: 'Features',
-                  type: 'array',
-                  of: [{ type: 'string' }],
-                },
-                {
-                  name: 'isPopular',
-                  title: 'Popular Plan',
-                  type: 'boolean',
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
     // Tabs Listing Component Fields
     {
       name: 'tabsListingComponent',
@@ -388,65 +282,6 @@ const GlobalData = {
                   title: 'Testimonial Reference',
                   type: 'reference',
                   to: [{ type: 'testimonial' }],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    },
-    // Testimonial Data Fields
-    {
-      name: 'testimonialData',
-      title: 'Testimonial Data',
-      type: 'object',
-      hidden: ({ parent }: any) => !parent || parent.dataType !== 'testimonialData',
-      fields: [
-        {
-          name: 'title',
-          title: 'Testimonial Section Title',
-          type: 'string',
-        },
-        {
-          name: 'subtitle',
-          title: 'Testimonial Section Subtitle',
-          type: 'string',
-        },
-        {
-          name: 'testimonials',
-          title: 'Testimonials',
-          type: 'array',
-          of: [
-            {
-              type: 'object',
-              fields: [
-                {
-                  name: 'name',
-                  title: 'Customer Name',
-                  type: 'string',
-                  validation: (Rule: any) => Rule.required(),
-                },
-                {
-                  name: 'company',
-                  title: 'Company',
-                  type: 'string',
-                },
-                {
-                  name: 'quote',
-                  title: 'Testimonial Quote',
-                  type: 'text',
-                  validation: (Rule: any) => Rule.required(),
-                },
-                {
-                  name: 'rating',
-                  title: 'Rating',
-                  type: 'number',
-                  validation: (Rule: any) => Rule.min(1).max(5),
-                },
-                {
-                  name: 'avatar',
-                  title: 'Customer Avatar',
-                  type: 'image',
                 },
               ],
             },
