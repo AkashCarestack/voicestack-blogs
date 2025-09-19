@@ -15,9 +15,8 @@ class Queries {
         content {
           sections[]{
             ...,
-            'tab':component.componentType,
-
-            'tabs': component.tabsListingComponent{
+            'componentType':component.componentType,
+            'data': component.tabsListingComponent{
               ...,
               'globalData':globalData->{
                 ...,
