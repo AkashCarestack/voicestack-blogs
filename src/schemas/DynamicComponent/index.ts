@@ -40,7 +40,16 @@ const dynamicComponent = {
           title: 'Global Data (if not provided, data will be fetched from Selected global data)',
           type: 'reference', 
           to: [{ type: 'globalData' }],
-        
+        },
+        {
+          name: 'slug',
+          title: 'Data Slug',
+          type: 'slug',
+          options: {
+            source: 'headline',
+            maxLength: 96,
+          },
+          validation: (Rule: any) => Rule.required(),
         },
         {
           name: 'headline',
@@ -119,7 +128,6 @@ const dynamicComponent = {
                           type: 'image',
                         },
                       ],
-                    
                     },
                   ],
                 },
