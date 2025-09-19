@@ -13,7 +13,7 @@ class Queries {
     return groq`
       *[_type == "whoWeServe" && basicInfo.slug.current == "${this.slug}"][0]{
         content {
-          sections[0]{
+          sections[]{
             'referencedTab': component.tabsListingComponent.globalData->{
               ...,
             },

@@ -31,7 +31,7 @@ const HeroSection = ({ data, refer = null, video }) => {
 
   const [activeIndex, setActiveIndex] = useState(0)
   const [wordIndex, setWordIndex] = useState(0)
-  const words = data?.heroTitleStaticDynamic[activeIndex]?.split(' ');
+  const words = data?.heroTitleStaticDynamic?.[activeIndex]?.split(' ');
   const searchParams = useSearchParams();
   const source2 = searchParams.get("source"); // Get 'source' param from URL
 
@@ -48,14 +48,14 @@ const HeroSection = ({ data, refer = null, video }) => {
   
   useEffect(() => {
     setIsDemoPopUpShown(data);
-    if (wordIndex < words?.length) {
+    if (words && wordIndex < words.length) {
       const wordInterval = setTimeout(() => {
         setWordIndex(wordIndex + 1)
       }, 100)
       return () => clearTimeout(wordInterval)
-    } else {
+    } else if (data?.heroTitleStaticDynamic?.length) {
       const messageInterval = setTimeout(() => {
-        setActiveIndex((activeIndex + 1) % data?.heroTitleStaticDynamic?.length) // Loop through messages
+        setActiveIndex((activeIndex + 1) % data.heroTitleStaticDynamic.length) // Loop through messages
         setWordIndex(0)
       }, 3000)
       return () => clearTimeout(messageInterval)
@@ -149,7 +149,7 @@ const HeroSection = ({ data, refer = null, video }) => {
                   <Button type="primaryWhite" link={`/demo?region=${router.locale}`} locale={false} target='_blank'>
                     <ButtonArrow></ButtonArrow>
                     <span className="text-base font-medium">
-                      {data?.bookBtnContent}
+                      {typeof data?.bookBtnContent === 'string' ? data.bookBtnContent : data?.bookBtnContent?.buttonText || 'Book free demo'}
                     </span>
                   </Button>
                 ):(
@@ -157,7 +157,7 @@ const HeroSection = ({ data, refer = null, video }) => {
                 <Button type="primaryWhite" onClick={() => {setOpenForm(true)}}>
                   <ButtonArrow></ButtonArrow>
                   <span className="text-base font-medium">
-                    {data?.bookBtnContent}
+                    {typeof data?.bookBtnContent === 'string' ? data.bookBtnContent : data?.bookBtnContent?.buttonText || 'Book free demo'}
                   </span>
                 </Button>
                 )}

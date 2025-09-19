@@ -3,6 +3,7 @@ import RightImageComponent from './RightImageComponent'
 import FeatureGridComponent from './FeatureGridComponent'
 import TestimonialComponent from './TestimonialComponent'
 import CustomComponent from './CustomComponent'
+import TabsListingComponent from './TabsListingComponent'
 
 export const componentSchemas = [
   ListingComponent,
@@ -10,6 +11,7 @@ export const componentSchemas = [
   FeatureGridComponent,
   TestimonialComponent,
   CustomComponent,
+  TabsListingComponent,
 ]
 
 export default componentSchemas
