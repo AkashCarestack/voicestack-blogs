@@ -2,7 +2,6 @@ import type { PortableTextBlock } from '@portabletext/types'
 import type { ImageAsset, Slug } from '@sanity/types'
 import groq from 'groq'
 import { type SanityClient } from 'next-sanity'
-import { cookies } from 'next/headers'
 
 // ##############################################common fragments
 

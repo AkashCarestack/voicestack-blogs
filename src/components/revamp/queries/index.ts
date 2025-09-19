@@ -1,23 +1,40 @@
 import groq from 'groq'
 import { getClient } from '~/lib/sanity.client'
 
+class Queries {
+  slug: string
+  client = getClient()
+  constructor(slug: string) {
+    this.slug = slug
+  }
 
- class Queries {
-    slug: string
-    client = getClient()
+  private fetchCommonData(slug: string) {
 
-    public fetchCommonData(slug: string) {
-        return groq`*[_type == "whoWeServe" && basicInfo.slug.current == "${this.slug}"][0]{
-           content {
-             sections[0]{
-              'tabs': component.tabsListingComponent.globalData->{
+    return groq`
+      *[_type == "whoWeServe" && basicInfo.slug.current == "dev-adolf-h"][0]{
+        content {
+          sections[]{
+            ...,
+            'componentType':component.componentType,
+            'data': component.tabsListingComponent{
+              ...,
+              'globalData':globalData->{
                 ...,
               }
-             }
-           }
-         }`
-   }
-   
- }
+                
+            }
+          }
+        }
+}
+    `
+  }
 
- export default Queries
+
+  public async getData() {
+    const query = this.fetchCommonData(this.slug)
+    const params = { slug: this.slug }
+    return await this.client.fetch(query, params)
+  }
+}
+
+export default Queries
