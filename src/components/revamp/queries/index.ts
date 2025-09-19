@@ -8,23 +8,28 @@ class Queries {
     this.slug = slug
   }
 
-  public fetchCommonData(slug: string) {
+  private fetchCommonData(slug: string) {
 
     return groq`
-      *[_type == "whoWeServe" && basicInfo.slug.current == "${this.slug}"][0]{
+      *[_type == "whoWeServe" && basicInfo.slug.current == "dev-adolf-h"][0]{
         content {
-          sections[0]{
-            'referencedTab': component.tabsListingComponent.globalData->{
-              ...,
-            },
+          sections[]{
+            ...,
+            'tab':component.componentType,
+
             'tabs': component.tabsListingComponent{
-              ...
+              ...,
+              'globalData':globalData->{
+                ...,
+              }
+                
             }
           }
         }
-      }
+}
     `
   }
+
 
   public async getData() {
     const query = this.fetchCommonData(this.slug)
