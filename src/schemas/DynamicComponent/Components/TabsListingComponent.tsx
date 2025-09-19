@@ -20,6 +20,7 @@ const TabsListingComponent = {
           title: 'SubHeadline',
           type: 'string',
         },
+
         {
           name:'showCTA',
           title: 'Show CTA',
