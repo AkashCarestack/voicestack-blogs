@@ -11,6 +11,17 @@ const TabsListingComponent = {
         
         },
         {
+            name: 'slug',
+            title: 'slug',
+            type: 'slug',
+            options: {
+              source: 'headline',
+              maxLength: 96,
+            },
+            validation: (Rule: any) => Rule.required(),
+          },
+        
+        {
           name: 'headline',
           title: 'Headline',
           type: 'string',
