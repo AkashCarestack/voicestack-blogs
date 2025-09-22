@@ -297,7 +297,7 @@ const GlobalData = {
                   name: 'testimonial',
                   title: 'Testimonial Reference',
                   type: 'reference',
-                  to: [{ type: 'testimonial' }],
+                  to: [{ type: 'testimonialSection' }],
                 },
               ],
             },

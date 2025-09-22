@@ -86,8 +86,8 @@ const Header = ({ data }) => {
                     <div className={`md:w-auto w-full w-lg:flex-row top-[110px] right-0 px-4 pt-4 pb-8 lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col 
                       gap-2 justify-between items-center flex`}>
                       <nav className="flex flex-col lg:flex-row gap-y-4 gap-x-4 lg:gap-x-8 flex-wrap ">
-                        {data?.heroHeaderSection && data?.heroHeaderSection?.map((link: any, i: number) => {
-                          // if (link?.headerMenu === "Comparison" && isUk) {
+                        {data?.navigationMenu && data?.navigationMenu?.map((link: any, i: number) => {
+                          // if (link?.label === "Comparison" && isUk) {
                           //   return null;
                           // }
 
@@ -99,7 +99,7 @@ const Header = ({ data }) => {
                               className="text-gray-700 md:text-base text-xl font-medium text-center md:py-0 py-2 bg-red-50 "
                               onClick={toggleMenu}
                             >
-                              {link.headerMenu}
+                              {link.label}
                             </Link>
                             </li>
                           );
