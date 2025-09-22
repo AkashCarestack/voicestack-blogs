@@ -13,6 +13,7 @@ import FaqSection from '~/components/FaqSection'
 import FeatureSection from '~/components/features/FeatureSection'
 import LinksCardsSection from '~/components/LinksCardSection'
 import LogoListingSection from '~/components/LogoListingSection'
+import LogoSliderSection from '~/components/LogoSliderSection'
 import HeroSection from '~/components/revamp/HeroSection/heroSection'
 import Queries from '~/components/revamp/queries'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
@@ -182,7 +183,8 @@ export default function IndexPage(
       <div className="">
         {/* <Header data ={homeSettings} refer={refer}/> */}
         <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>
-        <LinksCardsSection data={linkCardSectionData} />
+        <LogoSliderSection data={logoSectionData}  refer={refer}/>
+        {/* <LinksCardsSection data={linkCardSectionData} /> */}
         <Testimonails data={testimonialSecitonData} refer={refer}/>
         <CardsListingSection data={cardsListingData}/>
         <VerticalTestimonialListing data={verticalTestimonialData}  refer={refer}/>

@@ -17,53 +17,8 @@ import H2 from './typography/H2'
 import Paragraph from './typography/Paragraph'
 import VideoPlayer from './common/VideoPlayer'
 
-// PrevArrow.tsx
-const PrevArrow = ({ onClick, currentSlide }: any) => {
-  const isDisabled = currentSlide === 0
 
-  return (
-    <button
-      onClick={onClick}
-      disabled={isDisabled}
-      className={`w-10 h-10 rounded-full flex items-center justify-center absolute -bottom-12 left-[55%] -translate-x-16 z-10
-        ${isDisabled ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-blue-600 text-white'}`}
-      aria-label="Previous"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path
-          d="M15 18l-6-6 6-6"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      </svg>
-    </button>
-  )
-}
 
-// NextArrow.tsx
-const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
-  const isDisabled = currentSlide >= slideCount - 1.85
-
-  return (
-    <button
-      onClick={onClick}
-      disabled={isDisabled}
-      className={`w-10 h-10 rounded-full flex items-center justify-center absolute -bottom-12 left-[35%] translate-x-16
-        ${isDisabled ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-blue-600 text-white'}`}
-      aria-label="Next"
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-        <path
-          d="M9 6l6 6-6 6"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-      </svg>
-    </button>
-  )
-}
 
 const LogoListingSection = ({ data, refer = null }) => {
   const [openForm, setOpenForm] = useState(false)
@@ -85,23 +40,7 @@ const LogoListingSection = ({ data, refer = null }) => {
   }
 
 
-  const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1.15,
-    slidesToScroll: 1,
-    arrows: true,
-    afterChange: (index: number) => setCurrentSlide(index),
-    prevArrow: <PrevArrow currentSlide={currentSlide} />,
-    nextArrow: (
-      <NextArrow
-        currentSlide={currentSlide}
-        slideCount={Math.ceil(data?.testimonial?.length - 1.15 + 1)}
-      />
-    ),
-  }
-
+ 
   return (
     <Section className="py-sm md:py-md md:pb-16">
       <Container>

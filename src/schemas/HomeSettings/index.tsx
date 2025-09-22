@@ -17,6 +17,10 @@ export default defineType({
       name: 'hero',
       title: 'Hero',
     },
+    {
+      name: 'menu',
+      title: 'Menu',
+    },
   ],
   fields: [
     defineField({
@@ -121,6 +125,7 @@ export default defineType({
       ],
       
     }),
+
     defineField({
       name: 'testimonialVideo',
       title: 'Testimonial Video',
@@ -128,6 +133,137 @@ export default defineType({
       of: [{ type: 'testimonialHighlightSection' }],
       group: 'hero',
     }),
+
+    defineField({
+      name: 'dmeoFormId',
+      title: 'Demo Form Id',
+      type: 'string',
+      group: 'basic',
+      
+    }),
+    
+    defineField({
+      name: 'demoMeetingLink',
+      title: 'Demo Meeting Link',
+      type: 'string',
+      group: 'basic',
+    }),
+    
+    defineField({
+      name: 'dmeoFormEventName',
+      title: 'Demo Form Event Name',
+      type: 'string',
+      group: 'basic',
+    }),
+
+    defineField({
+      name: 'canonical',
+      title: 'Canonical',
+      type: 'string',
+      group: 'basic',
+    }),
+
+    defineField({
+      name: 'phoneNumber',
+      title: 'Phone Number',
+      type: 'string',
+      group: 'basic',
+    }),
+        
+    defineField({
+      name: 'contactEmail',
+      title: 'Contact Email',
+      type: 'string',
+      description:'Support email',
+      group: 'basic',
+    }),
+
+    defineField({
+      name: 'navigationMenu',
+      title: 'Navigation Menu',
+      type: 'array',
+      group: 'menu',
+      of: [
+        {
+          type: 'object',
+          name: 'menuItem',
+          title: 'Menu Item',
+          fields: [
+            {
+              name: 'label',
+              title: 'Menu Label',
+              type: 'string',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'href',
+              title: 'Link URL',
+              type: 'string',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'hasSubmenu',
+              title: 'Has Submenu',
+              type: 'boolean',
+              initialValue: false,
+            },
+            {
+              name: 'submenu',
+              title: 'Submenu Items',
+              type: 'array',
+              hidden: ({ parent }: any) => !parent?.hasSubmenu,
+              of: [
+                {
+                  type: 'object',
+                  name: 'submenuItem',
+                  title: 'Submenu Item',
+                  fields: [
+                    {
+                      name: 'label',
+                      title: 'Submenu Label',
+                      type: 'string',
+                      validation: (Rule: any) => Rule.required(),
+                    },
+                    {
+                      name: 'href',
+                      title: 'Submenu Link URL',
+                      type: 'string',
+                      validation: (Rule: any) => Rule.required(),
+                    },
+                    {
+                      name: 'description',
+                      title: 'Description',
+                      type: 'string',
+                    },
+                  ],
+                  preview: {
+                    select: {
+                      title: 'label',
+                      subtitle: 'href',
+                    },
+                  },
+                },
+              ],
+            },
+          ],
+          preview: {
+            select: {
+              title: 'label',
+              subtitle: 'href',
+              hasSubmenu: 'hasSubmenu',
+            },
+            prepare(selection: any) {
+              const { title, subtitle, hasSubmenu } = selection
+              return {
+                title: title || 'Untitled Menu Item',
+                subtitle: hasSubmenu ? `${subtitle} (with submenu)` : subtitle,
+              }
+            },
+          },
+        },
+      ],
+    }),
+
 
     defineField({
       name: 'language',
