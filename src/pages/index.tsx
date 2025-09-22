@@ -181,7 +181,7 @@ export default function IndexPage(
       <CustomHead {...props} />
       <div className="">
         {/* <Header data ={homeSettings} refer={refer}/> */}
-        <HeroSection data={heroSectionData} refer={refer} video={videoData}/>
+        <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>
         <LinksCardsSection data={linkCardSectionData} />
         <Testimonails data={testimonialSecitonData} refer={refer}/>
         <CardsListingSection data={cardsListingData}/>

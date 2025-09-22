@@ -121,6 +121,13 @@ export default defineType({
       ],
       
     }),
+    defineField({
+      name: 'testimonialVideo',
+      title: 'Testimonial Video',
+      type: 'array',
+      of: [{ type: 'testimonialHighlightSection' }],
+      group: 'hero',
+    }),
 
     defineField({
       name: 'language',
