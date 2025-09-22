@@ -4,14 +4,7 @@ import React from 'react'
 import Anchor from './anchor'
 
 interface ButtonProps {
-  type?:
-    | 'primary'
-    | 'primaryLg'
-    | 'primaryWhite'
-    | 'video'
-    | 'primarySm'
-    | 'secondary'
-    | 'primaryXs'
+  type?: 'primary' | 'primarySm' | 'secondary'
   alter?: 'bgWhite' | 'borderWhite' | 'disabled' | 'default'
   children?: React.ReactNode
   link?: any
@@ -48,9 +41,6 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   if (link) {
     return (
       <>
-        {/* <Link href={link} className={combinedClasses} target={target} locale={locale} {...rest}>
-        {children}
-      </Link> */}
         <Anchor
           href={link}
           className={combinedClasses}
