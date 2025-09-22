@@ -1,5 +1,6 @@
 import groq from 'groq'
 import { getClient } from '~/lib/sanity.client'
+import { SanityClient } from '@sanity/client'
 
 class Queries {
   slug: string
@@ -61,10 +62,68 @@ class Queries {
     `
   }
 
+  private fetchHeroData(region: string) {
+    return groq`*[_type == "homeSettings" && language == $region][0]{
+      ...,
+      heroheading,
+      heroDescription,
+      heroStrip,
+      "heroImage": heroImage.asset-> {
+        _id,
+        url,
+        altText,
+        title,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          }
+        }
+      },
+      "heroImageSecondary": heroImageSecondary.asset-> {
+        _id,
+        url,
+        altText,
+        title,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          }
+        }
+      },
+      "bookBtnContent": bookBtnContent[]->{
+        buttonText,
+        buttonLink
+      },
+      "video": video[]{
+        videoPlatform,
+        videoId,
+        videotitle,
+        "videoThumbnail": videoThumbnail.asset->{
+          _id,
+          url,
+          originalFilename,
+          size,
+          mimeType
+        }
+      },
+      
+    }`
+  }
+
 
   public async getData() {
     const query = this.fetchCommonData(this.slug)
     const params = { slug: this.slug }
+    return await this.client.fetch(query, params)
+  }
+
+  public async getHeroData(region: string) {
+    const query = this.fetchHeroData(region)
+    const params = { region }
     return await this.client.fetch(query, params)
   }
 }

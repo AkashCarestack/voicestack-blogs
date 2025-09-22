@@ -1,23 +1,23 @@
 import '~/styles/global.css'
 
-import type { AppProps } from 'next/app'
-
-import { lazy } from 'react'
-import Layout from '../components/Layout'
-import Script from 'next/script'
-import { useRouter } from 'next/router'
-import { checkCookie, eraseCookie, getCookie } from '~/utils/tracker/cookie'
 import track, { getDeviceData } from 'cs-tracker'
-import { createObservedUser, createSession, createUser, getUserData, TrackUserProvider } from '~/utils/tracker/intitialize'
-import { addEvent } from '~/utils/tracker/events'
-import { getSession } from '~/utils/tracker/session'
-import { getUser } from '~/utils/tracker/user'
-import { cookieSelector } from '~/helpers/cookieSelector'
+import { GeistSans } from 'geist/font/sans';
+import type { AppProps } from 'next/app'
 import { Inter, Manrope } from 'next/font/google'
+import { useRouter } from 'next/router'
+import Script from 'next/script'
+import { lazy } from 'react'
+
+import { cookieSelector } from '~/helpers/cookieSelector'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
 import LayoutDataProvider from '~/providers/LayoutDataProvider'
+import { checkCookie, eraseCookie, getCookie } from '~/utils/tracker/cookie'
+import { addEvent } from '~/utils/tracker/events'
+import { createObservedUser, createSession, createUser, getUserData, TrackUserProvider } from '~/utils/tracker/intitialize'
+import { getSession } from '~/utils/tracker/session'
+import { getUser } from '~/utils/tracker/user'
 
-import { GeistSans } from 'geist/font/sans';
+import Layout from '../components/Layout'
 
 const inter = Inter({
   subsets: ['latin'],

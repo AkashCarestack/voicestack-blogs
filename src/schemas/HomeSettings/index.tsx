@@ -1,187 +1,77 @@
 import { defineField, defineType } from 'sanity'
-import showCountryFlag from '~/components/utils/common';
+import showCountryFlag from '~/components/utils/common'
 export default defineType({
   name: 'homeSettings',
   title: 'Home Settings',
   type: 'document',
   options: {
-      // Additional options can be added here if needed
+    // Additional options can be added here if needed
   },
+  groups: [
+    {
+      name: 'basic',
+      title: 'Basic',
+      default: true,
+    },
+    {
+      name: 'hero',
+      title: 'Hero',
+    },
+  ],
   fields: [
-    defineField({
-      name: 'heroStripHeader',
-      title: 'Hero Strip Section Header',
-      type: 'string',
-    }),
     defineField({
       name: 'heroStrip',
       title: 'Hero Strip',
       type: 'string',
+      group: 'hero',
     }),
-
     defineField({
-      name: 'heroTitleStatic',
-      title: 'Hero Title Static',
-      type: 'string',
-    }),
-
-    defineField({
-      name: 'heroTitleReferrer',
-      title: 'Hero Title Referrer',
-      type: 'internationalizedArrayString',
-      description: '*This data will be shown when referred from carestack website'
-    }),
-
-    defineField({
-      name: 'heroTitleStaticDynamic',
-      title: 'Hero Title Dynamic',
-      type: 'array',
-      of: [{ type: 'string' }],
-    }),
-
-    defineField({
-      name: 'bookBtnContent',
-      title: 'CTA Button',
-      type: 'string',
+      name: 'heroheading',
+      title: 'Hero Heading',
+      type: 'blockContent',
+      group: 'hero',
     }),
 
     defineField({
       name: 'heroDescription',
       title: 'Hero Description',
-      type: 'customBlockContent',
+      type: 'blockContent',
+      group: 'hero',
     }),
-    
-    // defineField({
-    //   name: 'heroDescription2',
-    //   title: 'Hero Description2',
-    //   type: 'internationalizedArrayCustomBlockContent',
-    // }),
+
+    defineField({
+      name: 'bookBtnContent',
+      title: 'CTA Button',
+      group: 'hero',
+      type: 'array',
+      of: [{ type: 'button' }],
+    }),
 
     defineField({
       name: 'heroImage',
       title: 'Hero Section Image',
       type: 'image',
+      group: 'hero',
     }),
 
     defineField({
       name: 'heroImageSecondary',
       title: 'Hero Section Image Secondary',
       type: 'image',
+      group: 'hero',
     }),
 
-    defineField({
-      name: 'heroStripDescription',
-      title: 'Hero Strip Description Header',
-      type: 'string',
-    }),
-
-    defineField({
-      name: 'heroHeaderSection',
-      title: 'Hero Header Button Content',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          name: 'headerMenu',
-          title: 'Header Menu',
-          fields: [
-            {
-              name: 'headerMenu',
-              title: 'headerMenu',
-              type: 'string',
-            },
-            {
-              name: 'href',
-              title: 'Hero href',
-              type: 'string',
-            },
-          ],
-        },
-      ],
-    }),
-
-    defineField({
-      name: 'ctabutton',
-      title: 'CTA Button Title',
-      type: 'string',
-    }),
-
-    defineField({
-      name: 'heroSubFeature',
-      title: 'Hero SubFeature',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'heroSubFeature' }],
-        },
-      ],
-    }),
-
-    defineField({
-      name: 'selectedTestimonial',
-      title: 'Selected Testimonial',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'testimonialSection' }],
-        },
-      ],
-    }),
-
-    defineField({
-      name: 'dmeoFormId',
-      title: 'Demo Form Id',
-      type: 'string',
-      
-    }),
-    
-    defineField({
-      name: 'demoMeetingLink',
-      title: 'Demo Meeting Link',
-      type: 'string',
-      
-    }),
-    
-    defineField({
-      name: 'dmeoFormEventName',
-      title: 'Demo Form Event Name',
-      type: 'string',
-      
-    }),
-
-    defineField({
-      name: 'canonical',
-      title: 'Canonical',
-      type: 'string',
-      
-    }),
-
-    defineField({
-      name: 'phoneNumber',
-      title: 'Phone Number',
-      type: 'string',
-    }),
-        
-    defineField({
-      name: 'contactEmail',
-      title: 'Contact Email',
-      type: 'string',
-      description:'Support email'
-      
-    }),
-
-    
     defineField({
       name: 'video',
       title: 'Overview Video',
       type: 'array',
+      group: 'hero',
       of: [
         {
           type: 'object',
           name: 'videoDetails',
           title: 'Video Details',
+         
           fields: [
             {
               name: 'videoPlatform',
@@ -192,9 +82,9 @@ export default defineType({
                 list: [
                   { title: 'Vimeo', value: 'vimeo' },
                   { title: 'Vidyard', value: 'vidyard' },
-                  { title: 'YouTube', value: 'youtube' }
+                  { title: 'YouTube', value: 'youtube' },
                 ],
-                layout: 'dropdown'
+                layout: 'dropdown',
               },
             },
             {
@@ -207,9 +97,36 @@ export default defineType({
               title: 'Video Title',
               type: 'string',
             },
+            {
+              name: 'videoThumbnail',
+              title: 'Video Thumbnail',
+              type: 'file',
+              // options: {
+              //   accept: 'video/mp4',
+              // },
+            },
           ],
+          preview: {
+            select: {
+              title: 'videotitle',
+            },
+            prepare(selection) {
+              const { title } = selection
+              return {
+                title: title || 'Untitled Video',
+              }
+            },
+          },
         },
       ],
+      
+    }),
+    defineField({
+      name: 'testimonialVideo',
+      title: 'Testimonial Video',
+      type: 'array',
+      of: [{ type: 'testimonialHighlightSection' }],
+      group: 'hero',
     }),
 
     defineField({
@@ -222,13 +139,12 @@ export default defineType({
   preview: {
     select: {
       title: 'language',
-      language:'language',
+      language: 'language',
     },
     prepare(selection) {
       return {
         title: ` ${selection?.title}`,
-
-      };
+      }
     },
   },
 })

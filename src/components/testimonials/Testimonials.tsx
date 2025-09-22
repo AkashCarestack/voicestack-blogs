@@ -13,14 +13,14 @@ import { FormModal } from '../common/FormModal'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
 import { useRouter } from 'next/router'
 
-export default function Testimonails({ data, refer=null }) {
+export default function Testimonails({ data, refer = null }) {
   const [openForm, setOpenForm] = useState(false)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null)
   const [stickyStates, setStickyStates] = useState<boolean[]>([]) // Tracks if each card is sticky
-  const { isDemoPopUpShown } = useContext(BookDemoContext);
-  const router = useRouter();
+  const { isDemoPopUpShown } = useContext(BookDemoContext)
+  const router = useRouter()
 
   const handleOpenVideo = (video: VideoItem) => {
     setSelectedVideo(video)
@@ -56,24 +56,24 @@ export default function Testimonails({ data, refer=null }) {
   }
 
   return (
-    <Section
-      className="relative py-sm md:py-md pb-8 bg-gray-900"
-    >
+    <Section className="relative py-sm md:py-md pb-8 bg-gray-900">
       <Container className="w-full relative">
         <div className="flex flex-col items-center w-full gap-16">
           <div className="flex justify-center w-full">
             <div className="flex flex-col w-full max-w-[780px] text-center gap-4">
               <H2 className="text-white">Purpose-built for Practice Growth</H2>
-              {refer == "carestack" ? (
+              {refer == 'carestack' ? (
                 <Paragraph className="text-gray-400">
-                VoiceStack is trusted by the most successful dental groups in CareStack to create impactful business outcomes across all their locations.
-              </Paragraph>
-              ):(
-              <Paragraph className="text-gray-400">
-                VoiceStack is trusted by some of the most successful dental
-                groups to create impactful business outcomes across all their
-                locations.
-              </Paragraph>
+                  VoiceStack is trusted by the most successful dental groups in
+                  CareStack to create impactful business outcomes across all
+                  their locations.
+                </Paragraph>
+              ) : (
+                <Paragraph className="text-gray-400">
+                  VoiceStack is trusted by some of the most successful dental
+                  groups to create impactful business outcomes across all their
+                  locations.
+                </Paragraph>
               )}
             </div>
           </div>
@@ -103,22 +103,22 @@ export default function Testimonails({ data, refer=null }) {
           </div>
 
           <div className="flex gap-4 items-center">
-            {refer == "carestack" ? (
-              <Button type="primary" link={`/demo?region=${router.locale}`} locale={false} target='_blank'>
-                <ButtonArrow></ButtonArrow>
-                <span className="text-base font-medium">
-                  {`Book free demo`}
-                </span>
-              </Button>
-              ):(
+            {refer == 'carestack' ? (
               <Button
                 type="primary"
-                onClick={() => {
-                  setOpenForm(true)
-                }}
+                link={`/demo?region=${router.locale}`}
+                locale={false}
+                target="_blank"
               >
-                <ButtonArrow></ButtonArrow>
-                <span className="text-base font-medium">{`Book free demo`}</span>
+                <span className="rounded-[8px] border border-white/10 bg-[#B5EB92] px-6 py-2.5 text-black font-medium">
+                  Book Free Demo
+                </span>
+              </Button>
+            ) : (
+              <Button type="primary">
+                <span className="rounded-[8px] border border-white/10 bg-[#B5EB92] px-6 py-2.5 text-black font-medium">
+                  Book Free Demo
+                </span>
               </Button>
             )}
           </div>
@@ -131,8 +131,8 @@ export default function Testimonails({ data, refer=null }) {
             videoDetails={selectedVideo}
             className={`pt-9 z-30 flex items-start`}
             onClose={() => setIsOpen(false)}
-            openForm ={() => setOpenForm(true)}
-            hasDemoBanner = {true}
+            openForm={() => setOpenForm(true)}
+            hasDemoBanner={true}
           />
         )}
         {openForm && (
