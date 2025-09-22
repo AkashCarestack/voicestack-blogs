@@ -32,6 +32,7 @@ const schemaIconMap: Record<string, any> = {
     whoWeServe: UsersIcon,
     dentalSoftware: DocumentIcon,
     globalData: FolderIcon,
+    features: BoltIcon,
   
   // Content Types
   testimonial: StarIcon,
@@ -142,7 +143,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     settings: ['siteSettings', 'homeSettings', 'layout'],
     
     // Pages & Content Management - NEW PROMINENT SECTION
-    pages: ['page', 'whoWeServe', 'dentalSoftware', 'globalData'],
+    pages: ['page', 'whoWeServe', 'dentalSoftware', 'globalData', 'features'],
     
     // Content Management - Centralized Data
     contentManagement: ['author', 'centralizedTestimonial', 'featureItem'],
@@ -255,6 +256,69 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
                       S.documentTypeList('whoWeServe')
                         .title('Create New Who We Serve')
                         .filter('_type == "whoWeServe"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    )
+                ])
+            )
+        )
+      } else if (schemaName === 'features') {
+        // Special handling for Features to show language indicators
+        items.push(
+          S.listItem()
+            .title(title)
+            .icon(icon)
+            .child(
+              S.list()
+                .title(title)
+                .items([
+                  // All Features documents
+                  S.listItem()
+                    .title('All Features')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('features')
+                        .title('All Features')
+                        .filter('_type == "features"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // US English
+                  S.listItem()
+                    .title('US English (en)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('features')
+                        .title('US English Features')
+                        .filter('_type == "features" && language == "en"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // UK English
+                  S.listItem()
+                    .title('UK English (en-GB)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('features')
+                        .title('UK English Features')
+                        .filter('_type == "features" && language == "en-GB"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // Australia English
+                  S.listItem()
+                    .title('Australia English (en-AU)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('features')
+                        .title('Australia English Features')
+                        .filter('_type == "features" && language == "en-AU"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // Create new
+                  S.listItem()
+                    .title('Create New Feature')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('features')
+                        .title('Create New Feature')
+                        .filter('_type == "features"')
                         .defaultOrdering([{field: 'order', direction: 'asc'}])
                     )
                 ])
