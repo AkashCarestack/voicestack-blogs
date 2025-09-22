@@ -8,11 +8,10 @@ interface TestShakirProps {
 }
 
 export default function TestShakir({ data }: TestShakirProps) {
-  console.log({ data })
+  console.log( data )
   return (
-    <div className='h-screen w-full bg-black text-white'>
-      <ListingWithTabs list={data} slug="test-data" />
-      <h1>call the looping component here</h1>
+    <div className='h-screen w-full text-black'>
+      <ListingWithTabs list={data} slug="effortlessly-handle" />
     </div>
   )
 }
@@ -20,7 +19,9 @@ export default function TestShakir({ data }: TestShakirProps) {
 
 
 export const getStaticProps: GetStaticProps = async () => {
-  const queries = new Queries('dev-adolf-h')
+  // easily-handle-referenced
+  // easily-handle
+  const queries = new Queries('easily-handle')
   const data = await queries.getData()
 
   return {

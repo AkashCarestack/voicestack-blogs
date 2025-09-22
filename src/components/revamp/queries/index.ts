@@ -16,10 +16,6 @@ class Queries {
             'componentType': component.componentType,
             'data': select(
               component.componentType == "TabsListing" => component.tabsListingComponent,
-              component.componentType == "RightImage" => component.rightImageComponent,
-              component.componentType == "Listing" => component.listingComponent,
-              component.componentType == "FeatureGrid" => component.featureGridComponent,
-              component.componentType == "Testimonial" => component.testimonialComponent,
               component.componentType == "Custom" => component.customComponent
             ){
               ...,

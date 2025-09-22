@@ -11,6 +11,9 @@ module.exports = {
   ],
   theme: {
   	extend: {
+		backgroundColor: {
+			'custom-gradient': 'linear-gradient(180deg, #F4F3FA 31.25%, rgba(244, 243, 250, 0) 100%)',
+		  },
   		
 			fontFamily: {
 				// 'sans': ['var(--font-inter)','sans-serif'],
