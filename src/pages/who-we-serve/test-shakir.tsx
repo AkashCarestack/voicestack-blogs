@@ -12,7 +12,6 @@ interface TestShakirProps {
 }
 
 export default function TestShakir({ data }: TestShakirProps) {
-  console.log(data)
   const headerData = {
     heading: data?.content?.sections[0]?.data.headline,
     description: data?.content?.sections[0]?.data.subDescription,
@@ -20,15 +19,11 @@ export default function TestShakir({ data }: TestShakirProps) {
   return (
     <Section className="flex flex-col">
       <Container className="py-16 flex-col">
-        {/* <div className="w-full"> */}
-      
         <SectionHeader
         heading={headerData.heading}
         description={headerData.description}
-   
       />
           <ListingWithTabs list={data} slug="effortlessly-handle" />
-        {/* </div> */}
         <div className="flex justify-center pt-16">
         <Button type="primary" className="w-fit">
           <span className="rounded-[8px] border border-white/10 bg-[#B5EB92] px-6 py-2.5 text-black font-medium">
