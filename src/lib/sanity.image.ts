@@ -59,3 +59,31 @@ export const urlForImage = (source: any, dimensions?: ImageDimensions) => {
 
   return undefined;
 };
+
+export const urlForVideo = (source: any) => {
+  // If source is already a URL string, return it directly
+  if (typeof source === 'string' && source.startsWith('http')) {
+    return source;
+  }
+
+  // If source is an object with url property (from Sanity asset)
+  if (typeof source === 'object' && source?.url) {
+    return source.url;
+  }
+
+  // If source is a Sanity asset reference
+  if (typeof source === 'object' && source?.asset?._ref) {
+    // For video assets, we need to construct the URL manually
+    // since Sanity doesn't have a built-in video URL builder like images
+    const assetId = source.asset._ref.replace('file-', '').replace('-mp4', '');
+    return `https://cdn.sanity.io/files/${projectId}/${dataset}/${assetId}.mp4`;
+  }
+
+  // If source is a string asset reference
+  if (typeof source === 'string' && source.startsWith('file-')) {
+    const assetId = source.replace('file-', '').replace('-mp4', '');
+    return `https://cdn.sanity.io/files/${projectId}/${dataset}/${assetId}.mp4`;
+  }
+
+  return undefined;
+};

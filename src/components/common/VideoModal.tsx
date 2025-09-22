@@ -152,7 +152,6 @@ export const VideoModal: React.FC<VideoProps> = ({
                 }}>
                   <ButtonArrow></ButtonArrow>
                   <span className="text-base font-medium">
-                    {/* {data?.bookBtnContent} */}
                     Book free demo
                   </span>
                 </Button>
