@@ -37,6 +37,7 @@ import portableContent from './portableContent'
 import HtmlCode from './Utilis/HtmlCode'
 import WhoWeServe from './Pages/WhoWeServe'
 import DentalSoftware from './Pages/DentalSoftware'
+import FeaturesPage from './Pages/Features'
 import GlobalData from './GlobalData'
 import VerticalTestimonialListing from './VerticalTestimonialListing'
 
@@ -50,7 +51,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     SiteSettings,
     Testimonials,
     HomeSettings,
-
     legal,
     comparison,
     comparisonValue,
@@ -79,6 +79,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     HtmlCode,
     WhoWeServe,
     DentalSoftware,
+    FeaturesPage,
     GlobalData,
     VerticalTestimonialListing,
   ],

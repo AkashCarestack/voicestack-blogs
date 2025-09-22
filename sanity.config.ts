@@ -76,7 +76,7 @@ export default defineConfig({
       // Select US English by default
       defaultLanguages: ['en'],
       // Show language filter for these document types
-      documentTypes: ['homeSettings', 'whoWeServe', 'page'],
+      documentTypes: ['homeSettings', 'whoWeServe', 'page', 'features'],
     }),
 
     internationalizedArray({
@@ -117,11 +117,12 @@ export default defineConfig({
         'footer',
         'page',
         'miscellaneous',
-                'featureList',
+        'featureList',
         'featureCategory',
         'whoWeServe',
         'dentalSoftware',
-        'globalData'
+        'globalData',
+        'features'
       ],
     }),
 
