@@ -211,19 +211,35 @@ const GlobalData = {
                   type: 'image',
                 },
                 {
-                  name: 'listItems',
-                  title: 'List Items',
+                  name:'listItems',
+                  title: 'Feature List Items',
                   type: 'array',
                   of: [
                     {
                       type: 'object',
                       fields: [
                         {
-                          name: 'listHeading',
-                          title: 'List Heading',
+                          name: 'subfeatureHeading',
+                          title: 'Heading',
                           type: 'string',
                         },
+                        {
+                          name: 'subfeatureSubheading',
+                          title: 'Subheading ',
+                          type: 'string',
+                        },
+                        {
+                          name: 'subfeatureDescription',
+                          title: 'Description',
+                          type: 'string',
+                        },
+                        {
+                          name: 'subfeatureImage',
+                          title: 'Image',
+                          type: 'image',
+                        },
                       ],
+                    
                     },
                   ],
                 },

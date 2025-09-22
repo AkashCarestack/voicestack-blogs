@@ -40,6 +40,7 @@ import DentalSoftware from './Pages/DentalSoftware'
 import FeaturesPage from './Pages/Features'
 import GlobalData from './GlobalData'
 import VerticalTestimonialListing from './VerticalTestimonialListing'
+import button from './button'
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -82,5 +83,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     FeaturesPage,
     GlobalData,
     VerticalTestimonialListing,
+    button,
   ],
 }

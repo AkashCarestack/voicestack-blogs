@@ -113,13 +113,23 @@ export async function getHeroSectionData(client: SanityClient, region: string) {
           }
         }
       },
-      "heroSubFeature": heroSubFeature[]->{
-        "heading": heroSubFeatureHeading,
-        "description": heroSubFeatureContent,
-        "icon": heroSubFeatureIcon.asset->url,
-        "label": "Learn More",
-        "href": ""
-      }
+      "bookBtnContent": bookBtnContent[]->{
+        buttonText,
+        buttonLink
+      },
+      "video": video[]{
+        videoPlatform,
+        videoId,
+        videotitle,
+        "videoThumbnail": videoThumbnail.asset->{
+          _id,
+          url,
+          originalFilename,
+          size,
+          mimeType
+        }
+      },
+      
     }
   `
 

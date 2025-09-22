@@ -319,26 +319,23 @@ const Header = ({ data, refer=null }) => {
 
 
       <div className={`relative w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-vs-blue`}>
-        <header
+        {/* <header
           className={`fixed w-full top-0 lg:top-[35px] left-0 z-20 transition-all duration-300 ease-linear ${headerFixed && '!fixed w-full lg:!top-4'}  left-0`}      >
           
 
           <div className={`z-20 text-white`}>
             <div className="max-w-7xl mx-auto lg:px-4 flex gap-[10px]">
-              {/* <div className={`flex flex-col gap-3 justify-between py-[10px] transition-all duration-300 ease-linear relative  ${headerFixed ? '!lg:py-3' : 'lg:py-6'}`}> */}
               <div className={`flex flex-grow gap-3 justify-between py-0 transition-all duration-300 ease-linear lg:rounded-[10px] 
                 bg-white shadow-[0px_7px_40px_0px_rgba(0,0,0,0.10)] backdrop-blur-[12.5px] lg:pl-6 pl-3 pr-3 items-center h-[48px] lg:h-[63px]`}>
                 
                 <div className={`flex flex-row gap-3 justify-between items-center flex-1 
                 lg:relative transition-all duration-300 ease-in-out ${headerFixed ? 'lg:my-3 my-2' : 'lg:my-3 my-2'}`}>
                   
-                  {/* Logo */}
                   <Anchor href="/" className={`flex-shrink-0 text-2xl font-extrabold bg-gradient-text bg-clip-text 
                     text-transparent font-monrope tracking-tighterText ${isMobile  && headerFixed && 'hidden'}`}>
                     <Image src={VoicestackLogo} alt='VoiceStack' title='VoiceStack'></Image>
                   </Anchor>
 
-                  {/* Logo Sm when mob scroll */}
                   <Anchor href="/" className={`${isMobile  && headerFixed ? 'block': 'hidden'}`}>
                     <Image src={VoicestackLogoSm} alt='VoiceStack' className='w-[26px] h-auto'></Image>
                   </Anchor>
@@ -349,14 +346,11 @@ const Header = ({ data, refer=null }) => {
                     xl:flex-grow 
                     ${showMenu ? 'flex': 'hidden'} ${data?.phoneNumber ? 'xl:justify-end xl:mr-10': 'xl:justify-center'}`}>
 
-                    {/* nav items */}
                     <div className={`lg:flex-row top-[110px] right-0 px-4 pt-4 pb-8 w-full lg:w-auto lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col 
                       gap-2 justify-between lg:items-center flex`}>
                       <nav className="flex flex-col lg:flex-row lg:gap-y-4 gap-x-4 xl:gap-x-8 w-full lg:w-auto flex-wrap ">
                         {data?.heroHeaderSection && data?.heroHeaderSection?.map((link:any, i:number) => {
-                          // if (link?.headerMenu === "Comparison" && isUk) {
-                          //   return null;
-                          // }
+                         
                         let isExternal = link?.href?.includes('http')
                           return (
                             isExternal ? (
@@ -390,7 +384,6 @@ const Header = ({ data, refer=null }) => {
 
                     <div className='flex flex-col gap-8'>
 
-                      {/* mob cta and phone */}
                       <div className='flex flex-col md:flex-row gap-3 md:gap-5 items-center lg:hidden'>
                         {data?.phoneNumber && (
 
@@ -405,7 +398,6 @@ const Header = ({ data, refer=null }) => {
                         </Button>
                       </div>
 
-                      {/* mob region switcher */}    
                       <div className={`bg-white flex gap-5 justify-center items-center lg:hidden`}>
                         {regions.map((region:any, index:number) => {
                           return(
@@ -442,7 +434,6 @@ const Header = ({ data, refer=null }) => {
 
                   </div>
 
-                  {/* dt cta and phone */}
                   <div className='lg:flex gap-3 items-center lg:justify-end hidden'>
                     {data?.phoneNumber && (
                       <div className='flex-shrink-0'>
@@ -481,10 +472,8 @@ const Header = ({ data, refer=null }) => {
                         
                     </div>      
 
-                    {/* menu icon */}
                     <div onClick={toggleMenu} className={`flex lg:hidden text-zinc-900 cursor-pointer items-center select-none z-20 rounded-lg lg:rounded-xl lg:py-[6px] lg:pr-[10px] lg:pl-[14px]
                       `}>
-                      {/* {!showMenu && <span className='hidden lg:inline-flex text-zinc-800 text-sm'>More</span>} */}
                       {showMenu ? <CloseIcon width={40} height={40} /> : <MenuIcon width={40} height={40} />}
                     </div>
                   </div>      
@@ -492,7 +481,6 @@ const Header = ({ data, refer=null }) => {
                 </div>
               </div>
 
-              {/* Region Switcher menu Desktop*/}
               {regions && regions.length > 0 &&(
                 <div className='relative hidden lg:flex w-[86px]'>
                   <div className='flex p-[6px] rounded-[10px] bg-white w-full shadow-[0px_7px_40px_0px_rgba(0,0,0,0.10)]'>
@@ -547,10 +535,9 @@ const Header = ({ data, refer=null }) => {
                   </div>
                 </div>
               )}
-              {/* Region Switcher Desktop end */}
             </div>
           </div>
-        </header>
+        </header> */}
       </div>
       {openForm && (
         <FormModal

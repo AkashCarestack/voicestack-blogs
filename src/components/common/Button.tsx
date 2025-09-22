@@ -15,11 +15,11 @@ interface ButtonProps {
   alter?: 'bgWhite' | 'borderWhite' | 'disabled' | 'default'
   children?: React.ReactNode
   link?: any
-  target?: '_blank' | '_self' | '_parent' | '_top' | '';
+  target?: '_blank' | '_self' | '_parent' | '_top' | ''
   isDemo?: boolean
   [x: string]: any
   className?: string
-  locale?: string | false;
+  locale?: string | false
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
@@ -33,32 +33,33 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   locale,
   ...rest
 }) => {
-  const baseClasses = `rounded-[7px] text-gray-900 font-inter text-base font-medium leading-6 flex items-center justify-center whitespace-nowrap gap-[8px] transition-all duration-300 ease-linear  ${className}`;
+  const baseClasses = `inline-block rounded-[8px] text-gray-950 font-geist font-medium leading-[24px] flex items-center tracking-wide justify-center whitespace-nowrap gap-[8px] transition-all duration-300 ease-linear  ${className}`
   // const customClasses = `bg-zinc-500 hover:bg-zinc-600 text-white`;
   const customClasses = clsx({
-    'bg-vs-blue hover:bg-vs-blue-secondary hover:border-vs-blue-secondary text-white border border-vs-blue px-[17px] py-[10px] ': type === 'primary',
-    'bg-vs-blue hover:bg-vs-blue-secondary hover:border-vs-blue-secondary text-white border border-vs-blue px-[17px] py-[14px] justify-center min-w-[200px]': type === 'primaryLg',
-    'bg-vs-blue hover:bg-vs-blue-secondary hover:border-vs-blue-secondary text-white border border-vs-blue text-sm px-[12px] py-[8px]': type === 'primarySm',
-    'bg-vs-blue hover:bg-vs-blue-secondary hover:border-vs-blue-secondary text-white border border-vs-blue text-[10px] px-[10px] py-[5px] rounded-[4px]': type === 'primaryXs',
-    'bg-white hover:bg-white hover:text-vs-blue text-blue-500 border border-white px-[17px] py-[10px]': type === 'primaryWhite',
-    'text-white border border-white/30 px-[17px] py-[10px] ': type === 'video',
-    'text-white border border-white/30 px-[17px] py-[10px] flex ': type === 'secondary',
-  });
-  
+    'p-[1px] text-base bg-gradient-to-r from-[#B5EB92] to-white shadow-[0_0_0_1px_#92D96A] hover:shadow-[0_0_0_2px_#92D96A] hover:from-white hover:to-[#B5EB92]':
+      type === 'primary',
+    'p-[1px] text-sm bg-gradient-to-r from-[#B5EB92] to-white shadow-[0_0_0_1px_#92D96A] hover:shadow-[0_0_0_2px_#92D96A] hover:from-white hover:to-[#B5EB92]':
+      type === 'primarySm',
+    'border-2 border-[rgba(74,60,225,0.15)] hover:border-[rgba(74,60,225,0.15)] hover:bg-[rgba(0,0,0,0.05)] py-2.5 px-6':
+      type === 'secondary',
+  })
 
-  const combinedClasses = clsx(baseClasses, customClasses, className);
-;
-  
-
+  const combinedClasses = clsx(baseClasses, customClasses, className)
   if (link) {
     return (
       <>
-      {/* <Link href={link} className={combinedClasses} target={target} locale={locale} {...rest}>
+        {/* <Link href={link} className={combinedClasses} target={target} locale={locale} {...rest}>
         {children}
       </Link> */}
-      <Anchor href={link} className={combinedClasses} target={target} locale={locale} {...rest}>
-        {children}
-      </Anchor>
+        <Anchor
+          href={link}
+          className={combinedClasses}
+          target={target}
+          locale={locale}
+          {...rest}
+        >
+          {children}
+        </Anchor>
       </>
     )
   }
