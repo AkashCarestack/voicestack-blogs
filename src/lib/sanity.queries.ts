@@ -1227,5 +1227,274 @@ export const contentSectionQueries = {
         }
       }
     }
+  `,
+
+  // Features queries
+  getFeaturesList: `
+    *[_type == "features" && (language == $language || language == null)] | order(language asc, order asc, title asc) {
+      _id,
+      title,
+      slug,
+      language,
+      order,
+      heroTitle,
+      heroSubtitle,
+      heroImage {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      mainImage {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      shortDescription,
+      featureCategories[] {
+        name,
+        description,
+        icon {
+          asset-> {
+            _id,
+            url
+          }
+        },
+        features[] {
+          title,
+          description,
+          icon,
+          isHighlighted
+        }
+      }
+    }
+  `,
+
+  getFeatureBySlug: `
+    *[_type == "features" && slug.current == $slug && (language == $language || language == null)][0] {
+      _id,
+      title,
+      slug,
+      language,
+      order,
+      heroTitle,
+      heroSubtitle,
+      heroImage {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      mainImage {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      secondaryImage {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      overview,
+      description,
+      shortDescription,
+      featureCategories[] {
+        name,
+        description,
+        icon {
+          asset-> {
+            _id,
+            url
+          }
+        },
+        features[] {
+          title,
+          description,
+          icon,
+          isHighlighted
+        }
+      },
+      benefits[] {
+        title,
+        description,
+        icon {
+          asset-> {
+            _id,
+            url
+          }
+        }
+      },
+      pricing {
+        isFree,
+        price,
+        billingPeriod,
+        trialAvailable,
+        trialPeriod
+      },
+      cta {
+        primaryText,
+        primaryLink,
+        secondaryText,
+        secondaryLink
+      },
+      relatedFeatures[]-> {
+        _id,
+        title,
+        slug,
+        heroImage {
+          asset-> {
+            _id,
+            url
+          }
+        },
+        shortDescription
+      },
+      metaTitle,
+      metaDescription,
+      keywords,
+      canonicalUrl
+    }
   `
+}
+
+// Features queries
+export const getFeaturesListQuery = groq`
+  *[_type == "features" && (language == $language || language == null)] | order(language asc, order asc, title asc) {
+    _id,
+    title,
+    slug,
+    language,
+    order,
+    heroTitle,
+    heroSubtitle,
+    heroImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    mainImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    shortDescription,
+    featureCategories[] {
+      name,
+      description,
+      icon {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      features[] {
+        title,
+        description,
+        icon,
+        isHighlighted
+      }
+    }
+  }
+`
+
+export const getFeatureBySlugQuery = groq`
+  *[_type == "features" && slug.current == $slug && (language == $language || language == null)][0] {
+    _id,
+    title,
+    slug,
+    language,
+    order,
+    heroTitle,
+    heroSubtitle,
+    heroImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    mainImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    secondaryImage {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    overview,
+    description,
+    shortDescription,
+    featureCategories[] {
+      name,
+      description,
+      icon {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      features[] {
+        title,
+        description,
+        icon,
+        isHighlighted
+      }
+    },
+    benefits[] {
+      title,
+      description,
+      icon {
+        asset-> {
+          _id,
+          url
+        }
+      }
+    },
+    pricing {
+      isFree,
+      price,
+      billingPeriod,
+      trialAvailable,
+      trialPeriod
+    },
+    cta {
+      primaryText,
+      primaryLink,
+      secondaryText,
+      secondaryLink
+    },
+    relatedFeatures[]-> {
+      _id,
+      title,
+      slug,
+      heroImage {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      shortDescription
+    },
+    metaTitle,
+    metaDescription,
+    keywords,
+    canonicalUrl
+  }
+`
+
+// Features query functions
+export async function getFeaturesList(client: SanityClient, language: string = 'en'): Promise<any[]> {
+  return await client.fetch(getFeaturesListQuery, { language })
+}
+
+export async function getFeatureBySlug(client: SanityClient, slug: string, language: string = 'en'): Promise<any> {
+  return await client.fetch(getFeatureBySlugQuery, { slug, language })
 }

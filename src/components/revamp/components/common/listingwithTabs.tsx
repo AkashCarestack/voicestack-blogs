@@ -1,9 +1,7 @@
 import Image from 'next/image'
 import React, { useState } from 'react'
-import Tick from '~/components/icons/Tick'
 import { urlForImage } from '~/lib/sanity.image'
 import SwitchableTabs from './switchableTabs'
-import SectionHeader from './sectionHeader'
 
 export default function ListingWithTabs({
   list,
