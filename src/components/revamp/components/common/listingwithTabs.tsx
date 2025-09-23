@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react'
 import { urlForImage } from '~/lib/sanity.image'
 import SwitchableTabs from './switchableTabs'
 import useMediaQuery from '~/utils/mediaQuery'
+import Container from '~/components/structure/Container'
 
 export default function ListingWithTabs({
   list,
@@ -27,13 +28,11 @@ export default function ListingWithTabs({
 
   function bindEvents(e: string) {
     setActiveTab(e)
-    if (isMobile) {
       ref.current?.scrollIntoView({ behavior: 'smooth' })
-    }
   }
 
   return (
-    <>
+    <Container className='py-16 flex-col'>
       <SwitchableTabs
         data={(tabsData?.tabs || tabsData || []).map((e: any) => ({
           tabHeading: e.tabHeading,
@@ -46,7 +45,7 @@ export default function ListingWithTabs({
         {(tabsData?.tabs || []).map(
           (el: any, tabIdx: number) =>
             activeTab === el._key && (
-              <div className=" w-full grid xl:grid-cols-2 gap-6 scroll-mt-14" key={el._key} ref={ref}>
+              <div className=" w-full grid xl:grid-cols-2 gap-6 scroll-mt-14 lg:scroll-mt-[190px]" key={el._key} ref={ref}>
                 {el.listItems?.map((e: any, itemIdx: number) => (
                   <div className="flex flex-row gap-4 lg:w-[606px] rounded-[24px] overflow-hidden bg-[#F4F3FA]">
                     <div key={itemIdx} className="gird grid-cols-2 items-start">
@@ -80,6 +79,6 @@ export default function ListingWithTabs({
             ),
         )}
       </div>
-    </>
+    </Container>
   )
 }
