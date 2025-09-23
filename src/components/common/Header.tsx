@@ -39,6 +39,8 @@ const Header = ({ data, refer=null }) => {
   const [localeCountry, setLocaleCountry] = useState<any>(null);
   const [_preferredLocale, setPreferredLocale] = useState<any>(null);
   const [currentRegion, setCurrentRegion] = useState<any>(null);
+  const [showTopStrip, setShowTopStrip] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   
   const geoPath ="/api/geo";
   const preLocale = getCookie("__vs_pl");
@@ -165,7 +167,22 @@ const Header = ({ data, refer=null }) => {
   }
 
   const handleScrollMob = () => {
-    setHeaderFixed(window.scrollY > 44);
+    const currentScrollY = window.scrollY;
+    setHeaderFixed(currentScrollY > 44);
+    
+    // Show top strip when at top or scrolling up, hide when scrolling down
+    if (currentScrollY <= 0) {
+      setShowTopStrip(true);
+    } else if (currentScrollY < lastScrollY) {
+      // Scrolling up
+      setShowTopStrip(true);
+      setHeaderFixed(false);
+    } else if (currentScrollY > lastScrollY) {
+      // Scrolling down
+      setShowTopStrip(false);
+    }
+    
+    setLastScrollY(currentScrollY);
   };
 
   // const isMobile: any = useMediaQuery(1024);
@@ -318,172 +335,27 @@ const Header = ({ data, refer=null }) => {
       {/* region popup main end*/}
 
 
-      <div className={`relative w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-vs-blue`}>
-        {/* <header
-          className={`fixed w-full top-0 lg:top-[35px] left-0 z-20 transition-all duration-300 ease-linear ${headerFixed && '!fixed w-full lg:!top-4'}  left-0`}      >
-          
-
-          <div className={`z-20 text-white`}>
-            <div className="max-w-7xl mx-auto lg:px-4 flex gap-[10px]">
-              <div className={`flex flex-grow gap-3 justify-between py-0 transition-all duration-300 ease-linear lg:rounded-[10px] 
-                bg-white shadow-[0px_7px_40px_0px_rgba(0,0,0,0.10)] backdrop-blur-[12.5px] lg:pl-6 pl-3 pr-3 items-center h-[48px] lg:h-[63px]`}>
-                
-                <div className={`flex flex-row gap-3 justify-between items-center flex-1 
-                lg:relative transition-all duration-300 ease-in-out ${headerFixed ? 'lg:my-3 my-2' : 'lg:my-3 my-2'}`}>
-                  
-                  <Anchor href="/" className={`flex-shrink-0 text-2xl font-extrabold bg-gradient-text bg-clip-text 
-                    text-transparent font-monrope tracking-tighterText ${isMobile  && headerFixed && 'hidden'}`}>
-                    <Image src={VoicestackLogo} alt='VoiceStack' title='VoiceStack'></Image>
-                  </Anchor>
-
-                  <Anchor href="/" className={`${isMobile  && headerFixed ? 'block': 'hidden'}`}>
-                    <Image src={VoicestackLogoSm} alt='VoiceStack' className='w-[26px] h-auto'></Image>
-                  </Anchor>
-
-                  <div className={`lg:flex flex-col lg:flex-row lg:gap-6 justify-between lg:rounded-none items-center 
-                    lg:static absolute top-[44px] left-0 right-0 bg-white pb-20 lg:pb-0 
-                    h-[calc(100vh-40px)] lg:h-auto shadow-[0px_40px_40px_0px_rgba(0,0,0,0.10)] lg:shadow-none
-                    xl:flex-grow 
-                    ${showMenu ? 'flex': 'hidden'} ${data?.phoneNumber ? 'xl:justify-end xl:mr-10': 'xl:justify-center'}`}>
-
-                    <div className={`lg:flex-row top-[110px] right-0 px-4 pt-4 pb-8 w-full lg:w-auto lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col 
-                      gap-2 justify-between lg:items-center flex`}>
-                      <nav className="flex flex-col lg:flex-row lg:gap-y-4 gap-x-4 xl:gap-x-8 w-full lg:w-auto flex-wrap ">
-                        {data?.heroHeaderSection && data?.heroHeaderSection?.map((link:any, i:number) => {
-                         
-                        let isExternal = link?.href?.includes('http')
-                          return (
-                            isExternal ? (
-                              <Anchor
-                                elementId={`header-menu-${link.headerMenu}`}
-                                key={link?.href + i}
-                                href={link?.href}
-                                target="_blank"
-                                className="text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
-                                onClick={toggleMenu}
-                              >
-                                {link.headerMenu}
-                              </Anchor>
-                            ) : (
-                        
-                            <Anchor
-                              elementId={`header-menu-${link.headerMenu}`}
-                              key={link?.href + i}
-                              href={link?.href}
-                              target={isExternal ? "_blank" : "_self"}
-                              className="text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
-                              onClick={toggleMenu}
-                            >
-                              {link.headerMenu}
-                            </Anchor>
-                          )
-                        )
-                        })}
-                      </nav>
-                    </div>
-
-                    <div className='flex flex-col gap-8'>
-
-                      <div className='flex flex-col md:flex-row gap-3 md:gap-5 items-center lg:hidden'>
-                        {data?.phoneNumber && (
-
-                          <div className='flex-shrink-0'>
-                            <Anchor href={`tel:${data?.phoneNumber}`} className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
-                            border border-gray-300'><TelIcon/>{data?.phoneNumber}</Anchor>
-                          </div>
-                        )}
-                        <Button type='primarySm'  onClick={() => {setOpenForm(true)}}>
-                          <ButtonArrow></ButtonArrow>
-                          <span className="text-base font-medium">{data?.ctabutton}</span>
-                        </Button>
-                      </div>
-
-                      <div className={`bg-white flex gap-5 justify-center items-center lg:hidden`}>
-                        {regions.map((region:any, index:number) => {
-                          return(
-                            currentLocale == region.locale ? (
-                              <div key={index + region?.flag.url} className='flex gap-2 items-center'>
-                                <Image 
-                                  src={region.flag.url} 
-                                  alt={region.flag.title} 
-                                  title={region.flag.title}
-                                  width={32}
-                                  height={32}
-                                  className='border-2 rounded-full border-black/20'
-                                  >
-                                </Image>
-                              </div>
-                            ):(
-
-                              <Anchor key={index + region?.flag.url} href="/" locale={region.locale} className='flex gap-2 items-center' onClick={closeMenu}>
-                              <Image 
-                                src={region.flag.url} 
-                                alt={region.flag.title} 
-                                title={region.flag.title}
-                                width={32}
-                                height={32}
-                                className='border-2 rounded-full border-white'
-                                >
-                              </Image>
-                            </Anchor>
-                            )
-                          )
-                        })}
-                      </div>
-                    </div>
-
-                  </div>
-
-                  <div className='lg:flex gap-3 items-center lg:justify-end hidden'>
-                    {data?.phoneNumber && (
-                      <div className='flex-shrink-0'>
-                        <Anchor href={`tel:${data?.phoneNumber}`} className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
-                        border border-gray-300'><TelIcon/>{data?.phoneNumber}</Anchor>
-                      </div>
-                    )}
-                    {refer == "carestack" ? (
-                      <Button type='primarySm' link={`/demo?region=${router.locale}`} locale={false}  target='_blank'>
-                        <ButtonArrow></ButtonArrow>
-                        <span className="text-sm font-medium">{`Book free demo`}</span>
-                      </Button>
-                    ):(
-
-                      <Button type='primarySm' onClick={() => {setOpenForm(true)}}>
-                        <ButtonArrow></ButtonArrow>
-                        <span className="text-sm font-medium">{`Book free demo`}</span>
-                      </Button>
-                    )}
-                  </div>
-                  <div className='flex gap-4 items-center'>
-                    <div className={`${isMobile  && headerFixed ? 'block': 'hidden'}`}>
-                      {refer == "carestack" ? (
-                        <Button type="primaryXs" link={`/demo?region=${router.locale}`} locale={false} target='_blank'>
-                          <ButtonArrow></ButtonArrow>
-                          <span className="text-sm font-medium">
-                            {`Book free demo`}
-                          </span>
-                        </Button>
-                        ):(
-                        <Button type="primaryXs" onClick={() => { setOpenForm(true) }}>
-                          <ButtonArrow></ButtonArrow>
-                          <span className="text-sm font-medium">{`Book free demo`}</span>
-                        </Button>
-                      )}
-                        
-                    </div>      
-
-                    <div onClick={toggleMenu} className={`flex lg:hidden text-zinc-900 cursor-pointer items-center select-none z-20 rounded-lg lg:rounded-xl lg:py-[6px] lg:pr-[10px] lg:pl-[14px]
-                      `}>
-                      {showMenu ? <CloseIcon width={40} height={40} /> : <MenuIcon width={40} height={40} />}
-                    </div>
-                  </div>      
-                 
-                </div>
-              </div>
-
+      <div className={` ${showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'} fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-vs-blue`}>
+        
+        {/* Top Header Strip - Phone Number & Region Switcher */}
+        <div className={`hidden z-20 lg:flex justify-center w-full bg-vs-blue relative transition-transform duration-300 ease-in-out h-[42px]`}>
+          <div className="max-w-7xl flex justify-end w-full px-4">
+            <div className="flex justify-end items-center gap-4">
+              {/* Phone Number */}
+              {data?.phoneNumber && (
+                <Anchor 
+                  href={`tel:${data?.phoneNumber}`} 
+                  className='text-white text-sm font-medium flex items-center gap-2 hover:text-gray-200 transition-colors'
+                >
+                  <TelIcon className="w-4 h-4" />
+                  {data?.phoneNumber}
+                </Anchor>
+              )}
+              
+              {/* Region Switcher top strip */}
               {regions && regions.length > 0 &&(
                 <div className='relative hidden lg:flex w-[86px]'>
-                  <div className='flex p-[6px] rounded-[10px] bg-white w-full shadow-[0px_7px_40px_0px_rgba(0,0,0,0.10)]'>
+                  <div className='flex  rounded-[10px w-full shadow-[0px_7px_40px_0px_rgba(0,0,0,0.10)]'>
                     <span ref={toggleRef} className='select-none flex w-full items-center gap- p-[6px] justify-between cursor-pointer text-gray-900' onClick={toggleSwitcher}>
                       {matchedRegion && (
                         <Image 
@@ -537,7 +409,212 @@ const Header = ({ data, refer=null }) => {
               )}
             </div>
           </div>
-        </header> */}
+        </div>
+
+        <header
+          className={`transition-all duration-300 ease-linear`}  >
+          <div className={` text-white`}>
+            <div className="max-w-7xl mx-auto lg:px-4 flex gap-[10px]">
+              <div className={`flex flex-grow gap-3 justify-between py-0 transition-all duration-300 ease-linear lg:rounded-[10px] 
+                bg-white shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10)] backdrop-blur-[12.5px] lg:pl-6 pl-3 pr-3 items-center h-[48px] lg:h-[63px]`}>
+                
+                <div className={`flex flex-row gap-3 justify-between items-center flex-1 
+                lg:relative transition-all duration-300 ease-in-out ${headerFixed ? 'lg:my-3 my-2' : 'lg:my-3 my-2'}`}>
+                  
+                  <Anchor href="/" className={`flex-shrink-0 text-2xl font-extrabold bg-gradient-text bg-clip-text 
+                    text-transparent font-monrope tracking-tighterText ${isMobile  && headerFixed && 'hidden'}`}>
+                    <Image src={VoicestackLogo} alt='VoiceStack' title='VoiceStack'></Image>
+                  </Anchor>
+
+                  <Anchor href="/" className={`${isMobile  && headerFixed ? 'block': 'hidden'}`}>
+                    <Image src={VoicestackLogoSm} alt='VoiceStack' className='w-[26px] h-auto'></Image>
+                  </Anchor>
+
+                  <div className={`lg:flex flex-col lg:flex-row lg:gap-6 justify-between lg:rounded-none items-center 
+                    lg:static absolute top-[44px] left-0 right-0 bg-white pb-20 lg:pb-0 
+                    h-[calc(100vh-40px)] lg:h-auto shadow-[0px_40px_40px_0px_rgba(0,0,0,0.10)] lg:shadow-none
+                    xl:flex-grow 
+                    ${showMenu ? 'flex': 'hidden'} ${data?.phoneNumber ? 'xl:justify-end xl:mr-10': 'xl:justify-center'}`}>
+
+                    <div className={`lg:flex-row top-[110px] right-0 px-4 pt-4 pb-8 w-full lg:w-auto lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col 
+                      gap-2 justify-between lg:items-center flex`}>
+                      <nav className="flex flex-col lg:flex-row lg:gap-y-4 gap-x-4 xl:gap-x-8 w-full lg:w-auto flex-wrap ">
+                        {data?.navigationMenu && data?.navigationMenu?.map((link:any, i:number) => {
+                         
+                        let isExternal = link?.href?.includes('http')
+                        const hasSubmenu = link?.hasSubmenu && link?.submenu?.length > 0
+                        
+                        if (hasSubmenu) {
+                          return (
+                            <div key={`menu-${i}`} className="relative group">
+                              <div className="flex items-center gap-1 text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0 cursor-pointer">
+                                <span>{link.label}</span>
+                                <svg 
+                                  width="16" 
+                                  height="16" 
+                                  viewBox="0 0 24 24" 
+                                  fill="none" 
+                                  className="transition-transform duration-200 group-hover:rotate-180"
+                                >
+                                  <path 
+                                    d="M6 9l6 6 6-6" 
+                                    stroke="currentColor" 
+                                    strokeWidth="2" 
+                                    strokeLinecap="round" 
+                                    strokeLinejoin="round"
+                                  />
+                                </svg>
+                              </div>
+                              
+                              {/* Submenu Dropdown */}
+                              <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                                <div className="py-2">
+                                  {link.submenu.map((subItem: any, subIndex: number) => (
+                                    <Anchor
+                                      key={`submenu-${i}-${subIndex}`}
+                                      href={subItem.href}
+                                      target={subItem.href?.includes('http') ? "_blank" : "_self"}
+                                      className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
+                                      onClick={toggleMenu}
+                                    >
+                                      <div className="font-medium">{subItem.label}</div>
+                                      {subItem.description && (
+                                        <div className="text-xs text-gray-500 mt-1">{subItem.description}</div>
+                                      )}
+                                    </Anchor>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          )
+                        }
+                        
+                        return (
+                          isExternal ? (
+                            <Anchor
+                              elementId={`header-menu-${link.label}`}
+                              key={link?.href + i}
+                              href={link?.href}
+                              target="_blank"
+                              className="text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
+                              onClick={toggleMenu}
+                            >
+                              {link.label}
+                            </Anchor>
+                          ) : (
+                            <Anchor
+                              elementId={`header-menu-${link.label}`}
+                              key={link?.href + i}
+                              href={link?.href}
+                              target={isExternal ? "_blank" : "_self"}
+                              className="text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
+                              onClick={toggleMenu}
+                            >
+                              {link.label}
+                            </Anchor>
+                          )
+                        )
+                        })}
+                      </nav>
+                    </div>
+
+                    <div className='flex flex-col gap-8'>
+
+                      <div className='flex flex-col md:flex-row gap-3 md:gap-5 items-center lg:hidden'>
+                        {data?.phoneNumber && (
+
+                          <div className='flex-shrink-0'>
+                            <Anchor href={`tel:${data?.phoneNumber}`} className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
+                            border border-gray-300'><TelIcon className="text-white"/>{data?.phoneNumber}</Anchor>
+                          </div>
+                        )}
+                        <Button type='primarySm'  onClick={() => {setOpenForm(true)}}>
+                          <ButtonArrow></ButtonArrow>
+                          <span className="text-base font-medium">{data?.ctabutton}</span>
+                        </Button>
+                      </div>
+
+                      <div className={`bg-white flex gap-5 justify-center items-center lg:hidden`}>
+                        {regions.map((region:any, index:number) => {
+                          return(
+                            currentLocale == region.locale ? (
+                              <div key={index + region?.flag.url} className='flex gap-2 items-center'>
+                                <Image 
+                                  src={region.flag.url} 
+                                  alt={region.flag.title} 
+                                  title={region.flag.title}
+                                  width={32}
+                                  height={32}
+                                  className='border-2 rounded-full border-black/20'
+                                  >
+                                </Image>
+                              </div>
+                            ):(
+
+                              <Anchor key={index + region?.flag.url} href="/" locale={region.locale} className='flex gap-2 items-center' onClick={closeMenu}>
+                              <Image 
+                                src={region.flag.url} 
+                                alt={region.flag.title} 
+                                title={region.flag.title}
+                                width={32}
+                                height={32}
+                                className='border-2 rounded-full border-white'
+                                >
+                              </Image>
+                            </Anchor>
+                            )
+                          )
+                        })}
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div className='lg:flex gap-3 items-center lg:justify-end hidden'>
+                    {refer == "carestack" ? (
+                      <Button type='primarySm' link={`/demo?region=${router.locale}`} locale={false}  target='_blank'>
+                        <ButtonArrow></ButtonArrow>
+                        <span className="text-sm font-medium">{`Book free demo`}</span>
+                      </Button>
+                    ):(
+
+                      <Button type='primarySm' onClick={() => {setOpenForm(true)}}>
+                        <ButtonArrow></ButtonArrow>
+                        <span className="text-sm font-medium">{`Book free demo`}</span>
+                      </Button>
+                    )}
+                  </div>
+                  <div className='flex gap-4 items-center'>
+                    <div className={`${isMobile  && headerFixed ? 'block': 'hidden'}`}>
+                      {refer == "carestack" ? (
+                        <Button type="primaryXs" link={`/demo?region=${router.locale}`} locale={false} target='_blank'>
+                          <ButtonArrow></ButtonArrow>
+                          <span className="text-sm font-medium">
+                            {`Book free demo`}
+                          </span>
+                        </Button>
+                        ):(
+                        <Button type="primaryXs" onClick={() => { setOpenForm(true) }}>
+                          <ButtonArrow></ButtonArrow>
+                          <span className="text-sm font-medium">{`Book free demo`}</span>
+                        </Button>
+                      )}
+                        
+                    </div>      
+
+                    <div onClick={toggleMenu} className={`flex lg:hidden text-zinc-900 cursor-pointer items-center select-none z-20 rounded-lg lg:rounded-xl lg:py-[6px] lg:pr-[10px] lg:pl-[14px]
+                      `}>
+                      {showMenu ? <CloseIcon width={40} height={40} /> : <MenuIcon width={40} height={40} />}
+                    </div>
+                  </div>      
+                 
+                </div>
+              </div>
+
+             
+            </div>
+          </div>
+        </header>
       </div>
       {openForm && (
         <FormModal
