@@ -184,11 +184,6 @@ export default function IndexPage(
         {/* <Header data ={homeSettings} refer={refer}/> */}
         <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>
         <LogoSliderSection data={logoSectionData}  refer={refer}/>
-        {/* <LinksCardsSection data={linkCardSectionData} /> */}
-        <Testimonials data={testimonialSecitonData} refer={refer}/>
-        <CardsListingSection data={cardsListingData}/>
-        <VerticalTestimonialListing data={verticalTestimonialData}  refer={refer}/>
-        <LogoListingSection data={logoSectionData}  refer={refer}/>
         <VerticalTestimonialListing data={verticalTestimonialData}  refer={refer}/>
         <Testimonials data={testimonialSecitonData} refer={refer}/>
         <FeatureSection data={featureSectionData} refer={refer}/>

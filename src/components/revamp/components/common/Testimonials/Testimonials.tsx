@@ -304,7 +304,7 @@ export default function Testimonials({ data, refer = null }) {
     )
   }
   return (
-    <Section className="relative py-sm md:py-md pb-8 bg-[#F9F9F9]">
+    <Section className="relative py-12 md:py-24 bg-[#F9F9F9]">
       <Container className="w-full relative">
         <div className="flex flex-col items-center w-full gap-16">
           <div className="flex justify-center w-full">
