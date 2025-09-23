@@ -18,7 +18,7 @@ export default function TestShakir({ data }: TestShakirProps) {
     description: data?.content?.sections[0]?.data.subDescription,
   }
   return (
-    <Section className="flex flex-col">
+    <Section className="flex flex-col bg-[#F4F3FA]">
       <Container className="py-16 flex-col">
         <SectionHeader
         heading={headerData.heading}
