@@ -159,6 +159,39 @@ const WhoWeServe = {
       validation: (Rule: any) => Rule.required(),
       description: 'Language is automatically set by the i18n plugin'
     },
+    {
+      name:'faqRevamp',
+      title: 'FAQ Revamp',
+      type: 'array',
+      of: [{
+        type: 'reference',
+        to: [{type: 'faqRevamp'}],
+        options: {
+          filter: ({ document, parent }) => {
+            const currentLanguage = document?.language || 'en';
+            const selectedIds = (parent || [])
+              .map((item: any) => item?._ref)
+              .filter(Boolean);
+            if (selectedIds.length >= 1) {
+              return {
+                filter: 'false', // disables all options
+                params: {}
+              }
+            }
+
+            return {
+              filter: `language == $language && _id != $id`,
+              params: { 
+                language: currentLanguage, 
+                id: document._id
+              }
+            }
+          }
+        },
+
+      }],
+    
+    }
   ],
   preview: {
     select: {

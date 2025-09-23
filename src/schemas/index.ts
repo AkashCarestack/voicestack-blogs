@@ -41,6 +41,7 @@ import FeaturesPage from './Pages/Features'
 import GlobalData from './GlobalData'
 import VerticalTestimonialListing from './VerticalTestimonialListing'
 import button from './button'
+import faqRevamp from './faqRevamp'
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -84,5 +85,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     GlobalData,
     VerticalTestimonialListing,
     button,
+    faqRevamp,
   ],
 }

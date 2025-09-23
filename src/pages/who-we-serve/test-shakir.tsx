@@ -6,6 +6,7 @@ import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
 import Button from '~/components/common/Button'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
+import FaqSection from '~/components/revamp/components/common/components/faqSection'
 
 interface TestShakirProps {
   data: any
@@ -31,6 +32,7 @@ export default function TestShakir({ data }: TestShakirProps) {
           </span>
         </Button>
       </div>
+      <FaqSection faqItems={data?.faq.faqItems} />
       </Container>
 
     </Section>
