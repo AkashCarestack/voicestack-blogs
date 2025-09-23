@@ -14,11 +14,11 @@ import FeatureSection from '~/components/features/FeatureSection'
 import LinksCardsSection from '~/components/LinksCardSection'
 import LogoListingSection from '~/components/LogoListingSection'
 import LogoSliderSection from '~/components/LogoSliderSection'
+import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
 import HeroSection from '~/components/revamp/HeroSection/heroSection'
 import Queries from '~/components/revamp/queries'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import TestimonialHighlightSection from '~/components/TestimonialHighlightSection'
-import Testimonails from '~/components/testimonials/Testimonials'
 import AnimatedBeamSection from '~/components/ui/animated/AnimatedBeamSection'
 import VerticalTestimonialListing from '~/components/VerticalTestimonialListing'
 import { getParams } from '~/helpers/getQueryParams'
@@ -184,11 +184,8 @@ export default function IndexPage(
         {/* <Header data ={homeSettings} refer={refer}/> */}
         <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>
         <LogoSliderSection data={logoSectionData}  refer={refer}/>
-        {/* <LinksCardsSection data={linkCardSectionData} /> */}
-        <Testimonails data={testimonialSecitonData} refer={refer}/>
-        <CardsListingSection data={cardsListingData}/>
         <VerticalTestimonialListing data={verticalTestimonialData}  refer={refer}/>
-        <LogoListingSection data={logoSectionData}  refer={refer}/>
+        <Testimonials data={testimonialSecitonData} refer={refer}/>
         <FeatureSection data={featureSectionData} refer={refer}/>
         <AnimatedBeamSection data={integrationPlatforms} refer={refer} />
         <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection>
@@ -196,6 +193,8 @@ export default function IndexPage(
         <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/>
         <FaqSection data={faqSectionData} mailId={heroSectionData?.contactEmail}/>
         <BannerSection data={bannerData} refer={refer}></BannerSection>
+        <LinksCardsSection data={linkCardSectionData} />
+        <CardsListingSection data={cardsListingData}/>
         {/* <Footer data={footerData}></Footer> */}
       </div>
     </Track>

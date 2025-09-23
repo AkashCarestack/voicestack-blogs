@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { IdataProps } from './interface/common'
 
-export default function switchableTabs({
+export default function SwitchableTabs({
   data,
   setActiveTab,
 }: {
@@ -18,7 +18,7 @@ export default function switchableTabs({
 
   return (
     <div className="flex gap-2.5 w-full justify-center items-center lg:mb-24 mb-8">
-        <div className='lg:shadow-lg lg:rounded-[500px] p-1.5 flex flex-col lg:flex-row gap-2.5 w-full lg:w-fit'>
+        <div className='lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] lg:rounded-[500px] p-1.5 flex flex-col lg:flex-row gap-2.5 w-full lg:w-fit bg-white'>
         {data.map((item, idx) => (
         <button
           key={item.key}

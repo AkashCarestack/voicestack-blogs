@@ -4,14 +4,7 @@ import React from 'react'
 import Anchor from './anchor'
 
 interface ButtonProps {
-  type?:
-    | 'primary'
-    | 'primaryLg'
-    | 'primaryWhite'
-    | 'video'
-    | 'primarySm'
-    | 'secondary'
-    | 'primaryXs'
+  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'
   alter?: 'bgWhite' | 'borderWhite' | 'disabled' | 'default'
   children?: React.ReactNode
   link?: any
@@ -42,15 +35,14 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       type === 'primarySm',
     'border-2 border-[rgba(74,60,225,0.15)] hover:border-[rgba(74,60,225,0.15)] hover:bg-[rgba(0,0,0,0.05)] py-2.5 px-6':
       type === 'secondary',
+    'text-base font-normal underline decoration-dotted decoration-2 underline-offset-4':
+      type === 'underline',
   })
 
   const combinedClasses = clsx(baseClasses, customClasses, className)
   if (link) {
     return (
       <>
-        {/* <Link href={link} className={combinedClasses} target={target} locale={locale} {...rest}>
-        {children}
-      </Link> */}
         <Anchor
           href={link}
           className={combinedClasses}
