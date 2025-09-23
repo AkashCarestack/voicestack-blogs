@@ -39,7 +39,7 @@ export default function ListingWithTabs({
           <div  className=" w-full grid xl:grid-cols-2 gap-6" key={el._key} >
            
             {el.listItems?.map((e: any, itemIdx: number) => (
-              <div className='flex flex-row gap-4 lg:w-[606px] rounded-[24px] overflow-hidden bg-[#F4F3FA]'>
+              <div className='flex flex-row gap-4 lg:w-[606px] rounded-[24px] overflow-hidden bg-[#F4F3FA]' key={itemIdx}>
                 <div key={itemIdx} className="gird grid-cols-2 items-start">
                   <div className="flex flex-col p-8">
                      <h4 className="text-gray-950 text-sm font-normal leading-normal tracking-wider uppercase mb-2">{el.tabHeading}</h4>

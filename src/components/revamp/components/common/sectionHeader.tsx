@@ -1,7 +1,7 @@
 import React from 'react'
 import { SectionHeaderProps } from './interface/common'
 
-export default function sectionHeader(data: SectionHeaderProps) {
+export default function SectionHeader(data: SectionHeaderProps) {
   return (
     <div className='flex justify-center'>
          <div className='lg:w-[606px] w-full text-center lg:py-16 py-8'>
