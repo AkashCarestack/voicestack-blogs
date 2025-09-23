@@ -122,7 +122,8 @@ export default defineConfig({
         'whoWeServe',
         'dentalSoftware',
         'globalData',
-        'features'
+        'features',
+        'faqRevamp'
       ],
     }),
 
