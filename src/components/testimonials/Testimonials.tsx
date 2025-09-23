@@ -1,19 +1,20 @@
+import { isEmpty } from 'lodash'
+import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 
-import Section from '../structure/Section'
-import Container from '../structure/Container'
-import H2 from '../typography/H2'
-import Paragraph from '../typography/Paragraph'
+import { BookDemoContext } from '~/providers/BookDemoProvider'
+
 import Button from '../common/Button'
-import ButtonArrow from '../icons/ButtonArrow'
+import { FormModal } from '../common/FormModal'
 import TestimonialCard from '../common/TestimonialCard'
 import { VideoItem, VideoModal } from '../common/VideoModal'
-import { isEmpty } from 'lodash'
-import { FormModal } from '../common/FormModal'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
-import { useRouter } from 'next/router'
+import ButtonArrow from '../icons/ButtonArrow'
+import Container from '../structure/Container'
+import Section from '../structure/Section'
+import H2 from '../typography/H2'
+import Paragraph from '../typography/Paragraph'
 
-export default function Testimonails({ data, refer = null }) {
+export default function Testimonials({ data, refer = null }) {
   const [openForm, setOpenForm] = useState(false)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const [isOpen, setIsOpen] = useState(false)
