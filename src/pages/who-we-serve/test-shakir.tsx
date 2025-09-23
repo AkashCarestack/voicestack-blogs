@@ -18,8 +18,8 @@ export default function TestShakir({ data }: TestShakirProps) {
     description: data?.content?.sections[0]?.data.subDescription,
   }
   return (
-    <Section className="flex flex-col bg-[#F4F3FA]">
-      <Container className="py-16 flex-col">
+    <Section className="flex flex-col bg-[#F9F9F9]">
+      {/* <Container className="py-16 flex-col"> */}
         <SectionHeader
         heading={headerData.heading}
         description={headerData.description}
@@ -33,7 +33,7 @@ export default function TestShakir({ data }: TestShakirProps) {
         </Button>
       </div>
       <FaqSection faqItems={data?.faq.faqItems} />
-      </Container>
+      {/* </Container> */}
 
     </Section>
   )
