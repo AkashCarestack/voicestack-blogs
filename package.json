@@ -53,6 +53,7 @@
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
     "@types/react": "18.2.55",
+    "@types/react-slick": "^0.23.13",
     "autoprefixer": "^10.4.17",
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",

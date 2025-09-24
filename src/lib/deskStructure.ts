@@ -165,6 +165,8 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     
     // Platforms & Integrations
     platforms: ['Platforms', 'platform', 'platformList'],
+
+    faqRevamp: ['faqRevamp'],
     
     // Blocks & Lists
     blocks: ['logoListing', 'verticalTestimonialListing', 'cardsListing', 'csCardsListing', 'listingBlock', 'listingAtom', 'browserList'],
@@ -403,7 +405,9 @@ function getCategoryTitle(category: string) {
     blocks: 'Blocks & Lists',
     media: 'Media & UI Elements',
     dynamic: 'Dynamic Components',
-    utilities: 'Utilities'
+    utilities: 'Utilities',
+    faqRevamp: 'FAQ Revamp'
+
   }
   return titleMap[category] || toTitleCase(category)
 }

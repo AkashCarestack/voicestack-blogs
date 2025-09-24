@@ -144,6 +144,39 @@ const DentalSoftware = {
       ],
     },
     {
+      name:'faqRevamp',
+      title: 'FAQ Revamp',
+      type: 'array',
+      of: [{
+        type: 'reference',
+        to: [{type: 'faqRevamp'}],
+        options: {
+          filter: ({ document, parent }) => {
+            const currentLanguage = document?.language || 'en';
+            const selectedIds = (parent || [])
+              .map((item: any) => item?._ref)
+              .filter(Boolean);
+            if (selectedIds.length >= 1) {
+              return {
+                filter: 'false',
+                params: {}
+              }
+            }
+
+            return {
+              filter: `language == $language && _id != $id`,
+              params: { 
+                language: currentLanguage, 
+                id: document._id
+              }
+            }
+          }
+        },
+
+      }],
+    
+    },
+    {
       name: 'language',
       type: 'string',
       readOnly: true,

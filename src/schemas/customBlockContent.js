@@ -22,6 +22,30 @@ export default defineType({
             component: HighlightDecorator,
           },
         ],
+        annotations: [
+          {
+            title: 'Link',
+            name: 'link',
+            type: 'object',
+            fields: [
+              {
+                title: 'URL',
+                name: 'href',
+                type: 'url',
+                validation: (Rule) => Rule.uri({
+                  allowRelative: true,
+                  scheme: ['http', 'https', 'mailto', 'tel']
+                })
+              },
+              {
+                title: 'Open in new tab',
+                name: 'blank',
+                type: 'boolean',
+                initialValue: false
+              }
+            ]
+          }
+        ]
       },
     }),
   ],

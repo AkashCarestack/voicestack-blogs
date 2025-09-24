@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useState } from 'react'
 
 import { FormModal } from '~/components/common/FormModal'
+import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import VideoPlayers from '~/components/common/VideoPlayer'
 import SuperChargeIcon from '~/components/icons/superCharge'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
@@ -11,7 +12,6 @@ import { BookDemoContext } from '~/providers/BookDemoProvider'
 import Button from '../../common/Button'
 import { VideoItem } from '../../common/VideoModal'
 import Container from '../../structure/Container'
-import ImageLoader from '~/components/common/imageLoader/imageLoader'
 
 const HeroSection = ({ data, refer = null, video, page }) => {
   const [isOpen, setIsOpen] = useState(false)
