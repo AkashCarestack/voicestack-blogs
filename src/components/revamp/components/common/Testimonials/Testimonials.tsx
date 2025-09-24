@@ -365,7 +365,7 @@ export default function Testimonials({ data, refer = null }) {
                 setOpenForm(true)
               }}
             >
-              <span className="rounded-[8px] border border-white/10 bg-[#B5EB92] px-6 py-2.5 text-black font-medium">
+              <span>
                 Book Free Demo
               </span>
             </Button>

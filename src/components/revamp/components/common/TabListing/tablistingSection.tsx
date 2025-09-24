@@ -27,8 +27,8 @@ export default function TablistSection({ data }:TablistSectionProps ) {
       />
           <ListingWithTabs list={data} slug="effortlessly-handle" />
         <div className="flex justify-center pt-16">
-        <Button type="primary" className="w-fit">
-          <span className="rounded-[8px] border border-white/10 bg-[#B5EB92] px-6 py-2.5 text-black font-medium">
+        <Button type="primary">
+          <span>
             {'Book Free Demo'}
           </span>
         </Button>
