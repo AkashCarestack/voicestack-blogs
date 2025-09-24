@@ -16,42 +16,218 @@ export default {
       type: 'string',
     },
     
+    // CTA Banner Section
     {
-      name: 'links',
-      title: 'Footer Links',
+      name: 'ctaBanner',
+      title: 'CTA Banner',
+      type: 'object',
+      fields: [
+        {
+          name: 'title',
+          title: 'Banner Title',
+          type: 'string',
+        },
+        {
+          name: 'buttonText',
+          title: 'Button Text',
+          type: 'string',
+        },
+        {
+          name: 'buttonLink',
+          title: 'Button Link',
+          type: 'string',
+        },
+        {
+          name: 'showBanner',
+          title: 'Show Banner',
+          type: 'boolean',
+          initialValue: true,
+        }
+      ]
+    },
+
+    // Footer Columns
+    {
+      name: 'footerColumns',
+      title: 'Footer Columns',
       type: 'array',
       of: [
         {
-          type: 'document',
-          name: 'footerLink',
-          title: 'Footer Link',
+          type: 'object',
+          name: 'footerColumn',
+          title: 'Footer Column',
+          fields: [
+            {
+              name: 'title',
+              title: 'Column Title',
+              type: 'string'
+            },
+            {
+              name: 'links',
+              title: 'Column Links',
+              type: 'array',
+              of: [
+                {
+                  type: 'object',
+                  name: 'footerLink',
+                  title: 'Footer Link',
+                  fields: [
+                    {
+                      name: 'text',
+                      title: 'Link Text',
+                      type: 'string'
+                    },
+                    {
+                      name: 'link',
+                      title: 'Link URL',
+                      type: 'string'
+                    },
+                    {
+                      name: 'newTab',
+                      title: 'Open In New Tab',
+                      type: 'boolean',
+                      initialValue: false
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+
+    // Social Media Links
+    {
+      name: 'socialMedia',
+      title: 'Social Media Links',
+      type: 'object',
+      fields: [
+        {
+          name: 'linkedin',
+          title: 'LinkedIn URL',
+          type: 'string'
+        },
+        {
+          name: 'facebook',
+          title: 'Facebook URL',
+          type: 'string'
+        },
+        {
+          name: 'instagram',
+          title: 'Instagram URL',
+          type: 'string'
+        },
+        {
+          name: 'youtube',
+          title: 'YouTube URL',
+          type: 'string'
+        },
+        {
+          name: 'twitter',
+          title: 'Twitter URL',
+          type: 'string'
+        }
+      ]
+    },
+
+    // App Store Links
+    {
+      name: 'appStoreLinks',
+      title: 'App Store Links',
+      type: 'object',
+      fields: [
+        {
+          name: 'googlePlay',
+          title: 'Google Play Store URL',
+          type: 'string'
+        },
+        {
+          name: 'appStore',
+          title: 'Apple App Store URL',
+          type: 'string'
+        },
+        {
+          name: 'googlePlayIcon',
+          title: 'Google Play Store Icon',
+          type: 'image',
+          options: {
+            hotspot: true
+          }
+        },
+        {
+          name: 'appStoreIcon',
+          title: 'Apple App Store Icon',
+          type: 'image',
+          options: {
+            hotspot: true
+          }
+        }
+      ]
+    },
+
+    // Bottom Footer Links
+    {
+      name: 'bottomLinks',
+      title: 'Bottom Footer Links',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'bottomLink',
+          title: 'Bottom Footer Link',
           fields: [
             {
               name: 'text',
-              title: 'Text',
+              title: 'Link Text',
               type: 'string'
             },
             {
               name: 'link',
-              title: 'Link',
+              title: 'Link URL',
               type: 'string'
             },
             {
               name: 'newTab',
               title: 'Open In New Tab',
-              type: 'boolean'
+              type: 'boolean',
+              initialValue: false
             }
           ]
-        },
-        // Add any other content types you need
+        }
       ]
     },
+
+    // Copyright Text
+    {
+      name: 'copyrightText',
+      title: 'Copyright Text',
+      type: 'string',
+      initialValue: 'VoiceStack'
+    },
+
+    // Company Logo
+    {
+      name: 'logo',
+      title: 'Company Logo',
+      type: 'image',
+      options: {
+        hotspot: true
+      },
+      fields: [
+        {
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string'
+        }
+      ]
+    },
+    
     {
       name: 'language',
       type: 'string',
       readOnly: true,
       hidden: true,
-      
     }
   ],
   preview: {

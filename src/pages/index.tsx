@@ -180,7 +180,6 @@ export default function IndexPage(
     <Track>
       <CustomHead {...props} />
       <div className="">
-        {/* <Header data ={homeSettings} refer={refer}/> */}
         <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>
         <LinksCardsSection data={linkCardSectionData} />
         <Testimonails data={testimonialSecitonData} refer={refer}/>
@@ -194,7 +193,6 @@ export default function IndexPage(
         <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/>
         <FaqSection data={faqSectionData} mailId={heroSectionData?.contactEmail}/>
         <BannerSection data={bannerData} refer={refer}></BannerSection>
-        {/* <Footer data={footerData}></Footer> */}
       </div>
     </Track>
   )
