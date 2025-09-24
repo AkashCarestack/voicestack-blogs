@@ -31,7 +31,7 @@ export default function FaqSection({ faqItems }: FaqSectionProps) {
       />
 
       <div className="lg:columns-2 [column-gap:1.5rem]">
-        {faqItems.map((item, index) => {
+        {faqItems &&faqItems?.map((item, index) => {
           const isExpanded = !!isOpen[index]
           return (
             <div
