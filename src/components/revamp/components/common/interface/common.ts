@@ -6,5 +6,18 @@ export interface IdataProps {
 export interface SectionHeaderProps {
     heading?: string,
     subheading?: string,
-    description?: string
+    description?: string,
+    mailId?: string
+    className?: string
+}
+
+import { ReactNode } from 'react';
+
+interface IFaqItemProps {
+    answer: ReactNode | Iterable<ReactNode>;
+    question: string;
+}
+
+export interface FaqSectionProps {
+    faqItems: Array<IFaqItemProps>
 }

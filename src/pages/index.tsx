@@ -9,11 +9,12 @@ import CardsListingSection from '~/components/CardsListingSection'
 import CustomHead from '~/components/common/CustomHead'
 import Header from '~/components/common/Header'
 import CsCardsListingSection from '~/components/CsCardsListingSection'
-import FaqSection from '~/components/FaqSection'
+import FaqSection from '~/components/revamp/components/common/components/faqSection'
 import FeatureSection from '~/components/features/FeatureSection'
 import LinksCardsSection from '~/components/LinksCardSection'
 import LogoListingSection from '~/components/LogoListingSection'
 import LogoSliderSection from '~/components/LogoSliderSection'
+import TablistSection from '~/components/revamp/components/common/TabListing/tablistingSection'
 import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
 import HeroSection from '~/components/revamp/HeroSection/heroSection'
 import Queries from '~/components/revamp/queries'
@@ -47,11 +48,14 @@ import runQuery from '~/utils/runQuery'
 export const getStaticProps: GetStaticProps<any> = async ({
   locale,
   draftMode = false,
+
 }) => {
   const region = locale
 
   // revamp queries
   const queries = new Queries('home')
+  const fetchTabListingData = new Queries('easily-handle')
+  const tabListingData = await fetchTabListingData.getData();
   const heroSectionData = await queries.getHeroData(region);
   const allTabsData = await queries.getAllTabsListingData(region)
   const testimonialSecitonData = allTabsData?.find(item => item.slug === 'testimonial-category-section')?.tabsListingComponent
@@ -98,6 +102,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
       bannerData,
       contactAndVideoData,
       verticalTestimonialData,
+      tabListingData,
     },
     revalidate: 60
   }
@@ -167,6 +172,7 @@ export default function IndexPage(
     bannerData,
     contactAndVideoData,
     verticalTestimonialData,
+    tabListingData,
   } = props
 
   const comparisonSectionData = {
@@ -185,17 +191,18 @@ export default function IndexPage(
     <Track>
       <CustomHead {...props} />
       <div className="">
-        {/* <Header data ={homeSettings} refer={refer}/> */}
         <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>
         <LogoSliderSection data={logoSectionData}  refer={refer}/>
         <VerticalTestimonialListing data={verticalTestimonialData}  refer={refer}/>
         <Testimonials data={testimonialSecitonData} refer={refer}/>
-        <FeatureSection data={featureSectionData} refer={refer}/>
+        {/* <FeatureSection data={featureSectionData} refer={refer}/> */}
+        {/* tablisting section */}
+        <TablistSection data={tabListingData}/>
         <AnimatedBeamSection data={integrationPlatforms} refer={refer} />
         <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection>
         <SiteComparisonSection data={comparisonSectionData} legendData={comparisonLegendData} refer={refer}/>
         <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/>
-        <FaqSection data={faqSectionData} mailId={heroSectionData?.contactEmail}/>
+        <FaqSection faqItems={tabListingData?.faq.faqItems}/>
         <BannerSection data={bannerData} refer={refer}></BannerSection>
         <LinksCardsSection data={linkCardSectionData} />
         <CardsListingSection data={cardsListingData}/>

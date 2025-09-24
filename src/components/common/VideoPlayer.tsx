@@ -9,7 +9,7 @@ export default function VideoPlayers({
   video: any
   thumbnail: any
 }) {
-console.log("thumbnail",thumbnail)
+
   const [isPlaying, setIsPlaying] = useState(false)
   const [showThumbnail, setShowThumbnail] = useState(true)
 

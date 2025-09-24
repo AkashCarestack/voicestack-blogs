@@ -12,6 +12,8 @@ class Queries {
   private fetchCommonData(slug: string) {
     return groq`
       *[_type == "whoWeServe" && basicInfo.slug.current == $slug][0]{
+        'faq':faqRevamp[0]->{faqItems
+        },
         content {
           sections[]{
             'componentType': component.componentType,

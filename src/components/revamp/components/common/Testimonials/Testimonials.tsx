@@ -251,9 +251,11 @@ export default function Testimonials({ data, refer = null }) {
 
           {/* Tab Navigation */}
           <SwitchableTabs
+            isSticky={false}
             data={(data?.tabs || []).map((e: any) => ({
               key: e.tabHeading,
               title: e.tabHeading,
+              setActiveTab: (key: string) => setActiveTab(key),
             }))}
             setActiveTab={(e: any) => setActiveTab(e)}
             activeTab={activeTab}

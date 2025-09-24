@@ -1,25 +1,20 @@
 import React from 'react'
-import Queries from '~/components/revamp/queries'
-import { GetStaticProps } from 'next'
 import ListingWithTabs from '~/components/revamp/components/common/listingwithTabs'
 import Section from '~/components/structure/Section'
-import Container from '~/components/structure/Container'
 import Button from '~/components/common/Button'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
-import FaqSection from '~/components/revamp/components/common/components/faqSection'
 
-interface TestShakirProps {
+interface TablistSectionProps {
   data: any
 }
 
-export default function TestShakir({ data }: TestShakirProps) {
+export default function TablistSection({ data }:TablistSectionProps ) {
   const headerData = {
     heading: data?.content?.sections[0]?.data.headline,
     description: data?.content?.sections[0]?.data.subDescription,
   }
   return (
     <Section className="flex flex-col bg-[#F9F9F9]">
-      {/* <Container className="py-16 flex-col"> */}
         <SectionHeader
         heading={headerData.heading}
         description={headerData.description}
@@ -32,20 +27,6 @@ export default function TestShakir({ data }: TestShakirProps) {
           </span>
         </Button>
       </div>
-      <FaqSection faqItems={data?.faq.faqItems} />
-      {/* </Container> */}
-
     </Section>
   )
-}
-
-export const getStaticProps: GetStaticProps = async () => {
-  const queries = new Queries('easily-handle')
-  const data = await queries.getData()
-
-  return {
-    props: {
-      data,
-    },
-  }
 }
