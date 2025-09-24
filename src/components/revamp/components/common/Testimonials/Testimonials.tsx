@@ -316,6 +316,7 @@ export default function Testimonials({ data, refer = null }) {
 
           {/* Tab Navigation */}
           <SwitchableTabs
+            isSticky={false}
             data={(tabs || []).map((e: any) => ({
               key: e.id,
               title: e.label,

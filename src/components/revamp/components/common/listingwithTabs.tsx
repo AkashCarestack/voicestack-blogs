@@ -40,6 +40,7 @@ export default function ListingWithTabs({
           title: e.tabHeading,
         }))}
         setActiveTab={(e: string) => bindEvents(e)}
+        isSticky={true}
       />
       <div className="w-full">
         {(tabsData?.tabs || []).map(
