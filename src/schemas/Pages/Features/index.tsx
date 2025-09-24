@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { isUniqueOtherThanLanguage } from '~/lib/sanity'
+import showCountryFlag from '~/components/utils/common'
 
 export default defineType({
   name: 'features',
@@ -189,41 +190,6 @@ export default defineType({
               title: 'Category Icon',
               type: 'image',
             },
-            {
-              name: 'features',
-              title: 'Features in this Category',
-              type: 'array',
-              of: [
-                {
-                  type: 'object',
-                  fields: [
-                    {
-                      name: 'title',
-                      title: 'Feature Title',
-                      type: 'string',
-                      validation: (Rule: any) => Rule.required(),
-                    },
-                    {
-                      name: 'description',
-                      title: 'Feature Description',
-                      type: 'text',
-                      rows: 2,
-                    },
-                    {
-                      name: 'icon',
-                      title: 'Feature Icon',
-                      type: 'string',
-                    },
-                    {
-                      name: 'isHighlighted',
-                      title: 'Highlight this Feature',
-                      type: 'boolean',
-                      initialValue: false,
-                    },
-                  ],
-                },
-              ],
-            },
           ],
         },
       ],
@@ -406,7 +372,8 @@ export default defineType({
       const { lang, title, order } = selection
       return { 
         ...selection, 
-        subtitle: `${lang || 'en'}${order ? ` • Order: ${order}` : ''}` 
+        subtitle: `${lang || 'en'}${order ? ` • Order: ${order}` : ''}`,
+        media: selection?.lang ? <img src={showCountryFlag(selection?.lang)} /> : selection?.media
       }
     },
   },

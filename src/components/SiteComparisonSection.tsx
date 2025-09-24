@@ -43,7 +43,6 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
     return () => window.removeEventListener('resize', checkWidth);
   }, []);
 
-  console.log(legendData, "legendData");
   
   
   return (

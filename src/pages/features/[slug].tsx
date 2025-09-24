@@ -26,12 +26,6 @@ interface Feature {
     name: string;
     description?: string;
     icon?: any;
-    features?: Array<{
-      title: string;
-      description?: string;
-      icon?: string;
-      isHighlighted?: boolean;
-    }>;
   }>;
   benefits?: Array<{
     title: string;
@@ -63,7 +57,6 @@ interface Feature {
   metaTitle?: string;
   metaDescription?: string;
   keywords?: string[];
-  canonicalUrl?: string;
 }
 
 interface FeaturePageProps {
@@ -75,7 +68,7 @@ interface FeaturePageProps {
 export default function FeaturePage({ feature, otherFeatures, currentLanguage }: FeaturePageProps) {
   if (!feature) {
     return (
-      <Layout>
+      <div>
         <div className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-4">Feature Not Found</h1>
           <p className="text-gray-600 mb-8">The feature you're looking for doesn't exist.</p>
@@ -86,7 +79,7 @@ export default function FeaturePage({ feature, otherFeatures, currentLanguage }:
             View All Features
           </Link>
         </div>
-      </Layout>
+      </div>
     );
   }
 
@@ -94,12 +87,10 @@ export default function FeaturePage({ feature, otherFeatures, currentLanguage }:
   const metaDescription = feature.metaDescription || (typeof feature.overview === 'string' ? feature.overview : 'Feature description');
 
   return (
-    <Layout>
+    <div>
       <SimpleHead
         title={metaTitle}
         description={metaDescription}
-        keywords={feature.keywords}
-        canonicalUrl={feature.canonicalUrl}
       />
       
       {/* Hero Section */}
@@ -220,35 +211,6 @@ export default function FeaturePage({ feature, otherFeatures, currentLanguage }:
                       </p>
                     )}
                     
-                    {category.features && category.features.length > 0 && (
-                      <ul className="space-y-2">
-                        {category.features.map((feature, featureIndex) => (
-                          <li key={featureIndex} className="flex items-start">
-                            <div className="flex-shrink-0 w-5 h-5 mt-0.5 mr-3">
-                              {feature.isHighlighted ? (
-                                <svg className="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                                </svg>
-                              ) : (
-                                <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.293l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L9 9.414V13a1 1 0 102 0V9.414l1.293 1.293a1 1 0 001.414-1.414z" clipRule="evenodd" />
-                                </svg>
-                              )}
-                            </div>
-                            <div>
-                              <span className={`font-medium ${feature.isHighlighted ? 'text-green-700' : 'text-gray-900'}`}>
-                                {feature.title}
-                              </span>
-                              {feature.description && (
-                                <p className="text-sm text-gray-600 mt-1">
-                                  {feature.description}
-                                </p>
-                              )}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
                   </div>
                 ))}
               </div>
@@ -401,7 +363,7 @@ export default function FeaturePage({ feature, otherFeatures, currentLanguage }:
           </div>
         </section>
       )}
-    </Layout>
+    </div>
   );
 }
 

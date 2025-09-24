@@ -8,10 +8,6 @@ import Container from '~/components/structure/Container'
 export default function FaqSection({ faqItems }: FaqSectionProps) {
   const [isOpen, setIsOpen] = useState({})
 
-  useEffect(() => {
-    console.log(isOpen)
-  }, [isOpen])
-
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (

@@ -187,7 +187,6 @@ export default function IndexPage(
     <Track>
       <CustomHead {...props} />
       <div className="">
-        {/* <Header data ={homeSettings} refer={refer}/> */}
         <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>
         <LogoSliderSection data={logoSectionData}  refer={refer}/>
         <VerticalTestimonialListing data={verticalTestimonialData}  refer={refer}/>

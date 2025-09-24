@@ -288,7 +288,52 @@ export async function getCardsSectionData(
 
 export async function getFooterData(client: SanityClient, region: string) {
   const query = groq` *[_type == "footer" && language == $region][0]{
-    ...,
+    title,
+    ctaBanner {
+      title,
+      buttonText,
+      buttonLink,
+      showBanner
+    },
+    footerColumns[] {
+      title,
+      links[] {
+        text,
+        link,
+        newTab
+      }
+    },
+    socialMedia {
+      linkedin,
+      facebook,
+      instagram,
+      youtube,
+      twitter
+    },
+    appStoreLinks {
+      googlePlay,
+      appStore
+    },
+    bottomLinks[] {
+      text,
+      link,
+      newTab
+    },
+    copyrightText,
+    logo {
+      asset-> {
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          }
+        }
+      },
+      alt
+    }
   }`
   return await client.fetch(query, { region })
 }
@@ -1393,12 +1438,6 @@ export const getFeaturesListQuery = groq`
           url
         }
       },
-      features[] {
-        title,
-        description,
-        icon,
-        isHighlighted
-      }
     }
   }
 `
@@ -1442,12 +1481,6 @@ export const getFeatureBySlugQuery = groq`
           url
         }
       },
-      features[] {
-        title,
-        description,
-        icon,
-        isHighlighted
-      }
     },
     benefits[] {
       title,
