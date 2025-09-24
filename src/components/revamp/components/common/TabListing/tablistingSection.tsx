@@ -9,7 +9,6 @@ interface TablistSectionProps {
 }
 
 export default function TablistSection({ data }:TablistSectionProps ) {
-    console.log({data})
   const headerData = {
     heading: data?.content?.sections[0]?.data.headline,
     description: data?.content?.sections[0]?.data.subDescription,
