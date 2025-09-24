@@ -26,10 +26,10 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   locale,
   ...rest
 }) => {
-  const baseClasses = `inline-block rounded-[8px] text-gray-950 font-geist font-medium leading-[24px] flex items-center tracking-wide justify-center whitespace-nowrap gap-[8px] transition-all duration-300 ease-linear  ${className}`
+  const baseClasses = `relative [&>*]:relative inline-block rounded-[8px] text-gray-950 font-geist font-medium leading-[24px] flex items-center tracking-wide justify-center whitespace-nowrap gap-[8px] transition-all duration-300 ease-linear  ${className}`
   // const customClasses = `bg-zinc-500 hover:bg-zinc-600 text-white`;
   const customClasses = clsx({
-    'p-[1px] text-base bg-gradient-to-r from-[#B5EB92] to-white shadow-[0_0_0_1px_#92D96A] hover:shadow-[0_0_0_2px_#92D96A] hover:from-white hover:to-[#B5EB92]':
+    'px-6 py-2.5 before:content-[""] before:absolute before:inset-[1px] before:rounded-[8px] before:border before:border-white/10 before:bg-[#B5EB92] p-[1px] text-base bg-gradient-to-r from-[#B5EB92] to-white shadow-[0_0_0_1px_#92D96A] hover:shadow-[0_0_0_2px_#92D96A] hover:from-white hover:to-[#B5EB92]':
       type === 'primary',
     'p-[1px] text-sm bg-gradient-to-r from-[#B5EB92] to-white shadow-[0_0_0_1px_#92D96A] hover:shadow-[0_0_0_2px_#92D96A] hover:from-white hover:to-[#B5EB92]':
       type === 'primarySm',

@@ -21,6 +21,7 @@ import Head from 'next/head';
 import ProgressBar from '~/utils/progressBar/progressBar'
 import Tracker from './trackerComponent';
 import Anchor from './anchor';
+import SparklesIconFill from '../revamp/icons/SparklesIconFill';
 
 
 
@@ -283,7 +284,7 @@ const Header = ({ data, refer=null }) => {
     };
   }, []);
   
-
+  console.log({data});
 
   const btnClass = "bg-vs-blue hover:bg-vs-blue text-white border border-vs-blue px-[17px] py-[10px] rounded-[7px] text-gray-900 font-inter text-base font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]";
   return (
@@ -335,45 +336,57 @@ const Header = ({ data, refer=null }) => {
       {/* region popup main end*/}
 
 
-      <div className={` ${showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'} fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-vs-blue`}>
+      <div className={` ${showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'} fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}>
         
         {/* Top Header Strip - Phone Number & Region Switcher */}
-        <div className={`hidden z-20 lg:flex justify-center w-full bg-vs-blue relative transition-transform duration-300 ease-in-out h-[42px]`}>
-          <div className="max-w-7xl flex justify-end w-full px-4">
-            <div className="flex justify-end items-center gap-4">
+        <div className={`hidden z-20 lg:flex justify-center w-full bg-gray-100 relative transition-transform duration-300 ease-in-out h-[42px]`}>
+          <div className="flex justify-end w-full lg:px-12">
+            <div className="flex justify-end items-center gap-3">
               {/* Phone Number */}
               {data?.phoneNumber && (
-                <Anchor 
-                  href={`tel:${data?.phoneNumber}`} 
-                  className='text-white text-sm font-medium flex items-center gap-2 hover:text-gray-200 transition-colors'
-                >
-                  <TelIcon className="w-4 h-4" />
-                  {data?.phoneNumber}
-                </Anchor>
+                <div className='flex items-center gap-2 text-gray-900 text-sm mr-3'>
+                  <span>Talk to an expert</span>
+                  <Anchor 
+                    href={`tel:${data?.phoneNumber}`} 
+                    className='text-gray-900 text-sm font-semibold flex items-center gap-2 hover:text-gray-800 transition-colors'
+                  >
+                    {/* <TelIcon className="w-4 h-4" /> */}
+                    {data?.phoneNumber}
+                  </Anchor>
+                </div>
+              )}
+
+              {/* top */}
+              {data?.topNavigationMenu && (
+                <div className='flex items-center gap-6 text-gray-900 text-sm'>
+                  {data?.topNavigationMenu.map((item: any) => (
+                    <Anchor key={item._key} href={item.href} className='text-gray-900 text-sm font-normal flex items-center gap-2 hover:text-gray-800 transition-colors'>{item.label}</Anchor>
+                  ))}
+                </div>
               )}
               
               {/* Region Switcher top strip */}
               {regions && regions.length > 0 &&(
-                <div className='relative hidden lg:flex w-[86px]'>
-                  <div className='flex  rounded-[10px w-full shadow-[0px_7px_40px_0px_rgba(0,0,0,0.10)]'>
-                    <span ref={toggleRef} className='select-none flex w-full items-center gap- p-[6px] justify-between cursor-pointer text-gray-900' onClick={toggleSwitcher}>
+                <div className='relative hidden lg:flex'>
+                  <div className='flex rounded-[8px] w-full border border-gray-200'>
+                    <span ref={toggleRef} className='select-none flex w-full items-center p-[6px] justify-between cursor-pointer text-gray-900' onClick={toggleSwitcher}>
                       {matchedRegion && (
                         <Image 
                             src={matchedRegion.flag.url} 
                             alt={matchedRegion.flag.title} 
                             title={matchedRegion.flag.title}
-                            width={23}
-                            height={23}
+                            width={18}
+                            height={18}
                             >
                           </Image>
                       )}
-                      <div className={`${openSwitcher && '-rotate-180'} transition-transform linear duration-300`}>
+                      {/* <div className={`${openSwitcher && '-rotate-180'} transition-transform linear duration-300`}>
                         <ChevronUp></ChevronUp>
-                      </div>
+                      </div> */}
                     </span>
                   </div>
 
-                  <div className={`py-[6px] rounded-[10px] overflow-hidden bg-white  shadow-[0px_7px_40px_0px_rgba(0,0,0,0.10)] absolute top-[calc(100%+4px)] left-0 right-0 flex-col ${openSwitcher ? 'flex' : 'hidden'}`}>
+                  <div className={`py-[6px] rounded-[8px] overflow-hidden bg-white  shadow-[0px_7px_40px_0px_rgba(0,0,0,0.10)] absolute top-[calc(100%+4px)] left-auto w-[70px] right-0 flex-col ${openSwitcher ? 'flex' : 'hidden'}`}>
                     {regions.map((region:any, index:number) => {
                       return(
                         currentLocale == region.locale ? (
@@ -382,11 +395,11 @@ const Header = ({ data, refer=null }) => {
                               src={region.flag.url} 
                               alt={region.flag.title} 
                               title={region.flag.title}
-                              width={23}
-                              height={23}
+                              width={18}
+                              height={18}
                               >
                             </Image>
-                            <span className='text-gray-900 text-sm font-medium'>{region.title}</span>
+                            <span className='text-gray-900 text-xs font-medium'>{region.title}</span>
                           </div>
                         ):(
 
@@ -395,11 +408,11 @@ const Header = ({ data, refer=null }) => {
                             src={region.flag.url} 
                             alt={region.flag.title} 
                             title={region.flag.title}
-                            width={23}
-                            height={23}
+                            width={18}
+                            height={18}
                             >
                           </Image>
-                          <span className='text-gray-900 text-sm font-medium'>{region.title}</span>
+                          <span className='text-gray-900 text-xs font-medium'>{region.title}</span>
                         </Anchor>
                         )
                       )
@@ -412,17 +425,17 @@ const Header = ({ data, refer=null }) => {
         </div>
 
         <header
-          className={`transition-all duration-300 ease-linear`}  >
+          className={`transition-all duration-300 ease-linear bg-white`}  >
           <div className={` text-white`}>
-            <div className="max-w-7xl mx-auto lg:px-4 flex gap-[10px]">
-              <div className={`flex flex-grow gap-3 justify-between py-0 transition-all duration-300 ease-linear lg:rounded-[10px] 
-                bg-white shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10)] backdrop-blur-[12.5px] lg:pl-6 pl-3 pr-3 items-center h-[48px] lg:h-[63px]`}>
+            <div className="lg:px-12 px-4 flex gap-[10px]">
+              <div className={`flex flex-grow gap-6 justify-between py-0 transition-all duration-300 ease-linear 
+                bg-white items-center h-[48px] lg:h-[63px]`}>
                 
                 <div className={`flex flex-row gap-3 justify-between items-center flex-1 
                 lg:relative transition-all duration-300 ease-in-out ${headerFixed ? 'lg:my-3 my-2' : 'lg:my-3 my-2'}`}>
                   
                   <Anchor href="/" className={`flex-shrink-0 text-2xl font-extrabold bg-gradient-text bg-clip-text 
-                    text-transparent font-monrope tracking-tighterText ${isMobile  && headerFixed && 'hidden'}`}>
+                    text-transparent font-monrope tracking-tighterText mr-6 ${isMobile  && headerFixed && 'hidden'}`}>
                     <Image src={VoicestackLogo} alt='VoiceStack' title='VoiceStack'></Image>
                   </Anchor>
 
@@ -433,12 +446,11 @@ const Header = ({ data, refer=null }) => {
                   <div className={`lg:flex flex-col lg:flex-row lg:gap-6 justify-between lg:rounded-none items-center 
                     lg:static absolute top-[44px] left-0 right-0 bg-white pb-20 lg:pb-0 
                     h-[calc(100vh-40px)] lg:h-auto shadow-[0px_40px_40px_0px_rgba(0,0,0,0.10)] lg:shadow-none
-                    xl:flex-grow 
-                    ${showMenu ? 'flex': 'hidden'} ${data?.phoneNumber ? 'xl:justify-end xl:mr-10': 'xl:justify-center'}`}>
+                    xl:flex-grow xl:justify-start ${showMenu ? 'flex': 'hidden'}`}>
 
                     <div className={`lg:flex-row top-[110px] right-0 px-4 pt-4 pb-8 w-full lg:w-auto lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col 
                       gap-2 justify-between lg:items-center flex`}>
-                      <nav className="flex flex-col lg:flex-row lg:gap-y-4 gap-x-4 xl:gap-x-8 w-full lg:w-auto flex-wrap ">
+                      <nav className="flex items-center flex-col lg:flex-row lg:gap-y-4 gap-x-4 xl:gap-x-6 w-full lg:w-auto flex-wrap ">
                         {data?.navigationMenu && data?.navigationMenu?.map((link:any, i:number) => {
                          
                         let isExternal = link?.href?.includes('http')
@@ -447,7 +459,7 @@ const Header = ({ data, refer=null }) => {
                         if (hasSubmenu) {
                           return (
                             <div key={`menu-${i}`} className="relative group">
-                              <div className="flex items-center gap-1 text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0 cursor-pointer">
+                              <div className="flex items-center gap-1 text-gray-700 lg:text-sm font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0 cursor-pointer">
                                 <span>{link.label}</span>
                                 <svg 
                                   width="16" 
@@ -488,6 +500,16 @@ const Header = ({ data, refer=null }) => {
                             </div>
                           )
                         }
+                        if (link.highlight) {
+                          return (
+                            <Anchor key={`menu-${i}`} href={link.href} className="relative group">
+                              <span className="flex items-center gap-2 text-white text-sm py-[4px] pl-[10px] pr-4 rounded-[6px] border-2 border-white/80 bg-gradient-to-r from-[#4A3CE1] to-[#FF708C] shadow-[0_4px_4px_0_rgba(200,200,200,0.20)] justify-center">
+                                <SparklesIconFill className='w-4 h-4' />
+                                <span>{link.label}</span>
+                              </span>
+                            </Anchor>
+                          )
+                        }
                         
                         return (
                           isExternal ? (
@@ -496,7 +518,7 @@ const Header = ({ data, refer=null }) => {
                               key={link?.href + i}
                               href={link?.href}
                               target="_blank"
-                              className="text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
+                              className="text-gray-700 lg:text-sm font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
                               onClick={toggleMenu}
                             >
                               {link.label}
@@ -507,7 +529,7 @@ const Header = ({ data, refer=null }) => {
                               key={link?.href + i}
                               href={link?.href}
                               target={isExternal ? "_blank" : "_self"}
-                              className="text-gray-700 lg:text-sm xl:text-base font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
+                              className="text-gray-700 lg:text-sm font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
                               onClick={toggleMenu}
                             >
                               {link.label}
@@ -528,7 +550,7 @@ const Header = ({ data, refer=null }) => {
                             border border-gray-300'><TelIcon className="text-white"/>{data?.phoneNumber}</Anchor>
                           </div>
                         )}
-                        <Button type='primarySm'  onClick={() => {setOpenForm(true)}}>
+                        <Button type='primary'  onClick={() => {setOpenForm(true)}}>
                           <ButtonArrow></ButtonArrow>
                           <span className="text-base font-medium">{data?.ctabutton}</span>
                         </Button>
@@ -571,34 +593,19 @@ const Header = ({ data, refer=null }) => {
                   </div>
 
                   <div className='lg:flex gap-3 items-center lg:justify-end hidden'>
-                    {refer == "carestack" ? (
-                      <Button type='primarySm' link={`/demo?region=${router.locale}`} locale={false}  target='_blank'>
-                        <ButtonArrow></ButtonArrow>
-                        <span className="text-sm font-medium">{`Book free demo`}</span>
-                      </Button>
-                    ):(
-
-                      <Button type='primarySm' onClick={() => {setOpenForm(true)}}>
-                        <ButtonArrow></ButtonArrow>
-                        <span className="text-sm font-medium">{`Book free demo`}</span>
-                      </Button>
-                    )}
+                    <Button type='primary' onClick={() => {setOpenForm(true)}}>
+                      {/* <ButtonArrow></ButtonArrow> */}
+                      <span className="text-sm font-medium">{`Book free demo`}</span>
+                    </Button>
                   </div>
-                  <div className='flex gap-4 items-center'>
+                  <div className='flex gap-4 items-center lg:hidden'>
                     <div className={`${isMobile  && headerFixed ? 'block': 'hidden'}`}>
-                      {refer == "carestack" ? (
-                        <Button type="primaryXs" link={`/demo?region=${router.locale}`} locale={false} target='_blank'>
-                          <ButtonArrow></ButtonArrow>
-                          <span className="text-sm font-medium">
-                            {`Book free demo`}
-                          </span>
-                        </Button>
-                        ):(
-                        <Button type="primaryXs" onClick={() => { setOpenForm(true) }}>
-                          <ButtonArrow></ButtonArrow>
-                          <span className="text-sm font-medium">{`Book free demo`}</span>
-                        </Button>
-                      )}
+                   
+                      <Button type="primary"  className="w-fit" onClick={() => { setOpenForm(true) }}>
+                        <ButtonArrow></ButtonArrow>
+                        <span className="text-sm font-medium">{`Book free demo`}</span>
+                        
+                      </Button>
                         
                     </div>      
 

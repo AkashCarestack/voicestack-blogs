@@ -312,7 +312,7 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
                 setOpenForm(true)
               }}
             >
-              <ButtonArrow></ButtonArrow>
+              {/* <ButtonArrow></ButtonArrow> */}
               <span className="text-base font-medium">{`Book free demo`}</span>
             </Button>
           </div>

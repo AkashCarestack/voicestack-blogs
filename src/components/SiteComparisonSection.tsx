@@ -115,19 +115,10 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
             </div>
           }
           <div className='flex gap-4 items-center mt-12 lg:mt-16'>
-            {refer == "carestack" ? (
-              <Button type="primary" link={`/demo?region=${router.locale}`} locale={false}  target='_blank'>
-                <ButtonArrow></ButtonArrow>
-                <span className="text-base font-medium">
-                  {`Book free demo`}
-                </span>
-              </Button>
-              ):(
               <Button type="primary" onClick={() => { setOpenForm(true) }}>
-                <ButtonArrow></ButtonArrow>
-                <span className="text-base font-medium">{`Book free demo`}</span>
+                {/* <ButtonArrow></ButtonArrow> */}
+                <span className="">{`Book free demo`}</span>
               </Button>
-            )}
              
             </div>
         </Container>

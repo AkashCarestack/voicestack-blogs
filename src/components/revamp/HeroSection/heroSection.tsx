@@ -135,7 +135,7 @@ const HeroSection = ({ data, refer = null, video, page }) => {
                 />
 
                 {data?.bookBtnContent && (
-                  <div className="flex flex-col sm:flex-row gap-4 pt-8 justify-center lg:justify-start items-center lg:items-start">
+                  <div className="flex flex-col sm:flex-row gap-4 pt-8 justify-center lg:justify-start items-center lg:items-start >">
                     <Button
                       type="primary"
                       className="w-fit"
@@ -143,7 +143,7 @@ const HeroSection = ({ data, refer = null, video, page }) => {
                         setOpenForm(true)
                       }}
                     >
-                      <span className="rounded-[8px] border border-white/10 bg-[#B5EB92] px-6 py-2.5 text-black font-medium">
+                      <span>
                         {data?.bookBtnContent[0]?.buttonText ||
                           'Book Free Demo'}
                       </span>
