@@ -22,7 +22,7 @@ export default function ListingWithTabs({
     )
   const tabsData: any =
     data?.data?.globalData?.tabsListingComponent || data?.data
-  const [activeTab, setActiveTab] = useState<string>(tabsData.tabs[0]?._key)
+  const [activeTab, setActiveTab] = useState<string>(tabsData?.tabs?.[0]?._key)
   const isMobile = useMediaQuery(767)
   const ref = useRef<HTMLDivElement>(null)
 
