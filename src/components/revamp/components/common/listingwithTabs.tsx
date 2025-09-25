@@ -32,7 +32,9 @@ export default function ListingWithTabs({
   }
 
   return (
-    <Container className='py-16 flex-col'>
+    // <Container className='py-16 flex-col'>
+    <>
+
       <SwitchableTabs
         data={(tabsData?.tabs || tabsData || []).map((e: any) => ({
           tabHeading: e.tabHeading,
@@ -80,6 +82,7 @@ export default function ListingWithTabs({
             ),
         )}
       </div>
-    </Container>
+    </>
+    // </Container>
   )
 }

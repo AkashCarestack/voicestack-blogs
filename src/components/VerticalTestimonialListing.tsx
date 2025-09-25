@@ -16,6 +16,7 @@ import Section from './structure/Section'
 import H2 from './typography/H2'
 import Paragraph from './typography/Paragraph'
 import VideoPlayer from './common/VideoPlayer'
+import SectionHeader from './revamp/components/common/sectionHeader'
 
 // PrevArrow.tsx
 const PrevArrow = ({ onClick, currentSlide }: any) => {
@@ -112,7 +113,7 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
     <Section className="py-sm md:py-md md:pb-16">
       <Container>
         <div className="flex flex-col items-center w-full gap-16">
-          <div
+          {/* <div
             className={`flex justify-center w-full`}
           >
             <div className="flex flex-col w-full max-w-[780px] text-center gap-4">
@@ -125,7 +126,11 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
                 }}
               ></Paragraph>
             </div>
-          </div>
+          </div> */}
+           <SectionHeader
+                heading={data?.heading}
+                description={data?.description}
+              />
           <div className="md:block hidden">
             {data?.testimonial?.length > 0 && (
               <div className="xl:h-96 w-full justify-center flex flex-wrap gap-3">
