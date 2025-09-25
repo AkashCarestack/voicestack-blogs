@@ -22,13 +22,13 @@ export default function ListingWithTabs({
     )
   const tabsData: any =
     data?.data?.globalData?.tabsListingComponent || data?.data
-  const [activeTab, setActiveTab] = useState<string>(tabsData?.tabs?.[0]?._key)
+  const [activeTabValue, setActiveTabValue] = useState<string>(tabsData?.tabs?.[0]?._key)
   const isMobile = useMediaQuery(767)
   const ref = useRef<HTMLDivElement>(null)
 
   function bindEvents(e: string) {
-    setActiveTab(e)
-      ref.current?.scrollIntoView({ behavior: 'smooth' })
+    setActiveTabValue(e)
+    if(!isMobile) ref.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
@@ -43,15 +43,16 @@ export default function ListingWithTabs({
         }))}
         setActiveTab={(e: string) => bindEvents(e)}
         isSticky={true}
+        activeTab={activeTabValue}
       />
-      <div className="w-full">
+      <div className="w-full lg:mt-24 mt-6">
         {(tabsData?.tabs || []).map(
           (el: any, tabIdx: number) =>
-            activeTab === el._key && (
+            activeTabValue === el._key && (
               <div className=" w-full grid xl:grid-cols-2 gap-6 scroll-mt-14 lg:scroll-mt-[190px]" key={el._key} ref={ref}>
                 {el.listItems?.map((e: any, itemIdx: number) => (
-                  <div key={itemIdx} className="flex flex-row gap-4 lg:w-[606px] rounded-[24px] overflow-hidden bg-[#F4F3FA]">
-                    <div key={itemIdx} className="gird grid-cols-2 items-start">
+                  <div  key={itemIdx} className="flex flex-row gap-4 lg:w-[606px] rounded-[24px] overflow-hidden bg-[#F4F3FA]">
+                    <div className="gird grid-cols-2 items-start">
                       <div className="flex flex-col p-8">
                         <h4 className="text-gray-950 text-sm font-normal leading-normal tracking-wider uppercase mb-2">
                           {el.tabHeading}

@@ -25,14 +25,12 @@ export default function Testimonials({ data, refer = null }) {
   const [activeTab, setActiveTab] = useState<string>(data?.tabs[0]?.tabHeading)
   const { isDemoPopUpShown } = useContext(BookDemoContext)
   const router = useRouter()
-  console.log(data, 'data')
   const handleOpenVideo = (video: VideoItem) => {
     setSelectedVideo(video)
     setIsOpen(true)
   }
 
   const activeTabData = data?.tabs?.find((tab) => tab.tabHeading == activeTab)
-  console.log(activeTab, activeTabData, 'activeTabData')
 
   // useEffect(() => {
   //   const handleScroll = () => {
