@@ -1,161 +1,273 @@
 import { defineField, defineType } from 'sanity'
 import { isUniqueOtherThanLanguage } from '~/lib/sanity'
+
 export default defineType({
   name: 'featureList',
   title: 'Feature List',
   type: 'document',
+  // This ensures the page works with document internationalization
+  i18n: {
+    base: 'en',
+    languages: ['en', 'en-GB', 'en-AU'],
+    fieldNames: {
+      lang: 'language'
+    }
+  },
   groups: [
     {
       name: 'basic',
-      title: 'Basic',
+      title: 'Basic Information',
       default: true,
-    }, 
-    {
-      name: 'featureDetailed',
-      title: 'Feature Detailed Section',
     },
     {
-      name: 'featureBenefits',
-      title: 'Feature Benefits Section',
+      name: 'features',
+      title: 'Features',
     },
     {
-      name: 'relatedFeature',
-      title: 'Related Features Section',
+      name: 'display',
+      title: 'Display Settings',
     },
     {
-      name: 'faqSection',
-      title: 'FAQ Section',
+      name: 'seo',
+      title: 'SEO Settings',
     },
   ],
 
   fields: [
     defineField({
-      name: 'name',
-      title: 'Feature Name',
+      name: 'title',
+      title: 'Feature List Title',
       group: 'basic',
       type: 'string',
+      validation: (Rule: any) => Rule.required(),
+    }),
+    defineField({
+      name: 'description',
+      title: 'Feature List Description',
+      group: 'basic',
+      type: 'text',
+      rows: 3,
     }),
     {
       name: 'slug',
-      title: 'Page Path',
+      title: 'Slug',
       group: 'basic',
       type: 'slug',
-      validation: (Rule) => Rule.required(),
+      validation: (Rule: any) => Rule.required(),
       options: {
-        source: 'name',
+        source: 'title',
         maxLength: 96,
         isUnique: isUniqueOtherThanLanguage
       },
     },
 
+    // Features Section
     defineField({
-      name: 'heading',
-      title: 'Feature Heading',
-      group: 'basic',
-      type: 'portableContent',
-    }),
-    defineField({
-      name: 'description',
-      title: 'Feature Description',
-      group: 'basic',
-      type: 'portableContent',
-    }),
-    defineField({
-      name: 'shortDescription',
-      title: 'Feature Short Description',
-      type: 'portableContent',
-      group: 'basic',
-    }),
-    defineField({
-      name: 'mainImage',
-      title: 'Main Image',
-      type: 'image',
-      group: 'basic',
-    }),
-    defineField({
-      name: 'secondaryImage',
-      title: 'Secondary Image',
-      type: 'image',
-      group: 'basic',
-    }),
-    defineField({
-      name: 'featureCategory',
-      title: 'featureCategory',
-      type: 'reference',
-      group: 'basic',
-      to: [{ type: 'featureCategory' }],
-    }),
-    defineField({
-      name: "heroTheme",
-      title: "Hero Theme",
-      type: "string",
-      group: 'basic',
-      options: {
-        list: [
-          { title: "Blue", value: "blue" },
-          { title: "Pink", value: "pink" },
-        ]
-      },
-      initialValue: "1" 
-    }),
-    defineField({
-      name: 'featureSubSection',
-      title: 'Feature Sub Section',
+      name: 'features',
+      title: 'Features',
+      group: 'features',
       type: 'array',
-      group: 'featureDetailed',
       of: [
         {
-          type: 'reference',
-          to: [{ type: 'listingAtom' }],
+          type: 'object',
+          name: 'feature',
+          title: 'Feature',
+          fields: [
+            {
+              name: 'title',
+              title: 'Feature Title',
+              type: 'string',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'description',
+              title: 'Feature Description',
+              type: 'text',
+              rows: 2,
+            },
+            {
+              name: 'shortDescription',
+              title: 'Short Description',
+              type: 'text',
+              rows: 1,
+            },
+            {
+              name: 'icon',
+              title: 'Feature Icon',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+            },
+            {
+              name: 'image',
+              title: 'Feature Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+            },
+            {
+              name: 'isHighlighted',
+              title: 'Highlight this feature',
+              type: 'boolean',
+              initialValue: false,
+            },
+            {
+              name: 'order',
+              title: 'Display Order',
+              type: 'number',
+              description: 'Lower numbers appear first',
+            },
+            {
+              name: 'category',
+              title: 'Feature Category',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Core Features', value: 'core' },
+                  { title: 'Advanced Features', value: 'advanced' },
+                  { title: 'Integration Features', value: 'integration' },
+                  { title: 'Analytics Features', value: 'analytics' },
+                  { title: 'Communication Features', value: 'communication' },
+                  { title: 'Management Features', value: 'management' },
+                ]
+              }
+            },
+            {
+              name: 'cta',
+              title: 'Call to Action',
+              type: 'object',
+              fields: [
+                {
+                  name: 'text',
+                  title: 'CTA Text',
+                  type: 'string',
+                },
+                {
+                  name: 'link',
+                  title: 'CTA Link',
+                  type: 'string',
+                },
+                {
+                  name: 'type',
+                  title: 'CTA Type',
+                  type: 'string',
+                  options: {
+                    list: [
+                      { title: 'Primary', value: 'primary' },
+                      { title: 'Secondary', value: 'secondary' },
+                      { title: 'Link', value: 'link' },
+                    ]
+                  }
+                }
+              ]
+            }
+          ],
+          preview: {
+            select: {
+              title: 'title',
+              subtitle: 'category',
+              media: 'icon',
+            },
+            prepare(selection: any) {
+              const { title, subtitle, media } = selection
+              return {
+                title: title || 'Untitled Feature',
+                subtitle: subtitle ? `Category: ${subtitle}` : 'No category',
+                media: media
+              }
+            },
+          },
         },
       ],
-    }),
-    defineField({
-      name: 'featureBenefitsSection',
-      title: 'Feature Benefits Section',
-      type: 'reference',
-      group: 'featureBenefits',
-      to: [{ type: 'listingAtom' }],
     }),
 
+    // Display Settings
     defineField({
-      name: 'relatedFeaturesSection',
-      title: 'Related Features Section',
-      type: 'array',
-      group: 'relatedFeature',
-      of: [
+      name: 'displaySettings',
+      title: 'Display Settings',
+      group: 'display',
+      type: 'object',
+      fields: [
         {
-          type: 'reference',
-          to: [{ type: 'featureList' }],
+          name: 'layout',
+          title: 'Layout Style',
+          type: 'string',
           options: {
-            filter: ({ document }) => ({
-              filter: '_type == "featureList" && language == $language',
-              params: { language: document.language }, 
-            }),
-            disableNew: true,
+            list: [
+              { title: 'Grid', value: 'grid' },
+              { title: 'List', value: 'list' },
+              { title: 'Tabs', value: 'tabs' },
+              { title: 'Accordion', value: 'accordion' },
+            ]
           },
+          initialValue: 'grid'
+        },
+        {
+          name: 'itemsPerRow',
+          title: 'Items Per Row (Grid Layout)',
+          type: 'number',
+          options: {
+            list: [
+              { title: '2 Columns', value: 2 },
+              { title: '3 Columns', value: 3 },
+              { title: '4 Columns', value: 4 },
+            ]
+          },
+          initialValue: 3,
+          hidden: ({ parent }: any) => parent?.layout !== 'grid'
+        },
+        {
+          name: 'showCategories',
+          title: 'Show Category Filtering',
+          type: 'boolean',
+          initialValue: true,
+        },
+        {
+          name: 'showSearch',
+          title: 'Show Search',
+          type: 'boolean',
+          initialValue: false,
+        },
+        {
+          name: 'showCTAs',
+          title: 'Show Call-to-Action Buttons',
+          type: 'boolean',
+          initialValue: true,
+        },
+        {
+          name: 'highlightedFeaturesFirst',
+          title: 'Show Highlighted Features First',
+          type: 'boolean',
+          initialValue: true,
         },
       ],
     }),
+
+    // SEO Section
     defineField({
-      name: 'featureFAQSection',
-      title: 'FAQ Section',
-      type: 'array',
-      group: 'faqSection',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'faq' }],
-          options: {
-            filter: ({ document }) => ({
-              filter: '_type == "faq" && language == $language',
-              params: { language: document.language }, 
-            }),
-            disableNew: true,
-          },
-        },
-      ],
+      name: 'metaTitle',
+      title: 'SEO Meta Title',
+      group: 'seo',
+      type: 'string',
     }),
+    defineField({
+      name: 'metaDescription',
+      title: 'SEO Meta Description',
+      group: 'seo',
+      type: 'text',
+      rows: 3,
+    }),
+    defineField({
+      name: 'keywords',
+      title: 'SEO Keywords',
+      group: 'seo',
+      type: 'array',
+      of: [{ type: 'string' }],
+    }),
+
+    // Language field (hidden and read-only)
     defineField({
       name: 'language',
       type: 'string',
@@ -163,15 +275,35 @@ export default defineType({
       hidden: true,
     }),
   ],
+
   preview: {
     select: {
-      title: 'name',
+      title: 'title',
       lang: 'language',
-      media: 'mainImage',
+      featuresCount: 'features.length',
     },
-    prepare(selection) {
-      const { lang, title } = selection
-      return { ...selection, subtitle: lang && `${lang}` }
+    prepare(selection: any) {
+      const { lang, title, featuresCount } = selection
+      return { 
+        ...selection, 
+        subtitle: `${lang || 'en'} • ${featuresCount || 0} features`
+      }
     },
-      },
+  },
+
+  orderings: [
+    {
+      title: 'Language, Title Asc',
+      name: 'languageTitleAsc',
+      by: [
+        { field: 'language', direction: 'asc' },
+        { field: 'title', direction: 'asc' }
+      ],
+    },
+    {
+      title: 'Title, Asc',
+      name: 'titleAsc',
+      by: [{ field: 'title', direction: 'asc' }],
+    },
+  ],
 })

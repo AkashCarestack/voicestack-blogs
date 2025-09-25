@@ -1,5 +1,6 @@
 import React from 'react'
 import { urlForImage } from '~/lib/sanity.image'
+import FeatureListDisplay from '~/components/features/FeatureListDisplay'
 
 /**
  * CUSTOM COMPONENT
@@ -81,8 +82,16 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
    */
   const getReferencedData = () => {
     if (referenceGlobalSchema) {
-      // Data flows directly from Reference Global Schema
-      // No need for Reference Schema Slug - it's automatic!
+      // Check if it's a feature list reference
+      if (referenceGlobalSchema.dataType === 'featureList') {
+        return {
+          title: referenceGlobalSchema.featureList?.title || 'Features',
+          subtitle: referenceGlobalSchema.featureList?.description || 'Our comprehensive feature list',
+          content: 'Explore all the features we offer',
+          showFeatureList: true
+        }
+      }
+      // Default to comparison table
       return {
         title: 'VoiceStack Comparison Table',
         subtitle: 'Compare our different plans and features',
@@ -114,9 +123,25 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
     return null
   }
 
+  /**
+   * Get feature list data from global schema
+   */
+  const getFeatureListData = () => {
+    if (referenceGlobalSchema?.dataType === 'featureList') {
+      // If it's a resolved reference (has _id), use it directly
+      if (referenceGlobalSchema._id) {
+        return referenceGlobalSchema
+      }
+      // If it's still a reference object, return it as is
+      return referenceGlobalSchema
+    }
+    return null
+  }
+
   // Use referenced data if local data is empty
   const referencedData = getReferencedData()
   const comparisonTableData = getComparisonTableData()
+  const featureListData = getFeatureListData()
   const finalTitle = title || referencedData?.title
   const finalSubtitle = subtitle || referencedData?.subtitle
   const finalContent = content || referencedData?.content
@@ -256,6 +281,60 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
     )
   }
 
+  /**
+   * Render feature list
+   */
+  const renderFeatureList = () => {
+    if (!featureListData) {
+      return (
+        <div className="mt-12 p-8 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-yellow-800 mb-2">
+              Feature List Data Not Available
+            </h3>
+            <p className="text-yellow-700">
+              The referenced feature list data could not be loaded.
+            </p>
+          </div>
+        </div>
+      )
+    }
+
+    // Get the actual feature list data
+    const featureList = featureListData.featureList || featureListData
+    const features = featureList?.features || []
+    const displaySettings = featureList?.displaySettings || featureListData?.displaySettings || {}
+
+    if (features.length === 0) {
+      return (
+        <div className="mt-12 p-8 bg-gray-50 border border-gray-200 rounded-lg">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-gray-800 mb-2">
+              No Features Available
+            </h3>
+            <p className="text-gray-600">
+              This feature list doesn't contain any features yet.
+            </p>
+          </div>
+        </div>
+      )
+    }
+
+    return (
+      <div className="mt-12">
+        <FeatureListDisplay
+          title={featureListData.customTitle || featureList?.title}
+          description={featureListData.customDescription || featureList?.description}
+          features={features}
+          displaySettings={{
+            ...displaySettings,
+            ...featureListData?.displaySettings
+          }}
+        />
+      </div>
+    )
+  }
+
   return (
     <section className={`py-16 ${getBackgroundClasses()}`}>
       <div className="container mx-auto px-4">
@@ -297,14 +376,17 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
               </a>
             )}
             
-            {/* Comparison Table - Show when referenceGlobalSchema is set */}
-            {referenceGlobalSchema && renderComparisonTable()}
+            {/* Comparison Table - Show when referenceGlobalSchema is set and dataType is comparisonTable */}
+            {referenceGlobalSchema?.dataType === 'comparisonTable' && renderComparisonTable()}
+            
+            {/* Feature List - Show when referenceGlobalSchema is set and dataType is featureList */}
+            {referenceGlobalSchema?.dataType === 'featureList' && renderFeatureList()}
             
             {/* Data Source Attribution */}
             {referenceGlobalSchema && (
               <div className="mt-8 p-4 bg-blue-50 rounded-lg">
                 <p className="text-sm text-blue-600">
-                  <strong>Data Source:</strong> Referenced from Global Schema - Comparison Table
+                  <strong>Data Source:</strong> Referenced from Global Schema - {referenceGlobalSchema.dataType === 'featureList' ? 'Feature List' : 'Comparison Table'}
                 </p>
               </div>
             )}

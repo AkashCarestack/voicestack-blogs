@@ -12,6 +12,7 @@ const GlobalData = {
           { title: 'Comparison Table', value: 'comparisonTable' },
           { title: 'Tabs Listing', value: 'tabsListingComponent' },
           { title: 'Custom Content', value: 'customContent' },
+          { title: 'Feature List', value: 'featureList' },
         ],
       },
       validation: (Rule: any) => Rule.required(),
@@ -359,6 +360,100 @@ const GlobalData = {
             ],
           },
           initialValue: 'white',
+        },
+      ],
+    },
+    // Feature List Fields
+    {
+      name: 'featureList',
+      title: 'Feature List Data',
+      type: 'object',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'featureList',
+      fields: [
+        {
+          name: 'title',
+          title: 'Feature List Title',
+          type: 'string',
+        },
+        {
+          name: 'description',
+          title: 'Feature List Description',
+          type: 'text',
+          rows: 3,
+        },
+        {
+          name: 'featureListReference',
+          title: 'Feature List Reference',
+          type: 'reference',
+          to: [{ type: 'featureList' }],
+          description: 'Select a feature list to display',
+          validation: (Rule: any) => Rule.required(),
+        },
+        {
+          name: 'displaySettings',
+          title: 'Display Settings Override',
+          type: 'object',
+          description: 'Override display settings from the referenced feature list',
+          fields: [
+            {
+              name: 'layout',
+              title: 'Layout Style',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Grid', value: 'grid' },
+                  { title: 'List', value: 'list' },
+                  { title: 'Tabs', value: 'tabs' },
+                  { title: 'Accordion', value: 'accordion' },
+                ]
+              }
+            },
+            {
+              name: 'itemsPerRow',
+              title: 'Items Per Row (Grid Layout)',
+              type: 'number',
+              options: {
+                list: [
+                  { title: '2 Columns', value: 2 },
+                  { title: '3 Columns', value: 3 },
+                  { title: '4 Columns', value: 4 },
+                ]
+              }
+            },
+            {
+              name: 'showCategories',
+              title: 'Show Category Filtering',
+              type: 'boolean',
+            },
+            {
+              name: 'showSearch',
+              title: 'Show Search',
+              type: 'boolean',
+            },
+            {
+              name: 'showCTAs',
+              title: 'Show Call-to-Action Buttons',
+              type: 'boolean',
+            },
+            {
+              name: 'highlightedFeaturesFirst',
+              title: 'Show Highlighted Features First',
+              type: 'boolean',
+            },
+          ],
+        },
+        {
+          name: 'customTitle',
+          title: 'Custom Title Override',
+          type: 'string',
+          description: 'Override the title from the referenced feature list',
+        },
+        {
+          name: 'customDescription',
+          title: 'Custom Description Override',
+          type: 'text',
+          rows: 3,
+          description: 'Override the description from the referenced feature list',
         },
       ],
     },

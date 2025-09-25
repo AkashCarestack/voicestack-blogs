@@ -180,10 +180,23 @@ export default defineType({
               validation: (Rule: any) => Rule.required(),
             },
             {
+              name: 'subheading',
+              title: 'Category Subheading',
+              type: 'string',
+            },
+            {
               name: 'description',
               title: 'Category Description',
               type: 'text',
               rows: 2,
+            },
+            {
+              name: 'mainImage',
+              title: 'Category Main Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
             },
             {
               name: 'icon',

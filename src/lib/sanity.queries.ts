@@ -1430,7 +1430,14 @@ export const getFeaturesListQuery = groq`
     shortDescription,
     featureCategories[] {
       name,
+      subheading,
       description,
+      mainImage {
+        asset-> {
+          _id,
+          url
+        }
+      },
       icon {
         asset-> {
           _id,
@@ -1473,7 +1480,14 @@ export const getFeatureBySlugQuery = groq`
     shortDescription,
     featureCategories[] {
       name,
+      subheading,
       description,
+      mainImage {
+        asset-> {
+          _id,
+          url
+        }
+      },
       icon {
         asset-> {
           _id,
@@ -1530,4 +1544,113 @@ export async function getFeaturesList(client: SanityClient, language: string = '
 
 export async function getFeatureBySlug(client: SanityClient, slug: string, language: string = 'en'): Promise<any> {
   return await client.fetch(getFeatureBySlugQuery, { slug, language })
+}
+
+// Feature List queries
+export const getFeatureListQuery = groq`
+  *[_type == "featureList" && (language == $language || language == null)] | order(language asc, title asc) {
+    _id,
+    title,
+    description,
+    slug,
+    language,
+    features[] {
+      title,
+      description,
+      shortDescription,
+      icon {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      image {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      isHighlighted,
+      order,
+      category,
+      cta {
+        text,
+        link,
+        type
+      }
+    },
+    displaySettings {
+      layout,
+      itemsPerRow,
+      showCategories,
+      showSearch,
+      showCTAs,
+      highlightedFeaturesFirst
+    },
+    metaTitle,
+    metaDescription,
+    keywords
+  }
+`
+
+export const getFeatureListBySlugQuery = groq`
+  *[_type == "featureList" && slug.current == $slug && (language == $language || language == null)][0] {
+    _id,
+    title,
+    description,
+    slug,
+    language,
+    features[] {
+      title,
+      description,
+      shortDescription,
+      icon {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      image {
+        asset-> {
+          _id,
+          url
+        }
+      },
+      isHighlighted,
+      order,
+      category,
+      cta {
+        text,
+        link,
+        type
+      }
+    },
+    displaySettings {
+      layout,
+      itemsPerRow,
+      showCategories,
+      showSearch,
+      showCTAs,
+      highlightedFeaturesFirst
+    },
+    metaTitle,
+    metaDescription,
+    keywords
+  }
+`
+
+export const getFeatureListSlugsQuery = groq`
+  *[_type == "featureList" && (language == $language || language == null)] {
+    slug
+  }
+`
+
+// Feature List query functions
+
+export async function getFeatureListBySlug(client: SanityClient, slug: string, language: string = 'en'): Promise<any> {
+  return await client.fetch(getFeatureListBySlugQuery, { slug, language })
+}
+
+export async function getFeatureListSlugs(client: SanityClient, language: string = 'en'): Promise<any[]> {
+  return await client.fetch(getFeatureListSlugsQuery, { language })
 }

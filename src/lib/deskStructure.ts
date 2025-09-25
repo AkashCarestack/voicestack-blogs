@@ -43,7 +43,6 @@ const schemaIconMap: Record<string, any> = {
   Features: BoltIcon,
   feature: BoltIcon,
   featureList: BoltIcon,
-  featureCategory: BoltIcon,
   featureSubSection: BoltIcon,
   heroSubFeature: BoltIcon,
   
@@ -152,7 +151,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     content: ['testimonialHighlightSection'],
     
     // Features & Components
-    features: ['featureList', 'featureCategory', 'featureSubSection', 'heroSubFeature', 'testimonial'],
+    features: ['featureList', 'featureSubSection', 'heroSubFeature', 'testimonial'],
     
     // Testimonial Section
     testimonialSection: ['testimonialSection'],
