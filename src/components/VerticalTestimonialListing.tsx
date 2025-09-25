@@ -16,6 +16,7 @@ import Container from './structure/Container'
 import Section from './structure/Section'
 import H2 from './typography/H2'
 import Paragraph from './typography/Paragraph'
+import SectionHeader from './revamp/components/common/sectionHeader'
 
 // PrevArrow.tsx
 const PrevArrow = ({ onClick, currentSlide }: any) => {
@@ -110,20 +111,6 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
   return (
     <Section className="py-sm md:py-md md:pb-16 bg-[#F9F9F9]">
 =        <div className="flex flex-col items-center w-full gap-16 max-w-[1728px] mx-auto">
-          <div
-            className={`flex justify-center w-full`}
-          >
-            <div className="flex flex-col w-full max-w-[780px] text-center gap-4">
-              <H2>
-                {data?.heading}
-              </H2>
-              <Paragraph
-                dangerouslySetInnerHTML={{
-                    __html: data?.description,
-                }}
-              ></Paragraph>
-            </div>
-          </div> */}
            <SectionHeader
                 heading={data?.heading}
                 description={data?.description}
