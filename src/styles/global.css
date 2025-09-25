@@ -644,7 +644,10 @@ html {
   color: #9ca3af !important; /* gray-400 */
   cursor: not-allowed !important;
 }
-
+.testimonial-metric span {
+  font-size: 20px;
+  font-weight: 500;
+}
 /* loader css */
 /* .progress {
   position: fixed;
@@ -759,3 +762,13 @@ html {
     font-size: 26px;
   }
 } */
+
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

@@ -579,7 +579,7 @@ export default DinnerDemo;
 const CtaButton = () => {
   return(
     <div className="flex flex-col items-center gap-4">
-        <Button type="primaryLg" link="https://carestack.regfox.com/voicestack-dinner--demo" target="_blank">Secure My Spot</Button>
+        <Button type="primary" link="https://carestack.regfox.com/voicestack-dinner--demo" target="_blank">Secure My Spot</Button>
       {/* <p>
         <span className="text-red-600">*</span>
         <span className="text-sm text-white/60 ml-1">

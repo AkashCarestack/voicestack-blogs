@@ -2,26 +2,18 @@ import { useTracking } from 'cs-tracker'
 import { isEmpty } from 'lodash'
 import type { GetStaticProps, InferGetStaticPropsType } from 'next'
 import { useSearchParams } from 'next/navigation'
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import BannerSection from '~/components/BannerSection'
-import CardsListingSection from '~/components/CardsListingSection'
 import CustomHead from '~/components/common/CustomHead'
-import Header from '~/components/common/Header'
-import CsCardsListingSection from '~/components/CsCardsListingSection'
-import FaqSection from '~/components/revamp/components/common/components/faqSection'
-import FeatureSection from '~/components/features/FeatureSection'
-import LinksCardsSection from '~/components/LinksCardSection'
 import LogoListingSection from '~/components/LogoListingSection'
 import LogoSliderSection from '~/components/LogoSliderSection'
+import FaqSection from '~/components/revamp/components/common/components/faqSection'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import TablistSection from '~/components/revamp/components/common/TabListing/tablistingSection'
 import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
-import HeroSection from '~/components/revamp/HeroSection/heroSection'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import Queries from '~/components/revamp/queries'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
-import TestimonialHighlightSection from '~/components/TestimonialHighlightSection'
-import AnimatedBeamSection from '~/components/ui/animated/AnimatedBeamSection'
-import VerticalTestimonialListing from '~/components/VerticalTestimonialListing'
 import { getParams } from '~/helpers/getQueryParams'
 import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
@@ -39,23 +31,27 @@ import {
   getHeaderData,
   getIntegrationList,
   getTestimonialHighlightSectionData,
-  getTestimonialSecitonData,
-  getVerticalTestimonialListing,
   logoSection,
 } from '~/lib/sanity.queries'
-import BookDemoContextProvider from '~/providers/BookDemoProvider'
 import runQuery from '~/utils/runQuery'
 
 export const getStaticProps: GetStaticProps<any> = async ({
   locale,
-  draftMode = false,
+  draftMode = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? true : false,
 
 }) => {
   const region = locale
+
+  // revamp queries
   const queries = new Queries('home')
   const fetchTabListingData = new Queries('easily-handle')
   const tabListingData = await fetchTabListingData.getData();
   const heroSectionData = await queries.getHeroData(region);
+  const allTabsData = await queries.getAllTabsListingData(region)
+  const testimonialSecitonData = allTabsData?.find(item => item.slug === 'testimonial-category-section')?.tabsListingComponent
+  const verticalTestimonialData = await queries.getVerticalTestimonialListing(region)
+
+// old queries
   const client = getClient(draftMode ? { token: readToken } : undefined)
   const homeSettings = await getHeaderData(client, region)
   const siteSettings = await runQuery(getALLSiteSettings(region))
@@ -64,7 +60,6 @@ export const getStaticProps: GetStaticProps<any> = async ({
   
   const comparisonLegendData = await runQuery(getAllComparisonValues(region))
   const integrationPlatforms = await getIntegrationList(client, region);
-  const testimonialSecitonData = await getTestimonialSecitonData(client, region)
   const logoSectionData = await logoSection(client,region);
   const featureSectionData = await featureSectionQuery(client, region);
   const faqSectionData = await fetchFaq(client,region)
@@ -73,8 +68,6 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const testimonialHighlightsData = await getTestimonialHighlightSectionData(client,region)
   const bannerData = await getBannerData(client, region)
   const contactAndVideoData = await getContactAndVideoInfo(client, region)
-  const verticalTestimonialData = await getVerticalTestimonialListing(client, region)
-  
 
   return {
     props: {
@@ -91,13 +84,13 @@ export const getStaticProps: GetStaticProps<any> = async ({
       logoSectionData,
       featureSectionData,
       testimonialSecitonData,
+      verticalTestimonialData,
       faqSectionData,
       cardsListingData,
       cSCardsListingData,
       testimonialHighlightsData,
       bannerData,
       contactAndVideoData,
-      verticalTestimonialData,
       tabListingData,
     },
     revalidate: 60
@@ -156,6 +149,7 @@ export default function IndexPage(
     homeSettings,
     heroSectionData,
     testimonialSecitonData,
+    verticalTestimonialData,
     logoSectionData,
     featureSectionData,
     integrationPlatforms,
@@ -167,7 +161,6 @@ export default function IndexPage(
     testimonialHighlightsData,
     bannerData,
     contactAndVideoData,
-    verticalTestimonialData,
     tabListingData,
   } = props
 
@@ -189,19 +182,20 @@ export default function IndexPage(
       <div className="">
         <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>
         <LogoSliderSection data={logoSectionData}  refer={refer}/>
-        <VerticalTestimonialListing data={verticalTestimonialData}  refer={refer}/>
+        <VerticalTestimonialListing data={verticalTestimonialData}/>
         <Testimonials data={testimonialSecitonData} refer={refer}/>
         {/* <FeatureSection data={featureSectionData} refer={refer}/> */}
         {/* tablisting section */}
         <TablistSection data={tabListingData}/>
-        <AnimatedBeamSection data={integrationPlatforms} refer={refer} />
-        <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection>
+        {/* <AnimatedBeamSection data={integrationPlatforms} refer={refer} /> */}
+        {/* <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection> */}
         <SiteComparisonSection data={comparisonSectionData} legendData={comparisonLegendData} refer={refer}/>
-        <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/>
+        {/* <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/> */}
+        <LogoListingSection data={logoSectionData}  refer={refer}/>
         <FaqSection faqItems={tabListingData?.faq.faqItems}/>
-        <BannerSection data={bannerData} refer={refer}></BannerSection>
+        {/* <BannerSection data={bannerData} refer={refer}></BannerSection>
         <LinksCardsSection data={linkCardSectionData} />
-        <CardsListingSection data={cardsListingData}/>
+        <CardsListingSection data={cardsListingData}/> */}
         {/* <Footer data={footerData}></Footer> */}
       </div>
     </Track>

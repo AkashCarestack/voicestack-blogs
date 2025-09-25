@@ -704,6 +704,7 @@ export async function getALLHomeSettings(client: SanityClient, region: string) {
 export async function getHeaderData(client: SanityClient, region: string) {
   const query = groq`*[_type == "homeSettings" && language ==$region][0]{
     navigationMenu,
+    topNavigationMenu,
     phoneNumber,
     ctabutton
   }`

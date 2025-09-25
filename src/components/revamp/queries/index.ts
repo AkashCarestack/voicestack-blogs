@@ -82,6 +82,189 @@ class Queries {
     }`
   }
 
+  private fetchAllTabsListingData() {
+    return groq`*[_type == "globalData" && dataType == "tabsListingComponent"]{
+      _id,
+      name,
+      "slug": slug.current,
+      dataType,
+      _createdAt,
+      _updatedAt,
+      tabsListingComponent {
+        headline,
+        subheadline,
+        subDescription,
+        showCTA,
+        tabs[] {
+          _key,
+          tabHeading,
+          tabSubHeading,
+          description,
+          "image": image.asset-> {
+            _id,
+            url,
+            altText,
+            title,
+            originalFilename,
+            size,
+            mimeType,
+            metadata {
+              dimensions {
+                width,
+                height,
+                aspectRatio
+              },
+              lqip,
+              hasAlpha,
+              isOpaque
+            }
+          },
+          listItems[] {
+            _key,
+            subfeatureHeading,
+            subfeatureSubheading,
+            subfeatureDescription,
+            "subfeatureImage": subfeatureImage.asset-> {
+              _id,
+              url,
+              altText,
+              title,
+              originalFilename,
+              size,
+              mimeType,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                },
+                lqip,
+                hasAlpha,
+                isOpaque
+              }
+            }
+          },
+          icon,
+          ctaListItems[] {
+            _key,
+            ctaLink,
+            ctaText,
+            ctaType
+          },
+          Link,
+          LinkText,
+          testimonial-> {
+            _id,
+            name,
+            designation,
+            place,
+            region,
+            locations,
+            practiceName,
+            thumbnail,
+            "logo": logo.asset-> {
+              _id,
+              url,
+              altText,
+              title,
+              originalFilename,
+              size,
+              mimeType,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                },
+                lqip,
+                hasAlpha,
+                isOpaque
+              }
+            },
+            video[] {
+              videoPlatform,
+              videoId,
+              videotitle
+            },
+            secondaryVideo[] {
+              videoPlatform,
+              videoId,
+              videotitle
+            },
+            "testimonialImage": testimonialImage.asset-> {
+              _id,
+              url,
+              altText,
+              title,
+              originalFilename,
+              size,
+              mimeType,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                },
+                lqip,
+                hasAlpha,
+                isOpaque
+              }
+            },
+            listItems[] {
+              listHeading,
+              before,
+              after,
+              description
+            },
+            testimonialheading,
+            testimonialdescription,
+            keyFeatures,
+            language
+          }
+        }
+      }
+    }`
+  }
+  
+  private fetchVerticalTestimonialListing() {
+    return groq`*[_type == "verticalTestimonialListing" && language == $region][0]{
+      _id,
+      heading,
+      description,
+      'testimonial': testimonial[]->{
+        _id,
+        name,
+        designation,
+        description,
+        thumbnail,
+        locations,
+        "logo": logo.asset-> {
+          _id,
+          url,
+          altText,
+          title,
+          originalFilename,
+          size,
+          mimeType,
+          metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            },
+            lqip,
+            hasAlpha,
+            isOpaque
+          }
+        },
+        secondaryVideo[] {
+          videoPlatform,
+          videoId,
+          videotitle
+        }
+      }
+    }`
+  }
 
   public async getData() {
     const query = this.fetchCommonData(this.slug)
@@ -93,6 +276,31 @@ class Queries {
     const query = this.fetchHeroData(region)
     const params = { region }
     return await this.client.fetch(query, params)
+  }
+
+  public async getAllTabsListingData(region: string) {
+    const query = this.fetchAllTabsListingData()
+    try {
+      const result = await this.client.fetch(query)
+      if (!result || result.length === 0) {
+        console.warn('No tabs listing data found')
+      }
+      return result
+    } catch (error) {
+      console.error('Error fetching all tabs listing data', error)
+      throw error
+    }
+  }
+
+
+  public async getVerticalTestimonialListing(region: string) {
+    try {
+      const query = this.fetchVerticalTestimonialListing()
+      return await this.client.fetch(query, { region })
+    } catch (error) {
+      console.error('Error fetching vertical testimonial listing data', error)
+      throw error
+    }
   }
 }
 

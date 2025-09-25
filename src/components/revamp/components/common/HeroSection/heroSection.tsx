@@ -9,9 +9,9 @@ import VideoPlayers from '~/components/common/VideoPlayer'
 import SuperChargeIcon from '~/components/icons/superCharge'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
 
-import Button from '../../common/Button'
-import { VideoItem } from '../../common/VideoModal'
-import Container from '../../structure/Container'
+import Button from '../../../../common/Button'
+import { VideoItem } from '../../../../common/VideoModal'
+import Container from '../../../../structure/Container'
 
 const HeroSection = ({ data, refer = null, video, page }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -95,7 +95,7 @@ const HeroSection = ({ data, refer = null, video, page }) => {
   }, [])
 
   return (
-    <section className={`${page == "home" ? "px-4 xl:px-12": ""} bg-[#F9F9F9]  font-geist`}>
+    <section className={`${page == "home" ? "px-4 xl:px-12 pt-2": ""} bg-[#F9F9F9]  font-geist`}>
       <div className={`${page == "home" ? "rounded-[24px] ": ""} bg-[linear-gradient(270deg,rgba(202,197,255,0.70)_0%,rgba(202,197,255,0.15)_51.44%,rgba(202,197,255,0.20)_100%)] justify-center`}>
         <Container className="justify-center py-12">
           <div className="">
@@ -135,7 +135,7 @@ const HeroSection = ({ data, refer = null, video, page }) => {
                 />
 
                 {data?.bookBtnContent && (
-                  <div className="flex flex-col sm:flex-row gap-4 pt-8 justify-center lg:justify-start items-center lg:items-start">
+                  <div className="flex flex-col sm:flex-row gap-4 pt-8 justify-center lg:justify-start items-center lg:items-start >">
                     <Button
                       type="primary"
                       className="w-fit"
@@ -143,7 +143,7 @@ const HeroSection = ({ data, refer = null, video, page }) => {
                         setOpenForm(true)
                       }}
                     >
-                      <span className="rounded-[8px] border border-white/10 bg-[#B5EB92] px-6 py-2.5 text-black font-medium">
+                      <span>
                         {data?.bookBtnContent[0]?.buttonText ||
                           'Book Free Demo'}
                       </span>
@@ -156,7 +156,7 @@ const HeroSection = ({ data, refer = null, video, page }) => {
               </div>
 
               {/* Right Content - Video Section */}
-              <div className="relative w-full max-w-[537px]">
+              <div className="relative w-full max-w-[537px] py-9">
                 <div className="relative w-full lg:h-[550px] rounded-[24px] overflow-hidden aspect-video">
                   {video ? (
                   <VideoPlayers

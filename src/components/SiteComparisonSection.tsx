@@ -12,6 +12,7 @@ import { useRouter } from 'next/router'
 import LegendSection from './common/LegendSection'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
 import ComparisonTable from './ComparisonTable'
+import SectionHeader from './revamp/components/common/sectionHeader'
 
 function SiteComparisonSection({ data, legendData, refer=null }) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -50,14 +51,12 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
       <></> 
     ):(
       <Section id="comparison" className="py-sm md:py-md  scroll-m-16">
-        <Container className="flex flex-col items-center">
+        <Container className="flex flex-col items-center gap-16">
+          <SectionHeader
+            heading={data?.strip}
+            description={data.header}
+          />
           
-          <div className="flex justify-center w-full mb-12">
-            <div className='flex flex-col w-full max-w-[635px] text-center gap-4'>
-              <H2>{data?.strip}</H2>
-              <Paragraph>{data.header}</Paragraph>
-            </div>
-          </div>
           <div className='flex flex-col gap-12 items-center w-full'>
             {/* <TableTabset
               tabs={data?.table.rowCategories}
@@ -103,31 +102,18 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
               demoLink={null}
             />
             </div>
+            {/* {isMobile ? <LegendSection/> :
+              <div className="flex justify-end pt-6 w-full">
+              <span className='text-[11px] md:text-sm text-gray-600'>*Data from 3rd Party Services.</span>
+              </div>
+            } */}
           </div>
-          {/* <CTAButton
-            className="px-6 py-3"
-            name={data?.cta.name ?? ''}
-            url={data?.cta.url ?? '/'}
-          /> */}
-          {isMobile ? <LegendSection/> :
-            <div className="flex justify-end pt-6 w-full">
-            <span className='text-[11px] md:text-sm text-gray-600'>*Data from 3rd Party Services.</span>
-            </div>
-          }
-          <div className='flex gap-4 items-center mt-12 lg:mt-16'>
-            {refer == "carestack" ? (
-              <Button type="primary" link={`/demo?region=${router.locale}`} locale={false}  target='_blank'>
-                <ButtonArrow></ButtonArrow>
-                <span className="text-base font-medium">
-                  {`Book free demo`}
-                </span>
-              </Button>
-              ):(
+         
+          <div className='flex gap-4 items-center'>
               <Button type="primary" onClick={() => { setOpenForm(true) }}>
-                <ButtonArrow></ButtonArrow>
-                <span className="text-base font-medium">{`Book free demo`}</span>
+                {/* <ButtonArrow></ButtonArrow> */}
+                <span className="">{`Book free demo`}</span>
               </Button>
-            )}
              
             </div>
         </Container>
