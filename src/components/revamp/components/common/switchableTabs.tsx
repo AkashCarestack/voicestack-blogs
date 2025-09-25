@@ -44,10 +44,10 @@ export default function SwitchableTabs({
           key={item.key}
           id={item.key}
           onClick={() => handleTabClick(item.key)}
-          className={` text-left md:text-base text-sm lg:text-center cursor-pointer font-base font-geist leading-normal tracking-normal px-5 pt-2.5 pb-2.5 rounded-3xl transition-all duration-200 ease-in-out border border-transparent ${
+          className={` text-left md:text-base text-xs lg:text-center cursor-pointer font-base font-geist leading-normal tracking-normal md:px-5 px-3 md:pt-2.5 pt-1.5 md:pb-2.5 pb-1.5 rounded-3xl transition-all duration-200 ease-in-out ${
             (activeTab || data[0]?.key) === item.key
-              ? 'bg-gray-950 text-white'
-              : 'text-gray-950 hover:border-[rgba(255,255,255,0.60)] hover:bg-tab-hover-gradient hover:shadow-[0_0_0_2px_#CAC5FF]'
+              ? 'bg-gray-950 text-white border border-transparent'
+              : 'text-gray-950 border border-[rgba(255,255,255,0.60)] bg-tab-hover-gradient shadow-[0_0_0_2px_#CAC5FF] lg:border-transparent lg:bg-transparent lg:shadow-none hover:border-[rgba(255,255,255,0.60)] hover:bg-tab-hover-gradient hover:shadow-[0_0_0_2px_#CAC5FF]'
           }`}
         >
           {item.title}
