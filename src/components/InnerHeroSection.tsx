@@ -51,7 +51,7 @@ const InnerHeroSection = ({ data }) => {
                 <PortableText value={data.description} />
               </div>
               <Button
-                type="primaryWhite"
+                type="primary"
                 onClick={() => {
                   setOpenForm(true)
                 }}
