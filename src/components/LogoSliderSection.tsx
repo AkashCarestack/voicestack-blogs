@@ -15,7 +15,7 @@ const LogoSliderSection = ({ data, refer = null }) => {
   }, [router.locale])
 
   return (
-    <Section className="py-sm md:py-md">
+    <Section className="py-sm md:py-md bg-[#F9F9F9]">
       <Container>
         <div className="flex flex-col items-center w-full">
           {/* Carousel Version of Logos */}
