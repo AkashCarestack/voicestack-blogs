@@ -16,6 +16,7 @@ import Section from './structure/Section'
 import H2 from './typography/H2'
 import Paragraph from './typography/Paragraph'
 import VideoPlayer from './common/VideoPlayer'
+import SectionHeader from './revamp/components/common/sectionHeader'
 
 
 
@@ -44,21 +45,12 @@ const LogoListingSection = ({ data, refer = null }) => {
   return (
     <Section className="py-sm md:py-md md:pb-16">
       <Container>
-        <div className="flex flex-col items-center w-full">
-          <div
-            className={`flex justify-center w-full ${data?.image?.length > 0 && `mb-12`}`}
-          >
-            <div className="flex flex-col w-full max-w-[780px] text-center gap-4">
-              <H2>
-                {data?.logoSectionHeader}
-              </H2>
-              <Paragraph
-                dangerouslySetInnerHTML={{
-                  __html: data?.logoSectionHeaderDescptn
-                }}
-              ></Paragraph>
-            </div>
-          </div>
+        <div className="flex flex-col items-center w-full gap-16">
+          <SectionHeader
+            heading={data?.logoSectionHeader}
+            description={data?.logoSectionHeaderDescptn}
+            headingSm={true}
+          />
 
           <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 max-w-[1034px]">
             {data?.image &&
@@ -77,7 +69,7 @@ const LogoListingSection = ({ data, refer = null }) => {
                 )
               })}
           </div>
-          <div className="flex gap-4 items-center mt-12 lg:mt-16">
+          <div className="flex gap-4 items-center">
             {refer == 'carestack' ? (
               <Button
                 type="primary"

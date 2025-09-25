@@ -123,7 +123,11 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
                 }}
               ></Paragraph>
             </div>
-          </div>
+          </div> */}
+           <SectionHeader
+                heading={data?.heading}
+                description={data?.description}
+              />
           <div className="md:block hidden">
             {data?.testimonial?.length > 0 && (
               <div className="xl:h-[564px] w-full justify-center flex flex-wrap gap-3">

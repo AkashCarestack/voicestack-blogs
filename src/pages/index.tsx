@@ -199,13 +199,14 @@ export default function IndexPage(
         {/* tablisting section */}
         <TablistSection data={tabListingData}/>
         {/* <AnimatedBeamSection data={integrationPlatforms} refer={refer} /> */}
-        <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection>
+        {/* <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection> */}
         <SiteComparisonSection data={comparisonSectionData} legendData={comparisonLegendData} refer={refer}/>
         {/* <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/> */}
+        <LogoListingSection data={logoSectionData}  refer={refer}/>
         <FaqSection faqItems={tabListingData?.faq.faqItems}/>
-        {/* <BannerSection data={bannerData} refer={refer}></BannerSection> */}
-        {/* <LinksCardsSection data={linkCardSectionData} /> */}
-        {/* <CardsListingSection data={cardsListingData}/> */}
+        {/* <BannerSection data={bannerData} refer={refer}></BannerSection>
+        <LinksCardsSection data={linkCardSectionData} />
+        <CardsListingSection data={cardsListingData}/> */}
         {/* <Footer data={footerData}></Footer> */}
       </div>
     </Track>
