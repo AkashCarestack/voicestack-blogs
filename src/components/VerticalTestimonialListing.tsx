@@ -10,12 +10,12 @@ import Button from './common/Button'
 import { FormModal } from './common/FormModal'
 import ImageLoader from './common/imageLoader/imageLoader'
 import { VideoItem, VideoModal } from './common/VideoModal'
+import VideoPlayer from './common/VideoPlayer'
 import ButtonArrow from './icons/ButtonArrow'
 import Container from './structure/Container'
 import Section from './structure/Section'
 import H2 from './typography/H2'
 import Paragraph from './typography/Paragraph'
-import VideoPlayer from './common/VideoPlayer'
 import SectionHeader from './revamp/components/common/sectionHeader'
 
 // PrevArrow.tsx
@@ -69,13 +69,8 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
 }
 
 const VerticalTestimonialListing = ({ data, refer = null }) => {
-
-  if (!data?.testimonial?.length) {
-    return;
-  }
   const [openForm, setOpenForm] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
-
   const [isUk, setIsUk] = useState(false)
   const router = useRouter()
 
@@ -86,6 +81,10 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
 
   const [isOpen, setIsOpen] = useState(false)
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null)
+
+  if (!data?.testimonial?.length) {
+    return null;
+  }
   const handleOpenVideo = (video: VideoItem) => {
     setSelectedVideo(video)
     setIsOpen(true)
@@ -110,35 +109,20 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
   }
 
   return (
-    <Section className="py-sm md:py-md md:pb-16">
-      <Container>
-        <div className="flex flex-col items-center w-full gap-16">
-          {/* <div
-            className={`flex justify-center w-full`}
-          >
-            <div className="flex flex-col w-full max-w-[780px] text-center gap-4">
-              <H2>
-                {data?.heading}
-              </H2>
-              <Paragraph
-                dangerouslySetInnerHTML={{
-                    __html: data?.description,
-                }}
-              ></Paragraph>
-            </div>
-          </div> */}
+    <Section className="py-sm md:py-md md:pb-16 bg-[#F9F9F9]">
+=        <div className="flex flex-col items-center w-full gap-16 max-w-[1728px] mx-auto">
            <SectionHeader
                 heading={data?.heading}
                 description={data?.description}
               />
           <div className="md:block hidden">
             {data?.testimonial?.length > 0 && (
-              <div className="xl:h-96 w-full justify-center flex flex-wrap gap-3">
+              <div className="xl:h-[564px] w-full justify-center flex flex-wrap gap-3">
                 {data?.testimonial?.map((logo: any, i: number) => {
                   return (
                     <div
                       key={i}
-                      className="group flex min-w-[238px] rounded-2xl min-h-[300px] justify-center overflow-hidden  cursor-pointer"
+                      className="group flex min-w-[318px] rounded-2xl min-h-[563px] justify-center overflow-hidden  cursor-pointer"
                       onClick={() => handleOpenVideo(logo?.secondaryVideo[0])}
                     >
                       <div className="relative w-full h-full ">
@@ -329,7 +313,6 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
             data={isDemoPopUpShown}
           />
         )}
-      </Container>
       {isOpen && (
         <VideoModal
           refer={refer}
