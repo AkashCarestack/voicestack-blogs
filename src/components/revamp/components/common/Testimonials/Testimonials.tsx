@@ -69,6 +69,13 @@ export default function Testimonials({ data, refer = null }) {
 
         {/* mobile */}
         <div className="relative md:absolute flex flex-col md:flex-row bottom-0 w-full h-full md:hidden text-white p-3">
+          <Image
+            src="/assets/testimonialbg.png"
+            alt={activeTabData?.tabHeading}
+            width={600}
+            height={600}
+            className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0"
+          />
           <div className="flex flex-col py-8 px-4 gap-8">
             {/* Company Logo */}
             <div className="flex">
@@ -84,18 +91,18 @@ export default function Testimonials({ data, refer = null }) {
             </div>
 
             {/* Metrics Display */}
-            <div className="flex flex-col">
+            <div className="flex z-10">
               {activeTabData?.testimonial?.listItems?.map((metric, index) => (
-                <div key={index} className="text-white">
+                <div key={index} className="text-white border-r border-white/10 px-4 last:border-none">
                   <div
-                    className="text-2xl font-semibold testimonial-metric inline"
+                    className="text-xl font-semibold testimonial-metric inline"
                     dangerouslySetInnerHTML={{
                       __html: metric?.after
                         ? metric?.after
                         : metric?.description,
                     }}
                   />
-                  <div className="text-sm text-white">
+                  <div className="text-xs text-white">
                     {metric?.listHeading}
                   </div>
                 </div>
@@ -104,13 +111,17 @@ export default function Testimonials({ data, refer = null }) {
 
             <div className="flex items-center gap-4">
               <div className="relative w-14 h-14 mb-4">
-                <div className="w-14 h-14 rounded-full bg-purple-600 flex items-center justify-center">
-                  <span className="text-white text-lg font-bold">
-                    {activeTabData?.testimonial?.name}
-                  </span>
+                <div className="w-14 h-14 rounded-full flex items-center justify-center">
+                  <ImageLoader
+                    key={`testimonial-image-${activeTabData?.testimonial?._id || activeTab}`}
+                    image={activeTabData?.testimonial?.testimonialImage}
+                    width={56}
+                    height={56}
+                    imageClassName="w-full h-auto object-contain"
+                  />
                 </div>
               </div>
-              <div>
+              <div className="flex flex-col gap-1 text-white text-sm font-semibold z-10">
                 <p className="font-semibold">
                   {activeTabData?.testimonial?.name}
                 </p>
@@ -124,10 +135,10 @@ export default function Testimonials({ data, refer = null }) {
             <div className="flex gap-12">
               <div>
                 <p className="font-semibold ">
-                  {activeTabData?.testimonial?.locations}
+                  {activeTabData?.testimonial?.place}
                 </p>
                 <p className="text-white/60">
-                  {activeTabData?.testimonial?.locations}
+                  {activeTabData?.testimonial?.region}
                 </p>
               </div>
               <div>
@@ -180,13 +191,13 @@ export default function Testimonials({ data, refer = null }) {
                 </div>
               ))}
             </div>
-              <div className="relative w-full max-w-[302px] h-[410px] flex flex-1 items-end justify-end">
-                <ImageLoader
-                  key={`testimonial-image-${activeTabData?.testimonial?._id || activeTab}`}
-                  image={activeTabData?.testimonial?.testimonialImage}
-                  imageClassName="w-full h-auto object-contain"
-                />
-              </div>
+            <div className="relative w-full max-w-[302px] h-[410px] flex flex-1 items-end justify-end">
+              <ImageLoader
+                key={`testimonial-image-${activeTabData?.testimonial?._id || activeTab}`}
+                image={activeTabData?.testimonial?.testimonialImage}
+                imageClassName="w-full h-auto object-contain"
+              />
+            </div>
           </div>
 
           <div className="w-full max-w-[215px] rounded-xl bg-black/20 backdrop-blur-[10px] gap-6 p-3 md:p-8 text-white flex flex-col justify-between">
