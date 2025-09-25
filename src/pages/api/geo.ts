@@ -9,10 +9,11 @@ export const config = {
 };
 
 export default function UserGeoLocation(
- request: NextRequest,
- context: NextFetchEvent,
+  request: NextRequest,
+  context: NextFetchEvent,
 ) {
-  const { nextUrl: url, geo } = request
+  const { nextUrl: url } = request
+  const geo = (request as any).geo
   if(!geo ){
     return
   }
