@@ -9,9 +9,9 @@ import VideoPlayers from '~/components/common/VideoPlayer'
 import SuperChargeIcon from '~/components/icons/superCharge'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
 
-import Button from '../../common/Button'
-import { VideoItem } from '../../common/VideoModal'
-import Container from '../../structure/Container'
+import Button from '../../../../common/Button'
+import { VideoItem } from '../../../../common/VideoModal'
+import Container from '../../../../structure/Container'
 
 const HeroSection = ({ data, refer = null, video, page }) => {
   const [isOpen, setIsOpen] = useState(false)
