@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-
+import { geolocation } from '@vercel/functions';
 
 export async function middleware(request) {
   if (request.nextUrl.pathname.startsWith('/api/')) {
     return NextResponse.next();
   }
-  const { geo } = request;
+  const geo = geolocation(request);
 
   // Default values for geo
   const country = geo?.country || 'US';

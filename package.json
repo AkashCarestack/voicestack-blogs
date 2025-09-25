@@ -27,6 +27,7 @@
     "@sanity/vision": "3.28.0",
     "@supabase/supabase-js": "^2.33.1",
     "@vercel/edge": "^1.1.4",
+    "@vercel/functions": "^3.1.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cs-tracker": "^0.0.12",

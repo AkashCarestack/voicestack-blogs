@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextFetchEvent, NextRequest } from 'next/server';
 // import countries from '../../lib/countries.json'
-import { ipAddress } from "@vercel/edge";
+import { ipAddress, geolocation } from "@vercel/functions";
 
 
 export const config = {
@@ -13,7 +13,7 @@ export default function UserGeoLocation(
   context: NextFetchEvent,
 ) {
   const { nextUrl: url } = request
-  const geo = (request as any).geo
+  const geo = geolocation(request)
   if(!geo ){
     return
   }
