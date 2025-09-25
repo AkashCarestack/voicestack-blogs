@@ -95,7 +95,7 @@ const HeroSection = ({ data, refer = null, video, page }) => {
   }, [])
 
   return (
-    <section className={`${page == "home" ? "px-4 xl:px-12": ""} bg-[#F9F9F9]  font-geist`}>
+    <section className={`${page == "home" ? "px-4 xl:px-12 pt-2": ""} bg-[#F9F9F9]  font-geist`}>
       <div className={`${page == "home" ? "rounded-[24px] ": ""} bg-[linear-gradient(270deg,rgba(202,197,255,0.70)_0%,rgba(202,197,255,0.15)_51.44%,rgba(202,197,255,0.20)_100%)] justify-center`}>
         <Container className="justify-center py-12">
           <div className="">
@@ -156,7 +156,7 @@ const HeroSection = ({ data, refer = null, video, page }) => {
               </div>
 
               {/* Right Content - Video Section */}
-              <div className="relative w-full max-w-[537px]">
+              <div className="relative w-full max-w-[537px] py-9">
                 <div className="relative w-full lg:h-[550px] rounded-[24px] overflow-hidden aspect-video">
                   {video ? (
                   <VideoPlayers
