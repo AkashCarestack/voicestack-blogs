@@ -275,7 +275,7 @@ export default function Testimonials({ data, refer = null }) {
             <div className="w-full relative">
               <div className="flex flex-col lg:flex-row w-full gap-3">
                 {/* Left Panel - Description */}
-                <div className="max-w-[292px] w-full bg-[#F4F3FA] hover:bg-[#F0EFFA] transition-all duration-300 ease-in-out rounded-[24px] p-7">
+                <div className="lg:max-w-[292px] w-full bg-[#F4F3FA] hover:bg-[#F0EFFA] transition-all duration-300 ease-in-out rounded-[24px] p-7">
                   <div className="group flex flex-col gap-6 justify-between h-full">
                     <IconBadge icon={activeTabData?.icon} />
                     <div className="flex flex-col gap-6 items-start ">
@@ -300,7 +300,7 @@ export default function Testimonials({ data, refer = null }) {
             </div>
           </div>
 
-          <div className="flex gap-4 items-center">
+          <div className="md:flex gap-4 items-center hidden">
             <Button
               type="primary"
               className="w-fit"

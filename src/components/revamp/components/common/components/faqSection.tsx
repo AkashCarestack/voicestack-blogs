@@ -19,7 +19,7 @@ export default function FaqSection({ faqItems }: FaqSectionProps) {
   }
 
   return (
-    <Container className='py-16 flex-col'>
+    <Container className='py-16 flex-col gap-16'>
       <SectionHeader
         heading={'Frequently Asked Questions'}
         description={'For queries contact'}
