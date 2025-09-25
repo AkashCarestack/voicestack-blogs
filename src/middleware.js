@@ -9,6 +9,7 @@ export async function middleware(request) {
 
   // Default values for geo
   const country = geo?.country || 'US';
+  console.log(geo, "geo");
   const city = geo?.city || 'San Francisco';
   const userRregion = geo?.region || 'CA';
 
