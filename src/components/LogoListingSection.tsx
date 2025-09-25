@@ -49,6 +49,7 @@ const LogoListingSection = ({ data, refer = null }) => {
           <SectionHeader
             heading={data?.logoSectionHeader}
             description={data?.logoSectionHeaderDescptn}
+            headingSm={true}
           />
 
           <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 max-w-[1034px]">

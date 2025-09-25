@@ -425,11 +425,11 @@ const Header = ({ data, refer=null }) => {
         </div>
 
         <header
-          className={`transition-all duration-300 ease-linear bg-white`}  >
+          className={`transition-all duration-300 ease-linear bg-[#F9F9F9]`}  >
           <div className={` text-white`}>
             <div className="lg:px-12 px-4 flex gap-[10px]">
               <div className={`flex flex-grow gap-6 justify-between py-0 transition-all duration-300 ease-linear 
-                bg-white items-center h-[48px] lg:h-[63px]`}>
+               items-center h-[48px] lg:h-[63px]`}>
                 
                 <div className={`flex flex-row gap-3 justify-between items-center flex-1 
                 lg:relative transition-all duration-300 ease-in-out ${headerFixed ? 'lg:my-3 my-2' : 'lg:my-3 my-2'}`}>
@@ -444,7 +444,7 @@ const Header = ({ data, refer=null }) => {
                   </Anchor>
 
                   <div className={`lg:flex flex-col lg:flex-row lg:gap-6 justify-between lg:rounded-none items-center 
-                    lg:static absolute top-[44px] left-0 right-0 bg-white pb-20 lg:pb-0 
+                    lg:static absolute top-[44px] left-0 right-0 pb-20 lg:pb-0 
                     h-[calc(100vh-40px)] lg:h-auto shadow-[0px_40px_40px_0px_rgba(0,0,0,0.10)] lg:shadow-none
                     xl:flex-grow xl:justify-start ${showMenu ? 'flex': 'hidden'}`}>
 
