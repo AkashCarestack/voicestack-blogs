@@ -39,7 +39,6 @@ import {
   getHeaderData,
   getIntegrationList,
   getTestimonialHighlightSectionData,
-  getTestimonialSecitonData,
   getVerticalTestimonialListing,
   logoSection,
 } from '~/lib/sanity.queries'
@@ -52,10 +51,17 @@ export const getStaticProps: GetStaticProps<any> = async ({
 
 }) => {
   const region = locale
+
+  // revamp queries
   const queries = new Queries('home')
   const fetchTabListingData = new Queries('easily-handle')
   const tabListingData = await fetchTabListingData.getData();
   const heroSectionData = await queries.getHeroData(region);
+  const allTabsData = await queries.getAllTabsListingData(region)
+  const testimonialSecitonData = allTabsData?.find(item => item.slug === 'testimonial-category-section')?.tabsListingComponent
+
+
+// old queries
   const client = getClient(draftMode ? { token: readToken } : undefined)
   const homeSettings = await getHeaderData(client, region)
   const siteSettings = await runQuery(getALLSiteSettings(region))
@@ -64,7 +70,6 @@ export const getStaticProps: GetStaticProps<any> = async ({
   
   const comparisonLegendData = await runQuery(getAllComparisonValues(region))
   const integrationPlatforms = await getIntegrationList(client, region);
-  const testimonialSecitonData = await getTestimonialSecitonData(client, region)
   const logoSectionData = await logoSection(client,region);
   const featureSectionData = await featureSectionQuery(client, region);
   const faqSectionData = await fetchFaq(client,region)
@@ -74,7 +79,6 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const bannerData = await getBannerData(client, region)
   const contactAndVideoData = await getContactAndVideoInfo(client, region)
   const verticalTestimonialData = await getVerticalTestimonialListing(client, region)
-  
 
   return {
     props: {
