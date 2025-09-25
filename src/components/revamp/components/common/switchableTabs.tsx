@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { IdataProps } from './interface/common'
 
 export default function SwitchableTabs({
@@ -13,7 +13,19 @@ export default function SwitchableTabs({
   activeTab?: string
 }) {
 
+  const refElement = useRef<(HTMLButtonElement | null)[]>([])
+
   const handleTabClick = (key: string) => {
+    const activeIndex = data.findIndex(item => item.key === key)
+    const targetElement = refElement.current[activeIndex]
+    
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: 'smooth',
+        inline: 'center',
+        block: 'nearest',
+      });
+    }
     setActiveTab(key)
   }
 
@@ -24,7 +36,13 @@ export default function SwitchableTabs({
          overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none'>
         {data.map((item, idx) => (
         <button
+          ref={(el) => {
+            if (refElement.current) {
+              refElement.current[idx] = el
+            }
+          }}
           key={item.key}
+          id={item.key}
           onClick={() => handleTabClick(item.key)}
           className={` text-left lg:text-center cursor-pointer font-base font-geist leading-normal tracking-normal px-5 pt-2.5 pb-2.5 rounded-3xl transition-all duration-200 ease-in-out border border-transparent ${
             (activeTab || data[0]?.key) === item.key

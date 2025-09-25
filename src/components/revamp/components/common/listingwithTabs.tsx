@@ -45,7 +45,7 @@ export default function ListingWithTabs({
         isSticky={true}
         activeTab={activeTabValue}
       />
-      <div className="w-full lg:mt-24 mt-6">
+      <div className="w-full">
         {(tabsData?.tabs || []).map(
           (el: any, tabIdx: number) =>
             activeTabValue === el._key && (
