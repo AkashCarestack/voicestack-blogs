@@ -284,7 +284,6 @@ const Header = ({ data, refer=null }) => {
     };
   }, []);
   
-  console.log({data});
 
   const btnClass = "bg-vs-blue hover:bg-vs-blue text-white border border-vs-blue px-[17px] py-[10px] rounded-[7px] text-gray-900 font-inter text-base font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]";
   return (

@@ -762,3 +762,13 @@ html {
     font-size: 26px;
   }
 } */
+
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
