@@ -16,12 +16,11 @@ import LogoListingSection from '~/components/LogoListingSection'
 import LogoSliderSection from '~/components/LogoSliderSection'
 import TablistSection from '~/components/revamp/components/common/TabListing/tablistingSection'
 import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
-import HeroSection from '~/components/revamp/HeroSection/heroSection'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import Queries from '~/components/revamp/queries'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import TestimonialHighlightSection from '~/components/TestimonialHighlightSection'
 import AnimatedBeamSection from '~/components/ui/animated/AnimatedBeamSection'
-import VerticalTestimonialListing from '~/components/VerticalTestimonialListing'
 import { getParams } from '~/helpers/getQueryParams'
 import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
@@ -44,6 +43,7 @@ import {
 } from '~/lib/sanity.queries'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
 import runQuery from '~/utils/runQuery'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 
 export const getStaticProps: GetStaticProps<any> = async ({
   locale,
@@ -193,7 +193,7 @@ export default function IndexPage(
       <div className="">
         <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>
         <LogoSliderSection data={logoSectionData}  refer={refer}/>
-        <VerticalTestimonialListing data={verticalTestimonialData}  refer={refer}/>
+        <VerticalTestimonialListing data={verticalTestimonialData}/>
         <Testimonials data={testimonialSecitonData} refer={refer}/>
         {/* <FeatureSection data={featureSectionData} refer={refer}/> */}
         {/* tablisting section */}
