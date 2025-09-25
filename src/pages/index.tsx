@@ -47,7 +47,7 @@ import runQuery from '~/utils/runQuery'
 
 export const getStaticProps: GetStaticProps<any> = async ({
   locale,
-  draftMode = false,
+  draftMode = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? true : false,
 
 }) => {
   const region = locale

@@ -208,6 +208,12 @@ export default defineType({
               initialValue: false,
             },
             {
+              name: 'highlight',
+              title: 'Highlight',
+              type: 'boolean',
+              initialValue: false,
+            },
+            {
               name: 'submenu',
               title: 'Submenu Items',
               type: 'array',
@@ -260,6 +266,36 @@ export default defineType({
               }
             },
           },
+        },
+      ],
+    }),
+
+    defineField({
+      name: 'topNavigationMenu',
+      title: 'Top Navigation Menu',
+      type: 'array',
+      group: 'menu',
+      of: [
+        {
+          type: 'object',
+          name: 'menuItem',
+          title: 'Menu Item',
+          fields: [
+            {
+              name: 'label',
+              title: 'Menu Label',
+              type: 'string',
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'href',
+              title: 'Link URL',
+              type: 'string',
+              validation: (Rule: any) => Rule.required(),
+            },
+           
+          ],
+          
         },
       ],
     }),
