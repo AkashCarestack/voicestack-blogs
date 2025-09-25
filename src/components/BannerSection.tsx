@@ -83,13 +83,13 @@ const BannerSection = ({data, refer=null, cta=false}) => {
                   <div className='flex md:flex-row flex-col  gap-4 items-center'>
                   {data.phone && (
                       <Button type='secondary' link={`tel:${data.phone}`}>
-                        <TelIcon/>
+                        <TelIcon className='w-4 h-4'/>
                         <span className="text-base font-medium">{data.phone}</span>
                       </Button>
                     )}
                     {data.phoneSecondary && (
                       <Button type='secondary' link={`tel:${data.phoneSecondary}`}>
-                        <TelIcon/>
+                        <TelIcon className='w-4 h-4'/>
                         <span className="text-base font-medium">{data.phoneSecondary}</span>
                       </Button>
                     )}

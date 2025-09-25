@@ -7,9 +7,9 @@ export interface SectionHeaderProps {
     heading?: string,
     subheading?: string,
     description?: string,
-    mailId?: string,
-    className?: string,
+    mailId?: string
     headingSm?: boolean
+    className?: string
 }
 
 import { ReactNode } from 'react';

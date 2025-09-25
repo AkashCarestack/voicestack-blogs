@@ -186,7 +186,7 @@ export function AnimatedBeamDemo({ data, refer = null }: any) {
           ${isUk || refer == 'carestack' ? 'lg:w-[588px] md:w-[600px]  lg:top-[-60px] md:top-[-65px]' : 'lg:w-[1106px] md:w-[980px] lg:top-[-163px] md:top-[-132px]'}`}
         >
           {/* <LinesIcon /> */}
-          <VideoPlayer videoData={data} refer={refer} />
+          {/* <VideoPlayer videoData={data} refer={refer} /> */}
         </div>
         <div className="md:flex hidden flex-col items-center justify-start">
           <div
