@@ -1,5 +1,6 @@
 import Image from 'next/image'
-import osdentalLogo from 'public/assets/logo-white.png'
+import Logo from 'public/assets/voicestack-logo-black.png'
+import LogoSm from 'public/assets/voicestack-logo-black.png'
 import React from 'react'
 
 import {
@@ -12,7 +13,6 @@ import {
   TableRow,
 } from './ui/table'  
 import CursorTooltip from './common/CustomTooltip'
-import OsDentalLogo from 'public/assets/logo-white.png'
 
 // SVG Icon Component
 const InfoIcon = ({className}:{className?:string}) => (
@@ -95,15 +95,15 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
             <TableHead className="sticky left-0 w-48 h-16 text-gray-900 text-left text-base font-medium px-6  border-gray-200 bg-white">
               {data.columnDimensionName}
             </TableHead>
-            <TableHead className="w-32 h-16 rounded-t-[12px]  text-center  bg-blue-50 sticky left-[113px]">
-              <div className="flex flex-col items-center justify-center gap-2 w-[100px] lg:block hidden">
+            <TableHead className="w-32 h-16 rounded-t-[12px]  text-center  bg-[rgba(74,60,225,0.05)] sticky left-[113px]">
+              <div className="flex-col items-center justify-center gap-2 w-[100px] lg:block hidden">
                 <Image
-                  src={osdentalLogo}
-                  alt="OS DENTAL"
-                  title="OS DENTAL"
+                  src={Logo}
+                  alt="VoiceStack"
+                  title="VoiceStack"
                 />
               </div>
-              <div className='lg:hidden block'> <Image src={OsDentalLogo} alt="OS DENTAL" title="OS DENTAL" /></div>
+              <div className='lg:hidden block'> <Image src={LogoSm} alt="VoiceStack" title="VoiceStack" /></div>
             </TableHead>
             {data.columns
               .filter((_, idx) => idx != 0)
@@ -133,8 +133,8 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
         <TableBody className="divide-y divide-gray-100">
           {data.rowCategories.map((category, categoryIndex) => (
             <React.Fragment key={categoryIndex}>
-              <TableRow className="border-t-[1px] border-b-[1px] border-[#9CA3AF]">
-                <TableCell className="sticky left-0 lg:text-lg font-bold text-[#111827] text-sm  py-[18px] border-gray-200 bg-white" colSpan={5}>
+              <TableRow className="border-t-[1px] border-b-[1px] border-gray-200 ">
+                <TableCell className="sticky left-0 lg:text-lg font-bold text-[#111827] text-sm  py-[18px] border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={5}>
                   {category.name}
                 </TableCell>
               </TableRow>
@@ -152,7 +152,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
                       key={idx}
                       className={`text-center border-0 ${
                         idx == 0 
-                          ? 'bg-blue-50 sticky left-[113px]'
+                          ? 'bg-[rgba(74,60,225,0.05)] sticky left-[113px]'
                           : 'bg-white '
                       }`}
                     >

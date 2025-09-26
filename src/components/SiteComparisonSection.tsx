@@ -50,7 +50,7 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
     hideTable ? (
       <></> 
     ):(
-      <Section id="comparison" className="py-sm md:py-md  scroll-m-16">
+      <Section id="comparison" className="py-sm md:py-md  scroll-m-16 bg-[#F9F9F9]">
         <Container className="flex flex-col items-center gap-16">
           <SectionHeader
             heading={data?.strip}
