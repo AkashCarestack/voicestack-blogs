@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+import Button from '../common/Button';
+import ButtonArrow from '../icons/ButtonArrow';
+import { FormModal } from '../common/FormModal';
+import { BookDemoContext } from '~/providers/BookDemoProvider';
 
 interface Feature {
   _id: string;
@@ -30,6 +34,9 @@ interface CategoryFeatureTabsProps {
 }
 
 export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsProps) {
+  const { isDemoPopUpShown } = useContext(BookDemoContext);
+  const [openForm, setOpenForm] = useState(false);
+  
   const featuresByCategory = features.reduce((acc, feature) => {
     if (feature.featureCategories && feature.featureCategories.length > 0) {
       feature.featureCategories.forEach(category => {
@@ -233,26 +240,26 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                 </div>
 
                 <div className="flex space-x-4">
-                  <motion.button 
-                    className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Book Free Demo
-                  </motion.button>
-                  <motion.button 
-                    className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium transition-colors"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Learn More
-                  </motion.button>
+                  <Button type='primary' onClick={() => {setOpenForm(true)}}>
+                    <ButtonArrow></ButtonArrow>
+                    <span>Book Free Demo</span>
+                  </Button>
+                  <Button type='secondary' onClick={() => {}}>
+                    <span>Learn More</span>
+                  </Button>
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
+      {openForm && (
+        <FormModal
+          className={`pt-9 flex items-start`}
+          onClose={() => setOpenForm(false)}
+          data={isDemoPopUpShown}
+        />
+      )}
     </div>
   );
 }
