@@ -225,7 +225,46 @@ class Queries {
       }
     }`
   }
-
+  
+  private fetchVerticalTestimonialListing() {
+    return groq`*[_type == "verticalTestimonialListing" && language == $region][0]{
+      _id,
+      heading,
+      description,
+      'testimonial': testimonial[]->{
+        _id,
+        name,
+        designation,
+        testimonialdescription,
+        thumbnail,
+        locations,
+        "logo": logo.asset-> {
+          _id,
+          url,
+          altText,
+          title,
+          originalFilename,
+          size,
+          mimeType,
+          metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            },
+            lqip,
+            hasAlpha,
+            isOpaque
+          }
+        },
+        secondaryVideo[] {
+          videoPlatform,
+          videoId,
+          videotitle
+        }
+      }
+    }`
+  }
 
   public async getData() {
     const query = this.fetchCommonData(this.slug)
@@ -249,6 +288,17 @@ class Queries {
       return result
     } catch (error) {
       console.error('Error fetching all tabs listing data', error)
+      throw error
+    }
+  }
+
+
+  public async getVerticalTestimonialListing(region: string) {
+    try {
+      const query = this.fetchVerticalTestimonialListing()
+      return await this.client.fetch(query, { region })
+    } catch (error) {
+      console.error('Error fetching vertical testimonial listing data', error)
       throw error
     }
   }

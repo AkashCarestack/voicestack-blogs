@@ -16,17 +16,17 @@ const LogoSliderSection = ({ data, refer = null }) => {
 
   return (
     <Section className="py-sm md:py-md bg-[#F9F9F9]">
-      <Container>
+      {/* <Container> */}
         <div className="flex flex-col items-center w-full">
           {/* Carousel Version of Logos */}
           {data?.image && data.image?.length > 0 && (
-            <div className="w-full max-w-[1200px]">
+            <div className="w-full ">
               <Slider
                 {...{
                   dots: false,
     infinite: true,
-    speed: 2000, // higher = slower scroll
-    slidesToShow: 6,
+    speed: 1500, // higher = slower scroll
+    slidesToShow: 8,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 0,
@@ -69,7 +69,7 @@ const LogoSliderSection = ({ data, refer = null }) => {
             </div>
           )}
         </div>
-      </Container>
+      {/* </Container> */}
     </Section>
   )
 }
