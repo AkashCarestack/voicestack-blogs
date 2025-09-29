@@ -235,7 +235,7 @@ class Queries {
         _id,
         name,
         designation,
-        description,
+        testimonialdescription,
         thumbnail,
         locations,
         "logo": logo.asset-> {

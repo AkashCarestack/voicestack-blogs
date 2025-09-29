@@ -17,16 +17,31 @@ const PrevArrow = ({ onClick, currentSlide }: any) => {
     <button
       onClick={onClick}
       disabled={isDisabled}
-      className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-12 sm:-translate-x-16 lg:-translate-x-20 z-10
-        ${isDisabled ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700 transition-colors'}`}
+      className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-4 z-10
+        ${isDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-100 hover:bg-gray-300 transition-colors'}`}
       aria-label="Previous"
     >
-      <svg width="20" height="20" className="sm:w-6 sm:h-6 lg:w-7 lg:h-7" viewBox="0 0 24 24" fill="none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        className="rotate-180"
+      >
         <path
-          d="M15 18l-6-6 6-6"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
+          d="M5 12H19"
+          stroke="#030712"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M12 5L19 12L12 19"
+          stroke="#030712"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         />
       </svg>
     </button>
@@ -41,16 +56,30 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
     <button
       onClick={onClick}
       disabled={isDisabled}
-      className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-1/2 translate-x-4 sm:translate-x-8 lg:translate-x-12 z-10
-        ${isDisabled ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-blue-700 transition-colors'}`}
+      className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center absolute top-1/2 -translate-y-1/2 right-4 z-10
+        ${isDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-100 hover:bg-gray-300 transition-colors'}`}
       aria-label="Next"
     >
-      <svg width="20" height="20" className="sm:w-6 sm:h-6 lg:w-7 lg:h-7" viewBox="0 0 24 24" fill="none">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
         <path
-          d="M9 18l6-6-6-6"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
+          d="M5 12H19"
+          stroke="#030712"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M12 5L19 12L12 19"
+          stroke="#030712"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
         />
       </svg>
     </button>
@@ -58,7 +87,7 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
 }
 
 const VerticalTestimonialListing = ({ data, refer = null }) => {
-  console.log(data, "data")
+  console.log(data, 'data')
   const [openForm, setOpenForm] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isUk, setIsUk] = useState(false)
@@ -236,22 +265,20 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
                       </div>
                       <div className="absolute bottom-0 h-64 mix-blend-darken w-full z-0 "></div>
                       <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
-                        <div className="flex items-center justify-between">
-                          {/* <div>
-                            <h3 className="text-xl font-bold mb-2">{logo?.name}</h3>
-                            <p className="text-sm opacity-90">{logo?.designation}</p>
-                          </div> */}
-                          <div className="px-6">
+                        <div className="w-full">
+                          {/* Content that shows by default and hides on hover */}
+                          <div className="flex flex-col gap-3 group-hover:opacity-0 group-hover:pointer-events-none transition-opacity duration-300">
                             <ImageLoader
-                              image={logo?.logo}
-                              className="w-auto h-[48px] object-contain filter brightness-[132%] contrast-[202%] invert"
+                              image={logo?.logo?.url}
+                              className="w-full max-w-[200px] !h-[48px]"
+                              imageClassName="object-contain filter brightness-[132%] contrast-[202%]"
                               alt="Company Logo"
                             />
-                            
+
                             <h3 className="text-base xl:text-lg font-medium">
-                              &ldquo;{logo?.description}&rdquo;
+                              &ldquo;{logo?.testimonialdescription}&rdquo;
                             </h3>
-                            <div className="h-[1px] w-full bg-white/20 my-3"></div>
+                            <div className="h-[1px] w-full bg-white/20 "></div>
                             <p className="text-sm xl:text-base font-medium">
                               {logo?.name}
                             </p>
@@ -259,26 +286,30 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
                               {logo?.designation}
                             </p>
                           </div>
-                          <Button
-                            type="video"
-                            className="rounded-full flex opacity-0 group-hover:opacity-100 items-center w-fit 
-                              border border-white/20 bg-black/20 text-white"
-                          >
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="17"
-                              height="16"
-                              viewBox="0 0 17 16"
-                              fill="none"
-                              className="mr-2"
+
+                          {/* Play button that shows on hover */}
+                          <div className="absolute inset-0 flex items-end justify-center pb-6 opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                            <Button
+                              type="video"
+                              className="rounded-full flex items-center w-fit 
+                                  border border-white/20 bg-black/20 text-white"
                             >
-                              <path
-                                d="M3.5 3.73c0-.27.07-.53.21-.76.13-.23.33-.42.57-.55.24-.13.5-.2.77-.19.27.01.53.09.77.23l6.7 4.27c.21.13.39.32.51.54.12.23.19.48.19.74 0 .26-.07.52-.19.74-.12.22-.3.41-.51.54l-6.7 4.27c-.23.15-.49.23-.76.24-.27.01-.53-.06-.77-.19-.24-.13-.44-.32-.57-.55-.14-.23-.21-.49-.21-.76V3.73Z"
-                                fill="white"
-                              />
-                            </svg>
-                            <span>Play</span>
-                          </Button>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="17"
+                                height="16"
+                                viewBox="0 0 17 16"
+                                fill="none"
+                                className="mr-2"
+                              >
+                                <path
+                                  d="M3.5 3.73c0-.27.07-.53.21-.76.13-.23.33-.42.57-.55.24-.13.5-.2.77-.19.27.01.53.09.77.23l6.7 4.27c.21.13.39.32.51.54.12.23.19.48.19.74 0 .26-.07.52-.19.74-.12.22-.3.41-.51.54l-6.7 4.27c-.23.15-.49.23-.76.24-.27.01-.53-.06-.77-.19-.24-.13-.44-.32-.57-.55-.14-.23-.21-.49-.21-.76V3.73Z"
+                                  fill="white"
+                                />
+                              </svg>
+                              <span>Play</span>
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </div>
