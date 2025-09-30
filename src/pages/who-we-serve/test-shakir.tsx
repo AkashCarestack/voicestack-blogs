@@ -9,43 +9,47 @@ import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import FaqSection from '~/components/revamp/components/common/components/faqSection'
 
 interface TestShakirProps {
-  data: any
+  pageData: any
 }
 
-export default function TestShakir({ data }: TestShakirProps) {
-  const headerData = {
-    heading: data?.content?.sections[0]?.data.headline,
-    description: data?.content?.sections[0]?.data.subDescription,
-  }
+export default function TestShakir({ pageData }: TestShakirProps) {
+  console.log(pageData)
+  // const headerData = {
+  //   heading: data?.content?.sections[0]?.data.headline,
+  //   description: data?.content?.sections[0]?.data.subDescription,
+  // }
   return (
-    <Section className="flex flex-col bg-[#F9F9F9]">
-      {/* <Container className="py-16 flex-col"> */}
-        <SectionHeader
-        heading={headerData.heading}
-        description={headerData.description}
-      />
-          <ListingWithTabs list={data} slug="effortlessly-handle" />
-        <div className="flex justify-center pt-16">
-        <Button type="primary" className="w-fit">
-          <span className="rounded-[8px] border border-white/10 bg-[#B5EB92] px-6 py-2.5 text-black font-medium">
-            {'Book Free Demo'}
-          </span>
-        </Button>
-      </div>
-      <FaqSection faqItems={data?.faq.faqItems} />
-      {/* </Container> */}
+    <div>{'ffff'}</div>
+    // <Section className="flex flex-col bg-[#F9F9F9]">
+    //   {/* <Container className="py-16 flex-col"> */}
+    //     <SectionHeader
+    //     heading={headerData.heading}
+    //     description={headerData.description}
+    //   />
+    //       <ListingWithTabs list={data} slug="effortlessly-handle" />
+    //     <div className="flex justify-center pt-16">
+    //     <Button type="primary" className="w-fit">
+    //       <span className="rounded-[8px] border border-white/10 bg-[#B5EB92] px-6 py-2.5 text-black font-medium">
+    //         {'Book Free Demo'}
+    //       </span>
+    //     </Button>
+    //   </div>
+    //   <FaqSection faqItems={data?.faq.faqItems} />
+    //   {/* </Container> */}
 
-    </Section>
+    // </Section>
   )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
   const queries = new Queries('easily-handle')
   const data = await queries.getData()
+  const pageData = await queries.getPageData('whoWeServe','easily-handle')
 
   return {
     props: {
-      data,
+      // data,
+      pageData
     },
   }
 }
