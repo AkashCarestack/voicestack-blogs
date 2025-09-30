@@ -16,7 +16,7 @@ const Footer = ({data}) => {
   const router = useRouter();
 
   // Debug: Log app store data
-  console.log('Footer app store data:', data?.appStoreLinks);
+  // console.log('Footer app store data:', data?.appStoreLinks);
 
   const [isUk, setIsUk] = useState(false);
   const [isAu, setIsAu] = useState(false);
