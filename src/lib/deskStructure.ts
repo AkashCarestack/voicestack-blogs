@@ -33,7 +33,7 @@ const schemaIconMap: Record<string, any> = {
     dentalSoftware: DocumentIcon,
     globalData: FolderIcon,
     features: BoltIcon,
-  
+    whyVoicestack: DocumentIcon,
   // Content Types
   testimonial: StarIcon,
   testimonialSection: CommentIcon,
@@ -91,6 +91,7 @@ const customTitleMap: Record<string, string> = {
   page: 'Pages',
   whoWeServe: 'Who We Serve',
   dentalSoftware: 'Dental Software',
+  whyVoicestack: 'Why Voicestack',
   globalData: 'Global Data',
   testimonial: 'Feature Main',
   testimonialSection: 'Testimonial Section',
@@ -143,7 +144,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     settings: ['siteSettings', 'homeSettings', 'layout'],
     
     // Pages & Content Management - NEW PROMINENT SECTION
-    pages: ['page', 'whoWeServe', 'dentalSoftware', 'globalData', 'features'],
+    pages: ['page', 'whoWeServe', 'dentalSoftware', 'whyVoicestack', 'globalData', 'features'],
     
     // Content Management - Centralized Data
     contentManagement: ['author', 'centralizedTestimonial', 'featureItem'],
