@@ -19,7 +19,7 @@ export default function TestShakir({ pageData }: TestShakirProps) {
   //   description: data?.content?.sections[0]?.data.subDescription,
   // }
   return (
-    <div>{'ffff'}</div>
+    <div>{'ffff ' + JSON.stringify(pageData)}</div>
     // <Section className="flex flex-col bg-[#F9F9F9]">
     //   {/* <Container className="py-16 flex-col"> */}
     //     <SectionHeader
