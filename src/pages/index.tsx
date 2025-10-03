@@ -48,9 +48,9 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const fetchTabListingData = new Queries('easily-handle')
   const tabListingData = await fetchTabListingData.getData();
   const heroSectionData = await queries.getHeroData(region);
+  const verticalTestimonialData = await queries.getVerticalTestimonialListing(region)
   const allTabsData = await queries.getAllTabsListingData(region)
   const testimonialSecitonData = allTabsData?.find(item => item.slug === 'testimonial-category-section')?.tabsListingComponent
-  const verticalTestimonialData = await queries.getVerticalTestimonialListing(region)
 
 // old queries
   const client = getClient(draftMode ? { token: readToken } : undefined)
