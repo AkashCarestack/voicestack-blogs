@@ -100,6 +100,20 @@ const DynamicComponentRenderer: React.FC<DynamicComponentProps> = ({
     }
   }
 
+  // Resolve referenceGlobalSchema if it's a reference
+  if (componentToRender?.customComponent?.referenceGlobalSchema?._type === 'reference') {
+    const globalData = slugData?.globalData || []
+    const refId = componentToRender.customComponent.referenceGlobalSchema._ref
+    const resolvedGlobalData = globalData.find((item: any) => item._id === refId)
+    
+    if (resolvedGlobalData) {
+      componentToRender.customComponent.referenceGlobalSchema = resolvedGlobalData
+      console.log('DynamicComponentRenderer: Resolved global data reference:', resolvedGlobalData)
+    } else {
+      console.log('DynamicComponentRenderer: Could not resolve global data reference:', refId)
+    }
+  }
+
   // Return null if no valid component
   if (!componentToRender || !componentType) {
     return null

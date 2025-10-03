@@ -30,9 +30,10 @@ interface WhoWeServeIndexProps {
   currentLanguage: string
   homePage?: WhoWeServePage
   comparisonTableData?: any
+  globalData?: any[]
 }
 
-export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comparisonTableData }: WhoWeServeIndexProps) {
+export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comparisonTableData, globalData }: WhoWeServeIndexProps) {
   return (
     <div>
       <SimpleHead
@@ -55,44 +56,62 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comp
       </section>
 
       {/* Landing Page Content - Display CMS content if available */}
-      {homePage && homePage.content && homePage.content.sections && homePage.content.sections.length > 0 && (
+      {homePage && (
         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="max-w-6xl mx-auto">
               <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-                {homePage.basicInfo.title}
+                {homePage.basicInfo?.title || 'Who We Serve'}
               </h2>
-              {homePage.basicInfo.description && (
+              {homePage.basicInfo?.description && (
                 <p className="text-xl text-gray-600 text-center mb-12 max-w-3xl mx-auto">
                   {homePage.basicInfo.description}
                 </p>
               )}
               
               {/* Dynamic Content Sections from CMS */}
-              <div className="space-y-16">
-                {homePage.content.sections.map((section: any, index: number) => (
-                  <div key={index} className="bg-white rounded-lg shadow-lg p-8">
-                    {section.title && (
-                      <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                        {section.title}
-                      </h3>
-                    )}
-                    {section.component && (
-                      <DynamicComponentRenderer 
-                        component={section.component}
-                        slugData={{
-                          slug: section.slug?.current,
-                          title: section.title,
-                          pageType: 'whoWeServe',
-                          language: currentLanguage,
-                          sectionIndex: index,
-                          comparisonTableData: comparisonTableData
-                        }}
-                      />
-                    )}
+              {homePage.content && homePage.content.sections && homePage.content.sections.length > 0 ? (
+                <div className="space-y-16">
+                  {homePage.content.sections.map((section: any, index: number) => (
+                    <div key={index} className="bg-white rounded-lg shadow-lg p-8">
+                      {section.title && (
+                        <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                          {section.title}
+                        </h3>
+                      )}
+                      {section.component && (
+                        <DynamicComponentRenderer 
+                          component={section.component}
+                          slugData={{
+                            slug: section.slug?.current,
+                            title: section.title,
+                            pageType: 'whoWeServe',
+                            language: currentLanguage,
+                            sectionIndex: index,
+                            comparisonTableData: comparisonTableData,
+                            globalData: globalData
+                          }}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-12">
+                  <p className="text-gray-600 text-lg mb-8">
+                    Content for this landing page is being prepared. Please check back soon!
+                  </p>
+                  <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                      Coming Soon
+                    </h3>
+                    <p className="text-gray-600">
+                      We're working on adding comprehensive content for this section. 
+                      In the meantime, explore our individual service pages below.
+                    </p>
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -100,7 +119,7 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comp
 
 
       {/* Pages Listing */}
-      {/* <section className="py-16">
+      <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
@@ -146,7 +165,7 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comp
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
     </div>
   )
 }
@@ -193,12 +212,82 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     `)
 
+    // Get global data for feature lists
+    const globalData = await client.fetch(`
+      *[_type == "globalData" && dataType == "featureList" && (language == $language || language == null)] | order(_createdAt desc) {
+        _id,
+        name,
+        dataType,
+        featureList {
+          title,
+          description,
+          selectAllFeatures,
+          featureListReference-> {
+            _id,
+            title,
+            description,
+            slug,
+            language,
+            featureReferences[]-> {
+              _id,
+              title,
+              slug,
+              heroTitle,
+              heroSubtitle,
+              heroImage {
+                asset-> {
+                  _id,
+                  url
+                }
+              },
+              mainImage {
+                asset-> {
+                  _id,
+                  url
+                }
+              },
+              shortDescription,
+              featureCategories[] {
+                name,
+                subheading,
+                description,
+                mainImage {
+                  asset-> {
+                    _id,
+                    url
+                  }
+                },
+                icon {
+                  asset-> {
+                    _id,
+                    url
+                  }
+                },
+                iconSvgCode
+              },
+              language
+            },
+            displaySettings {
+              layout,
+              itemsPerRow,
+              showCategories,
+              showSearch,
+              showCTAs,
+              highlightedFeaturesFirst
+            }
+          }
+        },
+        language
+      }
+    `, { language: currentLanguage })
+
     return {
       props: {
         pages,
         currentLanguage,
         homePage: homePage || null,
-        comparisonTableData: comparisonTableData || null
+        comparisonTableData: comparisonTableData || null,
+        globalData: globalData || []
       },
       revalidate: 60 // Revalidate every minute
     }

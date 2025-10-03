@@ -13,7 +13,7 @@ import Button from '../../../../common/Button'
 import { VideoItem } from '../../../../common/VideoModal'
 import Container from '../../../../structure/Container'
 
-const HeroSection = ({ data, refer = null, video, page }) => {
+const HeroSection = ({ data, refer = null, video=undefined, page="" }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [openForm, setOpenForm] = useState(false)
   const router = useRouter()

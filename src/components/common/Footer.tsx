@@ -1,19 +1,21 @@
-import Link from 'next/link'
 import Container from '../structure/Container'
 import Section from '../structure/Section'
-import CTAButton from './CTAbutton'
-import H2 from '../typography/H2'
 import Image from 'next/image'
 import VoicestackLogo from 'public/assets/voicestack-logo-sm.svg';
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import Anchor from './anchor'
 import MacIcon from '../../../public/assets/reactive/macIcon';
 import PlayIcon from '../../../public/assets/reactive/playIcon';
+import Button from './Button';
+import { FormModal } from './FormModal';
+import { BookDemoContext } from '~/providers/BookDemoProvider';
 
 const Footer = ({data}) => {
   const CopyrightYear = new Date().getFullYear();
   const router = useRouter();
+  const { isDemoPopUpShown } = useContext(BookDemoContext);
+  const [openForm, setOpenForm] = useState(false);
 
   // Debug: Log app store data
   // console.log('Footer app store data:', data?.appStoreLinks);
@@ -58,12 +60,10 @@ const Footer = ({data}) => {
               <h3 className="text-center md:max-w-[818px] text-white font-manrope text-5xl font-bold leading-[60px] tracking-[-0.8px]">
                 {data.ctaBanner.title}
               </h3>
-              {data.ctaBanner.buttonText && data.ctaBanner.buttonLink && (
-                <CTAButton
-                  url={data.ctaBanner.buttonLink}
-                  name={data.ctaBanner.buttonText}
-                  className="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold"
-                />
+              {data.ctaBanner.buttonText && (
+                <Button type='primary' onClick={() => {setOpenForm(true)}}>
+                  <span>{data.ctaBanner.buttonText}</span>
+                </Button>
               )}
             </div>
           )}
@@ -327,6 +327,13 @@ const Footer = ({data}) => {
           </div>
         </div>
       </Container>
+      {openForm && (
+        <FormModal
+          className={`pt-9 flex items-start`}
+          onClose={() => setOpenForm(false)}
+          data={isDemoPopUpShown}
+        />
+      )}
     </Section>
   )
 }

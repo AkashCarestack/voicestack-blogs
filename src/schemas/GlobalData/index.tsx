@@ -12,6 +12,7 @@ const GlobalData = {
           { title: 'Comparison Table', value: 'comparisonTable' },
           { title: 'Tabs Listing', value: 'tabsListingComponent' },
           { title: 'Custom Content', value: 'customContent' },
+          { title: 'Feature List', value: 'featureList' },
         ],
       },
       validation: (Rule: any) => Rule.required(),
@@ -124,6 +125,9 @@ const GlobalData = {
                             {
                               type: 'reference',
                               to: [{ type: 'comparisonValue' }],
+                              options: {
+                                filter: 'defined(_id)',
+                              },
                             }
                           ],
                         },
@@ -149,6 +153,9 @@ const GlobalData = {
             {
               type: 'reference',
               to: [{ type: 'comparisonValue' }],
+              options: {
+                filter: 'defined(_id)',
+              },
             }
           ],
           description: 'These are the comparison values that can be referenced in the table rows above. Each comparison value contains an icon and text (e.g., "Advanced", "Basic", "Does Not Exist"). Create and manage them in the Comparisons & Analysis section.',
@@ -298,6 +305,9 @@ const GlobalData = {
                   title: 'Testimonial Reference',
                   type: 'reference',
                   to: [{ type: 'testimonialSection' }],
+                  options: {
+                    filter: 'defined(_id)',
+                  },
                 },
               ],
             },
@@ -362,18 +372,64 @@ const GlobalData = {
         },
       ],
     },
+    // Feature List Fields
+    {
+      name: 'featureList',
+      title: 'Feature List Data',
+      type: 'object',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'featureList',
+      fields: [
+        {
+          name: 'title',
+          title: 'Feature List Title',
+          type: 'string',
+          validation: (Rule: any) => Rule.required(),
+        },
+        {
+          name: 'description',
+          title: 'Feature List Description',
+          type: 'text',
+          rows: 3,
+        },
+        {
+          name: 'selectAllFeatures',
+          title: 'Select All Features',
+          type: 'boolean',
+          description: 'Check this to automatically include ALL features from the Features section',
+          initialValue: true,
+        },
+        {
+          name: 'featureListReference',
+          title: 'Feature List Reference (Optional)',
+          type: 'reference',
+          to: [{ type: 'features' }],
+          options: {
+            filter: 'defined(slug.current)',
+          },
+          description: 'Select a specific feature list to display (only if you want to show specific features instead of all)',
+          hidden: ({ parent }: any) => parent?.selectAllFeatures === true,
+        },
+      ],
+    },
   ],
   preview: {
     select: {
       title: 'name',
       dataType: 'dataType',
       subtitle: 'comparisonTable.title',
+      language: 'language',
     },
     prepare(selection: any) {
-      const { title, dataType, subtitle } = selection
+      const { title, dataType, subtitle, language } = selection
+      const languageLabel = language === 'en' ? '🇺🇸' : 
+                           language === 'en-GB' ? '🇬🇧' : 
+                           language === 'en-AU' ? '🇦🇺' : 
+                           '🌐';
+      
       return {
-        title: title || 'Global Data',
+        title: `${languageLabel} ${title || 'Global Data'}`,
         subtitle: `${dataType || 'Unknown'} - ${subtitle || 'Global data'}`,
+        media: undefined
       };
     },
   }

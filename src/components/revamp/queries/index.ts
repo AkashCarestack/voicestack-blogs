@@ -280,21 +280,23 @@ class Queries {
           "componentData": select(
             componentType == "TabsListing" => tabsListingComponent {
             
+              _type,
               "heading": headline,
               "subHeading":subheadline,
               "description":subDescription,
-              _type,
-         
               "refData": globalData->
+         
             },
             componentType == "Custom" => customComponent {
-              
              _type,
-        
               "heading":title,
               "subHeading":subtitle,
               "description":content,
               "refData":referenceGlobalSchema->
+            },
+            componentType == "Hero" => heroComponent {
+              _type,
+              ...,
             }
           )
         }

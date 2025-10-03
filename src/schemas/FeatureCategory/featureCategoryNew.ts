@@ -1,35 +1,64 @@
 import { defineField, defineType } from 'sanity'
+
 export default defineType({
-  name: 'featureCategoryOld',
-  title: 'Feature Category (Old)',
+  name: 'featureCategory',
+  title: 'Feature Category',
   type: 'document',
+  preview: {
+    select: {
+      title: 'name',
+      subheading: 'subheading',
+    },
+    prepare(selection) {
+      const { title, subheading } = selection
+
+      return {
+        title: title || 'Untitled Category',
+        subtitle: subheading || 'No subheading'
+      }
+    },
+  },
 
   fields: [
     defineField({
       name: 'name',
       title: 'Category Name',
       type: 'string',
+      validation: (Rule: any) => Rule.required(),
     }),
 
     defineField({
-      name: 'heading',
-      title: 'Category Heading',
-      type: 'portableContent',
+      name: 'subheading',
+      title: 'Category Subheading',
+      type: 'string',
     }),
+
     defineField({
       name: 'description',
       title: 'Category Description',
-      type: 'portableContent',
+      type: 'text',
+      rows: 2,
     }),
+
+    defineField({
+      name: 'mainImage',
+      title: 'Category Main Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    }),
+
     defineField({
       name: 'icon',
       title: 'Category Icon',
       type: 'image',
       description: 'Upload an image icon for this category',
     }),
+
     defineField({
       name: 'iconSvgCode',
-      title: 'Icon SVG Code',
+      title: 'Category Icon SVG Code',
       type: 'text',
       rows: 8,
       description: 'Paste SVG code here to override the image icon. This will automatically change color based on the active state.',
@@ -43,11 +72,6 @@ export default defineType({
         return true;
       }),
     }),
-    defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
-    }),
+
   ],
 })

@@ -31,6 +31,8 @@ import BrowserList from './BrowserList'
 import footer from './footer'
 import banner from './banner'
 import FeatureCategory from './FeatureCategory'
+import FeatureCategoryOld from './FeatureCategory/index'
+import FeatureCategoryNew from './FeatureCategory/featureCategoryNew'
 import FeatureList from './FeatureList'
 import ListingAtom from './NestableBlocks/ListingAtom'
 import portableContent from './portableContent'
@@ -75,7 +77,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     BrowserList,
     footer,
     banner,
-    FeatureCategory,
+    FeatureCategoryOld,
+    FeatureCategoryNew,
     FeatureList,
     ListingAtom,
     portableContent,

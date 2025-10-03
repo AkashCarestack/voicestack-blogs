@@ -7,19 +7,22 @@ import Container from '~/components/structure/Container'
 import Button from '~/components/common/Button'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import FaqSection from '~/components/revamp/components/common/components/faqSection'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 
 interface TestShakirProps {
   pageData: any
 }
 
 export default function TestShakir({ pageData }: TestShakirProps) {
-  console.log(pageData)
+  console.log(pageData['inner-hero'])
   // const headerData = {
   //   heading: data?.content?.sections[0]?.data.headline,
   //   description: data?.content?.sections[0]?.data.subDescription,
   // }
   return (
-    <div>{'ffff ' + JSON.stringify(pageData)}</div>
+
+    // <div>{'ffff ' + JSON.stringify(pageData)}</div>
+    <HeroSection page='inner' data={pageData['inner-hero'].componentData}/>
     // <Section className="flex flex-col bg-[#F9F9F9]">
     //   {/* <Container className="py-16 flex-col"> */}
     //     <SectionHeader
