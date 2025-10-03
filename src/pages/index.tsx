@@ -12,6 +12,7 @@ import HeroSection from '~/components/revamp/components/common/HeroSection/heroS
 import TablistSection from '~/components/revamp/components/common/TabListing/tablistingSection'
 import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import { getParams } from '~/helpers/getQueryParams'
@@ -191,6 +192,7 @@ export default function IndexPage(
         {/* <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection> */}
         <SiteComparisonSection data={comparisonSectionData} legendData={comparisonLegendData} refer={refer}/>
         {/* <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/> */}
+        <StatisticsSection />
         <LogoListingSection data={logoSectionData}  refer={refer}/>
         <FaqSection faqItems={tabListingData?.faq.faqItems}/>
         {/* <BannerSection data={bannerData} refer={refer}></BannerSection>
