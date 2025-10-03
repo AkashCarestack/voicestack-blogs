@@ -8,7 +8,9 @@ const TabsListingComponent = {
           title: 'Global Data (if not provided, data will be fetched from Selected global data)',
           type: 'reference', 
           to: [{ type: 'globalData' }],
-        
+          options: {
+            filter: 'defined(_id)',
+          },
         },
         {
             name: 'slug',

@@ -3,29 +3,45 @@ import Image from 'next/image'
 import { PortableText } from '@portabletext/react'
 
 interface Feature {
+  _id: string
   title: string
-  description: string
-  shortDescription: string
-  icon?: {
+  slug: {
+    current: string
+  }
+  heroTitle?: string
+  heroSubtitle?: string
+  heroImage?: {
     asset: {
       _id: string
       url: string
     }
   }
-  image?: {
+  mainImage?: {
     asset: {
       _id: string
       url: string
     }
   }
-  isHighlighted: boolean
-  order?: number
-  category: string
-  cta?: {
-    text: string
-    link: string
-    type: 'primary' | 'secondary' | 'link'
-  }
+  shortDescription?: any
+  featureCategories?: Array<{
+    name: string
+    subheading?: string
+    description?: string
+    mainImage?: {
+      asset: {
+        _id: string
+        url: string
+      }
+    }
+    icon?: {
+      asset: {
+        _id: string
+        url: string
+      }
+    }
+    iconSvgCode?: string
+  }>
+  language: string
 }
 
 interface DisplaySettings {
@@ -64,7 +80,12 @@ const FeatureListDisplay: React.FC<FeatureListDisplayProps> = ({
 
   // Get unique categories from features
   const categories = useMemo(() => {
-    const categorySet = new Set(features.map(f => f.category).filter(Boolean))
+    const categorySet = new Set()
+    features.forEach(feature => {
+      feature.featureCategories?.forEach(cat => {
+        categorySet.add(cat.name)
+      })
+    })
     return Array.from(categorySet).sort()
   }, [features])
 
@@ -74,31 +95,26 @@ const FeatureListDisplay: React.FC<FeatureListDisplayProps> = ({
 
     // Filter by category
     if (selectedCategory !== 'all') {
-      filtered = filtered.filter(feature => feature.category === selectedCategory)
+      filtered = filtered.filter(feature => 
+        feature.featureCategories?.some(cat => cat.name === selectedCategory)
+      )
     }
 
     // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(feature =>
         feature.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        feature.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        feature.shortDescription.toLowerCase().includes(searchTerm.toLowerCase())
+        (feature.shortDescription && typeof feature.shortDescription === 'string' && 
+         feature.shortDescription.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (feature.heroSubtitle && feature.heroSubtitle.toLowerCase().includes(searchTerm.toLowerCase()))
       )
     }
 
-    // Sort by highlighted first, then by order
-    if (displaySettings.highlightedFeaturesFirst) {
-      filtered.sort((a, b) => {
-        if (a.isHighlighted && !b.isHighlighted) return -1
-        if (!a.isHighlighted && b.isHighlighted) return 1
-        return (a.order || 0) - (b.order || 0)
-      })
-    } else {
-      filtered.sort((a, b) => (a.order || 0) - (b.order || 0))
-    }
+    // Sort by title (since we don't have order/highlighted in the new structure)
+    filtered.sort((a, b) => a.title.localeCompare(b.title))
 
     return filtered
-  }, [features, selectedCategory, searchTerm, displaySettings.highlightedFeaturesFirst])
+  }, [features, selectedCategory, searchTerm])
 
   const getGridCols = () => {
     const cols = displaySettings.itemsPerRow || 3
@@ -125,25 +141,23 @@ const FeatureListDisplay: React.FC<FeatureListDisplayProps> = ({
 
   const renderFeature = (feature: Feature, index: number) => (
     <div
-      key={index}
-      className={`bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 ${
-        feature.isHighlighted ? 'ring-2 ring-blue-500' : ''
-      }`}
+      key={feature._id || index}
+      className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
     >
       <div className="p-6">
-        {(feature.icon || feature.image) && (
+        {(feature.heroImage || feature.mainImage) && (
           <div className="mb-4">
-            {feature.icon ? (
+            {feature.heroImage ? (
               <Image
-                src={feature.icon.asset.url}
+                src={feature.heroImage.asset.url}
                 alt={feature.title}
-                width={48}
-                height={48}
-                className="w-12 h-12 object-contain"
+                width={200}
+                height={120}
+                className="w-full h-32 object-cover rounded-md"
               />
-            ) : feature.image ? (
+            ) : feature.mainImage ? (
               <Image
-                src={feature.image.asset.url}
+                src={feature.mainImage.asset.url}
                 alt={feature.title}
                 width={200}
                 height={120}
@@ -158,29 +172,43 @@ const FeatureListDisplay: React.FC<FeatureListDisplayProps> = ({
           <h3 className="text-xl font-semibold text-gray-900 mb-2">
             {feature.title}
           </h3>
-          {feature.shortDescription && (
+          {feature.heroSubtitle && (
             <p className="text-gray-600 text-sm mb-2">
-              {feature.shortDescription}
+              {feature.heroSubtitle}
             </p>
           )}
-          {feature.description && Array.isArray(feature.description) && (
+          {feature.shortDescription && (
             <div className="text-gray-700">
-              <PortableText value={feature.description} />
+              <PortableText value={feature.shortDescription} />
             </div>
           )}
         </div>
 
-        {/* CTA Button */}
-        {displaySettings.showCTAs && feature.cta && (
-          <div className="mt-auto">
-            <a
-              href={feature.cta.link}
-              className={getCtaClasses(feature.cta.type)}
-            >
-              {feature.cta.text}
-            </a>
+        {/* Feature Categories */}
+        {feature.featureCategories && feature.featureCategories.length > 0 && (
+          <div className="mb-4">
+            <div className="flex flex-wrap gap-2">
+              {feature.featureCategories.map((category, catIndex) => (
+                <span
+                  key={catIndex}
+                  className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full"
+                >
+                  {category.name}
+                </span>
+              ))}
+            </div>
           </div>
         )}
+
+        {/* Link to Feature Page */}
+        <div className="mt-auto">
+          <a
+            href={`/features/${feature.slug.current}`}
+            className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+          >
+            Learn More →
+          </a>
+        </div>
       </div>
     </div>
   )

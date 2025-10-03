@@ -125,6 +125,9 @@ const GlobalData = {
                             {
                               type: 'reference',
                               to: [{ type: 'comparisonValue' }],
+                              options: {
+                                filter: 'defined(_id)',
+                              },
                             }
                           ],
                         },
@@ -150,6 +153,9 @@ const GlobalData = {
             {
               type: 'reference',
               to: [{ type: 'comparisonValue' }],
+              options: {
+                filter: 'defined(_id)',
+              },
             }
           ],
           description: 'These are the comparison values that can be referenced in the table rows above. Each comparison value contains an icon and text (e.g., "Advanced", "Basic", "Does Not Exist"). Create and manage them in the Comparisons & Analysis section.',
@@ -299,6 +305,9 @@ const GlobalData = {
                   title: 'Testimonial Reference',
                   type: 'reference',
                   to: [{ type: 'testimonialSection' }],
+                  options: {
+                    filter: 'defined(_id)',
+                  },
                 },
               ],
             },
@@ -374,6 +383,7 @@ const GlobalData = {
           name: 'title',
           title: 'Feature List Title',
           type: 'string',
+          validation: (Rule: any) => Rule.required(),
         },
         {
           name: 'description',
@@ -382,78 +392,22 @@ const GlobalData = {
           rows: 3,
         },
         {
+          name: 'selectAllFeatures',
+          title: 'Select All Features',
+          type: 'boolean',
+          description: 'Check this to automatically include ALL features from the Features section',
+          initialValue: true,
+        },
+        {
           name: 'featureListReference',
-          title: 'Feature List Reference',
+          title: 'Feature List Reference (Optional)',
           type: 'reference',
-          to: [{ type: 'featureList' }],
-          description: 'Select a feature list to display',
-          validation: (Rule: any) => Rule.required(),
-        },
-        {
-          name: 'displaySettings',
-          title: 'Display Settings Override',
-          type: 'object',
-          description: 'Override display settings from the referenced feature list',
-          fields: [
-            {
-              name: 'layout',
-              title: 'Layout Style',
-              type: 'string',
-              options: {
-                list: [
-                  { title: 'Grid', value: 'grid' },
-                  { title: 'List', value: 'list' },
-                  { title: 'Tabs', value: 'tabs' },
-                  { title: 'Accordion', value: 'accordion' },
-                ]
-              }
-            },
-            {
-              name: 'itemsPerRow',
-              title: 'Items Per Row (Grid Layout)',
-              type: 'number',
-              options: {
-                list: [
-                  { title: '2 Columns', value: 2 },
-                  { title: '3 Columns', value: 3 },
-                  { title: '4 Columns', value: 4 },
-                ]
-              }
-            },
-            {
-              name: 'showCategories',
-              title: 'Show Category Filtering',
-              type: 'boolean',
-            },
-            {
-              name: 'showSearch',
-              title: 'Show Search',
-              type: 'boolean',
-            },
-            {
-              name: 'showCTAs',
-              title: 'Show Call-to-Action Buttons',
-              type: 'boolean',
-            },
-            {
-              name: 'highlightedFeaturesFirst',
-              title: 'Show Highlighted Features First',
-              type: 'boolean',
-            },
-          ],
-        },
-        {
-          name: 'customTitle',
-          title: 'Custom Title Override',
-          type: 'string',
-          description: 'Override the title from the referenced feature list',
-        },
-        {
-          name: 'customDescription',
-          title: 'Custom Description Override',
-          type: 'text',
-          rows: 3,
-          description: 'Override the description from the referenced feature list',
+          to: [{ type: 'features' }],
+          options: {
+            filter: 'defined(slug.current)',
+          },
+          description: 'Select a specific feature list to display (only if you want to show specific features instead of all)',
+          hidden: ({ parent }: any) => parent?.selectAllFeatures === true,
         },
       ],
     },
@@ -463,12 +417,19 @@ const GlobalData = {
       title: 'name',
       dataType: 'dataType',
       subtitle: 'comparisonTable.title',
+      language: 'language',
     },
     prepare(selection: any) {
-      const { title, dataType, subtitle } = selection
+      const { title, dataType, subtitle, language } = selection
+      const languageLabel = language === 'en' ? '🇺🇸' : 
+                           language === 'en-GB' ? '🇬🇧' : 
+                           language === 'en-AU' ? '🇦🇺' : 
+                           '🌐';
+      
       return {
-        title: title || 'Global Data',
+        title: `${languageLabel} ${title || 'Global Data'}`,
         subtitle: `${dataType || 'Unknown'} - ${subtitle || 'Global data'}`,
+        media: undefined
       };
     },
   }

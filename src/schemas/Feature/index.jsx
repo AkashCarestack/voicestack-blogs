@@ -52,6 +52,9 @@ export default defineType({
         {
           type: 'reference',
           to: [{ type: 'featureSubSection' }],
+          options: {
+            filter: 'defined(_id)',
+          },
         },
       ],
     }),

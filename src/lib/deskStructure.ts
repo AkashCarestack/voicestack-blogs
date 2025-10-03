@@ -45,6 +45,8 @@ const schemaIconMap: Record<string, any> = {
   featureList: BoltIcon,
   featureSubSection: BoltIcon,
   heroSubFeature: BoltIcon,
+  featureCategory: TagIcon,
+  featureCategoryOld: TagIcon,
   
   // Legal & Documentation
   legal: DocumentTextIcon,
@@ -94,7 +96,9 @@ const customTitleMap: Record<string, string> = {
   testimonial: 'Feature Main',
   testimonialSection: 'Testimonial Section',
   testimonialHighlightSection: 'Testimonial Highlight Section',
-  DynamicComponent: 'Dynamic Components'
+  DynamicComponent: 'Dynamic Components',
+  featureCategory: 'Feature Categories',
+  featureCategoryOld: 'Feature Categories (Old)'
 }
 
 // Convert camelCase to Title Case
@@ -142,7 +146,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     settings: ['siteSettings', 'homeSettings', 'layout'],
     
     // Pages & Content Management - NEW PROMINENT SECTION
-    pages: ['page', 'whoWeServe', 'dentalSoftware', 'globalData', 'features'],
+    pages: ['page', 'whoWeServe', 'dentalSoftware', 'globalData', 'features', 'featureCategory'],
     
     // Content Management - Centralized Data
     contentManagement: ['author', 'centralizedTestimonial', 'featureItem'],
@@ -177,7 +181,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     dynamic: ['DynamicComponent'],
     
     // Utilities
-    utilities: []
+    utilities: ['featureCategoryOld']
   }
 
   const items = []
@@ -321,6 +325,39 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
                         .title('Create New Feature')
                         .filter('_type == "features"')
                         .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    )
+                ])
+            )
+        )
+      } else if (schemaName === 'featureCategory') {
+        // Special handling for Feature Categories to show language indicators
+        items.push(
+          S.listItem()
+            .title(title)
+            .icon(icon)
+            .child(
+              S.list()
+                .title(title)
+                .items([
+                  // All Feature Categories documents
+                  S.listItem()
+                    .title('All Feature Categories')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('featureCategory')
+                        .title('All Feature Categories')
+                        .filter('_type == "featureCategory"')
+                        .defaultOrdering([{field: 'name', direction: 'asc'}])
+                    ),
+                  // Create new
+                  S.listItem()
+                    .title('Create New Feature Category')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('featureCategory')
+                        .title('Create New Feature Category')
+                        .filter('_type == "featureCategory"')
+                        .defaultOrdering([{field: 'name', direction: 'asc'}])
                     )
                 ])
             )

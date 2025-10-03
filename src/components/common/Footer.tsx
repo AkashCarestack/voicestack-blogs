@@ -1,8 +1,5 @@
-import Link from 'next/link'
 import Container from '../structure/Container'
 import Section from '../structure/Section'
-import CTAButton from './CTAbutton'
-import H2 from '../typography/H2'
 import Image from 'next/image'
 import VoicestackLogo from 'public/assets/voicestack-logo-sm.svg';
 import { useRouter } from 'next/router'
@@ -11,7 +8,6 @@ import Anchor from './anchor'
 import MacIcon from '../../../public/assets/reactive/macIcon';
 import PlayIcon from '../../../public/assets/reactive/playIcon';
 import Button from './Button';
-import ButtonArrow from '../icons/ButtonArrow';
 import { FormModal } from './FormModal';
 import { BookDemoContext } from '~/providers/BookDemoProvider';
 
@@ -20,9 +16,6 @@ const Footer = ({data}) => {
   const router = useRouter();
   const { isDemoPopUpShown } = useContext(BookDemoContext);
   const [openForm, setOpenForm] = useState(false);
-
-  // Debug: Log app store data
-  console.log('Footer app store data:', data?.appStoreLinks);
 
   const [isUk, setIsUk] = useState(false);
   const [isAu, setIsAu] = useState(false);

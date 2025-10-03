@@ -18,11 +18,11 @@ interface Feature {
   heroImage?: any;
   mainImage?: any;
   shortDescription?: any;
-  featureCategories?: Array<{
+  featureCategory?: {
     name: string;
     description?: string;
     icon?: any;
-  }>;
+  };
 }
 
 interface FeaturesPageProps {

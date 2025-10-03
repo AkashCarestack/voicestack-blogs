@@ -61,126 +61,23 @@ export default defineType({
       },
     },
 
-    // Features Section
+    // Features Section - Reference to Features from Pages & Content Management
     defineField({
-      name: 'features',
-      title: 'Features',
+      name: 'featureReferences',
+      title: 'Feature References',
       group: 'features',
       type: 'array',
       of: [
         {
-          type: 'object',
-          name: 'feature',
-          title: 'Feature',
-          fields: [
-            {
-              name: 'title',
-              title: 'Feature Title',
-              type: 'string',
-              validation: (Rule: any) => Rule.required(),
-            },
-            {
-              name: 'description',
-              title: 'Feature Description',
-              type: 'text',
-              rows: 2,
-            },
-            {
-              name: 'shortDescription',
-              title: 'Short Description',
-              type: 'text',
-              rows: 1,
-            },
-            {
-              name: 'icon',
-              title: 'Feature Icon',
-              type: 'image',
-              options: {
-                hotspot: true,
-              },
-            },
-            {
-              name: 'image',
-              title: 'Feature Image',
-              type: 'image',
-              options: {
-                hotspot: true,
-              },
-            },
-            {
-              name: 'isHighlighted',
-              title: 'Highlight this feature',
-              type: 'boolean',
-              initialValue: false,
-            },
-            {
-              name: 'order',
-              title: 'Display Order',
-              type: 'number',
-              description: 'Lower numbers appear first',
-            },
-            {
-              name: 'category',
-              title: 'Feature Category',
-              type: 'string',
-              options: {
-                list: [
-                  { title: 'Core Features', value: 'core' },
-                  { title: 'Advanced Features', value: 'advanced' },
-                  { title: 'Integration Features', value: 'integration' },
-                  { title: 'Analytics Features', value: 'analytics' },
-                  { title: 'Communication Features', value: 'communication' },
-                  { title: 'Management Features', value: 'management' },
-                ]
-              }
-            },
-            {
-              name: 'cta',
-              title: 'Call to Action',
-              type: 'object',
-              fields: [
-                {
-                  name: 'text',
-                  title: 'CTA Text',
-                  type: 'string',
-                },
-                {
-                  name: 'link',
-                  title: 'CTA Link',
-                  type: 'string',
-                },
-                {
-                  name: 'type',
-                  title: 'CTA Type',
-                  type: 'string',
-                  options: {
-                    list: [
-                      { title: 'Primary', value: 'primary' },
-                      { title: 'Secondary', value: 'secondary' },
-                      { title: 'Link', value: 'link' },
-                    ]
-                  }
-                }
-              ]
-            }
-          ],
-          preview: {
-            select: {
-              title: 'title',
-              subtitle: 'category',
-              media: 'icon',
-            },
-            prepare(selection: any) {
-              const { title, subtitle, media } = selection
-              return {
-                title: title || 'Untitled Feature',
-                subtitle: subtitle ? `Category: ${subtitle}` : 'No category',
-                media: media
-              }
-            },
+          type: 'reference',
+          to: [{ type: 'features' }],
+          options: {
+            filter: 'defined(slug.current)',
           },
         },
       ],
+      description: 'Select features from the Features section (Pages & Content Management) to include in this list',
+      validation: (Rule: any) => Rule.required().min(1),
     }),
 
     // Display Settings
@@ -280,13 +177,13 @@ export default defineType({
     select: {
       title: 'title',
       lang: 'language',
-      featuresCount: 'features.length',
+      featuresCount: 'featureReferences.length',
     },
     prepare(selection: any) {
       const { lang, title, featuresCount } = selection
       return { 
         ...selection, 
-        subtitle: `${lang || 'en'} • ${featuresCount || 0} features`
+        subtitle: `${lang || 'en'} • ${featuresCount || 0} referenced features`
       }
     },
   },

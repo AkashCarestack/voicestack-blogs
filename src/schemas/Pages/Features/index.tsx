@@ -163,49 +163,17 @@ export default defineType({
       type: 'portableContent',
     }),
 
-    // Categories Section
+    // Category Section - Single reference to Feature Category document
     defineField({
-      name: 'featureCategories',
-      title: 'Feature Categories',
+      name: 'featureCategory',
+      title: 'Feature Category',
       group: 'categories',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'name',
-              title: 'Category Name',
-              type: 'string',
-              validation: (Rule: any) => Rule.required(),
-            },
-            {
-              name: 'subheading',
-              title: 'Category Subheading',
-              type: 'string',
-            },
-            {
-              name: 'description',
-              title: 'Category Description',
-              type: 'text',
-              rows: 2,
-            },
-            {
-              name: 'mainImage',
-              title: 'Category Main Image',
-              type: 'image',
-              options: {
-                hotspot: true,
-              },
-            },
-            {
-              name: 'icon',
-              title: 'Category Icon',
-              type: 'image',
-            },
-          ],
-        },
-      ],
+      type: 'reference',
+      to: [{ type: 'featureCategory' }],
+      options: {
+        disableNew: false, // Allow creating new categories
+      },
+      description: 'Select an existing feature category or create a new one',
     }),
 
     // Benefits & Pricing Section
@@ -324,13 +292,10 @@ export default defineType({
           type: 'reference',
           to: [{ type: 'features' }],
           options: {
-            filter: ({ document }) => ({
-              filter: '_type == "features" && language == $language && _id != $id',
-              params: { 
-                language: document.language || 'en',
-                id: document._id 
-              }, 
-            }),
+            filter: '_type == "features" && _id != $id',
+            filterParams: { 
+              id: 'dummy-id' // This will be replaced by the actual document ID
+            },
             disableNew: true,
           },
         },

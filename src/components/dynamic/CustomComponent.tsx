@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { urlForImage } from '~/lib/sanity.image'
+import { getClient } from '~/lib/sanity.client'
+import { getAllFeatures } from '~/lib/sanity.queries'
 import FeatureListDisplay from '~/components/features/FeatureListDisplay'
+import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 
 /**
  * CUSTOM COMPONENT
@@ -82,6 +85,17 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
    */
   const getReferencedData = () => {
     if (referenceGlobalSchema) {
+      // Check if it's a reference object that needs to be resolved
+      if (referenceGlobalSchema._type === 'reference') {
+        console.log('CustomComponent Debug: Reference object detected, needs resolution:', referenceGlobalSchema)
+        return {
+          title: 'Reference Not Resolved',
+          subtitle: 'The global schema reference needs to be resolved',
+          content: 'Please check that the reference is properly resolved in the parent component.',
+          showError: true
+        }
+      }
+      
       // Check if it's a feature list reference
       if (referenceGlobalSchema.dataType === 'featureList') {
         return {
@@ -142,6 +156,13 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
   const referencedData = getReferencedData()
   const comparisonTableData = getComparisonTableData()
   const featureListData = getFeatureListData()
+  
+  // Debug logging after variables are declared
+  if (process.env.NODE_ENV === 'development') {
+    console.log('CustomComponent Debug: featureListData', featureListData)
+    console.log('CustomComponent Debug: selectAllFeatures', featureListData?.featureList?.selectAllFeatures)
+  }
+  
   const finalTitle = title || referencedData?.title
   const finalSubtitle = subtitle || referencedData?.subtitle
   const finalContent = content || referencedData?.content
@@ -285,6 +306,26 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
    * Render feature list
    */
   const renderFeatureList = () => {
+    const [allFeatures, setAllFeatures] = useState([])
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+      if (featureListData?.featureList?.selectAllFeatures) {
+        setLoading(true)
+        const client = getClient()
+        getAllFeatures(client, 'en')
+          .then(features => {
+            console.log('CustomComponent: Fetched all features:', features)
+            setAllFeatures(features)
+            setLoading(false)
+          })
+          .catch(error => {
+            console.error('Error fetching all features:', error)
+            setLoading(false)
+          })
+      }
+    }, [featureListData?.featureList?.selectAllFeatures])
+
     if (!featureListData) {
       return (
         <div className="mt-12 p-8 bg-yellow-50 border border-yellow-200 rounded-lg">
@@ -300,10 +341,57 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
       )
     }
 
-    // Get the actual feature list data
-    const featureList = featureListData.featureList || featureListData
-    const features = featureList?.features || []
-    const displaySettings = featureList?.displaySettings || featureListData?.displaySettings || {}
+    // Check if we should select all features
+    let features = []
+    let displaySettings = {}
+    
+    if (featureListData.featureList?.selectAllFeatures) {
+      if (loading) {
+        return (
+          <div className="mt-12 p-8 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-blue-800 mb-2">
+                Loading All Features...
+              </h3>
+              <p className="text-blue-700">
+                Fetching all features from the Features section...
+              </p>
+            </div>
+          </div>
+        )
+      }
+
+      if (allFeatures.length === 0) {
+        return (
+          <div className="mt-12 p-8 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-yellow-800 mb-2">
+                No Features Found
+              </h3>
+              <p className="text-yellow-700">
+                No features were found in the Features section. Please add some features first.
+              </p>
+            </div>
+          </div>
+        )
+      }
+
+      // Use all features with default display settings
+      features = allFeatures
+      displaySettings = {
+        layout: 'grid',
+        itemsPerRow: 3,
+        showCategories: true,
+        showSearch: true,
+        showCTAs: true,
+        highlightedFeaturesFirst: false
+      }
+    } else {
+      // Get the actual feature list data from reference
+      const featureList = featureListData.featureListReference || featureListData
+      features = featureList?.featureReferences || []
+      displaySettings = featureList?.displaySettings || featureListData?.displaySettings || {}
+    }
 
     if (features.length === 0) {
       return (
@@ -320,17 +408,18 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
       )
     }
 
+    console.log('CustomComponent: Rendering features:', features.length, 'features')
+
     return (
       <div className="mt-12">
-        <FeatureListDisplay
-          title={featureListData.customTitle || featureList?.title}
-          description={featureListData.customDescription || featureList?.description}
-          features={features}
-          displaySettings={{
-            ...displaySettings,
-            ...featureListData?.displaySettings
-          }}
-        />
+        {/* Debug: Log that we're rendering CategoryFeatureTabs */}
+        {(() => {
+          console.log('CustomComponent: Rendering CategoryFeatureTabs with', features.length, 'features');
+          console.log('CustomComponent: Features data for CategoryFeatureTabs:', features);
+          return null;
+        })()}
+        
+        <CategoryFeatureTabs features={features} />
       </div>
     )
   }
@@ -380,7 +469,11 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
             {referenceGlobalSchema?.dataType === 'comparisonTable' && renderComparisonTable()}
             
             {/* Feature List - Show when referenceGlobalSchema is set and dataType is featureList */}
-            {referenceGlobalSchema?.dataType === 'featureList' && renderFeatureList()}
+            {referenceGlobalSchema?.dataType === 'featureList' && (() => {
+              console.log('CustomComponent: Rendering feature list section');
+              console.log('CustomComponent: referenceGlobalSchema dataType:', referenceGlobalSchema?.dataType);
+              return renderFeatureList();
+            })()}
             
             {/* Data Source Attribution */}
             {referenceGlobalSchema && (

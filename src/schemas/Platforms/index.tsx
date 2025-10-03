@@ -57,6 +57,9 @@ export default defineType({
         {
           type: 'reference',
           to: [{ type: 'platformList' }],
+          options: {
+            filter: 'defined(_id)',
+          },
         },
       ],
     }),
@@ -68,6 +71,9 @@ export default defineType({
         {
           type: 'reference',
           to: [{ type: 'platformList' }],
+          options: {
+            filter: 'defined(_id)',
+          },
         },
       ],
     }),
@@ -79,6 +85,9 @@ export default defineType({
         {
           type: 'reference',
           to: [{ type: 'platformList' }],
+          options: {
+            filter: 'defined(_id)',
+          },
         },
       ],
     }),

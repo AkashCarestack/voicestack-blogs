@@ -93,6 +93,9 @@ export default defineType({
                         {
                           type: 'reference',
                           to: [{ type: 'comparisonValue' }],
+                          options: {
+                            filter: 'defined(_id)',
+                          },
                         }
                       ],
                     }),
