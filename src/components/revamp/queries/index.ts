@@ -9,7 +9,8 @@ class Queries {
     this.slug = slug
   }
 
-  private fetchCommonData(slug: string) {
+/******************  QURIES  ******************/
+  private fetchCommonData(_slug: string) {
     return groq`
       *[_type == "whoWeServe" && basicInfo.slug.current == $slug][0]{
         'faq':faqRevamp[0]->{faqItems
@@ -30,7 +31,7 @@ class Queries {
     `
   }
 
-  private fetchHeroData(region: string) {
+  private fetchHeroData(_region: string) {
     return groq`*[_type == "homeSettings" && language == $region][0]{
       ...,
       heroheading,
@@ -235,7 +236,7 @@ class Queries {
         _id,
         name,
         designation,
-        description,
+        testimonialdescription,
         thumbnail,
         locations,
         "logo": logo.asset-> {
@@ -266,6 +267,47 @@ class Queries {
     }`
   }
 
+  private fetchPageData(_type: string,_slug: string){ 
+    return groq`*[_type == $type && basicInfo.slug.current == $slug][0]{
+    "title": basicInfo.title,
+    "description": basicInfo.description,
+    "faqData": faqRevamp[]->,
+    content {
+      sections[]{
+        slug,
+        component {
+          componentType,
+          "componentData": select(
+            componentType == "TabsListing" => tabsListingComponent {
+            
+              _type,
+              "heading": headline,
+              "subHeading":subheadline,
+              "description":subDescription,
+              "refData": globalData->
+         
+            },
+            componentType == "Custom" => customComponent {
+             _type,
+              "heading":title,
+              "subHeading":subtitle,
+              "description":content,
+              "refData":referenceGlobalSchema->
+            },
+            componentType == "Hero" => heroComponent {
+              _type,
+              ...,
+            }
+          )
+        }
+      }
+    }
+  }`
+  }
+
+
+  /******************  DATA FETCHING  ******************/
+
   public async getData() {
     const query = this.fetchCommonData(this.slug)
     const params = { slug: this.slug }
@@ -278,7 +320,7 @@ class Queries {
     return await this.client.fetch(query, params)
   }
 
-  public async getAllTabsListingData(region: string) {
+  public async getAllTabsListingData(_region: string) {
     const query = this.fetchAllTabsListingData()
     try {
       const result = await this.client.fetch(query)
@@ -302,6 +344,25 @@ class Queries {
       throw error
     }
   }
+
+  public async getPageData(type: string,slug: string) {
+    console.log(type,slug)
+    const query = this.fetchPageData(type,slug)
+    const params = { type,slug }
+    const result = await this.client.fetch(query, params)
+  
+    const transformedSections = result?.content?.sections?.reduce((acc: any, section: any) => {
+      if (section.slug?.current) {
+        acc[section.slug.current] = section.component
+      }
+      return acc
+    }, {})
+    
+    return transformedSections
+   
+  }
+
+
 }
 
 export default Queries

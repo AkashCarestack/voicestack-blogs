@@ -17,6 +17,9 @@ const Footer = ({data}) => {
   const { isDemoPopUpShown } = useContext(BookDemoContext);
   const [openForm, setOpenForm] = useState(false);
 
+  // Debug: Log app store data
+  // console.log('Footer app store data:', data?.appStoreLinks);
+
   const [isUk, setIsUk] = useState(false);
   const [isAu, setIsAu] = useState(false);
 

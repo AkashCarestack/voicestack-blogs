@@ -4,7 +4,7 @@ const TabsListingComponent = {
     type: 'object',
     fields: [
         {
-          name:'globalData',
+          name: 'globalData',
           title: 'Global Data (if not provided, data will be fetched from Selected global data)',
           type: 'reference', 
           to: [{ type: 'globalData' }],
@@ -35,7 +35,7 @@ const TabsListingComponent = {
         },
 
         {
-          name:'showCTA',
+          name: 'showCTA',
           title: 'Show CTA',
           type: 'boolean',
         },
@@ -72,10 +72,10 @@ const TabsListingComponent = {
                   title: 'Image',
                   type: 'image',
                 },
-                {
-                  name:'listItems',
-                  title: 'Feature List Items',
-                  type: 'array',
+                        {
+                          name: 'listItems',
+                          title: 'Feature List Items',
+                          type: 'array',
                   of: [
                     {
                       type: 'object',
@@ -111,7 +111,7 @@ const TabsListingComponent = {
                   type: 'text',
                 },
                 {
-                  name:'ctaListItems',
+                  name: 'ctaListItems',
                   title: 'Call to Action List',
                   type: 'array',
                   of: [

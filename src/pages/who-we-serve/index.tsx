@@ -46,7 +46,7 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comp
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl font-bold mb-6">
-              Who We Serve
+              Who We Serve Index
             </h1>
             <p className="text-xl opacity-90">
               Discover how our solutions serve different segments of the dental industry

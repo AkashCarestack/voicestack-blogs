@@ -40,6 +40,7 @@ import HtmlCode from './Utilis/HtmlCode'
 import WhoWeServe from './Pages/WhoWeServe'
 import DentalSoftware from './Pages/DentalSoftware'
 import FeaturesPage from './Pages/Features'
+import WhyVoicestack from './Pages/WhyVoicestack'
 import GlobalData from './GlobalData'
 import VerticalTestimonialListing from './VerticalTestimonialListing'
 import button from './button'
@@ -85,6 +86,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     WhoWeServe,
     DentalSoftware,
     FeaturesPage,
+    WhyVoicestack,
     GlobalData,
     VerticalTestimonialListing,
     button,

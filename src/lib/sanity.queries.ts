@@ -1227,6 +1227,203 @@ export const dentalSoftwareQueries = {
   `
 }
 
+export const whyVoicestackQueries = {
+  // Get the home page content for Dental Software
+  getDentalSoftwareHome: `
+    *[_type == "whyVoicestack" && basicInfo.slug.current == "landing" && (language == $language || language == null)] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content {
+        mainContent,
+        sections[] {
+          title,
+          slug,
+          component {
+            componentType,
+            tabsListingComponent {
+              headline,
+              subheadline,
+              subDescription,
+              showCTA,
+              globalData-> {
+                _id,
+                title,
+                comparisonTable,
+                dataType
+              },
+              tabs[] {
+                tabHeading,
+                tabSubHeading,
+                description,
+                image,
+                listItems[] {
+                  subfeatureHeading,
+                  subfeatureSubheading,
+                  subfeatureDescription,
+                  subfeatureImage
+                },
+                icon,
+                ctaListItems[] {
+                  ctaLink,
+                  ctaText,
+                  ctaType
+                },
+                Link,
+                LinkText,
+                testimonial
+              }
+            },
+            customComponent {
+              title,
+              subtitle,
+              content,
+              buttonText,
+              buttonLink,
+              backgroundColor,
+              image,
+              referenceGlobalSchema-> {
+                _id,
+                title,
+                comparisonTable,
+                dataType
+              }
+            }
+          }
+        }
+      },
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }[0]
+  `,
+
+  // Get all Dental Software pages for listing
+  whyVoiceStackPages: `
+    *[_type == "whyVoicestack" && (language == $language || language == null)] | order(basicInfo.title asc) {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      language
+    }
+  `,
+
+  // Get specific Dental Software page by slug
+  getVoicestackPageBySlug: `
+    *[_type == "dentalSoftware" && basicInfo.slug.current == $slug && (language == $language || language == null)] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content {
+        mainContent,
+        sections[] {
+          title,
+          slug,
+          component {
+            componentType,
+            tabsListingComponent {
+              headline,
+              subheadline,
+              subDescription,
+              showCTA,
+              globalData-> {
+                _id,
+                title,
+                comparisonTable,
+                dataType
+              },
+              tabs[] {
+                tabHeading,
+                tabSubHeading,
+                description,
+                image,
+                listItems[] {
+                  subfeatureHeading,
+                  subfeatureSubheading,
+                  subfeatureDescription,
+                  subfeatureImage
+                },
+                icon,
+                ctaListItems[] {
+                  ctaLink,
+                  ctaText,
+                  ctaType
+                },
+                Link,
+                LinkText,
+                testimonial
+              }
+            },
+            customComponent {
+              title,
+              subtitle,
+              content,
+              buttonText,
+              buttonLink,
+              backgroundColor,
+              image,
+              referenceGlobalSchema-> {
+                _id,
+                title,
+                comparisonTable,
+                dataType
+              }
+            }
+          }
+        }
+      },
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }[0]
+  `,
+
+  // Get Dental Software page slugs for routing
+  getDentalSoftwareSlugs: `
+    *[_type == "dentalSoftware" && (language == $language || language == null)] {
+      basicInfo {
+        slug
+      }
+    }
+  `,
+
+  // Create landing page from existing data if no landing page exists
+  createLandingPageFromExisting: `
+    *[_type == "dentalSoftware" && (language == $language || language == null)] | order(_createdAt asc)[0] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content,
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }
+  `
+}
+
+
 // Content Section Queries
 export const contentSectionQueries = {
   // Get content section by slug from Who We Serve pages

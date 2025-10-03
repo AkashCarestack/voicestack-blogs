@@ -33,7 +33,7 @@ const schemaIconMap: Record<string, any> = {
     dentalSoftware: DocumentIcon,
     globalData: FolderIcon,
     features: BoltIcon,
-  
+    whyVoicestack: DocumentIcon,
   // Content Types
   testimonial: StarIcon,
   testimonialSection: CommentIcon,
@@ -92,6 +92,7 @@ const customTitleMap: Record<string, string> = {
   page: 'Pages',
   whoWeServe: 'Who We Serve',
   dentalSoftware: 'Dental Software',
+  whyVoicestack: 'Why Voicestack',
   globalData: 'Global Data',
   testimonial: 'Feature Main',
   testimonialSection: 'Testimonial Section',
