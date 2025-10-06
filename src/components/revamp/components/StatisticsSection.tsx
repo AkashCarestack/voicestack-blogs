@@ -48,11 +48,11 @@ const StatisticsSection = () => {
               <div className="grid grid-cols-2 gap-6 md:gap-8">
                 {statistics.map((stat, index) => (
                   <div key={index} className="">
-                    <div className='flex flex-col gap-1 border-l-2 border-white/30 px-6'>
+                    <div className='flex flex-col gap-1 border-l-2 border-white/30 md:px-6 px-3'>
                       <span className="text-2xl font-semibold text-white md:text-3xl lg:text-4xl font-manrope">
                         {stat.value}
                       </span>
-                      <span className="text-base text-white md:text-base lg:text-base leading-normal">
+                      <span className="text-sm text-white md:text-base lg:text-base leading-normal">
                         {stat.label}
                       </span>
                     </div>
