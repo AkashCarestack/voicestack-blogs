@@ -37,14 +37,15 @@ import FeatureList from './FeatureList'
 import ListingAtom from './NestableBlocks/ListingAtom'
 import portableContent from './portableContent'
 import HtmlCode from './Utilis/HtmlCode'
-import WhoWeServe from './Pages/whoWeServe'
-import DentalSoftware from './Pages/DentalSoftware'
+// import DentalSoftware from './Pages/DentalSoftware'
 import FeaturesPage from './Pages/Features'
-import WhyVoicestack from './Pages/whyVoicestack'
+import WhyVoicestack from './Pages/WhyVoicestack'
 import GlobalData from './GlobalData'
 import VerticalTestimonialListing from './VerticalTestimonialListing'
 import button from './button'
 import faqRevamp from './faqRevamp'
+import WhoWeServe from './Pages/WhoWeServe'
+import DentalSoftware from './Pages/DentalSoftware'
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
