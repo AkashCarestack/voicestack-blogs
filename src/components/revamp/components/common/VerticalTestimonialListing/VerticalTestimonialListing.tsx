@@ -4,10 +4,11 @@ import Slider from 'react-slick'
 
 import Button from '~/components/common/Button'
 import { FormModal } from '~/components/common/FormModal'
-import { VideoItem, VideoModal } from '~/components/common/VideoModal'
-import SectionHeader from '../sectionHeader'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
+import { VideoItem, VideoModal } from '~/components/common/VideoModal'
+import { BookDemoContext } from '~/providers/BookDemoProvider'
+
+import SectionHeader from '../sectionHeader'
 
 // PrevArrow.tsx
 const PrevArrow = ({ onClick, currentSlide }: any) => {
@@ -214,7 +215,7 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
   }
 
   return (
-    <div className="py-12 md:pt-[130px] md:pb-24 bg-[#F9F9F9]">
+    <div className="py-12 px-4 md:px-12 md:pt-[130px] md:pb-24 bg-[#F9F9F9]">
       <div className="flex flex-col items-center w-full gap-16 max-w-[1728px] mx-auto">
         <SectionHeader
           heading={data?.heading}
@@ -226,7 +227,7 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
           <div className="w-full relative h-[563px]">
             <Slider {...settings}>
               {data?.testimonial?.map((logo: any, i: number) => (
-                <div key={i} className="group px-2 h-[563px]">
+                <div key={i} className="group sm:px-2 h-[563px]">
                   <div
                     className="flex flex-col justify-center rounded-2xl h-[563px] overflow-hidden shadow-md cursor-pointer w-full"
                     onClick={() => handleOpenVideo(logo?.secondaryVideo[0])}

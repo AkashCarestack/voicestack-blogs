@@ -22,21 +22,23 @@ interface VideoProps {
   onClose?: () => void
   video?: VideoItem | VideoItem[]
   openForm?: () => void
-  hasDemoBanner?:boolean
-  refer?:any
+  hasDemoBanner?: boolean
+  refer?: any
 }
 
-  // const searchParams = useSearchParams();
-  // // const source = searchParams.get("refer"); // Get 'refer' param from URL
-  // const [refer, setRefer] = React.useState(null);
+// const searchParams = useSearchParams();
+// // const source = searchParams.get("refer"); // Get 'refer' param from URL
+// const [refer, setRefer] = React.useState(null);
 
-  // React.useEffect(() => {
-  //   const sourceParam = searchParams.get("refer");
-  //   setRefer(sourceParam || ""); // Set refer once available
-  // }, [searchParams]);
-  
+// React.useEffect(() => {
+//   const sourceParam = searchParams.get("refer");
+//   setRefer(sourceParam || ""); // Set refer once available
+// }, [searchParams]);
 
-const getIframeUrl = (videoPlatform: VideoPlatform, videoId: string): string => {
+const getIframeUrl = (
+  videoPlatform: VideoPlatform,
+  videoId: string,
+): string => {
   switch (videoPlatform) {
     case 'vimeo':
       return `https://player.vimeo.com/video/${videoId}`
@@ -72,25 +74,21 @@ export const VideoModal: React.FC<VideoProps> = ({
   openForm,
   video,
   hasDemoBanner,
-  refer
+  refer,
 }) => {
   const videoData = video || videoDetails
 
-  const toggleRef = React.useRef(null);
-  const isMobile = useMediaQuery(767);
-  const router = useRouter();
+  const toggleRef = React.useRef(null)
+  const isMobile = useMediaQuery(767)
+  const router = useRouter()
 
   // Close the modal if clicking on the parent outside the child
   const handleParentClick = (e) => {
     // Check if the click target is the parent
     if (e.target === e.currentTarget) {
-  
-      onClose();
-      
+      onClose()
     }
-  };
-  
-  
+  }
 
   if (!videoData) {
     return null
@@ -98,7 +96,6 @@ export const VideoModal: React.FC<VideoProps> = ({
 
   return (
     <div
-      
       onClick={handleParentClick}
       className={`${
         isPopup
@@ -106,7 +103,7 @@ export const VideoModal: React.FC<VideoProps> = ({
           : ''
       } ${className}`}
     >
-      <div className='w-full max-w-[750px] px-4' ref={toggleRef}>
+      <div className="w-full max-w-[750px] px-4" ref={toggleRef}>
         <div
           className={`${
             isPopup
@@ -136,27 +133,20 @@ export const VideoModal: React.FC<VideoProps> = ({
           )}
         </div>
         {hasDemoBanner && (
-          <div className='flex flex-col md:flex-row justify-between gap-3 md:gap-10 items-center py-4 md:py-6 px-8 bg-white'>
-            <span className='text-[18px] md:text-[23px] font-medium text-gray-900'>Book a meeting with us</span>
-            {refer == "carestack" ? (
-              <Button type={isMobile ? "primarySm" : "primary"} link={`/demo?region=${router.locale}`} locale={false} target='_blank'>
-                <ButtonArrow></ButtonArrow>
-                <span className="text-base font-medium">
-                  {`Book free demo`}
-                </span>
-              </Button>
-              ):(
-                <Button type={isMobile ? "primarySm" : "primary"} onClick={() => {
-                  openForm();
-                  onClose();
-                }}>
-                  <ButtonArrow></ButtonArrow>
-                  <span className="text-base font-medium">
-                    Book free demo
-                  </span>
-                </Button>
-            )}
-            
+          <div className="flex flex-col md:flex-row justify-between gap-3 md:gap-10 items-center py-4 md:py-6 px-8 bg-white">
+            <span className="text-[18px] md:text-[23px] font-medium text-gray-900">
+              Book a meeting with us
+            </span>
+
+            <Button
+              type="primary"
+              onClick={() => {
+                openForm()
+                onClose()
+              }}
+            >
+              <span className="text-base font-medium">{`Book free demo`}</span>
+            </Button>
           </div>
         )}
       </div>
