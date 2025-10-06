@@ -227,7 +227,7 @@ class Queries {
     }`
   }
   
-  private fetchVerticalTestimonialListing() {
+  private fetchVerticalTestimonialListing(_region: string) {
     return groq`*[_type == "verticalTestimonialListing" && language == $region][0]{
       _id,
       heading,
@@ -305,6 +305,14 @@ class Queries {
   }`
   }
 
+  private fetchHomeCardList(_region: string) {
+    return groq`*[_type == "homeSettings" && language == $region][0]{
+      'globalDataReference': globalDataReference->{
+        ...
+      }
+    }`
+  }
+
 
   /******************  DATA FETCHING  ******************/
 
@@ -337,7 +345,7 @@ class Queries {
 
   public async getVerticalTestimonialListing(region: string) {
     try {
-      const query = this.fetchVerticalTestimonialListing()
+      const query = this.fetchVerticalTestimonialListing(region)
       return await this.client.fetch(query, { region })
     } catch (error) {
       console.error('Error fetching vertical testimonial listing data', error)
@@ -346,7 +354,6 @@ class Queries {
   }
 
   public async getPageData(type: string,slug: string) {
-    console.log(type,slug)
     const query = this.fetchPageData(type,slug)
     const params = { type,slug }
     const result = await this.client.fetch(query, params)
@@ -362,7 +369,13 @@ class Queries {
    
   }
 
+  public async fetchHomeCardData(region:string) {
+    const query = this.fetchHomeCardList(region)
+    return await this.client.fetch(query, { region: region })
+  }
+
 
 }
+
 
 export default Queries

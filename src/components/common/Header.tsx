@@ -549,7 +549,6 @@ const Header = ({ data, refer=null }) => {
                           </div>
                         )}
                         <Button type='primary'  onClick={() => {setOpenForm(true)}}>
-                          <ButtonArrow></ButtonArrow>
                           <span>{data?.ctabutton}</span>
                         </Button>
                       </div>
@@ -600,7 +599,6 @@ const Header = ({ data, refer=null }) => {
                     <div className={`${isMobile  && headerFixed ? 'block': 'hidden'}`}>
                    
                       <Button type="primary"  className="w-fit" onClick={() => { setOpenForm(true) }}>
-                        <ButtonArrow></ButtonArrow>
                         <span className="text-sm font-medium">{`Book free demo`}</span>
                         
                       </Button>

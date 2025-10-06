@@ -7,11 +7,13 @@ import { useEffect, useState } from 'react'
 import CustomHead from '~/components/common/CustomHead'
 import LogoListingSection from '~/components/LogoListingSection'
 import LogoSliderSection from '~/components/LogoSliderSection'
-import FaqSection from '~/components/revamp/components/common/components/faqSection'
+import CardListing from '~/components/revamp/components/cardListing'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import TablistSection from '~/components/revamp/components/common/TabListing/tablistingSection'
 import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import { getParams } from '~/helpers/getQueryParams'
@@ -40,16 +42,17 @@ export const getStaticProps: GetStaticProps<any> = async ({
   draftMode = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? true : false,
 
 }) => {
-  const region = locale
+  const region = locale || 'en'
 
   // revamp queries
   const queries = new Queries('home')
   const fetchTabListingData = new Queries('easily-handle')
+  const homeCardData = await queries.fetchHomeCardData(region)
   const tabListingData = await fetchTabListingData.getData();
   const heroSectionData = await queries.getHeroData(region);
+  const verticalTestimonialData = await queries.getVerticalTestimonialListing(region)
   const allTabsData = await queries.getAllTabsListingData(region)
   const testimonialSecitonData = allTabsData?.find(item => item.slug === 'testimonial-category-section')?.tabsListingComponent
-  const verticalTestimonialData = await queries.getVerticalTestimonialListing(region)
 
 // old queries
   const client = getClient(draftMode ? { token: readToken } : undefined)
@@ -92,6 +95,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
       bannerData,
       contactAndVideoData,
       tabListingData,
+      homeCardData
     },
     revalidate: 60
   }
@@ -162,6 +166,7 @@ export default function IndexPage(
     bannerData,
     contactAndVideoData,
     tabListingData,
+    homeCardData
   } = props
 
   const comparisonSectionData = {
@@ -174,6 +179,10 @@ export default function IndexPage(
   }
   const linkCardSectionData: any = heroSectionData?.heroSubFeature;
   const videoData = contactAndVideoData?.video;
+  console.log('homeCardData:', homeCardData)
+  console.log('globalDataReference:', homeCardData?.globalDataReference)
+  console.log('tabsListingComponent:', homeCardData?.globalDataReference?.tabsListingComponent)
+  console.log('tabs:', homeCardData?.globalDataReference?.tabsListingComponent?.tabs)
   
 
   return (
@@ -186,11 +195,25 @@ export default function IndexPage(
         <Testimonials data={testimonialSecitonData} refer={refer}/>
         {/* <FeatureSection data={featureSectionData} refer={refer}/> */}
         {/* tablisting section */}
-        <TablistSection data={tabListingData}/>
+        {/* <TablistSection data={tabListingData}/> */}
+        {homeCardData?.globalDataReference?.tabsListingComponent ? (
+          <CardListing data={homeCardData.globalDataReference.tabsListingComponent}/>
+        ) : (
+          <div className="py-8 bg-yellow-50 border border-yellow-200 rounded-lg mx-4">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-yellow-800 mb-2">CardListing Component</h3>
+              <p className="text-yellow-600">No tabsListingComponent data available</p>
+              <pre className="mt-4 text-xs bg-white p-2 rounded border overflow-auto">
+                {JSON.stringify(homeCardData?.globalDataReference, null, 2)}
+              </pre>
+            </div>
+          </div>
+        )}
         {/* <AnimatedBeamSection data={integrationPlatforms} refer={refer} /> */}
         {/* <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection> */}
         <SiteComparisonSection data={comparisonSectionData} legendData={comparisonLegendData} refer={refer}/>
         {/* <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/> */}
+        <StatisticsSection />
         <LogoListingSection data={logoSectionData}  refer={refer}/>
         <FaqSection faqItems={tabListingData?.faq.faqItems}/>
         {/* <BannerSection data={bannerData} refer={refer}></BannerSection>

@@ -75,6 +75,17 @@ export default defineType({
     }),
 
     defineField({
+      name: 'globalDataReference',
+      title: 'Global Data Reference',
+      type: 'reference',
+      to: [{ type: 'globalData' }],
+      options: {
+        filter: 'defined(_id)',
+      },
+      group: 'basic',
+    }),
+
+    defineField({
       name: 'navigationMenu',
       title: 'Navigation Menu',
       type: 'array',

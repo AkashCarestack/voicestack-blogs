@@ -15,13 +15,13 @@ const GlobalData = {
           { title: 'Feature List', value: 'featureList' },
         ],
       },
-      validation: (Rule: any) => Rule.required(),
+      // validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'name',
       title: 'Data Name',
       type: 'string',
-      validation: (Rule: any) => Rule.required(),
+      // validation: (Rule: any) => Rule.required(),
     },
     {
       name: 'slug',
@@ -31,7 +31,7 @@ const GlobalData = {
         source: 'name',
         maxLength: 96,
       },
-      validation: (Rule: any) => Rule.required(),
+      // validation: (Rule: any) => Rule.required(),
     },
     // Comparison Table Fields - Using the same structure as comparisonTable schema
     {
@@ -57,7 +57,7 @@ const GlobalData = {
                   name: 'name',
                   title: 'Column Name',
                   type: 'string',
-                  validation: (Rule: any) => Rule.required(),
+                  // validation: (Rule: any) => Rule.required(),
                 },
                 {
                   name: 'logo',
@@ -85,13 +85,13 @@ const GlobalData = {
                   name: 'name',
                   title: 'Category Name',
                   type: 'string',
-                  validation: (Rule: any) => Rule.required(),
+                  // validation: (Rule: any) => Rule.required(),
                 },
                 {
                   name: 'iconSvgCode',
                   title: 'Icon Svg Code',
                   type: 'string',
-                  validation: (Rule: any) => Rule.required(),
+                  // validation: (Rule: any) => Rule.required(),
                 },
                 {
                   name: 'icon',
@@ -110,7 +110,7 @@ const GlobalData = {
                           name: 'heading',
                           title: 'Row Heading',
                           type: 'string',
-                          validation: (Rule: any) => Rule.required(),
+                          // validation: (Rule: any) => Rule.required(),
                         },
                         {
                           name: 'description',
@@ -383,7 +383,7 @@ const GlobalData = {
           name: 'title',
           title: 'Feature List Title',
           type: 'string',
-          validation: (Rule: any) => Rule.required(),
+          // validation: (Rule: any) => Rule.required(),
         },
         {
           name: 'description',
