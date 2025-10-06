@@ -58,7 +58,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async ({
   locale,
   draftMode = false,
 }) => {
-  const region = locale
+  const region = locale || 'en'
   const slug = params?.slug as string
   
   const client = getClient(draftMode ? { token: readToken } : undefined) as SanityClient

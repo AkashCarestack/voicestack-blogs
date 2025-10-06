@@ -87,7 +87,7 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
 }
 
 const VerticalTestimonialListing = ({ data, refer = null }) => {
-  console.log(data, 'data')
+  // console.log(data, 'data')
   const [openForm, setOpenForm] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isUk, setIsUk] = useState(false)

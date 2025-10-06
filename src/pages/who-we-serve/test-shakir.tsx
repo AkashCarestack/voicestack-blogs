@@ -6,7 +6,7 @@ import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
 import Button from '~/components/common/Button'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
-import FaqSection from '~/components/revamp/components/common/components/faqSection'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 
 interface TestShakirProps {
