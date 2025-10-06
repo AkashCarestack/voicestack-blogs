@@ -1,8 +1,8 @@
 import React, { use, useEffect, useState } from 'react'
-import { FaqSectionProps } from '../interface/common'
+import { FaqSectionProps } from './interface/common'
 import { PortableText } from '@portabletext/react'
 import { Minus, Plus } from 'lucide-react'
-import SectionHeader from '../sectionHeader'
+import SectionHeader from './sectionHeader'
 import Container from '~/components/structure/Container'
 
 export default function FaqSection({ faqItems }: FaqSectionProps) {
