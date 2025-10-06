@@ -57,7 +57,7 @@ const Footer = ({data}) => {
           {/* CTA Banner Section */}
           {data?.ctaBanner?.showBanner && data?.ctaBanner?.title && (
             <div className="  rounded-xl bg-[#4A3CE1] flex flex-col items-center gap-6 px-8 py-16 self-stretch">
-              <h3 className="text-center md:max-w-[818px] text-white font-manrope text-5xl font-bold leading-[60px] tracking-[-0.8px]">
+              <h3 className="text-center md:max-w-[818px] text-white font-manrope md:text-5xl text-xl font-bold md:leading-[60px] md:tracking-[-0.8px]">
                 {data.ctaBanner.title}
               </h3>
               {data.ctaBanner.buttonText && (
