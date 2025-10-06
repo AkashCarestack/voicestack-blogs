@@ -7,7 +7,9 @@ export interface SectionHeaderProps {
     heading?: string,
     subheading?: string,
     description?: string,
-    mailId?: string
+    mailId?: string,
+    isWhite?: boolean,
+    isLeftAlign?: boolean,
     headingSm?: boolean
     className?: string
 }

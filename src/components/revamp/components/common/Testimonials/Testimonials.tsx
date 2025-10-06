@@ -62,52 +62,62 @@ export default function Testimonials({ data, refer = null }) {
 
   const rightSectionLayout = () => {
     return (
-      <div className="relative md:h-full md:min-h-[450px] md:mb-0 mb-4 rounded-[18px] overflow-hidden">
-        <div className="w-full h-full bg-gradient-to-r from-[#CAC5FF] to-[#4A3CE1] flex left-0 right-0 top-0 bottom-0 absolute" />
+      <div className="relative h-full md:mb-0 mb-4">
 
-        {/* mobile */}
-        <div className="relative md:absolute flex flex-col md:flex-row bottom-0 w-full h-full md:hidden text-white p-3">
-          <Image
-            src="/assets/testimonialbg.png"
-            alt={activeTabData?.tabHeading}
-            width={600}
-            height={600}
-            className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0"
-          />
-          <div className="flex flex-col py-8 px-4 gap-8">
+         {/* desktop */}
+         <div className="relative flex-1 text-white flex w-full h-full">
+          <div className="flex flex-col gap-3 py-8 px-6">
             {/* Company Logo */}
-            <div className="flex">
-              <div className="w-20 h-10 bg-white rounded flex items-center justify-center">
-                <div className="w-32 h-8 flex items-center justify-center">
-                  <ImageLoader
-                    image={activeTabData?.testimonial?.logo}
-                    fixed={false}
-                    imageClassName="h-auto w-auto"
-                  />
-                </div>
+            <div className="flex flex-1">
+              <div
+                className=""
+                style={{
+                  height: `38px`,
+                  width: `${
+                    38 *
+                    activeTabData?.testimonial?.logo?.metadata?.dimensions
+                      ?.aspectRatio
+                  }px`,
+                }}
+              >
+                <ImageLoader
+                  image={activeTabData?.testimonial?.logo}
+                  alt="Brand Logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
             </div>
-
-            {/* Metrics Display */}
-            <div className="flex z-10">
-              {activeTabData?.testimonial?.listItems?.map((metric, index) => (
-                <div key={index} className="text-white border-r border-white/10 px-4 last:border-none">
+            {/* Metrics overlay */}
+            <div className="flex flex-col gap-12">
+              {activeTabData?.testimonial?.listItems?.length > 0 ?
+              <div className="relative z-10 grid grid-cols-2  gap-y-3 gap-x-6 md:gap-x-12">
+                {activeTabData?.testimonial?.listItems?.map((metric, index) => (
                   <div
-                    className="text-xl font-semibold testimonial-metric inline"
-                    dangerouslySetInnerHTML={{
-                      __html: metric?.after
-                        ? metric?.after
-                        : metric?.description,
-                    }}
-                  />
-                  <div className="text-xs text-white">
-                    {metric?.listHeading}
+                    key={index}
+                    className="text-white py-3 border-b border-white/30 "
+                  >
+                    <div
+                      className="text-lg md:text-[32px] font-semibold testimonial-metric inline font-manrope"
+                      dangerouslySetInnerHTML={{
+                        __html: metric?.after
+                          ? metric?.after
+                          : metric?.description,
+                      }}
+                    />
+                    <div className="text-sm md:text-base text-white opacity-70">
+                      {metric?.listHeading}
+                    </div>
                   </div>
+                ))}
+              </div>
+              :
+              <div className="relative z-10 flex text-lg text-white">
+                <div className="text-lg md:text-[32px] font-semibold leading-[120%] font-manrope">
+                  {activeTabData?.testimonial?.testimonialdescription}
                 </div>
-              ))}
-            </div>
-
-            <div className="flex items-center gap-4">
+                </div>
+              }
+              <div className="items-center gap-4 flex sm:hidden">
               <div className="relative w-14 h-14 mb-4">
                 <div className="w-14 h-14 rounded-full flex items-center justify-center">
                   <ImageLoader
@@ -128,9 +138,43 @@ export default function Testimonials({ data, refer = null }) {
                 </p>
               </div>
             </div>
+
+              <Button className="bg-[#C8F46E] text-tiber-950 text-base font-medium px-6 py-3 rounded-md border-none w-fit">
+                Book Free Demo
+              </Button>
+            </div>
           </div>
-          <div className="w-full bg-white/10 backdrop-blur-md py-8 px-4 text-white flex flex-col justify-between flex-1 gap-6">
-            <div className="flex gap-12">
+          <div className="relative w-full max-w-[440px]  items-end justify-end hidden sm:flex">
+            <ImageLoader
+              key={`testimonial-image-${activeTabData?.testimonial?._id || activeTab}`}
+              image={activeTabData?.testimonial?.testimonialImage}
+              imageClassName="w-full h-auto object-contain"
+            />
+            <div className='absolute bottom-8 right-0'>
+            <div className="flex flex-col py-6 pl-6 pr-8 rounded-l-[12px] rounded-r-none bg-white/5 backdrop-blur-[20px]">
+                <p className="font-medium text-lg text-white">
+                  {activeTabData?.testimonial?.name}
+                </p>
+                <p className=" text-white/60 text-base font-normal">
+                  {activeTabData?.testimonial?.designation}
+                </p>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+        {/* <div className="w-full max-w-[215px] rounded-xl bg-black/20 backdrop-blur-[10px] gap-6 p-3 md:p-8 text-white flex flex-col justify-between">
+          <div className="flex flex-col gap-6 md:gap-12">
+            <div className="flex flex-col gap-4 text-sm md:text-base">
+              <div className="flex flex-col">
+                <p className="font-semibold">
+                  {activeTabData?.testimonial?.name}
+                </p>
+                <p className=" text-white/60">
+                  {activeTabData?.testimonial?.designation}
+                </p>
+              </div>
               <div>
                 <p className="font-semibold ">
                   {activeTabData?.testimonial?.place}
@@ -144,105 +188,15 @@ export default function Testimonials({ data, refer = null }) {
                   {activeTabData?.testimonial?.locations}
                 </p>
                 <p className="text-white/60">
-                  {/* {activeTabData?.testimonial.locations?.includes('+') || */}
                   {parseInt(activeTabData?.testimonial.locations) > 1
                     ? 'Locations'
                     : 'Location'}
                 </p>
               </div>
             </div>
-            <Button className="bg-[#C8F46E] text-tiber-950 text-base font-medium px-6 py-3 rounded-md border-none">
-              Book Free Demo
-            </Button>
           </div>
-        </div>
-
-        {/* desktop */}
-        <div className="absolute md:flex flex-col md:flex-row bottom-0 w-full h-full hidden p-3 gap-3">
-          <div className="relative flex-1 text-white flex w-full items-end h-full rounded-[12px] overflow-hidden">
-            <Image
-              src="/assets/testimonialbg.png"
-              alt={activeTabData?.tabHeading}
-              width={600}
-              height={600}
-              className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0"
-            />
-
-            {/* Metrics overlay */}
-            <div className="relative z-10 flex flex-col  p-4 md:p-8 flex-1">
-              {activeTabData?.testimonial?.listItems?.map((metric, index) => (
-                <div
-                  key={index}
-                  className="text-white pt-5 pb-5 border-t border-white/10 first:border-none last:pb-0"
-                >
-                  <div
-                    className="text-3xl font-bold testimonial-metric inline"
-                    dangerouslySetInnerHTML={{
-                      __html: metric?.after
-                        ? metric?.after
-                        : metric?.description,
-                    }}
-                  />
-                  <div className="text-base text-white">
-                    {metric?.listHeading}
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="relative w-full max-w-[302px] h-[410px] flex flex-1 items-end justify-end">
-              <ImageLoader
-                key={`testimonial-image-${activeTabData?.testimonial?._id || activeTab}`}
-                image={activeTabData?.testimonial?.testimonialImage}
-                imageClassName="w-full h-auto object-contain"
-              />
-            </div>
-          </div>
-
-          <div className="w-full max-w-[215px] rounded-xl bg-black/20 backdrop-blur-[10px] gap-6 p-3 md:p-8 text-white flex flex-col justify-between">
-            {/* Company Logo */}
-            <div className="flex">
-              <div className="w-32 h-8 flex items-center justify-center">
-                <ImageLoader
-                  image={activeTabData?.testimonial?.logo}
-                  fixed={false}
-                  imageClassName="h-auto w-auto"
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-6 md:gap-12">
-              <div className="flex flex-col gap-4 text-sm md:text-base">
-                <div className="flex flex-col">
-                  <p className="font-semibold">
-                    {activeTabData?.testimonial?.name}
-                  </p>
-                  <p className=" text-white/60">
-                    {activeTabData?.testimonial?.designation}
-                  </p>
-                </div>
-                <div>
-                  <p className="font-semibold ">
-                    {activeTabData?.testimonial?.place}
-                  </p>
-                  <p className="text-white/60">
-                    {activeTabData?.testimonial?.region}
-                  </p>
-                </div>
-                <div>
-                  <p className="font-semibold ">
-                    {activeTabData?.testimonial?.locations}
-                  </p>
-                  <p className="text-white/60">
-                    {/* {activeTabData?.testimonial.locations.includes('+') || */}
-                    {parseInt(activeTabData?.testimonial.locations) > 1
-                      ? 'Locations'
-                      : 'Location'}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </div> */}
+        {/* </div> */}
       </div>
     )
   }
@@ -272,47 +226,45 @@ export default function Testimonials({ data, refer = null }) {
 
           {/* Tab Content */}
           <div className="flex w-full gap-8 z-10 relative">
-            <div className="w-full relative">
-              <div className="flex flex-col lg:flex-row w-full gap-3">
-                {/* Left Panel - Description */}
-                <div className="lg:max-w-[292px] w-full bg-[#F4F3FA] hover:bg-[#F0EFFA] transition-all duration-300 ease-in-out rounded-[24px] p-7">
-                  <div className="group flex flex-col gap-6 justify-between h-full">
-                    <IconBadge icon={activeTabData?.icon} />
-                    <div className="flex flex-col gap-6 items-start ">
-                      <div className="">
-                        <h3 className="text-base md:text-lg font-bold text-gray-950 mb-4 font-manrope">
-                          {activeTabData?.tabHeading}
-                        </h3>
-                        <p className="text-gray-700 leading-relaxed text-sm md:text-base">
-                          {activeTabData?.description}
-                        </p>
+            <div className="w-full relative rounded-[24px] overflow-hidden min-h-[504px]">
+              <div className="flex flex-col lg:flex-row w-full h-full">
+                <Image
+                  src="/assets/Bg/BG01.png"
+                  alt={activeTabData?.tabHeading}
+                  width={600}
+                  height={600}
+                  className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
+                />
+                <div className="w-full flex flex-col lg:flex-row gap-3">
+                   {/* Left Panel - Description */}
+                   <div className="p-3 z-10 lg:max-w-[320px] w-full h-full flex">
+                     <div className="bg-[#F4F3FA] hover:bg-[#F0EFFA] transition-all duration-300 ease-in-out rounded-[24px] p-6 flex-1 cursor-pointer">
+                      <div className="group flex flex-col gap-6 justify-between h-full">
+                        <IconBadge icon={activeTabData?.icon} />
+                        <div className="flex flex-col gap-6 items-start ">
+                          <div className="">
+                            <h3 className="text-base md:text-lg font-bold text-gray-950 mb-4 font-manrope">
+                              {activeTabData?.tabHeading}
+                            </h3>
+                            <p className="text-gray-700 leading-relaxed text-sm md:text-base">
+                              {activeTabData?.description}
+                            </p>
+                          </div>
+                          <Button type="underline">Learn More</Button>
+                        </div>
                       </div>
-                      <Button type="underline">Learn More</Button>
                     </div>
                   </div>
-                </div>
 
-                {/* Right Panel - Testimonial */}
-                <div className="max-w-[936px] w-full">
-                  {rightSectionLayout()}
+                   {/* Right Panel - Testimonial */}
+                   <div className="max-w-[956px] w-full flex-1">
+                     {rightSectionLayout()}
+                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="md:flex gap-4 items-center hidden">
-            <Button
-              type="primary"
-              className="w-fit"
-              onClick={() => {
-                setOpenForm(true)
-              }}
-            >
-              <span>
-                Book Free Demo
-              </span>
-            </Button>
-          </div>
         </div>
         {/* comment test */}
         {isOpen && (
