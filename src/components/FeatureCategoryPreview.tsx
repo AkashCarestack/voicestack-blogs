@@ -1,6 +1,6 @@
 import React from 'react'
 import { SanityImageSource } from '@sanity/image-url/lib/types/types'
-import { urlFor } from '~/lib/sanity.image'
+import { urlForImage } from '~/lib/sanity.image'
 
 interface FeatureCategoryPreviewProps {
   name: string
@@ -15,7 +15,7 @@ const FeatureCategoryPreview: React.FC<FeatureCategoryPreviewProps> = ({
 }) => {
   const getLanguageFlag = () => {
     if (countryFlag) {
-      return urlFor(countryFlag).width(20).height(15).url()
+      return urlForImage(countryFlag, { width: 20, height: 15 })
     }
     
     // Fallback to default flags based on language

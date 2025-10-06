@@ -303,9 +303,9 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
   }
 
   /**
-   * Render feature list
+   * Feature List Component
    */
-  const renderFeatureList = () => {
+  const FeatureListComponent = () => {
     const [allFeatures, setAllFeatures] = useState([])
     const [loading, setLoading] = useState(false)
 
@@ -401,7 +401,7 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
               No Features Available
             </h3>
             <p className="text-gray-600">
-              This feature list doesn't contain any features yet.
+              This feature list doesn&apos;t contain any features yet.
             </p>
           </div>
         </div>
@@ -469,11 +469,9 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
             {referenceGlobalSchema?.dataType === 'comparisonTable' && renderComparisonTable()}
             
             {/* Feature List - Show when referenceGlobalSchema is set and dataType is featureList */}
-            {referenceGlobalSchema?.dataType === 'featureList' && (() => {
-              console.log('CustomComponent: Rendering feature list section');
-              console.log('CustomComponent: referenceGlobalSchema dataType:', referenceGlobalSchema?.dataType);
-              return renderFeatureList();
-            })()}
+            {referenceGlobalSchema?.dataType === 'featureList' && (
+              <FeatureListComponent />
+            )}
             
             {/* Data Source Attribution */}
             {referenceGlobalSchema && (

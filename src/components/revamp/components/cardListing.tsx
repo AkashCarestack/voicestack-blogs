@@ -4,6 +4,7 @@ import { urlForImage } from '~/lib/sanity.image'
 import SectionHeader from './common/sectionHeader'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
+import { PortableText } from '@portabletext/react'
 
 export default function CardListing({ data }: any) {
   return (
@@ -13,7 +14,7 @@ export default function CardListing({ data }: any) {
         description={data?.subDescription}
       />
       <div className="grid lg:grid-cols-2 md:pt-16 pt-8 gap-6 justify-center">
-        {data?.tabs?.length &&
+        {data?.tabs?.length > 0 &&
           data?.tabs?.map((e: any) => {
             return (
               <div key={e._key} className="md:max-w-[608px] md:gap-6 gap-4">
@@ -31,7 +32,11 @@ export default function CardListing({ data }: any) {
                     {e.tabSubHeading}
                   </div>
                   <div className="md:text-base text-sm font-normal leading-[150%] md:pt-3 pt-2">
-                    {e.description}
+                    {Array.isArray(e.description) ? (
+                      <PortableText value={e.description} />
+                    ) : (
+                      <p>{String(e.description || '')}</p>
+                    )}
                   </div>
                 </div>
               </div>

@@ -223,25 +223,15 @@ const FeatureListDisplay: React.FC<FeatureListDisplayProps> = ({
     <div className="space-y-4">
       {filteredAndSortedFeatures.map((feature, index) => (
         <div key={index} className="flex items-start space-x-4 p-4 bg-white rounded-lg shadow-md">
-          {(feature.icon || feature.image) && (
+          {feature.mainImage && (
             <div className="flex-shrink-0">
-              {feature.icon ? (
-                <Image
-                  src={feature.icon.asset.url}
-                  alt={feature.title}
-                  width={32}
-                  height={32}
-                  className="w-8 h-8 object-contain"
-                />
-              ) : feature.image ? (
-                <Image
-                  src={feature.image.asset.url}
-                  alt={feature.title}
-                  width={80}
-                  height={80}
-                  className="w-20 h-20 object-cover rounded-md"
-                />
-              ) : null}
+              <Image
+                src={feature.mainImage.asset.url}
+                alt={feature.title}
+                width={80}
+                height={80}
+                className="w-20 h-20 object-cover rounded-md"
+              />
             </div>
           )}
           <div className="flex-1">
@@ -249,23 +239,12 @@ const FeatureListDisplay: React.FC<FeatureListDisplayProps> = ({
               {feature.title}
             </h3>
             {feature.shortDescription && (
-              <p className="text-gray-600 text-sm mb-2">
-                {feature.shortDescription}
-              </p>
-            )}
-            {feature.description && (
-              <div className="text-gray-700 text-sm">
-                <PortableText value={feature.description} />
-              </div>
-            )}
-            {displaySettings.showCTAs && feature.cta && (
-              <div className="mt-2">
-                <a
-                  href={feature.cta.link}
-                  className={getCtaClasses(feature.cta.type)}
-                >
-                  {feature.cta.text}
-                </a>
+              <div className="text-gray-600 text-sm mb-2">
+                {Array.isArray(feature.shortDescription) ? (
+                  <PortableText value={feature.shortDescription} />
+                ) : (
+                  <p>{String(feature.shortDescription)}</p>
+                )}
               </div>
             )}
           </div>
@@ -285,9 +264,13 @@ const FeatureListDisplay: React.FC<FeatureListDisplayProps> = ({
             </h2>
           )}
           {description && (
-            <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              {description}
-            </p>
+            <div className="text-lg text-gray-600 max-w-3xl mx-auto">
+              {Array.isArray(description) ? (
+                <PortableText value={description} />
+              ) : (
+                <p>{String(description)}</p>
+              )}
+            </div>
           )}
         </div>
       )}
@@ -318,7 +301,7 @@ const FeatureListDisplay: React.FC<FeatureListDisplayProps> = ({
             >
               All Features
             </button>
-            {categories.map((category) => (
+            {categories.map((category: string) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}

@@ -4,6 +4,7 @@ import { urlForImage } from '~/lib/sanity.image'
 import SwitchableTabs from './switchableTabs'
 import useMediaQuery from '~/utils/mediaQuery'
 import Container from '~/components/structure/Container'
+import { PortableText } from '@portabletext/react'
 
 export default function ListingWithTabs({
   list,
@@ -61,9 +62,13 @@ export default function ListingWithTabs({
                         <h3 className="text-gray-950 font-manrope text-2xl font-bold tracking-normal leading-[133.33%] mb-3">
                           {e.subfeatureSubheading}
                         </h3>
-                        <p className="font-geist text-gray-700 text-base font-normal tracking-normal leading-normal">
-                          {e.subfeatureDescription}
-                        </p>
+                        <div className="font-geist text-gray-700 text-base font-normal tracking-normal leading-normal">
+                          {Array.isArray(e.subfeatureDescription) ? (
+                            <PortableText value={e.subfeatureDescription} />
+                          ) : (
+                            <p>{String(e.subfeatureDescription || '')}</p>
+                          )}
+                        </div>
                       </div>
 
                       <div className="w-full h-auto">

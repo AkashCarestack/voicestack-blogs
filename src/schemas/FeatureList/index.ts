@@ -5,14 +5,6 @@ export default defineType({
   name: 'featureList',
   title: 'Feature List',
   type: 'document',
-  // This ensures the page works with document internationalization
-  i18n: {
-    base: 'en',
-    languages: ['en', 'en-GB', 'en-AU'],
-    fieldNames: {
-      lang: 'language'
-    }
-  },
   groups: [
     {
       name: 'basic',
