@@ -7,6 +7,7 @@ import Container from '~/components/structure/Container'
 export default function FaqSection({ faqItems }: any) {
   const [isOpen, setIsOpen] = useState({})
   const [activeCategory, setActiveCategory] = useState(null)
+  const [isTransitioning, setIsTransitioning] = useState(false)
 
   const categories = faqItems?.faqCategories || []
   
@@ -28,7 +29,13 @@ export default function FaqSection({ faqItems }: any) {
   }, [activeCategory, categories])
   
   const showActiveCategory = (categoryKey: string) => {
-    setActiveCategory(categoryKey)
+    if (categoryKey === activeCategory) return
+    
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setActiveCategory(categoryKey)
+      setIsTransitioning(false)
+    }, 150)
   }
   
   const toggleQuestion = (questionKey: string) => {
@@ -79,36 +86,54 @@ export default function FaqSection({ faqItems }: any) {
         {/* Questions and Answers */}
         <div className='flex-1'>
           {activeQuestions.length > 0 ? (
-            <div className="gap-6 flex flex-col">
+            <div className={`gap-6 flex flex-col transition-all duration-300 ease-in-out ${
+              isTransitioning ? 'opacity-0 transform translate-y-4' : 'opacity-100 transform translate-y-0'
+            }`}>
               {activeQuestions.map((question: any, index: number) => {
                 const questionKey = question._key || index
                 const isQuestionOpen = isOpen[questionKey] || false
                 
                 return (
-                  <div key={questionKey} className={`border rounded-[16px] p-4 ${isQuestionOpen ? 'bg-gray-200 border-none':'border-gray-200'} `}>
+                  <div 
+                    key={questionKey} 
+                    className={`border rounded-[16px] p-4 transition-all duration-300 ease-in-out ${
+                      isQuestionOpen 
+                        ? 'bg-gray-200 border-none shadow-sm' 
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                    style={{
+                      animationDelay: `${index * 50}ms`
+                    }}
+                  >
                     <button
                       onClick={() => toggleQuestion(questionKey)}
-                      className="w-full text-left flex items-center justify-between rounded-[16px] transition-colors pb-4"
+                      className="w-full text-left flex items-center justify-between rounded-[16px] transition-all duration-200 ease-in-out pb-4 hover:scale-[1.01]"
                     >
-                      <div className="font-medium text-lg text-gray-950">
+                      <div className="font-medium text-lg text-gray-950 pr-4">
                         {question.question}
                       </div>
-                      <div className="flex-shrink-0">
+                      <div className="flex-shrink-0 transition-transform duration-200 ease-in-out">
                         {isQuestionOpen ? (
-                          <Minus className="w-5 h-5 text-gray-950" />
+                          <Minus className="w-5 h-5 text-gray-950 rotate-0" />
                         ) : (
-                          <Plus className="w-5 h-5 text-gray-950" />
+                          <Plus className="w-5 h-5 text-gray-950 rotate-0" />
                         )}
                       </div>
                     </button>
-                    {isQuestionOpen && (
-                      <div className="text-gray-600">
+                    <div 
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        isQuestionOpen 
+                          ? 'max-h-96 opacity-100' 
+                          : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <div className="text-gray-600 pt-2">
                         <PortableText 
                           value={question.answer} 
                           components={components}
                         />
                       </div>
-                    )}
+                    </div>
                   </div>
                 )
               })}
