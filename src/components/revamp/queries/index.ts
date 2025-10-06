@@ -3,7 +3,7 @@ import { getClient } from '~/lib/sanity.client'
 import { SanityClient } from '@sanity/client'
 
 class Queries {
-  slug: string
+  slug?: string
   client = getClient()
   constructor(slug: string) {
     this.slug = slug
@@ -313,6 +313,14 @@ class Queries {
     }`
   }
 
+  private fetchFaqReferencedData(_region: string) {
+    return groq`*[_type == "homeSettings" && language == $region][0]{
+       faqReferenced->{
+        faqCategories
+      }
+    }`
+  }
+
 
   /******************  DATA FETCHING  ******************/
 
@@ -371,6 +379,11 @@ class Queries {
 
   public async fetchHomeCardData(region:string) {
     const query = this.fetchHomeCardList(region)
+    return await this.client.fetch(query, { region: region })
+  }
+
+  public async fetchFaqData(region:string) {
+    const query = this.fetchFaqReferencedData(region)
     return await this.client.fetch(query, { region: region })
   }
 

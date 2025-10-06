@@ -30,9 +30,9 @@ const StatisticsSection = () => {
   ]
 
   return (
-    <div className='w-full px-4 xl:px-12 '>
-      <div className={`rounded-[24px]  bg-gradient-to-r from-purple-700 to-purple-400 justify-center relative`}>
-        <Container className='w-full py-24'>
+    <div className='w-full px-4 xl:px-12'>
+      <div className={`rounded-[24px] bg-gradient-to-r from-purple-700 to-purple-400 justify-center relative`}>
+        <Container className='w-full lg:py-24 py-16 px-6'>
           <div className="relative w-full flex gap-16">
             {/* Main Content */}
             <div className="relative z-10 max-w-[645px] w-full flex flex-col gap-12 flex-grow">
@@ -48,11 +48,11 @@ const StatisticsSection = () => {
               <div className="grid grid-cols-2 gap-6 md:gap-8">
                 {statistics.map((stat, index) => (
                   <div key={index} className="">
-                    <div className='flex flex-col gap-1 border-l-2 border-white/30 px-6'>
+                    <div className='flex flex-col gap-1 border-l-2 border-white/30 md:px-6 px-3'>
                       <span className="text-2xl font-semibold text-white md:text-3xl lg:text-4xl font-manrope">
                         {stat.value}
                       </span>
-                      <span className="text-base text-white md:text-base lg:text-base leading-normal">
+                      <span className="text-sm text-white md:text-base lg:text-base leading-normal">
                         {stat.label}
                       </span>
                     </div>
@@ -85,7 +85,7 @@ const StatisticsSection = () => {
             />
           )}
         </Container>
-        <div className="absolute bottom-0 right-0 max-w-[727px] w-full">
+        <div className="absolute bottom-0 right-0 w-[50%] max-w-[727px] lg:block hidden">
           <Image src={WorldMap} alt='World Map' className="h-auto w-full object-cover" />
         </div>
       </div>

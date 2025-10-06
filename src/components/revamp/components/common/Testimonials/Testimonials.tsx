@@ -140,9 +140,15 @@ export default function Testimonials({ data, refer = null }) {
               </div>
             </div>
 
-              <Button className="bg-[#C8F46E] text-tiber-950 text-base font-medium px-6 py-3 rounded-md border-none w-fit">
-                Book Free Demo
-              </Button>
+            <Button
+            type="primary"
+            onClick={() => {
+              setOpenForm(true)
+            }}
+            className='w-fit'
+          >
+            <span className="text-base font-medium">{`Book free demo`}</span>
+          </Button>
             </div>
           </div>
           <div className="relative w-full max-w-[440px]  items-end justify-end hidden sm:flex">
@@ -203,7 +209,7 @@ export default function Testimonials({ data, refer = null }) {
   }
 
   return (
-    <Section className="relative py-12 md:py-24 bg-[#F9F9F9]">
+    <Section className="relative py-sm md:py-md lg:py-lg bg-[#F9F9F9]">
       <Container className="w-full relative">
         <div className="flex flex-col items-center w-full gap-16">
           <div className="flex justify-center w-full">
@@ -248,10 +254,8 @@ export default function Testimonials({ data, refer = null }) {
                               {activeTabData?.tabHeading}
                             </h3>
                             <div className="text-gray-700 leading-relaxed text-sm md:text-base">
-                              {Array.isArray(activeTabData?.description) ? (
+                              {activeTabData?.description && (
                                 <PortableText value={activeTabData.description} />
-                              ) : (
-                                <p>{String(activeTabData?.description || '')}</p>
                               )}
                             </div>
                           </div>
