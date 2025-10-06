@@ -47,14 +47,14 @@ const LogoListingSection = ({ data, refer = null }) => {
     <Section className="py-sm md:py-md md:pb-16">
       <Container>
         <div className="flex flex-col items-center w-full gap-16">
-          <div className='flex items-center flex-col gap-4'>
+          {/* <div className='flex items-center flex-col gap-4'>
             <span className='flex'>{setImage("5")}</span>
             <SectionHeader
               heading={data?.logoSectionHeader}
               description={data?.logoSectionHeaderDescptn}
               headingSm={true}
             />
-          </div>
+          </div> */}
 
           <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 max-w-[1034px]">
             {data?.image &&
@@ -73,7 +73,7 @@ const LogoListingSection = ({ data, refer = null }) => {
                 )
               })}
           </div>
-          <div className="flex gap-4 items-center">
+          {/* <div className="flex gap-4 items-center">
             {refer == 'carestack' ? (
               <Button
                 type="primary"
@@ -97,7 +97,7 @@ const LogoListingSection = ({ data, refer = null }) => {
                 <span className="text-base font-medium">{`Book free demo`}</span>
               </Button>
             )}
-          </div>
+          </div> */}
         </div>
         {openForm && (
           <FormModal
