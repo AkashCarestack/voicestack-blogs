@@ -106,7 +106,7 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comp
                       Coming Soon
                     </h3>
                     <p className="text-gray-600">
-                      We're working on adding comprehensive content for this section. 
+                      We&apos;re working on adding comprehensive content for this section. 
                       In the meantime, explore our individual service pages below.
                     </p>
                   </div>
