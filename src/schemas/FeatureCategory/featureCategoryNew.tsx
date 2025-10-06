@@ -1,4 +1,6 @@
 import { defineField, defineType } from 'sanity'
+import showCountryFlag from '~/components/utils/common'
+import React from 'react'
 
 export default defineType({
   name: 'featureCategory',
@@ -8,13 +10,20 @@ export default defineType({
     select: {
       title: 'name',
       subheading: 'subheading',
+      icon: 'icon',
+      iconSvgCode: 'iconSvgCode',
+      language: 'language',
     },
     prepare(selection) {
-      const { title, subheading } = selection
+      const { title, subheading, icon, iconSvgCode, language } = selection
 
       return {
         title: title || 'Untitled Category',
-        subtitle: subheading || 'No subheading'
+        subtitle: subheading || 'No subheading',
+        media: language ? <img src={showCountryFlag(language)} /> : (icon || (iconSvgCode ? {
+          _type: 'icon',
+          icon: iconSvgCode
+        } : undefined))
       }
     },
   },
@@ -71,6 +80,20 @@ export default defineType({
         }
         return true;
       }),
+    }),
+
+    defineField({
+      name: 'language',
+      title: 'Language',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'US English', value: 'en' },
+          { title: 'UK English', value: 'en-GB' },
+          { title: 'Australia English', value: 'en-AU' },
+        ],
+      },
+      initialValue: 'en',
     }),
 
   ],

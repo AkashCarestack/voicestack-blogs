@@ -350,6 +350,36 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
                         .filter('_type == "featureCategory"')
                         .defaultOrdering([{field: 'name', direction: 'asc'}])
                     ),
+                  // US English
+                  S.listItem()
+                    .title('US English (en)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('featureCategory')
+                        .title('US English Feature Categories')
+                        .filter('_type == "featureCategory" && language == "en"')
+                        .defaultOrdering([{field: 'name', direction: 'asc'}])
+                    ),
+                  // UK English
+                  S.listItem()
+                    .title('UK English (en-GB)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('featureCategory')
+                        .title('UK English Feature Categories')
+                        .filter('_type == "featureCategory" && language == "en-GB"')
+                        .defaultOrdering([{field: 'name', direction: 'asc'}])
+                    ),
+                  // Australia English
+                  S.listItem()
+                    .title('Australia English (en-AU)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('featureCategory')
+                        .title('Australia English Feature Categories')
+                        .filter('_type == "featureCategory" && language == "en-AU"')
+                        .defaultOrdering([{field: 'name', direction: 'asc'}])
+                    ),
                   // Create new
                   S.listItem()
                     .title('Create New Feature Category')
