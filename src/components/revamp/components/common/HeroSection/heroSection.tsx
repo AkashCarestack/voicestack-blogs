@@ -47,7 +47,7 @@ const HeroSection = ({ data, refer = null, video=undefined, page="" }) => {
   const descriptionComponents: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className="text-lg text-gray-950 leading-[28px] line-clamp-2 self-stretch font-normal">
+        <p className="text-lg text-gray-950 leading-[28px] line-clamp-2 self-stretch font-normal text-center md:text-left">
           {children}
         </p>
       ),
@@ -96,7 +96,7 @@ const HeroSection = ({ data, refer = null, video=undefined, page="" }) => {
 
   return (
     <section className={`${page == "home" ? "px-4 xl:px-12 pt-2": ""} bg-[#F9F9F9]  font-geist`}>
-      <div className={`${page == "home" ? "rounded-[24px] ": ""} bg-[linear-gradient(270deg,rgba(202,197,255,0.70)_0%,rgba(202,197,255,0.15)_51.44%,rgba(202,197,255,0.20)_100%)] justify-center`}>
+      <div className={`${page == "home" ? "rounded-[12px] md:rounded-[24px] ": ""} bg-[linear-gradient(270deg,rgba(202,197,255,0.70)_0%,rgba(202,197,255,0.15)_51.44%,rgba(202,197,255,0.20)_100%)] justify-center`}>
         <Container className="justify-center py-12">
           <div className="">
             <div className="flex flex-col lg:flex-row justify-between lg:gap-24 gap-12 items-center">
@@ -104,7 +104,7 @@ const HeroSection = ({ data, refer = null, video=undefined, page="" }) => {
               <div className="space-y-3 flex-1 max-w-[607px] w-full justify-center lg:justify-start">
                 {/* Feature Tag */}
                 {page === 'home' ? (
-                  <div className="flex w-fit mx-auto lg:mx-0 items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
+                  <div className="flex w-fit mx-auto lg:mx-0 text-center md:text-left items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
                     <SuperChargeIcon />
                     <span className="text-sm font-medium text-gray-950">
                       {data?.heroStrip}
@@ -135,7 +135,7 @@ const HeroSection = ({ data, refer = null, video=undefined, page="" }) => {
                 />
 
                 {data?.bookBtnContent && (
-                  <div className="flex flex-col sm:flex-row gap-4 pt-8 justify-center lg:justify-start items-center lg:items-start >">
+                  <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
                     <Button
                       type="primary"
                       className="w-fit"
@@ -156,8 +156,8 @@ const HeroSection = ({ data, refer = null, video=undefined, page="" }) => {
               </div>
 
               {/* Right Content - Video Section */}
-              <div className="relative w-full max-w-[537px] py-9">
-                <div className="relative w-full lg:h-[550px] rounded-[24px] overflow-hidden aspect-video">
+              <div className="relative w-full max-w-[537px] md:py-9">
+                <div className="relative w-full lg:h-[550px] rounded-[12px] md:rounded-[24px] overflow-hidden aspect-video">
                   {video ? (
                   <VideoPlayers
                     video={video[0]}

@@ -235,8 +235,8 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
       <Section id="features" className="py-sm md:py-md scroll-m-16 bg-gray-50">
         <Container className="flex flex-col items-center gap-16">
           <SectionHeader
-            heading="Powerful Packed With Features"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            heading="Feature-Packed to Improve Every Front Office Workflow"
+            description='Empower your team members with AI-powered calls, messages, and analytics across devices, to measure, analyze and optimize staff performance at every touch point in your practice'
           />
           
           <div className="bg-white rounded-2xl shadow-lg p-8 max-w-2xl w-full">
@@ -256,13 +256,13 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
   return (
     <Section id="features" className="py-sm md:py-md scroll-m-16 bg-gray-50">
       <Container className="flex flex-col items-center gap-16">
-        <SectionHeader
-          heading="Powerful Packed With Features"
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-        />
+      <SectionHeader
+            heading="Feature-Packed to Improve Every Front Office Workflow"
+            description='Empower your team members with AI-powered calls, messages, and analytics across devices, to measure, analyze and optimize staff performance at every touch point in your practice'
+          />
 
         {/* Desktop Layout - Two Column */}
-        <div className="hidden lg:flex gap-16 w-full ">
+        <div className="hidden lg:flex gap-16 w-full mt-[50px] ">
             {/* Left Sidebar - Sticky Category Navigation */}
             <div className="w-80 flex-shrink-0">
               <div className="sticky top-24">

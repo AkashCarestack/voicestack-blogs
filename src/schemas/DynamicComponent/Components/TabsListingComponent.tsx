@@ -65,7 +65,7 @@ const TabsListingComponent = {
                 {
                   name: 'description',
                   title: 'Description',
-                  type: 'string',
+                  type: 'blockContent',
                 },
                 {
                   name: 'image',
