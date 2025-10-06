@@ -11,24 +11,67 @@ export default defineType({
         type: 'string',
       }),
       defineField({
-        name: 'faqItems',
-        title: 'FAQ Items',
+        name: 'faqCategories',
+        title: 'FAQ Categories',
         type: 'array',
         of: [
           {
             type: 'object',
+            name: 'faqCategory',
+            title: 'FAQ Category',
             fields: [
-              {
-                name: 'question',
-                title: 'Question',
+              defineField({
+                name: 'categoryName',
+                title: 'Category Name',
                 type: 'string',
-              },
-              {
-                name: 'answer',
-                title: 'Answer',
-                type: 'customBlockContent',
-              },
+                validation: (Rule: any) => Rule.required(),
+              }),
+              defineField({
+                name: 'questions',
+                title: 'Questions & Answers',
+                type: 'array',
+                of: [
+                  {
+                    type: 'object',
+                    name: 'faqItem',
+                    title: 'FAQ Item',
+                    fields: [
+                      defineField({
+                        name: 'question',
+                        title: 'Question',
+                        type: 'string',
+                        validation: (Rule: any) => Rule.required(),
+                      }),
+                      defineField({
+                        name: 'answer',
+                        title: 'Answer',
+                        type: 'customBlockContent',
+                        validation: (Rule: any) => Rule.required(),
+                      }),
+                    ],
+                    preview: {
+                      select: {
+                        title: 'question',
+                      },
+ 
+                    },
+                  },
+                ],
+                
+              }),
             ],
+            preview: {
+              select: {
+                title: 'categoryName',
+                questionCount: 'faqItem.length',
+              },
+              prepare(selection: any) {
+                return {
+                  title: selection?.title || 'Untitled Category',
+                  // subtitle: `${selection?.questionCount || 0} questions`,
+                }
+              },
+            },
           },
         ],
       }),

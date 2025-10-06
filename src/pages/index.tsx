@@ -5,7 +5,6 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import CustomHead from '~/components/common/CustomHead'
-import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import LogoListingSection from '~/components/LogoListingSection'
 import LogoSliderSection from '~/components/LogoSliderSection'
 import CardListing from '~/components/revamp/components/cardListing'
@@ -31,7 +30,6 @@ import {
   getContactAndVideoInfo,
   getCsCardsSectionData,
   getFounderDetails,
-  getFeaturesList,
   getHeaderData,
   getIntegrationList,
   getTestimonialHighlightSectionData,
@@ -67,13 +65,12 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const integrationPlatforms = await getIntegrationList(client, region);
   const logoSectionData = await logoSection(client,region);
   const featureSectionData = await featureSectionQuery(client, region);
-  const faqSectionData = await fetchFaq(client,region)
   const cardsListingData = await getCardsSectionData(client,region)
   const cSCardsListingData = await getCsCardsSectionData(client,region)
   const testimonialHighlightsData = await getTestimonialHighlightSectionData(client,region)
   const bannerData = await getBannerData(client, region)
   const contactAndVideoData = await getContactAndVideoInfo(client, region)
-  const featuresData = await getFeaturesList(client, region)
+  const faqSectionData = await queries.fetchFaqData(region)
 
   return {
     props: {
@@ -98,8 +95,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
       bannerData,
       contactAndVideoData,
       tabListingData,
-      homeCardData,
-      featuresData
+      homeCardData
     },
     revalidate: 60
   }
@@ -170,8 +166,7 @@ export default function IndexPage(
     bannerData,
     contactAndVideoData,
     tabListingData,
-    homeCardData,
-    featuresData
+    homeCardData
   } = props
 
   const comparisonSectionData = {
@@ -182,12 +177,7 @@ export default function IndexPage(
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
-  const linkCardSectionData: any = heroSectionData?.heroSubFeature;
   const videoData = contactAndVideoData?.video;
-  console.log('homeCardData:', homeCardData)
-  console.log('globalDataReference:', homeCardData?.globalDataReference)
-  console.log('tabsListingComponent:', homeCardData?.globalDataReference?.tabsListingComponent)
-  console.log('tabs:', homeCardData?.globalDataReference?.tabsListingComponent?.tabs)
   
 
   return (
@@ -216,12 +206,11 @@ export default function IndexPage(
         )}
         {/* <AnimatedBeamSection data={integrationPlatforms} refer={refer} /> */}
         {/* <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection> */}
-        <CategoryFeatureTabs features={featuresData || []} />
         <SiteComparisonSection data={comparisonSectionData} legendData={comparisonLegendData} refer={refer}/>
         {/* <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/> */}
         <StatisticsSection />
         <LogoListingSection data={logoSectionData}  refer={refer}/>
-        <FaqSection faqItems={tabListingData?.faq.faqItems}/>
+        <FaqSection faqItems={faqSectionData.faqReferenced}/>
         {/* <BannerSection data={bannerData} refer={refer}></BannerSection>
         <LinksCardsSection data={linkCardSectionData} />
         <CardsListingSection data={cardsListingData}/> */}
