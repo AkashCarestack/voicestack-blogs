@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 import CustomHead from '~/components/common/CustomHead'
+import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import LogoListingSection from '~/components/LogoListingSection'
 import LogoSliderSection from '~/components/LogoSliderSection'
 import CardListing from '~/components/revamp/components/cardListing'
@@ -29,6 +30,7 @@ import {
   getComparisonTableData,
   getContactAndVideoInfo,
   getCsCardsSectionData,
+  getFeaturesList,
   getFounderDetails,
   getHeaderData,
   getIntegrationList,
@@ -71,6 +73,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const bannerData = await getBannerData(client, region)
   const contactAndVideoData = await getContactAndVideoInfo(client, region)
   const faqSectionData = await queries.fetchFaqData(region)
+  const featuresData = await getFeaturesList(client, region)
 
   return {
     props: {
@@ -95,9 +98,9 @@ export const getStaticProps: GetStaticProps<any> = async ({
       bannerData,
       contactAndVideoData,
       tabListingData,
-      homeCardData
+      homeCardData,
+      featuresData
     },
-    revalidate: 60
   }
 }
 
@@ -166,7 +169,8 @@ export default function IndexPage(
     bannerData,
     contactAndVideoData,
     tabListingData,
-    homeCardData
+    homeCardData,
+    featuresData
   } = props
 
   const comparisonSectionData = {
@@ -206,6 +210,7 @@ export default function IndexPage(
         )}
         {/* <AnimatedBeamSection data={integrationPlatforms} refer={refer} /> */}
         {/* <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection> */}
+        <CategoryFeatureTabs features={featuresData || []} />
         <SiteComparisonSection data={comparisonSectionData} legendData={comparisonLegendData} refer={refer}/>
         {/* <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/> */}
         <StatisticsSection />
