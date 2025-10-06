@@ -39,20 +39,19 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
   const { isDemoPopUpShown } = useContext(BookDemoContext);
   const [openForm, setOpenForm] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('');
-  const [forceUpdate, setForceUpdate] = useState(0);
+  const [isUserScrolling, setIsUserScrolling] = useState(false);
   
   // Refs for intersection observer
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const categoryRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const activeCategoryRef = useRef<string>('');
-  
-  // Debug: Log incoming features data
-  // console.log('CategoryFeatureTabs - Received features:', features.length, 'features');
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // Memoize the categories processing to prevent unnecessary re-renders
   const allCategories = useMemo(() => {
     const featuresByCategory = features.reduce((acc, feature) => {
       if (feature.featureCategory) {
+        // Feature has a category - group by category
         const category = feature.featureCategory;
         if (!acc[category.name]) {
           acc[category.name] = {
@@ -61,6 +60,22 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
           };
         }
         acc[category.name].features.push(feature);
+      } else {
+        const defaultCategoryName = "Other Features";
+        if (!acc[defaultCategoryName]) {
+          acc[defaultCategoryName] = {
+            category: {
+              name: defaultCategoryName,
+              description: "Additional features and capabilities",
+              subheading: null,
+              mainImage: null,
+              icon: null,
+              iconSvgCode: null
+            },
+            features: []
+          };
+        }
+        acc[defaultCategoryName].features.push(feature);
       }
       return acc;
     }, {} as Record<string, { category: any; features: Feature[] }>);
@@ -88,47 +103,59 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
     }
   }, [allCategories]);
 
-  // Intersection Observer for smooth category highlighting - DISABLED for now
-  // useEffect(() => {
-  //   const observerOptions = {
-  //     root: null,
-  //     rootMargin: '-120px 0px -60% 0px', // Account for header height (100px + 20px buffer)
-  //     threshold: 0.3
-  //   };
+  // Intersection Observer for smooth category highlighting
+  useEffect(() => {
+    // Only run observer if user is not manually scrolling
+    if (isUserScrolling) return;
 
-  //   const observer = new IntersectionObserver((entries) => {
-  //     // Only update if not scrolling and user hasn't manually clicked
-  //     if (isScrolling || userClicked) return;
-      
-  //     // Find the entry with the highest intersection ratio
-  //     let mostVisibleEntry = null;
-  //     let highestRatio = 0;
-      
-  //     entries.forEach((entry) => {
-  //       if (entry.isIntersecting && entry.intersectionRatio > highestRatio) {
-  //         highestRatio = entry.intersectionRatio;
-  //         mostVisibleEntry = entry;
-  //       }
-  //     });
-      
-  //     if (mostVisibleEntry && highestRatio > 0.5) { // Only update if significantly visible
-  //       const categoryName = mostVisibleEntry.target.getAttribute('data-category');
-  //       if (categoryName && categoryName !== activeCategory) {
-  //         setActiveCategory(categoryName);
-  //       }
-  //     }
-  //   }, observerOptions);
+    const observerOptions = {
+      root: null,
+      rootMargin: '-120px 0px -40% 0px',
+      threshold: [0.1, 0.5, 0.8]
+    };
 
-  //   // Observe all sections
-  //   Object.values(sectionRefs.current).forEach((ref) => {
-  //     if (ref) observer.observe(ref);
-  //   });
+    const observer = new IntersectionObserver((entries) => {
+      // Skip if user is manually scrolling
+      if (isUserScrolling) return;
+      
+      let mostVisibleEntry = null;
+      let highestRatio = 0;
+      
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio > highestRatio) {
+          highestRatio = entry.intersectionRatio;
+          mostVisibleEntry = entry;
+        }
+      });
+      
+      if (mostVisibleEntry && highestRatio > 0.3) {
+        const categoryName = mostVisibleEntry.target.getAttribute('data-category');
+        if (categoryName && categoryName !== activeCategoryRef.current) {
+          setActiveCategory(categoryName);
+          activeCategoryRef.current = categoryName;
+        }
+      }
+    }, observerOptions);
 
-  //   return () => observer.disconnect();
-  // }, [allCategories, isScrolling, userClicked, activeCategory]);
+    // Observe all sections
+    Object.values(sectionRefs.current).forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, [allCategories, isUserScrolling]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Smooth scroll to section
-  const scrollToSection = (categoryName: string) => {
+  const scrollToSection = useCallback((categoryName: string) => {
     const section = sectionRefs.current[categoryName];
     if (section) {
       const headerHeight = 100; // Adjust this value based on your header height
@@ -140,20 +167,56 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
         behavior: 'smooth'
       });
     }
-  };
+  }, []);
+
+  // Handle category button click - FIXED
+  const handleCategoryClick = useCallback((categoryName: string) => {
+    console.log('Category clicked:', categoryName);
+    
+    // Clear any existing timeout
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current);
+    }
+    
+    // Disable intersection observer FIRST
+    setIsUserScrolling(true);
+    
+    // Update active category immediately in ref AND state
+    activeCategoryRef.current = categoryName;
+    setActiveCategory(categoryName);
+    
+    // Use requestAnimationFrame to ensure state is updated before scroll
+    requestAnimationFrame(() => {
+      // Scroll to section
+      scrollToSection(categoryName);
+      
+      // Re-enable intersection observer after scroll completes
+      scrollTimeoutRef.current = setTimeout(() => {
+        setIsUserScrolling(false);
+      }, 1500);
+    });
+  }, [scrollToSection]);
 
   // Render category icon
-  const renderCategoryIcon = (category: any) => {
+  const renderCategoryIcon = (category: any, isActive: boolean = false) => {
     if (category.iconSvgCode) {
+      let modifiedSvg = category.iconSvgCode;
+      
+      if (isActive) {
+        modifiedSvg = modifiedSvg
+          .replace(/stroke="[^"]*"/g, 'stroke="#000000"')
+          .replace(/stroke='[^']*'/g, "stroke='#000000'");
+      } else {
+        modifiedSvg = modifiedSvg
+          .replace(/stroke="[^"]*"/g, 'stroke="currentColor"')
+          .replace(/stroke='[^']*'/g, "stroke='currentColor'");
+      }
+      
       return (
         <div 
-          className="w-4 h-4 flex items-center justify-center"
+          className="flex items-center justify-center"
           dangerouslySetInnerHTML={{
-            __html: category.iconSvgCode
-              .replace(/fill="[^"]*"/g, 'fill="currentColor"')
-              .replace(/stroke="[^"]*"/g, 'stroke="currentColor"')
-              .replace(/fill='[^']*'/g, "fill='currentColor'")
-              .replace(/stroke='[^']*'/g, "stroke='currentColor'")
+            __html: modifiedSvg
           }}
         />
       );
@@ -162,15 +225,17 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
         <Image
           src={category.icon.asset.url}
           alt={category.name}
-          width={16}
-          height={16}
+          width={24}
+          height={24}
           className="object-contain"
         />
       );
     } else {
       return (
-        <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center">
-          <span className="text-gray-600 text-sm">📋</span>
+        <div className="flex items-center justify-center">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke={isActive ? "#000000" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </div>
       );
     }
@@ -210,7 +275,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-7xl mx-auto">
           {/* Header Section */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-[114px]">
             <motion.h2 
               className="text-4xl font-bold text-gray-900 mb-4"
               initial={{ opacity: 0, y: 20 }}
@@ -233,42 +298,26 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <Button type='primary' onClick={() => setOpenForm(true)}>
-                <ButtonArrow />
-                <span>Book Free Demo</span>
-              </Button>
+        
             </motion.div>
           </div>
 
           {/* Desktop Layout - Two Column */}
-          <div className="hidden lg:flex gap-12">
+          <div className="hidden lg:flex gap-16">
             {/* Left Sidebar - Sticky Category Navigation */}
             <div className="w-80 flex-shrink-0">
               <div className="sticky top-24">
                 <div className="rounded-2xl">
-                  <div className="">
+                  <div className="flex flex-col gap-[6px] mb-[24px]">
                     {allCategories.map((category, index) => {
-                      const isActive = activeCategory === category.name || activeCategoryRef.current === category.name;
+                      const isActive = activeCategory === category.name;
                       
                       return (
                         <motion.button
                           key={category.name}
                           ref={(el) => (categoryRefs.current[category.name] = el)}
-                          onMouseDown={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            setActiveCategory(category.name);
-                            activeCategoryRef.current = category.name;
-                            setForceUpdate(prev => prev + 1);
-                          }}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            setActiveCategory(category.name);
-                            activeCategoryRef.current = category.name;
-                            setForceUpdate(prev => prev + 1);
-                            scrollToSection(category.name);
-                          }}
+                          onClick={() => handleCategoryClick(category.name)}
+                          type="button"
                           className={`w-full flex items-center self-stretch transition-all duration-300 ${
                             isActive 
                               ? '  bg-white rounded-full' 
@@ -281,22 +330,19 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.4, delay: index * 0.1 }}
-       
+                          whileTap={{ scale: 0.98 }}
                         >
                           <div 
-                            className={`text-2xl transition-colors duration-300 ${
-                              isActive ? '!text-gray-950' : 'text-gray-500'
+                            className={`transition-colors duration-300 ${
+                              isActive ? 'text-black' : 'text-gray-500'
                             }`}
                           >
-                            {renderCategoryIcon(category)}
+                            {renderCategoryIcon(category, isActive)}
                           </div>
                           <span 
                             className={`text-lg font-medium transition-colors duration-300 font-geist leading-7 tracking-normal ${
-                              isActive ? '!text-gray-950' : 'text-gray-500'
+                              isActive ? 'text-black' : 'text-gray-500'
                             }`}
-                            style={{
-                              color: 'var(--color-gray-500, #6A7282)'
-                            }}
                           >
                             {category.name}
                           </span>
@@ -304,21 +350,28 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                       );
                     })}
                   </div>
+                  <div className='flex flex-col gap-[20px] pt-[24px]'>
+                   <span className='block mt-4 text-zinc-500 font-sans text-base font-normal leading-6 tracking-normal'>For Smarter Patient Call Management
+                     </span>
+                    <div>
+                  <Button type='primary' onClick={() => setOpenForm(true)}>
+                    <span>Book Free Demo</span>
+                  </Button>
+                  </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Content - Scrollable Sections */}
             <div className="flex-1 space-y-16">
               {allCategories.map((category, index) => {
                 const isActive = activeCategory === category.name;
-                
                 return (
                   <motion.div
                     key={category.name}
                     ref={(el) => (sectionRefs.current[category.name] = el)}
                     data-category={category.name}
-                    className="bg-white rounded-2xl shadow-lg overflow-hidden"
+                    className="bg-white rounded-3xl shadow-lg overflow-hidden"
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -363,34 +416,33 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                       {/* Features List Section */}
                       <div className="flex flex-col justify-end items-start self-stretch !mt-0 pt-6 px-6 pb-2.5">
                       
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          {category.features.map((feature, featureIndex) => (
-                            <motion.div 
-                              key={feature._id} 
-                              className="flex items-center space-x-3"
-                              initial={{ opacity: 0, x: 20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ duration: 0.4, delay: featureIndex * 0.1 }}
-                            >
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                          {category.features.map((feature, featureIndex) => {
+                            const isLastItem = featureIndex === category.features.length - 1;
+                            return (
+                              <motion.div 
+                                key={feature._id} 
+                                className={`flex items-center gap-2 py-[14px] ${!isLastItem ? 'border-b border-gray-200' : ''}`}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.4, delay: featureIndex * 0.1 }}
+                              >
                               <div className="w-5 h-5  rounded-full flex items-center justify-center flex-shrink-0">
-                              <svg width="16" height="25" viewBox="0 0 16 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path fill-rule="evenodd" clip-rule="evenodd" d="M13.3633 7.52243C13.4261 7.57013 13.4789 7.62975 13.5187 7.69789C13.5584 7.76602 13.5844 7.84133 13.595 7.9195C13.6056 7.99767 13.6007 8.07717 13.5806 8.15345C13.5605 8.22973 13.5255 8.30128 13.4777 8.36403L7.07767 16.764C7.02576 16.8321 6.95989 16.8882 6.88449 16.9287C6.80908 16.9692 6.72589 16.9931 6.6405 16.9988C6.5551 17.0044 6.46948 16.9918 6.38937 16.9617C6.30927 16.9315 6.23654 16.8846 6.17607 16.824L2.57607 13.224C2.47009 13.1103 2.41239 12.9598 2.41513 12.8044C2.41788 12.649 2.48084 12.5007 2.59078 12.3907C2.70071 12.2808 2.84901 12.2178 3.00445 12.2151C3.1599 12.2123 3.31033 12.27 3.42407 12.376L6.53927 15.4904L12.5233 7.63683C12.6196 7.51039 12.7621 7.42733 12.9196 7.40588C13.0771 7.38443 13.2367 7.42635 13.3633 7.52243Z" fill="#030712"/>
-</svg>
-
+                              <svg width="16" height="25" viewBox="0 0 16 25" fill="black" xmlns="http://www.w3.org/2000/svg">
+                              <path fillRule="evenodd" clipRule="evenodd" d="M13.3633 7.52243C13.4261 7.57013 13.4789 7.62975 13.5187 7.69789C13.5584 7.76602 13.5844 7.84133 13.595 7.9195C13.6056 7.99767 13.6007 8.07717 13.5806 8.15345C13.5605 8.22973 13.5255 8.30128 13.4777 8.36403L7.07767 16.764C7.02576 16.8321 6.95989 16.8882 6.88449 16.9287C6.80908 16.9692 6.72589 16.9931 6.6405 16.9988C6.5551 17.0044 6.46948 16.9918 6.38937 16.9617C6.30927 16.9315 6.23654 16.8846 6.17607 16.824L2.57607 13.224C2.47009 13.1103 2.41239 12.9598 2.41513 12.8044C2.41788 12.649 2.48084 12.5007 2.59078 12.3907C2.70071 12.2808 2.84901 12.2178 3.00445 12.2151C3.1599 12.2123 3.31033 12.27 3.42407 12.376L6.53927 15.4904L12.5233 7.63683C12.6196 7.51039 12.7621 7.42733 12.9196 7.40588C13.0771 7.38443 13.2367 7.42635 13.3633 7.52243Z" fill="#030712"/>
+                              </svg>
                               </div>
                               <Link 
                                 href={`/features/${feature.slug.current}`}
-                                className="text-gray-700 hover:text-purple-600 transition-colors"
+                                className="text-gray-950 font-geist text-base font-normal leading-6 tracking-normal hover:text-purple-600 transition-colors"
                               >
                                 {feature.title}
                               </Link>
-                            </motion.div>
-                          ))}
+                              </motion.div>
+                            );
+                          })}
                         </div>
                       </div>
-
-                      {/* Action Buttons */}
- 
                     </div>
                   </motion.div>
                 );
@@ -413,17 +465,20 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                 >
                   {/* Accordion Header */}
                   <motion.button
-                    onClick={() => setActiveCategory(isActive ? '' : category.name)}
+                    onClick={() => {
+                      const newCategory = isActive ? '' : category.name;
+                      setActiveCategory(newCategory);
+                    }}
                     className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
                     whileTap={{ scale: 0.98 }}
                   >
                     <div className="flex items-center space-x-4">
                       <div 
-                        className={`text-2xl transition-colors duration-300 ${
+                        className={`transition-colors duration-300 ${
                           isActive ? 'text-purple-600' : 'text-gray-600'
                         }`}
                       >
-                        {renderCategoryIcon(category)}
+                        {renderCategoryIcon(category, isActive)}
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-gray-900">
