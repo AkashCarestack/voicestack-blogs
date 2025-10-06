@@ -33,7 +33,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       type === 'primary',
     'p-[1px] text-sm bg-gradient-to-r from-[#B5EB92] to-white shadow-[0_0_0_1px_#92D96A] hover:shadow-[0_0_0_2px_#92D96A] hover:from-white hover:to-[#B5EB92]':
       type === 'primarySm',
-    'border-2 border-[rgba(74,60,225,0.15)] hover:border-[rgba(74,60,225,0.15)] hover:bg-[rgba(0,0,0,0.05)] py-2.5 px-6':
+    'border-2 bg:white/10 border-[rgba(74,60,225,0.15)] hover:border-[rgba(74,60,225,0.15)] hover:bg-black/5 py-2.5 px-6':
       type === 'secondary',
     'text-base font-normal underline decoration-dotted decoration-2 underline-offset-4':
       type === 'underline',

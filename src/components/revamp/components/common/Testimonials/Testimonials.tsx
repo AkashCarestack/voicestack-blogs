@@ -2,6 +2,7 @@ import { isEmpty } from 'lodash'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import React, { useContext, useEffect, useRef, useState } from 'react'
+import { PortableText } from '@portabletext/react'
 
 import Button from '~/components/common/Button'
 import { FormModal } from '~/components/common/FormModal'
@@ -139,9 +140,15 @@ export default function Testimonials({ data, refer = null }) {
               </div>
             </div>
 
-              <Button className="bg-[#C8F46E] text-tiber-950 text-base font-medium px-6 py-3 rounded-md border-none w-fit">
-                Book Free Demo
-              </Button>
+            <Button
+            type="primary"
+            onClick={() => {
+              setOpenForm(true)
+            }}
+            className='w-fit'
+          >
+            <span className="text-base font-medium">{`Book free demo`}</span>
+          </Button>
             </div>
           </div>
           <div className="relative w-full max-w-[440px]  items-end justify-end hidden sm:flex">
@@ -202,7 +209,7 @@ export default function Testimonials({ data, refer = null }) {
   }
 
   return (
-    <Section className="relative py-12 md:py-24 bg-[#F9F9F9]">
+    <Section className="relative py-sm md:py-md lg:py-lg bg-[#F9F9F9]">
       <Container className="w-full relative">
         <div className="flex flex-col items-center w-full gap-16">
           <div className="flex justify-center w-full">
@@ -246,9 +253,11 @@ export default function Testimonials({ data, refer = null }) {
                             <h3 className="text-base md:text-lg font-bold text-gray-950 mb-4 font-manrope">
                               {activeTabData?.tabHeading}
                             </h3>
-                            <p className="text-gray-700 leading-relaxed text-sm md:text-base">
-                              {activeTabData?.description}
-                            </p>
+                            <div className="text-gray-700 leading-relaxed text-sm md:text-base">
+                              {activeTabData?.description && (
+                                <PortableText value={activeTabData.description} />
+                              )}
+                            </div>
                           </div>
                           <Button type="underline">Learn More</Button>
                         </div>
