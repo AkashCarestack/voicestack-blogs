@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Logo from 'public/assets/voicestack-logo-black.png'
-import LogoSm from 'public/assets/voicestack-logo-black.png'
-import React from 'react'
+import LogoSm from 'public/assets/voicestack-logo-sm.svg'
+import React, { useState } from 'react'
 
 import {
   Table,
@@ -31,6 +31,30 @@ const InfoIcon = ({className}:{className?:string}) => (
         fill="#D1D5DB"
       />
     </svg>
+  </span>
+)
+
+// Chevron Icon Component
+const ChevronIcon = ({ isOpen, className }: { isOpen: boolean; className?: string }) => (
+  <span className={`flex items-center transition-transform duration-200 ${isOpen ? 'rotate-180' : 'rotate-0'} ${className}`}>
+    {/* <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+    >
+      <path
+        d="M4 6L8 10L12 6"
+        stroke="#6B7280"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg> */}
+    <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M6 9.2002L12 15.2002L18 9.2002" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
   </span>
 )
 
@@ -84,6 +108,22 @@ function ComparisonRichIcon({ comparisonValue, showBoth = false }) {
 }
 
 export default function ComparisonTable({ data, legendData = [], demoLink }: ComparisonTableProps) {
+  // Initialize all categories as open by default
+  const [expandedCategories, setExpandedCategories] = useState<Record<number, boolean>>(() => {
+    const initial: Record<number, boolean> = {}
+    data.rowCategories.forEach((_, index) => {
+      initial[index] = true
+    })
+    return initial
+  })
+
+  const toggleCategory = (categoryIndex: number) => {
+    setExpandedCategories(prev => ({
+      ...prev,
+      [categoryIndex]: !prev[categoryIndex]
+    }))
+  }
+
   return (
     <div className="w-full font-inter overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
       <Table className="w-full border-collapse">
@@ -95,15 +135,15 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
             <TableHead className="sticky left-0 w-48 h-16 text-gray-900 text-left text-base font-medium px-6  border-gray-200 bg-white">
               {data.columnDimensionName}
             </TableHead>
-            <TableHead className="w-32 h-16 rounded-t-[12px]  text-center  bg-[rgba(74,60,225,0.05)] sticky left-[113px]">
-              <div className="flex-col items-center justify-center gap-2 w-[100px] lg:block hidden">
+            <TableHead className="w-32 h-16 rounded-t-[12px]  text-center  bg-[#F6F5FD] sticky left-[120px]">
+              <div className="flex-col items-center justify-center gap-2 w-[100px] lg:block hidden m-auto">
                 <Image
                   src={Logo}
                   alt="VoiceStack"
                   title="VoiceStack"
                 />
               </div>
-              <div className='lg:hidden block'> <Image src={LogoSm} alt="VoiceStack" title="VoiceStack" /></div>
+              <div className='m-auto lg:hidden inline-block'> <Image src={LogoSm} width={30} height={30} alt="VoiceStack" title="VoiceStack" /></div>
             </TableHead>
             {data.columns
               .filter((_, idx) => idx != 0)
@@ -134,11 +174,17 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
           {data.rowCategories.map((category, categoryIndex) => (
             <React.Fragment key={categoryIndex}>
               <TableRow className="border-t-[1px] border-b-[1px] border-gray-200 ">
-                <TableCell className="sticky left-0 lg:text-lg font-bold text-[#111827] text-sm  py-[18px] border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={5}>
-                  {category.name}
+                <TableCell className="sticky left-0 lg:text-lg font-bold text-[#111827] text-sm  border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={5}>
+                  <button
+                    onClick={() => toggleCategory(categoryIndex)}
+                    className="flex items-center gap-2 justify-between hover:opacity-80 transition-opacity cursor-pointer w-full text-left py-[18px]"
+                  >
+                    {category.name}
+                    <ChevronIcon isOpen={expandedCategories[categoryIndex]} />
+                  </button>
                 </TableCell>
               </TableRow>
-              {category.rows.map((row, rowIndex) => (
+              {expandedCategories[categoryIndex] && category.rows.map((row, rowIndex) => (
                 <TableRow
                   key={rowIndex}
                   className=" h-[90px]"
@@ -152,7 +198,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
                       key={idx}
                       className={`text-center border-0 ${
                         idx == 0 
-                          ? 'bg-[rgba(74,60,225,0.05)] sticky left-[113px]'
+                          ? 'bg-[#F6F5FD] sticky left-[120px]'
                           : 'bg-white '
                       }`}
                     >
