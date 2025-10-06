@@ -7,6 +7,9 @@ import ButtonArrow from '../icons/ButtonArrow';
 import { FormModal } from '../common/FormModal';
 import { BookDemoContext } from '~/providers/BookDemoProvider';
 import ImageLoader from '../common/imageLoader/imageLoader';
+import Section from '../structure/Section';
+import Container from '../structure/Container';
+import SectionHeader from '../revamp/components/common/sectionHeader';
 
 interface Feature {
   _id: string;
@@ -50,8 +53,8 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
   // Memoize the categories processing to prevent unnecessary re-renders
   const allCategories = useMemo(() => {
     const featuresByCategory = features.reduce((acc, feature) => {
-      if (feature.featureCategory) {
-        // Feature has a category - group by category
+      // Only process features that have a proper category assigned
+      if (feature.featureCategory && feature.featureCategory.name) {
         const category = feature.featureCategory;
         if (!acc[category.name]) {
           acc[category.name] = {
@@ -60,23 +63,8 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
           };
         }
         acc[category.name].features.push(feature);
-      } else {
-        const defaultCategoryName = "Other Features";
-        if (!acc[defaultCategoryName]) {
-          acc[defaultCategoryName] = {
-            category: {
-              name: defaultCategoryName,
-              description: "Additional features and capabilities",
-              subheading: null,
-              mainImage: null,
-              icon: null,
-              iconSvgCode: null
-            },
-            features: []
-          };
-        }
-        acc[defaultCategoryName].features.push(feature);
       }
+      // Skip features without categories - no dummy "Other Features" category
       return acc;
     }, {} as Record<string, { category: any; features: Feature[] }>);
 
@@ -244,66 +232,37 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
   // If no categories found, show a message
   if (allCategories.length === 0) {
     return (
-      <div className="bg-gray-50 min-h-screen">
-        <div className="container mx-auto px-4 py-16">
-          <div className="max-w-7xl mx-auto">
-            <div className="text-center">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">
-                Powerful Packed With Features
-              </h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      <Section id="features" className="py-sm md:py-md scroll-m-16 bg-gray-50">
+        <Container className="flex flex-col items-center gap-16">
+          <SectionHeader
+            heading="Powerful Packed With Features"
+            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+          />
+          
+          <div className="bg-white rounded-2xl shadow-lg p-8 max-w-2xl w-full">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Categories</h3>
+            <div className="text-center py-8">
+              <p className="text-gray-600 mb-4">No categorized features found.</p>
+              <p className="text-sm text-gray-500">
+                Features need to be properly assigned to categories in the CMS to display here.
               </p>
-              <div className="bg-white rounded-2xl shadow-lg p-8">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Categories</h3>
-                <div className="text-center py-8">
-                  <p className="text-gray-600 mb-4">No feature categories found.</p>
-                  <p className="text-sm text-gray-500">
-                    Features need to be assigned to categories to display here.
-                  </p>
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </Container>
+      </Section>
     );
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto px-4 py-16">
-        <div className="max-w-7xl mx-auto">
-          {/* Header Section */}
-          <div className="text-center mb-[114px]">
-            <motion.h2 
-              className="text-4xl font-bold text-gray-900 mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              Powerful Packed With Features
-            </motion.h2>
-            <motion.p 
-              className="text-xl text-gray-600 max-w-3xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </motion.p>
-            <motion.div 
-              className="mt-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-        
-            </motion.div>
-          </div>
+    <Section id="features" className="py-sm md:py-md scroll-m-16 bg-gray-50">
+      <Container className="flex flex-col items-center gap-16">
+        <SectionHeader
+          heading="Powerful Packed With Features"
+          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        />
 
-          {/* Desktop Layout - Two Column */}
-          <div className="hidden lg:flex gap-16">
+        {/* Desktop Layout - Two Column */}
+        <div className="hidden lg:flex gap-16 w-full ">
             {/* Left Sidebar - Sticky Category Navigation */}
             <div className="w-80 flex-shrink-0">
               <div className="sticky top-24">
@@ -350,8 +309,8 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                       );
                     })}
                   </div>
-                  <div className='flex flex-col gap-[20px] pt-[24px]'>
-                   <span className='block mt-4 text-zinc-500 font-sans text-base font-normal leading-6 tracking-normal'>For Smarter Patient Call Management
+                  <div className='flex flex-col gap-[20px] pt-[24px] border-t border-gray-200'>
+                   <span className='block  text-zinc-500 font-sans text-base font-normal leading-6 tracking-normal'>For Smarter Patient Call Management
                      </span>
                     <div>
                   <Button type='primary' onClick={() => setOpenForm(true)}>
@@ -383,13 +342,13 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                           background: 'linear-gradient(277deg, rgba(202, 197, 255, 0.20) 0%, rgba(202, 197, 255, 0.50) 49.61%, rgba(202, 197, 255, 0.10) 100.18%)',
                         }}>
                         <div className='flex flex-col lg:flex-row gap-4'>
-                          <div className="w-full flex flex-col justify-end items-start gap-2 flex-1 self-stretch lg:w-1/2 !pt-12 p-8">
-                            <span className="text-2xl font-bold text-gray-900 uppercase tracking-normal font-manrope leading-8" style={{
+                          <div className="w-full flex flex-col justify-end items-start gap-2 flex-1 self-stretch lg:w-1/2 px-8 p-12">
+                            <span className="text-2xl font-bold text-gray-900  tracking-normal font-manrope leading-8" style={{
                               color: 'var(--Default-gray-900, #111827)'
                             }}>
-                              {category.name.toUpperCase()}
+                              {category.name}
                             </span>
-                            <h3 className="text-base font-normal text-gray-700 mt-2 mb-4 font-geist leading-6 tracking-normal" style={{
+                            <h3 className="text-base font-normal text-gray-700 mt-2 font-geist leading-6 tracking-normal" style={{
                               color: 'var(--color-gray-700, #364153)'
                             }}>
                               {category.description}
@@ -450,8 +409,8 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
             </div>
           </div>
 
-          {/* Mobile Layout - Accordion */}
-          <div className="lg:hidden space-y-4">
+        {/* Mobile Layout - Accordion */}
+        <div className="lg:hidden space-y-4 w-full max-w-7xl">
             {allCategories.map((category, index) => {
               const isActive = activeCategory === category.name;
               
@@ -608,16 +567,15 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
               );
             })}
           </div>
-        </div>
-      </div>
-      
-      {openForm && (
-        <FormModal
-          className={`pt-9 flex items-start`}
-          onClose={() => setOpenForm(false)}
-          data={isDemoPopUpShown}
-        />
-      )}
-    </div>
-  );
+        </Container>
+        
+        {openForm && (
+          <FormModal
+            className={`pt-9 flex items-start`}
+            onClose={() => setOpenForm(false)}
+            data={isDemoPopUpShown}
+          />
+        )}
+      </Section>
+    );
 }
