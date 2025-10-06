@@ -84,6 +84,17 @@ export default defineType({
       },
       group: 'basic',
     }),
+    defineField({
+      name: 'faqReferenced',
+      title: 'FAQ',
+      type: 'reference',
+      to: [{ type: 'faqRevamp' }],
+      options: {
+        filter: 'defined(_id)',
+      },
+      group: 'basic',
+      
+    }),
 
     defineField({
       name: 'navigationMenu',
