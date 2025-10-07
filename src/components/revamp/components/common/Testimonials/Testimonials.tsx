@@ -233,7 +233,7 @@ export default function Testimonials({ data, refer = null }) {
 
           {/* Tab Content */}
           <div className="flex w-full gap-8 z-10 relative">
-            <div className="w-full relative rounded-[24px] overflow-hidden min-h-[504px]">
+            <div className="w-full relative rounded-[12px] md:rounded-[24px] overflow-hidden min-h-[504px]">
               <div className="flex flex-col lg:flex-row w-full h-full">
                 <Image
                   src="/assets/Bg/BG01.png"
@@ -245,7 +245,7 @@ export default function Testimonials({ data, refer = null }) {
                 <div className="w-full flex flex-col lg:flex-row gap-3">
                    {/* Left Panel - Description */}
                    <div className="p-3 z-10 lg:max-w-[320px] w-full h-full flex">
-                     <div className="bg-[#F4F3FA] hover:bg-[#F0EFFA] transition-all duration-300 ease-in-out rounded-[24px] p-6 flex-1 cursor-pointer">
+                     <div className="bg-[#F4F3FA] hover:bg-[#F0EFFA] transition-all duration-300 ease-in-out rounded-[12px] md:rounded-[24px] p-6 flex-1 cursor-pointer">
                       <div className="group flex flex-col gap-6 justify-between h-full">
                         <IconBadge icon={activeTabData?.icon} />
                         <div className="flex flex-col gap-6 items-start ">

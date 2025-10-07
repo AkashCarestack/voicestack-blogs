@@ -1,6 +1,6 @@
 import React from 'react'
 import { PreviewProps } from 'sanity'
-import { urlFor } from '~/lib/sanity.image'
+import { urlForImage } from '~/lib/sanity.image'
 
 interface FeatureCategoryPreviewProps extends PreviewProps {
   title?: string
@@ -16,7 +16,7 @@ const FeatureCategoryPreviewComponent: React.FC<FeatureCategoryPreviewProps> = (
 }) => {
   const getLanguageFlag = () => {
     if (countryFlag) {
-      return urlFor(countryFlag).width(20).height(15).url()
+      return urlForImage(countryFlag, { width: 20, height: 15 })
     }
     
     // Fallback to emoji flags based on language

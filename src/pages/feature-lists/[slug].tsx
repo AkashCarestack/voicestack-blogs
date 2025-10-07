@@ -26,7 +26,6 @@ export default function FeatureListPage({ featureList, currentLanguage }: Featur
       <SimpleHead
         title={featureList.metaTitle || `${featureList.title} - VoiceStack`}
         description={featureList.metaDescription || featureList.description}
-        keywords={featureList.keywords}
       />
       
       <div className="min-h-screen bg-gray-50">
@@ -35,7 +34,14 @@ export default function FeatureListPage({ featureList, currentLanguage }: Featur
             title={featureList.title}
             description={featureList.description}
             features={featureList.features || []}
-            displaySettings={featureList.displaySettings}
+            displaySettings={featureList.displaySettings || {
+              layout: 'grid',
+              itemsPerRow: 3,
+              showCategories: true,
+              showSearch: true,
+              showCTAs: true,
+              highlightedFeaturesFirst: false
+            }}
             className="max-w-7xl mx-auto"
           />
         </div>
