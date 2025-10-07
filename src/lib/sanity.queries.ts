@@ -564,7 +564,7 @@ export async function fetchFaq(
   client: SanityClient,
   region: string,
 ): Promise<any> {
-  const query = groq`*[_type == "faq" && language ==$region] |order(order asc)`
+  const query = groq`*[_type == "faq" && language == $region] |order(order asc)`
   return await client.fetch(query, { region })
 }
 
@@ -628,7 +628,7 @@ export async function fetchTermsAndCondition(
 }
 
 export async function getALLHomeSettings(client: SanityClient, region: string) {
-  const query = groq`*[_type == "homeSettings" && language ==$region][0]{
+  const query = groq`*[_type == "homeSettings" && language == $region][0]{
     ...,
    "selectedIntegrations": integration[]->{
         "image": integrationProductImage.asset->{
@@ -702,7 +702,7 @@ export async function getALLHomeSettings(client: SanityClient, region: string) {
 }
 
 export async function getHeaderData(client: SanityClient, region: string) {
-  const query = groq`*[_type == "homeSettings" && language ==$region][0]{
+  const query = groq`*[_type == "homeSettings" && language == $region][0]{
     navigationMenu,
     topNavigationMenu,
     phoneNumber,
