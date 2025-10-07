@@ -36,7 +36,7 @@ export default function CardListing({ data }: any) {
                   <div className="md:max-w-[608px] h-[350] w-full">
                     <ImageLoader
                       image={urlForImage(e?.image)}
-                      className="w-full h-full object-cover md:rounded-[24px] !rounded-[12px] overflow-hidden"
+                      className="w-full h-full object-cover md:rounded-[24px] rounded-[12px] overflow-hidden"
                     />
                   </div>
                   <div className="flex flex-col gap-3 md:py-8 py-4 md:px-3 px-2">
