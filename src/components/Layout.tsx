@@ -31,11 +31,7 @@ export default function Layout({
   fullWidth = false,
 }: LayoutProps) {
 
-  const { headerData, footerData, loading } = useLayoutData();
-
-  // console.log('Layout component - headerData:', headerData);
-  // console.log('Layout component - footerData:', footerData);
-  // console.log('Layout component - loading:', loading);
+  const { headerData, footerData, loading, error } = useLayoutData();
 
   if (loading) {
     return (

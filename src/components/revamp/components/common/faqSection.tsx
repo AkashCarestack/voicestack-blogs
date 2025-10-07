@@ -5,6 +5,8 @@ import SectionHeader from './sectionHeader'
 import Container from '~/components/structure/Container'
 
 export default function FaqSection({ faqItems }: any) {
+
+  const [hideCategory, setHideCategory] = useState(faqItems?.hideCategory)
   const [isOpen, setIsOpen] = useState({})
   const [activeCategory, setActiveCategory] = useState(null)
   const [isTransitioning, setIsTransitioning] = useState(false)
@@ -105,13 +107,13 @@ export default function FaqSection({ faqItems }: any) {
         description={'For queries contact'}
         mailId={'support@voicestack.com'}
       />
-      <div className='flex md:flex-row flex-col md:gap-16 gap-6'>
+      <div className='flex lg:flex-row flex-col md:gap-16 gap-6'>
         {/* Mobile Dropdown */}
-        <div className="md:hidden w-full">
+        <div className="lg:hidden w-full">
           <div className="relative dropdown-container">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-[12px] px-3 py-2 text-left font-medium leading-[155%] md:text-lg text-base text-gray-950"
+              className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-[12px] px-4 py-3 text-left font-medium leading-[155%] md:text-lg text-sm text-gray-950"
             >
               <span>{activeCategoryData?.categoryName || 'Select Category'}</span>
               <ChevronDown className={`w-5 h-5 text-gray-600 transition-transform duration-200 ${
@@ -127,7 +129,7 @@ export default function FaqSection({ faqItems }: any) {
                       showActiveCategory(category._key)
                       setIsDropdownOpen(false)
                     }}
-                    className={`w-full text-left px-3 py-2 font-medium leading-[155%] md:text-lg text-base transition-colors first:rounded-t-[12px] last:rounded-b-[12px] hover:bg-gray-50 ${
+                    className={`w-full text-left px-3 py-2 font-medium leading-[155%] md:text-lg text-sm transition-colors first:rounded-t-[12px] last:rounded-b-[12px] hover:bg-gray-50 ${
                       activeCategory === category._key 
                         ? 'bg-gray-100 text-gray-950' 
                         : 'text-gray-500'
@@ -142,7 +144,8 @@ export default function FaqSection({ faqItems }: any) {
         </div>
 
         {/* Desktop Categories Sidebar */}
-        <div className="hidden md:flex flex-col gap-1.5">
+        { !hideCategory && (
+        <div className="hidden lg:flex flex-col gap-1.5">
           {categories.map((category: any) => (
             <button 
               key={category._key}
@@ -156,7 +159,7 @@ export default function FaqSection({ faqItems }: any) {
               {category.categoryName}
             </button>
           ))}
-        </div>
+        </div>)}
 
         {/* Questions and Answers */}
         <div className='flex-1'>
@@ -171,7 +174,7 @@ export default function FaqSection({ faqItems }: any) {
                 return (
                   <div 
                     key={questionKey} 
-                    className={`border rounded-[16px] md:p-4 p-2 transition-all duration-300 ease-in-out ${
+                    className={`border rounded-[16px] md:p-4 p-2 py-6 px-4  transition-all duration-300 ease-in-out ${
                       isQuestionOpen 
                         ? 'bg-gray-200 border-none shadow-sm' 
                         : 'border-gray-200 hover:border-gray-300'

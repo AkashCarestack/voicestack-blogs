@@ -283,6 +283,15 @@ const Header = ({ data, refer=null }) => {
       window.removeEventListener("hashchange", checkHash);
     };
   }, []);
+
+  // Add fallback data if data is null
+  const safeData = data || {
+    navigationMenu: [],
+    topNavigationMenu: [],
+    phoneNumber: '',
+    ctabutton: 'Book Demo'
+  };
+  
   
 
   const btnClass = "bg-vs-blue hover:bg-vs-blue text-white border border-vs-blue px-[17px] py-[10px] rounded-[7px] text-gray-900 font-inter text-base font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]";
@@ -342,23 +351,23 @@ const Header = ({ data, refer=null }) => {
           <div className="flex justify-end w-full lg:px-12">
             <div className="flex justify-end items-center gap-3">
               {/* Phone Number */}
-              {data?.phoneNumber && (
+              {safeData?.phoneNumber && (
                 <div className='flex items-center gap-2 text-gray-900 text-sm mr-3'>
                   <span>Talk to an expert</span>
                   <Anchor 
-                    href={`tel:${data?.phoneNumber}`} 
+                    href={`tel:${safeData?.phoneNumber}`} 
                     className='text-gray-900 text-sm font-semibold flex items-center gap-2 hover:text-gray-800 transition-colors'
                   >
                     {/* <TelIcon className="w-4 h-4" /> */}
-                    {data?.phoneNumber}
+                    {safeData?.phoneNumber}
                   </Anchor>
                 </div>
               )}
 
               {/* top */}
-              {data?.topNavigationMenu && (
+              {safeData?.topNavigationMenu && (
                 <div className='flex items-center gap-6 text-gray-900 text-sm'>
-                  {data?.topNavigationMenu.map((item: any) => (
+                  {safeData?.topNavigationMenu.map((item: any) => (
                     <Anchor key={item._key} href={item.href} className='text-gray-900 text-sm font-normal flex items-center gap-2 hover:text-gray-800 transition-colors'>{item.label}</Anchor>
                   ))}
                 </div>
@@ -450,7 +459,7 @@ const Header = ({ data, refer=null }) => {
                     <div className={`lg:flex-row top-[110px] right-0 px-4 pt-4 pb-8 w-full lg:w-auto lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col 
                       gap-2 justify-between lg:items-center flex`}>
                       <nav className="flex items-center flex-col lg:flex-row lg:gap-y-4 gap-x-4 xl:gap-x-6 w-full lg:w-auto flex-wrap ">
-                        {data?.navigationMenu && data?.navigationMenu?.map((link:any, i:number) => {
+                        {safeData?.navigationMenu && safeData?.navigationMenu?.map((link:any, i:number) => {
                          
                         let isExternal = link?.href?.includes('http')
                         const hasSubmenu = link?.hasSubmenu && link?.submenu?.length > 0
@@ -542,14 +551,14 @@ const Header = ({ data, refer=null }) => {
                     <div className='flex flex-col gap-8'>
 
                       <div className='flex flex-col md:flex-row gap-3 md:gap-5 items-center lg:hidden'>
-                        {data?.phoneNumber && (
+                        {safeData?.phoneNumber && (
                           <div className='flex-shrink-0'>
-                            <Anchor href={`tel:${data?.phoneNumber}`} className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
-                            border border-gray-300'><TelIcon className="text-white"/>{data?.phoneNumber}</Anchor>
+                            <Anchor href={`tel:${safeData?.phoneNumber}`} className='text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]  
+                            border border-gray-300'><TelIcon className="text-white"/>{safeData?.phoneNumber}</Anchor>
                           </div>
                         )}
                         <Button type='primary'  onClick={() => {setOpenForm(true)}}>
-                          <span>{data?.ctabutton}</span>
+                          <span>{safeData?.ctabutton}</span>
                         </Button>
                       </div>
 

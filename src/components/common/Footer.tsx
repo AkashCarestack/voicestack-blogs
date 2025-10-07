@@ -17,8 +17,14 @@ const Footer = ({data}) => {
   const { isDemoPopUpShown } = useContext(BookDemoContext);
   const [openForm, setOpenForm] = useState(false);
 
-  // Debug: Log app store data
-  // console.log('Footer app store data:', data?.appStoreLinks);
+  // Add fallback data if data is null
+  const safeData = data || {
+    title: 'VoiceStack',
+    footerColumns: [],
+    socialMedia: {},
+    bottomLinks: [],
+    copyrightText: '© 2024 VoiceStack. All rights reserved.'
+  };
 
   const [isUk, setIsUk] = useState(false);
   const [isAu, setIsAu] = useState(false);
@@ -71,7 +77,7 @@ const Footer = ({data}) => {
           {/* Main Footer Content */}
           <div className="pt-8 md:pt-3">
             {/* Footer Columns */}
-            {data?.footerColumns && data.footerColumns.length > 0 && (
+            {safeData?.footerColumns && safeData.footerColumns.length > 0 && (
               <div 
                 className="grid grid-cols-2 md:grid-cols-3 md:p-8 p-4 rounded-xl lg:grid-cols-6 gap-6"
                 style={{
@@ -81,7 +87,7 @@ const Footer = ({data}) => {
                   backdropFilter: 'blur(8px)'
                 }}
               >
-                {data.footerColumns.map((column: any, index: number) => (
+                {safeData.footerColumns.map((column: any, index: number) => (
                   <div key={index} className="space-y-4">
                     <h4 className="text-white/40 font-geist text-base font-medium leading-6 tracking-normal">
                       {column.title}
@@ -301,10 +307,10 @@ const Footer = ({data}) => {
              
 
               {/* Bottom Footer Links */}
-              {data?.bottomLinks && data.bottomLinks.length > 0 && (
+              {safeData?.bottomLinks && safeData.bottomLinks.length > 0 && (
                 <div className="mt-4 pt-4 border-t border-gray-800">
                   <ul className='flex flex-wrap items-center justify-center gap-4'>
-                    {data.bottomLinks.map((linkItem: any, index: number) => (
+                    {safeData.bottomLinks.map((linkItem: any, index: number) => (
                       <li className='text-gray-400 font-inter text-sm font-medium leading-[115%]' key={index}>
                         <Anchor 
                           href={linkItem.link} 
@@ -321,7 +327,7 @@ const Footer = ({data}) => {
             </div>
             <div className='mb-5 py-3 md:text-left text-center'>
                  <span className='text-zinc-600 font-inter text-sm font-medium leading-[115%]'>
-                   @{CopyrightYear} {data?.copyrightText || 'VoiceStack'} 
+                   @{CopyrightYear} {safeData?.copyrightText || 'VoiceStack'} 
                  </span>
                </div>
           </div>

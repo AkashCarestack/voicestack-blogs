@@ -75,6 +75,12 @@ export default defineType({
           },
         ],
       }),
+      defineField({
+        name: 'hideCategory',
+        title: 'Hide Category',
+        type: 'boolean',
+        initialValue: false,
+      }),
     
 
     defineField({
