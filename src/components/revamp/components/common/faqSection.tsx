@@ -5,6 +5,8 @@ import SectionHeader from './sectionHeader'
 import Container from '~/components/structure/Container'
 
 export default function FaqSection({ faqItems }: any) {
+
+  const [hideCategory, setHideCategory] = useState(faqItems?.hideCategory)
   const [isOpen, setIsOpen] = useState({})
   const [activeCategory, setActiveCategory] = useState(null)
   const [isTransitioning, setIsTransitioning] = useState(false)
@@ -142,6 +144,7 @@ export default function FaqSection({ faqItems }: any) {
         </div>
 
         {/* Desktop Categories Sidebar */}
+        { !hideCategory && (
         <div className="hidden md:flex flex-col gap-1.5">
           {categories.map((category: any) => (
             <button 
@@ -156,7 +159,7 @@ export default function FaqSection({ faqItems }: any) {
               {category.categoryName}
             </button>
           ))}
-        </div>
+        </div>)}
 
         {/* Questions and Answers */}
         <div className='flex-1'>
