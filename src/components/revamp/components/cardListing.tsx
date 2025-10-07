@@ -33,7 +33,7 @@ export default function CardListing({ data }: any) {
             data?.tabs?.map((e: any) => {
               return (
                 <div key={e._key} className="md:max-w-[608px] md:gap-6 gap-4">
-                  <div className="md:max-w-[608px] h-[350] w-full">
+                  <div className="md:max-w-[608px] h-[350px] w-full">
                     <ImageLoader
                       image={urlForImage(e?.image)}
                       className="w-full h-full object-cover md:rounded-[24px] rounded-[12px] overflow-hidden"
