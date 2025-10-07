@@ -39,59 +39,19 @@ export default function LayoutDataProvider({ children }: LayoutDataProviderProps
   useEffect(() => {
     const fetchLayoutData = async () => {
       try {
-        console.log('LayoutDataProvider: Starting data fetch...');
         const region = router.locale || 'en';
-        console.log('LayoutDataProvider: Using region:', region);
-        
-        // Check environment variables
-        console.log('LayoutDataProvider: Environment check:', {
-          hasProjectId: !!process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-          hasDataset: !!process.env.NEXT_PUBLIC_SANITY_DATASET,
-          hasReadToken: !!process.env.SANITY_API_READ_TOKEN,
-          projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-          dataset: process.env.NEXT_PUBLIC_SANITY_DATASET
-        });
-        
         const client = getClient();
-        console.log('LayoutDataProvider: Sanity client created');
         
-        // Test basic connectivity first
-        console.log('LayoutDataProvider: Testing Sanity connectivity...');
-        try {
-          const testQuery = `*[_type == "homeSettings"] | order(_createdAt desc) [0..2] { _id, language, _type }`;
-          const testResult = await client.fetch(testQuery);
-          console.log('LayoutDataProvider: Test query result:', testResult);
-        } catch (testError) {
-          console.error('LayoutDataProvider: Test query failed:', testError);
-        }
-        
-        // Test individual queries
-        console.log('LayoutDataProvider: Fetching header data...');
-        const header = await getHeaderData(client, region);
-        console.log('LayoutDataProvider: Header data received:', header);
-        
-        console.log('LayoutDataProvider: Fetching footer data...');
-        const footer = await getFooterData(client, region);
-        console.log('LayoutDataProvider: Footer data received:', footer);
-        
-        // Check if data is null or empty
-        if (!header) {
-          console.warn('LayoutDataProvider: Header data is null/undefined');
-        }
-        if (!footer) {
-          console.warn('LayoutDataProvider: Footer data is null/undefined');
-        }
+        const [header, footer] = await Promise.all([
+          getHeaderData(client, region),
+          getFooterData(client, region)
+        ]);
         
         setHeaderData(header);
         setFooterData(footer);
         setError(null);
       } catch (error) {
-        console.error('LayoutDataProvider: Error fetching layout data:', error);
-        console.error('LayoutDataProvider: Error details:', {
-          message: error.message,
-          stack: error.stack,
-          name: error.name
-        });
+        console.error('Error fetching layout data:', error);
         setError(error.message);
         
         // Set fallback data to prevent null data issues
