@@ -265,7 +265,7 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
                         <div className="absolute backdrop-blur-[49px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_90%,#000_100%)] left-0 top-0 z-[1] w-full h-full" />
                       </div>
                       <div className="absolute bottom-0 h-64 mix-blend-darken w-full z-0 "></div>
-                      <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10">
+                      <div className="absolute bottom-0 left-0 right-0 p-6 text-white z-10 bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.1)_100%),linear-gradient(180deg,rgba(0,0,0,0)_0%,#000_100%)]">
                         <div className="w-full">
                           {/* Content that shows by default and hides on hover */}
                           <div className="flex flex-col gap-3 group-hover:opacity-0 group-hover:pointer-events-none transition-opacity duration-300">
