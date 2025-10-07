@@ -1,12 +1,11 @@
 import React, { useState, useContext, useEffect, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { motion} from 'framer-motion';
 import Button from '../common/Button';
 import ButtonArrow from '../icons/ButtonArrow';
 import { FormModal } from '../common/FormModal';
 import { BookDemoContext } from '~/providers/BookDemoProvider';
-import ImageLoader from '../common/imageLoader/imageLoader';
 import Section from '../structure/Section';
 import Container from '../structure/Container';
 import SectionHeader from '../revamp/components/common/sectionHeader';
@@ -202,7 +201,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
       
       return (
         <div 
-          className="flex items-center justify-center"
+          className="flex items-center justify-center w-5 h-5"
           dangerouslySetInnerHTML={{
             __html: modifiedSvg
           }}
@@ -213,15 +212,15 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
         <Image
           src={category.icon.asset.url}
           alt={category.name}
-          width={24}
-          height={24}
+          width={20}
+          height={20}
           className="object-contain"
         />
       );
     } else {
       return (
-        <div className="flex items-center justify-center">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className="flex items-center justify-center w-5 h-5">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke={isActive ? "#000000" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </div>
@@ -232,13 +231,12 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
   // If no categories found, show a message
   if (allCategories.length === 0) {
     return (
-      <Section id="features" className="py-sm md:py-md scroll-m-16 bg-gray-50">
+      <Section id="features" className="py-sm md:py-md lg:py-lg scroll-m-16 bg-gray-50">
         <Container className="flex flex-col items-center gap-16">
           <SectionHeader
             heading="Feature-Packed to Improve Every Front Office Workflow"
             description='Empower your team members with AI-powered calls, messages, and analytics across devices, to measure, analyze and optimize staff performance at every touch point in your practice'
           />
-          
           <div className="bg-white rounded-2xl shadow-lg p-8 max-w-2xl w-full">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Categories</h3>
             <div className="text-center py-8">
@@ -254,12 +252,12 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
   }
 
   return (
-    <Section id="features" className="py-sm md:py-md scroll-m-16 bg-gray-50">
+    <Section id="features" className="py-sm md:py-md lg:py-lg scroll-m-16 bg-gray-50">
       <Container className="flex flex-col items-center gap-16">
       <SectionHeader
             heading="Feature-Packed to Improve Every Front Office Workflow"
             description='Empower your team members with AI-powered calls, messages, and analytics across devices, to measure, analyze and optimize staff performance at every touch point in your practice'
-          />
+        />
 
         {/* Desktop Layout - Two Column */}
         <div className="hidden lg:flex gap-16 w-full mt-[50px] ">
@@ -270,7 +268,6 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                   <div className="flex flex-col gap-[6px] mb-[24px]">
                     {allCategories.map((category, index) => {
                       const isActive = activeCategory === category.name;
-                      
                       return (
                         <motion.button
                           key={category.name}
@@ -355,7 +352,6 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                             </h3>
                           </div>
 
-                          {/* Image Section */}
                           <div className="w-full lg:w-1/2">
                             {category.mainImage && (
                               <div className="relative">
@@ -391,12 +387,12 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                               <path fillRule="evenodd" clipRule="evenodd" d="M13.3633 7.52243C13.4261 7.57013 13.4789 7.62975 13.5187 7.69789C13.5584 7.76602 13.5844 7.84133 13.595 7.9195C13.6056 7.99767 13.6007 8.07717 13.5806 8.15345C13.5605 8.22973 13.5255 8.30128 13.4777 8.36403L7.07767 16.764C7.02576 16.8321 6.95989 16.8882 6.88449 16.9287C6.80908 16.9692 6.72589 16.9931 6.6405 16.9988C6.5551 17.0044 6.46948 16.9918 6.38937 16.9617C6.30927 16.9315 6.23654 16.8846 6.17607 16.824L2.57607 13.224C2.47009 13.1103 2.41239 12.9598 2.41513 12.8044C2.41788 12.649 2.48084 12.5007 2.59078 12.3907C2.70071 12.2808 2.84901 12.2178 3.00445 12.2151C3.1599 12.2123 3.31033 12.27 3.42407 12.376L6.53927 15.4904L12.5233 7.63683C12.6196 7.51039 12.7621 7.42733 12.9196 7.40588C13.0771 7.38443 13.2367 7.42635 13.3633 7.52243Z" fill="#030712"/>
                               </svg>
                               </div>
-                              <Link 
-                                href={`/features/${feature.slug.current}`}
-                                className="text-gray-950 font-geist text-base font-normal leading-6 tracking-normal hover:text-purple-600 transition-colors"
+                              <ul 
+                                  // href={`/features/${feature.slug.current}`}
+                                className="text-gray-950 font-geist text-base font-normal leading-6 tracking-normal transition-colors"
                               >
                                 {feature.title}
-                              </Link>
+                              </ul>
                               </motion.div>
                             );
                           })}
@@ -409,164 +405,145 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
             </div>
           </div>
 
-        {/* Mobile Layout - Accordion */}
-        <div className="lg:hidden space-y-4 w-full max-w-7xl">
-            {allCategories.map((category, index) => {
-              const isActive = activeCategory === category.name;
-              
+        {/* Mobile Layout - Horizontal Tabs + Content */}
+        <div className="lg:hidden w-full max-w-7xl">
+          {(() => {
+            if (allCategories.length === 0) {
               return (
+                <div className="text-center py-8">
+                  <p className="text-gray-600">No categories available</p>
+                </div>
+              );
+            }
+
+            // Get the active category data
+            const activeCategoryData = allCategories.find(cat => cat.name === activeCategory) || allCategories[0];
+            const defaultCategory = allCategories[0];
+            const displayCategory = activeCategory ? activeCategoryData : defaultCategory;
+
+            return (
+              <div className="space-y-6">
+                {/* Horizontal Category Tabs */}
+                <div className="overflow-x-auto pb-2 scrollbar-none">
+                  <div className="flex space-x-3 min-w-max px-1">
+                    {allCategories.map((category, index) => {
+                      const isActive = activeCategory === category.name || (!activeCategory && index === 0);
+                      console.log('Rendering category tab:', category.name, 'isActive:', isActive);
+                      
+                      return (
+                        <motion.button
+                          key={category.name}
+                          onClick={() => {
+                            console.log('Category tab clicked:', category.name);
+                            setActiveCategory(category.name);
+                          }}
+                          className={`flex-shrink-0 p-3 rounded-xl transition-all duration-300 ${
+                            isActive 
+                              ? 'text-gray-900 shadow-sm' 
+                              : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                          }`}
+                          style={{
+                            backgroundColor: isActive ? 'rgba(21, 45, 24, 0.05)' : undefined
+                          }}
+                          whileTap={{ scale: 0.95 }}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.3, delay: index * 0.1 }}
+                        >
+                          <div className="flex items-center flex-col space-x-2">
+                            <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center `}>
+                              {renderCategoryIcon(category, isActive)}
+                            </div>
+                            <span className="text-[12px] font-medium whitespace-nowrap">
+                              {category.name}
+                            </span>
+                          </div>
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Content Display Area */}
                 <motion.div
-                  key={category.name}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden"
+                  key={displayCategory?.name}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  transition={{ duration: 0.4 }}
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden"
                 >
-                  {/* Accordion Header */}
-                  <motion.button
-                    onClick={() => {
-                      const newCategory = isActive ? '' : category.name;
-                      setActiveCategory(newCategory);
-                    }}
-                    className="w-full flex items-center justify-between p-6 text-left hover:bg-gray-50 transition-colors"
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <div className="flex items-center space-x-4">
-                      <div 
-                        className={`transition-colors duration-300 ${
-                          isActive ? 'text-purple-600' : 'text-gray-600'
-                        }`}
-                      >
-                        {renderCategoryIcon(category, isActive)}
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {category.name}
-                        </h3>
-                        <p className="text-sm text-gray-600">
-                          {category.features.length} features
-                        </p>
-                      </div>
-                    </div>
-                    <motion.div
-                      animate={{ rotate: isActive ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-gray-400"
+                  <div className="space-y-0">
+                    {/* Header Section with Background Gradient */}
+                    <div 
+                      className="space-y-6"
+                      style={{
+                        background: 'linear-gradient(277deg, rgba(202, 197, 255, 0.20) 0%, rgba(202, 197, 255, 0.50) 49.61%, rgba(202, 197, 255, 0.10) 100.18%)',
+                      }}
                     >
-                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </motion.div>
-                  </motion.button>
-
-                  {/* Accordion Content */}
-                  <AnimatePresence>
-                    {isActive && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="p-6 border-t border-gray-100 space-y-6">
-                          {/* Header Section - Title and Description */}
-                          <div>
-                            <h4 className="text-2xl font-bold text-gray-900 mb-2 font-manrope leading-8 tracking-normal" style={{
-                              color: 'var(--Default-gray-900, #111827)'
-                            }}>
-                              {category.description}
-                            </h4>
-                            {category.subheading && (
-                              <h5 className="text-base font-normal text-gray-700 mb-2 font-geist leading-6 tracking-normal" style={{
-                                color: 'var(--color-gray-700, #364153)'
-                              }}>
-                                {category.subheading}
-                              </h5>
-                            )}
-                            <p className="text-base font-normal text-gray-600 font-geist leading-6 tracking-normal" style={{
-                              color: 'var(--color-gray-700, #364153)'
-                            }}>
-                              {category.description || 'Enhance patient experience with AI call scoring, analytics, and automation to improve communication and processes.'}
-                            </p>
-                          </div>
-
-                          {/* Image Section */}
-                          <div className="relative p-6" style={{
-                            borderRadius: '12px',
-                            background: 'linear-gradient(277deg, rgba(202, 197, 255, 0.20) 0%, rgba(202, 197, 255, 0.50) 49.61%, rgba(202, 197, 255, 0.10) 100.18%)'
-                          }}>
-                            {category.mainImage ? (
-                              <div className="relative">
-                                <Image
-                                  src={category.mainImage.asset.url}
-                                  alt={category.name}
-                                  width={400}
-                                  height={300}
-                                  className="rounded-lg object-cover w-full h-60"
-                                />
-                              </div>
-                            ) : (
-                              <div className="flex items-center justify-center h-60 bg-white/10 rounded-lg backdrop-blur-sm">
-                                <div className="text-center text-white">
-                                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                  </div>
-                                  <p className="text-sm">No image available</p>
-                                </div>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Features List Section */}
-                          <div>
-                            <h5 className="text-lg font-semibold text-gray-900 mb-3">Key Features</h5>
-                            <div className="w-12 h-1 bg-pink-400 rounded-full mb-3"></div>
-                            <div className="grid grid-cols-1 gap-2">
-                              {category.features.map((feature, featureIndex) => (
-                                <motion.div 
-                                  key={feature._id} 
-                                  className="flex items-center space-x-3"
-                                  initial={{ opacity: 0, x: 20 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  transition={{ duration: 0.3, delay: featureIndex * 0.1 }}
-                                >
-                                  <div className="w-4 h-4 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <svg className="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                    </svg>
-                                  </div>
-                                  <Link 
-                                    href={`/features/${feature.slug.current}`}
-                                    className="text-gray-700 hover:text-purple-600 transition-colors text-sm"
-                                  >
-                                    {feature.title}
-                                  </Link>
-                                </motion.div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* Action Buttons */}
-                          <div className="flex flex-col sm:flex-row gap-3 pt-4">
-                            <Button type='primary' onClick={() => setOpenForm(true)} className="w-full sm:w-auto">
-                              <ButtonArrow />
-                              <span>Book Free Demo</span>
-                            </Button>
-                            <Button type='secondary' onClick={() => {}} className="w-full sm:w-auto">
-                              <span>Learn More</span>
-                            </Button>
-                          </div>
+                      {/* Category Header and Description with padding */}
+                      <div className="p-6 space-y-6">
+                        <div className="text-start">
+                          <h3 className="md:text-2xl text-xl font-bold text-gray-900 mb-2">
+                            {displayCategory?.name}
+                          </h3>
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+
+                        <div>
+                          <p className="text-base text-gray-700 leading-relaxed text-start">
+                            {displayCategory?.description}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Image Section - No padding, full width */}
+                      {displayCategory?.mainImage && (
+                        <div className="relative overflow-hidden">
+                          <Image
+                            src={displayCategory.mainImage.asset.url}
+                            alt={displayCategory.name}
+                            width={400}
+                            height={200}
+                            className="w-full h-48 object-cover"
+                          />
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Features List with White Background */}
+                    <div className="p-6 bg-white">
+                      <div className="space-y-3">
+                        {displayCategory?.features.map((feature, featureIndex) => {
+                          const isLastItem = featureIndex === displayCategory.features.length - 1;
+                          return (
+                            <motion.div 
+                              key={feature._id} 
+                              className={`flex items-center space-x-3 py-[14px] ${!isLastItem ? 'border-b border-gray-200' : ''}`}
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ duration: 0.3, delay: featureIndex * 0.05 }}
+                            >
+                            <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0">
+                              <svg width="16" height="25" viewBox="0 0 16 25" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M13.3633 7.52243C13.4261 7.57013 13.4789 7.62975 13.5187 7.69789C13.5584 7.76602 13.5844 7.84133 13.595 7.9195C13.6056 7.99767 13.6007 8.07717 13.5806 8.15345C13.5605 8.22973 13.5255 8.30128 13.4777 8.36403L7.07767 16.764C7.02576 16.8321 6.95989 16.8882 6.88449 16.9287C6.80908 16.9692 6.72589 16.9931 6.6405 16.9988C6.5551 17.0044 6.46948 16.9918 6.38937 16.9617C6.30927 16.9315 6.23654 16.8846 6.17607 16.824L2.57607 13.224C2.47009 13.1103 2.41239 12.9598 2.41513 12.8044C2.41788 12.649 2.48084 12.5007 2.59078 12.3907C2.70071 12.2808 2.84901 12.2178 3.00445 12.2151C3.1599 12.2123 3.31033 12.27 3.42407 12.376L6.53927 15.4904L12.5233 7.63683C12.6196 7.51039 12.7621 7.42733 12.9196 7.40588C13.0771 7.38443 13.2367 7.42635 13.3633 7.52243Z" fill="#030712"/>
+                              </svg>
+                            </div>
+                            <span className="text-gray-700 font-medium">
+                              {feature.title}
+                            </span>
+                            </motion.div>
+                          );
+                        })}
+                      </div>
+
+                      {/* Action Button */}
+              
+                    </div>
+                  </div>
                 </motion.div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })()}
+        </div>
         </Container>
         
         {openForm && (
