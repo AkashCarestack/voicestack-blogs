@@ -316,7 +316,8 @@ class Queries {
   private fetchFaqReferencedData(_region: string) {
     return groq`*[_type == "homeSettings" && language == $region][0]{
        faqReferenced->{
-        faqCategories
+        faqCategories,
+        hideCategory
       }
     }`
   }
