@@ -284,8 +284,6 @@ const Header = ({ data, refer=null }) => {
     };
   }, []);
 
-  console.log(data, 'data header');
-  
   // Add fallback data if data is null
   const safeData = data || {
     navigationMenu: [],

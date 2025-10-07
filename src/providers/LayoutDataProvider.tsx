@@ -39,26 +39,19 @@ export default function LayoutDataProvider({ children }: LayoutDataProviderProps
   useEffect(() => {
     const fetchLayoutData = async () => {
       try {
-        console.log('LayoutDataProvider: Starting data fetch...');
         const region = router.locale || 'en';
-        console.log('LayoutDataProvider: Using region:', region);
-        
         const client = getClient();
-        console.log('LayoutDataProvider: Sanity client created');
         
         const [header, footer] = await Promise.all([
           getHeaderData(client, region),
           getFooterData(client, region)
         ]);
         
-        console.log('LayoutDataProvider: Header data:', header);
-        console.log('LayoutDataProvider: Footer data:', footer);
-        
         setHeaderData(header);
         setFooterData(footer);
         setError(null);
       } catch (error) {
-        console.error('LayoutDataProvider: Error fetching layout data:', error);
+        console.error('Error fetching layout data:', error);
         setError(error.message);
         
         // Set fallback data to prevent null data issues

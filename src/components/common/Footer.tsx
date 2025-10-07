@@ -17,9 +17,6 @@ const Footer = ({data}) => {
   const { isDemoPopUpShown } = useContext(BookDemoContext);
   const [openForm, setOpenForm] = useState(false);
 
-  // Debug: Log app store data
-  console.log('Footer data:', data);
-  
   // Add fallback data if data is null
   const safeData = data || {
     title: 'VoiceStack',
