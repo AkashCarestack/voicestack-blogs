@@ -48,6 +48,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
   const categoryRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
   const activeCategoryRef = useRef<string>('');
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const mobileTabsRef = useRef<HTMLDivElement | null>(null);
   
   // Memoize the categories processing to prevent unnecessary re-renders
   const allCategories = useMemo(() => {
@@ -81,6 +82,25 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
     });
   }, [features]);
 
+  // Center active tab in mobile view
+  const centerActiveTab = useCallback((categoryName: string) => {
+    if (mobileTabsRef.current) {
+      const activeTab = mobileTabsRef.current.querySelector(`[data-category="${categoryName}"]`) as HTMLElement;
+      if (activeTab) {
+        const container = mobileTabsRef.current;
+        const containerWidth = container.offsetWidth;
+        const tabOffsetLeft = activeTab.offsetLeft;
+        const tabWidth = activeTab.offsetWidth;
+        const scrollLeft = tabOffsetLeft - (containerWidth / 2) + (tabWidth / 2);
+        
+        container.scrollTo({
+          left: scrollLeft,
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, []);
+
   // Set initial active category
   useEffect(() => {
     if (allCategories.length > 0) {
@@ -89,6 +109,15 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
       activeCategoryRef.current = firstCategory;
     }
   }, [allCategories]);
+
+  // Center active tab when activeCategory changes (mobile only)
+  useEffect(() => {
+    if (activeCategory && mobileTabsRef.current) {
+      setTimeout(() => {
+        centerActiveTab(activeCategory);
+      }, 100);
+    }
+  }, [activeCategory, centerActiveTab]);
 
   // Intersection Observer for smooth category highlighting
   useEffect(() => {
@@ -183,6 +212,17 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
       }, 1500);
     });
   }, [scrollToSection]);
+
+  // Handle mobile tab click
+  const handleMobileTabClick = useCallback((categoryName: string) => {
+    console.log('Mobile category tab clicked:', categoryName);
+    setActiveCategory(categoryName);
+    
+    // Center the active tab
+    setTimeout(() => {
+      centerActiveTab(categoryName);
+    }, 100);
+  }, [centerActiveTab]);
 
   // Render category icon
   const renderCategoryIcon = (category: any, isActive: boolean = false) => {
@@ -424,7 +464,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
             return (
               <div className="space-y-6">
                 {/* Horizontal Category Tabs */}
-                <div className="overflow-x-auto pb-2 scrollbar-none">
+                <div ref={mobileTabsRef} className="overflow-x-auto pb-2 scrollbar-none">
                   <div className="flex space-x-3 min-w-max px-1">
                     {allCategories.map((category, index) => {
                       const isActive = activeCategory === category.name || (!activeCategory && index === 0);
@@ -433,10 +473,8 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                       return (
                         <motion.button
                           key={category.name}
-                          onClick={() => {
-                            console.log('Category tab clicked:', category.name);
-                            setActiveCategory(category.name);
-                          }}
+                          data-category={category.name}
+                          onClick={() => handleMobileTabClick(category.name)}
                           className={`flex-shrink-0 p-3 rounded-xl transition-all duration-300 ${
                             isActive 
                               ? 'text-gray-900 shadow-sm' 
