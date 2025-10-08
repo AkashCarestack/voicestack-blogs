@@ -40,11 +40,11 @@ export default function VideoPlayers({
 
   return (
     <div
-      className="relative w-full h-full group cursor-pointer"
-      onClick={handlePlay}
+      className="relative w-full h-full group"
+     
     >
       {isPlaying ? (
-        <div className="relative w-full h-full">
+        <div className="relative w-full h-full cursor-pointer" onClick={handlePlay}>
           <iframe
             src={getVideoEmbedUrl()}
             className="w-full h-full rounded-2xl"
