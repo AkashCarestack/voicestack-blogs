@@ -40,28 +40,26 @@ export default function CardListing({ data }: any) {
                     />
                   </div>
                   <div className="flex flex-col  md:py-8 py-4 md:px-3 px-2">
-                    <div className="text-sm  font-normal text-gray-950 uppercase opacity-70">
+                    <h3 className="text-sm  font-normal text-gray-950 uppercase opacity-70">
                       {e.tabHeading}
-                    </div>
-                    <div className='flex flex-col gap-3'>
-                    <div className="md:text-2xl text-xl font-bold text-gray-950 leading-[133.33%] font-manrope">
-                      {e.tabSubHeading}
-                    </div>
+                    </h3>
+                    <div className="flex flex-col gap-3">
+                      <div className="md:text-2xl text-xl font-bold text-gray-950 leading-[133.33%] font-manrope">
+                        {e.tabSubHeading}
+                      </div>
 
-                    {e.description && (
-                      Array.isArray(e.description) ? (
-                        <PortableText
-                          value={e.description}
-                          components={components}
-                        />
-                      ) : (
-                        <p className="md:text-base text-sm font-normal leading-[150%] text-gray-700">
-                          {e.description}
-                        </p>
-                      )
-                    )}
+                      {e.description &&
+                        (Array.isArray(e.description) ? (
+                          <PortableText
+                            value={e.description}
+                            components={components}
+                          />
+                        ) : (
+                          <p className="md:text-base text-sm font-normal leading-[150%] text-gray-700">
+                            {e.description}
+                          </p>
+                        ))}
                     </div>
-                  
                   </div>
                 </div>
               )
