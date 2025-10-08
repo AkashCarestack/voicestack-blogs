@@ -161,7 +161,7 @@ export const createBasePageSchema = (name: string, title: string) => ({
     },
     {
       name:'faqRevamp',
-      title: 'FAQ Revamp',
+      title: 'FAQ',
       type: 'array',
       of: [{
         type: 'reference',
