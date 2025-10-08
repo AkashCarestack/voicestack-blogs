@@ -258,6 +258,31 @@ class Queries {
             isOpaque
           }
         },
+        video[] {
+          videoPlatform,
+          videoId,
+          videotitle
+        },
+        testimonialThumbnail,
+        "testimonialImage":testimonialImage.asset-> {
+          _id,
+          url,
+          altText,
+          title,
+          originalFilename,
+          size,
+          mimeType,
+          metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            },
+            lqip,
+            hasAlpha,
+            isOpaque
+          }
+        },
         secondaryVideo[] {
           videoPlatform,
           videoId,
@@ -308,7 +333,7 @@ class Queries {
   private fetchHomeCardList(_region: string) {
     return groq`*[_type == "homeSettings" && language == $region][0]{
       'globalDataReference': globalDataReference->{
-        ...
+        ...,
       }
     }`
   }

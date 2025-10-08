@@ -86,6 +86,7 @@ export const createBasePageSchema = (name: string, title: string) => ({
                     maxLength: 96,
                   },
                   description: 'Unique slug for this section (enter manually)',
+                  validation: (Rule: any) => Rule.required(),
                 },
                 {
                   name: 'component',
@@ -161,7 +162,7 @@ export const createBasePageSchema = (name: string, title: string) => ({
     },
     {
       name:'faqRevamp',
-      title: 'FAQ Revamp',
+      title: 'FAQ',
       type: 'array',
       of: [{
         type: 'reference',
