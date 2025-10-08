@@ -25,12 +25,12 @@ const TabsListingComponent = {
         
         {
           name: 'headline',
-          title: 'Headline',
+          title: 'Heading',
           type: 'string',
         },
         {
           name: 'subheadline',
-          title: 'SubHeadline',
+          title: 'Subheading',
           type: 'string',
         },
 

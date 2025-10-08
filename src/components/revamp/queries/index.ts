@@ -333,7 +333,7 @@ class Queries {
   private fetchHomeCardList(_region: string) {
     return groq`*[_type == "homeSettings" && language == $region][0]{
       'globalDataReference': globalDataReference->{
-        ...
+        ...,
       }
     }`
   }

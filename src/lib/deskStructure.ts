@@ -147,7 +147,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     settings: ['siteSettings', 'homeSettings', 'layout'],
     
     // Pages & Content Management - NEW PROMINENT SECTION
-    pages: ['page', 'whoWeServe', 'dentalSoftware', 'globalData', 'features', 'featureCategory'],
+    pages: ['page', 'whoWeServe', 'whyVoicestack', 'dentalSoftware', 'globalData', 'features', 'featureCategory'],
     
     // Content Management - Centralized Data
     contentManagement: ['author', 'centralizedTestimonial', 'featureItem'],
@@ -473,7 +473,7 @@ function getCategoryTitle(category: string) {
     media: 'Media & UI Elements',
     dynamic: 'Dynamic Components',
     utilities: 'Utilities',
-    faqRevamp: 'FAQ Revamp'
+    faqRevamp: 'FAQ'
 
   }
   return titleMap[category] || toTitleCase(category)
