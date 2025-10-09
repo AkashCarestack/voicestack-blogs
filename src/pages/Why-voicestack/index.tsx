@@ -1,9 +1,7 @@
 import { GetStaticProps } from 'next'
 import { getClient } from '~/lib/sanity.client'
-import { urlForImage } from '~/lib/sanity.image'
-import SimpleHead from '~/components/common/SimpleHead'
-import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer' 
 import Queries from '~/components/revamp/queries'
+import ListingWithTabs from '~/components/revamp/components/common/listingwithTabs'
 
 
 
@@ -13,7 +11,7 @@ export default function WhyVoicestackIndex({ data }:any) {
   
   return (
     <div>
-
+      <ListingWithTabs list={data['grow-your-practice']}/>
     </div>
   )
 }
@@ -24,7 +22,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   let data:any = []
 
   try {
-    // First, let's get all Why Voicestack pages to find available slugs
+
    
     
     const queries = new Queries('why-voicestack')
