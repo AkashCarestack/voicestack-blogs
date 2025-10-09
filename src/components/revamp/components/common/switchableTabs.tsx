@@ -6,11 +6,13 @@ export default function SwitchableTabs({
   setActiveTab,
   isSticky = false,
   activeTab,
+  className,
 }: {
   data: IdataProps[]
   setActiveTab: (key: string) => void
   isSticky?: boolean
   activeTab?: string
+  className?: string
 }) {
 
   const refElement = useRef<(HTMLButtonElement | null)[]>([])
@@ -30,7 +32,7 @@ export default function SwitchableTabs({
   }
 
   return (
-    <div className={`${isSticky ? 'sticky md:top-[100px] top-[60px]' : ''} flex gap-2.5 w-full justify-center items-center`}>
+    <div className={`${isSticky ? 'sticky md:top-[100px] top-[60px]' : ''} flex gap-2.5 w-full justify-center items-center ${className}`}>
         <div className='lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] rounded-full p-1.5 flex flex-row 
         gap-2.5  lg:w-fit lg:bg-white bg-white 
          overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none'>
