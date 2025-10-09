@@ -39,6 +39,11 @@ export default function ListingWithTabs({ list }: { list: any }) {
   const [activeTabValue, setActiveTabValue] = useState<string>('')
   const refElement = useRef<(HTMLDivElement | null)[]>([])
 
+  // Early return if no valid data
+  if (!list || !list?.componentData?.refData?.tabsListingComponent?.tabs) {
+    return null
+  }
+
   useEffect(() => {
     if (list?.componentData?.refData?.tabsListingComponent?.tabs) {
       const tabs = list.componentData.refData.tabsListingComponent.tabs.map(
