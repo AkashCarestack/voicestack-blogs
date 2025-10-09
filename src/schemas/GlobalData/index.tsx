@@ -23,16 +23,6 @@ const GlobalData = {
       type: 'string',
       // validation: (Rule: any) => Rule.required(),
     },
-    {
-      name: 'slug',
-      title: 'Data Slug',
-      type: 'slug',
-      options: {
-        source: 'name',
-        maxLength: 96,
-      },
-      // validation: (Rule: any) => Rule.required(),
-    },
     // Comparison Table Fields - Using the same structure as comparisonTable schema
     {
       name: 'comparisonTable',

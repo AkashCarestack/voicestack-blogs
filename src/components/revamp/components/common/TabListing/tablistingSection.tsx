@@ -22,7 +22,7 @@ export default function TablistSection({ data }:TablistSectionProps ) {
             heading={headerData.heading}
             description={headerData.description}
           />
-          <ListingWithTabs list={data} slug="effortlessly-handle" />
+          <ListingWithTabs list={data}/>
           <div className="flex justify-center">
             <Button type="primary">
               <span>
