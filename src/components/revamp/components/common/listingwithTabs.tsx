@@ -100,9 +100,9 @@ export default function ListingWithTabs({ list }: { list: any }) {
                     )}
                     <div className="flex flex-col justify-between flex-grow md:gap-12 gap-8">
                       <div className="flex flex-col">
-                        {element.listItems?.map((item: any) => {
+                        {element.listItems?.map((item: any,key:any) => {
                           return (
-                            <div className="flex flex-row gap-2 py-3.5 border-b border-[#E6E7E8]">
+                            <div key={key} className="flex flex-row gap-2 py-3.5 border-b border-[#E6E7E8]">
                               <span className="py-1"><TickMark /></span>
                             <div className="">
                               <h4 className="text-gray-950 text-base font-medium leading-normal tracking-normal">
@@ -117,9 +117,9 @@ export default function ListingWithTabs({ list }: { list: any }) {
                         })}
                       </div>
                       <div>
-                        {element.ctaListItems.map((btn: any) => {
+                        {element.ctaListItems.map((btn: any,key:any) => {
                           return (
-                            <Button type={btn?.ctaType || 'primary'}>
+                            <Button key={btn.ctaText+key} type={btn?.ctaType || 'primary'}>
                               <span>{btn.ctaText}</span>
                             </Button>
                           )
