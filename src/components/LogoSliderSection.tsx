@@ -196,4 +196,6 @@ const LogoSliderSection = React.memo(({ data, refer = null }: { data: any, refer
   )
 })
 
+LogoSliderSection.displayName = 'LogoSliderSection'
+
 export default LogoSliderSection

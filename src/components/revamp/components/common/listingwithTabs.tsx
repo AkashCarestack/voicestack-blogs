@@ -1,13 +1,15 @@
-import Image from 'next/image'
-import React, { useRef, useState, useEffect } from 'react'
-import { urlForImage } from '~/lib/sanity.image'
-import SwitchableTabs from './switchableTabs'
-import useMediaQuery from '~/utils/mediaQuery'
-import Container from '~/components/structure/Container'
 import { PortableText } from '@portabletext/react'
-import ImageLoader from '~/components/common/imageLoader/imageLoader'
-import Section from '~/components/structure/Section'
+import Image from 'next/image'
+import React, { useEffect,useRef, useState } from 'react'
+
 import Button from '~/components/common/Button'
+import ImageLoader from '~/components/common/imageLoader/imageLoader'
+import Container from '~/components/structure/Container'
+import Section from '~/components/structure/Section'
+import { urlForImage } from '~/lib/sanity.image'
+import useMediaQuery from '~/utils/mediaQuery'
+
+import SwitchableTabs from './switchableTabs'
 
 const components: any = {
   block: {
@@ -34,11 +36,8 @@ const TickMark = () => {
 
 export default function ListingWithTabs({ list }: { list: any }) {
   const [switchButtonValue, setSwitchButtonValue] = useState<any[]>([])
-
-  // Early return if no valid data
-  if (!list || !list?.componentData?.refData?.tabsListingComponent?.tabs) {
-    return null
-  }
+  const [activeTabValue, setActiveTabValue] = useState<string>('')
+  const refElement = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     if (list?.componentData?.refData?.tabsListingComponent?.tabs) {
@@ -50,16 +49,19 @@ export default function ListingWithTabs({ list }: { list: any }) {
         }),
       )
       setSwitchButtonValue(tabs)
+      // Set the first tab as active
+      if (tabs.length > 0) {
+        setActiveTabValue(tabs[0].key)
+      }
     }
   }, [list])
 
+  // Early return if no valid data (after all hooks)
+  if (!list || !list?.componentData?.refData?.tabsListingComponent?.tabs) {
+    return null
+  }
+
   const tabsData: any = list?.componentData?.refData?.tabsListingComponent
-
-  const [activeTabValue, setActiveTabValue] = useState<string>(
-    tabsData?.tabs?.[0]?._key,
-  )
-
-  const refElement = useRef<(HTMLDivElement | null)[]>([])
 
   function bindEvents(e: string) {
     setActiveTabValue(e)
