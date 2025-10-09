@@ -79,6 +79,57 @@ class Queries {
           mimeType
         }
       },
+      "testimonial": testimonialVideo-> {
+            _id,
+            name,
+            designation,
+            thumbnail,
+            "logo": logo.asset-> {
+              _id,
+              url,
+              altText,
+              title,
+              originalFilename,
+              size,
+              mimeType,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                },
+                lqip,
+                hasAlpha,
+                isOpaque
+              }
+            },
+            video[] {
+              videoPlatform,
+              videoId,
+              videotitle
+            },
+            "testimonialImage": testimonialImage.asset-> {
+              _id,
+              url,
+              altText,
+              title,
+              originalFilename,
+              size,
+              mimeType,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                },
+                lqip,
+                hasAlpha,
+                isOpaque
+              }
+            },
+            testimonialdescription,
+            language
+          }
       
     }`
   }
@@ -322,6 +373,57 @@ class Queries {
             componentType == "Hero" => heroComponent {
               _type,
               ...,
+              "testimonial": testimonialVideo-> {
+            _id,
+            name,
+            designation,
+            thumbnail,
+            "logo": logo.asset-> {
+              _id,
+              url,
+              altText,
+              title,
+              originalFilename,
+              size,
+              mimeType,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                },
+                lqip,
+                hasAlpha,
+                isOpaque
+              }
+            },
+            video[] {
+              videoPlatform,
+              videoId,
+              videotitle
+            },
+            "testimonialImage": testimonialImage.asset-> {
+              _id,
+              url,
+              altText,
+              title,
+              originalFilename,
+              size,
+              mimeType,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                },
+                lqip,
+                hasAlpha,
+                isOpaque
+              }
+            },
+            testimonialdescription,
+            language
+          }
             }
           )
         }
