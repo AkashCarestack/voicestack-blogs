@@ -147,7 +147,7 @@ export default function Testimonials({ data, refer = null }) {
             }}
             className='w-fit'
           >
-            <span className="text-base font-medium">{`Book free demo`}</span>
+            <span className="text-base font-medium">{`Book Free Demo`}</span>
           </Button>
             </div>
           </div>

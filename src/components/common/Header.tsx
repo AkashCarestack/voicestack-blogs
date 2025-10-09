@@ -601,14 +601,14 @@ const Header = ({ data, refer=null }) => {
                   <div className='lg:flex gap-3 items-center lg:justify-end hidden'>
                     <Button type='primary' onClick={() => {setOpenForm(true)}}>
                       {/* <ButtonArrow></ButtonArrow> */}
-                      <span className="text-sm font-medium">{`Book free demo`}</span>
+                      <span className="text-sm font-medium">{`Book Free Demo`}</span>
                     </Button>
                   </div>
                   <div className='flex gap-4 items-center lg:hidden'>
                     <div className={`${isMobile  && headerFixed ? 'block': 'hidden'}`}>
                    
                       <Button type="primary"  className="w-fit" onClick={() => { setOpenForm(true) }}>
-                        <span className="text-sm font-medium">{`Book free demo`}</span>
+                        <span className="text-sm font-medium">{`Book Free Demo`}</span>
                         
                       </Button>
                         
