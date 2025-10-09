@@ -88,8 +88,19 @@ export const heroFields = [
   }),
   defineField({
     name: 'testimonialVideo',
-    title: 'Testimonial Video',
-    type: 'array',
-    of: [{ type: 'testimonialHighlightSection' }],
+    title: 'Testimonial',
+    type: 'reference',
+    to: [{ type: 'testimonialSection' }],
+    options: {
+      filter: ({ document }) => {
+        // Filter testimonials based on the current document's language
+        const currentLanguage = document?.language || 'en'
+        
+        return {
+          filter: `language == "${currentLanguage}"`,
+          params: { language: currentLanguage }
+        }
+      }
+    }
   }),
 ]

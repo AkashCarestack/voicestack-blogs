@@ -89,7 +89,6 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
 }
 
 const VerticalTestimonialListing = ({ data, refer = null }) => {
-  // console.log(data, 'data')
   const [openForm, setOpenForm] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isUk, setIsUk] = useState(false)
@@ -206,11 +205,9 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
 
   // Video handling functions
   const handleVideoPlay = (index: number) => {
-    console.log('handleVideoPlay called for index:', index)
     setPlayingIndex(index)
     const video = videoRefs.current[index]
     if (video) {
-      console.log('Video element found, playing video')
       video.currentTime = 0
       video.play().catch((err) => console.error('Video play failed:', err))
     } else {
@@ -310,7 +307,6 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
       },
     ],
   }
-  console.log(data?.testimonial, 'data')
   return (
     <div className="py-12 px-4 md:px-12 md:pt-[130px] md:pb-24 bg-[#F9F9F9]">
       <div className="flex flex-col items-center w-full gap-16 max-w-[1728px] mx-auto">
@@ -334,29 +330,12 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
                   logo?.thumbnail
                 const isYoutubePlaying = playingYoutubeIndex === i
 
-                // Debug logging
-                console.log(`Testimonial ${i}:`, {
-                  hasVideo,
-                  videoId: logo?.video?.[0]?.videoId,
-                  thumbnail: logo?.thumbnail,
-                  videoFile: logo?.video?.[0]?.videoFile,
-                  customVideo: logo?.customVideo?.[0]?.video?.filename,
-                  videoSrc,
-                  image: image,
-                  fullLogo: logo,
-                })
 
                 return (
                   <div key={i} className="group sm:px-2 h-[563px]">
                     <div
                       className="flex flex-col justify-center rounded-2xl h-[563px] shadow-md cursor-pointer w-full aspect-[9/16] overflow-hidden relative"
                       onMouseEnter={() => {
-                        console.log(
-                          'Mouse enter on testimonial:',
-                          i,
-                          'YouTube playing:',
-                          playingYoutubeIndex,
-                        )
                         // Only play thumbnail video if YouTube is not playing
                         if (playingYoutubeIndex !== i) {
                           setActiveVideoIndex(i)
@@ -364,7 +343,6 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
                         }
                       }}
                       onMouseLeave={() => {
-                        console.log('Mouse leave on testimonial:', i)
                         // Only pause thumbnail video if YouTube is not playing
                         if (playingYoutubeIndex !== i) {
                           handleVideoPause(i)
@@ -540,7 +518,7 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
               setOpenForm(true)
             }}
           >
-            <span className="text-base font-medium">{`Book free demo`}</span>
+            <span className="text-base font-medium">{`Book Free Demo`}</span>
           </Button>
         </div>
 
