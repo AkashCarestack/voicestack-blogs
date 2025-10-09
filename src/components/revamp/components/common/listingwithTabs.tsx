@@ -35,7 +35,13 @@ const TickMark = () => {
 export default function ListingWithTabs({ list }: { list: any }) {
   const [switchButtonValue, setSwitchButtonValue] = useState<any[]>([])
 
+  // Early return if no valid data
+  if (!list || !list?.componentData?.refData?.tabsListingComponent?.tabs) {
+    return null
+  }
+
   useEffect(() => {
+    if (list?.componentData?.refData?.tabsListingComponent?.tabs) {
       const tabs = list.componentData.refData.tabsListingComponent.tabs.map(
         (e: any) => ({
           key: e._key,
@@ -44,9 +50,10 @@ export default function ListingWithTabs({ list }: { list: any }) {
         }),
       )
       setSwitchButtonValue(tabs)
+    }
   }, [list])
 
-  const tabsData: any = list.componentData.refData.tabsListingComponent
+  const tabsData: any = list?.componentData?.refData?.tabsListingComponent
 
   const [activeTabValue, setActiveTabValue] = useState<string>(
     tabsData?.tabs?.[0]?._key,
@@ -100,7 +107,7 @@ export default function ListingWithTabs({ list }: { list: any }) {
                     )}
                     <div className="flex flex-col justify-between flex-grow md:gap-12 gap-8">
                       <div className="flex flex-col">
-                        {element.listItems?.map((item: any,key:any) => {
+                        {element.listItems?.map((item: any, key: number) => {
                           return (
                             <div key={key} className="flex flex-row gap-2 py-3.5 border-b border-[#E6E7E8]">
                               <span className="py-1"><TickMark /></span>
@@ -117,9 +124,9 @@ export default function ListingWithTabs({ list }: { list: any }) {
                         })}
                       </div>
                       <div>
-                        {element.ctaListItems.map((btn: any,key:any) => {
+                        {element.ctaListItems?.map((btn: any, key: number) => {
                           return (
-                            <Button key={btn.ctaText+key} type={btn?.ctaType || 'primary'}>
+                            <Button key={`${btn.ctaText}-${key}`} type={btn?.ctaType || 'primary'}>
                               <span>{btn.ctaText}</span>
                             </Button>
                           )
