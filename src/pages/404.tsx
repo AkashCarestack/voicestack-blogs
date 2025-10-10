@@ -1,6 +1,7 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
+import Container from '~/components/structure/Container'
 
 const Custom404: NextPage = () => {
   return (
@@ -9,8 +10,9 @@ const Custom404: NextPage = () => {
         <title>404 - Page Not Found | VoiceStack</title>
         <meta name="description" content="The page you are looking for could not be found." />
       </Head>
-      
+    
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <Container className="flex flex-col items-center justify-center">
         <div className="max-w-md w-full text-center">
           <div className="mb-8">
             <h1 className="text-9xl font-bold text-gray-300 mb-4">404</h1>
@@ -29,8 +31,10 @@ const Custom404: NextPage = () => {
             </Link>
   
           </div>
+          </div>
+          </Container>
         </div>
-      </div>
+        
     </>
   )
 }
