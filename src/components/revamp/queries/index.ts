@@ -5,14 +5,16 @@ import { SanityClient } from '@sanity/client'
 class Queries {
   slug?: string
   client = getClient()
-  constructor(slug: string) {
+  region?: string
+  constructor(slug: string, region: string) {
     this.slug = slug
+    this.region = region
   }
 
 /******************  QURIES  ******************/
   private fetchCommonData(_slug: string) {
     return groq`
-      *[_type == "whoWeServe" && basicInfo.slug.current == $slug][0]{
+      *[_type == "whoWeServe" && basicInfo.slug.current == $slug && language == $region][0]{
         'faq':faqRevamp[0]->{faqItems
         },
         content {
@@ -344,7 +346,7 @@ class Queries {
   }
 
   private fetchPageData(_type: string,_slug: string){ 
-    return groq`*[_type == $type && basicInfo.slug.current == $slug][0]{
+    return groq`*[_type == $type && basicInfo.slug.current == $slug && language == $language][0]{
     "title": basicInfo.title,
     "description": basicInfo.description,
     "faqData": faqRevamp[]->,
@@ -491,7 +493,7 @@ class Queries {
 
   public async getPageData(type: string,slug: string) {
     const query = this.fetchPageData(type,slug)
-    const params = { type,slug }
+    const params = { type,slug,language:this.region }
     const result = await this.client.fetch(query, params)
   
     const transformedSections = result?.content?.sections?.reduce((acc: any, section: any) => {
