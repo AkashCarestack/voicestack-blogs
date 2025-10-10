@@ -25,10 +25,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const dataVal = await queries.getPageData('whyVoicestack', 'why-voicestack')
     
     // Check if data exists and has content
-    if (!dataVal || 
-        typeof dataVal !== 'object' || 
-        Object.keys(dataVal).length === 0 ||
-        !dataVal['why-voicestack-hero']) {
+    if (!dataVal || Object.keys(dataVal).length === 0 ){
       return {
         notFound: true
       }

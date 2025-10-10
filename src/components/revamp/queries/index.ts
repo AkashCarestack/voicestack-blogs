@@ -456,7 +456,7 @@ class Queries {
 
   public async getData() {
     const query = this.fetchCommonData(this.slug)
-    const params = { slug: this.slug }
+    const params = { slug: this.slug, region: this.region }
     return await this.client.fetch(query, params)
   }
 
