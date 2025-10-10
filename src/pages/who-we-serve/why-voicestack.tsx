@@ -7,8 +7,6 @@ import { getClient } from '~/lib/sanity.client'
 
 
 export default function WhyVoicestackIndex({ data, heroData }:any) {
-  console.log('Component received data:', data)
-  console.log('Component received heroData:', heroData)
   
   return (
     <div>
@@ -21,23 +19,26 @@ export default function WhyVoicestackIndex({ data, heroData }:any) {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const currentLanguage = locale || 'en'
   const client = getClient()
-  let data:any = []
 
   try {
-    const queries = new Queries('why-voicestack')
+    const queries = new Queries('why-voicestack', currentLanguage)
     const dataVal = await queries.getPageData('whyVoicestack', 'why-voicestack')
-    const heroData = dataVal?.['why-voicestack-hero'].componentData    || null
     
-    console.log("whyyy", heroData)
+    // Check if data exists and has content
+    if (!dataVal || 
+        typeof dataVal !== 'object' || 
+        Object.keys(dataVal).length === 0 ||
+        !dataVal['why-voicestack-hero']) {
+      return {
+        notFound: true
+      }
+    }
     
-    // Extract 'why-voicestack-hero' from dataVal and store in heroData
-    data = dataVal || {} 
-
-    console.log("heroData extracted:", heroData)
+    const heroData = dataVal?.['why-voicestack-hero']?.componentData || null
 
     return {
       props: {
-        data: data || [],
+        data: dataVal,
         heroData: heroData
       },
       revalidate: 60
@@ -45,10 +46,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   } catch (error) {
     console.error('Error fetching Why Voicestack data:', error)
     return {
-      props: {
-        data: data,
-        heroData: null
-      },
+      notFound: true
     }
   }
 }
