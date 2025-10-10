@@ -65,7 +65,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         region,
       },
       // Add revalidation for ISR
-      revalidate: 60, // Revalidate every 60 seconds
+      // revalidate: 60, // Revalidate every 60 seconds
     }
   } catch (error) {
     console.error('Error fetching page data:', error)
