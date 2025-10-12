@@ -162,6 +162,11 @@ export default defineType({
       type: 'text',
     }),
     defineField({
+      name: 'keyStatement',
+      title: 'Key Statement',
+      type: 'blockContent',
+    }),
+    defineField({
       name: 'keyFeatures',
       title: 'key Features',
       type: 'array',
