@@ -519,6 +519,42 @@ class Queries {
             testimonialdescription,
             language
           }
+            },
+            componentType == "GenericListing" => genericListingComponent {
+              _type,
+              heading,
+              description,
+              items[] {
+                _key,
+                heading,
+                subheading,
+                description,
+                link {
+                  url,
+                  text,
+                  buttonType
+                },
+                dynamicSvg,
+                "image": image.asset-> {
+                  _id,
+                  url,
+                  altText,
+                  title,
+                  originalFilename,
+                  size,
+                  mimeType,
+                  metadata {
+                    dimensions {
+                      width,
+                      height,
+                      aspectRatio
+                    },
+                    lqip,
+                    hasAlpha,
+                    isOpaque
+                  }
+                }
+              }
             }
           )
         }
