@@ -10,6 +10,7 @@ import { urlForImage } from '~/lib/sanity.image'
 import useMediaQuery from '~/utils/mediaQuery'
 
 import SwitchableTabs from './switchableTabs'
+import SectionHeader from './sectionHeader'
 
 const components: any = {
   block: {
@@ -35,6 +36,7 @@ const TickMark = () => {
 }
 
 export default function ListingWithTabs({ list }: { list: any }) {
+  console.log({list})
   const [switchButtonValue, setSwitchButtonValue] = useState<any[]>([])
   const [activeTabValue, setActiveTabValue] = useState<string>('')
   const refElement = useRef<(HTMLDivElement | null)[]>([])
@@ -73,18 +75,22 @@ export default function ListingWithTabs({ list }: { list: any }) {
   return (
     <Section className="py-sm md:py-md lg:py-lg bg-[#F9F9F9] ">
       <Container className="flex-col">
+        <SectionHeader
+          heading={list?.componentData?.refData?.tabsListingComponent?.headline}
+          description={list?.componentData?.refData?.tabsListingComponent?.subDescription}
+        />
         <SwitchableTabs
           data={switchButtonValue}
           setActiveTab={(e: string) => bindEvents(e)}
           isSticky={true}
           activeTab={activeTabValue}
-          className="py-[74px] z-50"
+          className="md:py-[74px] py-8 z-50"
         />
         <div className="w-full flex flex-col md:gap-[180px] gap-6 ">
            {tabsData?.tabs?.map((element: any, idx: number) => {
              return (
                <div 
-                 className="flex flex-row gap-4 md:p-3 bg-white" 
+                 className="flex flex-row gap-4 md:p-3 bg-white md:scroll-m-[250px] scroll-m-[150px] " 
                  key={element._key}
                  data-key={element._key}
                  ref={(el) => {
