@@ -189,7 +189,6 @@ const HeroSection = ({ data, refer = null, video = undefined, page = '' }) => {
     }
   }
 
-  console.log(data, 'data')
   return (
     <section
       className={`${page == 'home' ? 'px-4 xl:px-12 pt-2' : ''} bg-[#F9F9F9]  font-geist`}

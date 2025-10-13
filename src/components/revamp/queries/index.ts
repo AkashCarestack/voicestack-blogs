@@ -535,8 +535,8 @@ class Queries {
     }`
   }
 
-  private fetchFaqReferencedData(_region: string) {
-    return groq`*[_type == "homeSettings" && language == $region][0]{
+  private fetchFaqReferencedData() {
+    return groq`*[_type == $page && language == $region][0]{
        faqReferenced->{
         faqCategories,
         hideCategory
@@ -605,9 +605,9 @@ class Queries {
     return await this.client.fetch(query, { region: region })
   }
 
-  public async fetchFaqData(region: string) {
-    const query = this.fetchFaqReferencedData(region)
-    return await this.client.fetch(query, { region: region })
+  public async fetchFaqData(page: string, region: string) {
+    const query = this.fetchFaqReferencedData()
+    return await this.client.fetch(query, { region: region, page: page })
   }
 }
 
