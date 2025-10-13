@@ -72,7 +72,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const testimonialHighlightsData = await getTestimonialHighlightSectionData(client,region)
   const bannerData = await getBannerData(client, region)
   const contactAndVideoData = await getContactAndVideoInfo(client, region)
-  const faqSectionData = await queries.fetchFaqData(region)
+  const faqSectionData = await queries.fetchFaqData('homeSettings',region)
   const featuresData = await getFeaturesList(client, region)
 
   return {
