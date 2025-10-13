@@ -60,7 +60,6 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
       ),
     },
   }
-  console.log(data, 'testimonials')
   const [isOpen, setIsOpen] = useState(false)
   const [openForm, setOpenForm] = useState(false)
   const { isDemoPopUpShown, setIsDemoPopUpShown } = useContext(BookDemoContext)

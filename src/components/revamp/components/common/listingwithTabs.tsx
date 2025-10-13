@@ -36,7 +36,6 @@ const TickMark = () => {
 }
 
 export default function ListingWithTabs({ list }: { list: any }) {
-  console.log({list})
   const [switchButtonValue, setSwitchButtonValue] = useState<any[]>([])
   const [activeTabValue, setActiveTabValue] = useState<string>('')
   const refElement = useRef<(HTMLDivElement | null)[]>([])
