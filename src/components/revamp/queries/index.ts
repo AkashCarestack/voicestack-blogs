@@ -11,7 +11,7 @@ class Queries {
     this.region = region
   }
 
-/******************  QURIES  ******************/
+  /******************  QURIES  ******************/
   private fetchCommonData(_slug: string) {
     return groq`
       *[_type == "whoWeServe" && basicInfo.slug.current == $slug && language == $region][0]{
@@ -279,7 +279,7 @@ class Queries {
       }
     }`
   }
-  
+
   private fetchVerticalTestimonialListing(_region: string) {
     return groq`*[_type == "verticalTestimonialListing" && language == $region][0]{
       _id,
@@ -345,7 +345,7 @@ class Queries {
     }`
   }
 
-  private fetchPageData(_type: string,_slug: string){ 
+  private fetchPageData(_type: string, _slug: string) {
     return groq`*[_type == $type && basicInfo.slug.current == $slug && language == $language][0]{
     "title": basicInfo.title,
     "description": basicInfo.description,
@@ -359,10 +359,103 @@ class Queries {
             componentType == "TabsListing" => tabsListingComponent {
             
               _type,
-              "heading": headline,
+              "headline": headline,
               "subHeading":subheadline,
               "description":subDescription,
-              "refData": globalData->
+              "refData": globalData->,
+              heading,
+             
+        tabs[] {
+          _key,
+          tabHeading,
+          "image": image.asset-> {
+            _id,
+            url,
+            altText,
+            title,
+            originalFilename,
+            size,
+            mimeType,
+            metadata {
+              dimensions {
+                width,
+                height,
+                aspectRatio
+              },
+              lqip,
+              hasAlpha,
+              isOpaque
+            }
+          },
+          listItems[] {
+            _key,
+            subfeatureHeading,
+            
+          },
+          ctaListItems[] {
+            _key,
+            ctaLink,
+            ctaText,
+            ctaType
+          },
+          Link,
+          LinkText,
+          testimonial-> {
+            _id,
+            name,
+            designation,
+            "logo": logo.asset-> {
+              _id,
+              url,
+              altText,
+              title,
+              originalFilename,
+              size,
+              mimeType,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                },
+                lqip,
+                hasAlpha,
+                isOpaque
+              }
+            },
+           
+            "testimonialImage": testimonialImage.asset-> {
+              _id,
+              url,
+              altText,
+              title,
+              originalFilename,
+              size,
+              mimeType,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                },
+                lqip,
+                hasAlpha,
+                isOpaque
+              }
+            },
+            listItems[] {
+              listHeading,
+              before,
+              after,
+              description
+            },
+            testimonialheading,
+            testimonialdescription,
+            keyStatement,
+            keyFeatures,
+            language
+          }
+        }
          
             },
             componentType == "Custom" => customComponent {
@@ -451,7 +544,6 @@ class Queries {
     }`
   }
 
-
   /******************  DATA FETCHING  ******************/
 
   public async getData() {
@@ -480,7 +572,6 @@ class Queries {
     }
   }
 
-
   public async getVerticalTestimonialListing(region: string) {
     try {
       const query = this.fetchVerticalTestimonialListing(region)
@@ -491,34 +582,33 @@ class Queries {
     }
   }
 
-  public async getPageData(type: string,slug: string) {
-    const query = this.fetchPageData(type,slug)
-    const params = { type,slug,language:this.region }
+  public async getPageData(type: string, slug: string) {
+    const query = this.fetchPageData(type, slug)
+    const params = { type, slug, language: this.region }
     const result = await this.client.fetch(query, params)
-  
-    const transformedSections = result?.content?.sections?.reduce((acc: any, section: any) => {
-      if (section.slug?.current) {
-        acc[section.slug.current] = section.component
-      }
-      return acc
-    }, {})
-    
+
+    const transformedSections = result?.content?.sections?.reduce(
+      (acc: any, section: any) => {
+        if (section.slug?.current) {
+          acc[section.slug.current] = section.component
+        }
+        return acc
+      },
+      {},
+    )
+
     return transformedSections
-   
   }
 
-  public async fetchHomeCardData(region:string) {
+  public async fetchHomeCardData(region: string) {
     const query = this.fetchHomeCardList(region)
     return await this.client.fetch(query, { region: region })
   }
 
-  public async fetchFaqData(region:string) {
+  public async fetchFaqData(region: string) {
     const query = this.fetchFaqReferencedData(region)
     return await this.client.fetch(query, { region: region })
   }
-
-
 }
-
 
 export default Queries
