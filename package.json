@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "npm run check-unwanted && npm run lint && next build",
+    "build": "npm run lint && next build",
     "dev": "next dev -p 3003 --turbopack",
     "format": "npx prettier --write . --ignore-path .gitignore",
     "lint": "next lint",

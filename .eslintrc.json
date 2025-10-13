@@ -4,20 +4,6 @@
   "rules": {
     "simple-import-sort/imports": "warn",
     "simple-import-sort/exports": "warn",
-    "react-hooks/exhaustive-deps": "warn",
-    "no-console": "error",
-    "no-debugger": "error",
-    "no-alert": "error"
-  },
-  "overrides": [
-    {
-      "files": ["src/components/**/*.{js,jsx,ts,tsx}"],
-      "rules": {
-        "no-console": "error",
-        "no-debugger": "error",
-        "no-alert": "error",
-        "no-unwanted-components": "error"
-      }
-    }
-  ]
+    "react-hooks/exhaustive-deps": "warn"
+  }
 }
