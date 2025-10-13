@@ -16,6 +16,7 @@ const dynamicComponent = {
           { title: 'Tabs Listing Component', value: 'TabsListing' },
           { title: 'Custom Component', value: 'Custom' },
           { title: 'Hero Component', value: 'Hero' },
+          { title: 'Generic Listing Component', value: 'GenericListing' },
         ],
       },
       validation: (Rule: any) => Rule.required(),
@@ -39,6 +40,12 @@ const dynamicComponent = {
       type: 'heroComponent',
       hidden: ({ parent }: any) => parent?.componentType !== 'Hero',
     },
+    {
+      name: 'genericListingComponent',
+      title: 'Generic Listing Component',
+      type: 'genericListingComponent',
+      hidden: ({ parent }: any) => parent?.componentType !== 'GenericListing',
+    },
   ],
   preview: {
     select: {
@@ -47,9 +54,10 @@ const dynamicComponent = {
       customTitle: 'customComponent.title',
       heroTitle: 'heroComponent.heroheading',
       heroStrip: 'heroComponent.heroStrip',
+      genericListingTitle: 'genericListingComponent.heading',
     },
     prepare(selection: any) {
-      const { componentType, tabsTitle, customTitle, heroTitle, heroStrip } = selection;
+      const { componentType, tabsTitle, customTitle, heroTitle, heroStrip, genericListingTitle } = selection;
       
       let title = componentType || 'Dynamic Component';
       let subtitle = '';
@@ -69,6 +77,8 @@ const dynamicComponent = {
         } else {
           subtitle = heroStrip || 'Hero Component';
         }
+      } else if (componentType === 'GenericListing' && genericListingTitle) {
+        subtitle = genericListingTitle;
       }
       
       return {

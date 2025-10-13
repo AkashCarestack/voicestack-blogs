@@ -1,6 +1,7 @@
 import React from 'react'
 import { GetStaticProps } from 'next'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import CardsGridSection from '~/components/revamp/components/CardsGridSection'
 import Queries from '~/components/revamp/queries'
 
 // Define proper TypeScript interfaces
@@ -12,9 +13,30 @@ interface HeroComponentData {
   [key: string]: any // For flexibility with dynamic data
 }
 
+interface GenericListingData {
+  heading?: string
+  description?: string
+  items?: Array<{
+    _key?: string
+    heading?: string
+    subheading?: string
+    description?: string
+    link?: {
+      url?: string
+      text?: string
+      buttonType?: string
+    }
+    dynamicSvg?: string
+    image?: any
+  }>
+}
+
 interface PageData {
   'inner-hero': {
     componentData: HeroComponentData
+  }
+  'how-voicestack-works'?: {
+    componentData: GenericListingData
   }
   [key: string]: any // For other page sections
 }
@@ -38,10 +60,18 @@ export default function TestShakir({ pageData, region }: TestShakirProps) {
   }
 
   return (
-    <HeroSection 
-      page="inner" 
-      data={pageData['inner-hero'].componentData}
-    />
+    <>
+      <HeroSection 
+        page="inner" 
+        data={pageData['inner-hero'].componentData}
+      />
+      
+      {pageData['how-voicestack-works']?.componentData && (
+        <CardsGridSection 
+          data={pageData['how-voicestack-works'].componentData}
+        />
+      )}
+    </>
   )
 }
 
