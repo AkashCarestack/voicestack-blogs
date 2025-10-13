@@ -5,14 +5,16 @@ import { SanityClient } from '@sanity/client'
 class Queries {
   slug?: string
   client = getClient()
-  constructor(slug: string) {
+  region?: string
+  constructor(slug: string, region: string) {
     this.slug = slug
+    this.region = region
   }
 
-/******************  QURIES  ******************/
+  /******************  QURIES  ******************/
   private fetchCommonData(_slug: string) {
     return groq`
-      *[_type == "whoWeServe" && basicInfo.slug.current == $slug][0]{
+      *[_type == "whoWeServe" && basicInfo.slug.current == $slug && language == $region][0]{
         'faq':faqRevamp[0]->{faqItems
         },
         content {
@@ -277,7 +279,7 @@ class Queries {
       }
     }`
   }
-  
+
   private fetchVerticalTestimonialListing(_region: string) {
     return groq`*[_type == "verticalTestimonialListing" && language == $region][0]{
       _id,
@@ -343,8 +345,8 @@ class Queries {
     }`
   }
 
-  private fetchPageData(_type: string,_slug: string){ 
-    return groq`*[_type == $type && basicInfo.slug.current == $slug][0]{
+  private fetchPageData(_type: string, _slug: string) {
+    return groq`*[_type == $type && basicInfo.slug.current == $slug && language == $language][0]{
     "title": basicInfo.title,
     "description": basicInfo.description,
     "faqData": faqRevamp[]->,
@@ -357,10 +359,103 @@ class Queries {
             componentType == "TabsListing" => tabsListingComponent {
             
               _type,
-              "heading": headline,
+              "headline": headline,
               "subHeading":subheadline,
               "description":subDescription,
-              "refData": globalData->
+              "refData": globalData->,
+              heading,
+             
+        tabs[] {
+          _key,
+          tabHeading,
+          "image": image.asset-> {
+            _id,
+            url,
+            altText,
+            title,
+            originalFilename,
+            size,
+            mimeType,
+            metadata {
+              dimensions {
+                width,
+                height,
+                aspectRatio
+              },
+              lqip,
+              hasAlpha,
+              isOpaque
+            }
+          },
+          listItems[] {
+            _key,
+            subfeatureHeading,
+            
+          },
+          ctaListItems[] {
+            _key,
+            ctaLink,
+            ctaText,
+            ctaType
+          },
+          Link,
+          LinkText,
+          testimonial-> {
+            _id,
+            name,
+            designation,
+            "logo": logo.asset-> {
+              _id,
+              url,
+              altText,
+              title,
+              originalFilename,
+              size,
+              mimeType,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                },
+                lqip,
+                hasAlpha,
+                isOpaque
+              }
+            },
+           
+            "testimonialImage": testimonialImage.asset-> {
+              _id,
+              url,
+              altText,
+              title,
+              originalFilename,
+              size,
+              mimeType,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                },
+                lqip,
+                hasAlpha,
+                isOpaque
+              }
+            },
+            listItems[] {
+              listHeading,
+              before,
+              after,
+              description
+            },
+            testimonialheading,
+            testimonialdescription,
+            keyStatement,
+            keyFeatures,
+            language
+          }
+        }
          
             },
             componentType == "Custom" => customComponent {
@@ -440,8 +535,8 @@ class Queries {
     }`
   }
 
-  private fetchFaqReferencedData(_region: string) {
-    return groq`*[_type == "homeSettings" && language == $region][0]{
+  private fetchFaqReferencedData() {
+    return groq`*[_type == $page && language == $region][0]{
        faqReferenced->{
         faqCategories,
         hideCategory
@@ -449,12 +544,11 @@ class Queries {
     }`
   }
 
-
   /******************  DATA FETCHING  ******************/
 
   public async getData() {
     const query = this.fetchCommonData(this.slug)
-    const params = { slug: this.slug }
+    const params = { slug: this.slug, region: this.region }
     return await this.client.fetch(query, params)
   }
 
@@ -478,7 +572,6 @@ class Queries {
     }
   }
 
-
   public async getVerticalTestimonialListing(region: string) {
     try {
       const query = this.fetchVerticalTestimonialListing(region)
@@ -489,34 +582,33 @@ class Queries {
     }
   }
 
-  public async getPageData(type: string,slug: string) {
-    const query = this.fetchPageData(type,slug)
-    const params = { type,slug }
+  public async getPageData(type: string, slug: string) {
+    const query = this.fetchPageData(type, slug)
+    const params = { type, slug, language: this.region }
     const result = await this.client.fetch(query, params)
-  
-    const transformedSections = result?.content?.sections?.reduce((acc: any, section: any) => {
-      if (section.slug?.current) {
-        acc[section.slug.current] = section.component
-      }
-      return acc
-    }, {})
-    
+
+    const transformedSections = result?.content?.sections?.reduce(
+      (acc: any, section: any) => {
+        if (section.slug?.current) {
+          acc[section.slug.current] = section.component
+        }
+        return acc
+      },
+      {},
+    )
+
     return transformedSections
-   
   }
 
-  public async fetchHomeCardData(region:string) {
+  public async fetchHomeCardData(region: string) {
     const query = this.fetchHomeCardList(region)
     return await this.client.fetch(query, { region: region })
   }
 
-  public async fetchFaqData(region:string) {
-    const query = this.fetchFaqReferencedData(region)
-    return await this.client.fetch(query, { region: region })
+  public async fetchFaqData(page: string, region: string) {
+    const query = this.fetchFaqReferencedData()
+    return await this.client.fetch(query, { region: region, page: page })
   }
-
-
 }
-
 
 export default Queries

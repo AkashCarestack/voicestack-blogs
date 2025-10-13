@@ -47,8 +47,8 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const region = locale || 'en'
 
   // revamp queries
-  const queries = new Queries('home')
-  const fetchTabListingData = new Queries('easily-handle')
+  const queries = new Queries('home',region)
+  const fetchTabListingData = new Queries('easily-handle',region)
   const homeCardData = await queries.fetchHomeCardData(region)
   const tabListingData = await fetchTabListingData.getData();
   const heroSectionData = await queries.getHeroData(region);
@@ -72,7 +72,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const testimonialHighlightsData = await getTestimonialHighlightSectionData(client,region)
   const bannerData = await getBannerData(client, region)
   const contactAndVideoData = await getContactAndVideoInfo(client, region)
-  const faqSectionData = await queries.fetchFaqData(region)
+  const faqSectionData = await queries.fetchFaqData('homeSettings',region)
   const featuresData = await getFeaturesList(client, region)
 
   return {

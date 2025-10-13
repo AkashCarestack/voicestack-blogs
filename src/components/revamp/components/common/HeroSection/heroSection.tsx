@@ -13,7 +13,7 @@ import Button from '../../../../common/Button'
 import { VideoItem } from '../../../../common/VideoModal'
 import Container from '../../../../structure/Container'
 
-const HeroSection = ({ data, refer = null, video=undefined, page="" }) => {
+const HeroSection = ({ data, refer = null, video = undefined, page = '' }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [openForm, setOpenForm] = useState(false)
   const router = useRouter()
@@ -60,9 +60,12 @@ const HeroSection = ({ data, refer = null, video=undefined, page="" }) => {
       ),
     },
     listItem: {
-        bullet: ({ children }: { children: React.ReactNode }) => (
-          <li className="flex gap-3 py-[14px] text-base text-gray-950 leading-[24px] border-b" style={{ borderColor: '#0307121A' }}>
-          <span className='mt-1'>
+      bullet: ({ children }: { children: React.ReactNode }) => (
+        <li
+          className="flex gap-3 py-[14px] text-base text-gray-950 leading-[24px] border-b"
+          style={{ borderColor: '#0307121A' }}
+        >
+          <span className="mt-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
@@ -103,8 +106,8 @@ const HeroSection = ({ data, refer = null, video=undefined, page="" }) => {
   const [playingIndex, setPlayingIndex] = useState<number | null>(null)
   const [playVideo, setPlayVideo] = useState<boolean | null>(false)
 
-   // Handle outside click to close YouTube videos
-   useEffect(() => {
+  // Handle outside click to close YouTube videos
+  useEffect(() => {
     const handleTouchOutside = (event: TouchEvent | MouseEvent) => {
       const target = event.target as HTMLElement
 
@@ -186,10 +189,13 @@ const HeroSection = ({ data, refer = null, video=undefined, page="" }) => {
     }
   }
 
-console.log(data,'data')
   return (
-    <section className={`${page == "home" ? "px-4 xl:px-12 pt-2": ""} bg-[#F9F9F9]  font-geist`}>
-      <div className={`${page == "home" ? "rounded-[12px] md:rounded-[24px] ": ""} bg-[linear-gradient(270deg,rgba(202,197,255,0.70)_0%,rgba(202,197,255,0.15)_51.44%,rgba(202,197,255,0.20)_100%)] justify-center`}>
+    <section
+      className={`${page == 'home' ? 'px-4 xl:px-12 pt-2' : ''} bg-[#F9F9F9]  font-geist`}
+    >
+      <div
+        className={`${page == 'home' ? 'rounded-[12px] md:rounded-[24px] ' : ''} bg-[linear-gradient(270deg,rgba(202,197,255,0.70)_0%,rgba(202,197,255,0.15)_51.44%,rgba(202,197,255,0.20)_100%)] justify-center`}
+      >
         <Container className="justify-center py-12">
           <div className="">
             <div className="flex flex-col lg:flex-row justify-between lg:gap-24 gap-12 items-center">
@@ -204,7 +210,7 @@ console.log(data,'data')
                     </span>
                   </div>
                 ) : (
-                  <div className='text-center lg:text-left'>
+                  <div className="text-center lg:text-left">
                     <span className="text-base font-medium text-gray-950 uppercase">
                       {data?.heroStrip}
                     </span>
@@ -250,179 +256,187 @@ console.log(data,'data')
 
               {/* Right Content - Video Section */}
               <div className="relative w-full max-w-[537px] md:py-9">
-                <div className="relative w-full lg:h-[550px] rounded-[12px] md:rounded-[24px] overflow-hidden aspect-video">
+                <div className="relative w-full h-[550px] rounded-[12px] md:rounded-[24px] overflow-hidden md:aspect-video">
                   {video ? (
-                  <VideoPlayers
-                    video={video[0]}
-                    thumbnail={video[0]?.videoThumbnail}
-                  />
-                  ):
-                  (
+                    <VideoPlayers
+                      video={video[0]}
+                      thumbnail={video[0]?.videoThumbnail}
+                    />
+                  ) : (
                     // <ImageLoader
                     //   image={data?.heroImage}
                     //   alt={data?.heroImage?.altText}
                     //   className="w-full h-full object-cover"
                     // />
-                     <div className="md:max-w-[606px] leading-none flex-1 flex justify-center md:justify-end items-start relative">
-                       <div className='absolute right-auto left-1/2 md:left-auto md:right-0 top-[0] bg-[#4A3CE1] opacity-10 rounded-[12px] md:rounded-[22px] -translate-x-1/2 md:translate-x-0 rotate-[-7.7deg] scale-90 aspect-[380/550] w-[300px] lg:w-[380px] shrink-0 origin-bottom-left'></div>
-                        <div className='relative rounded-[8px] md:rounded-[16px] aspect-[380/550] w-[300px] lg:w-[380px] overflow-hidden shrink-0'>
+                    <div className="md:max-w-[606px] leading-none flex-1 flex justify-center lg:justify-end items-start relative">
+                      <div className="absolute right-auto left-1/2 md:left-auto md:right-0 top-[0] bg-[#4A3CE1] opacity-10 rounded-[12px] md:rounded-[22px] -translate-x-1/2 lg:translate-x-0 rotate-[-7.7deg] scale-90 aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] shrink-0 origin-bottom-left"></div>
+                      <div className="relative rounded-[8px] md:rounded-[16px] aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] overflow-hidden shrink-0">
                         <div
-                       className="group flex flex-col justify-center rounded-2xl h-[550px] shadow-md cursor-pointer w-full aspect-[9/16] overflow-hidden relative"
-                       onMouseEnter={() => {
-                         // Only play thumbnail video if YouTube is not playing
-                         if (playingYoutubeIndex !== 0) {
-                           setActiveVideoIndex(0)
-                           handleVideoPlay(0)
-                         }
-                       }}
-                       onMouseLeave={() => {
-                         // Only pause thumbnail video if YouTube is not playing
-                         if (playingYoutubeIndex !== 0) {
-                           handleVideoPause(0)
-                           setActiveVideoIndex(null)
-                           setPlayingIndex(null)
-                         }
-                       }}
-                       onClick={() => {
-                         const videoId = data?.testimonial?.video?.[0]?.videoId
-                         handleVideoClick(0, videoId)
-                       }}
-                     >
-                       {playingYoutubeIndex === 0 && data?.testimonial?.video?.[0]?.videoId ? (
-                         <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden">
-                           <iframe
-                             ref={(el) => {
-                               if (el) iframeRefs.current[0] = el
-                             }}
-                             src={`https://www.youtube-nocookie.com/embed/${data?.testimonial?.video?.[0]?.videoId}?playlist=${data?.testimonial?.video?.[0]?.videoId}&loop=1&autoplay=1&modestbranding=1&rel=0&disablekb=1&fs=0&controls=0&enablejsapi=1`}
-                             className="w-full h-full animate-fadeIn transition-opacity duration-300"
-                             style={{
-                               position: 'absolute',
-                               top: 0,
-                               left: 0,
-                               width: '100%',
-                               height: '100%',
-                               border: 'none',
-                               borderRadius: '12px'
-                             }}
-                             allow="autoplay; encrypted-media"
-                             allowFullScreen
-                             title="YouTube video"
-                           />
-                         </div>
-                       ) : (
-                         <div className="relative w-full h-full ">
-                           {/* Thumbnail Video - plays on hover */}
-                           {data?.testimonial?.thumbnail && (
-                             <video
-                               ref={(el) => (videoRefs.current[0] = el)}
-                               key={data?.testimonial?.thumbnail}
-                               style={{
-                                 backgroundColor: 'transparent',
-                                 backgroundImage: 'none',
-                                 backgroundSize: 0,
-                                 backgroundPosition: 0,
-                                 backgroundRepeat: 'no-repeat',
-                                 objectFit: 'cover',
-                               }}
-                               className="absolute h-full w-full object-cover"
-                               autoPlay
-                               loop
-                               muted
-                               playsInline
-                             >
-                               <source src={data?.testimonial?.thumbnail} type="video/mp4" />
-                               Your browser does not support the video tag.
-                             </video>
-                           )}
+                          className="group flex flex-col justify-center rounded-2xl h-[550px] shadow-md cursor-pointer w-full aspect-[9/16] overflow-hidden relative"
+                          onMouseEnter={() => {
+                            // Only play thumbnail video if YouTube is not playing
+                            if (playingYoutubeIndex !== 0) {
+                              setActiveVideoIndex(0)
+                              handleVideoPlay(0)
+                            }
+                          }}
+                          onMouseLeave={() => {
+                            // Only pause thumbnail video if YouTube is not playing
+                            if (playingYoutubeIndex !== 0) {
+                              handleVideoPause(0)
+                              setActiveVideoIndex(null)
+                              setPlayingIndex(null)
+                            }
+                          }}
+                          onClick={() => {
+                            const videoId =
+                              data?.testimonial?.video?.[0]?.videoId
+                            handleVideoClick(0, videoId)
+                          }}
+                        >
+                          {playingYoutubeIndex === 0 &&
+                          data?.testimonial?.video?.[0]?.videoId ? (
+                            <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden">
+                              <iframe
+                                ref={(el) => {
+                                  if (el) iframeRefs.current[0] = el
+                                }}
+                                src={`https://www.youtube-nocookie.com/embed/${data?.testimonial?.video?.[0]?.videoId}?playlist=${data?.testimonial?.video?.[0]?.videoId}&loop=1&autoplay=1&modestbranding=1&rel=0&disablekb=1&fs=0&controls=0&enablejsapi=1`}
+                                className="w-full h-full animate-fadeIn transition-opacity duration-300"
+                                style={{
+                                  position: 'absolute',
+                                  top: 0,
+                                  left: 0,
+                                  width: '100%',
+                                  height: '100%',
+                                  border: 'none',
+                                  borderRadius: '12px',
+                                }}
+                                allow="autoplay; encrypted-media"
+                                allowFullScreen
+                                title="YouTube video"
+                              />
+                            </div>
+                          ) : (
+                            <div className="relative w-full h-full rounded-2xl overflow-hidden">
+                              {/* Thumbnail Video - plays on hover */}
+                              {data?.testimonial?.thumbnail && (
+                                <video
+                                  ref={(el) => (videoRefs.current[0] = el)}
+                                  key={data?.testimonial?.thumbnail}
+                                  style={{
+                                    backgroundColor: 'transparent',
+                                    backgroundImage: 'none',
+                                    backgroundSize: 0,
+                                    backgroundPosition: 0,
+                                    backgroundRepeat: 'no-repeat',
+                                    objectFit: 'cover',
+                                  }}
+                                  className="absolute h-full w-full object-cover"
+                                  autoPlay
+                                  loop
+                                  muted
+                                  playsInline
+                                >
+                                  <source
+                                    src={data?.testimonial?.thumbnail}
+                                    type="video/mp4"
+                                  />
+                                  Your browser does not support the video tag.
+                                </video>
+                              )}
 
-                           {/* Blur Overlay */}
-                           <div className="absolute bottom-0 h-64 w-full pointer-events-none z-0 group-hover:opacity-0">
-                             <div className="absolute  backdrop-blur-[0.5px]  [mask-image:linear-gradient(180deg,rgba(0,0,0,0),#000_10%)] left-0 top-0 z-[1] w-full h-full " />
-                             <div className="absolute backdrop-blur-[2px]  [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_10%,#000_20%)] left-0 top-0 z-[1] w-full h-full" />
-                             <div className="absolute backdrop-blur-[4.5px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_20%,#000_30%)] left-0 top-0 z-[1] w-full h-full" />
-                             <div className="absolute backdrop-blur-[8px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_30%,#000_40%)] left-0 top-0 z-[1] w-full h-full" />
-                             <div className="absolute backdrop-blur-[12px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_40%,#000_50%)] left-0 top-0 z-[1] w-full h-full" />
-                             <div className="absolute backdrop-blur-[18px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_50%,#000_60%)] left-0 top-0 z-[1] w-full h-full" />
-                             <div className="absolute backdrop-blur-[24px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_60%,#000_70%)] left-0 top-0 z-[1] w-full h-full" />
-                             <div className="absolute backdrop-blur-[31px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_70%,#000_80%)] left-0 top-0 z-[1] w-full h-full" />
-                             <div className="absolute backdrop-blur-[40px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_80%,#000_90%)] left-0 top-0 z-[1] w-full h-full" />
-                             <div className="absolute backdrop-blur-[49px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_90%,#000_100%)] left-0 top-0 z-[1] w-full h-full" />
-                           </div>
-                           <div className="absolute bottom-0 h-64 mix-blend-darken w-full z-0 "></div>
-                           {/* Play button that shows on hover - Top right of card */}
-                           <div className="absolute top-4 right-4 z-30 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                             <div 
-                               className="rounded-full flex items-center cursor-pointer justify-center w-24 h-10 border border-white/20 bg-black/15 text-white hover:bg-black/25 transition-colors duration-200"
-                               onClick={() =>
-                                 handleVideoClick(
-                                   0,
-                                   data?.testimonial?.video?.[0]?.videoId
-                                 )
-                               }
-                             >
-                               <span className="flex items-center">
-                                 <svg
-                                   xmlns="http://www.w3.org/2000/svg"
-                                   width="17"
-                                   height="16"
-                                   viewBox="0 0 17 16"
-                                   fill="none"
-                                   className="mr-2"
-                                 >
-                                   <path
-                                     d="M3.5 3.73c0-.27.07-.53.21-.76.13-.23.33-.42.57-.55.24-.13.5-.2.77-.19.27.01.53.09.77.23l6.7 4.27c.21.13.39.32.51.54.12.23.19.48.19.74 0 .26-.07.52-.19.74-.12.22-.3.41-.51.54l-6.7 4.27c-.23.15-.49.23-.76.24-.27.01-.53-.06-.77-.19-.24-.13-.44-.32-.57-.55-.14-.23-.21-.49-.21-.76V3.73Z"
-                                     fill="currentColor"
-                                   />
-                                 </svg>
-                                 Play
-                               </span>
-                             </div>
-                           </div>
+                              {/* Blur Overlay */}
+                              <div className="absolute bottom-0 h-64 w-full pointer-events-none z-0 group-hover:opacity-0">
+                                <div className="absolute  backdrop-blur-[0.5px]  [mask-image:linear-gradient(180deg,rgba(0,0,0,0),#000_10%)] left-0 top-0 z-[1] w-full h-full " />
+                                <div className="absolute backdrop-blur-[2px]  [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_10%,#000_20%)] left-0 top-0 z-[1] w-full h-full" />
+                                <div className="absolute backdrop-blur-[4.5px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_20%,#000_30%)] left-0 top-0 z-[1] w-full h-full" />
+                                <div className="absolute backdrop-blur-[8px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_30%,#000_40%)] left-0 top-0 z-[1] w-full h-full" />
+                                <div className="absolute backdrop-blur-[12px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_40%,#000_50%)] left-0 top-0 z-[1] w-full h-full" />
+                                <div className="absolute backdrop-blur-[18px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_50%,#000_60%)] left-0 top-0 z-[1] w-full h-full" />
+                                <div className="absolute backdrop-blur-[24px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_60%,#000_70%)] left-0 top-0 z-[1] w-full h-full" />
+                                <div className="absolute backdrop-blur-[31px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_70%,#000_80%)] left-0 top-0 z-[1] w-full h-full" />
+                                <div className="absolute backdrop-blur-[40px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_80%,#000_90%)] left-0 top-0 z-[1] w-full h-full" />
+                                <div className="absolute backdrop-blur-[49px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_90%,#000_100%)] left-0 top-0 z-[1] w-full h-full" />
+                              </div>
+                              <div className="absolute bottom-0 h-64 mix-blend-darken w-full z-0 "></div>
+                              {/* Play button that shows on hover - Top right of card */}
+                              <div className="absolute top-4 right-4 z-30 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                                <div
+                                  className="rounded-full flex items-center cursor-pointer justify-center w-24 h-10 border border-white/20 bg-black/15 text-white hover:bg-black/25 transition-colors duration-200"
+                                  onClick={() =>
+                                    handleVideoClick(
+                                      0,
+                                      data?.testimonial?.video?.[0]?.videoId,
+                                    )
+                                  }
+                                >
+                                  <span className="flex items-center">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="17"
+                                      height="16"
+                                      viewBox="0 0 17 16"
+                                      fill="none"
+                                      className="mr-2"
+                                    >
+                                      <path
+                                        d="M3.5 3.73c0-.27.07-.53.21-.76.13-.23.33-.42.57-.55.24-.13.5-.2.77-.19.27.01.53.09.77.23l6.7 4.27c.21.13.39.32.51.54.12.23.19.48.19.74 0 .26-.07.52-.19.74-.12.22-.3.41-.51.54l-6.7 4.27c-.23.15-.49.23-.76.24-.27.01-.53-.06-.77-.19-.24-.13-.44-.32-.57-.55-.14-.23-.21-.49-.21-.76V3.73Z"
+                                        fill="currentColor"
+                                      />
+                                    </svg>
+                                    Play
+                                  </span>
+                                </div>
+                              </div>
 
-                           {/* Content that shows by default and hides on hover */}
-                           <div className="absolute bottom-0 w-full h-2/3 z-10 flex flex-col justify-end bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.1)_100%),linear-gradient(180deg,rgba(0,0,0,0)_0%,#000_100%)]">
-                             <div className="flex flex-col justify-end w-full pb-6 text-white">
-                               {playingIndex !== 0 && (
-                                 <div className="px-6">
-                                   <div
-                                     className="mb-4"
-                                     style={{
-                                       height: `48px`,
-                                       width: `${
-                                         48 *
-                                         data?.testimonial?.logo?.metadata?.dimensions?.aspectRatio || 2
-                                       }px`,
-                                     }}
-                                   >
-                                     <ImageLoader
-                                       image={data?.testimonial?.logo?.url}
-                                       className="w-full h-full object-contain filter brightness-[132%] contrast-[202%]"
-                                       alt="Company Logo"
-                                     />
-                                   </div>
+                              {/* Content that shows by default and hides on hover */}
+                              <div className="absolute bottom-0 w-full h-2/3 z-10 flex flex-col justify-end bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.1)_100%),linear-gradient(180deg,rgba(0,0,0,0)_0%,#000_100%)]">
+                                <div className="flex flex-col justify-end w-full pb-6 text-white">
+                                  {playingIndex !== 0 && (
+                                    <div className="px-6">
+                                      <div
+                                        className="mb-4"
+                                        style={{
+                                          height: `48px`,
+                                          width: `${
+                                            48 *
+                                              data?.testimonial?.logo?.metadata
+                                                ?.dimensions?.aspectRatio || 2
+                                          }px`,
+                                        }}
+                                      >
+                                        <ImageLoader
+                                          image={data?.testimonial?.logo?.url}
+                                          className="w-full h-full object-contain filter brightness-[132%] contrast-[202%]"
+                                          alt="Company Logo"
+                                        />
+                                      </div>
 
-                                   <h3 className="text-base xl:text-lg font-medium">
-                                     &ldquo;{data?.testimonial?.testimonialdescription}&rdquo;
-                                   </h3>
-                                   <div className="h-[1px] w-full bg-white/20 my-3"></div>
-                                   <p className="text-sm xl:text-base font-medium">
-                                     {data?.testimonial?.name}
-                                   </p>
-                                   <p className="text-sm text-white/60">
-                                     {data?.testimonial?.designation}
-                                   </p>
-                                 </div>
-                               )}
-                               
-                               
-                             </div>
-                           </div>
-                         </div>
-                       )}
-                     </div>
+                                      <h3 className="text-base xl:text-lg font-medium">
+                                        &ldquo;
+                                        {
+                                          data?.testimonial
+                                            ?.testimonialdescription
+                                        }
+                                        &rdquo;
+                                      </h3>
+                                      <div className="h-[1px] w-full bg-white/20 my-3"></div>
+                                      <p className="text-sm xl:text-base font-medium">
+                                        {data?.testimonial?.name}
+                                      </p>
+                                      <p className="text-sm text-white/60">
+                                        {data?.testimonial?.designation}
+                                      </p>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
+                    </div>
                   )}
                 </div>
               </div>

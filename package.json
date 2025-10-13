@@ -1,11 +1,12 @@
 {
   "private": true,
   "scripts": {
-    "build": "next build",
+    "build": "npm run lint && next build",
     "dev": "next dev -p 3003 --turbopack",
     "format": "npx prettier --write . --ignore-path .gitignore",
-    "lint": "next lint -- --ignore-path .gitignore",
+    "lint": "next lint",
     "lint:fix": "npm run format && npm run lint -- --fix",
+    "lint:components": "npx eslint src/components --ext .ts,.tsx,.js,.jsx",
     "start": "next start",
     "type-check": "tsc --noEmit",
     "find-unused-exports": "find-unused-exports",
