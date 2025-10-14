@@ -2,7 +2,12 @@ import React from 'react'
 import { GetStaticProps } from 'next'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import CardsGridSection from '~/components/revamp/components/CardsGridSection'
+import SiteComparisonSection from '~/components/SiteComparisonSection'
+import VoiceStackComparisonCards from '~/components/revamp/components/VoiceStackComparisonCards'
 import Queries from '~/components/revamp/queries'
+import { getClient } from '~/lib/sanity.client'
+import { readToken } from '~/lib/sanity.api'
+import { getComparisonTableData, getAllComparisonValues } from '~/lib/sanity.queries'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -44,9 +49,13 @@ interface PageData {
 interface TestShakirProps {
   pageData: PageData
   region: string
+  comparisonTableData: any
+  comparisonLegendData: any[]
 }
 
-export default function TestShakir({ pageData, region }: TestShakirProps) {
+export default function TestShakir({ pageData, region, comparisonTableData, comparisonLegendData }: TestShakirProps) {
+
+  console.log(pageData)
   // Add error boundary and validation
   if (!pageData?.['inner-hero']?.componentData) {
     return (
@@ -57,6 +66,14 @@ export default function TestShakir({ pageData, region }: TestShakirProps) {
         </div>
       </div>
     )
+  }
+
+  // Create comparison section data (same structure as homepage)
+  const comparisonSectionData = {
+    strip: 'The Best-in-Class Phone System. For the Best-in-Class Dental Practices.',
+    header: 'No other phone system can match VoiceStack\'s AI-driven features,outcome-driven workflows and integration capabilities, as shown in the comparison chart below. ',
+    columnDimensionName: 'Features',
+    table: comparisonTableData,
   }
 
   return (
@@ -71,6 +88,31 @@ export default function TestShakir({ pageData, region }: TestShakirProps) {
           data={pageData['how-voicestack-works'].componentData}
         />
       )}
+      
+      {/* VoiceStack Comparison Cards Section */}
+      <VoiceStackComparisonCards 
+        data={{
+          heading: "Discover Why VoiceStack Excels in Business Phones",
+          description: "Deliver first-touchpoint resolutions by automatically routing calls to relevant teams and agents.",
+          cards: [
+            { _key: '1', title: 'Mango Voice' },
+            { _key: '2', title: 'Peerlogic' },
+            { _key: '3', title: 'Patient Prism' },
+            { _key: '4', title: 'Mango Voice' },
+            { _key: '5', title: 'Peerlogic' },
+            { _key: '6', title: 'Mango Voice' },
+            { _key: '7', title: 'Ring Central' },
+            { _key: '8', title: 'Patient Prism' },
+          ]
+        }}
+      />
+      
+      {pageData['comparison-table']?.componentData && (
+        <SiteComparisonSection 
+          data={comparisonSectionData} 
+          legendData={comparisonLegendData}
+        />
+      )}
     </>
   )
 }
@@ -82,6 +124,11 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const slug = region === 'en' ? 'test-shakir' : `test-shakir-${region.toLowerCase()}`
     
     const pageData = await queries.getPageData('whoWeServe', slug)
+    
+    // Fetch comparison table data
+    const client = getClient()
+    const comparisonTableData = await getComparisonTableData(client, region)
+    const comparisonLegendData = await getAllComparisonValues(client, region)
 
     if (!pageData || Object.keys(pageData).length === 0) {
       return {
@@ -93,6 +140,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData,
         region,
+        comparisonTableData,
+        comparisonLegendData,
       },
       // Add revalidation for ISR
       // revalidate: 60, // Revalidate every 60 seconds

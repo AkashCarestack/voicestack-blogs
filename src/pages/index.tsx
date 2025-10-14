@@ -61,9 +61,9 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const homeSettings = await getHeaderData(client, region)
   const siteSettings = await runQuery(getALLSiteSettings(region))
   const founderDetails = await runQuery(getFounderDetails(region))
-  const comparisonTableData = await runQuery(getComparisonTableData(region))
+  const comparisonTableData = await getComparisonTableData(client, region)
   
-  const comparisonLegendData = await runQuery(getAllComparisonValues(region))
+  const comparisonLegendData = await getAllComparisonValues(client, region)
   const integrationPlatforms = await getIntegrationList(client, region);
   const logoSectionData = await logoSection(client,region);
   const featureSectionData = await featureSectionQuery(client, region);
