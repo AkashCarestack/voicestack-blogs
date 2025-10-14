@@ -1,4 +1,6 @@
 export interface IdataProps {
+    id: string;
+    testimonial: any;
     title: string,
     key: string,
     setActiveTab: (key: string) => void
