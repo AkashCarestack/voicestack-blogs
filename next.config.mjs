@@ -10,7 +10,11 @@ const config = {
     root: path.resolve(__dirname),
   },
   images: {
-    remotePatterns: [{ hostname: 'cdn.sanity.io' }, { hostname: 'cdn.vidyard.com' }],
+    remotePatterns: [
+      { hostname: 'cdn.sanity.io' }, 
+      { hostname: 'cdn.vidyard.com' },
+      { hostname: 'www.figma.com' }
+    ],
     dangerouslyAllowSVG: true,
   },
   env: {

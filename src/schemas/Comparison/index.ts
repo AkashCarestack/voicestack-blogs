@@ -16,6 +16,7 @@ export default defineType({
       type: 'array',
       of: [
         defineField({
+          name: 'column',
           type: 'object',
           fields: [
             defineField({
@@ -46,6 +47,7 @@ export default defineType({
       type: 'array',
       of: [
         defineField({
+          name: 'rowCategory',
           type: 'object',
           fields: [
             defineField({
@@ -72,6 +74,7 @@ export default defineType({
               type: 'array',
               of: [
                 defineField({
+                  name: 'row',
                   type: 'object',
                   fields: [
                     defineField({

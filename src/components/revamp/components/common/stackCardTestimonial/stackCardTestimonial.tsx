@@ -7,6 +7,7 @@ import Section from '~/components/structure/Section'
 import { FormModal } from '~/components/common/FormModal'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
 import { PortableText } from '@portabletext/react'
+import SwitchableTabs from '../switchableTabs'
 
 interface TestimonialData {
   id: string
@@ -70,12 +71,22 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
 
   return (
     <Section className="relative py-sm md:py-md  bg-[#F9F9F9]">
-      <Container>
-        <div className="text-center flex flex-col gap-16">
+      <Container className='w-full justify-center'>
+        <div className="text-center flex flex-col md:gap-16 gap-8 overflow-hidden">
           <SectionHeader heading={data?.componentData?.headline} />
 
           {/* Company Logos Tabs */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 ">
+           <SwitchableTabs
+             data={data?.componentData?.tabs?.map((tab, index) => ({
+               ...tab,
+               id: tab.id || index.toString()
+             })) || []}
+             setActiveTab={(e: string) => setActiveTestimonial(Number(e))}
+             activeTab={activeTestimonial.toString()}
+             className='md:hidden block'
+             isShowImage={true}
+           />
+          <div className="md:grid hidden md:grid-cols-4 gap-6 lg:gap-8 ">
             {data?.componentData?.tabs?.map((testimonial, index) => (
               <button
                 key={testimonial.id}
@@ -88,12 +99,12 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
               >
                 <div className={`relative mb-2 `}>
                   <div
-                    className="pb-6"
+                    className="mb-6"
                     style={{
                       height: `48px`,
                       width: `${
                         48 *
-                          currentTestimonial?.image?.metadata?.dimensions
+                        testimonial?.testimonial?.logo?.metadata?.dimensions
                             ?.aspectRatio || 2
                       }px`,
                     }}
@@ -114,10 +125,10 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
           </div>
 
           {/* Main Content */}
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-32 items-start">
-            <div className="relative w-full max-w-[320px] mx-auto lg:mx-0 lg:max-w-[501px]">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 xl:gap-32 items-center lg:items-start">
+            <div className='max-w-[501px] hidden md:block'>
               <div
-                className="mb-4"
+                className="flex relative w-full"
                 style={{
                   height: `607px`,
                   width: `${
@@ -133,19 +144,24 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                   alt="Company Logo"
                 />
               </div>
+
             </div>
+            
 
             {/* Right Column - Testimonial Details */}
-            <div className="space-y-6">
+            <div className="max-w-[606px] w-full flex flex-col md:gap-8 gap-4">
               {/* Quote */}
-              <blockquote className="text-xl lg:text-2xl font-medium text-left">
+              {currentTestimonial?.testimonial?.keyStatement && (   
+              <blockquote className="text-xl lg:text-2xl font-medium text-left min-h-[259px]">
                 <PortableText
                   value={currentTestimonial?.testimonial?.keyStatement}
                   components={components}
                 />
               </blockquote>
+              )}
 
               {/* Key Features */}
+              {currentTestimonial?.testimonial?.keyFeatures &&
               <div className="space-y-3">
                 <div className="flex items-center gap-2">
                   <h3 className="text-sm font-medium text-gray-700 uppercase leading-[200%] tracking-[0.8px]">
@@ -191,6 +207,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                   )}
                 </div>
               </div>
+              }
 
               {/* Profile */}
               <div className="flex items-center gap-3 border-b border-gray-200 pb-6">
@@ -203,7 +220,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <div>
+                <div className='flex flex-col gap-1 items-start'>
                   <p className="font-semibold text-gray-900">
                     {currentTestimonial?.testimonial?.name}
                   </p>
@@ -213,8 +230,8 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                 </div>
               </div>
 
-              {currentTestimonial.ctaListItems && (
-                <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
+              {currentTestimonial?.ctaListItems && (
+                <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center lg:items-start >">
                   <Button
                     type="primary"
                     className="w-fit"
@@ -223,7 +240,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     }}
                   >
                     <span>
-                      {currentTestimonial.ctaListItems[0]?.ctaText ||
+                      {currentTestimonial?.ctaListItems[0]?.ctaText ||
                         'Book Free Demo'}
                     </span>
                   </Button>

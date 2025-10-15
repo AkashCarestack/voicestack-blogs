@@ -714,8 +714,8 @@ export async function getHeaderData(client: SanityClient, region: string) {
 export const getALLSiteSettings = (region) =>
   groq`*[_type == "siteSettings"] | order(_createdAt desc)[0]`
 
-export const getComparisonTableData = (region) =>
-  groq`*[_type == "comparisonTable"] {
+export async function getComparisonTableData(client: SanityClient, region: string) {
+  const query = groq`*[_type == "comparisonTable" && language == $region] {
     ..., 
     "columns": columns[] {
         ..., "logo": logo.asset-> {
@@ -771,9 +771,12 @@ export const getComparisonTableData = (region) =>
       }
     }
   } | order(_createdAt desc)[0]`
+  
+  return await client.fetch(query, { region })
+}
 
-export const getAllComparisonValues = (region) =>
-  groq`*[_type == "comparisonValue"] {
+export async function getAllComparisonValues(client: SanityClient, region: string) {
+  const query = groq`*[_type == "comparisonValue" && language == $region] {
     _id,
     text,
     "icon": icon.asset-> {
@@ -788,6 +791,9 @@ export const getAllComparisonValues = (region) =>
       }
     }
   } | order(text asc)`
+  
+  return await client.fetch(query, { region })
+}
 
 export async function getIntegrationList(client: SanityClient, region: string) {
   const query = groq`*[_type == "platform" && language == $region] {
