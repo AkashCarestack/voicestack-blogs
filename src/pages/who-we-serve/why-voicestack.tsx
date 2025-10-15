@@ -11,8 +11,8 @@ export default function WhyVoicestackIndex({ data, heroData,faq }: any) {
   return (
     <div>
       <HeroSection data={heroData} refer={data} page="why-voicestack" />
-      <StackCardTestimonial data={data['stack-card-tab-testimonial']} refer={data}/>
       <ListingWithTabs list={data['grow-your-practice']} />
+      <StackCardTestimonial data={data['stack-card-tab-testimonial']} refer={data}/>
       <FaqSection faqItems={faq}/>
     </div>
   )
