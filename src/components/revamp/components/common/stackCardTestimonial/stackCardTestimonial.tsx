@@ -45,12 +45,12 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className="text-xl lg:text-2xl font-bold text-gray-500 !leading-[150%] font-manrope">
+        <p className="text-lg lg:text-2xl md:font-bold font-semibold text-gray-500 !leading-[150%] font-manrope">
           {children}
         </p>
       ),
       blockquote: ({ children }: { children: React.ReactNode }) => (
-        <blockquote className="text-xl lg:text-2xl font-medium text-gray-900 leading-relaxed">
+        <blockquote className="text-lg lg:text-2xl font-medium text-gray-900 leading-relaxed">
           {children}
         </blockquote>
       ),
@@ -97,9 +97,9 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     : 'opacity-60 hover:opacity-80 border-b-[2px] border-gray-200'
                 }`}
               >
-                <div className={`relative mb-2 `}>
+                <div className={`relative md:my-6 my-2`}>
                   <div
-                    className="mb-6"
+                    className=""
                     style={{
                       height: `48px`,
                       width: `${
@@ -125,7 +125,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
           </div>
 
           {/* Main Content */}
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 xl:gap-32 items-center lg:items-start">
+          <div className="flex flex-col lg:flex-row gap-8 lg:gap-16 xl:gap-[130px] items-center lg:items-start">
             <div className='max-w-[501px] hidden md:block'>
               <div
                 className="flex relative w-full"
