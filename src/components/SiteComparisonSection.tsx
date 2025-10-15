@@ -20,9 +20,9 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
   const [hideTable, setHideTable] = useState(false);
   const router = useRouter();
 
-  useEffect(()=>{
-    setHideTable(router.locale == "en-GB" || router.locale == "en-AU");
-  },[router.locale])
+  // useEffect(()=>{
+  //   setHideTable(router.locale == "en-GB" || router.locale == "en-AU");
+  // },[router.locale])
 
   useEffect(() => {
     const checkWidth = () => {
@@ -39,7 +39,7 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
     return () => window.removeEventListener('resize', checkWidth);
   }, []);
 
-  
+  console.log({data})
   
   return (
     hideTable ? (

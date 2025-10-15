@@ -6,12 +6,15 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const config = {
-  output: 'standalone',
   turbopack:{
     root: path.resolve(__dirname),
   },
   images: {
-    remotePatterns: [{ hostname: 'cdn.sanity.io' }, { hostname: 'cdn.vidyard.com' }],
+    remotePatterns: [
+      { hostname: 'cdn.sanity.io' }, 
+      { hostname: 'cdn.vidyard.com' },
+      { hostname: 'www.figma.com' }
+    ],
     dangerouslyAllowSVG: true,
   },
   env: {
