@@ -39,7 +39,7 @@ export default function SwitchableTabs({
 
   return (
     <div
-      className={`${isSticky && 'sticky'} ${scrollUp ? 'top-[-5px] ' : 'top-[35px]'} flex gap-2.5 w-full justify-center items-center transition-all duration-300 ease-in-out ${className}`}
+      className={`${isSticky && 'sticky'} ${scrollUp ? 'md:top-[-5px] top-[28px] ' : 'md:top-[35px] top-[35px]'} flex gap-2.5 w-full justify-center items-center transition-all duration-300 ease-in-out ${className}`}
     >
       <div
         className="lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] rounded-full p-1.5 flex flex-row 
