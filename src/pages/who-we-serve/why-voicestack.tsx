@@ -6,13 +6,15 @@ import StackCardTestimonial from '~/components/revamp/components/common/stackCar
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-
-export default function WhyVoicestackIndex({ data, heroData,faq }: any) {
+import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
+import { getFeaturesListQuery, getFeaturesList } from '~/lib/sanity.queries'
+export default function WhyVoicestackIndex({ data, heroData, faq, features }: any) {
   return (
     <div>
       <HeroSection data={heroData} refer={data} page="why-voicestack" />
       <StackCardTestimonial data={data['stack-card-tab-testimonial']} refer={data}/>
       <ListingWithTabs list={data['grow-your-practice']} />
+      <CategoryFeatureTabs features={features} />
       <FaqSection faqItems={faq}/>
     </div>
   )
@@ -35,12 +37,16 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     } 
      const faqSectionData = await queries.fetchFaqData('homeSettings',currentLanguage)
     const heroData = dataVal?.['why-voicestack-hero']?.componentData || null
+    
+    // Fetch features data for CategoryFeatureTabs
+    const features = await getFeaturesList(client, currentLanguage)
 
     return {
       props: {
         data: dataVal,
         heroData: heroData,
-        faq:faqSectionData && faqSectionData.faqReferenced
+        faq: faqSectionData && faqSectionData.faqReferenced,
+        features: features || []
       },
       revalidate: 60,
     }
