@@ -2,11 +2,11 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 import { useRouter } from 'next/router'
 import { getClient } from '~/lib/sanity.client'
 import { dentalPhonesQueries } from '~/lib/sanity.queries'
+import Queries from '~/components/revamp/queries'
 import SimpleHead from '~/components/common/SimpleHead'
 import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
 import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import Queries from '~/components/revamp/queries'
 
 interface DentalPhonesPage {
   _id: string
@@ -19,7 +19,6 @@ interface DentalPhonesPage {
   content: {
     sections: any[]
   }
-  selectedIntegrations?: any[]
   seo?: {
     metaTitle?: string
     metaDescription?: string
@@ -159,16 +158,14 @@ export default function DentalPhonesPage({ page, allPages, currentLanguage, inte
         </section>
       )}
 
-      {/* Add IntegrationsGrid for integrations page */}
-      {page.basicInfo.slug.current === 'integrations' && (
+      {(page.basicInfo.slug.current === 'integrations' || page.basicInfo.slug.current === 'Integrations') && (
         <IntegrationsGrid 
-          customIntegrations={page.selectedIntegrations}
           integrations={integrations}
         />
       )}
 
       {/* Add FeaturesSectionWithNavigation for integrations page */}
-      {page.basicInfo.slug.current === 'integrations' && (
+      {(page.basicInfo.slug.current === 'integrations' || page.basicInfo.slug.current === 'Integrations') && (
         <FeaturesSectionWithNavigation />
       )}
     </div>
@@ -344,13 +341,23 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       language: currentLanguage
     })
 
-    // Get integrations data for integrations page
+    // Get complete integrations data for integrations page
     let integrations: any[] = []
-    if (slug === 'integrations') {
-      const queries = new Queries('dental-phones', currentLanguage)
-      integrations = await queries.fetchIntegrationsData(currentLanguage) || []
-      console.log('Fetched integrations data:', integrations)
-      console.log('Number of integrations:', integrations.length)
+    if (slug === 'integrations' || slug === 'Integrations') {
+      try {
+        console.log('Fetching integrations for slug:', slug, 'language:', currentLanguage)
+        
+        // Use revamp queries for cleaner code
+        const queries = new Queries(slug, currentLanguage)
+        integrations = await queries.fetchCompleteIntegrationsData(currentLanguage)
+        
+        console.log('Revamp queries result:', integrations)
+        console.log('Revamp queries count:', integrations.length)
+        
+      } catch (error) {
+        console.error('Error fetching integrations data:', error)
+        integrations = []
+      }
     }
 
     console.log('Fetched all pages:', allPages)

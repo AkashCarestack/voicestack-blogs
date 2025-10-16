@@ -22,6 +22,7 @@ import FeatureList from './FeatureList'
 import Features from './Features'
 import IntegrationCategory from './IntegrationCategory'
 import IntegrationList from './IntegrationList'
+import IntegrationListing from './IntegrationListing'
 import featureSubSection from './featureSubSection'
 import footer from './footer'
 import GlobalData from './GlobalData'
@@ -85,6 +86,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     FeatureList,
     IntegrationCategory,
     IntegrationList,
+    IntegrationListing,
     ListingAtom,
     portableContent,
     HtmlCode,

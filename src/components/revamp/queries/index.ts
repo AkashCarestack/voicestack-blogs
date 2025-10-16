@@ -651,7 +651,7 @@ class Queries {
     return await this.client.fetch(query, { region: region, page: page })
   }
 
-  // Integrations Grid Query
+  // Integrations Grid Query - Basic
   private fetchIntegrationsQuery() {
     return `
       *[_type == "integrationList" && (language == $language || language == null)] | order(order asc) {
@@ -673,8 +673,55 @@ class Queries {
     `
   }
 
+  // Complete Integrations Query with Categories
+  private fetchCompleteIntegrationsQuery() {
+    return `
+      *[_type == "integrationList" && language == $language] | order(order asc, title asc) {
+        _id,
+        title,
+        headline,
+        description,
+        shortDescription,
+        image {
+          asset-> {
+            _id,
+            url,
+            altText
+          }
+        },
+        link,
+        order,
+        language,
+        integrationCategory-> {
+          _id,
+          name,
+          subheading,
+          description,
+          mainImage {
+            asset-> {
+              _id,
+              url
+            }
+          },
+          icon {
+            asset-> {
+              _id,
+              url
+            }
+          },
+          iconSvgCode
+        }
+      }
+    `
+  }
+
   public async fetchIntegrationsData(language: string = 'en') {
     const query = this.fetchIntegrationsQuery()
+    return await this.client.fetch(query, { language })
+  }
+
+  public async fetchCompleteIntegrationsData(language: string = 'en') {
+    const query = this.fetchCompleteIntegrationsQuery()
     return await this.client.fetch(query, { language })
   }
 }

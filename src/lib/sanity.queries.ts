@@ -1183,22 +1183,6 @@ export const dentalPhonesQueries = {
           }
         }
       },
-      selectedIntegrations[]-> {
-        _id,
-        title,
-        headline,
-        image {
-          asset-> {
-            _id,
-            url,
-            altText
-          }
-        },
-        link,
-        shortDescription,
-        order,
-        language
-      },
       seo {
         metaTitle,
         metaDescription

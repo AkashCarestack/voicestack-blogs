@@ -1,5 +1,4 @@
 import React from 'react'
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
@@ -10,6 +9,8 @@ interface Integration {
   _id: string
   title: string
   headline?: string
+  description?: any
+  shortDescription?: string
   image?: {
     asset?: {
       _id: string
@@ -18,9 +19,17 @@ interface Integration {
     }
   }
   link?: string
-  shortDescription?: string
   order?: number
   language?: string
+  integrationCategory?: {
+    _id: string
+    name: string
+    subheading?: string
+    description?: string
+    mainImage?: any
+    icon?: any
+    iconSvgCode?: string
+  }
 }
 
 interface IntegrationsGridProps {
@@ -42,13 +51,20 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
   // New props for CMS control
   customIntegrations
 }) => {
+  // Debug logging
+  console.log('IntegrationsGrid received integrations:', integrations)
+  console.log('IntegrationsGrid received customIntegrations:', customIntegrations)
+  
   // Use custom integrations if provided, otherwise fall back to props
   const displayIntegrations = customIntegrations && customIntegrations.length > 0 
     ? customIntegrations 
     : integrations
 
+  console.log('IntegrationsGrid displayIntegrations:', displayIntegrations)
+
   // Don't render if no integrations
   if (!displayIntegrations || displayIntegrations.length === 0) {
+    console.log('IntegrationsGrid: No integrations to display')
     return null;
   }
 
@@ -74,13 +90,9 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
           {/* Integrations Grid */}
           <div className="flex flex-wrap gap-4 md:gap-6 lg:gap-8 justify-center items-end w-full">
             {displayIntegrations.map((integration, index) => (
-              <motion.div
+              <div
                 key={integration._id}
                 className="flex flex-col items-center justify-end group relative"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
               >
                 {/* Integration Image */}
                 <div className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 flex items-center justify-center rounded-lg overflow-hidden group-hover:shadow-lg transition-all duration-300">
@@ -122,7 +134,7 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
                     {integration.title}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
