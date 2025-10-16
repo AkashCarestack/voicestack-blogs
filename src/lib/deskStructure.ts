@@ -31,6 +31,7 @@ const schemaIconMap: Record<string, any> = {
     page: DocumentIcon,
     whoWeServe: UsersIcon,
     dentalSoftware: DocumentIcon,
+    dentalPhones: DocumentIcon,
     globalData: FolderIcon,
     features: BoltIcon,
     whyVoicestack: DocumentIcon,
@@ -47,6 +48,10 @@ const schemaIconMap: Record<string, any> = {
   heroSubFeature: BoltIcon,
   featureCategory: TagIcon,
   featureCategoryOld: TagIcon,
+  
+  // Integration Components
+  integrationCategory: TagIcon,
+  integrationList: BoltIcon,
   
   // Legal & Documentation
   legal: DocumentTextIcon,
@@ -92,6 +97,7 @@ const customTitleMap: Record<string, string> = {
   page: 'Pages',
   whoWeServe: 'Who We Serve',
   dentalSoftware: 'Dental Software',
+  dentalPhones: 'Dental Phones',
   whyVoicestack: 'Why Voicestack',
   globalData: 'Global Data',
   testimonial: 'Feature Main',
@@ -99,7 +105,9 @@ const customTitleMap: Record<string, string> = {
   testimonialHighlightSection: 'Testimonial Highlight Section',
   DynamicComponent: 'Dynamic Components',
   featureCategory: 'Feature Categories',
-  featureCategoryOld: 'Feature Categories (Old)'
+  featureCategoryOld: 'Feature Categories (Old)',
+  integrationCategory: 'Integration Categories (Old)',
+  integrationList: 'Integration List (Old)',
 }
 
 // Convert camelCase to Title Case
@@ -147,7 +155,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     settings: ['siteSettings', 'homeSettings', 'layout'],
     
     // Pages & Content Management - NEW PROMINENT SECTION
-    pages: ['page', 'whoWeServe', 'whyVoicestack', 'dentalSoftware', 'globalData', 'features', 'featureCategory'],
+    pages: ['page', 'whoWeServe', 'whyVoicestack', 'dentalSoftware', 'dentalPhones', 'globalData', 'features', 'featureCategory', 'integrationCategory', 'integrationList'],
     
     // Content Management - Centralized Data
     contentManagement: ['author', 'centralizedTestimonial', 'featureItem'],
@@ -262,6 +270,69 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
                       S.documentTypeList('whoWeServe')
                         .title('Create New Who We Serve')
                         .filter('_type == "whoWeServe"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    )
+                ])
+            )
+        )
+      } else if (schemaName === 'dentalPhones') {
+        // Special handling for Dental Phones to show language indicators
+        items.push(
+          S.listItem()
+            .title(title)
+            .icon(icon)
+            .child(
+              S.list()
+                .title(title)
+                .items([
+                  // All Dental Phones documents
+                  S.listItem()
+                    .title('All Dental Phones')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('dentalPhones')
+                        .title('All Dental Phones')
+                        .filter('_type == "dentalPhones"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // US English
+                  S.listItem()
+                    .title('US English (en)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('dentalPhones')
+                        .title('US English Dental Phones')
+                        .filter('_type == "dentalPhones" && language == "en"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // UK English
+                  S.listItem()
+                    .title('UK English (en-GB)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('dentalPhones')
+                        .title('UK English Dental Phones')
+                        .filter('_type == "dentalPhones" && language == "en-GB"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // Australia English
+                  S.listItem()
+                    .title('Australia English (en-AU)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('dentalPhones')
+                        .title('Australia English Dental Phones')
+                        .filter('_type == "dentalPhones" && language == "en-AU"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // Create new
+                  S.listItem()
+                    .title('Create New Dental Phone Page')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('dentalPhones')
+                        .title('Create New Dental Phone Page')
+                        .filter('_type == "dentalPhones"')
                         .defaultOrdering([{field: 'order', direction: 'asc'}])
                     )
                 ])
@@ -389,6 +460,132 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
                         .title('Create New Feature Category')
                         .filter('_type == "featureCategory"')
                         .defaultOrdering([{field: 'name', direction: 'asc'}])
+                    )
+                ])
+            )
+        )
+      } else if (schemaName === 'integrationCategory') {
+        // Special handling for Integration Categories to show language indicators
+        items.push(
+          S.listItem()
+            .title(title)
+            .icon(icon)
+            .child(
+              S.list()
+                .title(title)
+                .items([
+                  // All Integration Categories documents
+                  S.listItem()
+                    .title('All Integration Categories')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('integrationCategory')
+                        .title('All Integration Categories')
+                        .filter('_type == "integrationCategory"')
+                        .defaultOrdering([{field: 'name', direction: 'asc'}])
+                    ),
+                  // US English
+                  S.listItem()
+                    .title('US English (en)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('integrationCategory')
+                        .title('US English Integration Categories')
+                        .filter('_type == "integrationCategory" && language == "en"')
+                        .defaultOrdering([{field: 'name', direction: 'asc'}])
+                    ),
+                  // UK English
+                  S.listItem()
+                    .title('UK English (en-GB)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('integrationCategory')
+                        .title('UK English Integration Categories')
+                        .filter('_type == "integrationCategory" && language == "en-GB"')
+                        .defaultOrdering([{field: 'name', direction: 'asc'}])
+                    ),
+                  // Australia English
+                  S.listItem()
+                    .title('Australia English (en-AU)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('integrationCategory')
+                        .title('Australia English Integration Categories')
+                        .filter('_type == "integrationCategory" && language == "en-AU"')
+                        .defaultOrdering([{field: 'name', direction: 'asc'}])
+                    ),
+                  // Create new
+                  S.listItem()
+                    .title('Create New Integration Category')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('integrationCategory')
+                        .title('Create New Integration Category')
+                        .filter('_type == "integrationCategory"')
+                        .defaultOrdering([{field: 'name', direction: 'asc'}])
+                    )
+                ])
+            )
+        )
+      } else if (schemaName === 'integrationList') {
+        // Special handling for Integration List to show language indicators
+        items.push(
+          S.listItem()
+            .title(title)
+            .icon(icon)
+            .child(
+              S.list()
+                .title(title)
+                .items([
+                  // All Integration List documents
+                  S.listItem()
+                    .title('All Integration List')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('integrationList')
+                        .title('All Integration List')
+                        .filter('_type == "integrationList"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // US English
+                  S.listItem()
+                    .title('US English (en)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('integrationList')
+                        .title('US English Integration List')
+                        .filter('_type == "integrationList" && language == "en"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // UK English
+                  S.listItem()
+                    .title('UK English (en-GB)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('integrationList')
+                        .title('UK English Integration List')
+                        .filter('_type == "integrationList" && language == "en-GB"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // Australia English
+                  S.listItem()
+                    .title('Australia English (en-AU)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('integrationList')
+                        .title('Australia English Integration List')
+                        .filter('_type == "integrationList" && language == "en-AU"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // Create new
+                  S.listItem()
+                    .title('Create New Integration List')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('integrationList')
+                        .title('Create New Integration List')
+                        .filter('_type == "integrationList"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
                     )
                 ])
             )
