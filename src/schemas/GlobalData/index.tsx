@@ -1,4 +1,5 @@
 import { defineField } from "sanity";
+import { genericListingComponentFields } from "../DynamicComponent/Components/GenericListingComponent";
 
 const GlobalData = {
   name: 'globalData',
@@ -15,6 +16,7 @@ const GlobalData = {
           { title: 'Tabs Listing', value: 'tabsListingComponent' },
           { title: 'Custom Content', value: 'customContent' },
           { title: 'Feature List', value: 'featureList' },
+          { title: 'Generic Listing', value: 'genericListingComponent' },
         ],
       },
       // validation: (Rule: any) => Rule.required(),
@@ -276,6 +278,21 @@ const GlobalData = {
         },
       ],
     },
+    // Generic Listing Component Fields
+    {
+      name: 'genericListingComponent',
+      title: 'Generic Listing Component Data',
+      type: 'object',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'genericListingComponent',
+      fields: genericListingComponentFields,
+    },
+    // Language field (hidden and read-only)
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+    }),
   ],
   preview: {
     select: {
