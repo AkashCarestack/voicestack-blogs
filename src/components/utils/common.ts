@@ -98,12 +98,14 @@ export const mergeReviews = (
     result.push(...homeSettingsReviews)
     homeSettingsReviews.forEach((review) => seen.add(review[uniqueKey]))
   }
-  otherReviews.forEach((review) => {
-    if (!seen.has(review[uniqueKey])) {
-      seen.add(review[uniqueKey])
-      result.push(review)
-    }
-  })
+  if (otherReviews && Array.isArray(otherReviews)) {
+    otherReviews.forEach((review) => {
+      if (!seen.has(review[uniqueKey])) {
+        seen.add(review[uniqueKey])
+        result.push(review)
+      }
+    })
+  }
 
   return result
 }
@@ -124,20 +126,24 @@ export const mergeAndRemoveDuplicates = (
       result.push(primaryArray)
     }
   } else {
-    primaryArray.forEach((item) => {
+    if (primaryArray && Array.isArray(primaryArray)) {
+      primaryArray.forEach((item) => {
+        if (item && !seen.has(item[uniqueKey]) && result.length < 5) {
+          seen.add(item[uniqueKey])
+          result.push(item)
+        }
+      })
+    }
+  }
+
+  if (secondaryArray && Array.isArray(secondaryArray)) {
+    secondaryArray.forEach((item) => {
       if (item && !seen.has(item[uniqueKey]) && result.length < 5) {
         seen.add(item[uniqueKey])
         result.push(item)
       }
     })
   }
-
-  secondaryArray.forEach((item) => {
-    if (item && !seen.has(item[uniqueKey]) && result.length < 5) {
-      seen.add(item[uniqueKey])
-      result.push(item)
-    }
-  })
 
   return result
 }

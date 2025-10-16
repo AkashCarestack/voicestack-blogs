@@ -81,11 +81,13 @@ const FeatureListDisplay: React.FC<FeatureListDisplayProps> = ({
   // Get unique categories from features
   const categories = useMemo(() => {
     const categorySet = new Set()
-    features.forEach(feature => {
-      feature.featureCategories?.forEach(cat => {
-        categorySet.add(cat.name)
+    if (features && Array.isArray(features)) {
+      features.forEach(feature => {
+        feature.featureCategories?.forEach(cat => {
+          categorySet.add(cat.name)
+        })
       })
-    })
+    }
     return Array.from(categorySet).sort()
   }, [features])
 

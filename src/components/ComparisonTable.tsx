@@ -111,9 +111,11 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
   // Initialize all categories as open by default
   const [expandedCategories, setExpandedCategories] = useState<Record<number, boolean>>(() => {
     const initial: Record<number, boolean> = {}
-    data.rowCategories.forEach((_, index) => {
-      initial[index] = true
-    })
+    if (data?.rowCategories && Array.isArray(data.rowCategories)) {
+      data.rowCategories.forEach((_, index) => {
+        initial[index] = true
+      })
+    }
     return initial
   })
 
