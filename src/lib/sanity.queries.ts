@@ -1036,6 +1036,206 @@ export const whoWeServeQueries = {
   `
 }
 
+// Dental Phones Queries
+export const dentalPhonesQueries = {
+  // Get the home page content for Dental Phones
+  getDentalPhonesHome: `
+    *[_type == "dentalPhones" && basicInfo.slug.current == "landing" && (language == $language || language == null)] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content,
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }[0]
+  `,
+
+  // Get all Dental Phones pages for listing
+  getAllDentalPhonesPages: `
+    *[_type == "dentalPhones" && (language == $language || language == null)] | order(basicInfo.title asc) {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content,
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }
+  `,
+
+  // Get specific Dental Phones page by slug
+  getDentalPhonesPageBySlug: `
+    *[_type == "dentalPhones" && basicInfo.slug.current == $slug && (language == $language || language == null)] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content {
+        sections[] {
+          title,
+          slug,
+          component {
+            componentType,
+            tabsListingComponent {
+              headline,
+              subheadline,
+              subDescription,
+              showCTA,
+              globalData-> {
+                _id,
+                title,
+                comparisonTable,
+                dataType
+              },
+              tabs[] {
+                tabHeading,
+                tabSubHeading,
+                description,
+                image,
+                listItems[] {
+                  subfeatureHeading,
+                  subfeatureSubheading,
+                  subfeatureDescription,
+                  subfeatureImage
+                },
+                icon,
+                ctaListItems[] {
+                  ctaLink,
+                  ctaText,
+                  ctaType
+                },
+                Link,
+                LinkText,
+                testimonial
+              }
+            },
+            customComponent {
+              title,
+              subtitle,
+              content,
+              buttonText,
+              buttonLink,
+              backgroundColor,
+              image,
+              referenceGlobalSchema-> {
+                _id,
+                title,
+                comparisonTable,
+                dataType
+              }
+            },
+            listingComponent {
+              title,
+              subtitle,
+              description,
+              items[] {
+                title,
+                description,
+                icon
+              },
+              layout
+            },
+            rightImageComponent {
+              title,
+              subtitle,
+              description,
+              image,
+              buttonText,
+              buttonLink
+            },
+            featureGridComponent {
+              title,
+              subtitle,
+              description,
+              features[] {
+                title,
+                description,
+                icon
+              }
+            },
+            testimonialComponent {
+              title,
+              subtitle,
+              description,
+              testimonials[] {
+                name,
+                designation,
+                content,
+                image
+              }
+            }
+          }
+        }
+      },
+      selectedIntegrations[]-> {
+        _id,
+        title,
+        headline,
+        image {
+          asset-> {
+            _id,
+            url,
+            altText
+          }
+        },
+        link,
+        shortDescription,
+        order,
+        language
+      },
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }[0]
+  `,
+
+  // Get Dental Phones page slugs for routing
+  getDentalPhonesSlugs: `
+    *[_type == "dentalPhones" && (language == $language || language == null)] {
+      basicInfo {
+        slug
+      }
+    }
+  `,
+
+  // Create landing page from existing data if no landing page exists
+  createDentalPhonesLandingFromExisting: `
+    *[_type == "dentalPhones" && (language == $language || language == null)] | order(_createdAt asc)[0] {
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon
+      },
+      content,
+      seo {
+        metaTitle,
+        metaDescription
+      },
+      language
+    }
+  `
+}
+
 // Dental Software Queries
 export const dentalSoftwareQueries = {
   // Get the home page content for Dental Software

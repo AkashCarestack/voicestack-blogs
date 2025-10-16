@@ -76,7 +76,7 @@ export default defineConfig({
       // Select US English by default
       defaultLanguages: ['en'],
       // Show language filter for these document types
-      documentTypes: ['homeSettings', 'whoWeServe', 'whyVoicestack', 'page', 'features'],
+      documentTypes: ['homeSettings', 'whoWeServe', 'whyVoicestack', 'page', 'features', 'dentalPhones'],
     }),
 
     internationalizedArray({
@@ -121,10 +121,13 @@ export default defineConfig({
         'featureCategory',
         'whoWeServe',
         'dentalSoftware',
+        'dentalPhones',
         'whyVoicestack',
         'globalData',
         'features',
-        'faqRevamp'
+        'faqRevamp',
+        'integrationCategory',
+        'integrationList'
       ],
     }),
 
