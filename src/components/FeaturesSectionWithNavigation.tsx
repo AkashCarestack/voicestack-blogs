@@ -282,7 +282,7 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
       threshold: [0.1, 0.5, 0.8]
     };
 
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new (window as any).IntersectionObserver((entries: IntersectionObserverEntry[]) => {
       // Skip if user is manually scrolling
       if (isUserScrolling) return;
       
@@ -469,8 +469,8 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
       return
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
+    const observer = new (window as any).IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id)
