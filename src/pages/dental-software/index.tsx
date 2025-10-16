@@ -136,7 +136,7 @@ export default function DentalSoftwareIndex({ pages, currentLanguage, homePage, 
               </h2>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {pages
+                {(pages || [])
                   .filter(page => page.basicInfo.slug.current !== 'landing')
                   .sort((a, b) => a.basicInfo.title.localeCompare(b.basicInfo.title))
                   .map((page) => (
@@ -210,7 +210,7 @@ export default function DentalSoftwareIndex({ pages, currentLanguage, homePage, 
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {pages
+              {(pages || [])
                 .filter(page => page.basicInfo.slug.current !== 'landing')
                 .sort((a, b) => a.basicInfo.title.localeCompare(b.basicInfo.title))
                 .map((page) => (
@@ -261,7 +261,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     // Get all pages
     const pages = await client.fetch(dentalSoftwareQueries.getAllDentalSoftwarePages, {
       language: currentLanguage
-    })
+    }) || []
 
     // Get landing page using dedicated query
     const homePage = await client.fetch(dentalSoftwareQueries.getDentalSoftwarePageBySlug, {

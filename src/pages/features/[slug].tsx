@@ -370,7 +370,7 @@ export default function FeaturePage({ feature, otherFeatures, currentLanguage }:
 export const getStaticPaths: GetStaticPaths = async () => {
   try {
         const features = await getFeaturesList(getClient(), 'en'); // Get all features for path generation
-    const paths = features.map((feature: Feature) => ({
+    const paths = (features || []).map((feature: Feature) => ({
       params: { slug: feature.slug.current },
     }));
 
@@ -401,7 +401,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     // Get other features (excluding current one)
         const allFeatures = await getFeaturesList(getClient(), currentLanguage);
-    const otherFeatures = allFeatures.filter((f: Feature) => f._id !== feature._id);
+    const otherFeatures = (allFeatures || []).filter((f: Feature) => f._id !== feature._id);
 
     return {
       props: {

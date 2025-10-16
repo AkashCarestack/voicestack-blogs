@@ -78,7 +78,7 @@ export const getUniqueReorderedCarouselItems = (
     ...(homeSettings?.featuredCarouselItems || []),
     ...uniqueCarouselItems.filter(
       (item) =>
-        !homeSettings?.featuredCarouselItems.some(
+        !(homeSettings?.featuredCarouselItems || []).some(
           (homeItem) => homeItem.slug.current === item.slug.current,
         ),
     ),

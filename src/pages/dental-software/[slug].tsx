@@ -115,7 +115,7 @@ export default function DentalSoftwarePage({ page, allPages, currentLanguage, co
                   More from Dental Software
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {allPages
+                  {(allPages || [])
                     .filter(p => p.basicInfo.slug.current !== page.basicInfo.slug.current)
                     .map((otherPage) => (
                       <a
@@ -283,7 +283,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     // Get all pages for navigation
     const allPages = await client.fetch(dentalSoftwareQueries.getAllDentalSoftwarePages, {
       language: currentLanguage
-    })
+    }) || []
 
     // Get comparison table data for CustomComponent - use the same ID as other pages
     const comparisonTableData = await client.fetch(`
@@ -323,7 +323,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     return {
       props: {
         page,
-        allPages,
+        allPages: allPages || [],
         currentLanguage,
         comparisonTableData: comparisonTableData || null
       },
