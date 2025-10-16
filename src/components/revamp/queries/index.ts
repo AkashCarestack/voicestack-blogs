@@ -650,6 +650,33 @@ class Queries {
     const query = this.fetchFaqReferencedData()
     return await this.client.fetch(query, { region: region, page: page })
   }
+
+  // Integrations Grid Query
+  private fetchIntegrationsQuery() {
+    return `
+      *[_type == "integrationList" && (language == $language || language == null)] | order(order asc) {
+        _id,
+        title,
+        headline,
+        image {
+          asset-> {
+            _id,
+            url,
+            altText
+          }
+        },
+        link,
+        shortDescription,
+        order,
+        language
+      }
+    `
+  }
+
+  public async fetchIntegrationsData(language: string = 'en') {
+    const query = this.fetchIntegrationsQuery()
+    return await this.client.fetch(query, { language })
+  }
 }
 
 export default Queries

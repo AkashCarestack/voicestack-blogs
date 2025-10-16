@@ -20,6 +20,8 @@ import FeatureCategoryNew from './FeatureCategory/featureCategoryNew'
 import FeatureCategoryOld from './FeatureCategory/index'
 import FeatureList from './FeatureList'
 import Features from './Features'
+import IntegrationCategory from './IntegrationCategory'
+import IntegrationList from './IntegrationList'
 import featureSubSection from './featureSubSection'
 import footer from './footer'
 import GlobalData from './GlobalData'
@@ -37,6 +39,7 @@ import DentalSoftware from './Pages/DentalSoftware'
 import FeaturesPage from './Pages/Features'
 import WhoWeServe from './Pages/WhoWeServe'
 import WhyVoicestack from './Pages/WhyVoicestack'
+import DentalPhones from './Pages/DentalPhones'
 import PlatformList from './PlatformList'
 import Platforms from './Platforms/index'
 import portableContent from './portableContent'
@@ -80,6 +83,8 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     FeatureCategoryOld,
     FeatureCategoryNew,
     FeatureList,
+    IntegrationCategory,
+    IntegrationList,
     ListingAtom,
     portableContent,
     HtmlCode,
@@ -87,6 +92,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     DentalSoftware,
     FeaturesPage,
     WhyVoicestack,
+    DentalPhones,
     GlobalData,
     VerticalTestimonialListing,
     button,
