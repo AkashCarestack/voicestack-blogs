@@ -3,7 +3,7 @@ import { GetStaticProps } from 'next'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import CardsGridSection from '~/components/revamp/components/CardsGridSection'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
-import VoiceStackComparisonCards from '~/components/revamp/components/VoiceStackComparisonCards'
+// import VoiceStackComparisonCards from '~/components/revamp/components/VoiceStackComparisonCards'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
@@ -90,7 +90,7 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
       )}
       
       {/* VoiceStack Comparison Cards Section */}
-      <VoiceStackComparisonCards 
+      {/* <VoiceStackComparisonCards 
         data={{
           heading: "Discover Why VoiceStack Excels in Business Phones",
           description: "Deliver first-touchpoint resolutions by automatically routing calls to relevant teams and agents.",
@@ -105,7 +105,7 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
             { _key: '8', title: 'Patient Prism' },
           ]
         }}
-      />
+      /> */}
       
       {pageData['comparison-table']?.componentData && (
         <SiteComparisonSection 

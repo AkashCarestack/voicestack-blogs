@@ -83,7 +83,7 @@ export default function ListingWithTabs({ list }: { list: any }) {
           setActiveTab={(e: string) => bindEvents(e)}
           isSticky={true}
           activeTab={activeTabValue}
-          className="md:py-[74px] py-8 z-50"
+          className="md:py-[74px] py-8 z-20"
         />
         <div className="w-full flex flex-col md:gap-[180px] gap-6 ">
            {tabsData?.tabs?.map((element: any, idx: number) => {
