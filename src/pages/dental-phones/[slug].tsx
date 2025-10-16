@@ -158,14 +158,14 @@ export default function DentalPhonesPage({ page, allPages, currentLanguage, inte
         </section>
       )}
 
-      {(page.basicInfo.slug.current === 'integrations' || page.basicInfo.slug.current === 'Integrations') && (
+      {page.basicInfo.slug.current === 'integrations' && (
         <IntegrationsGrid 
           integrations={integrations}
         />
       )}
 
       {/* Add FeaturesSectionWithNavigation for integrations page */}
-      {(page.basicInfo.slug.current === 'integrations' || page.basicInfo.slug.current === 'Integrations') && (
+      {page.basicInfo.slug.current === 'integrations' && (
         <FeaturesSectionWithNavigation />
       )}
     </div>
@@ -194,13 +194,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
             params: { slug: slug },
             locale: language === 'en' ? 'en' : language
           })
-          // Also add capitalized version for common slugs
-          if (slug === 'integrations') {
-            paths.push({
-              params: { slug: 'Integrations' },
-              locale: language === 'en' ? 'en' : language
-            })
-          }
+          // Note: Removed duplicate capitalized version to prevent build conflicts
         }
       }
       
@@ -343,7 +337,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     // Get complete integrations data for integrations page
     let integrations: any[] = []
-    if (slug === 'integrations' || slug === 'Integrations') {
+    if (slug === 'integrations') {
       try {
         console.log('Fetching integrations for slug:', slug, 'language:', currentLanguage)
         

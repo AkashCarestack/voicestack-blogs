@@ -373,14 +373,14 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
   };
 
   // Create navigation items from categories
-  const navigationItems = categories.map((category) => ({
+  const navigationItems = (categories || []).map((category) => ({
     id: category._id,
     label: category.name,
     category: category // Pass the full category object for icon rendering
   }))
 
   // Create feature sections from categories and their integrations
-  const featureSections = categories.map((category) => {
+  const featureSections = (categories || []).map((category) => {
     const categoryIntegrations = groupedIntegrations[category._id] || []
     
     return {
@@ -501,7 +501,7 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
     )
   }
 
-  if (categories.length === 0) {
+  if (!categories || categories.length === 0) {
     return (
       <section className="bg-[#f9f9f9] py-lg">
         <div className="max-w-7xl mx-auto px-4">
