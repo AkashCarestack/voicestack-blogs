@@ -43,22 +43,19 @@ const CardsGridSection = ({ data }: CardsGridSectionProps) => {
   return (
     <div className='w-full px-4 xl:px-12 bg-[#F9F9F9]'>
       <div className={`rounded-[24px] justify-center relative`}>
-        <Container className='w-full lg:py-24 py-16 px-6'>
-          <div className="relative w-full flex gap-16">
+        <Container className='w-full lg:py-lg md:py-md py-sm'>
+          <div className="flex-col relative w-full flex gap-16">
             {/* Main Content */}
+            <SectionHeader
+              heading={heading}
+              description={description}
+            />
             <div className="relative z-10 w-full flex flex-col gap-12 flex-grow">
-             
-              <SectionHeader
-                heading={heading}
-                description={description}
-              />
-              
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-6">
                 {items.map((item) => (
                   <div 
                     key={item._key || Math.random()} 
-                    className="bg-[#F4F3FA] backdrop-blur-sm rounded-2xl p-6 flex flex-col gap-4 hover:bg-[#F4F3FA] transition-all"
+                    className="bg-[#F4F3FA] backdrop-blur-sm rounded-3xl p-6 flex flex-col gap-4 hover:bg-[#F4F3FA] transition-all"
                   >
                     {/* Icon/Image */}
                     {item.dynamicSvg ? (
@@ -80,7 +77,7 @@ const CardsGridSection = ({ data }: CardsGridSectionProps) => {
                     {/* Content */}
                     <div className="flex flex-col gap-2">
                       {item.heading && (
-                        <h3 className="text-xl font-bold text-gray-950">
+                        <h3 className="text-xl font-bold text-gray-950 font-manrope">
                           {item.heading}
                         </h3>
                       )}
@@ -107,28 +104,42 @@ const CardsGridSection = ({ data }: CardsGridSectionProps) => {
                     )}
                   </div>
                 ))}
+                <div className="bg-vs-blue backdrop-blur-sm rounded-3xl p-6 flex flex-col justify-center items-center gap-4 hover:bg-vs-blue transition-all">
+
+                  <h3 className='text-xl font-bold text-white font-manrope text-center'>Guides and Resources for Smarter Patient Call Management</h3>
+                  <Button
+                    type="primary"
+                    className="w-fit"
+                    onClick={() => {
+                      setOpenForm(true)
+                    }}
+                  >
+                    <span>
+                      {'Book Free Demo'}
+                    </span>
+                  </Button>
+                </div>
               </div>
-            
+            </div>
+            <div className="flex justify-center">
               
-              <div className="flex justify-center md:justify-start">
-                <Button
-                  type="primary"
-                  className="w-fit"
-                  onClick={() => {
-                    setOpenForm(true)
-                  }}
-                >
-                  <span>
-                    {'Book Free Demo'}
-                  </span>
-                </Button>
-              </div>
+              <Button
+                type="primary"
+                className="w-fit"
+                onClick={() => {
+                  setOpenForm(true)
+                }}
+              >
+                <span>
+                  {'Book Free Demo'}
+                </span>
+              </Button>
             </div>
 
           </div>
           {openForm && (
             <FormModal
-              className={`pt-9  flex items-start`}
+              className={`pt-9 flex items-start`}
               onClose={() => setOpenForm(false)}
               data={isDemoPopUpShown}
             />
