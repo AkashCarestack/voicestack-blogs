@@ -55,9 +55,8 @@ const ComparisonCardsSection = ({ data }: any) => {
               <div className="w-full max-w-[1240px]">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
                   {data?.items?.map((card:any, index:number) => (
-                    <Anchor href={card.link?.url || '#'}>
+                    <Anchor href={card.link?.url || '#'} key={card._key || index}>
                     <div
-                      key={card._key || index}
                       className="bg-[#f4f3fa] rounded-xl p-8 flex flex-col gap-8 min-h-[120px] hover:bg-[#e8e6f0] transition-colors duration-200"
                     >
                         <div className="flex flex-col gap-0.5">
