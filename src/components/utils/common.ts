@@ -6,6 +6,9 @@ export const fetchAuthor = (post) => {
   let authorData: any = []
   post &&
     post.authorInfo &&
+    post.authorInfo.content &&
+    post.authorInfo.content.body &&
+    Array.isArray(post.authorInfo.content.body) &&
     post.authorInfo.content.body
       .filter((block: any) => block.component === 'authorBioSection')
       .map((author: any) => (authorData = author.author))
@@ -80,7 +83,7 @@ export const getUniqueReorderedCarouselItems = (
     ...(homeSettings?.featuredCarouselItems || []),
     ...uniqueCarouselItems.filter(
       (item) =>
-        !homeSettings?.featuredCarouselItems.some(
+        !(homeSettings?.featuredCarouselItems || []).some(
           (homeItem) => homeItem.slug.current === item.slug.current,
         ),
     ),

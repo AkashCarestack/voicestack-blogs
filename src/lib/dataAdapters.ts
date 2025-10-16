@@ -287,7 +287,7 @@ export const componentDataResolvers = {
     }
 
     // Fetch actual testimonial data
-    const testimonials = await fetchContent.getTestimonialsByIds(testimonialIds)
+    const testimonials = await fetchContent.getTestimonialsByIds(testimonialIds) || []
     
     // Apply filters if specified
     let filteredTestimonials = testimonials
@@ -320,7 +320,7 @@ export const componentDataResolvers = {
     }
 
     // Fetch actual feature data
-    let features = await fetchContent.getFeaturesByIds(featureIds)
+    let features = await fetchContent.getFeaturesByIds(featureIds) || []
     
     // Apply filters if specified
     if (component.filterByCategory && component.filterByCategory !== 'all') {
