@@ -1,8 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { useRouter } from 'next/router'
-import { getClient } from '~/lib/sanity.client'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { urlForImage } from '~/lib/sanity.image'
 
 // External image URLs from Figma (for CTA button)
@@ -47,7 +45,8 @@ interface IntegrationList {
 }
 
 interface FeaturesSectionWithNavigationProps {
-  // No props needed - language is auto-detected from route
+  categories: IntegrationCategory[]
+  integrations: IntegrationList[]
 }
 
 const IntegrationCard: React.FC<IntegrationCardProps> = ({
@@ -164,154 +163,23 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
   )
 }
 
-const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps> = () => {
-  const router = useRouter()
+const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps> = ({ 
+  categories, 
+  integrations 
+}) => {
   const [activeSection, setActiveSection] = useState('')
-  const [categories, setCategories] = useState<IntegrationCategory[]>([])
-  const [integrations, setIntegrations] = useState<IntegrationList[]>([])
-  const [loading, setLoading] = useState(true)
-  const [isUserScrolling, setIsUserScrolling] = useState(false)
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
-  const categoryRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({})
   const activeCategoryRef = useRef<string>('')
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Get language from route locale
-  const language = router.locale || 'en'
-
-  // Fetch data from CMS
+  // Set first category as active when categories are loaded
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const client = getClient()
-        
-        // Fetch integration categories
-        const categoriesQuery = `*[_type == "integrationCategory" && language == $language] | order(name asc) {
-          _id,
-          name,
-          subheading,
-          description,
-          mainImage {
-            asset-> {
-              _id,
-              url
-            }
-          },
-          icon {
-            asset-> {
-              _id,
-              url
-            }
-          },
-          iconSvgCode,
-          language
-        }`
-        
-        // Fetch integration list
-        const integrationsQuery = `*[_type == "integrationList" && language == $language] | order(order asc, title asc) {
-          _id,
-          title,
-          headline,
-          description,
-          shortDescription,
-          image {
-            asset-> {
-              _id,
-              url
-            }
-          },
-          link,
-          integrationCategory-> {
-            _id,
-            name,
-            subheading,
-            description,
-            mainImage {
-              asset-> {
-                _id,
-                url
-              }
-            },
-            icon {
-              asset-> {
-                _id,
-                url
-              }
-            },
-            iconSvgCode
-          },
-          language
-        }`
-        
-        const [categoriesData, integrationsData] = await Promise.all([
-          client.fetch(categoriesQuery, { language }),
-          client.fetch(integrationsQuery, { language })
-        ])
-        
-        setCategories(categoriesData)
-        setIntegrations(integrationsData)
-        
-        // Set first category as active
-        if (categoriesData.length > 0) {
-          setActiveSection(categoriesData[0]._id)
-          activeCategoryRef.current = categoriesData[0]._id
-        }
-        
-        setLoading(false)
-      } catch (error) {
-        console.error('Error fetching integration data:', error)
-        setLoading(false)
-      }
+    if (categories && categories.length > 0 && !activeSection) {
+      setActiveSection(categories[0]._id)
+      activeCategoryRef.current = categories[0]._id
     }
-    
-    fetchData()
-  }, [language])
+  }, [categories, activeSection])
 
-  // Intersection Observer for smooth category highlighting (same as CategoryFeatureTabs)
-  useEffect(() => {
-    // Only run observer if user is not manually scrolling
-    if (isUserScrolling) return;
-
-    if (typeof window === 'undefined' || !window.IntersectionObserver) {
-      return
-    }
-
-    const observerOptions = {
-      root: null,
-      rootMargin: '-120px 0px -40% 0px',
-      threshold: [0.1, 0.5, 0.8]
-    };
-
-    const observer = new (window as any).IntersectionObserver((entries: IntersectionObserverEntry[]) => {
-      // Skip if user is manually scrolling
-      if (isUserScrolling) return;
-      
-      let mostVisibleEntry = null;
-      let highestRatio = 0;
-      
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && entry.intersectionRatio > highestRatio) {
-          highestRatio = entry.intersectionRatio;
-          mostVisibleEntry = entry;
-        }
-      });
-      
-      if (mostVisibleEntry && highestRatio > 0.3) {
-        const categoryId = mostVisibleEntry.target.getAttribute('data-category');
-        if (categoryId && categoryId !== activeCategoryRef.current) {
-          setActiveSection(categoryId);
-          activeCategoryRef.current = categoryId;
-        }
-      }
-    }, observerOptions);
-
-    // Observe all sections
-    Object.values(sectionRefs.current || {}).forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
-
-    return () => observer.disconnect();
-  }, [categories, isUserScrolling]);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -360,7 +228,7 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
     } else if (category.icon && category.icon.asset?.url) {
       return (
         <img
-          src={urlForImage(category.icon, { width: 20, height: 20 })}
+          src={urlForImage(category.icon, { width: 20, height: 20 }) || '/placeholder-icon.svg'}
           alt={category.name}
           className="w-5 h-5 object-contain"
         />
@@ -384,45 +252,89 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
   }))
 
   // Create feature sections from categories and their integrations
-  const featureSections = (categories || []).map((category) => {
-    const categoryIntegrations = groupedIntegrations[category._id] || []
-    
-    return {
-      id: category._id,
-      title: category.name,
-      description: category.description || category.subheading || '',
-      integrationCount: `${categoryIntegrations.length} Integration${categoryIntegrations.length !== 1 ? 's' : ''}`,
-      integrations: categoryIntegrations.map((integration) => {
-        let iconUrl = '/placeholder-icon.svg'
-        
-        try {
-          if (integration.image && integration.image.asset) {
-            // Check if we have a direct URL (from query)
-            if (integration.image.asset.url) {
-              iconUrl = integration.image.asset.url;
-            } else {
-              // Try urlForImage for Sanity asset references
-              const url = urlForImage(integration.image, { width: 32, height: 32 });
-              iconUrl = url || '/placeholder-icon.svg'
+  const featureSections = useMemo(() => {
+    return (categories || []).map((category) => {
+      const categoryIntegrations = groupedIntegrations[category._id] || []
+      
+      return {
+        id: category._id,
+        title: category.name,
+        description: category.description || category.subheading || '',
+        integrationCount: `${categoryIntegrations.length} Integration${categoryIntegrations.length !== 1 ? 's' : ''}`,
+        integrations: categoryIntegrations.map((integration) => {
+          let iconUrl = '/placeholder-icon.svg'
+          
+          try {
+            if (integration.image && integration.image.asset) {
+              // Check if we have a direct URL (from query)
+              if (integration.image.asset.url) {
+                iconUrl = integration.image.asset.url;
+              } else {
+                // Try urlForImage for Sanity asset references
+                const url = urlForImage(integration.image, { width: 32, height: 32 });
+                iconUrl = url || '/placeholder-icon.svg'
+              }
             }
+          } catch (error) {
+            console.warn('Error processing integration image:', error)
+            iconUrl = '/placeholder-icon.svg'
           }
-        } catch (error) {
-          console.warn('Error processing integration image:', error)
-          iconUrl = '/placeholder-icon.svg'
-        }
-        
-        return {
-          name: integration.title,
-          description: integration.shortDescription || integration.headline || '',
-          icon: iconUrl
+          
+          return {
+            name: integration.title,
+            description: integration.shortDescription || integration.headline || '',
+            icon: iconUrl
+          }
+        })
+      }
+    })
+  }, [categories, groupedIntegrations])
+
+  // Scroll-based category highlighting using scroll event listeners
+  useEffect(() => {
+    if (typeof window === 'undefined' || !featureSections || featureSections.length === 0) {
+      return undefined
+    }
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 150 // Offset for header
+      let activeCategoryId = ''
+
+      // Find which section is currently in view
+      featureSections.forEach((section) => {
+        const element = sectionRefs.current[section.id]
+        if (element) {
+          const elementTop = element.offsetTop
+          const elementBottom = elementTop + element.offsetHeight
+          
+          if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+            activeCategoryId = section.id
+          }
         }
       })
+
+      // Update active section if it changed
+      if (activeCategoryId && activeCategoryId !== activeCategoryRef.current) {
+        setActiveSection(activeCategoryId)
+        activeCategoryRef.current = activeCategoryId
+      }
     }
-  })
+
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    
+    // Initial check
+    handleScroll()
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [featureSections])
 
   // Smooth scroll to section (same as CategoryFeatureTabs)
   const scrollToSection = useCallback((sectionId: string) => {
     const section = sectionRefs.current[sectionId];
+    
     if (section) {
       const headerHeight = 100; // Adjust this value based on your header height
       const elementPosition = section.offsetTop;
@@ -435,79 +347,16 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
     }
   }, []);
 
-  // Handle category button click (same as CategoryFeatureTabs)
+  // Handle category button click
   const handleCategoryClick = useCallback((categoryId: string) => {
-    console.log('Category clicked:', categoryId);
-    
-    // Clear any existing timeout
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
-    
-    // Disable intersection observer FIRST
-    setIsUserScrolling(true);
-    
-    // Update active category immediately in ref AND state
+    // Update active category immediately
     activeCategoryRef.current = categoryId;
     setActiveSection(categoryId);
     
-    // Use requestAnimationFrame to ensure state is updated before scroll
-    requestAnimationFrame(() => {
-      // Scroll to section
-      scrollToSection(categoryId);
-      
-      // Re-enable intersection observer after scroll completes
-      scrollTimeoutRef.current = setTimeout(() => {
-        setIsUserScrolling(false);
-      }, 1500);
-    });
+    // Scroll to section
+    scrollToSection(categoryId);
   }, [scrollToSection]);
 
-  // Intersection Observer to update active section
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.IntersectionObserver) {
-      return
-    }
-
-    const observer = new (window as any).IntersectionObserver(
-      (entries: IntersectionObserverEntry[]) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id)
-          }
-        })
-      },
-      {
-        threshold: 0.3,
-        rootMargin: '-100px 0px -50% 0px'
-      }
-    )
-
-    // Observe all sections
-    (featureSections || []).forEach((section) => {
-      const element = sectionRefs.current[section.id]
-      if (element) {
-        observer.observe(element)
-      }
-    })
-
-    return () => observer.disconnect()
-  }, [])
-
-  if (loading) {
-    return (
-      <section className="bg-[#f9f9f9] py-lg">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-center py-20">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-vs-blue mx-auto mb-4"></div>
-              <p className="text-gray-600 font-geist">Loading integrations...</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    )
-  }
 
   if (!categories || categories.length === 0) {
     return (
@@ -576,4 +425,3 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
 }
 
 export default FeaturesSectionWithNavigation
-
