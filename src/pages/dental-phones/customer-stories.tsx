@@ -13,7 +13,19 @@ import Section from '~/components/structure/Section'
 
 export default function CustomerStories({pageData}: any) {
     
-    const data = pageData['Powering-Startup'].componentData
+    // Add null check for pageData and the specific section
+    const data = pageData?.['Powering-Startup']?.componentData
+
+    // Return early if no data is available
+    if (!data) {
+      return (
+        <Section className="flex-col md:gap-[32px] gap-6 py-sm md:py-md lg:py-lg">
+          <div className="text-center py-8">
+            <p className="text-gray-600">Content is currently unavailable.</p>
+          </div>
+        </Section>
+      )
+    }
 
   return (
     <Section className="flex-col md:gap-[32px] gap-6 py-sm md:py-md lg:py-lg">
