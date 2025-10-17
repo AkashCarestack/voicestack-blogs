@@ -81,10 +81,43 @@ export const genericListingComponentFields = [
               hotspot: true,
             },
           },
+          {
+            name: 'icon',
+            title: 'Icon',
+            type: 'image',
+            
+          },
         ],
       },
     ],
   },
+  {
+    name: 'ctaListItems',
+    title: 'Call to Action List',
+    type: 'array',
+    of: [
+      {
+        type: 'object',
+        fields: [
+          {
+            name: 'ctaLink',
+            title: 'CTA Link',
+            type: 'string',
+          },
+          {
+            name: 'ctaText',
+            title: 'CTA Text',
+            type: 'string',
+          },
+          {
+            name: 'ctaType',
+            title: 'Button type',
+            type: 'string',
+          },
+        ],
+      },
+    ],
+  }
 ];
 
 const GenericListingComponent = {
