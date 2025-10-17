@@ -102,9 +102,26 @@ export default defineType({
                         }
                       ],
                     }),
+                   
                   ],
                 } as any),
               ],
+            }),
+            defineField({
+              name: 'link',
+              title: 'Link',
+              type: 'object',
+              fields: [
+                defineField({
+                  name: 'url',
+                  title: 'URL',
+                  type: 'string',
+                }),
+              ],
+              options: {
+                collapsible: true,
+                collapsed: true,
+              },
             }),
           ],
         } as any),

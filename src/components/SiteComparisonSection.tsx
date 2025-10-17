@@ -116,7 +116,7 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
           {openForm && (
             <FormModal
               data={isDemoPopUpShown}
-              className={`pt-9  flex items-start`}
+              className={`pt-9 flex items-start`}
               onClose={() => setOpenForm(false)}
             />
           )}
