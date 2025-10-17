@@ -6,7 +6,6 @@ import useMediaQuery from '~/utils/mediaQuery'
 import Link from 'next/link'
 
 export default function ClickableCards({ data }: any) {
-  console.log({ data })
   const isMobile = useMediaQuery(767)
   const logoHeight = isMobile ? 40 : 40
   return (
