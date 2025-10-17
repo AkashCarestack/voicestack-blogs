@@ -1,4 +1,5 @@
 import { defineField } from "sanity";
+import { genericListingComponentFields } from "../DynamicComponent/Components/GenericListingComponent";
 
 const GlobalData = {
   name: 'globalData',
@@ -15,6 +16,8 @@ const GlobalData = {
           { title: 'Tabs Listing', value: 'tabsListingComponent' },
           { title: 'Custom Content', value: 'customContent' },
           { title: 'Feature List', value: 'featureList' },
+          { title: 'Generic Listing', value: 'genericListingComponent' },
+          { title: 'Integration Listing', value: 'integrationListing' },
         ],
       },
       // validation: (Rule: any) => Rule.required(),
@@ -276,24 +279,84 @@ const GlobalData = {
         },
       ],
     },
+    // Generic Listing Component Fields
+    {
+      name: 'genericListingComponent',
+      title: 'Generic Listing Component Data',
+      type: 'object',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'genericListingComponent',
+      fields: genericListingComponentFields,
+    },
+    // Integration Listing Fields
+    {
+      name: 'integrationListing',
+      title: 'Integration Listing Data',
+      type: 'object',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'integrationListing',
+      fields: [
+        {
+          name: 'pullAllIntegrations',
+          title: 'Pull All Integrations',
+          type: 'boolean',
+          description: 'When enabled, automatically pulls all integrations from all categories',
+          initialValue: true,
+        },
+        {
+          name: 'heading',
+          title: 'Heading',
+          type: 'string',
+          description: 'Main heading for the integration listing',
+        },
+        {
+          name: 'subheading',
+          title: 'Subheading',
+          type: 'string',
+          description: 'Subheading for the integration listing',
+        },
+        {
+          name: 'description',
+          title: 'Description',
+          type: 'text',
+          rows: 3,
+          description: 'Description for the integration listing',
+        },
+      ],
+    },
+    // Language field (hidden and read-only)
+    defineField({
+      name: 'language',
+      type: 'string',
+      readOnly: true,
+      hidden: true,
+    }),
   ],
   preview: {
     select: {
       title: 'name',
       dataType: 'dataType',
       subtitle: 'comparisonTable.title',
+      pullAllIntegrations: 'integrationListing.pullAllIntegrations',
       language: 'language',
     },
     prepare(selection: any) {
-      const { title, dataType, subtitle, language } = selection
+      const { title, dataType, subtitle, pullAllIntegrations, language } = selection
       const languageLabel = language === 'en' ? '🇺🇸' : 
                            language === 'en-GB' ? '🇬🇧' : 
                            language === 'en-AU' ? '🇦🇺' : 
                            '🌐';
       
+      let displaySubtitle = subtitle || 'Global data';
+      if (dataType === 'integrationListing') {
+        if (pullAllIntegrations) {
+          displaySubtitle = 'Pull All Integrations: All categories';
+        } else {
+          displaySubtitle = 'Integration Listing: Manual selection';
+        }
+      }
+      
       return {
         title: `${languageLabel} ${title || 'Global Data'}`,
-        subtitle: `${dataType || 'Unknown'} - ${subtitle || 'Global data'}`,
+        subtitle: `${dataType || 'Unknown'} - ${displaySubtitle}`,
         media: undefined
       };
     },

@@ -72,8 +72,8 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const testimonialHighlightsData = await getTestimonialHighlightSectionData(client,region)
   const bannerData = await getBannerData(client, region)
   const contactAndVideoData = await getContactAndVideoInfo(client, region)
-  const faqSectionData = await queries.fetchFaqData('homeSettings',region)
-  const featuresData = await getFeaturesList(client, region)
+  const faqSectionData = await queries.fetchFaqData('homeSettings',region) || {}
+  const featuresData = await getFeaturesList(client, region) || []
 
   return {
     props: {
@@ -215,7 +215,7 @@ export default function IndexPage(
         {/* <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/> */}
         <StatisticsSection />
         <LogoListingSection data={logoSectionData}  refer={refer}/>
-        <FaqSection faqItems={faqSectionData.faqReferenced}/>
+        <FaqSection faqItems={faqSectionData?.faqReferenced || {}}/>
         {/* <BannerSection data={bannerData} refer={refer}></BannerSection>
         <LinksCardsSection data={linkCardSectionData} />
         <CardsListingSection data={cardsListingData}/> */}

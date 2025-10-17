@@ -127,7 +127,7 @@ export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comp
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {pages
+              {(pages || [])
                 .filter(page => page.basicInfo?.slug?.current && page.basicInfo.slug.current !== 'landing')
                 .sort((a, b) => (a.basicInfo?.title || '').localeCompare(b.basicInfo?.title || ''))
                 .map((page) => (
@@ -178,7 +178,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     // Get all pages
     const pages = await client.fetch(whoWeServeQueries.getAllWhoWeServePages, {
       language: currentLanguage
-    })
+    }) || []
 
     // Get home page if it exists
     const homePage = pages.find((page: WhoWeServePage) => page.basicInfo?.slug?.current === 'landing')

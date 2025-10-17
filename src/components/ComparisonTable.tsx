@@ -111,9 +111,11 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
   // Initialize all categories as open by default
   const [expandedCategories, setExpandedCategories] = useState<Record<number, boolean>>(() => {
     const initial: Record<number, boolean> = {}
-    data.rowCategories.forEach((_, index) => {
-      initial[index] = true
-    })
+    if (data?.rowCategories) {
+      data.rowCategories.forEach((_, index) => {
+        initial[index] = true
+      })
+    }
     return initial
   })
 
@@ -145,7 +147,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
               </div>
               <div className='m-auto lg:hidden inline-block'> <Image src={LogoSm} width={30} height={30} alt="VoiceStack" title="VoiceStack" /></div>
             </TableHead>
-            {data.columns
+            {(data.columns || [])
               .filter((_, idx) => idx != 0)
               .map((column, index) => (
                 <TableHead
@@ -171,7 +173,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
           </TableRow>
         </TableHeader>
         <TableBody className="divide-y divide-gray-100">
-          {data.rowCategories.map((category, categoryIndex) => (
+          {(data.rowCategories || []).map((category, categoryIndex) => (
             <React.Fragment key={categoryIndex}>
               <TableRow className="border-t-[1px] border-b-[1px] border-gray-200 ">
                 <TableCell className="sticky left-0 lg:text-lg font-bold text-[#111827] text-sm  border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={5}>

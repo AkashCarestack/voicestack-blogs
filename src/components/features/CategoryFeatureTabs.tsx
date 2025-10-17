@@ -54,6 +54,11 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
   
   // Memoize the categories processing to prevent unnecessary re-renders
   const allCategories = useMemo(() => {
+    // Add null/undefined check for features array
+    if (!features || !Array.isArray(features)) {
+      return [];
+    }
+
     const featuresByCategory = features.reduce((acc, feature) => {
       // Only process features that have a proper category assigned
       if (feature.featureCategory && feature.featureCategory.name) {

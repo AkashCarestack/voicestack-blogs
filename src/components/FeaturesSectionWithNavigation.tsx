@@ -272,13 +272,17 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
     // Only run observer if user is not manually scrolling
     if (isUserScrolling) return;
 
+    if (typeof window === 'undefined' || !window.IntersectionObserver) {
+      return
+    }
+
     const observerOptions = {
       root: null,
       rootMargin: '-120px 0px -40% 0px',
       threshold: [0.1, 0.5, 0.8]
     };
 
-    const observer = new IntersectionObserver((entries) => {
+    const observer = new (window as any).IntersectionObserver((entries: IntersectionObserverEntry[]) => {
       // Skip if user is manually scrolling
       if (isUserScrolling) return;
       
@@ -302,7 +306,7 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
     }, observerOptions);
 
     // Observe all sections
-    Object.values(sectionRefs.current).forEach((ref) => {
+    Object.values(sectionRefs.current || {}).forEach((ref) => {
       if (ref) observer.observe(ref);
     });
 
@@ -373,14 +377,14 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
   };
 
   // Create navigation items from categories
-  const navigationItems = categories.map((category) => ({
+  const navigationItems = (categories || []).map((category) => ({
     id: category._id,
     label: category.name,
     category: category // Pass the full category object for icon rendering
   }))
 
   // Create feature sections from categories and their integrations
-  const featureSections = categories.map((category) => {
+  const featureSections = (categories || []).map((category) => {
     const categoryIntegrations = groupedIntegrations[category._id] || []
     
     return {
@@ -461,8 +465,12 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
 
   // Intersection Observer to update active section
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
+    if (typeof window === 'undefined' || !window.IntersectionObserver) {
+      return
+    }
+
+    const observer = new (window as any).IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             setActiveSection(entry.target.id)
@@ -476,7 +484,7 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
     )
 
     // Observe all sections
-    featureSections.forEach((section) => {
+    (featureSections || []).forEach((section) => {
       const element = sectionRefs.current[section.id]
       if (element) {
         observer.observe(element)
@@ -501,7 +509,7 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
     )
   }
 
-  if (categories.length === 0) {
+  if (!categories || categories.length === 0) {
     return (
       <section className="bg-[#f9f9f9] py-lg">
         <div className="max-w-7xl mx-auto px-4">
