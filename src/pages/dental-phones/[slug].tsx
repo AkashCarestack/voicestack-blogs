@@ -26,14 +26,43 @@ interface DentalPhonesPage {
   language: string
 }
 
+interface IntegrationCategory {
+  _id: string
+  name: string
+  subheading?: string
+  description?: string
+  mainImage?: any
+  icon?: any
+  iconSvgCode?: string
+  language: string
+}
+
+interface IntegrationList {
+  _id: string
+  title: string
+  headline: string
+  description?: any
+  shortDescription?: string
+  image?: any
+  link?: string
+  integrationCategory?: IntegrationCategory
+  language: string
+}
+
+interface IntegrationData {
+  categories: IntegrationCategory[]
+  integrations: IntegrationList[]
+}
+
 interface DentalPhonesPageProps {
   page: DentalPhonesPage
   allPages: DentalPhonesPage[]
   currentLanguage: string
   integrations?: any[]
+  integrationData?: IntegrationData
 }
 
-export default function DentalPhonesPage({ page, allPages, currentLanguage, integrations }: DentalPhonesPageProps) {
+export default function DentalPhonesPage({ page, allPages, currentLanguage, integrations, integrationData }: DentalPhonesPageProps) {
   const router = useRouter()
 
   if (router.isFallback) {
@@ -165,8 +194,11 @@ export default function DentalPhonesPage({ page, allPages, currentLanguage, inte
       )}
 
       {/* Add FeaturesSectionWithNavigation for integrations page */}
-      {page.basicInfo.slug.current === 'integrations' && (
-        <FeaturesSectionWithNavigation />
+      {page.basicInfo.slug.current === 'integrations' && integrationData && (
+        <FeaturesSectionWithNavigation 
+          categories={integrationData.categories}
+          integrations={integrationData.integrations}
+        />
       )}
     </div>
   )
@@ -337,6 +369,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     // Get complete integrations data for integrations page
     let integrations: any[] = []
+    let integrationData: IntegrationData | undefined = undefined
+    
     if (slug === 'integrations') {
       try {
         console.log('Fetching integrations for slug:', slug, 'language:', currentLanguage)
@@ -344,13 +378,16 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         // Use revamp queries for cleaner code
         const queries = new Queries(slug, currentLanguage)
         integrations = await queries.fetchCompleteIntegrationsData(currentLanguage)
+        integrationData = await queries.fetchIntegrationData(currentLanguage)
         
         console.log('Revamp queries result:', integrations)
+        console.log('Integration data:', integrationData)
         console.log('Revamp queries count:', integrations.length)
         
       } catch (error) {
         console.error('Error fetching integrations data:', error)
         integrations = []
+        integrationData = undefined
       }
     }
 
@@ -368,7 +405,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         page,
         allPages: allPages || [],
         currentLanguage,
-        integrations: integrations || []
+        integrations: integrations || [],
+        integrationData: integrationData || undefined
       },
       revalidate: 60 // Revalidate every minute
     }

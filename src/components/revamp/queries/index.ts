@@ -724,6 +724,81 @@ class Queries {
     const query = this.fetchCompleteIntegrationsQuery()
     return await this.client.fetch(query, { language })
   }
+
+  /**
+   * Fetches integration data for FeaturesSectionWithNavigation component
+   * Returns both categories and integrations in a single optimized query
+   * 
+   * @param language - The language to fetch data for
+   * @returns Promise resolving to integration data object with categories and integrations
+   */
+  public async fetchIntegrationData(language: string = 'en') {
+    const query = groq`
+      {
+        "categories": *[_type == "integrationCategory" && language == $language] | order(name asc) {
+          _id,
+          name,
+          subheading,
+          description,
+          mainImage {
+            asset-> {
+              _id,
+              url,
+              altText
+            }
+          },
+          icon {
+            asset-> {
+              _id,
+              url,
+              altText
+            }
+          },
+          iconSvgCode,
+          language
+        },
+        "integrations": *[_type == "integrationList" && language == $language] | order(order asc, title asc) {
+          _id,
+          title,
+          headline,
+          description,
+          shortDescription,
+          image {
+            asset-> {
+              _id,
+              url,
+              altText
+            }
+          },
+          link,
+          order,
+          language,
+          integrationCategory-> {
+            _id,
+            name,
+            subheading,
+            description,
+            mainImage {
+              asset-> {
+                _id,
+                url,
+                altText
+              }
+            },
+            icon {
+              asset-> {
+                _id,
+                url,
+                altText
+              }
+            },
+            iconSvgCode
+          }
+        }
+      }
+    `
+    return await this.client.fetch(query, { language })
+  }
 }
 
 export default Queries
