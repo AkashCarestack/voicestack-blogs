@@ -6,7 +6,6 @@ import Queries from '~/components/revamp/queries'
 import SimpleHead from '~/components/common/SimpleHead'
 import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
 import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 
 interface DentalPhonesPage {
   _id: string
@@ -96,20 +95,9 @@ export default function DentalPhonesPage({ page, allPages, currentLanguage, inte
         </div>
       </section>
 
-      {/* Dynamic Content Sections */}
       {page.content && page.content.sections && page.content.sections.length > 0 ? (
         <div>
           {page.content.sections.map((section: any, index: number) => {
-            // Debug logging
-            if (process.env.NODE_ENV === 'development') {
-              console.log(`Section ${index} Debug:`, {
-                section,
-                hasComponent: !!section.component,
-                componentType: section.component?.componentType,
-                slug: section.slug?.current
-              })
-            }
-            
             return (
               <div key={index}>
                 {section.component ? (
@@ -147,54 +135,9 @@ export default function DentalPhonesPage({ page, allPages, currentLanguage, inte
         </div>
       )}
 
-      {/* Navigation to other pages */}
-      {allPages && allPages.length > 1 && (
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-center mb-12">Explore More Solutions</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {allPages
-                  .filter((p) => p._id !== page._id && p.basicInfo)
-                  .map((otherPage) => (
-                    <a
-                      key={otherPage._id}
-                      href={`${currentLanguage !== 'en' ? `/${currentLanguage}` : ''}/who-we-serve/${otherPage.basicInfo?.slug?.current}`}
-                      className="block group"
-                    >
-                      <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow duration-300">
-                        {otherPage.basicInfo?.icon && (
-                          <div className="w-16 h-16 mx-auto mb-4">
-                            <img
-                              src={otherPage.basicInfo.icon}
-                              alt={otherPage.basicInfo?.title || 'Page'}
-                              className="w-full h-full object-contain"
-                            />
-                          </div>
-                        )}
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                          {otherPage.basicInfo?.title || 'Untitled'}
-                        </h3>
-                        <p className="text-gray-600 text-sm">
-                          {otherPage.basicInfo?.description || 'No description available'}
-                        </p>
-                      </div>
-                    </a>
-                  ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {page.basicInfo.slug.current === 'integrations' && (
-        <IntegrationsGrid 
-          integrations={integrations}
-        />
-      )}
 
       {/* Add FeaturesSectionWithNavigation for integrations page */}
-      {page.basicInfo.slug.current === 'integrations' && integrationData && (
+      { integrationData && (
         <FeaturesSectionWithNavigation 
           categories={integrationData.categories}
           integrations={integrationData.integrations}
@@ -371,7 +314,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     let integrations: any[] = []
     let integrationData: IntegrationData | undefined = undefined
     
-    if (slug === 'integrations') {
+    if (slug?.toLowerCase() === 'integrations') {
       try {
         console.log('Fetching integrations for slug:', slug, 'language:', currentLanguage)
         
@@ -379,10 +322,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         const queries = new Queries(slug, currentLanguage)
         integrations = await queries.fetchCompleteIntegrationsData(currentLanguage)
         integrationData = await queries.fetchIntegrationData(currentLanguage)
-        
-        console.log('Revamp queries result:', integrations)
-        console.log('Integration data:', integrationData)
-        console.log('Revamp queries count:', integrations.length)
         
       } catch (error) {
         console.error('Error fetching integrations data:', error)
@@ -406,7 +345,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         allPages: allPages || [],
         currentLanguage,
         integrations: integrations || [],
-        integrationData: integrationData || undefined
+        integrationData: integrationData || null // Changed from undefined to null
       },
       revalidate: 60 // Revalidate every minute
     }
