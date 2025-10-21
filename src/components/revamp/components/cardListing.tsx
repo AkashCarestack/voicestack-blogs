@@ -5,6 +5,7 @@ import SectionHeader from './common/sectionHeader'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
 import { PortableText } from '@portabletext/react'
+import Button from '~/components/common/Button'
 
 export default function CardListing({ data }: any) {
   const components: any = {
@@ -28,6 +29,7 @@ export default function CardListing({ data }: any) {
           heading={data?.headline}
           description={data?.subDescription}
         />
+        <div className='flex flex-col md:gap-16 gap-6'>
         <div className="grid lg:grid-cols-2 md:pt-16 pt-8 gap-6 justify-center">
           {data?.tabs?.length &&
             data?.tabs?.map((e: any) => {
@@ -64,6 +66,10 @@ export default function CardListing({ data }: any) {
                 </div>
               )
             })}
+        </div>
+        <div className='flex justify-center'>
+        <Button className='w-fit' type='primary' link='/dental-phones/customer-stories'><span>Book Free Demo</span></Button>
+        </div>
         </div>
       </Container>
     </Section>
