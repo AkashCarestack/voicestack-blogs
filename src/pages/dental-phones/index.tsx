@@ -1,171 +1,151 @@
 import { GetStaticProps } from 'next'
 import { getClient } from '~/lib/sanity.client'
-import { whoWeServeQueries } from '~/lib/sanity.queries'
 import { urlForImage } from '~/lib/sanity.image'
 import SimpleHead from '~/components/common/SimpleHead'
-import Layout from '~/components/Layout'
-import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
+import Queries from '~/components/revamp/queries'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 
-interface WhoWeServePage {
+interface Category {
   _id: string
-  basicInfo: {
-    title: string
-    slug: { current: string }
-    description: string
-    icon: any
-  }
-  content?: {
-    mainContent: any[]
-    sections: any[]
-  }
-  seo?: {
-    metaTitle?: string
-    metaDescription?: string
-  }
-  language: string
+  title: string
 }
 
-interface WhoWeServeIndexProps {
-  pages: WhoWeServePage[]
+interface DentalPhone {
+  _id: string
+  name: string
+  slug: { current: string }
+  description: string
+  image?: any
+  features?: string[]
+  price?: number
+  category?: Category | string
+  language?: string
+}
+
+interface DentalPhonesPageProps {
+  phones: DentalPhone[]
   currentLanguage: string
-  homePage?: WhoWeServePage
-  comparisonTableData?: any
-  globalData?: any[]
+  categories: string[]
+  integrations?: Integration[]
 }
 
-export default function WhoWeServeIndex({ pages, currentLanguage, homePage, comparisonTableData, globalData }: WhoWeServeIndexProps) {
+interface Integration {
+  _id: string
+  title: string
+  headline?: string
+  description?: any
+  shortDescription?: string
+  image?: { asset?: { _id: string; url: string; altText?: string } }
+  link?: string
+  order?: number
+  language?: string
+}
+
+export default function DentalPhonesIndex({ phones, currentLanguage, categories, integrations = [] }: DentalPhonesPageProps) {
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <SimpleHead
-        title="Who We Serve"
-        description="Discover how our solutions serve different segments of the dental industry"
+        title="Dental Phones | Professional Dental Phone Systems"
+        description="Explore our range of professional dental phone systems designed for modern dental practices."
       />
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-green-900 to-green-700 text-white py-20">
+      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl font-bold mb-6">
-              Who We Serve Index
+              Professional Dental Phones
             </h1>
             <p className="text-xl opacity-90">
-              Discover how our solutions serve different segments of the dental industry
+              High-quality phone systems designed specifically for dental practices
             </p>
           </div>
         </div>
       </section>
 
-      {/* Landing Page Content - Display CMS content if available */}
-      {homePage && (
-        <section className="py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-                {homePage.basicInfo?.title || 'Who We Serve'}
-              </h2>
-              {homePage.basicInfo?.description && (
-                <p className="text-xl text-gray-600 text-center mb-12 max-w-3xl mx-auto">
-                  {homePage.basicInfo.description}
-                </p>
-              )}
-              
-              {/* Dynamic Content Sections from CMS */}
-              {homePage.content && homePage.content.sections && homePage.content.sections.length > 0 ? (
-                <div className="space-y-16">
-                  {homePage.content.sections.map((section: any, index: number) => (
-                    <div key={index} className="bg-white rounded-lg shadow-lg p-8">
-                      {section.title && (
-                        <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                          {section.title}
-                        </h3>
-                      )}
-                      {section.component && (
-                        <DynamicComponentRenderer 
-                          component={section.component}
-                          slugData={{
-                            slug: section.slug?.current,
-                            title: section.title,
-                            pageType: 'whoWeServe',
-                            language: currentLanguage,
-                            sectionIndex: index,
-                            comparisonTableData: comparisonTableData,
-                            globalData: globalData
-                          }}
-                        />
-                      )}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-12">
-                  <p className="text-gray-600 text-lg mb-8">
-                    Content for this landing page is being prepared. Please check back soon!
-                  </p>
-                  <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl mx-auto">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                      Coming Soon
-                    </h3>
-                    <p className="text-gray-600">
-                      We&apos;re working on adding comprehensive content for this section. 
-                      In the meantime, explore our individual service pages below.
-                    </p>
-                  </div>
-                </div>
-              )}
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-16">
+        {/* Category Filters */}
+        {categories.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Filter by Category</h2>
+            <div className="flex flex-wrap gap-4">
+              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                All Phones
+              </button>
+              {categories.map((category) => (
+                <button 
+                  key={category}
+                  className="px-4 py-2 bg-white border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
+                >
+                  {category}
+                </button>
+              ))}
             </div>
           </div>
-        </section>
-      )}
+        )}
 
-
-      {/* Pages Listing */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-              Our Solutions
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {(pages || [])
-                .filter(page => page.basicInfo?.slug?.current && page.basicInfo.slug.current !== 'landing')
-                .sort((a, b) => (a.basicInfo?.title || '').localeCompare(b.basicInfo?.title || ''))
-                .map((page) => (
-                  <a
-                    key={page._id}
-                    href={`/who-we-serve/${page.basicInfo?.slug?.current || '#'}`}
-                    className="group block bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                  >
-                    <div className="p-6">
-                      {page.basicInfo?.icon && (
-                        <div className="mb-4">
-                          <img
-                            src={urlForImage(page.basicInfo.icon, { width: 64, height: 64 })}
-                            alt={page.basicInfo?.title || 'Page'}
-                            className="w-16 h-16 mx-auto group-hover:scale-110 transition-transform duration-300"
-                          />
-                        </div>
-                      )}
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
-                        {page.basicInfo?.title || 'Untitled'}
-                      </h3>
-                      {page.basicInfo?.description && (
-                        <p className="text-gray-600 text-sm leading-relaxed">
-                          {page.basicInfo.description}
-                        </p>
-                      )}
-                      <div className="mt-4 flex items-center justify-center">
-                        <span className="text-green-600 font-medium group-hover:translate-x-1 transition-transform duration-300">
-                          Learn More →
-                        </span>
-                      </div>
-                    </div>
-                  </a>
-                ))}
+        {/* Phones Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {phones.map((phone) => (
+            <div 
+              key={phone._id}
+              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+            >
+              {phone.image && (
+                <div className="h-64 bg-gray-100 flex items-center justify-center p-4">
+                  <img
+                    src={urlForImage(phone.image, { width: 240, height: 240 })}
+                    alt={phone.name}
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+              )}
+              <div className="p-6">
+                <h2 className="text-xl font-semibold text-gray-900 mb-2">{phone.name}</h2>
+                {phone.category && (
+                  <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mb-3">
+                    {typeof phone.category === 'object' && (phone.category as Category)?.title
+                      ? (phone.category as Category).title
+                      : (phone.category as string)}
+                  </span>
+                )}
+                {phone.description && (
+                  <p className="text-gray-600 mb-4">{phone.description}</p>
+                )}
+                {phone.features && phone.features.length > 0 && (
+                  <ul className="mb-4 space-y-1">
+                    {phone.features.slice(0, 3).map((feature, index) => (
+                      <li key={index} className="flex items-start">
+                        <svg className="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span className="text-sm text-gray-700">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <div className="flex justify-between items-center mt-6">
+                  {phone.price && (
+                    <span className="text-2xl font-bold text-gray-900">
+                      ${phone.price.toFixed(2)}
+                    </span>
+                  )}
+                  <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                    View Details
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
-      </section>
+      </main>
+      {/* Integrations Grid (from Global Data selection) */}
+      {integrations && integrations.length > 0 && (
+        <div className="mt-12">
+          <IntegrationsGrid integrations={integrations} />
+        </div>
+      )}
     </div>
   )
 }
@@ -175,130 +155,78 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const client = getClient()
 
   try {
-    // Get all pages
-    const pages = await client.fetch(whoWeServeQueries.getAllWhoWeServePages, {
-      language: currentLanguage
-    }) || []
-
-    // Get home page if it exists
-    const homePage = pages.find((page: WhoWeServePage) => page.basicInfo?.slug?.current === 'landing')
-
-    // Get comparison table data for CustomComponent - use the same ID as DENTAL PRACTICES page
-    const comparisonTableData = await client.fetch(`
-      *[_id == "85f555da-0aba-406c-812c-1ef3e652d099"][0] {
-        _id,
-        title,
-        comparisonTable {
-          title,
-          columns[] {
-            _key,
-            _type,
-            header,
-            highlighted
-          },
-          rows[] {
-            _key,
-            _type,
-            feature,
-            values[] {
-              _key,
-              _type,
-              text,
-              value
-            }
-          }
-        },
-        dataType
-      }
-    `)
-
-    // Get global data for feature lists
-    const globalData = await client.fetch(`
-      *[_type == "globalData" && dataType == "featureList" && (language == $language || language == null)] | order(_createdAt desc) {
+    // Fetch dental phones data
+    const phones: DentalPhone[] = await client.fetch(
+      `*[_type == "dentalPhone" && language == $language] | order(name asc) {
         _id,
         name,
-        dataType,
-        featureList {
-          title,
-          description,
-          selectAllFeatures,
-          featureListReference-> {
-            _id,
-            title,
-            description,
-            slug,
-            language,
-            featureReferences[]-> {
-              _id,
-              title,
-              slug,
-              heroTitle,
-              heroSubtitle,
-              heroImage {
-                asset-> {
-                  _id,
-                  url
-                }
-              },
-              mainImage {
-                asset-> {
-                  _id,
-                  url
-                }
-              },
-              shortDescription,
-              featureCategories[] {
-                name,
-                subheading,
-                description,
-                mainImage {
-                  asset-> {
-                    _id,
-                    url
-                  }
-                },
-                icon {
-                  asset-> {
-                    _id,
-                    url
-                  }
-                },
-                iconSvgCode
-              },
-              language
-            },
-            displaySettings {
-              layout,
-              itemsPerRow,
-              showCategories,
-              showSearch,
-              showCTAs,
-              highlightedFeaturesFirst
-            }
-          }
-        },
+        slug,
+        description,
+        image,
+        features,
+        price,
+        category->{_id, title},
         language
-      }
-    `, { language: currentLanguage })
+      }`,
+      { language: currentLanguage }
+    ) || []
+
+    // Extract unique categories
+    const categories = [...new Set(
+      phones
+        .filter(phone => phone.category && typeof phone.category === 'object' && 'title' in phone.category)
+        .map(phone => (phone.category as Category).title)
+        .filter(Boolean)
+    )].sort()
+
+    // Process phones data
+    const processedPhones = phones.map(phone => ({
+      ...phone,
+      category: typeof phone.category === 'object' && phone.category ? 
+        (phone.category as Category).title : 
+        phone.category
+    }))
+
+    // Get global data for feature lists (if needed in the future)
+    // const globalData = await client.fetch(`
+    //   *[_type == "globalData" && dataType == "featureList" && (language == $language || language == null)] {
+    //     _id,
+    //     name,
+    //     dataType,
+    //     featureList {
+    //       title,
+    //       description
+    //     }
+    //   }
+    // `, { language: currentLanguage })
+
+    // Fetch integrations grid data (Global: integrationGrid)
+    let integrations: Integration[] = []
+    try {
+      const queries = new Queries('integrations', currentLanguage)
+      integrations = await queries.fetchIntegrationsData(currentLanguage)
+    } catch (e) {
+      console.warn('Failed to fetch integrations for index page:', e)
+    }
 
     return {
       props: {
-        pages,
+        phones: processedPhones,
         currentLanguage,
-        homePage: homePage || null,
-        comparisonTableData: comparisonTableData || null,
-        globalData: globalData || []
+        categories,
+        integrations,
       },
       revalidate: 60 // Revalidate every minute
     }
   } catch (error) {
-    console.error('Error fetching Who We Serve pages:', error)
+    console.error('Error fetching dental phones data:', error)
     return {
       props: {
-        pages: [],
+        phones: [],
         currentLanguage,
-        homePage: null
-      }
+        categories: []
+      },
+      revalidate: 60
     }
   }
 }
