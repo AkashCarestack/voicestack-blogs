@@ -2,6 +2,7 @@ import type { PortableTextBlock } from '@portabletext/types'
 import type { ImageAsset, Slug } from '@sanity/types'
 import groq from 'groq'
 import { type SanityClient } from 'next-sanity'
+import { getClient } from './sanity.client'
 
 // ##############################################common fragments
 
@@ -775,8 +776,8 @@ export async function getComparisonTableData(client: SanityClient, region: strin
   return await client.fetch(query, { region })
 }
 
-export async function getAllComparisonValues(client: SanityClient, region: string) {
-  const query = groq`*[_type == "comparisonValue" && language == $region] {
+export async function getAllComparisonValues() {
+  const query = groq`*[_type == "comparisonValue"] {
     _id,
     text,
     "icon": icon.asset-> {
@@ -792,7 +793,8 @@ export async function getAllComparisonValues(client: SanityClient, region: strin
     }
   } | order(text asc)`
   
-  return await client.fetch(query, { region })
+  const client = getClient()
+  return await client.fetch(query)
 }
 
 export async function getIntegrationList(client: SanityClient, region: string) {

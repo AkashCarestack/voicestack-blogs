@@ -22,7 +22,7 @@ class Queries {
   /**
    * Standard image metadata fields for consistent image data fetching
    */
-  private readonly IMAGE_METADATA_FIELDS = groq`
+  private  IMAGE_METADATA_FIELDS = groq`
     _id,
     url,
     altText,
@@ -40,6 +40,12 @@ class Queries {
       hasAlpha,
       isOpaque
     }
+  `
+
+  private CTA_FIELDS = groq`
+    ctaLink,
+    ctaText,
+    ctaType
   `
 
   /**
@@ -331,7 +337,7 @@ class Queries {
    * @param _slug - The page slug to fetch data for
    * @returns GROQ query string for fetching page data with component-specific data
    */
-  private fetchPageData(_type: string, _slug: string) {
+  private fetchPageData() {
     return groq`
       *[_type == $type && basicInfo.slug.current == $slug && language == $language][0] {
         // Basic page information
@@ -485,6 +491,12 @@ class Queries {
                     // Item image with metadata
                     "image": image.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    "icon": icon.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    ctaListItems[] {
+                      ${this.CTA_FIELDS}
                     }
                   }
                 }
@@ -608,7 +620,7 @@ class Queries {
    * @returns Promise resolving to transformed page sections object
    */
   public async getPageData(type: string, slug: string) {
-    const query = this.fetchPageData(type, slug)
+    const query = this.fetchPageData()
     const params = { type, slug, language: this.region }
     const result = await this.client.fetch(query, params)
 
@@ -618,7 +630,7 @@ class Queries {
         if (section.slug?.current) {
           acc[section.slug.current] = section.component
         }
-        return acc
+        return acc || {}
       },
       {},
     )

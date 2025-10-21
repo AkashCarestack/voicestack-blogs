@@ -31,7 +31,7 @@ const StatisticsSection = () => {
 
   return (
     <div className='w-full px-4 xl:px-12'>
-      <div className={`rounded-[24px] bg-gradient-to-r from-purple-700 to-purple-400 justify-center relative`}>
+      <div className={`rounded-[24px] bg-[linear-gradient(288deg,_#E0DDFF_0.48%,_#4A3CE1_98.9%)] justify-center relative`}>
         <Container className='w-full lg:py-24 py-16 px-6'>
           <div className="relative w-full flex gap-16">
             {/* Main Content */}

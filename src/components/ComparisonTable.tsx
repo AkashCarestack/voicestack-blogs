@@ -13,6 +13,7 @@ import {
   TableRow,
 } from './ui/table'  
 import CursorTooltip from './common/CustomTooltip'
+import Anchor from './common/anchor'
 
 // SVG Icon Component
 const InfoIcon = ({className}:{className?:string}) => (
@@ -64,24 +65,33 @@ interface ComparisonTableProps {
   demoLink?: string
 }
 
-function RowHeading({ heading, description }) {
+function RowHeading({ heading, description, link }) {
   return (
     <TableCell className="sticky md:static left-0 bg-white  md:w-[352px]" colSpan={1}>
       <div className="flex gap">
         <div className="flex items-center gap-3">
-          <CursorTooltip tooltip={description} className='lg:gap-3'>
-            <p className="text-gray-700 flex flex-0 whitespace-normal  lg:text-base text-xs font-normal leading-6 tracking-normal underline decoration-dotted decoration-gray-700 decoration-[10%] underline-offset-[25%] underline-from-font font-inter">
-              {heading}
+          {description ? (
+           
+            <CursorTooltip tooltip={description} className='lg:gap-3'>
+              {link ? (
+                <Anchor href={link?.url} className='text-gray-700 flex flex-0 whitespace-normal  lg:text-base text-xs font-normal leading-6 tracking-normal underline decoration-dotted decoration-gray-700 decoration-[10%] underline-offset-[25%] underline-from-font'>
+                  {heading}
+                </Anchor>
+              ) : (
+              <p className="text-gray-700 flex flex-0 whitespace-normal  lg:text-base text-xs font-normal leading-6 tracking-normal underline decoration-dotted decoration-gray-700 decoration-[10%] underline-offset-[25%] underline-from-font">
+                {heading}sdf {link}
+              </p>
+              )}
+              <InfoIcon className='mt-1' />
+          
+            </CursorTooltip>
+          ) : (
+
+            <p className="text-gray-700 flex flex-0 whitespace-normal  lg:text-base text-xs font-normal leading-6 tracking-normal underline decoration-dotted decoration-gray-700 decoration-[10%] underline-offset-[25%] underline-from-font">
+                {heading}
             </p>
-            <InfoIcon className='mt-1' />
-         
-          </CursorTooltip>
+          )}
         </div>
-        {/* {description && (
-          <p className="text-gray-600 text-base font-normal leading-tight mt-1">
-            {description}
-          </p>
-        )} */}
       </div>
     </TableCell>
   )
@@ -99,7 +109,7 @@ function ComparisonRichIcon({ comparisonValue, showBoth = false }) {
         height={20}
       />
       {showBoth && (
-        <span className="text-sm text-gray-900 font-medium text-center leading-tight lg:block hidden">
+        <span className="text-sm text-gray-500 font-medium text-center leading-tight lg:block hidden">
           {text}
         </span>
       )}
@@ -127,18 +137,18 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
   }
 
   return (
-    <div className="w-full font-inter overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+    <div className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
       <Table className="w-full border-collapse">
         <TableCaption className="sr-only">
           Feature Comparison Table
         </TableCaption>
         <TableHeader className="">
           <TableRow className="border-none">
-            <TableHead className="sticky left-0 w-48 h-16 text-gray-900 text-left text-base font-medium px-6  border-gray-200 bg-white">
+            <TableHead className="sticky left-0 w-48 h-16 text-gray-950 text-left text-base font-medium px-6  border-gray-200 bg-white">
               {data.columnDimensionName}
             </TableHead>
             <TableHead className="w-32 h-16 rounded-t-[12px]  text-center  bg-[#F6F5FD] sticky left-[120px]">
-              <div className="flex-col items-center justify-center gap-2 w-[100px] lg:block hidden m-auto">
+              <div className="flex-col items-center justify-center gap-2 lg:w-[122px] w-[100px] lg:block hidden m-auto">
                 <Image
                   src={Logo}
                   alt="VoiceStack"
@@ -176,7 +186,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
           {(data.rowCategories || []).map((category, categoryIndex) => (
             <React.Fragment key={categoryIndex}>
               <TableRow className="border-t-[1px] border-b-[1px] border-gray-200 ">
-                <TableCell className="sticky left-0 lg:text-lg font-bold text-[#111827] text-sm  border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={5}>
+                <TableCell className="sticky left-0 lg:text-base font-medium text-gray-950 text-sm border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={5}>
                   <button
                     onClick={() => toggleCategory(categoryIndex)}
                     className="flex items-center gap-2 justify-between hover:opacity-80 transition-opacity cursor-pointer w-full text-left py-[18px]"
@@ -189,11 +199,12 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
               {expandedCategories[categoryIndex] && category.rows.map((row, rowIndex) => (
                 <TableRow
                   key={rowIndex}
-                  className=" h-[90px]"
+                  className=" h-[64px]"
                 >
                   <RowHeading
                     heading={row.heading}
                     description={row.description}
+                    link={category.link}
                   />
                   {row.comparisons.map((comparisonValue, idx) => (
                     <TableCell
@@ -221,16 +232,16 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
       <div className="border-t border-gray-200 px-6 py-4 bg-white">
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
           <div className="flex flex-wrap items-center gap-6">
-            {legendData.map((legendItem, index) => (
+            {legendData?.map((legendItem, index) => (
               <div key={legendItem._id || index} className="flex items-center gap-2">
                 <Image
                   className="w-4 h-4"
                   src={legendItem.icon?.url}
-                  alt={legendItem.text}
+                  alt={legendItem?.text}
                   width={16}
                   height={16}
                 />
-                <span className="text-sm text-gray-700 font-medium">{legendItem.text}</span>
+                <span className="text-sm text-gray-700 font-medium">{legendItem?.text}</span>
               </div>
             ))}
           </div>

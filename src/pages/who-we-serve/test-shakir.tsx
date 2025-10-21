@@ -51,23 +51,23 @@ interface TestShakirProps {
   pageData: PageData
   region: string
   comparisonTableData: any
-  comparisonLegendData: any[]
+  comparisonLegendData: any[] | null
 }
 
 export default function TestShakir({ pageData, region, comparisonTableData, comparisonLegendData }: TestShakirProps) {
 
-  console.log(pageData)
+  // console.log(pageData)
   // Add error boundary and validation
-  if (!pageData?.['inner-hero']?.componentData) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">Page Not Found</h1>
-          <p className="text-gray-600">The requested page content is not available.</p>
-        </div>
-      </div>
-    )
-  }
+  // if (!pageData?.['inner-hero']?.componentData) {
+  //   return (
+  //     <div className="flex items-center justify-center min-h-screen">
+  //       <div className="text-center">
+  //         <h1 className="text-2xl font-bold text-gray-800 mb-4">Page Not Found</h1>
+  //         <p className="text-gray-600">The requested page content is not available.</p>
+  //       </div>
+  //     </div>
+  //   )
+  // }
 
   // Create comparison section data (same structure as homepage)
   const comparisonSectionData = {
@@ -111,7 +111,7 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
       {pageData['comparison-table']?.componentData && (
         <SiteComparisonSection 
           data={comparisonSectionData} 
-          legendData={comparisonLegendData}
+          legendData={comparisonLegendData || []}
         />
       )}
     </>
@@ -129,7 +129,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     // Fetch comparison table data
     const client = getClient()
     const comparisonTableData = await getComparisonTableData(client, region)
-    const comparisonLegendData = await getAllComparisonValues(client, region)
+    const comparisonLegendData = await getAllComparisonValues() || []
 
     if (!pageData || Object.keys(pageData).length === 0) {
       return {
