@@ -772,3 +772,6 @@ html {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+.learn-more {
+  @apply font-geist text-gray-950 font-normal text-base leading-6 tracking-normal underline decoration-dotted decoration-[1.92px] underline-offset-[4px];
+}

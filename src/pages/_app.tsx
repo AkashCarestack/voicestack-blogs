@@ -1,4 +1,7 @@
-import '~/styles/global.css'
+/* globals.css */
+import '~/styles/global.css'  
+
+
 
 import track, { getDeviceData } from 'cs-tracker'
 import { GeistSans } from 'geist/font/sans';
