@@ -1,6 +1,6 @@
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
-import React, { useEffect,useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Button from '~/components/common/Button'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
@@ -8,6 +8,7 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import { urlForImage } from '~/lib/sanity.image'
 import useMediaQuery from '~/utils/mediaQuery'
+import { useIntersectionObserver } from '~/hooks/useIntersectionObserver'
 
 import SwitchableTabs from './switchableTabs'
 import SectionHeader from './sectionHeader'
@@ -37,8 +38,18 @@ const TickMark = () => {
 
 export default function ListingWithTabs({ list }: { list: any }) {
   const [switchButtonValue, setSwitchButtonValue] = useState<any[]>([])
-  const [activeTabValue, setActiveTabValue] = useState<string>('')
-  const refElement = useRef<(HTMLDivElement | null)[]>([])
+  
+  // Use the intersection observer hook
+  const { 
+    activeElement: activeTabValue, 
+    scrollToElement, 
+    registerElement,
+    debugScores 
+  } = useIntersectionObserver({
+    threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+    rootMargin: '-10% 0px -10% 0px',
+    minScore: 0.3,
+  })
 
   useEffect(() => {
     if (list?.componentData?.refData?.tabsListingComponent?.tabs) {
@@ -50,10 +61,6 @@ export default function ListingWithTabs({ list }: { list: any }) {
         }),
       )
       setSwitchButtonValue(tabs)
-      // Set the first tab as active
-      if (tabs.length > 0) {
-        setActiveTabValue(tabs[0].key)
-      }
     }
   }, [list])
 
@@ -65,10 +72,7 @@ export default function ListingWithTabs({ list }: { list: any }) {
   const tabsData: any = list?.componentData?.refData?.tabsListingComponent
 
   function bindEvents(e: string) {
-    setActiveTabValue(e)
-    // Find the element with the matching key and scroll to it
-    const targetElement = refElement.current.find(el => el?.getAttribute('data-key') === e)
-    targetElement?.scrollIntoView({ behavior: 'smooth' })
+    scrollToElement(e)
   }
 
   return (
@@ -89,15 +93,14 @@ export default function ListingWithTabs({ list }: { list: any }) {
            {tabsData?.tabs?.map((element: any, idx: number) => {
              return (
                <div 
-                 className="flex flex-row gap-4 md:p-3 bg-white md:scroll-m-[250px] scroll-m-[150px] " 
+                 className="flex flex-row gap-4 md:p-3 bg-white md:scroll-m-[250px] scroll-m-[150px] rounded-[12px]" 
                  key={element._key}
                  data-key={element._key}
-                 ref={(el) => {
-                   refElement.current[idx] = el
-                 }}
+                 ref={(el) => registerElement(idx, el)}
                >
                 <div className="w-full h-full rounded-[12px] overflow-auto flex lg:flex-row flex-col gap-6">
                   <ImageLoader
+                   radius={12}
                     className="md:max-w-[489px] md:h-[616px] h-[300px] object-contain"
                     image={urlForImage(element.image)}
                   />
