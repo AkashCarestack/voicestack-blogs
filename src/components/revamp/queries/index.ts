@@ -431,7 +431,61 @@ class Queries {
                   "heading": title,
                   "subHeading": subtitle,
                   "description": content,
-                  "refData": referenceGlobalSchema->
+                  
+                  "refData": referenceGlobalSchema->{
+                   
+                    
+                    // Integration Listing specific data
+                    dataType == "integrationListing" => {
+                     
+                      integrationListing {
+                        title,
+                        description,
+                        showAllIntegrations,
+                        
+                        // Integration List References with full data
+                        "integrationList": integrationListReferences[]->{
+                          _id,
+                          title,
+                          headline,
+                          description,
+                          shortDescription,
+                          slug,
+                          order,
+                          language,
+                          
+                          // Integration image
+                          "image": image.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          
+                          // Integration link
+                          link,
+                          
+                          // Integration category with full data
+                          "integrationCategory": integrationCategory-> {
+                            _id,
+                            name,
+                            subheading,
+                            description,
+                            
+                            // Category image
+                            "mainImage": mainImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            
+                            // Category icon
+                            "icon": icon.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            
+                            iconSvgCode,
+                            language
+                          }
+                        }
+                      }
+                    }
+                  }
                 },
                 
                 // Hero Component

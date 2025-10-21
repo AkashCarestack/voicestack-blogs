@@ -5,27 +5,11 @@ import Queries from '~/components/revamp/queries'
 import ClickableCards from '~/components/revamp/components/common/ClickableCards'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import Section from '~/components/structure/Section'
-
-
-
-
-
+import Button from '~/components/common/Button'
 
 export default function CustomerStories({pageData}: any) {
     
-    // Add null check for pageData and the specific section
-    const data = pageData?.['Powering-Startup']?.componentData
-
-    // Return early if no data is available
-    if (!data) {
-      return (
-        <Section className="flex-col md:gap-[32px] gap-6 py-sm md:py-md lg:py-lg">
-          <div className="text-center py-8">
-            <p className="text-gray-600">Content is currently unavailable.</p>
-          </div>
-        </Section>
-      )
-    }
+    const data = pageData['Powering-Startup'].componentData
 
   return (
     <Section className="flex-col md:gap-[32px] gap-6 py-sm md:py-md lg:py-lg">
@@ -34,6 +18,9 @@ export default function CustomerStories({pageData}: any) {
         description={data?.description}
       />
         <ClickableCards data ={data?.items} />
+        <div className='flex justify-center'>
+        <Button className='w-fit' type='primary' link='/dental-phones/customer-stories'><span>Book Free Demo</span></Button>
+        </div>
     </Section>
   )
 }

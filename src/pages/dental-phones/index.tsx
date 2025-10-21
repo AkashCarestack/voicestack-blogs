@@ -8,6 +8,7 @@ import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
 import { getComparisonTableData, getAllComparisonValues } from '~/lib/sanity.queries'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -55,12 +56,8 @@ interface DentalPhonesIndexProps {
 
 export default function DentalPhonesIndex({ pageData, region, comparisonTableData, comparisonLegendData }: DentalPhonesIndexProps) {
   // Create comparison section data (same structure as homepage)
-  const comparisonSectionData = {
-    strip: 'The Best-in-Class Phone System. For the Best-in-Class Dental Practices.',
-    header: 'No other phone system can match VoiceStack\'s AI-driven features,outcome-driven workflows and integration capabilities, as shown in the comparison chart below. ',
-    columnDimensionName: 'Features',
-    table: comparisonTableData,
-  }
+ 
+  console.log('pageDataDentalPhonesIndex', pageData);
 
   return (
     <>
@@ -74,16 +71,14 @@ export default function DentalPhonesIndex({ pageData, region, comparisonTableDat
           data={pageData['how-voicestack-works'].componentData}
         />
       )}
-      
-      {/* VoiceStack Comparison Cards Section */}
-      <ComparisonCardsSection data={pageData['comparison-cards']?.componentData} />
-      
-      {pageData['comparison-table']?.componentData && (
-        <SiteComparisonSection 
-          data={comparisonSectionData} 
-          legendData={comparisonLegendData || []}
-        />
+      {pageData['custom']?.componentData && (
+        
+        <div className="mt-12">
+          <IntegrationsGrid  data={pageData['custom']?.componentData} />
+        </div>
       )}
+      
+      
     </>
   )
 }
@@ -99,8 +94,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     
     // Fetch comparison table data
     const client = getClient()
-    const comparisonTableData = await getComparisonTableData(client, region)
-    const comparisonLegendData = await getAllComparisonValues() || []
 
     if (!pageData || Object.keys(pageData).length === 0) {
       return {
@@ -111,9 +104,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
       props: {
         pageData,
-        region,
-        comparisonTableData,
-        comparisonLegendData,
+        region
       },
       // Add revalidation for ISR
       // revalidate: 60, // Revalidate every 60 seconds

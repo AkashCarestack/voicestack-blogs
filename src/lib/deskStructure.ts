@@ -52,7 +52,6 @@ const schemaIconMap: Record<string, any> = {
   // Integration Components
   integrationCategory: TagIcon,
   integrationList: BoltIcon,
-  integrationListing: BoltIcon,
   
   // Legal & Documentation
   legal: DocumentTextIcon,
@@ -108,8 +107,7 @@ const customTitleMap: Record<string, string> = {
   featureCategory: 'Feature Categories',
   featureCategoryOld: 'Feature Categories (Old)',
   integrationCategory: 'Integration Categories',
-  integrationList: 'Integration List',
-  integrationListing: 'Integration Listing',
+  integrationList: 'Integration List'
 }
 
 // Convert camelCase to Title Case
@@ -178,7 +176,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     comparisons: ['comparison', 'comparisonTable', 'comparisonValue'],
     
     // Platforms & Integrations
-    platforms: ['Platforms', 'platform', 'platformList', 'integrationCategory', 'integrationList', 'integrationListing'],
+    platforms: ['Platforms', 'platform', 'platformList', 'integrationCategory', 'integrationList'],
 
     faqRevamp: ['faqRevamp'],
     
@@ -620,67 +618,6 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
                             )
                         ])
                     ),
-                  
-                  // Integration Listing
-                  S.listItem()
-                    .title('Integration Listing')
-                    .icon(BoltIcon)
-                    .child(
-                      S.list()
-                        .title('Integration Listing')
-                        .items([
-                          // All Integration Listing documents
-                          S.listItem()
-                            .title('All Integration Listing')
-                            .icon(DocumentIcon)
-                            .child(
-                              S.documentTypeList('integrationListing')
-                                .title('All Integration Listing')
-                                .filter('_type == "integrationListing"')
-                                .defaultOrdering([{field: 'order', direction: 'asc'}])
-                            ),
-                          // US English
-                          S.listItem()
-                            .title('US English (en)')
-                            .icon(DocumentIcon)
-                            .child(
-                              S.documentTypeList('integrationListing')
-                                .title('US English Integration Listing')
-                                .filter('_type == "integrationListing" && language == "en"')
-                                .defaultOrdering([{field: 'order', direction: 'asc'}])
-                            ),
-                          // UK English
-                          S.listItem()
-                            .title('UK English (en-GB)')
-                            .icon(DocumentIcon)
-                            .child(
-                              S.documentTypeList('integrationListing')
-                                .title('UK English Integration Listing')
-                                .filter('_type == "integrationListing" && language == "en-GB"')
-                                .defaultOrdering([{field: 'order', direction: 'asc'}])
-                            ),
-                          // Australia English
-                          S.listItem()
-                            .title('Australia English (en-AU)')
-                            .icon(DocumentIcon)
-                            .child(
-                              S.documentTypeList('integrationListing')
-                                .title('Australia English Integration Listing')
-                                .filter('_type == "integrationListing" && language == "en-AU"')
-                                .defaultOrdering([{field: 'order', direction: 'asc'}])
-                            ),
-                          // Create new
-                          S.listItem()
-                            .title('Create New Integration Listing')
-                            .icon(DocumentIcon)
-                            .child(
-                              S.documentTypeList('integrationListing')
-                                .title('Create New Integration Listing')
-                                .filter('_type == "integrationListing"')
-                                .defaultOrdering([{field: 'order', direction: 'asc'}])
-                            )
-                        ])
-                    )
                 ])
             )
         )

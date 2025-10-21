@@ -195,19 +195,9 @@ export default function IndexPage(
         {/* <FeatureSection data={featureSectionData} refer={refer}/> */}
         {/* tablisting section */}
         {/* <TablistSection data={tabListingData}/> */}
-        {homeCardData?.globalDataReference?.tabsListingComponent ? (
+        { homeCardData?.globalDataReference?.tabsListingComponent && 
           <CardListing data={homeCardData.globalDataReference.tabsListingComponent}/>
-        ) : (
-          <div className="py-8 bg-yellow-50 border border-yellow-200 rounded-lg mx-4">
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-yellow-800 mb-2">CardListing Component</h3>
-              <p className="text-yellow-600">No tabsListingComponent data available</p>
-              <pre className="mt-4 text-xs bg-white p-2 rounded border overflow-auto">
-                {JSON.stringify(homeCardData?.globalDataReference, null, 2)}
-              </pre>
-            </div>
-          </div>
-        )}
+         }
         {/* <AnimatedBeamSection data={integrationPlatforms} refer={refer} /> */}
         {/* <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection> */}
         <CategoryFeatureTabs features={featuresData || []} />
