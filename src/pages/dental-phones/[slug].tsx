@@ -148,19 +148,14 @@ export default function DentalPhonesPage({ page, allPages, currentLanguage, inte
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  console.log('getStaticPaths called')
-  
   try {
     const client = getClient()
     const languages = ['en', 'en-GB', 'en-AU']
     const paths: any[] = []
 
     for (const language of languages) {
-      console.log(`Fetching slugs for language: ${language}`)
-      
       // Get all slugs for this language
       const slugs = await client.fetch(dentalPhonesQueries.getDentalPhonesSlugs, { language })
-      console.log(`Found slugs for ${language}:`, slugs)
       
       for (const slugData of slugs) {
         if (slugData.basicInfo && slugData.basicInfo.slug && slugData.basicInfo.slug.current) {
@@ -179,13 +174,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
       })
     }
 
-    console.log('Final generated paths:', paths)
     return {
       paths,
       fallback: 'blocking'
     }
   } catch (error) {
-    console.error('Error in getStaticPaths:', error)
     // Return empty paths as fallback
     return {
       paths: [],
@@ -197,8 +190,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const slug = params?.slug as string
   const currentLanguage = locale || 'en'
-
-  console.log('getStaticProps called with:', { slug, currentLanguage })
 
   // Handle landing page - don't redirect during build
   if (slug === 'landing') {
@@ -212,7 +203,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     
     // If no landing page exists, create one from existing data
     if (!page) {
-      console.log('No landing page found, creating from existing data')
       const existingPage = await client.fetch(dentalPhonesQueries.createDentalPhonesLandingFromExisting, {
         language: currentLanguage
       })
@@ -301,10 +291,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       })
     }
 
-    console.log('Fetched page:', page)
-    console.log('Page content sections:', page?.content?.sections)
-    console.log('Page content sections length:', page?.content?.sections?.length)
-
     // Get all pages for navigation
     const allPages = await client.fetch(dentalPhonesQueries.getAllDentalPhonesPages, {
       language: currentLanguage
@@ -316,7 +302,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     
     if (slug?.toLowerCase() === 'integrations') {
       try {
-        console.log('Fetching integrations for slug:', slug, 'language:', currentLanguage)
         
         // Use revamp queries for cleaner code
         const queries = new Queries(slug, currentLanguage)
@@ -324,16 +309,12 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         integrationData = await queries.fetchIntegrationData(currentLanguage)
         
       } catch (error) {
-        console.error('Error fetching integrations data:', error)
         integrations = []
         integrationData = undefined
       }
     }
 
-    console.log('Fetched all pages:', allPages)
-
     if (!page) {
-      console.log('Page not found, returning 404')
       return {
         notFound: true
       }
@@ -350,7 +331,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
       revalidate: 60 // Revalidate every minute
     }
   } catch (error) {
-    console.error('Error fetching Who We Serve page:', error)
     return {
       notFound: true
     }
