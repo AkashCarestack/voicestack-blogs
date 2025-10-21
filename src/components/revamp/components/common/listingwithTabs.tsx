@@ -93,7 +93,7 @@ export default function ListingWithTabs({ list }: { list: any }) {
            {tabsData?.tabs?.map((element: any, idx: number) => {
              return (
                <div 
-                 className="flex flex-row gap-4 md:p-3 bg-white md:scroll-m-[250px] scroll-m-[150px] rounded-[12px]" 
+                 className="flex flex-row gap-4 md:p-3 bg-white md:scroll-m-[250px] scroll-m-[150px] rounded-[12px] md:max-h-[640px]" 
                  key={element._key}
                  data-key={element._key}
                  ref={(el) => registerElement(idx, el)}
