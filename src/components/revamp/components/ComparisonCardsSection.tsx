@@ -32,13 +32,13 @@ const ComparisonCardsSection = ({ data }: any) => {
           <div className="w-full">
             {/* Background Image */}
             <div className="absolute right-0 top-0 bottom-0 w-full max-w-[1000px] flex items-center justify-end pointer-events-none">
-                  <Image
-                    src={CornerAccent}
-                    alt="Background pattern"
-                    fill
-                    className="object-cover blur-[7.5px]"
-                    style={{ mixBlendMode: 'multiply' }}
-                  />
+              <Image
+                src={CornerAccent}
+                alt="Background pattern"
+                fill
+                className="object-cover blur-[7.5px]"
+                style={{ mixBlendMode: 'multiply' }}
+              />
             </div>
 
             {/* Main Content */}
