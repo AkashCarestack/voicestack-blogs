@@ -5,11 +5,7 @@ import Queries from '~/components/revamp/queries'
 import ClickableCards from '~/components/revamp/components/common/ClickableCards'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import Section from '~/components/structure/Section'
-
-
-
-
-
+import Button from '~/components/common/Button'
 
 export default function CustomerStories({pageData}: any) {
     
@@ -22,6 +18,9 @@ export default function CustomerStories({pageData}: any) {
         description={data?.description}
       />
         <ClickableCards data ={data?.items} />
+        <div className='flex justify-center'>
+        <Button className='w-fit' type='primary' link='/dental-phones/customer-stories'><span>Book Free Demo</span></Button>
+        </div>
     </Section>
   )
 }
