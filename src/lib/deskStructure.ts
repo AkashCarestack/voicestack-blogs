@@ -505,16 +505,6 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
                       S.list()
                         .title('Integration Categories')
                         .items([
-                          // All Integration Categories documents
-                          S.listItem()
-                            .title('All Integration Categories')
-                            .icon(DocumentIcon)
-                            .child(
-                              S.documentTypeList('integrationCategory')
-                                .title('All Integration Categories')
-                                .filter('_type == "integrationCategory"')
-                                .defaultOrdering([{field: 'name', direction: 'asc'}])
-                            ),
                           // US English
                           S.listItem()
                             .title('US English (en)')

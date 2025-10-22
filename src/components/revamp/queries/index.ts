@@ -444,45 +444,90 @@ class Queries {
                         showAllIntegrations,
                         
                         // Integration List References with full data
-                        "integrationList": integrationListReferences[]->{
-                          _id,
-                          title,
-                          headline,
-                          description,
-                          shortDescription,
-                          slug,
-                          order,
-                          language,
-                          
-                          // Integration image
-                          "image": image.asset-> {
-                            ${this.IMAGE_METADATA_FIELDS}
-                          },
-                          
-                          // Integration link
-                          link,
-                          
-                          // Integration category with full data
-                          "integrationCategory": integrationCategory-> {
+                        // Use conditional logic: if showAllIntegrations is true, fetch all integrations for the language
+                        // Otherwise, use the manually selected integrationListReferences
+                        "integrationList": select(
+                          showAllIntegrations == true => 
+                            *[_type == "integrationList" && language == $language] | order(order asc, title asc) {
+                              _id,
+                              title,
+                              headline,
+                              description,
+                              shortDescription,
+                              slug,
+                              order,
+                              language,
+                              
+                              // Integration image
+                              "image": image.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
+                              
+                              // Integration link
+                              link,
+                              
+                              // Integration category with full data
+                              "integrationCategory": integrationCategory-> {
+                                _id,
+                                name,
+                                subheading,
+                                description,
+                                
+                                // Category image
+                                "mainImage": mainImage.asset-> {
+                                  ${this.IMAGE_METADATA_FIELDS}
+                                },
+                                
+                                // Category icon
+                                "icon": icon.asset-> {
+                                  ${this.IMAGE_METADATA_FIELDS}
+                                },
+                                
+                                iconSvgCode,
+                                language
+                              }
+                            },
+                          // Default case: use manually selected integrationListReferences
+                          integrationListReferences[]->{
                             _id,
-                            name,
-                            subheading,
+                            title,
+                            headline,
                             description,
+                            shortDescription,
+                            slug,
+                            order,
+                            language,
                             
-                            // Category image
-                            "mainImage": mainImage.asset-> {
+                            // Integration image
+                            "image": image.asset-> {
                               ${this.IMAGE_METADATA_FIELDS}
                             },
                             
-                            // Category icon
-                            "icon": icon.asset-> {
-                              ${this.IMAGE_METADATA_FIELDS}
-                            },
+                            // Integration link
+                            link,
                             
-                            iconSvgCode,
-                            language
+                            // Integration category with full data
+                            "integrationCategory": integrationCategory-> {
+                              _id,
+                              name,
+                              subheading,
+                              description,
+                              
+                              // Category image
+                              "mainImage": mainImage.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
+                              
+                              // Category icon
+                              "icon": icon.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
+                              
+                              iconSvgCode,
+                              language
+                            }
                           }
-                        }
+                        )
                       }
                     }
                   }

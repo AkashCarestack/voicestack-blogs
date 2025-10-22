@@ -316,6 +316,15 @@ const GlobalData = {
             {
               type: 'reference',
               to: [{ type: 'integrationList' }],
+              options: {
+                filter: ({ document }: any) => {
+                  const language = document?.language || 'en'
+                  return {
+                    filter: 'language == $language',
+                    params: { language }
+                  }
+                }
+              }
             }
           ],
           options: {
