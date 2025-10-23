@@ -119,12 +119,13 @@ export function useIntersectionObserver(options: UseIntersectionObserverOptions 
 
   // Scroll to a specific element
   const scrollToElement = useCallback((elementKey: string) => {
-    setActiveElement(elementKey)
+    
     const targetElement = elementRefs.current.find(el => 
       el?.getAttribute('data-key') === elementKey
     )
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: 'smooth' })
+      setActiveElement(elementKey)
     }
   }, [])
 
