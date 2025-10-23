@@ -26,13 +26,15 @@ export default function SwitchableTabs({
     const targetElement = refElement.current[activeIndex]
 
     if (targetElement) {
+      setActiveTab(key);
       targetElement.scrollIntoView({
         behavior: 'smooth',
         inline: 'center',
         block: 'nearest',
       })
+      
     }
-    setActiveTab(key)
+   
   }
 
   return (

@@ -184,6 +184,8 @@ class Queries {
         dataType,
         _createdAt,
         _updatedAt,
+        subheadline,
+        subDescription,
         
         // Tabs listing component data
         tabsListingComponent {
@@ -351,6 +353,7 @@ class Queries {
             slug,
             component {
               componentType,
+              ...,
               
               // Dynamic component data selection based on component type
               "componentData": select(
@@ -358,16 +361,17 @@ class Queries {
                 componentType == "TabsListing" => tabsListingComponent {
                   _type,
                   "headline": headline,
-                  "subHeading": subheadline,
-                  "description": subDescription,
+                  "subHeading": Subheading,
+                  "description": Subheading,
+                  subheadline,
+                  subDescription,
                   "refData": globalData->,
                   heading,
-                  
-                  // Tabs within the listing
                   tabs[] {
                     _key,
                     tabHeading,
-                    
+                    description,
+                    tabSubHeading,
                     // Tab image with metadata
                     "image": image.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
