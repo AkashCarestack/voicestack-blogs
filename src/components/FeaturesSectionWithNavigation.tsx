@@ -1,10 +1,15 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo, useContext } from 'react'
 import { urlForImage } from '~/lib/sanity.image'
+import { projectId, dataset } from '~/lib/sanity.api'
+import Container from './structure/Container'
+import Button from './common/Button'
+import { FormModal } from './common/FormModal'
+import { BookDemoContext } from '~/providers/BookDemoProvider'
+import SwitchableTabs from './revamp/components/common/switchableTabs'
 
-// External image URLs from Figma (for CTA button)
-const img10 = "https://www.figma.com/api/mcp/asset/51f6ee12-cf09-438a-950c-ed6ac43a291d"
+
 
 interface IntegrationCardProps {
   name: string
@@ -62,7 +67,14 @@ const IntegrationCard: React.FC<IntegrationCardProps> = ({
         <div className="bg-gradient-to-b from-vs-blue to-[#191078] relative rounded-xl w-10 h-10 flex items-center justify-center">
           <div className="absolute inset-0 border-2 border-white/20 rounded-xl" />
           <div className="w-8 h-8 rounded-lg overflow-hidden">
-            <img alt={name} className="w-full h-full object-cover" src={icon} />
+            <img 
+              alt={name} 
+              className="w-full h-full object-cover" 
+              src={icon} 
+              onError={(e) => {
+                e.currentTarget.src = '/placeholder-icon.svg';
+              }}
+            />
           </div>
         </div>
         
@@ -113,7 +125,7 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({
         </p>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {integrations.map((integration, index) => (
           <IntegrationCard
             key={index}
@@ -145,16 +157,17 @@ const NavigationItem: React.FC<NavigationItemProps> = ({
   return (
     <button
       onClick={onClick}
-      className={`w-full flex items-center gap-3 px-5 py-2 rounded-lg transition-all duration-200 ${
+      data-category-id={id}
+      className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 whitespace-nowrap flex-shrink-0 ${
         isActive 
-          ? 'bg-gray-100 border-l-2 border-gray-950' 
-          : 'hover:bg-gray-50 border-l-2 border-gray-200'
+          ? 'bg-gray-100 md:border-l-2 md:border-gray-950' 
+          : 'hover:bg-gray-50 md:border-l-2 md:border-gray-200'
       }`}
     >
       <div className="w-5 h-5 flex-shrink-0">
         {renderIcon(category, isActive)}
       </div>
-      <span className={`text-base font-geist ${
+      <span className={`text-sm md:text-base font-geist ${
         isActive ? 'font-medium text-gray-950' : 'font-normal text-gray-950 opacity-70'
       }`}>
         {label}
@@ -171,7 +184,8 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
   const activeCategoryRef = useRef<string>('')
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-
+  const [openForm, setOpenForm] = useState(false) 
+  const { isDemoPopUpShown } = useContext(BookDemoContext);
   // Set first category as active when categories are loaded
   useEffect(() => {
     if (categories && categories.length > 0 && !activeSection) {
@@ -251,6 +265,15 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
     category: category // Pass the full category object for icon rendering
   }))
 
+  // Transform data for SwitchableTabs (mobile navigation)
+  const switchableTabsData = (categories || []).map((category) => ({
+    id: category._id,
+    key: category._id,
+    title: category.name,
+    testimonial: null, // Not needed for this use case
+    setActiveTab: (key: string) => handleCategoryClick(key) // Required by interface
+  }))
+
   // Create feature sections from categories and their integrations
   const featureSections = useMemo(() => {
     return (categories || []).map((category) => {
@@ -265,18 +288,20 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
           let iconUrl = '/placeholder-icon.svg'
           
           try {
-            if (integration.image && integration.image.asset) {
-              // Check if we have a direct URL (from query)
-              if (integration.image.asset.url) {
+            if (integration.image) {
+              // Check if we have a direct URL (from dereferenced asset)
+              if (integration.image.url) {
+                iconUrl = integration.image.url;
+              } else if (integration.image.asset && integration.image.asset.url) {
+                // Fallback: check if asset has URL
                 iconUrl = integration.image.asset.url;
               } else {
-                // Try urlForImage for Sanity asset references
+                // Fallback: try urlForImage for Sanity asset references
                 const url = urlForImage(integration.image, { width: 32, height: 32 });
                 iconUrl = url || '/placeholder-icon.svg'
               }
             }
           } catch (error) {
-            console.warn('Error processing integration image:', error)
             iconUrl = '/placeholder-icon.svg'
           }
           
@@ -373,41 +398,58 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
   }
 
   return (
-    <section className="bg-[#f9f9f9] py-lg">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex gap-6">
-          {/* Sticky Navigation Sidebar */}
-          <div className="w-[293px] flex-shrink-0 sticky top-24 h-fit">
-            <div className="space-y-3">
-              {navigationItems.map((item) => (
-                <NavigationItem
-                  key={item.id}
-                  id={item.id}
-                  label={item.label}
-                  category={item.category}
-                  isActive={activeSection === item.id}
-                  onClick={() => handleCategoryClick(item.id)}
-                  renderIcon={renderCategoryIcon}
-                />
-              ))}
-            </div>
+    <section className="bg-[#f9f9f9] xl:py-lg md:py-md py-sm">  
+      <style jsx>{`
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
+      <Container className="">
+        <div className="flex flex-col md:flex-row gap-6 w-full">
+           {/* Mobile Navigation - SwitchableTabs */}
+             <SwitchableTabs
+               data={switchableTabsData}
+               setActiveTab={(categoryId: string) => handleCategoryClick(categoryId)}
+               activeTab={activeSection}
+               className="md:hidden block"
+               isShowImage={false}
+               isSticky={true}
+             />
+          
+
+           {/* Desktop Navigation Sidebar */}
+           <div className="w-full md:w-[293px] flex-shrink-0 sticky top-24 h-fit hidden md:block">
+             <div className="flex flex-col space-y-3">
+               {navigationItems.map((item) => (
+                 <NavigationItem
+                   key={item.id}
+                   id={item.id}
+                   label={item.label}
+                   category={item.category}
+                   isActive={activeSection === item.id}
+                   onClick={() => handleCategoryClick(item.id)}
+                   renderIcon={renderCategoryIcon}
+                 />
+               ))}
+             </div>
             
             {/* CTA Section */}
-            <div className="mt-6 pt-6 border-t border-gray-200">
+            <div className="mt-6 pt-6 border-t border-gray-200 md:block hidden">
               <p className="text-base text-[#71717b] mb-5 font-geist">
                 For Smarter Patient Call Management
               </p>
-              <button className="bg-vs-lemon-green hover:bg-vs-lemon-green/90 text-gray-950 font-medium px-6 py-3 rounded-lg transition-colors duration-200 relative group font-geist">
-                <span className="relative z-10">Book Free Demo</span>
-                <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  <img alt="" className="w-[126px] h-5" src={img10} />
-                </div>
-              </button>
+              <Button type='primary' className='w-full' onClick={() => {setOpenForm(true)}}>
+                <span>Book Free Demo</span>
+              </Button>
             </div>
           </div>
 
-          {/* Main Content */}
-          <div className="flex-1">
+           {/* Main Content */}
+           <div className="flex-1 w-full md:w-auto">
             {featureSections.map((section) => (
               <div
                 key={section.id}
@@ -419,7 +461,14 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
             ))}
           </div>
         </div>
-      </div>
+      </Container>
+      {openForm && (
+        <FormModal
+          className={`pt-9  flex items-start`}
+          onClose={() => setOpenForm(false)}
+          data={isDemoPopUpShown}
+        />
+      )}
     </section>
   )
 }

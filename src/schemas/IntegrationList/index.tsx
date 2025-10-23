@@ -112,6 +112,13 @@ export default defineType({
       to: [{ type: 'integrationCategory' }],
       options: {
         disableNew: false, // Allow creating new categories
+        filter: ({ document }) => {
+          const language = document?.language || 'en'
+          return {
+            filter: 'language == $language',
+            params: { language }
+          }
+        }
       },
       description: 'Select an existing integration category or create a new one',
       validation: (Rule: any) => Rule.required(),

@@ -18,6 +18,7 @@ const GlobalData = {
           { title: 'Feature List', value: 'featureList' },
           { title: 'Generic Listing', value: 'genericListingComponent' },
           { title: 'Integration Listing', value: 'integrationListing' },
+          
         ],
       },
       // validation: (Rule: any) => Rule.required(),
@@ -295,33 +296,71 @@ const GlobalData = {
       hidden: ({ parent }: any) => !parent || parent.dataType !== 'integrationListing',
       fields: [
         {
-          name: 'pullAllIntegrations',
-          title: 'Pull All Integrations',
-          type: 'boolean',
-          description: 'When enabled, automatically pulls all integrations from all categories',
-          initialValue: true,
-        },
-        {
-          name: 'heading',
-          title: 'Heading',
+          name: 'title',
+          title: 'Integration Listing Title',
           type: 'string',
-          description: 'Main heading for the integration listing',
-        },
-        {
-          name: 'subheading',
-          title: 'Subheading',
-          type: 'string',
-          description: 'Subheading for the integration listing',
+          description: 'Title for the integration listing section',
         },
         {
           name: 'description',
-          title: 'Description',
+          title: 'Integration Listing Description',
           type: 'text',
           rows: 3,
-          description: 'Description for the integration listing',
+          description: 'Description for the integration listing section',
+        },
+        {
+          name: 'integrationListReferences',
+          title: 'Integration List References',
+          type: 'array',
+          of: [
+            {
+              type: 'reference',
+              to: [{ type: 'integrationList' }],
+              options: {
+                filter: ({ document }: any) => {
+                  const language = document?.language || 'en'
+                  return {
+                    filter: 'language == $language',
+                    params: { language }
+                  }
+                }
+              }
+            }
+          ],
+          options: {
+            // Show all available integration lists
+            filter: ({ parent }: any) => {
+              // If showAllIntegrations is true, show all integration lists
+              if (parent?.showAllIntegrations) {
+                return undefined // No filter, show all
+              }
+              // Otherwise, show all available integration lists
+              return undefined
+            }
+          },
+          description: 'Select one or more integration lists to display',
+          hidden: ({ parent }: any) => parent?.showAllIntegrations === true,
+          validation: (Rule: any) => Rule.custom((value, context) => {
+            const parent = context.parent
+            if (parent?.showAllIntegrations === false && (!value || value.length === 0)) {
+              return 'At least one integration list must be selected when not showing all integrations'
+            }
+            return true
+          }),
+        },
+        {
+          name: 'showAllIntegrations',
+          title: 'Show All Integrations',
+          type: 'boolean',
+          description: 'Check this to automatically include ALL integrations from the Integration List. When enabled, all available integration lists will be automatically selected.',
+          initialValue: false,
+          options: {
+            layout: 'checkbox'
+          },
         },
       ],
     },
+  
     // Language field (hidden and read-only)
     defineField({
       name: 'language',
@@ -335,7 +374,7 @@ const GlobalData = {
       title: 'name',
       dataType: 'dataType',
       subtitle: 'comparisonTable.title',
-      pullAllIntegrations: 'integrationListing.pullAllIntegrations',
+
       language: 'language',
     },
     prepare(selection: any) {
@@ -346,13 +385,7 @@ const GlobalData = {
                            '🌐';
       
       let displaySubtitle = subtitle || 'Global data';
-      if (dataType === 'integrationListing') {
-        if (pullAllIntegrations) {
-          displaySubtitle = 'Pull All Integrations: All categories';
-        } else {
-          displaySubtitle = 'Integration Listing: Manual selection';
-        }
-      }
+   
       
       return {
         title: `${languageLabel} ${title || 'Global Data'}`,
