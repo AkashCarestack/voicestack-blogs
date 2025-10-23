@@ -184,6 +184,8 @@ class Queries {
         dataType,
         _createdAt,
         _updatedAt,
+        subheadline,
+        subDescription,
         
         // Tabs listing component data
         tabsListingComponent {
@@ -361,6 +363,8 @@ class Queries {
                   "headline": headline,
                   "subHeading": Subheading,
                   "description": Subheading,
+                  subheadline,
+                  subDescription,
                   "refData": globalData->,
                   heading,
                   tabs[] {

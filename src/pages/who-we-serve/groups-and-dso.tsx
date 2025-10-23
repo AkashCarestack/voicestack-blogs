@@ -75,7 +75,7 @@ export default function GroupsAndDSO({ pageData, }: GroupsAndDSOProps) {
       <Container className='flex flex-col items-center'>
         <SectionHeader
           heading={data?.headline}
-          description={data?.subHeading}
+          description={data?.subDescription}
         />
         <SwitchableTabs
           data={data.tabs.map((e:any)=>{
@@ -132,8 +132,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const queries = new Queries('whoWeServe', region)
     const slug = region === 'en' ? 'groups-and-dso' : `groups-and-dso-${region.toLowerCase()}`
-    console.log({slug})
-    
     const pageData = await queries.getPageData('whoWeServe', slug)
 
     return {
