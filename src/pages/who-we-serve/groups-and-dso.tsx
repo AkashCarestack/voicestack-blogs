@@ -23,7 +23,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       region === 'en'
         ? 'groups-and-dso'
         : `groups-and-dso-${region.toLowerCase()}`
-        console.log({slug})
     const pageData = await queries.getPageData('whoWeServe', slug)
 
     return {
