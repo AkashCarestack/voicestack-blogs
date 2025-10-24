@@ -385,10 +385,7 @@ class Queries {
                     
                     // CTA items for the tab
                     ctaListItems[] {
-                      _key,
-                      ctaLink,
-                      ctaText,
-                      ctaType
+                     ${this.CTA_FIELDS}
                     },
                     
                     // Tab links
