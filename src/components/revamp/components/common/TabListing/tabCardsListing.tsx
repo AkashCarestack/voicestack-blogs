@@ -11,24 +11,6 @@ export default function TabCardsListing({ data }: { data: any }) {
   const [isScrolling, setIsScrolling] = useState(false)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   
-  // Early return if no data
-  if (!data || !data.tabs || !Array.isArray(data.tabs) || data.tabs.length === 0) {
-    return (
-      <Section className="py-sm md:py-md lg:py-lg">
-        <Container className="flex flex-col items-center">
-          <div className="flex flex-col items-center justify-center min-h-[400px]">
-            <h1 className="text-4xl font-bold text-gray-900 mb-6">
-              Groups and DSO
-            </h1>
-            <p className="text-gray-600 text-center max-w-2xl">
-              This page is currently being set up. Please check back later.
-            </p>
-          </div>
-        </Container>
-      </Section>
-    )
-  }
-  
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
@@ -38,6 +20,7 @@ export default function TabCardsListing({ data }: { data: any }) {
       ),
     },
   }
+  
   const bindEvents = (e: string) => {
     setIsScrolling(true)
     scrollToElement(e)
@@ -63,6 +46,51 @@ export default function TabCardsListing({ data }: { data: any }) {
     minScore: 0.8,
     enabled: !isScrolling, // Disable during programmatic scrolling
   })
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  // Early return if no data - AFTER all hooks
+  if (!data || !data.tabs || !Array.isArray(data.tabs) || data.tabs.length === 0) {
+    return (
+      <Section className="py-sm md:py-md lg:py-lg">
+        <Container className="flex flex-col items-center">
+          <div className="flex flex-col items-center justify-center min-h-[400px]">
+            <h1 className="text-4xl font-bold text-gray-900 mb-6">
+              Groups and DSO
+            </h1>
+            <p className="text-gray-600 text-center max-w-2xl">
+              This page is currently being set up. Please check back later.
+            </p>
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+
+  // Additional safety check for data structure
+  if (!data.headline || !data.tabs || data.tabs.length === 0) {
+    return (
+      <Section className="py-sm md:py-md lg:py-lg">
+        <Container className="flex flex-col items-center">
+          <div className="flex flex-col items-center justify-center min-h-[400px]">
+            <h1 className="text-4xl font-bold text-gray-900 mb-6">
+              Groups and DSO
+            </h1>
+            <p className="text-gray-600 text-center max-w-2xl">
+              This page is currently being set up. Please check back later.
+            </p>
+          </div>
+        </Container>
+      </Section>
+    )
+  }
 
   return (
     <Section className="py-sm md:py-md lg:py-lg">
@@ -102,15 +130,21 @@ export default function TabCardsListing({ data }: { data: any }) {
                   </p>
                   <PortableText value={e.description} components={components} />
                 </div>
-                <div className="xl:h-[476px] xl:w-[886px] h-[400px] md:rounded-[12px] rounded-[8px] overflow-clip">
-                  <ImageLoader
-                    height={476}
-                    width={886}
-                    image={e.image?.url}
-                    alt={e.tabHeading}
-                    className="xl:w-[886px] w-full md:h-[476px] h-[400px] object-contain"
-                  />
-                </div>
+                 <div className="xl:h-[476px] xl:w-[886px] h-[400px] md:rounded-[12px] rounded-[8px] overflow-clip">
+                   {e.image?.url ? (
+                     <ImageLoader
+                       height={476}
+                       width={886}
+                       image={e.image.url}
+                       alt={e.tabHeading || 'Tab image'}
+                       className="xl:w-[886px] w-full md:h-[476px] h-[400px] object-contain"
+                     />
+                   ) : (
+                     <div className="xl:w-[886px] w-full md:h-[476px] h-[400px] bg-gray-200 flex items-center justify-center">
+                       <span className="text-gray-500">No image available</span>
+                     </div>
+                   )}
+                 </div>
               </div>
             )
           })}
