@@ -9,7 +9,7 @@ interface GroupsAndDSOProps {
 
 export default function GroupsAndDSO({ pageData }: GroupsAndDSOProps) {
   const data = pageData?.['groups-and-dso']?.componentData
-  return <TabCardsListing data={data} />
+  return data ? <TabCardsListing data={data} /> :<></>
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
