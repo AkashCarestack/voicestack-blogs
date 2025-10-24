@@ -9,7 +9,6 @@ interface GroupsAndDSOProps {
 
 export default function GroupsAndDSO({ pageData }: GroupsAndDSOProps) {
   const data = pageData?.['groups-and-dso']?.componentData
-  console.log({data})
   return data ? <TabCardsListing data={data} /> :<></>
 }
 
