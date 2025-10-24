@@ -7,20 +7,21 @@ import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import Section from '~/components/structure/Section'
 import Button from '~/components/common/Button'
 
-export default function CustomerStories({pageData}: any) {
-    
-    const data = pageData['Powering-Startup'].componentData
+export default function CustomerStories({ pageData }: any) {
+
+  const data = pageData['Powering-Startup'].componentData
 
   return (
+    data &&
     <Section className="flex-col md:gap-[32px] gap-6 py-sm md:py-md lg:py-lg">
       <SectionHeader
         heading={data?.heading}
         description={data?.description}
       />
-        <ClickableCards data ={data?.items} />
-        <div className='flex justify-center'>
+      <ClickableCards data={data?.items} />
+      <div className='flex justify-center'>
         <Button className='w-fit' type='primary' link='/dental-phones/customer-stories'><span>Book Free Demo</span></Button>
-        </div>
+      </div>
     </Section>
   )
 }
@@ -38,7 +39,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData: pageData || null
       },
-      revalidate: 60
     }
   } catch (error) {
     console.error('Error fetching customer stories:', error)
@@ -46,7 +46,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData: null
       },
-      revalidate: 60
+     
     }
   }
 }
