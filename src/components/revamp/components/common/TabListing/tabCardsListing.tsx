@@ -10,6 +10,25 @@ import ImageLoader from '~/components/common/imageLoader/imageLoader'
 export default function TabCardsListing({ data }: { data: any }) {
   const [isScrolling, setIsScrolling] = useState(false)
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  
+  // Early return if no data
+  if (!data || !data.tabs || !Array.isArray(data.tabs) || data.tabs.length === 0) {
+    return (
+      <Section className="py-sm md:py-md lg:py-lg">
+        <Container className="flex flex-col items-center">
+          <div className="flex flex-col items-center justify-center min-h-[400px]">
+            <h1 className="text-4xl font-bold text-gray-900 mb-6">
+              Groups and DSO
+            </h1>
+            <p className="text-gray-600 text-center max-w-2xl">
+              This page is currently being set up. Please check back later.
+            </p>
+          </div>
+        </Container>
+      </Section>
+    )
+  }
+  
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
@@ -49,28 +68,24 @@ export default function TabCardsListing({ data }: { data: any }) {
     <Section className="py-sm md:py-md lg:py-lg">
       <Container className="flex flex-col items-center">
         <SectionHeader
-          heading={data?.headline}
-          description={data?.subDescription}
+          heading={data.headline}
+          description={data.subDescription}
         />
-        {data?.tabs && data?.tabs?.length && (
-          <SwitchableTabs
-            data={
-              data.tabs?.map((e: any) => {
-                return {
-                  key: e._key,
-                  heading: e.tabHeading,
-                  title: e.tabHeading,
-                }
-              }) || []
+        <SwitchableTabs
+          data={data.tabs.map((e: any) => {
+            return {
+              key: e._key,
+              heading: e.tabHeading,
+              title: e.tabHeading,
             }
-            activeTab={activeTabValue}
-            setActiveTab={(e: string) => bindEvents(e)}
-            isSticky={true}
-            className="md:py-[74px] py-8 z-20"
-          />
-        )}
+          })}
+          activeTab={activeTabValue}
+          setActiveTab={(e: string) => bindEvents(e)}
+          isSticky={true}
+          className="md:py-[74px] py-8 z-20"
+        />
         <div className="flex flex-col gap-6">
-          {data?.tabs?.map((e: any, idx: number) => {
+          {data.tabs.map((e: any, idx: number) => {
             return (
               <div
                 ref={(el) => registerElement(idx, el)}
