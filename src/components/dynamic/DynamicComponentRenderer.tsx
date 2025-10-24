@@ -128,22 +128,22 @@ const DynamicComponentRenderer: React.FC<DynamicComponentProps> = ({
   // Render the appropriate component based on type
   switch (componentType) {
     case 'TabsListing':
-      console.log('Rendering TabsListing component with data:', enhancedComponent.tabsListingComponent)
+      // console.log('Rendering TabsListing component with data:', enhancedComponent.tabsListingComponent)
       return <TabsListingComponent data={enhancedComponent.tabsListingComponent} slugData={slugData} />
     case 'Listing':
-      console.log('Rendering Listing component with data:', enhancedComponent.listingComponent)
+      // console.log('Rendering Listing component with data:', enhancedComponent.listingComponent)
       return <ListingComponent data={enhancedComponent.listingComponent} slugData={slugData} />
     case 'RightImage':
-      console.log('Rendering RightImage component with data:', enhancedComponent.rightImageComponent)
+      // console.log('Rendering RightImage component with data:', enhancedComponent.rightImageComponent)
       return <RightImageComponent data={enhancedComponent.rightImageComponent} slugData={slugData} />
     case 'FeatureGrid':
-      console.log('Rendering FeatureGrid component with data:', enhancedComponent.featureGridComponent)
+      // console.log('Rendering FeatureGrid component with data:', enhancedComponent.featureGridComponent)
       return <FeatureGridComponent data={enhancedComponent.featureGridComponent} slugData={slugData} />
     case 'Testimonial':
-      console.log('Rendering Testimonial component with data:', enhancedComponent.testimonialComponent)
+      // console.log('Rendering Testimonial component with data:', enhancedComponent.testimonialComponent)
       return <TestimonialComponent data={enhancedComponent.testimonialComponent} slugData={slugData} />
     case 'Custom':
-      console.log('Rendering Custom component with data:', enhancedComponent.customComponent)
+      // console.log('Rendering Custom component with data:', enhancedComponent.customComponent)
       return <CustomComponent data={enhancedComponent.customComponent} slugData={slugData} />
     default:
       console.log('Unknown component type:', componentType)

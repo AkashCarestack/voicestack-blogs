@@ -9,7 +9,7 @@ import Button from '~/components/common/Button'
 
 export default function CustomerStories({ pageData }: any) {
 
-  const data = pageData['Powering-Startup'].componentData
+  const data = pageData && pageData['Powering-Startup'] && pageData['Powering-Startup'].componentData
 
   return (
     data &&
