@@ -17,6 +17,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   try {
     const queries = new Queries('whoWeServe', region)
+   
     const slug =
       region === 'en'
         ? 'groups-and-dso'
