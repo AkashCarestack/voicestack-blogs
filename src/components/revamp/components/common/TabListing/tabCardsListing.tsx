@@ -80,7 +80,7 @@ export default function TabCardsListing({ data }: { data: any }) {
                 className="flex scroll-m-[180px]  xl:flex-row flex-col gap-6 bg-white md:p-3 p-2 md:rounded-[24px] rounded-[12px]"
               >
                 <div className="flex flex-col gap-1 md:p-6 p-4 flex-1 justify-between">
-                    <div>
+                    <div className="flex flex-col gap-1">
                   <h4 className="text-[#4F525A] font-geist !leading-[142%] text-sm tracking-wide md:tracking-[0.8px] uppercase">
                     {e.tabHeading}
                   </h4>
@@ -89,7 +89,7 @@ export default function TabCardsListing({ data }: { data: any }) {
                   </p>
                   <PortableText value={e.description} components={components} />
                   </div>
-                  <div className='md:py-0 py-4'>
+                  <div className='md:py-0 py-4 md:w-[172px]'>
                     {
                         e?.ctaListItems?.map((item: any) => {
                             return (
@@ -106,7 +106,7 @@ export default function TabCardsListing({ data }: { data: any }) {
                     width={886}
                     image={e.image?.url}
                     alt={e.tabHeading}
-                    className="xl:w-[886px] w-full md:h-[476px] h-[400px] object-contain"
+                    className="xl:w-[800px] w-full md:h-[476px] h-[400px] object-contain"
                   />
                 </div>
               </div>

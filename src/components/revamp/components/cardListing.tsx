@@ -30,12 +30,12 @@ export default function CardListing({ data }: any) {
           description={data?.subDescription}
         />
         <div className='flex flex-col md:gap-16 gap-6'>
-        <div className="grid lg:grid-cols-2 md:pt-16 pt-8 gap-6 justify-center">
+        <div className="grid md:grid-cols-2 md:pt-16 pt-8 gap-6 justify-center">
           {data?.tabs?.length &&
             data?.tabs?.map((e: any) => {
               return (
                 <div key={e._key} className="md:max-w-[608px] md:gap-6 gap-4">
-                  <div className="md:max-w-[608px] h-[350px] w-full">
+                  <div className="md:max-w-[608px] lg:h-[350px] h-[250px] w-full">
                     <ImageLoader
                       image={urlForImage(e?.image)}
                       className="w-full h-full object-cover md:rounded-[24px] rounded-[12px] overflow-hidden"
