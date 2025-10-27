@@ -7,8 +7,13 @@ import ComparisonCardsSection from '~/components/revamp/components/ComparisonCar
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
-import { getComparisonTableData, getAllComparisonValues } from '~/lib/sanity.queries'
+import {
+  getComparisonTableData,
+  getAllComparisonValues,
+} from '~/lib/sanity.queries'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
+import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -54,31 +59,43 @@ interface DentalPhonesIndexProps {
   comparisonLegendData: any[] | null
 }
 
-export default function DentalPhonesIndex({ pageData, region, comparisonTableData, comparisonLegendData }: DentalPhonesIndexProps) {
+export default function DentalPhonesIndex({
+  pageData,
+  region,
+  comparisonTableData,
+  comparisonLegendData,
+}: DentalPhonesIndexProps) {
   // Create comparison section data (same structure as homepage)
- 
-  console.log('pageDataDentalPhonesIndex', pageData);
+
+  console.log('pageDataDentalPhonesIndex', pageData)
 
   return (
     <>
-      <HeroSection 
-        page="inner" 
+      <HeroSection
+        page=""
         data={pageData['dental-phones-hero']?.componentData}
       />
-      
+      {pageData['stack-card-tab-testimonial']?.componentData && (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
+      )}
       {pageData['how-voicestack-works']?.componentData && (
-        <CardsGridSection 
+        <CardsGridSection
           data={pageData['how-voicestack-works'].componentData}
         />
       )}
+      {pageData['testimonial-video-section']?.componentData && (
+        <VerticalTestimonialListing
+          data={pageData['testimonial-video-section']?.componentData?.refData?.testimonialListing}
+        />
+      )}
+
       {pageData['custom']?.componentData && (
-        
         <div className="mt-12">
-          <IntegrationsGrid  data={pageData['custom']?.componentData} />
+          <IntegrationsGrid data={pageData['custom']?.componentData} />
         </div>
       )}
-      
-      
     </>
   )
 }
@@ -88,10 +105,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const region = locale || 'en'
     const queries = new Queries('landing', region)
     const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
-    
+
     const pageData = await queries.getPageData('dentalPhones', slug)
-    console.log('pageData', pageData);
-    
+    console.log('pageData', pageData)
+
     // Fetch comparison table data
     const client = getClient()
 
@@ -104,7 +121,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
       props: {
         pageData,
-        region
+        region,
       },
       // Add revalidation for ISR
       // revalidate: 60, // Revalidate every 60 seconds

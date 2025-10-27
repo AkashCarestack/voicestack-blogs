@@ -530,6 +530,50 @@ class Queries {
                           }
                         )
                       }
+                    },
+                    dataType == "testimonialListing" => {
+                      testimonialListing {
+                        title,
+                        description,
+                        "testimonial": testimonialListReferences[]->{
+                          _id,
+                          name,
+                          designation,
+                          // Logo images
+                          "logo": logo.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          "secondaryLogo": secondaryLogo.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          
+                          // Testimonial image
+                          "testimonialImage": testimonialImage.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          
+                          // Video data
+                          video[] {
+                            videoPlatform,
+                            videoId,
+                            videotitle
+                          },
+                          
+                          secondaryVideo[] {
+                            videoPlatform,
+                            videoId,
+                            videotitle
+                          },
+                          
+                          // Thumbnail video
+                          thumbnail,
+                          // Testimonial content
+                          testimonialdescription,
+                          keyStatement,
+                          keyFeatures,
+                        
+                        }
+                      }
                     }
                   }
                 },
@@ -538,7 +582,12 @@ class Queries {
                 componentType == "Hero" => heroComponent {
                   _type,
                   ...,
-                  
+                  "heroImage" : heroImage.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  "heroImageSecondary" : heroImageSecondary.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
                   // Featured testimonial
                   "testimonial": testimonialVideo-> {
                     _id,
@@ -599,7 +648,8 @@ class Queries {
                       ${this.CTA_FIELDS}
                     }
                   }
-                }
+                },
+               
               )
             }
           }

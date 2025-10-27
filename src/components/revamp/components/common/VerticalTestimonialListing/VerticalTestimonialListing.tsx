@@ -450,13 +450,13 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
                                     height: `48px`,
                                     width: `${
                                       48 *
-                                      logo?.logo?.metadata
+                                      logo?.secondaryLogo?.metadata
                                         ?.dimensions?.aspectRatio
                                     }px`,
                                   }}
                                 >
                                   <ImageLoader
-                                    image={logo?.logo?.url}
+                                    image={logo?.secondaryLogo?.url}
                                     className="w-full h-full object-contain"
                                       alt="Company Logo"
                                       imageClassName="object-contain filter brightness-[132%] contrast-[202%]"

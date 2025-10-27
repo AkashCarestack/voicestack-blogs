@@ -38,7 +38,12 @@ export default defineType({
     }),
     defineField({
       name: 'logo',
-      title: 'Logo',
+      title: 'Logo(colored logo)',
+      type: 'image',
+    }),
+    defineField({
+      name: 'secondaryLogo',
+      title: 'Secondary Logo(white logo)',
       type: 'image',
     }),
     defineField({
