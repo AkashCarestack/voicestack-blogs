@@ -262,12 +262,7 @@ const HeroSection = ({ data, refer = null, video = undefined, page = '' }) => {
                       video={video[0]}
                       thumbnail={video[0]?.videoThumbnail}
                     />
-                  ) : (
-                    // <ImageLoader
-                    //   image={data?.heroImage}
-                    //   alt={data?.heroImage?.altText}
-                    //   className="w-full h-full object-cover"
-                    // />
+                  ) : data?.testimonial ? (
                     <div className="md:max-w-[606px] leading-none flex-1 flex justify-center lg:justify-end items-start relative">
                       <div className="absolute right-auto left-1/2 md:left-auto md:right-0 top-[0] bg-[#4A3CE1] opacity-10 rounded-[12px] md:rounded-[22px] -translate-x-1/2 lg:translate-x-0 rotate-[-7.7deg] scale-90 aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] shrink-0 origin-bottom-left"></div>
                       <div className="relative rounded-[8px] md:rounded-[16px] aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] overflow-hidden shrink-0">
@@ -437,6 +432,13 @@ const HeroSection = ({ data, refer = null, video = undefined, page = '' }) => {
                         </div>
                       </div>
                     </div>
+                  ) : (
+                    // Hero Image Fallback when no video or testimonial
+                    <ImageLoader
+                      image={data?.heroImage?.url}
+                      alt={data?.heroImage?.altText}
+                      className="w-full h-full object-cover rounded-[12px] md:rounded-[24px]"
+                    />
                   )}
                 </div>
               </div>

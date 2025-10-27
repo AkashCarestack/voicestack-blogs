@@ -1,5 +1,6 @@
 import { defineField } from "sanity";
 import { genericListingComponentFields } from "../DynamicComponent/Components/GenericListingComponent";
+import showCountryFlag from "~/components/utils/common";
 
 const GlobalData = {
   name: 'globalData',
@@ -18,7 +19,7 @@ const GlobalData = {
           { title: 'Feature List', value: 'featureList' },
           { title: 'Generic Listing', value: 'genericListingComponent' },
           { title: 'Integration Listing', value: 'integrationListing' },
-          
+          { title: 'Testimonial Listing', value: 'testimonialListing' },
         ],
       },
       // validation: (Rule: any) => Rule.required(),
@@ -360,7 +361,46 @@ const GlobalData = {
         },
       ],
     },
-  
+    // Testimonial Listing Fields
+    {
+      name: 'testimonialListing',
+      title: 'Testimonial Listing Data',
+      type: 'object',
+      hidden: ({ parent }: any) => !parent || parent.dataType !== 'testimonialListing',
+      fields: [
+        {
+          name: 'title',
+          title: 'Testimonial Listing Title',
+          type: 'string',
+        },
+        {
+          name: 'description',
+          title: 'Testimonial Listing Description',
+          type: 'text',
+          rows: 3,
+        },
+        {
+          name: 'testimonialListReferences',
+          title: 'Testimonial List References',
+          type: 'array',
+          of: [
+            {
+              type: 'reference',
+              to: [{ type: 'testimonialSection' }],
+              options: {
+                filter: ({ document }: any) => {
+                  const language = document?.language || 'en'
+                  return {
+                    filter: 'language == $language',
+                    params: { language }
+                  }
+                }
+              },
+            },
+          ],
+        },
+      ],
+    },
     // Language field (hidden and read-only)
     defineField({
       name: 'language',
@@ -374,7 +414,6 @@ const GlobalData = {
       title: 'name',
       dataType: 'dataType',
       subtitle: 'comparisonTable.title',
-
       language: 'language',
     },
     prepare(selection: any) {
@@ -390,7 +429,7 @@ const GlobalData = {
       return {
         title: `${languageLabel} ${title || 'Global Data'}`,
         subtitle: `${dataType || 'Unknown'} - ${displaySubtitle}`,
-        media: undefined
+        media:<img src={showCountryFlag(selection?.language)}/>
       };
     },
   }
