@@ -14,6 +14,7 @@ import {
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -57,6 +58,7 @@ interface DentalPhonesIndexProps {
   region: string
   comparisonTableData: any
   comparisonLegendData: any[] | null
+  faq: any
 }
 
 export default function DentalPhonesIndex({
@@ -64,6 +66,7 @@ export default function DentalPhonesIndex({
   region,
   comparisonTableData,
   comparisonLegendData,
+  faq,
 }: DentalPhonesIndexProps) {
   // Create comparison section data (same structure as homepage)
 
@@ -96,6 +99,13 @@ export default function DentalPhonesIndex({
           <IntegrationsGrid data={pageData['custom']?.componentData} />
         </div>
       )}
+      
+      {/* FAQ Section */}
+      {faq && (
+        <div>
+          <FaqSection faqItems={faq} />
+        </div>
+      )}
     </>
   )
 }
@@ -118,10 +128,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
 
+    // Ensure FAQ data is serializable
+    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+
     return {
       props: {
         pageData,
         region,
+        faq: faqData
       },
       // Add revalidation for ISR
       // revalidate: 60, // Revalidate every 60 seconds
