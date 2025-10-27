@@ -205,7 +205,7 @@ export default function IndexPage(
         {/* <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/> */}
         <StatisticsSection />
         <LogoListingSection data={logoSectionData}  refer={refer}/>
-        <FaqSection faqItems={faqSectionData?.faqReferenced || {}}/>
+        <FaqSection faqItems={faqSectionData?.faqData || {}}/>
         {/* <BannerSection data={bannerData} refer={refer}></BannerSection>
         <LinksCardsSection data={linkCardSectionData} />
         <CardsListingSection data={cardsListingData}/> */}

@@ -345,7 +345,7 @@ class Queries {
         // Basic page information
         "title": basicInfo.title,
         "description": basicInfo.description,
-        "faqData": faqRevamp[]->,
+        "faqData": faqReferenced[]->,
         
         // Page content sections
         content {
@@ -635,8 +635,9 @@ class Queries {
   private fetchFaqReferencedData() {
     return groq`
       *[_type == $page && language == $region][0] {
-        // FAQ referenced data
-        faqReferenced-> {
+        // FAQ referenced data - handle both single reference and array
+        faqReferenced,
+        "faqData": faqReferenced-> {
           faqCategories,
           hideCategory
         }
@@ -735,7 +736,14 @@ class Queries {
       {},
     )
 
-    return transformedSections
+    // Include FAQ data and other page-level data
+    return {
+      ...transformedSections,
+      faqData: result?.faqData || null,
+      faqReferenced: result?.faqReferenced || null,
+      title: result?.title || null,
+      description: result?.description || null
+    }
   }
 
   /**
