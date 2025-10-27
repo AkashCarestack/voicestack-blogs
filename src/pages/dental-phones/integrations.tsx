@@ -3,6 +3,7 @@ import { GetStaticProps } from 'next'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 
 // Define proper TypeScript interfaces
@@ -55,9 +56,10 @@ interface PageData {
 interface DentalPhonesIntegrationsProps {
   pageData: PageData
   region: string
+  faq: any
 }
 
-export default function DentalPhonesIntegrations({ pageData, region }: DentalPhonesIntegrationsProps) {
+export default function DentalPhonesIntegrations({ pageData, region, faq }: DentalPhonesIntegrationsProps) {
   console.log('pageDataDentalPhonesIntegrations', pageData);
 
   // Extract integration data from pageData instead of separate query
@@ -127,6 +129,13 @@ export default function DentalPhonesIntegrations({ pageData, region }: DentalPho
           />
         </div>
       )}
+      
+      {/* FAQ Section */}
+      {faq && (
+        <div>
+          <FaqSection faqItems={faq} />
+        </div>
+      )}
     </>
   )
 }
@@ -147,10 +156,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
 
+    // Ensure FAQ data is serializable
+    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+
     return {
       props: {
         pageData,
-        region
+        region,
+        faq: faqData
       },
       // Add revalidation for ISR
       revalidate: 60, // Revalidate every 60 seconds
