@@ -73,7 +73,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
     <Section className="relative py-sm md:py-md  bg-[#F9F9F9]">
       <Container className="w-full justify-center">
         <div className="text-center flex flex-col md:gap-16 gap-8 overflow-hidden">
-          <SectionHeader heading={data?.headline} />
+          <SectionHeader heading={data?.headline}  description={data?.subDescription}/>
 
           {/* Company Logos Tabs */}
           <SwitchableTabs

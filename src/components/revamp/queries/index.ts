@@ -247,6 +247,9 @@ class Queries {
               "logo": logo.asset-> {
                 ${this.IMAGE_METADATA_FIELDS}
               },
+              "secondaryLogo": secondaryLogo.asset-> {
+                ${this.IMAGE_METADATA_FIELDS}
+              },
               
               // Primary and secondary videos
               video[] {

@@ -60,7 +60,7 @@ export default function Testimonials({ data, refer = null }) {
       </>
     )
   }
-
+console.log(activeTabData)
   const rightSectionLayout = () => {
     return (
       <div className="relative h-full md:mb-0 mb-4">
@@ -76,14 +76,13 @@ export default function Testimonials({ data, refer = null }) {
                   height: `38px`,
                   width: `${
                     38 *
-                    activeTabData?.testimonial?.logo?.metadata?.dimensions
-                      ?.aspectRatio
+                    activeTabData?.testimonial?.secondaryLogo?.metadata?.dimensions?.aspectRatio
                   }px`,
                 }}
               >
                 <ImageLoader
-                  image={activeTabData?.testimonial?.logo}
-                  alt="Brand Logo"
+                  image={activeTabData?.testimonial?.secondaryLogo?.url}
+                  alt={activeTabData?.testimonial?.secondaryLogo?.altText || 'Brand Logo'}
                   className="w-full h-full object-contain"
                 />
               </div>

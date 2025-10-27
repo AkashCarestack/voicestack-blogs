@@ -7,10 +7,32 @@ import Layout from '~/components/Layout'
 import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
 import Queries from '~/components/revamp/queries'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 
-export default function WhoWeServeIndex({ pages }: any) {
-  const data = pages?.['groups-and-dso']?.componentData
-  return data ? <TabCardsListing data={data} /> : <></>
+interface WhoWeServeIndexProps {
+  pageData: any
+  region: string
+  comparisonTableData: any
+  comparisonLegendData: any[] | null
+}
+
+export default function WhoWeServeIndex({
+  pageData,
+  region,
+  comparisonTableData,
+  comparisonLegendData,
+}: WhoWeServeIndexProps) {
+  console.log('pageDataWhoWeServeIndex', pageData)
+  return (
+    <>
+      <HeroSection
+        page=""
+        data={pageData['dental-phones-hero']?.componentData}
+      />
+     
+    </>
+  )
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -18,17 +40,20 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   try {
     // Get all pages
-    const queries = new Queries('whoWeServe', region)
-    const slug =
-      region === 'en'
-        ? 'groups-and-dso'
-        : `groups-and-dso-${region.toLowerCase()}`
-    const pageData = await queries.getPageData('whoWeServe', slug)
+    const queries = new Queries('landing', region)
+    const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
+    const pageData = await queries.getPageData('whoWeServe', slug) 
+
+    if (!pageData || Object.keys(pageData).length === 0) {
+      return {
+        notFound: true,
+      }
+    }
 
     return {
       props: {
-        pages: pageData,
-        currentLanguage: region,
+        pageData: pageData,
+        region: region,
       },
       revalidate: 60, // Revalidate every minute
     }
@@ -36,7 +61,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     console.error('Error fetching Who We Serve pages:', error)
     return {
       props: {
-        pages: [],
+        pageData: [],
       },
     }
   }
