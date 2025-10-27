@@ -2,14 +2,18 @@ import React from 'react'
 import { GetStaticProps } from 'next'
 import Queries from '~/components/revamp/queries'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
+import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
 
 interface GroupsAndDSOProps {
   pageData: any
 }
 
 export default function GroupsAndDSO({ pageData }: GroupsAndDSOProps) {
-  const data = pageData?.['groups-and-dso']?.componentData
-  return data ? <TabCardsListing data={data} /> :<></>
+  const data = pageData?.['groups-and-dso']?.componentData;
+  const singleTabData = pageData?.['trusted-business-communications']?.tabsListingComponent
+  return data ? <> <SingleTabCardListing data={singleTabData} />
+    <TabCardsListing data={data} /></>
+    : <></>
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -17,7 +21,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   try {
     const queries = new Queries('whoWeServe', region)
-   
+
     const slug =
       region === 'en'
         ? 'groups-and-dso'

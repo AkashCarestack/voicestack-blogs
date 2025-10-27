@@ -161,7 +161,7 @@ export const createBasePageSchema = (name: string, title: string) => ({
       description: 'Language is automatically set by the i18n plugin'
     },
     {
-      name:'faqRevamp',
+      name:'faqReferenced',
       title: 'FAQ',
       type: 'array',
       of: [{

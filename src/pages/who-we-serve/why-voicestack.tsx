@@ -35,17 +35,19 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         notFound: true,
       }
     } 
-     const faqSectionData = await queries.fetchFaqData('homeSettings',currentLanguage)
     const heroData = dataVal?.['why-voicestack-hero']?.componentData || null
     
     // Fetch features data for CategoryFeatureTabs
     const features = await getFeaturesList(client, currentLanguage)
 
+    // Ensure FAQ data is serializable
+    const faqData = dataVal?.faqData?.[0] || dataVal?.faqReferenced?.[0] || null
+    
     return {
       props: {
         data: dataVal,
         heroData: heroData,
-        faq: faqSectionData && faqSectionData.faqReferenced,
+        faq: faqData,
         features: features || []
       },
       revalidate: 60,
