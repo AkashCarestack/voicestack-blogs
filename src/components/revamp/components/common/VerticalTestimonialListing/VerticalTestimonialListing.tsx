@@ -311,7 +311,7 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
     <div className="py-12 px-4 md:px-12 md:pt-[130px] md:pb-24 bg-[#F9F9F9]">
       <div className="flex flex-col items-center w-full gap-16 max-w-[1728px] mx-auto">
         <SectionHeader
-          heading={data?.heading}
+          heading={data?.title}
           description={data?.description}
         />
 

@@ -5,6 +5,7 @@ import IntegrationsGrid from '~/components/revamp/components/common/Integrations
 import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
+import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -108,9 +109,9 @@ export default function DentalPhonesIntegrations({ pageData, region, faq }: Dent
 
   return (
     <>
-      <HeroSection 
-        page="inner" 
-        data={pageData['integrations-hero']?.componentData}
+     <HeroSection
+        page=""
+        data={pageData['dental-phones-hero']?.componentData}
       />
       
       {/* Integrations Grid Section */}
@@ -119,19 +120,22 @@ export default function DentalPhonesIntegrations({ pageData, region, faq }: Dent
           <IntegrationsGrid data={pageData['integrations-grid']?.componentData} />
         </div>
       )}
-      
       {/* Features Section with Navigation for detailed integrations */}
       {integrationData && (
         <div>
           <FeaturesSectionWithNavigation 
             categories={integrationData.categories}
             integrations={integrationData.integrations}
-          />
+            />
         </div>
       )}
-      
-      {/* FAQ Section */}
-      {faq && (
+      {pageData['stack-card-tab-testimonial']?.componentData && (
+       <StackCardTestimonial
+         data={pageData['stack-card-tab-testimonial']?.componentData}
+       />
+     )}
+       {/* FAQ Section */}
+       {faq && (
         <div>
           <FaqSection faqItems={faq} />
         </div>

@@ -10,11 +10,13 @@ import { readToken } from '~/lib/sanity.api'
 import {
   getComparisonTableData,
   getAllComparisonValues,
+  getFeaturesList,
 } from '~/lib/sanity.queries'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import FaqSection from '~/components/revamp/components/common/faqSection'
+import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -59,6 +61,7 @@ interface DentalPhonesIndexProps {
   comparisonTableData: any
   comparisonLegendData: any[] | null
   faq: any
+  features: any[]
 }
 
 export default function DentalPhonesIndex({
@@ -67,10 +70,8 @@ export default function DentalPhonesIndex({
   comparisonTableData,
   comparisonLegendData,
   faq,
+  features,
 }: DentalPhonesIndexProps) {
-  // Create comparison section data (same structure as homepage)
-
-  console.log('pageDataDentalPhonesIndex', pageData)
 
   return (
     <>
@@ -83,6 +84,7 @@ export default function DentalPhonesIndex({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
+      <CategoryFeatureTabs features={features} />
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection
           data={pageData['how-voicestack-works'].componentData}
@@ -105,6 +107,10 @@ export default function DentalPhonesIndex({
         <div>
           <FaqSection faqItems={faq} />
         </div>
+      )}
+
+      {pageData['comparison-cards']?.componentData && (
+        <ComparisonCardsSection data={pageData['comparison-cards']?.componentData} />
       )}
     </>
   )
@@ -130,12 +136,15 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     // Ensure FAQ data is serializable
     const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+    // Fetch features data for CategoryFeatureTabs
+    const features = await getFeaturesList(client, region)
 
     return {
       props: {
         pageData,
         region,
-        faq: faqData
+        faq: faqData,
+        features: features || [],
       },
       // Add revalidation for ISR
       // revalidate: 60, // Revalidate every 60 seconds
