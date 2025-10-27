@@ -15,6 +15,7 @@ import {
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 
 // Define proper TypeScript interfaces
@@ -59,6 +60,7 @@ interface DentalPhonesIndexProps {
   region: string
   comparisonTableData: any
   comparisonLegendData: any[] | null
+  faq: any
   features: any[]
 }
 
@@ -67,11 +69,9 @@ export default function DentalPhonesIndex({
   region,
   comparisonTableData,
   comparisonLegendData,
+  faq,
   features,
 }: DentalPhonesIndexProps) {
-  // Create comparison section data (same structure as homepage)
-
-  console.log('pageDataDentalPhonesIndex', pageData)
 
   return (
     <>
@@ -101,6 +101,13 @@ export default function DentalPhonesIndex({
           <IntegrationsGrid data={pageData['custom']?.componentData} />
         </div>
       )}
+      
+      {/* FAQ Section */}
+      {faq && (
+        <div>
+          <FaqSection faqItems={faq} />
+        </div>
+      )}
 
       {pageData['comparison-cards']?.componentData && (
         <ComparisonCardsSection data={pageData['comparison-cards']?.componentData} />
@@ -127,6 +134,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
 
+    // Ensure FAQ data is serializable
+    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
     // Fetch features data for CategoryFeatureTabs
     const features = await getFeaturesList(client, region)
 
@@ -134,6 +143,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData,
         region,
+        faq: faqData,
         features: features || [],
       },
       // Add revalidation for ISR
