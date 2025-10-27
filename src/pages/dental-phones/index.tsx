@@ -10,10 +10,12 @@ import { readToken } from '~/lib/sanity.api'
 import {
   getComparisonTableData,
   getAllComparisonValues,
+  getFeaturesList,
 } from '~/lib/sanity.queries'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -57,6 +59,7 @@ interface DentalPhonesIndexProps {
   region: string
   comparisonTableData: any
   comparisonLegendData: any[] | null
+  features: any[]
 }
 
 export default function DentalPhonesIndex({
@@ -64,6 +67,7 @@ export default function DentalPhonesIndex({
   region,
   comparisonTableData,
   comparisonLegendData,
+  features,
 }: DentalPhonesIndexProps) {
   // Create comparison section data (same structure as homepage)
 
@@ -80,6 +84,7 @@ export default function DentalPhonesIndex({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
+      <CategoryFeatureTabs features={features} />
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection
           data={pageData['how-voicestack-works'].componentData}
@@ -95,6 +100,10 @@ export default function DentalPhonesIndex({
         <div className="mt-12">
           <IntegrationsGrid data={pageData['custom']?.componentData} />
         </div>
+      )}
+
+      {pageData['comparison-cards']?.componentData && (
+        <ComparisonCardsSection data={pageData['comparison-cards']?.componentData} />
       )}
     </>
   )
@@ -118,10 +127,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
 
+    // Fetch features data for CategoryFeatureTabs
+    const features = await getFeaturesList(client, region)
+
     return {
       props: {
         pageData,
         region,
+        features: features || [],
       },
       // Add revalidation for ISR
       // revalidate: 60, // Revalidate every 60 seconds
