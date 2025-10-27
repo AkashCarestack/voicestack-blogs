@@ -101,6 +101,11 @@ const TabsListingComponent = {
                       title: 'Image',
                       type: 'image',
                     },
+                    {
+                      name: 'svgCode',
+                      title: 'SVG Code',
+                      type: 'text',
+                    },
                   ],
                 },
               ],
