@@ -12,12 +12,15 @@ import VerticalTestimonialListing from '~/components/revamp/components/common/Ve
 import CardsGridSection from '~/components/revamp/components/CardsGridSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import FaqSection from '~/components/revamp/components/common/faqSection'
+import LogoListingSection from '~/components/LogoListingSection'
 
 interface WhoWeServeIndexProps {
   pageData: any
   region: string
   comparisonTableData: any
   comparisonLegendData: any[] | null
+  faq: any
 }
 
 export default function WhoWeServeIndex({
@@ -25,6 +28,7 @@ export default function WhoWeServeIndex({
   region,
   comparisonTableData,
   comparisonLegendData,
+  faq,
 }: WhoWeServeIndexProps) {
   console.log('pageDataWhoWeServeIndex', pageData)
   return (
@@ -47,6 +51,16 @@ export default function WhoWeServeIndex({
       )}
 
       <StatisticsSection />
+      {pageData['logo-listing']?.componentData && (
+        <LogoListingSection data={pageData['logo-listing']?.componentData?.blocksListingData} header={true}/>
+      )}
+
+      {/* FAQ Section */}
+      {faq && (
+         <div>
+           <FaqSection faqItems={faq} />
+         </div>
+       )}
      
     </>
   )
@@ -60,6 +74,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const queries = new Queries('landing', region)
     const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug) 
+    // Ensure FAQ data is serializable
+    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
     if (!pageData || Object.keys(pageData).length === 0) {
       return {
@@ -71,6 +87,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData: pageData,
         region: region,
+        faq: faqData
       },
     }
   } catch (error) {
@@ -78,6 +95,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
       props: {
         pageData: [],
+        faq: null
       },
     }
   }

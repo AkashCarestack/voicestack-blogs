@@ -22,7 +22,7 @@ import { setImage } from '~/helpers/starRating'
 
 
 
-const LogoListingSection = ({ data, refer = null }) => {
+const LogoListingSection = ({ data, refer = null, header = false }) => {
   const [openForm, setOpenForm] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
 
@@ -40,6 +40,7 @@ const LogoListingSection = ({ data, refer = null }) => {
     setSelectedVideo(video)
     setIsOpen(true)
   }
+  console.log('dataLogoListingSection', data)
 
 
  
@@ -47,14 +48,16 @@ const LogoListingSection = ({ data, refer = null }) => {
     <Section className="py-sm md:py-md md:pb-16">
       <Container>
         <div className="flex flex-col items-center w-full gap-16">
-          {/* <div className='flex items-center flex-col gap-4'>
+            {header && (
+          <div className='flex items-center flex-col gap-4'>
             <span className='flex'>{setImage("5")}</span>
-            <SectionHeader
+              <SectionHeader
               heading={data?.logoSectionHeader}
               description={data?.logoSectionHeaderDescptn}
               headingSm={true}
             />
-          </div> */}
+          </div>
+            )}
 
           <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-8 max-w-[1034px]">
             {data?.image &&
