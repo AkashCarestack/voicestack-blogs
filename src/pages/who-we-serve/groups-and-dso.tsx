@@ -20,6 +20,7 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
         page=""
         data={pageData['dental-phones-hero']?.componentData}
       />
+        <SingleTabCardListing data={pageData?.['trusted-business-communications']?.tabsListingComponent}/>
       {pageData['testimonial-video-section']?.componentData && (
         <VerticalTestimonialListing
           data={pageData['testimonial-video-section']?.componentData?.refData?.testimonialListing}
@@ -30,9 +31,7 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-       <SingleTabCardListing data={pageData?.['trusted-business-communications']?.tabsListingComponent}/>
        <TabCardsListing data={pageData?.['groups-and-dso']?.componentData} />
-       
        {/* FAQ Section */}
        {faq && (
          <div>
