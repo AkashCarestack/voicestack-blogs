@@ -623,8 +623,9 @@ class Queries {
                   _type,
                   heading,
                   description,
+                  useReference,
                   
-                  // Listing items
+                  // Listing items (when not using reference)
                   items[] {
                     _key,
                     heading,
@@ -647,6 +648,94 @@ class Queries {
                     "icon": icon.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
                     },
+                    ctaListItems[] {
+                      ${this.CTA_FIELDS}
+                    }
+                  },
+                  
+                  // Blocks & Lists Reference (all types)
+                  "blocksListingData": blocksListingReference-> {
+                    _type,
+                    _id,
+                    
+                    // Common fields across most schemas
+                    heading,
+                    description,
+                    
+                    // logoListing specific
+                    logoSectionHeader,
+                    logoSectionHeaderDescptn,
+                    logo[]-> {
+                      platformName,
+                      platformLogo {
+                        asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        }
+                      }
+                    },
+                    
+                    // verticalTestimonialListing specific
+                    testimonial[]-> {
+                      _id,
+                      name,
+                      designation,
+                      thumbnail,
+                      testimonialdescription,
+                      logo {
+                        asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        }
+                      },
+                      video[] {
+                        ${this.VIDEO_FIELDS}
+                      },
+                      testimonialImage {
+                        asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        }
+                      }
+                    },
+                    
+                    // csCardsListing specific
+                    subHeading,
+                    cardItems[] {
+                      "heading": cardItemHeading,
+                      "description": cardItemContent,
+                      "iconSvg": cardItemSvg,
+                      "image": cardItemImage.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      }
+                    },
+                    
+                    // whoWeServeListing specific
+                    items[] {
+                      _key,
+                      heading,
+                      subheading,
+                      description,
+                      
+                      // Item link
+                      link {
+                        url,
+                        text,
+                        buttonType
+                      },
+                      
+                      dynamicSvg,
+                      
+                      // Item image with metadata
+                      "image": image.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      "icon": icon.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      ctaListItems[] {
+                        ${this.CTA_FIELDS}
+                      }
+                    },
+                    
+                    // CTA list items from reference
                     ctaListItems[] {
                       ${this.CTA_FIELDS}
                     }

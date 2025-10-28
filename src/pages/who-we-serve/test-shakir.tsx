@@ -91,6 +91,11 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
           data={pageData['how-voicestack-works'].componentData}
         />
       )}
+      {pageData['how-voicestack-works2']?.componentData && (
+        <CardsGridSection 
+          data={pageData['how-voicestack-works2'].componentData}
+        />
+      )}
       
       {/* VoiceStack Comparison Cards Section */}
       <ComparisonCardsSection data={pageData['comparison-cards']?.componentData}

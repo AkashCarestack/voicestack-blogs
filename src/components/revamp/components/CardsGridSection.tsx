@@ -28,6 +28,12 @@ interface CardsGridSectionProps {
     heading?: string
     description?: string
     items?: CardItem[]
+    useReference?: boolean
+    blocksListingData?: {
+      _type: string
+      _id?: string
+      [key: string]: any
+    }
   }
 }
 
@@ -35,10 +41,14 @@ const CardsGridSection = ({ data }: CardsGridSectionProps) => {
   const [openForm, setOpenForm] = useState(false)
   const { isDemoPopUpShown } = useContext(BookDemoContext);
   
+  // Handle referenced data if useReference is true
+  const useReferenceData = data?.useReference && data?.blocksListingData
+  const displayData = useReferenceData ? data.blocksListingData : data
+  
   // Use data from props or fallback to defaults
-  const heading = data?.heading || 'section header'
-  const description = data?.description || 'section description'
-  const items = data?.items || []
+  const heading = displayData?.heading || 'section header'
+  const description = displayData?.description || 'section description'
+  const items = displayData?.items || []
   
   if (!data) return null;
 
