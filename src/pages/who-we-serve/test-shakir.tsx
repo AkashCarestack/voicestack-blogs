@@ -79,10 +79,12 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
 
   return (
     <>
-      <HeroSection 
-        page="inner" 
-        data={pageData['inner-hero'].componentData}
-      />
+      {pageData['inner-hero']?.componentData && (
+        <HeroSection 
+          page="inner" 
+          data={pageData['inner-hero'].componentData}
+        />
+      )}
       
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection 

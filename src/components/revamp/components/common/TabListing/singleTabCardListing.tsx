@@ -17,7 +17,7 @@ export default function SingleTabCardListing({ data }: { data: any }) {
                 heading={data?.headline}
             />
             <SwitchableTabs
-                data={data?.tabs.map((e:any)=>{return {key:e._key, heading:e.tabHeading, title:e.tabHeading}})}
+                data={data?.tabs && Array.isArray(data.tabs) ? data.tabs.map((e:any)=>{return {key:e._key, heading:e.tabHeading, title:e.tabHeading}}) : []}
                 setActiveTab={(e)=>setActiveTabValue(e)}
                 activeTab={activeTab}
                 isSticky={false}
@@ -26,7 +26,7 @@ export default function SingleTabCardListing({ data }: { data: any }) {
             />
             <div>
                 {
-                    data?.tabs?.map((ele:any)=>{
+                    data?.tabs && Array.isArray(data.tabs) && data.tabs.map((ele:any)=>{
                         return(
                             activeTab == ele._key && (
                                 <div className='flex md:flex-row flex-col gap-6 bg-white p-3 h-auto md:rounded-[24px] rounded-[12px]' key={ele._key}>
@@ -44,7 +44,7 @@ export default function SingleTabCardListing({ data }: { data: any }) {
                                     </div>
                                     <div className='grid grid-cols-2 gap-4 p-6'>
                                         {
-                                            ele?.listItems?.map((item:any)=>{return(
+                                            ele?.listItems && Array.isArray(ele.listItems) && ele.listItems.map((item:any)=>{return(
                                                 <div key={item._key} className="px-4 py-6 relative flex flex-col items-start gap-4 md:w-[242px]">
                                                     <div className='px-6 py-3 bg-[#E5E7EB] rounded-full flex items-center justify-center flex-shrink-0'>
                                                         <div dangerouslySetInnerHTML={{__html:item.svgCode}}></div>
