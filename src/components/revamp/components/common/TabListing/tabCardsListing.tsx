@@ -91,9 +91,9 @@ export default function TabCardsListing({ data }: { data: any }) {
                   </div>
                   <div className='md:py-0 py-4 md:w-[172px]'>
                     {
-                        e?.ctaListItems?.map((item: any) => {
+                        e?.ctaListItems?.map((item: any, idx: any) => {
                             return (
-                                <Button className='text-black' type={'primary'} link={item.ctaLink} target="_blank"><span>{item?.ctaText}</span></Button>
+                                <Button key={idx} className='text-black' type={'primary'} link={item.ctaLink} target="_blank"><span>{item?.ctaText}</span></Button>
                             )
                         })
                     }
