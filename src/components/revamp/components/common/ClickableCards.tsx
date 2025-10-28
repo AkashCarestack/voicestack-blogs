@@ -49,7 +49,7 @@ export default function ClickableCards({ data }: any) {
                   <p className="md:text-base text-sm font-normal font-geist text-gray-700 leading-[150%]">
                     {item.description}
                   </p>
-                  {item.link.url && (
+                  {item.link?.url && (
                   <div>
                     <Button
                       href={item.link.url}

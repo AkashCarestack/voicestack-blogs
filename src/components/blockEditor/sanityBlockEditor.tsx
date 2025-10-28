@@ -21,10 +21,14 @@ const SanityPortableText: React.FC<SanityPortableTextProps> = ({
   const portableTextComponents: Partial<PortableTextReactComponents> = {
     marks: {
       link: ({ value, children }) => {
-        return (
-          <a href={value?.href} target="_blank" className="!text-blue-500">
+        return value?.href ? (
+          <a href={value.href} target="_blank" className="!text-blue-500">
             {children}
           </a>
+        ) : (
+          <span className="!text-blue-500">
+            {children}
+          </span>
         )
       },
       highlight: ({ children }: { children: React.ReactNode }) => (

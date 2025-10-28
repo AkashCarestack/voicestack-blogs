@@ -73,8 +73,8 @@ function RowHeading({ heading, description, link }) {
           {description ? (
            
             <CursorTooltip tooltip={description} className='lg:gap-3'>
-              {link ? (
-                <Anchor href={link?.url} className='text-gray-700 flex flex-0 whitespace-normal  lg:text-base text-xs font-normal leading-6 tracking-normal underline decoration-dotted decoration-gray-700 decoration-[10%] underline-offset-[25%] underline-from-font'>
+              {link?.url ? (
+                <Anchor href={link.url} className='text-gray-700 flex flex-0 whitespace-normal  lg:text-base text-xs font-normal leading-6 tracking-normal underline decoration-dotted decoration-gray-700 decoration-[10%] underline-offset-[25%] underline-from-font'>
                   {heading}
                 </Anchor>
               ) : (
