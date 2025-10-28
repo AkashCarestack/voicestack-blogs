@@ -9,6 +9,8 @@ import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
 import { getComparisonTableData, getAllComparisonValues } from '~/lib/sanity.queries'
 import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -91,6 +93,17 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
           data={pageData['how-voicestack-works'].componentData}
         />
       )}
+      {pageData['how-voicestack-works2']?.componentData && (
+        <CardsGridSection 
+          data={pageData['how-voicestack-works2'].componentData}
+        />
+      )}
+
+      {pageData['integrations-listing']?.componentData && (
+        <div className="mt-12">
+          <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />
+        </div>
+      )}
       
       {/* VoiceStack Comparison Cards Section */}
       <ComparisonCardsSection data={pageData['comparison-cards']?.componentData}
@@ -116,6 +129,8 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
           legendData={comparisonLegendData || []}
         />
       )}
+
+      <StatisticsSection />
     </>
   )
 }

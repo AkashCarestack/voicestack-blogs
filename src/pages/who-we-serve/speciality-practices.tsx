@@ -11,12 +11,12 @@ import VerticalTestimonialListing from '~/components/revamp/components/common/Ve
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 
-interface GroupsAndDSOProps {
+interface SpecialityPracticesProps {
   pageData: any
   faq: any
 }
 
-export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
+export default function SpecialityPractices({ pageData, faq }: SpecialityPracticesProps) {
   return (
     <>
       <HeroSection
@@ -42,8 +42,8 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
           <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />
         </div>
       )}
-      {pageData?.['groups-and-dso']?.componentData &&
-        <TabCardsListing data={pageData?.['groups-and-dso']?.componentData} />
+        {pageData?.['speciality-practices']?.componentData &&
+        <TabCardsListing data={pageData?.['speciality-practices']?.componentData} />
       }
 
        {/* FAQ Section */}
@@ -64,8 +64,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     const slug =
       region === 'en'
-        ? 'groups-and-dso'
-        : `groups-and-dso-${region.toLowerCase()}`
+        ? 'speciality-practices'
+        : `speciality-practices-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
 
     // Ensure FAQ data is serializable
@@ -79,7 +79,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       },
     }
   } catch (error) {
-    console.error('Error fetching groups and DSO page:', error)
+    console.error('Error fetching Speciality Practices page:', error)
     return {
       props: {
         pageData: null,

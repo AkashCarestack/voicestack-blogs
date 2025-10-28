@@ -210,9 +210,7 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
     if (video) {
       video.currentTime = 0
       video.play().catch((err) => console.error('Video play failed:', err))
-    } else {
-      console.log('No video element found for index:', index)
-    }
+    } 
   }
 
   const handleVideoPause = (index: number) => {

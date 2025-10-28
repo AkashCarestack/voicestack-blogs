@@ -1,22 +1,21 @@
-import { GetStaticProps } from 'next'
 import React from 'react'
-
-import FaqSection from '~/components/revamp/components/common/faqSection'
+import { GetStaticProps } from 'next'
+import Queries from '~/components/revamp/queries'
+import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
-import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
-import Queries from '~/components/revamp/queries'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 
-interface GroupsAndDSOProps {
+interface MobilePracticesProps {
   pageData: any
   faq: any
 }
 
-export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
+export default function MobilePractices({ pageData, faq }: MobilePracticesProps) {
   return (
     <>
       <HeroSection
@@ -42,10 +41,12 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
           <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />
         </div>
       )}
-      {pageData?.['groups-and-dso']?.componentData &&
-        <TabCardsListing data={pageData?.['groups-and-dso']?.componentData} />
+      {pageData?.['mobile-practices']?.componentData &&
+        <TabCardsListing data={pageData?.['mobile-practices']?.componentData} />
       }
 
+
+      
        {/* FAQ Section */}
        {faq && (
          <div>
@@ -64,8 +65,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     const slug =
       region === 'en'
-        ? 'groups-and-dso'
-        : `groups-and-dso-${region.toLowerCase()}`
+        ? 'mobile-practices'
+        : `mobile-practices-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
 
     // Ensure FAQ data is serializable
@@ -79,7 +80,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       },
     }
   } catch (error) {
-    console.error('Error fetching groups and DSO page:', error)
+    console.error('Error fetching Mobile Practices page:', error)
     return {
       props: {
         pageData: null,

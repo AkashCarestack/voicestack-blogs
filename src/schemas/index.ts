@@ -2,9 +2,7 @@ import { SchemaTypeDefinition } from 'sanity'
 
 import banner from './banner'
 import blockContent from './blockContent'
-import BrowserList from './BrowserList'
 import button from './button'
-import CardsListing from './CardsListing/index'
 import comparison from './Comparison'
 import comparisonValue from "./ComparisonValue"
 import CsCardsListing from './CsCardsListing/index'
@@ -29,10 +27,8 @@ import heroSubFeature from './heroSubFeature'
 import HomeSettings from './HomeSettings/index'
 import layout from './layout'
 import legal from './Legal'
-import ListingBlock from './ListingBlock'
 import LogoListing from './LogoListing/index'
 import Miscellaneous from './Miscellaneous'
-import ListingAtom from './NestableBlocks/ListingAtom'
 import page from './page'
 import DentalSoftware from './Pages/DentalSoftware'
 // import DentalSoftware from './Pages/DentalSoftware'
@@ -48,6 +44,7 @@ import testimonialSection from './testimonial'
 import TestimonialHighlight from './TestimonialHighlight'
 import HtmlCode from './Utilis/HtmlCode'
 import VerticalTestimonialListing from './VerticalTestimonialListing'
+import WhoWeServeListing from './WhoWeServeListing'
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -65,7 +62,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     Platforms,
     PlatformList,
     LogoListing,
-    CardsListing,
     CsCardsListing,
     featureSubSection,
     testimonialSection,
@@ -76,8 +72,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     page,
     ...DynamicComponent,
     customContent,
-    ListingBlock,
-    BrowserList,
     footer,
     banner,
     FeatureCategoryOld,
@@ -85,7 +79,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     FeatureList,
     IntegrationCategory,
     IntegrationList,
-    ListingAtom,
     portableContent,
     HtmlCode,
     WhoWeServe,
@@ -95,6 +88,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     DentalPhones,
     GlobalData,
     VerticalTestimonialListing,
+    WhoWeServeListing,
     button,
     faqRevamp,
   ],

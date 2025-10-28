@@ -28,6 +28,12 @@ interface CardsGridSectionProps {
     heading?: string
     description?: string
     items?: CardItem[]
+    useReference?: boolean
+    blocksListingData?: {
+      _type: string
+      _id?: string
+      [key: string]: any
+    }
   }
 }
 
@@ -35,10 +41,14 @@ const CardsGridSection = ({ data }: CardsGridSectionProps) => {
   const [openForm, setOpenForm] = useState(false)
   const { isDemoPopUpShown } = useContext(BookDemoContext);
   
+  // Handle referenced data if useReference is true
+  const useReferenceData = data?.useReference && data?.blocksListingData
+  const displayData = useReferenceData ? data.blocksListingData : data
+  
   // Use data from props or fallback to defaults
-  const heading = data?.heading || 'section header'
-  const description = data?.description || 'section description'
-  const items = data?.items || []
+  const heading = displayData?.heading || 'section header'
+  const description = displayData?.description || 'section description'
+  const items = displayData?.items || []
   
   if (!data) return null;
 
@@ -56,7 +66,7 @@ const CardsGridSection = ({ data }: CardsGridSectionProps) => {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-6">
                 {items.map((item) => {
                   const CardContent = (
-                    <div className="h-full backdrop-blur-sm md:rounded-3xl rounded-xl p-6 flex flex-col gap-6 justify-between transition-all group bg-[#F4F3FA]">
+                    <div className="h-full col-span-2  backdrop-blur-sm md:rounded-3xl rounded-xl p-6 flex flex-col gap-6 justify-between transition-all group bg-[#F4F3FA]">
                       <div className="flex flex-col gap-4">
 
                         {/* Icon/Image */}
@@ -118,7 +128,7 @@ const CardsGridSection = ({ data }: CardsGridSectionProps) => {
                   )
                 })}
                 {items.length % 3 !== 0 && (
-                  <div className="bg-vs-blue backdrop-blur-sm md:rounded-3xl rounded-xl py-6 md:px-12 px-6 flex flex-col justify-center items-center md:gap-6 gap-4  hover:bg-vs-blue transition-all">
+                  <div className={`${items.length % 3 === 1 ? 'col-span-2' : ''} bg-vs-blue backdrop-blur-sm md:rounded-3xl rounded-xl py-6 md:px-12 px-6 flex flex-col justify-center items-center md:gap-6 gap-4  hover:bg-vs-blue transition-all`}>
                     <h3 className='md:text-xl text-lg font-bold text-white font-manrope text-center'>Guides and Resources for Smarter Patient Call Management</h3>
                     <Button
                       type="primary"

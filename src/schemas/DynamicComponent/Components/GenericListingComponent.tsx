@@ -10,6 +10,36 @@ export const genericListingComponentFields = [
     type: 'text',
   },
   {
+    name: 'useReference',
+    title: 'Use Reference from Blocks & Lists',
+    type: 'boolean',
+    initialValue: false,
+    description: 'Enable this to reference data from a Blocks & Lists document instead of inline items',
+  },
+  {
+    name: 'blocksListingReference',
+    title: 'Blocks & Lists Reference',
+    type: 'reference',
+    to: [
+      { type: 'logoListing' },
+      { type: 'verticalTestimonialListing' },
+      { type: 'csCardsListing' },
+      { type: 'whoWeServeListing' }
+    ],
+    options: {
+      filter: ({ document, parent }: any) => {
+        // Get the parent document's language by going up the tree
+        const currentLanguage = document?.language || 'en'
+        
+        return {
+          filter: 'language == $language',
+          params: { language: currentLanguage }
+        }
+      }
+    },
+    hidden: ({ parent }: any) => !parent?.useReference,
+  },
+  {
     name: 'items',
     title: 'Listing Items',
     type: 'array',
@@ -90,6 +120,7 @@ export const genericListingComponentFields = [
         ],
       },
     ],
+    hidden: ({ parent }: any) => parent?.useReference === true,
   },
   {
     name: 'ctaListItems',
@@ -117,6 +148,7 @@ export const genericListingComponentFields = [
         ],
       },
     ],
+    hidden: ({ parent }: any) => parent?.useReference === true,
   }
 ];
 
