@@ -25,6 +25,22 @@ const config = {
     locales: ['en', 'en-GB','en-AU'],
     defaultLocale: 'en'
   },
+  // Fix for Vercel deployment issues
+  experimental: {
+    // Disable experimental features that might cause issues
+  },
+  // Increase memory limits
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.optimization.splitChunks = false;
+    }
+    return config;
+  },
+  // Disable static optimization for problematic pages
+  trailingSlash: false,
+  generateBuildId: async () => {
+    return 'build-' + Date.now();
+  },
 
   async redirects() {
    

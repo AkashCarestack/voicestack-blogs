@@ -12,9 +12,13 @@ function PeopleCardHeader({ name, designation, socialMediaLinks }) {
         <p className="text-sm text-[#F768D1]">{designation}</p>
       </div>
       <div>
-        <a href={socialMediaLinks?.Linkedin}>
+        {socialMediaLinks?.Linkedin ? (
+          <a href={socialMediaLinks.Linkedin}>
+            <LinkedIn className="text-black hover:text-stone-500" />
+          </a>
+        ) : (
           <LinkedIn className="text-black hover:text-stone-500" />
-        </a>
+        )}
       </div>
     </div>
   )

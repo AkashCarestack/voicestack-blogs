@@ -519,12 +519,12 @@ const Header = ({ data, refer=null }) => {
                           )
                         }
                         
-                        return (
+                        return link?.href ? (
                           isExternal ? (
                             <Anchor
                               elementId={`header-menu-${link.label}`}
-                              key={link?.href + i}
-                              href={link?.href}
+                              key={link.href + i}
+                              href={link.href}
                               target="_blank"
                               className="text-gray-700 lg:text-sm font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
                               onClick={toggleMenu}
@@ -534,8 +534,8 @@ const Header = ({ data, refer=null }) => {
                           ) : (
                             <Anchor
                               elementId={`header-menu-${link.label}`}
-                              key={link?.href + i}
-                              href={link?.href}
+                              key={link.href + i}
+                              href={link.href}
                               target={isExternal ? "_blank" : "_self"}
                               className="text-gray-700 lg:text-sm font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
                               onClick={toggleMenu}
@@ -543,6 +543,10 @@ const Header = ({ data, refer=null }) => {
                               {link.label}
                             </Anchor>
                           )
+                        ) : (
+                          <span className="text-gray-700 lg:text-sm font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0">
+                            {link.label}
+                          </span>
                         )
                         })}
                       </nav>

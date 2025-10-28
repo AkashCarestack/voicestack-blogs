@@ -305,7 +305,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         homePage: homePage || null,
         comparisonTableData: comparisonTableData || null
       },
-      revalidate: 60 // Revalidate every minute
     }
   } catch (error) {
     console.error('Error fetching Dental Software pages:', error)

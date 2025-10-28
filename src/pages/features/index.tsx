@@ -87,7 +87,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         currentLanguage: locale || 'en',
         landingPage: null,
       },
-      revalidate: 60,
     };
   }
 };
