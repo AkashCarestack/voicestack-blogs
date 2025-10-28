@@ -55,7 +55,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         pageData: pageData,
         region: region,
       },
-      revalidate: 60, // Revalidate every minute
     }
   } catch (error) {
     console.error('Error fetching Who We Serve pages:', error)
