@@ -56,13 +56,13 @@ export default function TabCardsListing({ data }: { data: any }) {
         {data?.tabs && data?.tabs?.length && (
           <SwitchableTabs
             data={
-              data.tabs?.map((e: any) => {
+              data.tabs && Array.isArray(data.tabs) ? data.tabs.map((e: any) => {
                 return {
                   key: e._key,
                   heading: e.tabHeading,
                   title: e.tabHeading,
                 }
-              }) || []
+              }) : []
             }
             activeTab={activeTabValue}
             setActiveTab={(e: string) => bindEvents(e)}
@@ -71,7 +71,7 @@ export default function TabCardsListing({ data }: { data: any }) {
           />
         )}
         <div className="flex flex-col gap-6">
-          {data?.tabs?.map((e: any, idx: number) => {
+          {data?.tabs && Array.isArray(data.tabs) && data.tabs.map((e: any, idx: number) => {
             return (
               <div
                 ref={(el) => registerElement(idx, el)}
@@ -91,7 +91,7 @@ export default function TabCardsListing({ data }: { data: any }) {
                   </div>
                   <div className='md:py-0 py-4 md:w-[172px]'>
                     {
-                        e?.ctaListItems?.map((item: any, idx: any) => {
+                        e?.ctaListItems && Array.isArray(e.ctaListItems) && e.ctaListItems.map((item: any, idx: any) => {
                             return (
                                 <Button key={idx} className='text-black' type={'primary'} link={item.ctaLink} target="_blank"><span>{item?.ctaText}</span></Button>
                             )

@@ -12,9 +12,13 @@ export default function WhyVoicestackIndex({ data, heroData, faq, features }: an
   return (
     <div>
       <HeroSection data={heroData} refer={data} page="why-voicestack" />
-      <ListingWithTabs list={data['grow-your-practice']} />
+      {data['grow-your-practice'] && (
+        <ListingWithTabs list={data['grow-your-practice']} />
+      )}
       <CategoryFeatureTabs features={features} />
-      <StackCardTestimonial data={data['stack-card-tab-testimonial'].componentData} refer={data}/>
+      {data['stack-card-tab-testimonial']?.componentData && (
+        <StackCardTestimonial data={data['stack-card-tab-testimonial'].componentData} refer={data}/>
+      )}
       <FaqSection faqItems={faq}/>
     </div>
   )
