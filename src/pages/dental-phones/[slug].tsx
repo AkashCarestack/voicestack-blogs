@@ -270,7 +270,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         allPages: allPages || [],
         currentLanguage
       },
-
     }
   }
 
