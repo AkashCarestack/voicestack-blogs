@@ -12,6 +12,7 @@ import VerticalTestimonialListing from '~/components/revamp/components/common/Ve
 import CardsGridSection from '~/components/revamp/components/CardsGridSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import CardListing from '~/components/revamp/components/cardListing'
 
 interface WhoWeServeIndexProps {
   pageData: any
@@ -22,11 +23,7 @@ interface WhoWeServeIndexProps {
 
 export default function WhoWeServeIndex({
   pageData,
-  region,
-  comparisonTableData,
-  comparisonLegendData,
 }: WhoWeServeIndexProps) {
-  console.log('pageDataWhoWeServeIndex', pageData)
   return (
     <>
       <HeroSection
@@ -39,7 +36,12 @@ export default function WhoWeServeIndex({
           data={pageData['how-voicestack-works'].componentData}
         />
       )}
-
+      {
+        pageData['real-business-outcomes']?.componentData && (
+           <CardListing data={ pageData['real-business-outcomes']?.componentData.refData.tabsListingComponent}/>
+        )
+      }
+     
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
           <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />

@@ -153,22 +153,14 @@ export default function IndexPage(
 
   
   const {
-    homeSettings,
     heroSectionData,
     testimonialSecitonData,
     verticalTestimonialData,
     logoSectionData,
-    featureSectionData,
-    integrationPlatforms,
     comparisonTableData,
     comparisonLegendData,
     faqSectionData,
-    cardsListingData,
-    cSCardsListingData,
-    testimonialHighlightsData,
-    bannerData,
     contactAndVideoData,
-    tabListingData,
     homeCardData,
     featuresData
   } = props
