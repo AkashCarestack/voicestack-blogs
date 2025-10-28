@@ -408,8 +408,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         feature,
         otherFeatures: otherFeatures.slice(0, 3), // Limit to 3 other features
         currentLanguage,
-      },
-      // revalidate: 60, // Revalidate every minute
+      }
     };
   } catch (error) {
     console.error('Error fetching feature:', error);

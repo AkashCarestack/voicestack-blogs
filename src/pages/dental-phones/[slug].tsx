@@ -270,7 +270,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         allPages: allPages || [],
         currentLanguage
       },
-      // revalidate: 60
+
     }
   }
 
@@ -328,7 +328,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         integrations: integrations || [],
         integrationData: integrationData || null // Changed from undefined to null
       },
-      revalidate: 60 // Revalidate every minute
     }
   } catch (error) {
     return {

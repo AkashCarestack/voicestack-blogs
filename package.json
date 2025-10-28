@@ -1,8 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "node build.js",
-    "build:vercel": "node build.js",
+    "build": "npm run lint && next build",
     "dev": "next dev -p 3003 --turbopack",
     "format": "npx prettier --write . --ignore-path .gitignore",
     "lint": "next lint",
