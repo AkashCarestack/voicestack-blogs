@@ -6,12 +6,14 @@ import HeroSection from '~/components/revamp/components/common/HeroSection/heroS
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 
 interface GroupsAndDSOProps {
   pageData: any
+  faq: any
 }
 
-export default function GroupsAndDSO({ pageData }: GroupsAndDSOProps) {
+export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
   return (
     <>
       <HeroSection
@@ -30,6 +32,13 @@ export default function GroupsAndDSO({ pageData }: GroupsAndDSOProps) {
       )}
        <SingleTabCardListing data={pageData?.['trusted-business-communications']?.tabsListingComponent}/>
        <TabCardsListing data={pageData?.['groups-and-dso']?.componentData} />
+       
+       {/* FAQ Section */}
+       {faq && (
+         <div>
+           <FaqSection faqItems={faq} />
+         </div>
+       )}
     </>
   )
 }
@@ -46,10 +55,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         : `groups-and-dso-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
 
+    // Ensure FAQ data is serializable
+    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+
     return {
       props: {
         pageData: pageData || null,
         region: region,
+        faq: faqData
       },
     }
   } catch (error) {
@@ -58,6 +71,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData: null,
         region: region,
+        faq: null
       },
     }
   }
