@@ -124,13 +124,13 @@ const TabsListingComponent = {
                   type: 'object',
                   fields: [
                     {
-                      name: 'ctaLink',
-                      title: 'CTA Link',
+                      name: 'ctaText',
+                      title: 'CTA Text',
                       type: 'string',
                     },
                     {
-                      name: 'ctaText',
-                      title: 'CTA Text',
+                      name: 'ctaLink',
+                      title: 'CTA Link',
                       type: 'string',
                     },
                     {

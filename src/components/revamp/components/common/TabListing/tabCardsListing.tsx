@@ -70,7 +70,7 @@ export default function TabCardsListing({ data }: { data: any }) {
             className="md:py-[74px] py-8 z-20"
           />
         )}
-        <div className="flex flex-col gap-6">
+        <div className="flex flex-col md:gap-[180px] gap-[60px]">
           {data?.tabs && Array.isArray(data.tabs) && data.tabs.map((e: any, idx: number) => {
             return (
               <div
@@ -100,7 +100,7 @@ export default function TabCardsListing({ data }: { data: any }) {
                    
                   </div>
                 </div>
-                <div className="xl:h-[476px] xl:w-[886px] h-[400px] md:rounded-[12px] rounded-[8px] overflow-clip">
+                <div className="xl:h-[476px]  h-[400px] md:rounded-[12px] rounded-[8px] overflow-hidden flex-none"> 
                   <ImageLoader
                     height={476}
                     width={886}
