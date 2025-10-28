@@ -665,14 +665,14 @@ class Queries {
                     // logoListing specific
                     logoSectionHeader,
                     logoSectionHeaderDescptn,
-                    logo[]-> {
-                      platformName,
-                      platformLogo {
-                        asset-> {
-                          ${this.IMAGE_METADATA_FIELDS}
-                        }
+                    'image':logo[]->image.asset->{url,_id,altText,   metadata {
+                      dimensions {
+                        width,
+                        height,
+                        aspectRatio
                       }
-                    },
+                    }},
+                    
                     
                     // verticalTestimonialListing specific
                     testimonial[]-> {
