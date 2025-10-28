@@ -9,6 +9,9 @@ import Queries from '~/components/revamp/queries'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import CardsGridSection from '~/components/revamp/components/CardsGridSection'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 
 interface WhoWeServeIndexProps {
   pageData: any
@@ -30,6 +33,20 @@ export default function WhoWeServeIndex({
         page=""
         data={pageData['dental-phones-hero']?.componentData}
       />
+
+      {pageData['how-voicestack-works']?.componentData && (
+        <CardsGridSection 
+          data={pageData['how-voicestack-works'].componentData}
+        />
+      )}
+
+      {pageData['integrations-listing']?.componentData && (
+        <div className="mt-12">
+          <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />
+        </div>
+      )}
+
+      <StatisticsSection />
      
     </>
   )

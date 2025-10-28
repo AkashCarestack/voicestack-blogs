@@ -7,6 +7,8 @@ import VerticalTestimonialListing from '~/components/revamp/components/common/Ve
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
 import FaqSection from '~/components/revamp/components/common/faqSection'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 
 interface GroupsAndDSOProps {
   pageData: any
@@ -32,6 +34,15 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
         />
       )}
        <TabCardsListing data={pageData?.['groups-and-dso']?.componentData} />
+       {pageData['integrations-listing']?.componentData && (
+        <div className="mt-12">
+          <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />
+        </div>
+      )}
+
+      <StatisticsSection />
+
+      
        {/* FAQ Section */}
        {faq && (
          <div>

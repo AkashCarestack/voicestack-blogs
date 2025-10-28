@@ -115,11 +115,11 @@ export default function DentalPhonesIntegrations({ pageData, region, faq }: Dent
       />
       
       {/* Integrations Grid Section */}
-      {pageData['integrations-grid']?.componentData && (
+      {/* {pageData['integrations-grid']?.componentData && (
         <div className="mt-12">
           <IntegrationsGrid data={pageData['integrations-grid']?.componentData} />
         </div>
-      )}
+      )} */}
       {/* Features Section with Navigation for detailed integrations */}
       {integrationData && (
         <div>
