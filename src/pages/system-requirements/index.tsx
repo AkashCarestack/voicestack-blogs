@@ -59,7 +59,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
       draftMode,
       token: draftMode ? readToken : '',
     },
-    revalidate: 60
+    // revalidate: 60
   }
 }
 

@@ -97,7 +97,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         featureList,
         currentLanguage
       },
-      revalidate: 60 // Revalidate every minute
+      // revalidate: 60 
     }
   } catch (error) {
     console.error('Error fetching feature list:', error)

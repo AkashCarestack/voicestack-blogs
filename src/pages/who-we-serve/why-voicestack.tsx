@@ -54,7 +54,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         faq: faqData,
         features: features || []
       },
-      revalidate: 60,
+      // revalidate: 60,
     }
   } catch (error) {
     console.error('Error fetching Why Voicestack data:', error)

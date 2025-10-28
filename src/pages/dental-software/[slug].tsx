@@ -269,7 +269,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         currentLanguage,
         comparisonTableData: comparisonTableData || null
       },
-      revalidate: 60
+      // revalidate: 60
     }
   }
 
