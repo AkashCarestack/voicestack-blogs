@@ -14,10 +14,10 @@ interface IndependentPracticesProps {
 export default function IndependentPractices({ pageData, faq }: IndependentPracticesProps) {
   return (
     <>
-      <HeroSection
+      {pageData['dental-phones-hero']?.componentData && <HeroSection
         page=""
         data={pageData['dental-phones-hero']?.componentData}
-      />
+      />}
       {pageData['stack-card-tab-testimonial']?.componentData && (
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
@@ -43,8 +43,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         ? 'independent-practices'
         : `independent-practices-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
-
-    // Ensure FAQ data is serializable
+    if(!pageData){
+      console.error(`pageData not found for ${slug}`)
+    }
     const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
     return {

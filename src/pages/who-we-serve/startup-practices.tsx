@@ -18,10 +18,11 @@ interface StartupPracticesProps {
 export default function StartupPractices({ pageData, faq }: StartupPracticesProps) {
   return (
     <>
-      <HeroSection
+      {pageData['dental-phones-hero']?.componentData && <HeroSection
         page=""
         data={pageData['dental-phones-hero']?.componentData}
-      />
+      />}
+      
       {pageData?.['trusted-business-communications']?.tabsListingComponent &&
         <SingleTabCardListing data={pageData?.['trusted-business-communications']?.tabsListingComponent}/>
       }
@@ -66,7 +67,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         ? 'startup-practices'
         : `startup-practices-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
-
+    if(!pageData){
+      console.error(`pageData not found for ${slug}`)
+    }
     // Ensure FAQ data is serializable
     const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 

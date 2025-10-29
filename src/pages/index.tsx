@@ -179,29 +179,16 @@ export default function IndexPage(
   return (
     <Track>
       <CustomHead {...props} />
-      <div className="">
-        <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>
-        <LogoSliderSection data={logoSectionData}  refer={refer}/>
-        <VerticalTestimonialListing data={verticalTestimonialData}/>
-        <Testimonials data={testimonialSecitonData} refer={refer}/>
-        {/* <FeatureSection data={featureSectionData} refer={refer}/> */}
-        {/* tablisting section */}
-        {/* <TablistSection data={tabListingData}/> */}
-        { homeCardData?.globalDataReference?.tabsListingComponent && 
-          <CardListing data={homeCardData.globalDataReference.tabsListingComponent}/>
-         }
-        {/* <AnimatedBeamSection data={integrationPlatforms} refer={refer} /> */}
-        {/* <CsCardsListingSection data={cSCardsListingData} refer={refer}></CsCardsListingSection> */}
-        <CategoryFeatureTabs features={featuresData || []} />
-        <SiteComparisonSection data={comparisonSectionData} legendData={comparisonLegendData} refer={refer}/>
-        {/* <TestimonialHighlightSection data={testimonialHighlightsData} refer={refer}/> */}
-        <StatisticsSection />
-        <LogoListingSection data={logoSectionData}  refer={refer}/>
-        <FaqSection faqItems={faqSectionData?.faqData || {}}/>
-        {/* <BannerSection data={bannerData} refer={refer}></BannerSection>
-        <LinksCardsSection data={linkCardSectionData} />
-        <CardsListingSection data={cardsListingData}/> */}
-        {/* <Footer data={footerData}></Footer> */}
+      <div>
+        { heroSectionData && <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>}
+        { logoSectionData && <LogoSliderSection data={logoSectionData}  refer={refer}/>}
+        { verticalTestimonialData && <VerticalTestimonialListing data={verticalTestimonialData}/>}
+        { testimonialSecitonData && <Testimonials data={testimonialSecitonData} refer={refer}/>}
+        { homeCardData?.globalDataReference?.tabsListingComponent && <CardListing data={homeCardData.globalDataReference.tabsListingComponent}/>}
+        { featuresData && <CategoryFeatureTabs features={featuresData || []} />}
+        { comparisonLegendData && <SiteComparisonSection data={comparisonSectionData} legendData={comparisonLegendData} refer={refer}/>}
+        { logoSectionData && <LogoListingSection data={logoSectionData}  refer={refer}/>}
+        { faqSectionData?.faqData && <FaqSection faqItems={faqSectionData?.faqData}/>}
       </div>
     </Track>
   )

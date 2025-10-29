@@ -109,17 +109,11 @@ export default function DentalPhonesIntegrations({ pageData, region, faq }: Dent
 
   return (
     <>
-     <HeroSection
+    {pageData['dental-phones-hero']?.componentData && <HeroSection
         page=""
         data={pageData['dental-phones-hero']?.componentData}
-      />
+      />}
       
-      {/* Integrations Grid Section */}
-      {/* {pageData['integrations-grid']?.componentData && (
-        <div className="mt-12">
-          <IntegrationsGrid data={pageData['integrations-grid']?.componentData} />
-        </div>
-      )} */}
       {/* Features Section with Navigation for detailed integrations */}
       {integrationData && (
         <div>
