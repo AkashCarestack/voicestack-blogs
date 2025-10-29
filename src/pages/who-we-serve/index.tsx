@@ -33,10 +33,11 @@ export default function WhoWeServeIndex({
 }: WhoWeServeIndexProps) {
   return (
     <>
-      <HeroSection
+     { pageData['dental-phones-hero']?.componentData &&  <HeroSection
         page=""
         data={pageData['dental-phones-hero']?.componentData}
       />
+     }
 
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection 

@@ -11,8 +11,8 @@ import { getFeaturesListQuery, getFeaturesList } from '~/lib/sanity.queries'
 export default function WhyVoicestackIndex({ data, heroData, faq, features }: any) {
   return (
     <div>
-      <HeroSection data={heroData} refer={data} page="why-voicestack" />
-      {data['grow-your-practice'] && (
+      { heroData && <HeroSection data={heroData} refer={data} page="why-voicestack" />}  
+      { data['grow-your-practice'] && (
         <ListingWithTabs list={data['grow-your-practice']} />
       )}
       <CategoryFeatureTabs features={features} />

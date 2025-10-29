@@ -20,10 +20,10 @@ interface SpecialityPracticesProps {
 export default function SpecialityPractices({ pageData, faq }: SpecialityPracticesProps) {
   return (
     <>
-      <HeroSection
+      {pageData['dental-phones-hero']?.componentData && <HeroSection
         page=""
         data={pageData['dental-phones-hero']?.componentData}
-      />
+      />}
       {
         pageData?.['effortlessly-handle-calls']?.componentData &&
         <SingleCardWithList data={pageData?.['effortlessly-handle-calls']?.componentData}/>
@@ -73,8 +73,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         ? 'speciality-practices'
         : `speciality-practices-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
+    if(!pageData){
+      console.error(`pageData not found for ${slug}`)
+    }
 
-    // Ensure FAQ data is serializable
     const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
     return {

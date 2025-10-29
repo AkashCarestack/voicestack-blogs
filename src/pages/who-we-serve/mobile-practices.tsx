@@ -18,10 +18,10 @@ interface MobilePracticesProps {
 export default function MobilePractices({ pageData, faq }: MobilePracticesProps) {
   return (
     <>
-      <HeroSection
+      { pageData['dental-phones-hero']?.componentData && <HeroSection
         page=""
         data={pageData['dental-phones-hero']?.componentData}
-      />
+      /> }
       {pageData?.['trusted-business-communications']?.tabsListingComponent &&
         <SingleTabCardListing data={pageData?.['trusted-business-communications']?.tabsListingComponent}/>
       }
@@ -68,8 +68,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         ? 'mobile-practices'
         : `mobile-practices-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
-
-    // Ensure FAQ data is serializable
+    if(!pageData){
+      console.error(`pageData not found for ${slug}`)
+    }
     const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
     return {

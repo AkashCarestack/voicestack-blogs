@@ -75,10 +75,11 @@ export default function DentalPhonesIndex({
 
   return (
     <>
-      <HeroSection
+     {pageData['dental-phones-hero']?.componentData && <HeroSection
         page=""
         data={pageData['dental-phones-hero']?.componentData}
       />
+     }
       {pageData['stack-card-tab-testimonial']?.componentData && (
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
