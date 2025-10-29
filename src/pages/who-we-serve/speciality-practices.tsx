@@ -5,6 +5,7 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
+import SingleCardWithList from '~/components/revamp/components/common/TabListing/singleCardWithList'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
@@ -23,6 +24,11 @@ export default function SpecialityPractices({ pageData, faq }: SpecialityPractic
         page=""
         data={pageData['dental-phones-hero']?.componentData}
       />
+      {
+        pageData?.['effortlessly-handle-calls']?.componentData &&
+        <SingleCardWithList data={pageData?.['effortlessly-handle-calls']?.componentData}/>
+      }
+      
       {pageData?.['trusted-business-communications']?.tabsListingComponent &&
         <SingleTabCardListing data={pageData?.['trusted-business-communications']?.tabsListingComponent}/>
       }

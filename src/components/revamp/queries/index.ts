@@ -366,6 +366,9 @@ class Queries {
                   "headline": headline,
                   "subHeading": Subheading,
                   "description": Subheading,
+                  "cardImage": cardImage.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
                   subheadline,
                   subDescription,
                   "refData": globalData->,

@@ -46,6 +46,11 @@ const TabsListingComponent = {
       type: 'string',
     },
     {
+      name:'cardImage',
+      title: 'Card Image',
+      type: 'image',
+    },
+    {
       name: 'tabs',
       title: 'Tabs',
       type: 'array',
