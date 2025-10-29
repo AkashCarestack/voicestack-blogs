@@ -21,6 +21,7 @@ import { getSession } from '~/utils/tracker/session'
 import { getUser } from '~/utils/tracker/user'
 
 import Layout from '../components/Layout'
+import ProgressLoader from '../components/common/ProgressLoader'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -61,6 +62,7 @@ function App({
   
   return (
     <main className={`${inter.variable} ${manrope.variable} font-geist ${GeistSans.variable}`}>
+      <ProgressLoader />
       <TrackUserProvider>
       {/* <style jsx global>{`
           body {
