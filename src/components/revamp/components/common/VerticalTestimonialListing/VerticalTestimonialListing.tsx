@@ -306,12 +306,14 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
     ],
   }
   return (
-    <div className="py-12 px-4 md:px-12 md:pt-[130px] md:pb-24 bg-[#F9F9F9]">
+    <div className="py-12 px-4 md:px-12 md:pt-[130px] md:pb-24 ">
       <div className="flex flex-col items-center w-full gap-16 max-w-[1728px] mx-auto">
+        {data?.hideTitle && (
         <SectionHeader
-          heading={data?.title}
-          description={data?.description}
-        />
+            heading={data?.title}
+            description={data?.description}
+          />
+        )}
 
         {/*  Slider */}
         {data?.testimonial?.length > 0 && (

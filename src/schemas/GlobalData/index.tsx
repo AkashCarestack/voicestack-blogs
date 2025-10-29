@@ -370,6 +370,12 @@ const GlobalData = {
       hidden: ({ parent }: any) => !parent || parent.dataType !== 'testimonialListing',
       fields: [
         {
+          name: 'hideTitle',
+          title: 'Hide Section Title',
+          type: 'boolean',
+          initialValue: false,
+        },
+        {
           name: 'title',
           title: 'Testimonial Listing Title',
           type: 'string',
