@@ -128,14 +128,6 @@ export default function DentalPhonesIntegrations({
           data={pageData['dental-phones-hero']?.componentData}
         />
       </div>
-
-      {/* Integrations Grid Section */}
-      {/* {pageData['integrations-grid']?.componentData && (
-        <div className="mt-12">
-          <IntegrationsGrid data={pageData['integrations-grid']?.componentData} />
-        </div>
-      )} */}
-      {/* Features Section with Navigation for detailed integrations */}
       {integrationData && (
         <div>
           <FeaturesSectionWithNavigation

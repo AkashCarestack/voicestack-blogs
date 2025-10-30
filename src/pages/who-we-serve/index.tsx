@@ -43,7 +43,6 @@ export default function WhoWeServeIndex({
         page=""
         data={pageData['dental-phones-hero']?.componentData}
       />
-
        </div>
 
       {pageData['how-voicestack-works']?.componentData && (
