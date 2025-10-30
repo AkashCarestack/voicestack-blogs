@@ -80,8 +80,14 @@ export default function ComparisonPage({
       {pageData['comparison-cards']?.componentData && (
         <ComparisonCardsSection data={pageData['comparison-cards']?.componentData}/>
       )}
-
       
+      {/* Testimonial Section */}
+      {pageData['stack-card-tab-testimonial']?.componentData && (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
+      )}
+
       {/* FAQ Section */}
       {faq && (
         <div>
