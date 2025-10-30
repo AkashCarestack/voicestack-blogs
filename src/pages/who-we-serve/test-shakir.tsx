@@ -106,22 +106,7 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
       )}
       
       {/* VoiceStack Comparison Cards Section */}
-      <ComparisonCardsSection data={pageData['comparison-cards']?.componentData}
-        // data={{
-        //   heading: "Discover Why VoiceStack Excels in Business Phones",
-        //   description: "Deliver first-touchpoint resolutions by automatically routing calls to relevant teams and agents.",
-        //   cards: [
-        //     { _key: '1', title: 'Mango Voice' },
-        //     { _key: '2', title: 'Peerlogic' },
-        //     { _key: '3', title: 'Patient Prism' },
-        //     { _key: '4', title: 'Mango Voice' },
-        //     { _key: '5', title: 'Peerlogic' },
-        //     { _key: '6', title: 'Mango Voice' },
-        //     { _key: '7', title: 'Ring Central' },
-        //     { _key: '8', title: 'Patient Prism' },
-        //   ]
-        // }}
-      />
+      <ComparisonCardsSection data={pageData['comparison-cards']?.componentData}/>
       
       {pageData['comparison-table']?.componentData && (
         <SiteComparisonSection 
