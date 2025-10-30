@@ -10,7 +10,7 @@ import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import { getFeaturesListQuery, getFeaturesList } from '~/lib/sanity.queries'
 export default function WhyVoicestackIndex({ data, heroData, faq, features }: any) {
   return (
-    <div>
+    <>
        <div
          className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
          style={{
@@ -28,7 +28,7 @@ export default function WhyVoicestackIndex({ data, heroData, faq, features }: an
         <StackCardTestimonial data={data['stack-card-tab-testimonial'].componentData} refer={data}/>
       )}
       <FaqSection faqItems={faq}/>
-    </div>
+    </>
   )
 }
 

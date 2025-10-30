@@ -1,7 +1,7 @@
 import React, { use, useEffect, useState } from 'react'
 import { PortableText } from '@portabletext/react'
 import { Minus, Plus, ChevronDown } from 'lucide-react'
-import SectionHeader from './sectionHeader'
+import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
 
 export default function FaqSection({ faqItems }: any) {
@@ -69,9 +69,9 @@ export default function FaqSection({ faqItems }: any) {
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className="text-gray-600 md:text-base text-sm leading-[145%] md:pt-4 pt-2">
+        <dt className="text-gray-600 md:text-base text-sm leading-[145%] md:pt-4 pt-2">
           {children}
-        </p>
+        </dt>
       ),
     },
     marks: {
@@ -101,6 +101,7 @@ export default function FaqSection({ faqItems }: any) {
   }
 
   return (
+    <Section>
     <Container className='py-16 flex-col gap-16'>
       <div className='flex flex-col md:gap-16 gap-6 font-manrope font-bold leading-[120%]'>
       <div className='flex md:flex-row flex-col gap-2 md:justify-between justify-start items-center md:items-start'>
@@ -191,9 +192,9 @@ export default function FaqSection({ faqItems }: any) {
                       onClick={() => toggleQuestion(questionKey)}
                       className="w-full text-left flex items-center justify-between rounded-[16px] transition-all duration-200 ease-in-out"
                     >
-                      <div className="font-medium md:text-lg text-base text-gray-950 pr-4">
+                      <dt className="font-medium md:text-lg text-base text-gray-950 pr-4">
                         {question.question}
-                      </div>
+                      </dt>
                       <div className="flex-shrink-0 transition-transform duration-200 ease-in-out">
                         {isQuestionOpen ? (
                           <Minus className="w-5 h-5 text-gray-950 rotate-0" />
@@ -209,7 +210,7 @@ export default function FaqSection({ faqItems }: any) {
                           : 'max-h-0 opacity-0'
                       }`}
                     >
-                      <div className="text-gray-600">
+                      {/* <div className="text-gray-600"> */}
                         {question.answer && Array.isArray(question.answer) ? (
                           <PortableText 
                             value={question.answer} 
@@ -220,7 +221,7 @@ export default function FaqSection({ faqItems }: any) {
                         )}
                       </div>
                     </div>
-                  </div>
+                  // </div>
                 )
               })}
             </div>
@@ -229,5 +230,6 @@ export default function FaqSection({ faqItems }: any) {
       </div>
       </div>
     </Container>
+    </Section>
   )
 }
