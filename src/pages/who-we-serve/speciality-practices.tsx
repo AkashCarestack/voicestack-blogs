@@ -28,7 +28,6 @@ export default function SpecialityPractices({ pageData, faq }: SpecialityPractic
         pageData?.['effortlessly-handle-calls']?.componentData &&
         <SingleCardWithList data={pageData?.['effortlessly-handle-calls']?.componentData}/>
       }
-      
       {pageData?.['trusted-business-communications']?.tabsListingComponent &&
         <SingleTabCardListing data={pageData?.['trusted-business-communications']?.tabsListingComponent}/>
       }

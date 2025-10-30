@@ -60,76 +60,89 @@ interface DentalPhonesIntegrationsProps {
   faq: any
 }
 
-export default function DentalPhonesIntegrations({ pageData, region, faq }: DentalPhonesIntegrationsProps) {
-  console.log('pageDataDentalPhonesIntegrations', pageData);
+export default function DentalPhonesIntegrations({
+  pageData,
+  region,
+  faq,
+}: DentalPhonesIntegrationsProps) {
+  console.log('pageDataDentalPhonesIntegrations', pageData)
 
   // Extract integration data from pageData instead of separate query
   const integrationData = React.useMemo(() => {
-    const customData = pageData['custom']?.componentData;
+    const customData = pageData['custom']?.componentData
     if (!customData?.refData?.integrationListing?.integrationList) {
-      return null;
+      return null
     }
 
-    const integrations = customData.refData.integrationListing.integrationList;
-    
+    const integrations = customData.refData.integrationListing.integrationList
+
     // Group integrations by category
-    const categoriesMap = new Map();
-    const groupedIntegrations = integrations.reduce((acc: any, integration: any) => {
-      if (integration.integrationCategory) {
-        const categoryId = integration.integrationCategory._id;
-        const categoryName = integration.integrationCategory.name;
-        
-        // Add category to map if not already present
-        if (!categoriesMap.has(categoryId)) {
-          categoriesMap.set(categoryId, {
-            _id: categoryId,
-            name: categoryName,
-            subheading: integration.integrationCategory.subheading,
-            description: integration.integrationCategory.description,
-            mainImage: integration.integrationCategory.mainImage,
-            icon: integration.integrationCategory.icon,
-            iconSvgCode: integration.integrationCategory.iconSvgCode,
-            language: integration.integrationCategory.language
-          });
+    const categoriesMap = new Map()
+    const groupedIntegrations = integrations.reduce(
+      (acc: any, integration: any) => {
+        if (integration.integrationCategory) {
+          const categoryId = integration.integrationCategory._id
+          const categoryName = integration.integrationCategory.name
+
+          // Add category to map if not already present
+          if (!categoriesMap.has(categoryId)) {
+            categoriesMap.set(categoryId, {
+              _id: categoryId,
+              name: categoryName,
+              subheading: integration.integrationCategory.subheading,
+              description: integration.integrationCategory.description,
+              mainImage: integration.integrationCategory.mainImage,
+              icon: integration.integrationCategory.icon,
+              iconSvgCode: integration.integrationCategory.iconSvgCode,
+              language: integration.integrationCategory.language,
+            })
+          }
+
+          if (!acc[categoryId]) {
+            acc[categoryId] = []
+          }
+          acc[categoryId].push(integration)
         }
-        
-        if (!acc[categoryId]) {
-          acc[categoryId] = [];
-        }
-        acc[categoryId].push(integration);
-      }
-      return acc;
-    }, {});
+        return acc
+      },
+      {},
+    )
 
     return {
       categories: Array.from(categoriesMap.values()),
-      integrations: integrations
-    };
-  }, [pageData]);
+      integrations: integrations,
+    }
+  }, [pageData])
 
   return (
     <>
-    {pageData['dental-phones-hero']?.componentData && <HeroSection
-        page=""
-        data={pageData['dental-phones-hero']?.componentData}
-      />}
-      
-      {/* Features Section with Navigation for detailed integrations */}
+      <div
+        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+        style={{
+          background:
+            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
+        }}
+      >
+        <HeroSection
+          page=""
+          data={pageData['dental-phones-hero']?.componentData}
+        />
+      </div>
       {integrationData && (
         <div>
-          <FeaturesSectionWithNavigation 
+          <FeaturesSectionWithNavigation
             categories={integrationData.categories}
             integrations={integrationData.integrations}
-            />
+          />
         </div>
       )}
       {pageData['stack-card-tab-testimonial']?.componentData && (
-       <StackCardTestimonial
-         data={pageData['stack-card-tab-testimonial']?.componentData}
-       />
-     )}
-       {/* FAQ Section */}
-       {faq && (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
+      )}
+      {/* FAQ Section */}
+      {faq && (
         <div>
           <FaqSection faqItems={faq} />
         </div>
@@ -142,11 +155,12 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
     const queries = new Queries('integrations', region)
-    const slug = region === 'en' ? 'integrations' : `integrations-${region.toLowerCase()}`
-    
+    const slug =
+      region === 'en' ? 'integrations' : `integrations-${region.toLowerCase()}`
+
     // Fetch page data for integrations
     const pageData = await queries.getPageData('dentalPhones', slug)
-    console.log('integrations pageData', pageData);
+    console.log('integrations pageData', pageData)
 
     if (!pageData || Object.keys(pageData).length === 0) {
       return {
@@ -155,15 +169,15 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
 
     // Ensure FAQ data is serializable
-    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+    const faqData =
+      pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
     return {
       props: {
         pageData,
         region,
-        faq: faqData
+        faq: faqData,
       },
-
     }
   } catch (error) {
     console.error('Error fetching integrations page data:', error)

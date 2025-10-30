@@ -33,11 +33,17 @@ export default function WhoWeServeIndex({
 }: WhoWeServeIndexProps) {
   return (
     <>
-     { pageData['dental-phones-hero']?.componentData &&  <HeroSection
+       <div
+         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+         style={{
+           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
+         }}
+       >
+      <HeroSection
         page=""
         data={pageData['dental-phones-hero']?.componentData}
       />
-     }
+       </div>
 
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection 

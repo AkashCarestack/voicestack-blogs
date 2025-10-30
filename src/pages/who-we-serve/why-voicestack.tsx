@@ -11,8 +11,16 @@ import { getFeaturesListQuery, getFeaturesList } from '~/lib/sanity.queries'
 export default function WhyVoicestackIndex({ data, heroData, faq, features }: any) {
   return (
     <div>
-      { heroData && <HeroSection data={heroData} refer={data} page="why-voicestack" />}  
-      { data['grow-your-practice'] && (
+       <div
+         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+         style={{
+           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
+         }}
+       >
+      <HeroSection data={heroData} refer={data} page="why-voicestack" />
+        
+       </div>
+      {data['grow-your-practice'] && (
         <ListingWithTabs list={data['grow-your-practice']} />
       )}
       <CategoryFeatureTabs features={features} />

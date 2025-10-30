@@ -51,6 +51,28 @@ const CustomComponent = {
         hotspot: true,
       },
     },
+    {
+      name: 'testimonial',
+      title: 'testimonial (referenced region Based)',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'testimonialSection' }],
+          options: {
+            filter: ({ document }) => {
+              // Filter testimonials based on the current document's language
+              const currentLanguage = document?.language || 'en'
+
+              return {
+                filter: `language == "${currentLanguage}"`,
+                params: { language: currentLanguage },
+              }
+            },
+          },
+        }
+      ],
+    },
         // Reference fields for pulling data from global common schemas
         {
           name: 'referenceGlobalSchema',

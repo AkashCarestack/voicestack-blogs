@@ -42,38 +42,44 @@ import runQuery from '~/utils/runQuery'
 export const getStaticProps: GetStaticProps<any> = async ({
   locale,
   draftMode = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? true : false,
-
 }) => {
   const region = locale || 'en'
 
   // revamp queries
-  const queries = new Queries('home',region)
-  const fetchTabListingData = new Queries('easily-handle',region)
+  const queries = new Queries('home', region)
+  const fetchTabListingData = new Queries('easily-handle', region)
   const homeCardData = await queries.fetchHomeCardData(region)
-  const tabListingData = await fetchTabListingData.getData();
-  const heroSectionData = await queries.getHeroData(region);
-  const verticalTestimonialData = await queries.getVerticalTestimonialListing(region)
+  const tabListingData = await fetchTabListingData.getData()
+  const heroSectionData = await queries.getHeroData(region)
+  const verticalTestimonialData =
+    await queries.getVerticalTestimonialListing(region)
   const allTabsData = await queries.getAllTabsListingData(region)
-  const testimonialSecitonData = allTabsData?.find(item => item.slug === 'testimonial-category-section')?.tabsListingComponent
+  const testimonialSecitonData = allTabsData?.find(
+    (item) => item.slug === 'testimonial-category-section',
+  )?.tabsListingComponent
 
-// old queries
+  // old queries
   const client = getClient(draftMode ? { token: readToken } : undefined)
   const homeSettings = await getHeaderData(client, region)
   const siteSettings = await runQuery(getALLSiteSettings(region))
   const founderDetails = await runQuery(getFounderDetails(region))
   const comparisonTableData = await getComparisonTableData(client, region)
-  
+
   const comparisonLegendData = await getAllComparisonValues()
-  const integrationPlatforms = await getIntegrationList(client, region);
-  const logoSectionData = await logoSection(client,region);
-  const featureSectionData = await featureSectionQuery(client, region);
-  const cardsListingData = await getCardsSectionData(client,region)
-  const cSCardsListingData = await getCsCardsSectionData(client,region)
-  const testimonialHighlightsData = await getTestimonialHighlightSectionData(client,region)
+  const integrationPlatforms = await getIntegrationList(client, region)
+  const logoSectionData = await logoSection(client, region)
+  const featureSectionData = await featureSectionQuery(client, region)
+  const cardsListingData = await getCardsSectionData(client, region)
+  const cSCardsListingData = await getCsCardsSectionData(client, region)
+  const testimonialHighlightsData = await getTestimonialHighlightSectionData(
+    client,
+    region,
+  )
   const bannerData = await getBannerData(client, region)
   const contactAndVideoData = await getContactAndVideoInfo(client, region)
-  const faqSectionData = await queries.fetchFaqData('homeSettings',region) || {}
-  const featuresData = await getFeaturesList(client, region) || []
+  const faqSectionData =
+    (await queries.fetchFaqData('homeSettings', region)) || {}
+  const featuresData = (await getFeaturesList(client, region)) || []
 
   return {
     props: {
@@ -99,59 +105,62 @@ export const getStaticProps: GetStaticProps<any> = async ({
       contactAndVideoData,
       tabListingData,
       homeCardData,
-      featuresData
+      featuresData,
     },
   }
 }
 
-export default function IndexPage(
-  props: InferGetStaticPropsType<any>,
-) {
-  const { Track, trackEvent } = useTracking({ page: "home-page", }, {})
-  const searchParams = useSearchParams();
+export default function IndexPage(props: InferGetStaticPropsType<any>) {
+  const { Track, trackEvent } = useTracking({ page: 'home-page' }, {})
+  const searchParams = useSearchParams()
   // const source = searchParams.get("refer"); // Get 'refer' param from URL
-  const [refer, setRefer] = useState(null);
+  const [refer, setRefer] = useState(null)
 
   useEffect(() => {
-    const sourceParam = searchParams.get("refer");
-    setRefer(sourceParam || ""); // Set refer once available
-  }, [searchParams]);
-  
-  const { className, ...rProps} = props
+    const sourceParam = searchParams.get('refer')
+    setRefer(sourceParam || '') // Set refer once available
+  }, [searchParams])
+
+  const { className, ...rProps } = props
   useEffect(() => {
-      const {
-        utm_source = null,
-        utm_term = null,
-        utm_content = null,
-        utm_campaign = null,
-        utm_medium = null,
-        ...params
-      } = getParams();
-      // window.scrollTo({ top: 0, behavior: 'smooth' });
-      if (window) {
-        trackEvent({
-          e_name: "home-page", e_type: "page-view", e_time: new Date(),
-          e_path: window?.location.href,
-          utm_campaign,
-          utm_content,
-          utm_source,
-          utm_term,
-          utm_medium,
-          url_params: params,
-          user_segment: "A",
-          current_path: window?.location.href,
-          base_path: window.location.origin + window.location.pathname,
-          domain: window.location.origin,
-          referrer_url: window.document.referrer
-        })
-      }
-    }, []);
+    const {
+      utm_source = null,
+      utm_term = null,
+      utm_content = null,
+      utm_campaign = null,
+      utm_medium = null,
+      ...params
+    } = getParams()
+    // window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (window) {
+      trackEvent({
+        e_name: 'home-page',
+        e_type: 'page-view',
+        e_time: new Date(),
+        e_path: window?.location.href,
+        utm_campaign,
+        utm_content,
+        utm_source,
+        utm_term,
+        utm_medium,
+        url_params: params,
+        user_segment: 'A',
+        current_path: window?.location.href,
+        base_path: window.location.origin + window.location.pathname,
+        domain: window.location.origin,
+        referrer_url: window.document.referrer,
+      })
+    }
+  }, [])
 
   if (isEmpty(rProps)) {
-    return <><p className="p-5">Loading ... </p></>
+    return (
+      <>
+        <p className="p-5">Loading ... </p>
+      </>
+    )
   }
 
-  
   const {
     heroSectionData,
     testimonialSecitonData,
@@ -162,7 +171,7 @@ export default function IndexPage(
     faqSectionData,
     contactAndVideoData,
     homeCardData,
-    featuresData
+    featuresData,
   } = props
 
   const comparisonSectionData = {
@@ -173,22 +182,59 @@ export default function IndexPage(
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
-  const videoData = contactAndVideoData?.video;
-  
+  const videoData = contactAndVideoData?.video
 
   return (
     <Track>
       <CustomHead {...props} />
-      <div>
-        { heroSectionData && <HeroSection data={heroSectionData} refer={refer} video={videoData} page='home'/>}
-        { logoSectionData && <LogoSliderSection data={logoSectionData}  refer={refer}/>}
-        { verticalTestimonialData && <VerticalTestimonialListing data={verticalTestimonialData}/>}
-        { testimonialSecitonData && <Testimonials data={testimonialSecitonData} refer={refer}/>}
-        { homeCardData?.globalDataReference?.tabsListingComponent && <CardListing data={homeCardData.globalDataReference.tabsListingComponent}/>}
-        { featuresData && <CategoryFeatureTabs features={featuresData || []} />}
-        { comparisonLegendData && <SiteComparisonSection data={comparisonSectionData} legendData={comparisonLegendData} refer={refer}/>}
-        { logoSectionData && <LogoListingSection data={logoSectionData}  refer={refer}/>}
-        { faqSectionData?.faqData && <FaqSection faqItems={faqSectionData?.faqData}/>}
+      <div className="">
+        {heroSectionData && (
+          <div className="px-4 xl:px-12 pt-2">
+            <div
+              className="rounded-[12px] md:rounded-[24px] bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+              style={{
+                background:
+                  'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
+              }}
+            >
+              <HeroSection
+                data={heroSectionData}
+                refer={refer}
+                video={videoData}
+                page="home"
+              />
+            </div>
+          </div>
+        )}
+        {logoSectionData && (
+          <LogoSliderSection data={logoSectionData} refer={refer} />
+        )}
+        {verticalTestimonialData && (
+          <VerticalTestimonialListing data={verticalTestimonialData} />
+        )}
+        {testimonialSecitonData && (
+          <Testimonials data={testimonialSecitonData} refer={refer} />
+        )}
+        {homeCardData?.globalDataReference?.tabsListingComponent && (
+          <CardListing
+            data={homeCardData.globalDataReference.tabsListingComponent}
+          />
+        )}
+        {featuresData && <CategoryFeatureTabs features={featuresData || []} />}
+        {comparisonLegendData && (
+          <SiteComparisonSection
+            data={comparisonSectionData}
+            legendData={comparisonLegendData}
+            refer={refer}
+          />
+        )}
+        <StatisticsSection />
+        {logoSectionData && (
+          <LogoListingSection data={logoSectionData} refer={refer} />
+        )}
+        {faqSectionData?.faqData && (
+          <FaqSection faqItems={faqSectionData?.faqData || {}} />
+        )}
       </div>
     </Track>
   )
