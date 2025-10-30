@@ -107,8 +107,8 @@ export default function FaqSection({ faqItems }: any) {
       <div className='flex md:flex-row flex-col gap-2 md:justify-between justify-start items-center md:items-start'>
         <h2 className='md:text-[40px] text-2xl leading-[120%] md:max-w-[500px] md:text-left text-center'>Frequently Asked Questions</h2>
         <div>
-        <p className='text-gray-600 md:text-left text-center'>For queries contact</p>
-        <a href={`mailto:support@voicestack.com`} className='text-vs-blue'>{'support@voicestack.com'}</a>
+        <p className='text-gray-600 md:text-left text-center font-normal  font-inter text-base leading-[145%]'>For queries contact</p>
+        <a href={`mailto:support@voicestack.com`} className='text-vs-blue font-medium text-base leading-[145%] font-inter'>{'support@voicestack.com'}</a>
         </div>
       </div>
 
