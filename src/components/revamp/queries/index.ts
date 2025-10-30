@@ -438,6 +438,45 @@ class Queries {
                   "heading": title,
                   "subHeading": subtitle,
                   "description": content,
+                  "testimonial": testimonial[]-> {
+                      _id,
+                      name,
+                      designation,
+                      
+                      // Testimonial logo
+                      "logo": logo.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      
+                      // Testimonial image
+                      "testimonialImage": testimonialImage.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      video[] {
+                        ${this.VIDEO_FIELDS}
+                      },
+                      secondaryVideo[] {
+                        ${this.VIDEO_FIELDS}
+                      },
+                      thumbnail,
+                      mainStatement,
+                      subStatement,
+                      
+                      // Testimonial list items
+                      listItems[] {
+                        listHeading,
+                        before,
+                        after,
+                        description
+                      },
+                      
+                      // Testimonial content
+                      testimonialheading,
+                      testimonialdescription,
+                      keyStatement,
+                      keyFeatures,
+                      language
+                    },
                   
                   "refData": referenceGlobalSchema->{
                    

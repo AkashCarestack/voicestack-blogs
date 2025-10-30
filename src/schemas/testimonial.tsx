@@ -178,6 +178,16 @@ export default defineType({
       of: [{ type: 'string' }],
     }),
     defineField({
+      name: 'mainStatement',
+      title: 'Main Statement',
+      type: 'blockContent',
+    }),
+    defineField({
+      name: 'subStatement',
+      title: 'Sub Statement',
+      type: 'blockContent',
+    }),
+    defineField({
       name: 'language',
       type: 'string',
       readOnly: true,
