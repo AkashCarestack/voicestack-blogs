@@ -96,6 +96,7 @@ module.exports = {
 			'vs-purple-gradient': 'linear-gradient(270deg, #4A3CE1 0%, #CAC5FF 100%)',
 			'hero-pattern': "url('/hero-background.webp')",
 			'grid-pattern': "url('/about-us.webp')",
+			'vs-blue-purple':'linear-gradient(90deg, #4A3CE1 -0.5%, #FF708C 99.96%)',
 			'tab-hover-gradient': 'linear-gradient(0deg, #FFF 0%, #FFF 100%), linear-gradient(90deg, #2F14C9 0%, #4A3CE1 100%)',
 			},
 			spacing: {

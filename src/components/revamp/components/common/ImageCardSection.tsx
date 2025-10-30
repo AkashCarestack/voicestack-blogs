@@ -4,13 +4,19 @@ import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import Container from '~/components/structure/Container'
 import useMediaQuery from '~/utils/mediaQuery'
 import Link from 'next/link'
+import SectionHeader from './sectionHeader'
+import Section from '~/components/structure/Section'
 
-export default function ImageCardSection({ data }: any) {
+export default function ImageCardSection({ data, heading, description }: any) {
   const isMobile = useMediaQuery(767)
   const logoHeight = isMobile ? 40 : 40
   return (
-   
-      <Container className="flex-col  bg-[#F9F9F9] ">
+   <Section className="py-sm md:py-md lg:py-lg  bg-[#F9F9F9]">
+      <Container className="flex-col w-full gap-16">
+          <SectionHeader
+        heading={heading}
+        description={description}
+      />
         <div className="grid xl:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
           {data.map((item: any) => (
             <div key={item._key} className="md:p-3 p-2  flex flex-col gap-3">
@@ -66,6 +72,10 @@ export default function ImageCardSection({ data }: any) {
             </div>
           ))}
         </div>
+        <div className='flex justify-center'>
+        <Button className='w-fit' type='primary' link='/dental-phones/customer-stories'><span>Book Free Demo</span></Button>
+      </div>
       </Container>
+    </Section>
   )
 }

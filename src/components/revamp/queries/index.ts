@@ -666,6 +666,7 @@ class Queries {
                   heading,
                   description,
                   useReference,
+                  ctaListItems,
                   
                   // Listing items (when not using reference)
                   items[] {
