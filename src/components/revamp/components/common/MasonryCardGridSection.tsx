@@ -63,7 +63,7 @@ function CardItem({ item, dimension }: { item: any, dimension?: any }) {
 
     return (
         <div
-            className='relative h-full w-full rounded-lg overflow-hidden shadow-lg cursor-pointer'
+            className='relative h-full w-full rounded-lg overflow-hidden shadow-lg cursor-pointer min-h-[377px]'
             style={{
                 backgroundImage: `url(${image?.url})`,
                 backgroundSize: 'cover',
@@ -80,12 +80,12 @@ function CardItem({ item, dimension }: { item: any, dimension?: any }) {
                             height={icon?.metadata?.dimensions?.height}
                             src={icon?.url}
                             alt='Logo'
-                            className='w-full h-full object-contain'
+                            className='w-full h-full md:h-[34px] object-contain'
                         />
                         }
                     </div>
                 </div>
-                <div className='flex flex-col gap-2'>
+                <div className='flex flex-col gap-2 absolute inset-0 p-8 top-auto bg-blur-pattern backdrop-blur-[10px]  mix-blend-darken'>
                     <div >
                         <span className='inline-block leading-[142.857%] bg-vs-blue-purple text-white md:text-sm text-xs font-medium px-2 py-1 rounded-[6px]'>
                             {subheading}
