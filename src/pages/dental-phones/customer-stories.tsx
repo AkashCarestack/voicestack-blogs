@@ -2,7 +2,7 @@ import React from 'react'
 import { GetStaticProps } from 'next'
 import { getClient } from '~/lib/sanity.client'
 import Queries from '~/components/revamp/queries'
-import ClickableCards from '~/components/revamp/components/common/ClickableCards'
+import ImageCardSection from '~/components/revamp/components/common/ImageCardSection'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import Section from '~/components/structure/Section'
 import Button from '~/components/common/Button'
@@ -18,7 +18,7 @@ export default function CustomerStories({ pageData }: any) {
         heading={data?.heading}
         description={data?.description}
       />
-      <ClickableCards data={data?.items} />
+      <ImageCardSection data={data?.items} />
       <div className='flex justify-center'>
         <Button className='w-fit' type='primary' link='/dental-phones/customer-stories'><span>Book Free Demo</span></Button>
       </div>
