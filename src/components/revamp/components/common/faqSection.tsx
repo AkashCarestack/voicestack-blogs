@@ -69,7 +69,7 @@ export default function FaqSection({ faqItems }: any) {
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <dt className="text-gray-600 md:text-base text-sm leading-[145%] md:pt-4 pt-2">
+        <dt className="text-gray-600 md:text-base text-sm leading-[145%] font-normal md:pt-4 pt-2">
           {children}
         </dt>
       ),
@@ -101,7 +101,7 @@ export default function FaqSection({ faqItems }: any) {
   }
 
   return (
-    <Section>
+    <Section className="py-sm md:py-md lg:py-lg">
     <Container className='py-16 flex-col gap-16'>
       <div className='flex flex-col md:gap-16 gap-6 font-manrope font-bold leading-[120%]'>
       <div className='flex md:flex-row flex-col gap-2 md:justify-between justify-start items-center md:items-start'>
@@ -112,7 +112,7 @@ export default function FaqSection({ faqItems }: any) {
         </div>
       </div>
 
-      <div className='flex lg:flex-row flex-col gap-3'>
+      <div className='flex lg:flex-row flex-col md:gap-16 gap-6'>
         {/* Mobile Dropdown */}
         <div className="lg:hidden w-full">
           <div className="relative dropdown-container">
@@ -179,7 +179,7 @@ export default function FaqSection({ faqItems }: any) {
                 return (
                   <div 
                     key={questionKey} 
-                    className={`border rounded-[16px] md:p-4 p-2 py-6 px-4  transition-all duration-300 ease-in-out ${
+                    className={`border rounded-[16px] md:p-6 p-2 py-6 px-4  transition-all duration-300 ease-in-out ${
                       isQuestionOpen 
                         ? 'bg-gray-200 border-none shadow-sm' 
                         : 'border-gray-200 hover:border-gray-300'
