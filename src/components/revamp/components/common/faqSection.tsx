@@ -102,12 +102,16 @@ export default function FaqSection({ faqItems }: any) {
 
   return (
     <Container className='py-16 flex-col gap-16'>
-      <SectionHeader
-        heading={'Frequently Asked Questions'}
-        description={'For queries contact'}
-        mailId={'support@voicestack.com'}
-      />
-      <div className='flex lg:flex-row flex-col md:gap-16 gap-6'>
+      <div className='flex flex-col md:gap-16 gap-6 font-manrope font-bold leading-[120%]'>
+      <div className='flex md:flex-row flex-col gap-2 md:justify-between justify-start items-center md:items-start'>
+        <h2 className='md:text-[40px] text-2xl leading-[120%] md:max-w-[500px] md:text-left text-center'>Frequently Asked Questions</h2>
+        <div>
+        <p className='text-gray-600 md:text-left text-center'>For queries contact</p>
+        <a href={`mailto:support@voicestack.com`} className='text-vs-blue'>{'support@voicestack.com'}</a>
+        </div>
+      </div>
+
+      <div className='flex lg:flex-row flex-col gap-3'>
         {/* Mobile Dropdown */}
         <div className="lg:hidden w-full">
           <div className="relative dropdown-container">
@@ -222,6 +226,7 @@ export default function FaqSection({ faqItems }: any) {
             </div>
           ) : <></>}
         </div>
+      </div>
       </div>
     </Container>
   )
