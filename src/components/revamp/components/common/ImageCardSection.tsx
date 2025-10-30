@@ -5,7 +5,7 @@ import Container from '~/components/structure/Container'
 import useMediaQuery from '~/utils/mediaQuery'
 import Link from 'next/link'
 
-export default function ClickableCards({ data }: any) {
+export default function ImageCardSection({ data }: any) {
   const isMobile = useMediaQuery(767)
   const logoHeight = isMobile ? 40 : 40
   return (
