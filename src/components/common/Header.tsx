@@ -468,7 +468,7 @@ const Header = ({ data, refer=null }) => {
                           return (
                             <div key={`menu-${i}`} className="relative group cursor-pointer">
                               <div className="flex items-center gap-1 text-gray-700 lg:text-sm font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0 cursor-pointer">
-                               <Anchor  target={link?.href?.includes('http') ? "_blank" : "_self"} className='cursor-pointer' href={link.href}><span>{link.label}</span></Anchor>
+                               <Link   className='cursor-pointer' href={link.href}><span>{link.label}</span></Link>
                                 <svg 
                                   width="16" 
                                   height="16" 
