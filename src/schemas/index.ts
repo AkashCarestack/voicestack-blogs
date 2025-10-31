@@ -36,6 +36,7 @@ import FeaturesPage from './Pages/Features'
 import WhoWeServe from './Pages/WhoWeServe'
 import WhyVoicestack from './Pages/WhyVoicestack'
 import DentalPhones from './Pages/DentalPhones'
+import AiReceptionist from './Pages/AiReceptionist'
 import PlatformList from './PlatformList'
 import Platforms from './Platforms/index'
 import portableContent from './portableContent'
@@ -86,6 +87,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     FeaturesPage,
     WhyVoicestack,
     DentalPhones,
+    AiReceptionist,
     GlobalData,
     VerticalTestimonialListing,
     WhoWeServeListing,
