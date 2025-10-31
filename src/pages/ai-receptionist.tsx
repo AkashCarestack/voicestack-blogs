@@ -59,7 +59,6 @@ interface AiReceptionistProps {
 
 export default function AiReceptionist({
     pageData,
- 
     faq,
     features,
 }: AiReceptionistProps) {
@@ -72,10 +71,7 @@ export default function AiReceptionist({
                     background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
                 }}
             >
-                <HeroSection
-                    page=""
-                    data={pageData['ai-receptionist-hero']?.componentData || pageData['hero']?.componentData}
-                />
+                <HeroSection refer={pageData['dental-phones-hero']} data={pageData['dental-phones-hero'].componentData} page="why-voicestack" />
             </div>
             { 
                 pageData['ai-features']?.componentData && (
@@ -115,8 +111,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         const region = locale || 'en'
         const queries = new Queries('ai-receptionist', region)
         const slug = region === 'en' ? 'ai-receptionist' : `ai-receptionist-${region.toLowerCase()}`
-        const pageData = await queries.getPageData('aiReceptionist', slug)
-        console.log('pageData', pageData)
+        const pageData = await queries.getPageData('aiReceptionist', slug) || []
+         const heroData = pageData?.['why-voicestack-hero']?.componentData || null
+        
 
         if (!pageData || Object.keys(pageData).length === 0) {
             return {
@@ -137,6 +134,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
                 pageData,
                 region,
                 faq: faqData,
+                heroData: heroData,
             },
 
         }
