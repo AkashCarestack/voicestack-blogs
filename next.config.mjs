@@ -13,7 +13,8 @@ const config = {
     remotePatterns: [
       { hostname: 'cdn.sanity.io' }, 
       { hostname: 'cdn.vidyard.com' },
-      { hostname: 'www.figma.com' }
+      { hostname: 'www.figma.com' },
+      { hostname: 'img.youtube.com' }
     ],
     dangerouslyAllowSVG: true,
   },

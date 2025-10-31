@@ -112,28 +112,49 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
                             </svg>
                           </button>
                         )} */}
-                        <video
-                          key={testimonial?.thumbnail}
-                          style={{
-                            backgroundColor: 'transparent',
-                            backgroundImage: 'none',
-                            backgroundSize: 0,
-                            backgroundPosition: 0,
-                            backgroundRepeat: 'no-repeat',
-                            objectFit: 'cover',
-                          }}
-                          className="absolute h-full w-full object-cover aspect-video"
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                        >
-                          <source
-                            src={testimonial?.thumbnail}
-                            type="video/mp4"
-                          />
-                          Your browser does not support the video tag.
-                        </video>
+                        {testimonial.video[0]?.videoId ? (
+                          <>
+                            <Image
+                              src={`https://img.youtube.com/vi/${testimonial.video[0].videoId}/maxresdefault.jpg`}
+                              alt={`Video thumbnail for ${testimonial?.name || 'testimonial'}`}
+                              
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                            <button
+                              className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors cursor-pointer group"
+                              onClick={() => openCurrentModal(index)}
+                              aria-label="Play video"
+                            >
+                              <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:bg-white transition-colors">
+                                <svg
+                                  width="24"
+                                  height="28"
+                                  viewBox="0 0 24 28"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="translate-x-[1px]"
+                                >
+                                  <path
+                                    d="M22.6842 12.4201C23.2732 12.7368 23.2732 13.5411 22.6842 13.8578L2.36842 26.1011C1.77937 26.4178 1 25.9855 1 25.2433L1 1.03455C1 0.292349 1.77937 -0.13995 2.36842 0.176745L22.6842 12.4201Z"
+                                    fill="#4A3CE1"
+                                  />
+                                </svg>
+                              </div>
+                            </button>
+                          </>
+                        ) : (
+                          testimonial?.thumbnail && (
+                            <Image
+                              src={testimonial.thumbnail}
+                              alt={`Thumbnail for ${testimonial?.name || 'testimonial'}`}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                          )
+                        )}
                       </div>
 
                       {/* </div> */}
@@ -150,10 +171,10 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
                           </blockquote>
                         </h3>
 
-                        {/* {openModal === index && isOpen && testimonial.video[0]?.videoId && (
+                        {openModal === index && isOpen && testimonial.video[0]?.videoId && (
                           <VideoModal   
                             videoDetails={{
-                              videoId: testimonial.content.videoId,
+                              videoId: testimonial?.video[0]?.videoId,
                               videoPlatform: 'youtube',
                             }}
                             isPopup={true}
@@ -162,7 +183,7 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
                             openForm={() => setOpenForm(true)}
                             hasDemoBanner={true}
                           />
-                        )} */}
+                        )}
 
                         <div className="text-gray-700 text-sm md:text-base leading-[150%]">
                           <PortableText

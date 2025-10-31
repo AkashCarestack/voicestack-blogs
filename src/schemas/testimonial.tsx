@@ -58,7 +58,7 @@ export default defineType({
     }),
     defineField({
       name: 'video',
-      title: 'Video',
+      title: 'Video(vertical video)',
       type: 'array',
       of: [
         {
@@ -87,7 +87,7 @@ export default defineType({
     }),
      defineField({
       name: 'secondaryVideo',
-      title: 'Secondary Video',
+      title: 'Secondary Video(horizontal video)',
       type: 'array',
       of: [
         {
