@@ -104,7 +104,8 @@ const customTitleMap: Record<string, string> = {
   featureCategory: 'Feature Categories',
   featureCategoryOld: 'Feature Categories (Old)',
   integrationCategory: 'Integration Categories',
-  integrationList: 'Integration List'
+  integrationList: 'Integration List',
+  faqRevamp: 'Page Faqs'
 }
 
 // Convert camelCase to Title Case
@@ -688,7 +689,7 @@ function getCategoryTitle(category: string) {
     media: 'Media & UI Elements',
     dynamic: 'Dynamic Components',
     utilities: 'Utilities',
-    faqRevamp: 'FAQ'
+    faqRevamp: 'Page Faqs'
 
   }
   return titleMap[category] || toTitleCase(category)

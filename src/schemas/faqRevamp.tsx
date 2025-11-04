@@ -2,7 +2,7 @@ import { defineField, defineType } from 'sanity'
 import showCountryFlag from '~/components/utils/common';
 export default defineType({
   name: 'faqRevamp',
-  title: 'Faq',
+  title: 'Page Faqs',
   type: 'document',
   fields: [
     defineField({
