@@ -66,13 +66,51 @@ export default function FaqSection({ faqItems }: any) {
   const activeCategoryData = categories.find((cat: any) => cat._key === activeCategory)
   const activeQuestions = activeCategoryData?.questions || []
 
+  // Helper function to check if a block is empty
+  const isBlockEmpty = (block: any): boolean => {
+    if (!block || block._type !== 'block') return true;
+    if (!block.children || !Array.isArray(block.children) || block.children.length === 0) return true;
+    
+    // Check if any child span has non-empty text
+    return !block.children.some((child: any) => {
+      if (child._type === 'span' && child.text) {
+        return child.text.trim().length > 0;
+      }
+      return false;
+    });
+  };
+
   const components: any = {
     block: {
-      normal: ({ children }: { children: React.ReactNode }) => (
-        <dt className="text-gray-600 font-geist tracking-normal md:text-base text-sm leading-[145%] font-normal md:pt-4 pt-2">
-          {children}
-        </dt>
-      ),
+      normal: ({ value, children }: { value: any; children: React.ReactNode }) => {
+        // Check if block is empty - check both value structure and rendered content
+        if (!value) {
+          return null;
+        }
+        
+        // Check value.children array for text content
+        if (value.children && Array.isArray(value.children)) {
+          const hasTextContent = value.children.some((child: any) => {
+            // Check for span elements with text
+            if (child._type === 'span' && child.text) {
+              return child.text.trim().length > 0;
+            }
+            return false;
+          });
+          
+          if (!hasTextContent) {
+            return null;
+          }
+        } else if (!value.children || value.children.length === 0) {
+          return null;
+        }
+        
+        return (
+          <dt className="text-gray-600 font-geist tracking-normal md:text-base text-sm leading-[145%] font-normal md:pt-4 pt-2">
+            {children}
+          </dt>
+        );
+      },
     },
     marks: {
       strong: ({ children }: { children: React.ReactNode }) => (
@@ -213,7 +251,7 @@ export default function FaqSection({ faqItems }: any) {
                       {/* <div className="text-gray-600"> */}
                         {question.answer && Array.isArray(question.answer) ? (
                           <PortableText 
-                            value={question.answer} 
+                            value={question.answer.filter((block: any) => !isBlockEmpty(block))} 
                             components={components}
                           />
                         ) : (
