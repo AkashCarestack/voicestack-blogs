@@ -588,9 +588,9 @@ class Queries {
                           "logo": logo.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
                           },
-                          "secondaryLogo": secondaryLogo.asset-> {
-                            ${this.IMAGE_METADATA_FIELDS}
-                          },
+                            "secondaryLogo": secondaryLogo.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
                           
                           // Testimonial image
                           "testimonialImage": testimonialImage.asset-> {
@@ -666,7 +666,9 @@ class Queries {
                   heading,
                   description,
                   useReference,
-                  ctaListItems,
+                  ctaListItems[] {
+                    ${this.CTA_FIELDS}
+                  },
                   
                   // Listing items (when not using reference)
                   items[] {
@@ -695,7 +697,32 @@ class Queries {
                       ${this.CTA_FIELDS}
                     }
                   },
+                  testimonial-> {
+                    _id,
+                    name,
+                    designation,
+                    thumbnail,
+                    testimonialdescription,
                   
+                    "secondaryLogo": secondaryLogo.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                    video[] {
+                      ${this.VIDEO_FIELDS}
+                    },
+                    secondaryVideo[] {
+                      ${this.VIDEO_FIELDS}
+                    },
+                    "testimonialImage": testimonialImage.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    listItems[] {
+                      listHeading,
+                      before,
+                      after,
+                      description
+                    },
+                  },
                   // Blocks & Lists Reference (all types)
                   "blocksListingData": blocksListingReference-> {
                     _type,

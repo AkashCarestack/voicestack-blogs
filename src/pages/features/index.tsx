@@ -5,6 +5,7 @@ import Layout from '~/components/Layout';
 import SimpleHead from '~/components/common/SimpleHead';
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs';
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection';
+import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial';
 
 interface Feature {
   _id: string;
@@ -81,6 +82,11 @@ export default function FeaturesPage({ features, currentLanguage, landingPage }:
             />
           </div>
         )}
+        {/* {pageData['stack-card-tab-testimonial']?.componentData && (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
+      )} */}
         <CategoryFeatureTabs features={features.filter(feature => feature.slug?.current !== 'landing')} />
       </div>
     </div>
