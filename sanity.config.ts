@@ -127,7 +127,8 @@ export default defineConfig({
         'features',
         'faqRevamp',
         'integrationCategory',
-        'integrationList'
+        'integrationList',
+        'aiReceptionist'
       ],
     }),
 

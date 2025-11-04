@@ -71,7 +71,7 @@ export default function AiReceptionist({
                     background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
                 }}
             >
-                <HeroSection refer={pageData['dental-phones-hero']} data={pageData['dental-phones-hero'].componentData} page="why-voicestack" />
+                <HeroSection refer={pageData['dental-phones-hero']} data={pageData['dental-phones-hero']?.componentData} page="why-voicestack" />
             </div>
             { 
                 pageData['ai-features']?.componentData && (
