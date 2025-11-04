@@ -319,7 +319,7 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
         {data?.testimonial?.length > 0 && (
           <div className="w-full relative h-[563px]">
             <Slider {...settings}>
-              {data?.testimonial?.map((logo: any, i: number) => {
+              {data && data?.testimonial?.map((logo: any, i: number) => {
                 const hasVideo = !!logo?.video?.[0]?.videoId
                 const image = logo?.testimonialImage
                 // Try different possible video sources

@@ -71,7 +71,7 @@ export default function AiReceptionist({
                     background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
                 }}
             >
-                <HeroSection refer={pageData['dental-phones-hero']} data={pageData['dental-phones-hero'].componentData} page="why-voicestack" />
+                <HeroSection refer={pageData['dental-phones-hero']} data={pageData['dental-phones-hero']?.componentData} page="why-voicestack" />
             </div>
             { 
                 pageData['ai-features']?.componentData && (
@@ -82,16 +82,16 @@ export default function AiReceptionist({
 
             {/* <CategoryFeatureTabs features={features} /> */}
             {
-                pageData['real-business-outcomes']?.componentData && (
+                pageData['real-business-outcomes']?.componentData?.refData?.tabsListingComponent && (
                     <CardListing 
-                        data={pageData["real-business-outcomes"].componentData.refData.tabsListingComponent}
+                        data={pageData["real-business-outcomes"]?.componentData?.refData?.tabsListingComponent}
                     />
                 )
             }
 
             {pageData['how-voicestack-works']?.componentData && (
                 <CardsGridSection
-                    data={pageData['how-voicestack-works'].componentData}
+                    data={pageData['how-voicestack-works']?.componentData}
                 />
             )}
 
