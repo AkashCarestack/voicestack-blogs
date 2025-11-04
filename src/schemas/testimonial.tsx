@@ -179,12 +179,12 @@ export default defineType({
     }),
     defineField({
       name: 'mainStatement',
-      title: 'Main Statement',
+      title: 'Main Statement(review text)',
       type: 'blockContent',
     }),
     defineField({
       name: 'subStatement',
-      title: 'Sub Statement',
+      title: 'Sub Statement(review text)',
       type: 'blockContent',
     }),
     defineField({

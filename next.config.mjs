@@ -14,7 +14,8 @@ const config = {
       { hostname: 'cdn.sanity.io' }, 
       { hostname: 'cdn.vidyard.com' },
       { hostname: 'www.figma.com' },
-      { hostname: 'img.youtube.com' }
+      { hostname: 'img.youtube.com' },
+      { hostname: 'a.storyblok.com' }
     ],
     dangerouslyAllowSVG: true,
   },
