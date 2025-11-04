@@ -82,16 +82,16 @@ export default function AiReceptionist({
 
             {/* <CategoryFeatureTabs features={features} /> */}
             {
-                pageData['real-business-outcomes']?.componentData && (
+                pageData['real-business-outcomes']?.componentData?.refData?.tabsListingComponent && (
                     <CardListing 
-                        data={pageData["real-business-outcomes"].componentData.refData.tabsListingComponent}
+                        data={pageData["real-business-outcomes"]?.componentData?.refData?.tabsListingComponent}
                     />
                 )
             }
 
             {pageData['how-voicestack-works']?.componentData && (
                 <CardsGridSection
-                    data={pageData['how-voicestack-works'].componentData}
+                    data={pageData['how-voicestack-works']?.componentData}
                 />
             )}
 
