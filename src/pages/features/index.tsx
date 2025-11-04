@@ -8,6 +8,7 @@ import HeroSection from '~/components/revamp/components/common/HeroSection/heroS
 import Queries from '~/components/revamp/queries';
 import Container from '~/components/structure/Container';
 import Section from '~/components/structure/Section';
+import FaqSection from '~/components/revamp/components/common/faqSection';
 
 interface Feature {
   _id: string;
@@ -45,6 +46,7 @@ export default function FeaturesPage({ features, data, landingPage }: FeaturesPa
       <Container className='flex flex-col'>
         <HeroSection data={heroData} refer={data} page="feature-landing" />
         <CategoryFeatureTabs features={features.filter(feature => feature.slug?.current !== 'landing')} />
+        {data?.faqData && <FaqSection faqItems={data?.faqData[0]} />}
 
       </Container>
     </Section>

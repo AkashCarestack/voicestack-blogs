@@ -94,6 +94,12 @@ export default function AiReceptionist({
                     data={pageData['how-voicestack-works']?.componentData}
                 />
             )}
+            {console.log(pageData['grow-your-practice']?.componentData)}
+            {pageData['grow-your-practice']?.componentData && (
+                <StackCardTestimonial
+                    data={pageData['grow-your-practice']?.componentData}
+                />
+            )}
 
 
             {/* FAQ Section */}

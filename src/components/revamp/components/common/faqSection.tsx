@@ -69,7 +69,7 @@ export default function FaqSection({ faqItems }: any) {
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <dt className="text-gray-600 md:text-base text-sm leading-[145%] font-normal md:pt-4 pt-2">
+        <dt className="text-gray-600 font-geist tracking-normal md:text-base text-sm leading-[145%] font-normal md:pt-4 pt-2">
           {children}
         </dt>
       ),
@@ -155,7 +155,7 @@ export default function FaqSection({ faqItems }: any) {
             <button 
               key={category._key}
               onClick={() => showActiveCategory(category._key)} 
-              className={`text-left cursor-pointer w-[374px] rounded-[12px] font-medium leading-[155%] text-lg px-3 py-2 transition-colors ${
+              className={`text-left cursor-pointer font-geist w-[374px] tracking-normal rounded-[12px] font-medium leading-[155%] text-lg px-3 py-2 transition-colors ${
                 activeCategory === category._key 
                   ? 'bg-white text-gray-950' 
                   : 'text-gray-500'
@@ -192,7 +192,7 @@ export default function FaqSection({ faqItems }: any) {
                       onClick={() => toggleQuestion(questionKey)}
                       className="w-full text-left flex items-center justify-between rounded-[16px] transition-all duration-200 ease-in-out"
                     >
-                      <dt className="font-medium md:text-lg text-base text-gray-950 pr-4">
+                      <dt className="font-medium font-geist tracking-normal leading-[155%] md:text-lg text-base text-gray-950 pr-4">
                         {question.question}
                       </dt>
                       <div className="flex-shrink-0 transition-transform duration-200 ease-in-out">
