@@ -63,105 +63,55 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
 
           {testimonials && (
             <div className="pt-16 md:pt-16">
-              <div className="columns-1 md:columns-2 lg:columns-3 gap-6">
+              <div className="columns-1 md:columns-2 lg:columns-3" style={{ columnGap: '1.5rem' }}>
                 {testimonials.map((testimonial: any, index: number) => (
                   <div
                     key={index}
-                    className={`bg-[#F4F3FA] rounded-[12px] md:rounded-[24px] p-3 break-inside-avoid ${
-                      testimonial.video[0]?.videoId ? 'relative' : ''
+                    className={`bg-[#F4F3FA] rounded-[12px] md:rounded-[24px] p-3 break-inside-avoid mb-6 ${
+                      testimonial?.video?.[0]?.videoId ? 'relative' : ''
                     }`}
                   >
                     <div className="relative flex flex-col gap-3">
-                      <div className="relative min-h-[210px] rounded-[12px] overflow-hidden aspect-video">
-                        {/* Top Section - Author Info and Video Button */}
-                        {/* <div
-                        className={`flex justify-between ${testimonial.video[0]?.videoId ? 'gap-3 items-center absolute bottom-0 p-4 left-0 w-full z-[3] bg-[linear-gradient(180deg,rgba(0,0,0,0)_0%,#000_100%)]' : 'mb-4  items-center'}`}
-                      > */}
-                        {/* <div className={`flex items-center gap-3`}>
-                          <div
-                            className={`w-12 h-12 rounded-full overflow-hidden flex-shrink-0 ${testimonial.video[0]?.videoId ? 'hidden' : ''}`}
-                          >
-                            {testimonial.testimonialImage?.[0]?.image && (
-                              <ImageLoader
-                                image={testimonial.testimonialImage[0].image}
-                                className="w-full h-full object-cover block"
-                              />
-                            )}
-                          </div>
-                         
-                        </div> */}
-
-                        {/* {testimonial.video[0]?.videoId && (
+                      {testimonial?.video?.[0]?.videoId ? (
+                        <div className="relative rounded-[12px] overflow-hidden aspect-video">
+                          <Image
+                            src={`https://img.youtube.com/vi/${testimonial.video[0].videoId}/maxresdefault.jpg`}
+                            alt={`Video thumbnail for ${testimonial?.name || 'testimonial'}`}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          />
                           <button
-                            className="w-10 h-10 bg-white/40 rounded-full border-none flex items-center justify-center flex-shrink-0 cursor-pointer"
+                            className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors cursor-pointer group"
                             onClick={() => openCurrentModal(index)}
-                            title="Play"
+                            aria-label="Play video"
                           >
-                            <svg
-                              width="29"
-                              height="34"
-                              viewBox="0 0 29 34"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="w-[17px] translate-x-[2px]"
-                            >
-                              <path
-                                d="M27.4576 15.5325C28.5875 16.1849 28.5875 17.8159 27.4576 18.4683L2.54184 32.8534C1.41187 33.5058 -0.000585209 32.6903 -0.000585152 31.3855L-0.000583894 2.61528C-0.000583837 1.31051 1.41187 0.495026 2.54184 1.14741L27.4576 15.5325Z"
-                                fill="#fff"
-                              />
-                            </svg>
+                            <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:bg-white transition-colors">
+                              <svg
+                                width="24"
+                                height="28"
+                                viewBox="0 0 24 28"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="translate-x-[1px]"
+                              >
+                                <path
+                                  d="M22.6842 12.4201C23.2732 12.7368 23.2732 13.5411 22.6842 13.8578L2.36842 26.1011C1.77937 26.4178 1 25.9855 1 25.2433L1 1.03455C1 0.292349 1.77937 -0.13995 2.36842 0.176745L22.6842 12.4201Z"
+                                  fill="#4A3CE1"
+                                />
+                              </svg>
+                            </div>
                           </button>
-                        )} */}
-                        {testimonial.video[0]?.videoId ? (
-                          <>
-                            <Image
-                              src={`https://img.youtube.com/vi/${testimonial.video[0].videoId}/maxresdefault.jpg`}
-                              alt={`Video thumbnail for ${testimonial?.name || 'testimonial'}`}
-                              
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-                            <button
-                              className="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/30 transition-colors cursor-pointer group"
-                              onClick={() => openCurrentModal(index)}
-                              aria-label="Play video"
-                            >
-                              <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center group-hover:bg-white transition-colors">
-                                <svg
-                                  width="24"
-                                  height="28"
-                                  viewBox="0 0 24 28"
-                                  fill="none"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="translate-x-[1px]"
-                                >
-                                  <path
-                                    d="M22.6842 12.4201C23.2732 12.7368 23.2732 13.5411 22.6842 13.8578L2.36842 26.1011C1.77937 26.4178 1 25.9855 1 25.2433L1 1.03455C1 0.292349 1.77937 -0.13995 2.36842 0.176745L22.6842 12.4201Z"
-                                    fill="#4A3CE1"
-                                  />
-                                </svg>
-                              </div>
-                            </button>
-                          </>
-                        ) : (
-                          testimonial?.thumbnail && (
-                            <Image
-                              src={testimonial.thumbnail}
-                              alt={`Thumbnail for ${testimonial?.name || 'testimonial'}`}
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            />
-                          )
-                        )}
-                      </div>
+                        </div>
+                      ) : (
+                        ''
+                      )}
 
                       {/* </div> */}
 
                       {/* Bottom Section - Rating and Content */}
 
-                      <div className="p-6 flex flex-col gap-3">
+                      <div className="p-3 md:p-6 flex flex-col gap-3">
                         <h3 className="font-bold text-base md:text-xl leading-tight font-manrope">
                           <blockquote className="text-xl lg:text-2xl font-medium text-left ">
                             <PortableText
@@ -171,19 +121,21 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
                           </blockquote>
                         </h3>
 
-                        {openModal === index && isOpen && testimonial.video[0]?.videoId && (
-                          <VideoModal   
-                            videoDetails={{
-                              videoId: testimonial?.video[0]?.videoId,
-                              videoPlatform: 'youtube',
-                            }}
-                            isPopup={true}
-                            className={`pt-9 z-30 flex items-start`}
-                            onClose={() => setIsOpen(false)}
-                            openForm={() => setOpenForm(true)}
-                            hasDemoBanner={true}
-                          />
-                        )}
+                        {openModal === index &&
+                          isOpen &&
+                          testimonial.video[0]?.videoId && (
+                            <VideoModal
+                              videoDetails={{
+                                videoId: testimonial?.video[0]?.videoId,
+                                videoPlatform: 'youtube',
+                              }}
+                              isPopup={true}
+                              className={`pt-9 z-30 flex items-start`}
+                              onClose={() => setIsOpen(false)}
+                              openForm={() => setOpenForm(true)}
+                              hasDemoBanner={true}
+                            />
+                          )}
 
                         <div className="text-gray-700 text-sm md:text-base leading-[150%]">
                           <PortableText
