@@ -5,7 +5,10 @@ import Layout from '~/components/Layout';
 import SimpleHead from '~/components/common/SimpleHead';
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs';
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection';
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial';
+import Queries from '~/components/revamp/queries';
+import Container from '~/components/structure/Container';
+import Section from '~/components/structure/Section';
+import FaqSection from '~/components/revamp/components/common/faqSection';
 
 interface Feature {
   _id: string;
@@ -31,79 +34,39 @@ interface FeaturesPageProps {
   features: Feature[];
   currentLanguage: string;
   landingPage?: Feature | null;
+  data: any;
 }
 
-export default function FeaturesPage({ features, currentLanguage, landingPage }: FeaturesPageProps) {
-  // Transform landingPage data to match HeroSection expected format
-  const heroData = landingPage ? {
-    heroheading: landingPage.heroTitle 
-      ? [{ 
-          _type: 'block', 
-          children: [{ _type: 'span', text: landingPage.heroTitle }],
-          style: 'normal'
-        }] 
-      : landingPage.title
-        ? [{ 
-            _type: 'block', 
-            children: [{ _type: 'span', text: landingPage.title }],
-            style: 'normal'
-          }]
-        : undefined,
-    heroDescription: (landingPage.heroSubtitle || landingPage.shortDescription)
-      ? [{ 
-          _type: 'block', 
-          children: [{ _type: 'span', text: typeof (landingPage.heroSubtitle || landingPage.shortDescription) === 'string' 
-            ? (landingPage.heroSubtitle || landingPage.shortDescription || '')
-            : String(landingPage.heroSubtitle || landingPage.shortDescription || '') }],
-          style: 'normal'
-        }]
-      : undefined,
-    heroImage: landingPage.heroImage,
-    mainImage: landingPage.mainImage || landingPage.heroImage,
-  } : null;
+export default function FeaturesPage({ features, data, landingPage }: FeaturesPageProps) {
+  console.log({data})
+  const heroData = data["feature-landing"]?.heroComponent;
 
   return (
-    <div>
-      <SimpleHead
-        title="Features - VoiceStack"
-        description="Discover all the powerful features that make VoiceStack the leading dental practice management solution."
-      />
-      <div>
-        {landingPage && heroData && (
-          <div
-            className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
-            style={{
-              background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
-            }}
-          >
-            <HeroSection
-              page=""
-              data={heroData}
-            />
-          </div>
-        )}
-        {/* {pageData['stack-card-tab-testimonial']?.componentData && (
-        <StackCardTestimonial
-          data={pageData['stack-card-tab-testimonial']?.componentData}
-        />
-      )} */}
+    <Section>
+      <Container className='flex flex-col'>
+        <HeroSection data={heroData} refer={data} page="feature-landing" />
         <CategoryFeatureTabs features={features.filter(feature => feature.slug?.current !== 'landing')} />
-      </div>
-    </div>
+        {data?.faqData && <FaqSection faqItems={data?.faqData[0]} />}
+
+      </Container>
+    </Section>
   );
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
-    const currentLanguage = locale || 'en';
-    const features = await getFeaturesList(getClient(), currentLanguage);
-    const landingPage = features.find((feature: Feature) => feature.slug?.current === 'landing');
+    const region = locale || 'en';
+    const slug = region === 'en' ? 'feature-landing-page' : `feature-landing-page-${region.toLowerCase()}`
+    const queries = new Queries('feature-landing', region)
+    const landingPageData = await queries.getPageData('featurePage', slug);
+    const features = await getFeaturesList(getClient(), region);
     
     return {
       props: {
         features: features || [],
-        currentLanguage,
-        landingPage: landingPage || null,
+        currentLanguage: region,
+        landingPage: landingPageData || null,
+        data: landingPageData || null,
       },
     };
   } catch (error) {

@@ -9,7 +9,7 @@ export const heroFields = [
   defineField({
     name: 'heroheading',
     title: 'Hero Heading',
-    type: 'blockContent',
+    type: 'customBlockContent',
   }),
   defineField({
     name: 'heroDescription',

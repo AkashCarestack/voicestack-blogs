@@ -347,7 +347,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                             {renderCategoryIcon(category, isActive)}
                           </div>
                           <span 
-                            className={`text-lg font-medium transition-colors duration-300 font-geist leading-7 tracking-normal ${
+                            className={`text-lg font-normal transition-colors duration-300 font-geist leading-7 tracking-normal ${
                               isActive ? 'text-black' : 'text-gray-500'
                             }`}
                           >
@@ -358,7 +358,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                     })}
                   </div>
                   <div className='flex flex-col gap-[20px] pt-[24px] border-t border-gray-200'>
-                   <p className='block text-zinc-500 font-sans text-base font-normal leading-6 tracking-normal'>For Smarter Patient Call Management</p>
+                   <p className='block text-zinc-500 font-sans text-base font-normal leading-[150%] tracking-normal'>For Smarter Patient Call Management</p>
                     <div>
                   <Button type='primary' onClick={() => setOpenForm(true)}>
                     <span>Book Free Demo</span>
