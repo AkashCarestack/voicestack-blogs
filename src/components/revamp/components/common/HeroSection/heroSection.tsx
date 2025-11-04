@@ -248,7 +248,7 @@ const HeroSection = ({
                 </div>
               ) : (
                 <div className="text-center lg:text-left">
-                  <h1 className="text-base font-medium text-gray-950 uppercase">
+                  <h1 className="text-base font-medium text-gray-950">
                     {data?.heroStrip}
                   </h1>
                 </div>
