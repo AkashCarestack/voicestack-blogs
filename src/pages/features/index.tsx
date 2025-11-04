@@ -4,6 +4,7 @@ import { getFeaturesList } from '~/lib/sanity.queries';
 import Layout from '~/components/Layout';
 import SimpleHead from '~/components/common/SimpleHead';
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs';
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection';
 
 interface Feature {
   _id: string;
@@ -32,6 +33,34 @@ interface FeaturesPageProps {
 }
 
 export default function FeaturesPage({ features, currentLanguage, landingPage }: FeaturesPageProps) {
+  // Transform landingPage data to match HeroSection expected format
+  const heroData = landingPage ? {
+    heroheading: landingPage.heroTitle 
+      ? [{ 
+          _type: 'block', 
+          children: [{ _type: 'span', text: landingPage.heroTitle }],
+          style: 'normal'
+        }] 
+      : landingPage.title
+        ? [{ 
+            _type: 'block', 
+            children: [{ _type: 'span', text: landingPage.title }],
+            style: 'normal'
+          }]
+        : undefined,
+    heroDescription: (landingPage.heroSubtitle || landingPage.shortDescription)
+      ? [{ 
+          _type: 'block', 
+          children: [{ _type: 'span', text: typeof (landingPage.heroSubtitle || landingPage.shortDescription) === 'string' 
+            ? (landingPage.heroSubtitle || landingPage.shortDescription || '')
+            : String(landingPage.heroSubtitle || landingPage.shortDescription || '') }],
+          style: 'normal'
+        }]
+      : undefined,
+    heroImage: landingPage.heroImage,
+    mainImage: landingPage.mainImage || landingPage.heroImage,
+  } : null;
+
   return (
     <div>
       <SimpleHead
@@ -39,28 +68,20 @@ export default function FeaturesPage({ features, currentLanguage, landingPage }:
         description="Discover all the powerful features that make VoiceStack the leading dental practice management solution."
       />
       <div>
-      {landingPage && (
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-                {landingPage.title}
-              </h2>
-              {landingPage.heroSubtitle && (
-                <p className="text-xl text-gray-600 text-center mb-12 max-w-3xl mx-auto">
-                  {landingPage.heroSubtitle}
-                </p>
-              )}
-              {landingPage.shortDescription && (
-                <p className="text-lg text-gray-600 text-center mb-12 max-w-4xl mx-auto">
-                  {typeof landingPage.shortDescription === 'string' ? landingPage.shortDescription : 'Feature description'}
-                </p>
-              )}
-            </div>
+        {landingPage && heroData && (
+          <div
+            className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+            style={{
+              background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
+            }}
+          >
+            <HeroSection
+              page=""
+              data={heroData}
+            />
           </div>
-        </section>
-      )}
-      <CategoryFeatureTabs features={features.filter(feature => feature.slug?.current !== 'landing')} />
+        )}
+        <CategoryFeatureTabs features={features.filter(feature => feature.slug?.current !== 'landing')} />
       </div>
     </div>
   );
