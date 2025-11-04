@@ -217,7 +217,6 @@ console.log(activeTabData)
               description={data?.subDescription}
             />
           </div>
-
           {/* Tab Navigation */}
           <SwitchableTabs
             isSticky={false}

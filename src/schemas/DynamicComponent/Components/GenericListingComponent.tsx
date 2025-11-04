@@ -131,13 +131,13 @@ export const genericListingComponentFields = [
         type: 'object',
         fields: [
           {
-            name: 'ctaLink',
-            title: 'CTA Link',
+            name: 'ctaText',
+            title: 'CTA Text',
             type: 'string',
           },
           {
-            name: 'ctaText',
-            title: 'CTA Text',
+            name: 'ctaLink',
+            title: 'CTA Link',
             type: 'string',
           },
           {
@@ -149,7 +149,24 @@ export const genericListingComponentFields = [
       },
     ],
     hidden: ({ parent }: any) => parent?.useReference === true,
-  }
+  },
+  {
+    name: 'testimonial',
+    title: 'testimonial (referenced region Based)',
+    type: 'reference',
+    to: [{ type: 'testimonialSection' }],
+    options: {
+      filter: ({ document }) => {
+        // Filter testimonials based on the current document's language
+        const currentLanguage = document?.language || 'en'
+
+        return {
+          filter: `language == "${currentLanguage}"`,
+          params: { language: currentLanguage },
+        }
+      },
+    },
+  },
 ];
 
 const GenericListingComponent = {
