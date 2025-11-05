@@ -59,7 +59,7 @@ const IntegrationCard: React.FC<IntegrationCardProps> = ({
   className = ""
 }) => {
   return (
-    <div className={`bg-[#f4f3fa] relative rounded-3xl overflow-hidden group hover:scale-105 transition-transform duration-300 ${className}`}>
+    <div className={`bg-[#f4f3fa] relative rounded-3xl overflow-hidden  ${className}`}>
       <div className="p-6 space-y-6">
         {/* Icon */}
         <div className="bg-gradient-to-b from-vs-blue to-[#191078] relative rounded-xl w-10 h-10 flex items-center justify-center">
@@ -78,10 +78,10 @@ const IntegrationCard: React.FC<IntegrationCardProps> = ({
         
         {/* Content */}
         <div className="space-y-2">
-          <h3 className="text-lg font-bold text-gray-950 font-manrope">
+          <h3 className="md:text-lg text-base font-bold text-gray-950 font-manrope">
             {name}
           </h3>
-          <p className="text-base text-[#364153] leading-6 font-geist">
+          <p className="md:text-base text-sm text-[#364153] leading-6 font-geist">
             {description}
           </p>
         </div>
@@ -111,14 +111,14 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({
     <section id={id} className={`py-16 first:pt-0 ${className}`}>
       <div className="flex items-end justify-between mb-6">
         <div className="max-w-[396px]">
-          <h2 className="text-3xl font-bold text-zinc-950 mb-4 font-manrope">
+          <h2 className="md:text-3xl text-xl font-bold text-zinc-950 mb-4 font-manrope">
             {title}
           </h2>
-          <p className="text-base text-[#364153] leading-6 font-geist">
+          <p className="md:text-base text-sm text-[#364153] leading-6 font-geist">
             {description}
           </p>
         </div>
-        <p className="text-base text-[#6a7282] font-geist">
+        <p className="md:text-base text-sm text-[#6a7282] font-geist">
           {integrationCount}
         </p>
       </div>
