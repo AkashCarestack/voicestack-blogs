@@ -348,6 +348,7 @@ class Queries {
         // Basic page information
         "title": basicInfo.title,
         "description": basicInfo.description,
+        "breadCrumb": basicInfo.breadCrumb,
         "faqData": faqReferenced[]->,
         
         // Page content sections
@@ -954,7 +955,8 @@ class Queries {
       faqData: result?.faqData || null,
       faqReferenced: result?.faqReferenced || null,
       title: result?.title || null,
-      description: result?.description || null
+      description: result?.description || null,
+      breadCrumb: result?.breadCrumb || null
     }
   }
 
