@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext, useMemo } from 'react'
+import React, { useState, useEffect, useRef, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Section from '../structure/Section'
 import Container from '../structure/Container'
@@ -10,13 +10,10 @@ import PreText from './micro/PreText'
 import AppearFeature from './AppearFeature'
 import Button from '../common/Button'
 import ButtonArrow from '../icons/ButtonArrow'
-import { FormModal } from '../common/FormModal'
 import useMediaQuery from '~/utils/mediaQuery'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 import { useRouter } from 'next/router'
 
 export default function FeatureSection({ data, refer=null }) {
-  const [openForm, setOpenForm] = useState(false)
   const testimonialIndex: number = data?.findIndex(
     (e: any) => e.testimonialSubSection != null,
   )
@@ -35,7 +32,6 @@ export default function FeatureSection({ data, refer=null }) {
   const featureRefs = useRef([])
   const isMobile: any = useMediaQuery(767);
   const imageRef = useRef(null);
-  const { isDemoPopUpShown } = useContext(BookDemoContext);
 
   const switchIndex = (percentage = 25) => {
 
@@ -125,7 +121,7 @@ export default function FeatureSection({ data, refer=null }) {
                         </span>
                       </Button>
                       ):(
-                      <Button type="primary" onClick={() => { setOpenForm(true) }}>
+                      <Button type="primary" link="/demo">
                         <ButtonArrow></ButtonArrow>
                         <span className="text-base font-medium">{`Book free demo`}</span>
                       </Button>
@@ -191,7 +187,7 @@ export default function FeatureSection({ data, refer=null }) {
                           </span>
                         </Button>
                         ):(
-                        <Button type="primary" onClick={() => { setOpenForm(true) }}>
+                        <Button type="primary" link="/demo">
                           <ButtonArrow></ButtonArrow>
                           <span className="text-base font-medium">{`Book free demo`}</span>
                         </Button>
@@ -217,7 +213,7 @@ export default function FeatureSection({ data, refer=null }) {
                           </span>
                         </Button>
                         ):(
-                        <Button type="primary" onClick={() => { setOpenForm(true) }}>
+                        <Button type="primary" link="/demo">
                           <ButtonArrow></ButtonArrow>
                           <span className="text-base font-medium">{`Book free demo`}</span>
                         </Button>
@@ -251,14 +247,6 @@ export default function FeatureSection({ data, refer=null }) {
           </div>
         </div>}
       </Container>
-      {openForm && (
-        <FormModal
-          className={`pt-9  flex items-start`}
-          onClose={() => setOpenForm(false)}
-          source1="feature"
-          data={isDemoPopUpShown}
-        />
-      )}
     </Section>
   )
 }

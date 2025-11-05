@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 
 import Button from '~/components/common/Button'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
@@ -8,13 +8,9 @@ import Section from '~/components/structure/Section'
 import SectionHeader from './sectionHeader'
 import IconBadge from './iconBadge'
 import Image from 'next/image'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
-import { FormModal } from '~/components/common/FormModal'
 import CardsList from './cardsList'
 
 export default function CardsWithTestimonial({ data }: { data: any }) {
-  const [openForm, setOpenForm] = useState(false)
-  const { isDemoPopUpShown } = useContext(BookDemoContext)
   console.log(data, 'data in cards with testimonial')
   return (
     <Section className="py-sm md:py-md lg:py-lg bg-white ">
@@ -126,9 +122,7 @@ export default function CardsWithTestimonial({ data }: { data: any }) {
                             <Button
                               type="primary"
                               className="w-fit"
-                              onClick={() => {
-                                setOpenForm(true)
-                              }}
+                              link="/demo"
                             >
                               <span>
                                 {data?.ctaListItems[0]?.ctaText ||
@@ -180,13 +174,6 @@ export default function CardsWithTestimonial({ data }: { data: any }) {
               </div>
             </div>
           </div>
-        )}
-        {openForm && (
-          <FormModal
-            className={`pt-9  flex items-start`}
-            onClose={() => setOpenForm(false)}
-            data={isDemoPopUpShown}
-          />
         )}
       </Container>
     </Section>

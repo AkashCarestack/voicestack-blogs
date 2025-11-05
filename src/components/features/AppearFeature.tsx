@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { motion, useMotionValueEvent, useScroll } from 'motion/react'
 import PreText from './micro/PreText'
 import H2 from '../typography/H2'
@@ -6,9 +6,7 @@ import Paragraph from '../typography/Paragraph'
 import Button from '../common/Button'
 import ButtonArrow from '../icons/ButtonArrow'
 import ListItem from './micro/ListItem'
-import { FormModal } from '../common/FormModal'
 import useMediaQuery from '~/utils/mediaQuery'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 import { useRouter } from 'next/router'
 
 export default function AppearFeature({
@@ -21,11 +19,9 @@ export default function AppearFeature({
   props,
 }: any) {
   const { scrollY } = useScroll()
-  const [openForm, setOpenForm] = useState(false)
   const [scrollPos, setScrollPos] = useState(0)
   const [sectionStartY, setSectionStartY] = useState(0)
   const isMobile: any = useMediaQuery(767)
-  const { isDemoPopUpShown } = useContext(BookDemoContext);
   const scrollRef = useRef(null)
   const numberOfItems = data?.testimonialSubSection?.length
   const actualScrollStart =
@@ -146,9 +142,7 @@ export default function AppearFeature({
               ):(
               <Button
                 type="primary"
-                onClick={() => {
-                  setOpenForm(true)
-                }}
+                link="/demo"
               >
                 <ButtonArrow></ButtonArrow>
                 <span className="text-base font-medium">{`Book free demo`}</span>
@@ -157,14 +151,6 @@ export default function AppearFeature({
           </div>}
         </motion.div>
       </div>
-      {openForm && (
-        <FormModal
-          className={`pt-9  flex items-start`}
-          onClose={() => setOpenForm(false)}
-          source="feature"
-          data={isDemoPopUpShown}
-        />
-      )}
     </div>
   )
 }

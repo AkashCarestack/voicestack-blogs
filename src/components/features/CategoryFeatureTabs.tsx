@@ -1,11 +1,9 @@
-import React, { useState, useContext, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion} from 'framer-motion';
 import Button from '../common/Button';
 import ButtonArrow from '../icons/ButtonArrow';
-import { FormModal } from '../common/FormModal';
-import { BookDemoContext } from '~/providers/BookDemoProvider';
 import Section from '../structure/Section';
 import Container from '../structure/Container';
 import SectionHeader from '../revamp/components/common/sectionHeader';
@@ -39,8 +37,6 @@ interface CategoryFeatureTabsProps {
 }
 
 export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsProps) {
-  const { isDemoPopUpShown } = useContext(BookDemoContext);
-  const [openForm, setOpenForm] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isUserScrolling, setIsUserScrolling] = useState(false);
   
@@ -360,7 +356,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                   <div className='flex flex-col gap-[20px] pt-[24px] border-t border-gray-200'>
                    <p className='block text-zinc-500 font-sans text-base font-normal leading-[150%] tracking-normal'>For Smarter Patient Call Management</p>
                     <div>
-                  <Button type='primary' onClick={() => setOpenForm(true)}>
+                  <Button type='primary' link="/demo">
                     <span>Book Free Demo</span>
                   </Button>
                   </div>
@@ -603,14 +599,6 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
           })()}
         </section>
         </Container>
-        
-        {openForm && (
-          <FormModal
-            className={`pt-9 flex items-start`}
-            onClose={() => setOpenForm(false)}
-            data={isDemoPopUpShown}
-          />
-        )}
       </Section>
     );
 }

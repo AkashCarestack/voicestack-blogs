@@ -1,12 +1,10 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback, useMemo, useContext } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { urlForImage } from '~/lib/sanity.image'
 import { projectId, dataset } from '~/lib/sanity.api'
 import Container from './structure/Container'
 import Button from './common/Button'
-import { FormModal } from './common/FormModal'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 import SwitchableTabs from './revamp/components/common/switchableTabs'
 
 
@@ -184,8 +182,6 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
   const activeCategoryRef = useRef<string>('')
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const [openForm, setOpenForm] = useState(false) 
-  const { isDemoPopUpShown } = useContext(BookDemoContext);
   // Set first category as active when categories are loaded
   useEffect(() => {
     if (categories && categories.length > 0 && !activeSection) {
@@ -442,7 +438,7 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
               <p className="text-base text-[#71717b] mb-5 font-geist">
                 For Smarter Patient Call Management
               </p>
-              <Button type='primary' className='w-full' onClick={() => {setOpenForm(true)}}>
+              <Button type='primary' className='w-full' link="/demo">
                 <span>Book Free Demo</span>
               </Button>
             </div>
@@ -462,13 +458,6 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
           </div>
         </div>
       </Container>
-      {openForm && (
-        <FormModal
-          className={`pt-9  flex items-start`}
-          onClose={() => setOpenForm(false)}
-          data={isDemoPopUpShown}
-        />
-      )}
     </section>
   )
 }

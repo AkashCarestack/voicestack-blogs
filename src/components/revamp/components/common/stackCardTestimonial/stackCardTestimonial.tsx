@@ -1,11 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import Button from '~/components/common/Button'
 import SectionHeader from '../sectionHeader'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
-import { FormModal } from '~/components/common/FormModal'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 import { PortableText } from '@portabletext/react'
 import SwitchableTabs from '../switchableTabs'
 
@@ -62,9 +60,6 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
     },
   }
   const [isOpen, setIsOpen] = useState(false)
-  const [openForm, setOpenForm] = useState(false)
-  const { isDemoPopUpShown, setIsDemoPopUpShown } = useContext(BookDemoContext)
-
   const [activeTestimonial, setActiveTestimonial] = useState(0)
 
   const currentTestimonial = data?.tabs[activeTestimonial]
@@ -234,9 +229,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                   <Button
                     type="primary"
                     className="w-fit"
-                    onClick={() => {
-                      setOpenForm(true)
-                    }}
+                    link="/demo"
                   >
                     <span>
                       {currentTestimonial?.ctaListItems[0]?.ctaText ||
@@ -252,13 +245,6 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
             </div>
           </div>
         </div>
-        {openForm && (
-          <FormModal
-            className={`pt-9  flex items-start`}
-            onClose={() => setOpenForm(false)}
-            data={isDemoPopUpShown}
-          />
-        )}
       </Container>
     </Section>
   )

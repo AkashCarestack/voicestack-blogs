@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import Section from './structure/Section'
 import Container from './structure/Container';
 import SingleSiteIcon from './icons/SingleSiteIcon';
@@ -10,16 +10,12 @@ import Image from 'next/image';
 import PreText from './features/micro/PreText';
 import H2 from './typography/H2';
 import Paragraph from './typography/Paragraph';
-import { BookDemoContext } from '~/providers/BookDemoProvider';
-import { FormModal } from './common/FormModal';
 import Button from './common/Button';
 import ButtonArrow from './icons/ButtonArrow';
 
 const CsCardsListingSection = ({data, refer=null}) => {
 
   const router = useRouter();
-  const [openForm, setOpenForm] = useState(false);
-  const { isDemoPopUpShown } = useContext(BookDemoContext);
   const cardsListing = data?.cardItems;
 
   
@@ -75,20 +71,13 @@ const CsCardsListingSection = ({data, refer=null}) => {
                   </span>
                 </Button>
                 ):(
-                <Button type="primary" onClick={() => { setOpenForm(true) }}>
+                <Button type="primary" link="/demo">
                   <ButtonArrow></ButtonArrow>
                   <span className="text-base font-medium">{`Book free demo`}</span>
                 </Button>
               )}
             </div>
           </div>
-          {openForm && (
-            <FormModal
-              className={`pt-9  flex items-start`}
-              onClose={() => setOpenForm(false)}
-              data={isDemoPopUpShown}
-            />
-          )}
         </Container>
       </Section>
     )

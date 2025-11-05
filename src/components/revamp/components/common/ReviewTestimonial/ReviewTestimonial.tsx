@@ -1,12 +1,11 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import Container from '~/components/structure/Container'
 import SectionHeader from '../sectionHeader'
 import Button from '~/components/common/Button'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import Image from 'next/image'
 import { VideoModal } from '~/components/common/VideoModal'
-import { FormModal } from '~/components/common/FormModal'
 import Section from '~/components/structure/Section'
 import { PortableText } from '@portabletext/react'
 
@@ -27,8 +26,7 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
   }
   const [isOpen, setIsOpen] = useState(false)
   const [openModal, setOpenModal] = useState<number>()
-  const [openForm, setOpenForm] = useState(false)
-  const { isDemoPopUpShown } = useContext(BookDemoContext)
+  const router = useRouter()
   function openCurrentModal(index: number) {
     setIsOpen(() => true)
     setOpenModal(() => index)
@@ -132,7 +130,7 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
                               isPopup={true}
                               className={`pt-9 z-30 flex items-start`}
                               onClose={() => setIsOpen(false)}
-                              openForm={() => setOpenForm(true)}
+                              openForm={() => router.push('/demo')}
                               hasDemoBanner={true}
                             />
                           )}
@@ -174,9 +172,7 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
                 <Button
                   type="primary"
                   className="w-fit"
-                  onClick={() => {
-                    setOpenForm(true)
-                  }}
+                  link="/demo"
                 >
                   <span>
                     {data?.bookBtnContent[0]?.buttonText || 'Book Free Demo'}
@@ -191,13 +187,6 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
             </div>
           )}
         </div>
-        {openForm && (
-          <FormModal
-            className={`pt-9  flex items-start`}
-            onClose={() => setOpenForm(false)}
-            data={isDemoPopUpShown}
-          />
-        )}
       </Container>
     </Section>
   )

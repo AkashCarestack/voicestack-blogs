@@ -1,30 +1,26 @@
 import { isEmpty } from 'lodash'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { PortableText } from '@portabletext/react'
 
 import Button from '~/components/common/Button'
-import { FormModal } from '~/components/common/FormModal'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import { VideoItem, VideoModal } from '~/components/common/VideoModal'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 
 import IconBadge from '../iconBadge'
 import SectionHeader from '../sectionHeader'
 import SwitchableTabs from '../switchableTabs'
 
 export default function Testimonials({ data, refer = null }) {
-  const [openForm, setOpenForm] = useState(false)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
 
   const [isOpen, setIsOpen] = useState(false)
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null)
   const [stickyStates, setStickyStates] = useState<boolean[]>([]) // Tracks if each card is sticky
   const [activeTab, setActiveTab] = useState<string>(data?.tabs[0]?.tabHeading)
-  const { isDemoPopUpShown } = useContext(BookDemoContext)
   const router = useRouter()
   const handleOpenVideo = (video: VideoItem) => {
     setSelectedVideo(video)
@@ -141,9 +137,7 @@ console.log(activeTabData)
 
             <Button
             type="primary"
-            onClick={() => {
-              setOpenForm(true)
-            }}
+            link="/demo"
             className='w-fit'
           >
             <span className="text-base font-medium">{`Book Free Demo`}</span>
@@ -281,15 +275,8 @@ console.log(activeTabData)
             videoDetails={selectedVideo}
             className={`pt-9 z-30 flex items-start`}
             onClose={() => setIsOpen(false)}
-            openForm={() => setOpenForm(true)}
+            openForm={() => router.push('/demo')}
             hasDemoBanner={true}
-          />
-        )}
-        {openForm && (
-          <FormModal
-            className={`pt-9  flex items-start`}
-            onClose={() => setOpenForm(false)}
-            data={isDemoPopUpShown}
           />
         )}
       </Container>

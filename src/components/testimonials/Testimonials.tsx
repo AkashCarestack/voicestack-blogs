@@ -1,11 +1,8 @@
 import { isEmpty } from 'lodash'
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useRef, useState } from 'react'
-
-import { BookDemoContext } from '~/providers/BookDemoProvider'
+import React, { useEffect, useRef, useState } from 'react'
 
 import Button from '../common/Button'
-import { FormModal } from '../common/FormModal'
 import TestimonialCard from '../common/TestimonialCard'
 import { VideoItem, VideoModal } from '../common/VideoModal'
 import ButtonArrow from '../icons/ButtonArrow'
@@ -15,12 +12,10 @@ import H2 from '../typography/H2'
 import Paragraph from '../typography/Paragraph'
 
 export default function Testimonials({ data, refer = null }) {
-  const [openForm, setOpenForm] = useState(false)
   const cardRefs = useRef<(HTMLDivElement | null)[]>([])
   const [isOpen, setIsOpen] = useState(false)
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null)
   const [stickyStates, setStickyStates] = useState<boolean[]>([]) // Tracks if each card is sticky
-  const { isDemoPopUpShown } = useContext(BookDemoContext)
   const router = useRouter()
 
   const handleOpenVideo = (video: VideoItem) => {
@@ -132,15 +127,8 @@ export default function Testimonials({ data, refer = null }) {
             videoDetails={selectedVideo}
             className={`pt-9 z-30 flex items-start`}
             onClose={() => setIsOpen(false)}
-            openForm={() => setOpenForm(true)}
+            openForm={() => router.push('/demo')}
             hasDemoBanner={true}
-          />
-        )}
-        {openForm && (
-          <FormModal
-            className={`pt-9  flex items-start`}
-            onClose={() => setOpenForm(false)}
-            data={isDemoPopUpShown}
           />
         )}
       </Container>

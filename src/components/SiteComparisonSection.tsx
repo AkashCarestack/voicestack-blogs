@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Section from './structure/Section'
 import Container from './structure/Container'
 import Button from './common/Button'
-import { FormModal } from './common/FormModal'
 import { useRouter } from 'next/router'
 import LegendSection from './common/LegendSection'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 import ComparisonTable from './ComparisonTable'
 import SectionHeader from './revamp/components/common/sectionHeader'
 
@@ -13,9 +11,6 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const { isDemoPopUpShown } = useContext(BookDemoContext);
-  
-  const [openForm, setOpenForm] = useState(false);
   
   const [hideTable, setHideTable] = useState(false);
   const router = useRouter();
@@ -105,21 +100,13 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
           </div>
          
           <div className='flex gap-4 items-center'>
-              <Button type="primary" onClick={() => { setOpenForm(true) }}>
+              <Button type="primary" link="/demo">
                 {/* <ButtonArrow></ButtonArrow> */}
                 <span className="">{`Book free demo`}</span>
               </Button>
              
             </div>
         </Container>
-          {/*  */}
-          {openForm && (
-            <FormModal
-              data={isDemoPopUpShown}
-              className={`pt-9 flex items-start`}
-              onClose={() => setOpenForm(false)}
-            />
-          )}
       </Section>
     )
 

@@ -1,13 +1,11 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick'
 
 import getTextByReferrer from '~/helpers/getTextByReferrer'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 
 import Button from './common/Button'
-import { FormModal } from './common/FormModal'
 import ImageLoader from './common/imageLoader/imageLoader'
 import { VideoItem, VideoModal } from './common/VideoModal'
 import ButtonArrow from './icons/ButtonArrow'
@@ -23,7 +21,6 @@ import { setImage } from '~/helpers/starRating'
 
 
 const LogoListingSection = ({ data, refer = null, header = false }) => {
-  const [openForm, setOpenForm] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
 
   const [isUk, setIsUk] = useState(false)
@@ -32,7 +29,6 @@ const LogoListingSection = ({ data, refer = null, header = false }) => {
   useEffect(() => {
     setIsUk(router.locale == 'en-GB')
   }, [router.locale])
-  const { isDemoPopUpShown } = useContext(BookDemoContext)
 
   const [isOpen, setIsOpen] = useState(false)
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null)
@@ -102,13 +98,6 @@ const LogoListingSection = ({ data, refer = null, header = false }) => {
             )}
           </div> */}
         </div>
-        {openForm && (
-          <FormModal
-            className={`pt-9  flex items-start`}
-            onClose={() => setOpenForm(false)}
-            data={isDemoPopUpShown}
-          />
-        )}
       </Container>
       {isOpen && (
         <VideoModal
@@ -118,7 +107,7 @@ const LogoListingSection = ({ data, refer = null, header = false }) => {
           className={`pt-9 z-30 flex items-start`}
           onClose={() => setIsOpen(false)}
           hasDemoBanner={true}
-          openForm={() => setOpenForm(true)}
+          openForm={() => router.push('/demo')}
         />
       )}
     </Section>
