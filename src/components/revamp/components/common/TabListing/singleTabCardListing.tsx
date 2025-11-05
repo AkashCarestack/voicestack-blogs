@@ -15,6 +15,7 @@ export default function SingleTabCardListing({ data }: { data: any }) {
         <Container className='flex flex-col items-center'>
             <SectionHeader
                 heading={data?.headline}
+                description={data?.subDescription}
             />
             <SwitchableTabs
                 data={data?.tabs && Array.isArray(data.tabs) ? data.tabs.map((e:any)=>{return {key:e._key, heading:e.tabHeading, title:e.tabHeading}}) : []}
@@ -33,7 +34,7 @@ export default function SingleTabCardListing({ data }: { data: any }) {
                                     <div className='xl:w-[596px] w-full  bg-[#EEEDFF] flex-shrink-0 rounded-[12px] overflow-hidden relative'>
                                         {ele?.image && (
                                             <Image 
-                                                className='object-contain rounded-[12px]' 
+                                                className='object-cover rounded-[12px]' 
                                                 src={urlForImage(ele.image)} 
                                                 width={596} 
                                                 height={427} 
