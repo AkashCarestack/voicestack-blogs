@@ -34,10 +34,10 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
             }
           />
         )}
+      </div>
         {pageData['review-testimonial']?.componentData && (
           <ReviewTestimonial data={pageData['review-testimonial']?.componentData} />
         )}
-      </div>
     </>
   )
 }
