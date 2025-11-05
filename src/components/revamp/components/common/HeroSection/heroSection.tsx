@@ -200,21 +200,20 @@ const HeroSection = ({
       <Container className={isCentered ? ' justify-center' : 'py-12'}>
         {isCentered ? (
           <div className="flex flex-col items-center text-center max-w-[606px] gap-3  lg:pt-20">
-            <span className="text-base font-medium text-gray-950 uppercase">
+            <h1 className="text-base font-medium text-gray-950 ">
               {data?.heroStrip}
-            </span>
-            <h1 className="text-3xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
-              <PortableText value={data?.heroheading} components={components} />
             </h1>
+            <h2 className="text-3xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
+              <PortableText value={data?.heroheading} components={components} />
+            </h2>
             <PortableText
               value={data?.heroDescription}
               components={descriptionComponents}
             />
-               {data?.bookBtnContent && (
-                <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
-                 
-                  {data?.bookBtnContent[0]?.buttonText && (
-                    <Button
+            {data?.bookBtnContent && (
+              <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
+                {data?.bookBtnContent[0]?.buttonText && (
+                  <Button
                     type="primary"
                     className="w-fit"
                     onClick={() => {
@@ -225,14 +224,14 @@ const HeroSection = ({
                       {data?.bookBtnContent[0]?.buttonText || 'Book Free Demo'}
                     </span>
                   </Button>
-                  )}
-                  {data?.bookBtnContent[1]?.buttonText && (
-                    <Button type="secondary" className="w-fit">
-                      {data?.bookBtnContent[1]?.buttonText || 'See Pricing'}
-                    </Button>
-                  )}
-                </div>
-              )}
+                )}
+                {data?.bookBtnContent[1]?.buttonText && (
+                  <Button type="secondary" className="w-fit">
+                    {data?.bookBtnContent[1]?.buttonText || 'See Pricing'}
+                  </Button>
+                )}
+              </div>
+            )}
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row justify-between lg:gap-24 gap-12 items-center">
@@ -242,7 +241,7 @@ const HeroSection = ({
               {page === 'home' ? (
                 <div className="flex w-fit mx-auto lg:mx-0 text-center md:text-left items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
                   <SuperChargeIcon />
-                  <h1 className="text-sm font-medium text-gray-950">
+                  <h1 className="text-sm font-medium text-gray-950 ">
                     {data?.heroStrip}
                   </h1>
                 </div>
