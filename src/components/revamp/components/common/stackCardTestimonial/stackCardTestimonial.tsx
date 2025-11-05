@@ -68,7 +68,6 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   const [activeTestimonial, setActiveTestimonial] = useState(0)
 
   const currentTestimonial = data?.tabs[activeTestimonial]
-  console.log('currentTestimonial', data)
   return (
     <Section className="relative py-sm md:py-md  bg-[#F9F9F9]">
       <Container className="w-full justify-center">

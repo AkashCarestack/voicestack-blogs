@@ -31,14 +31,14 @@ const HeroSection = ({
   const [activeIndex, setActiveIndex] = useState(0)
   const [wordIndex, setWordIndex] = useState(0)
   const searchParams = useSearchParams()
-  const source2 = searchParams.get('source') // Get 'source' param from URL
+  const source2 = searchParams.get('source')
 
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className="text-3xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope text-gray-950">
+        <span className="text-3xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope text-gray-950">
           {children}
-        </p>
+        </span>
       ),
     },
     marks: {
@@ -236,26 +236,26 @@ const HeroSection = ({
               {page === 'home' ? (
                 <div className="flex w-fit mx-auto lg:mx-0 text-center md:text-left items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
                   <SuperChargeIcon />
-                  <span className="text-sm font-medium text-gray-950">
+                  <h1 className="text-sm font-medium text-gray-950">
                     {data?.heroStrip}
-                  </span>
+                  </h1>
                 </div>
               ) : (
                 <div className="text-center lg:text-left">
-                  <span className="text-base font-medium text-gray-950 uppercase">
+                  <h1 className="text-base font-medium text-gray-950">
                     {data?.heroStrip}
-                  </span>
+                  </h1>
                 </div>
               )}
 
               {/* Main Headline */}
               <div className="space-y-4 text-center lg:text-left">
-                <h1 className="text-3xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
+                <h2 className="text-3xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
                   <PortableText
                     value={data?.heroheading}
                     components={components}
                   />
-                </h1>
+                </h2>
               </div>
 
               {/* Description */}
