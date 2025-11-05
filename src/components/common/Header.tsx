@@ -10,11 +10,9 @@ import Image from 'next/image';
 import ButtonArrow from '../icons/ButtonArrow';
 import Button from './Button';
 import TelIcon from '../icons/TelIcon';
-import { FormModal } from './FormModal';
 import ChevronUp from '../icons/ChevronDown';
 import Script from 'next/script';
 import useMediaQuery from '~/utils/mediaQuery';
-import { BookDemoContext } from '~/providers/BookDemoProvider';
 import { eraseCookie, getCookie, setCookie } from '~/utils/cookie';
 import Dropdown from './Dropdown';
 import Head from 'next/head';
@@ -29,11 +27,9 @@ const Header = ({ data, refer=null }) => {
 
   const [showMenu, setShowMenu] = useState(false);
   const [headerFixed, setHeaderFixed] = useState(false);
-  const [openForm, setOpenForm] = useState(false);
   const [restrictTopSwitcher, setRestrictTopSwitcher] = useState(false);
   const [openSwitcher, setOpenSwitcher] = useState(false);
   const [currentLocale, setCurrentLocale] = useState(null);
-  const { isDemoPopUpShown } = useContext(BookDemoContext);
   const [countryCode, setCountryCode] = useState<any>();
   const [regionSwitcher, setRegionSwitcher] = useState(false);
   const [regionSwitcherTop, setRegionSwitcherTop] = useState(false);
@@ -264,7 +260,7 @@ const Header = ({ data, refer=null }) => {
   },[router])
 
   const openDemoPopup = () => {
-    setOpenForm(true);
+    router.push('/demo');
   }
 
   useEffect(() => {
@@ -561,7 +557,7 @@ const Header = ({ data, refer=null }) => {
                             border border-gray-300'><TelIcon className="text-white"/>{safeData?.phoneNumber}</Anchor>
                           </div>
                         )}
-                        <Button type='primary'  onClick={() => {setOpenForm(true)}}>
+                        <Button type='primary' link="/demo">
                           <span>{safeData?.ctabutton}</span>
                         </Button>
                       </div>
@@ -603,7 +599,7 @@ const Header = ({ data, refer=null }) => {
                   </div>
 
                   <div className='lg:flex gap-3 items-center lg:justify-end hidden'>
-                    <Button type='primary' onClick={() => {setOpenForm(true)}}>
+                    <Button type='primary' link="/demo">
                       {/* <ButtonArrow></ButtonArrow> */}
                       <span className="text-sm font-medium">{`Book Free Demo`}</span>
                     </Button>
@@ -611,7 +607,7 @@ const Header = ({ data, refer=null }) => {
                   <div className='flex gap-4 items-center lg:hidden'>
                     <div className={`${isMobile  && headerFixed ? 'block': 'hidden'}`}>
                    
-                      <Button type="primary"  className="w-fit" onClick={() => { setOpenForm(true) }}>
+                      <Button type="primary"  className="w-fit" link="/demo">
                         <span className="text-sm font-medium">{`Book Free Demo`}</span>
                         
                       </Button>
@@ -632,13 +628,6 @@ const Header = ({ data, refer=null }) => {
           </div>
         </header>
       </div>
-      {openForm && (
-        <FormModal
-          className={`pt-9  flex items-start`}
-          onClose={() => setOpenForm(false)}
-          data={isDemoPopUpShown}
-        />
-      )}
     </>
 
   );

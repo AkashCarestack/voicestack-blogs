@@ -73,18 +73,6 @@ const config = {
         destination: '/en-GB?lead_source=FMC&utm_medium=digital',
         permanent: false,
       },
-      {
-        source: '/demo',
-        destination: 'https://share.hsforms.com/1Ki7rdqhxR4S3koEnfmCMQA2vkpl',
-        permanent: false,
-        has: [
-          {
-            type: 'query',
-            key: 'region',
-            value: 'en-AU',
-          },
-        ],
-      },
       
     ]
   },
