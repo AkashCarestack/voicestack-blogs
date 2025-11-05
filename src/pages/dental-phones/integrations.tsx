@@ -6,6 +6,7 @@ import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavig
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -116,12 +117,13 @@ export default function DentalPhonesIntegrations({
   return (
     <>
       <div
-        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+        className="py-12"
         style={{
           background:
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
         }}
       >
+        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         <HeroSection
           page=""
           data={pageData['dental-phones-hero']?.componentData}

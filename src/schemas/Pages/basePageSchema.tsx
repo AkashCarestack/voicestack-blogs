@@ -51,6 +51,12 @@ export const createBasePageSchema = (name: string, title: string) => ({
             hotspot: true,
           },
         },
+        {
+          name: 'breadCrumb',
+          title: 'Breadcrumb Override',
+          type: 'string',
+          description: 'Optional comma-separated breadcrumb items (e.g., "Who We Serve, Groups & DSOs"). If empty, breadcrumb will be generated from URL.',
+        },
       ],
     },
     {

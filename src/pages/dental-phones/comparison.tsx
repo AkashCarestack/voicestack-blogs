@@ -10,6 +10,7 @@ import ComparisonCardsSection from '~/components/revamp/components/ComparisonCar
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import { getAllComparisonValues, getComparisonTableData } from '~/lib/sanity.queries'
 import { getClient } from '~/lib/sanity.client'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -53,14 +54,10 @@ export default function ComparisonPage({
 
   return (
     <>
-      <div
-        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
+      <div className="py-12"
+        style={{background:'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'}}
       >
-
+        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         {pageData['comparison-hero']?.componentData && (
           <HeroSection
             page=""

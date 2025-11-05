@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import ReviewTestimonial from '~/components/revamp/components/common/ReviewTestimonial/ReviewTestimonial'
@@ -15,12 +16,13 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
   return (
     <>
       <div
-        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+        className="py-12"
         style={{
           background:
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
         }}
       >
+        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         <HeroSection
           page=""
           data={pageData['dental-phones-hero']?.componentData}
