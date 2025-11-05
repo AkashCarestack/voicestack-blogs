@@ -41,6 +41,7 @@ export default function CustomerStories({ pageData }: any) {
               pageData['testimonial-video-section']?.componentData?.refData
                 ?.testimonialListing
             }
+            hideTitle={true}
           />
         )}
       </div>

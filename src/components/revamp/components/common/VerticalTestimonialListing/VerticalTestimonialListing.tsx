@@ -88,7 +88,7 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
   )
 }
 
-const VerticalTestimonialListing = ({ data, refer = null }) => {
+const VerticalTestimonialListing = ({ data, refer = null, hideTitle = false }) => {
   const [openForm, setOpenForm] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isUk, setIsUk] = useState(false)
@@ -308,7 +308,7 @@ const VerticalTestimonialListing = ({ data, refer = null }) => {
   return (
     <div className="py-12 px-4 md:px-12 md:pt-[130px] md:pb-24 ">
       <div className="flex flex-col items-center w-full gap-16 max-w-[1728px] mx-auto">
-        {data?.hideTitle && (
+        {!hideTitle && (
         <SectionHeader
             heading={data?.title}
             description={data?.description}
