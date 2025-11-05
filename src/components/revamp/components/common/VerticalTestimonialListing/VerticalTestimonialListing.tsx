@@ -1,12 +1,10 @@
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Slider from 'react-slick'
 
 import Button from '~/components/common/Button'
-import { FormModal } from '~/components/common/FormModal'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import { VideoItem, VideoModal } from '~/components/common/VideoModal'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 
 import SectionHeader from '../sectionHeader'
 import Image from 'next/image'
@@ -89,7 +87,6 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
 }
 
 const VerticalTestimonialListing = ({ data, refer = null, hideTitle = false }) => {
-  const [openForm, setOpenForm] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isUk, setIsUk] = useState(false)
   const [slidesToShow, setSlidesToShow] = useState(5) // Default to 5 slides
@@ -99,7 +96,6 @@ const VerticalTestimonialListing = ({ data, refer = null, hideTitle = false }) =
   useEffect(() => {
     setIsUk(router.locale == 'en-GB')
   }, [router.locale])
-  const { isDemoPopUpShown } = useContext(BookDemoContext)
 
   const [isOpen, setIsOpen] = useState(false)
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null)
@@ -514,22 +510,13 @@ const VerticalTestimonialListing = ({ data, refer = null, hideTitle = false }) =
         <div className="flex gap-4 items-center justify-center">
           <Button
             type="primary"
-            onClick={() => {
-              setOpenForm(true)
-            }}
+            link="/demo"
           >
             <span className="text-base font-medium">{`Book Free Demo`}</span>
           </Button>
         </div>
 
         {/* Modals */}
-        {openForm && (
-          <FormModal
-            className={`pt-9 flex items-start`}
-            onClose={() => setOpenForm(false)}
-            data={isDemoPopUpShown}
-          />
-        )}
         {isOpen && (
           <VideoModal
             refer={refer}
@@ -538,7 +525,7 @@ const VerticalTestimonialListing = ({ data, refer = null, hideTitle = false }) =
             className={`pt-9 z-30 flex items-start`}
             onClose={() => setIsOpen(false)}
             hasDemoBanner={true}
-            openForm={() => setOpenForm(true)}
+            openForm={() => router.push('/demo')}
           />
         )}
       </div>

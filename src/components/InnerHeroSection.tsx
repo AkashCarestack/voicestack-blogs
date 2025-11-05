@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, {  } from 'react'
 import Section from './structure/Section'
 import Container from './structure/Container'
 import dynamic from 'next/dynamic'
@@ -13,14 +13,10 @@ import H1 from './typography/H1'
 import { PortableText } from '@portabletext/react'
 import Button from './common/Button'
 import ButtonArrow from './icons/ButtonArrow'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
-import { FormModal } from './common/FormModal'
 import themeData from '~/migrations/theme.json'
 import Breadcrumb from './utils/breadCrumb'
 
 const InnerHeroSection = ({ data }) => {
-  const { isDemoPopUpShown } = useContext(BookDemoContext)
-  const [openForm, setOpenForm] = useState(false)
 	const heroTheme = data.heroTheme;
 	const selectedTheme = themeData.featureHero.find(item => item.theme === heroTheme);
   if (!data) return null
@@ -52,9 +48,7 @@ const InnerHeroSection = ({ data }) => {
               </div>
               <Button
                 type="primary"
-                onClick={() => {
-                  setOpenForm(true)
-                }}
+                link="/demo"
               >
                 <ButtonArrow></ButtonArrow>
                 <span className="text-base font-medium">{`Book free demo`}</span>
@@ -71,13 +65,6 @@ const InnerHeroSection = ({ data }) => {
             </div>
           </div>
 
-          {openForm && (
-            <FormModal
-              className={`pt-9  flex items-start`}
-              onClose={() => setOpenForm(false)}
-              data={isDemoPopUpShown}
-            />
-          )}
         </Container>
       </Section>
     </div>

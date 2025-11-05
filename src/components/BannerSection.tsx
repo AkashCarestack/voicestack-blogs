@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Section from './structure/Section'
 import Container from './structure/Container'
 import Wave from 'public/assets/wave.svg'
@@ -8,9 +8,7 @@ import ButtonArrow from './icons/ButtonArrow'
 import { PlayIcon } from 'lucide-react'
 import { VideoItem, VideoModal } from './common/VideoModal'
 import Image from 'next/image'
-import { FormModal } from './common/FormModal'
 import VideoPlayIconWhite from './icons/VideoPlayIconWhite'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 import contacts from '~/migrations/contact.json'
 import { useRouter } from 'next/router'
 
@@ -18,7 +16,6 @@ import TelIcon from '~/components/icons/TelIcon';
 import MailIcon from '~/components/icons/MailIcon';
 
 const BannerSection = ({data, refer=null, cta=false}) => {
-  const { isDemoPopUpShown } = useContext(BookDemoContext);
   const [isOpen, setIsOpen] = useState(false);
   // const contactData = contacts;
   const router = useRouter();
@@ -36,8 +33,6 @@ const BannerSection = ({data, refer=null, cta=false}) => {
   }, [router.locale]);
 
   
-  
-  const [openForm, setOpenForm] = useState(false)
   const videoId = router.locale == "en" ? "3CsThXKvcvRrR3hwRsWWJY" : "Hj4GYLXARVjqQEnaejq3Bz";
   const overviewVideo:VideoItem = {
     videoPlatform: 'vidyard',
@@ -66,7 +61,7 @@ const BannerSection = ({data, refer=null, cta=false}) => {
             {cta ? (
 
               <div className='flex gap-4 items-center flex-col md:flex-row relative z-[1]'>
-                <Button type='primary'   onClick={() => {setOpenForm(true)}}>
+                <Button type='primary' link="/demo">
                   <ButtonArrow></ButtonArrow>
                   <span className="text-base font-medium">{`Book free demo`}</span>
                 </Button>
@@ -129,18 +124,11 @@ const BannerSection = ({data, refer=null, cta=false}) => {
             videoDetails={overviewVideo}
             className={`pt-9 flex items-start`}
             onClose={() => setIsOpen(false)}
-            openForm ={() => setOpenForm(true)}
+            openForm={() => router.push('/demo')}
             hasDemoBanner = {true}
           />
         )}
       </div>
-        {openForm && (
-          <FormModal
-            data={isDemoPopUpShown}
-            className={`pt-9  flex items-start`}
-            onClose={() => setOpenForm(false)}
-          />
-        )}
     </Section>
   )
 }

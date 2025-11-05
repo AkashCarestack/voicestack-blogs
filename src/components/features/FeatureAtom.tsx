@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  } from 'react';
 import Section from '../structure/Section';
 import Container from '../structure/Container';
 import SanityPortableText from '../blockEditor/sanityBlockEditor';
@@ -7,15 +7,11 @@ import H3 from '../typography/H3';
 import Image from 'next/image';
 import Button from '../common/Button';
 import ButtonArrow from '../icons/ButtonArrow';
-import { FormModal } from '../common/FormModal';
-import { BookDemoContext } from '~/providers/BookDemoProvider';
 
 
 
 const FeatureAtom = ({ data, index }) => {
 	
-	const { isDemoPopUpShown } = useContext(BookDemoContext);
-	const [openForm, setOpenForm] = useState(false)
 	if(!data) return null
 	return (
 		<Section id="about-us-section" className={`md:py-12 py-6 ${index % 2 === 0 ? 'md:pb-0' : 'md:py-24' } last:pb-0  `}>
@@ -69,7 +65,7 @@ const FeatureAtom = ({ data, index }) => {
 						}
 						<div className='md:mt-8 mt-6'>
 
-						<Button type='primary'   onClick={() => {setOpenForm(true)}}>
+						<Button type='primary' link="/demo">
 							<ButtonArrow></ButtonArrow>
 							<span className="text-base font-medium">{`Book free demo`}</span>
 						</Button>
@@ -77,13 +73,6 @@ const FeatureAtom = ({ data, index }) => {
 
 					</div>
 				</div>
-						{openForm && (
-							<FormModal
-								className={`pt-9  flex items-start`}
-								onClose={() => setOpenForm(false)}
-								data={isDemoPopUpShown}
-							/>
-						)}
 			</Container>
 		</Section>
 	);

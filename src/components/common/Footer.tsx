@@ -3,19 +3,15 @@ import Section from '../structure/Section'
 import Image from 'next/image'
 import VoicestackLogo from 'public/assets/voicestack-logo-sm.svg';
 import { useRouter } from 'next/router'
-import { useEffect, useState, useContext } from 'react'
+import { useEffect, useState } from 'react'
 import Anchor from './anchor'
 import MacIcon from '../../../public/assets/reactive/macIcon';
 import PlayIcon from '../../../public/assets/reactive/playIcon';
 import Button from './Button';
-import { FormModal } from './FormModal';
-import { BookDemoContext } from '~/providers/BookDemoProvider';
 
 const Footer = ({data}) => {
   const CopyrightYear = new Date().getFullYear();
   const router = useRouter();
-  const { isDemoPopUpShown } = useContext(BookDemoContext);
-  const [openForm, setOpenForm] = useState(false);
 
   // Add fallback data if data is null
   const safeData = data || {
@@ -67,7 +63,7 @@ const Footer = ({data}) => {
                 {data.ctaBanner.title}
               </h3>
               {data.ctaBanner.buttonText && (
-                <Button type='primary' onClick={() => {setOpenForm(true)}}>
+                <Button type='primary' link="/demo">
                   <span>{data.ctaBanner.buttonText}</span>
                 </Button>
               )}
@@ -333,13 +329,6 @@ const Footer = ({data}) => {
           </div>
         </div>
       </Container>
-      {openForm && (
-        <FormModal
-          className={`pt-9 flex items-start`}
-          onClose={() => setOpenForm(false)}
-          data={isDemoPopUpShown}
-        />
-      )}
     </Section>
   )
 }

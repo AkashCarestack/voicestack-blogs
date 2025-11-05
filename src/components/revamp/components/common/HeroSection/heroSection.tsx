@@ -1,13 +1,11 @@
 import { PortableText } from '@portabletext/react'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
-import { FormModal } from '~/components/common/FormModal'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import VideoPlayers from '~/components/common/VideoPlayer'
 import SuperChargeIcon from '~/components/icons/superCharge'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 
 import Button from '../../../../common/Button'
 import { VideoItem } from '../../../../common/VideoModal'
@@ -21,7 +19,6 @@ const HeroSection = ({
   isCentered = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
-  const [openForm, setOpenForm] = useState(false)
   const router = useRouter()
   const videoId =
     router.locale == 'en' ? '3CsThXKvcvRrR3hwRsWWJY' : 'Hj4GYLXARVjqQEnaejq3Bz'
@@ -92,7 +89,6 @@ const HeroSection = ({
       ),
     },
   }
-  const { isDemoPopUpShown, setIsDemoPopUpShown } = useContext(BookDemoContext)
 
   useEffect(() => {
     const script = document.createElement('script')
@@ -216,9 +212,7 @@ const HeroSection = ({
                   <Button
                     type="primary"
                     className="w-fit"
-                    onClick={() => {
-                      setOpenForm(true)
-                    }}
+                    link="/demo"
                   >
                     <span>
                       {data?.bookBtnContent[0]?.buttonText || 'Book Free Demo'}
@@ -274,9 +268,7 @@ const HeroSection = ({
                   <Button
                     type="primary"
                     className="w-fit"
-                    onClick={() => {
-                      setOpenForm(true)
-                    }}
+                    link="/demo"
                   >
                     <span>
                       {data?.bookBtnContent[0]?.buttonText || 'Book Free Demo'}
@@ -479,13 +471,6 @@ const HeroSection = ({
           </div>
         )}
 
-        {openForm && (
-          <FormModal
-            className={`pt-9  flex items-start`}
-            onClose={() => setOpenForm(false)}
-            data={isDemoPopUpShown}
-          />
-        )}
       </Container>
     </section>
   )

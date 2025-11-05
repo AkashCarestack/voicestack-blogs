@@ -1,15 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React from 'react'
 import Button from '~/components/common/Button'
-import { FormModal } from '~/components/common/FormModal'
 import Container from '~/components/structure/Container'
-import { BookDemoContext } from '~/providers/BookDemoProvider'
 import SectionHeader from './common/sectionHeader'
 import Image from 'next/image'
 import WorldMap from 'public/assets/world-map.png'
 
 const StatisticsSection = () => {
-  const [openForm, setOpenForm] = useState(false)
-  const { isDemoPopUpShown } = useContext(BookDemoContext);
   const statistics = [
     {
       value: "1500+",
@@ -64,9 +60,7 @@ const StatisticsSection = () => {
                 <Button
                   type="primary"
                   className="w-fit"
-                  onClick={() => {
-                    setOpenForm(true)
-                  }}
+                  link="/demo"
                 >
                   <span>
                     {'Book Free Demo'}
@@ -76,13 +70,6 @@ const StatisticsSection = () => {
             </div>
 
           </div>
-          {openForm && (
-            <FormModal
-              className={`pt-9  flex items-start`}
-              onClose={() => setOpenForm(false)}
-              data={isDemoPopUpShown}
-            />
-          )}
         </Container>
         <div className="absolute bottom-0 right-0 w-[50%] max-w-[727px] lg:block hidden">
           <Image src={WorldMap} alt='World Map' className="h-auto w-full object-cover" />
