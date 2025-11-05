@@ -6,6 +6,7 @@ import CardsGridSection from '~/components/revamp/components/CardsGridSection'
 import CardsWithSvg from '~/components/revamp/components/common/cardsWithTestimonial'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
@@ -102,7 +103,11 @@ export default function AiReceptionist({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-
+  {pageData['custom']?.componentData && (
+        <div className="mt-12">
+          <IntegrationsGrid data={pageData['custom']?.componentData} />
+        </div>
+      )}
       {/* FAQ Section */}
       {faq && faq.faqCategories && faq.faqCategories.length > 0 && (
         <div>

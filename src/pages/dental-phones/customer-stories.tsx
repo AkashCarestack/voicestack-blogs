@@ -7,6 +7,8 @@ import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import Section from '~/components/structure/Section'
 import Button from '~/components/common/Button'
 import MasonryCardGridSection from '~/components/revamp/components/common/MasonryCardGridSection'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 
 export default function CustomerStories({ pageData }: any) {
   const data =
@@ -21,6 +23,28 @@ export default function CustomerStories({ pageData }: any) {
   return (
     data && (
       <>
+       <div
+        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+        style={{
+          background:
+            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
+        }}
+      >
+        <HeroSection
+          page=""
+          data={pageData['dental-phones-hero']?.componentData}
+          isCentered={true}
+        />
+        {pageData['testimonial-video-section']?.componentData && (
+          <VerticalTestimonialListing
+            data={
+              pageData['testimonial-video-section']?.componentData?.refData
+                ?.testimonialListing
+            }
+            hideTitle={true}
+          />
+        )}
+      </div>
         {masonryData && <MasonryCardGridSection data={masonryData} />}
         {data && (
           <ImageCardSection

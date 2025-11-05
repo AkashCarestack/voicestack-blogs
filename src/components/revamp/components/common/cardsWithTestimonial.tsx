@@ -10,6 +10,7 @@ import IconBadge from './iconBadge'
 import Image from 'next/image'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
 import { FormModal } from '~/components/common/FormModal'
+import CardsList from './cardsList'
 
 export default function CardsWithTestimonial({ data }: { data: any }) {
   const [openForm, setOpenForm] = useState(false)
@@ -19,174 +20,159 @@ export default function CardsWithTestimonial({ data }: { data: any }) {
     <Section className="py-sm md:py-md lg:py-lg bg-white ">
       <Container className="flex-col gap-16">
         <SectionHeader heading={data?.heading} description={data.description} />
-        <div className="flex md:flex-row flex-col gap-6">
-          {data?.items?.map((item: any) => {
-            return (
-              <div
-                key={item._key}
-                className="flex bg-[#F4F3FA] flex-col items-start md:rounded-[24px] rounded-[12px] text-left md:p-6 p-4"
-              >
-                <div
-                  className="w-auto md:mb-6 mb-4 bg-[#E0DDFF] md:px-6 px-4 md:py-3 py-2 rounded-full"
-                  dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
-                />
-                <h3 className="md:text-lg w-full text-base font-bold leading-[120%] text-gray-950">
-                  {item.heading}
-                </h3>
-                <p className="leading-[150%] text-gray-700 md:text-base text-sm mt-2">
-                  {item.description}
-                </p>
-              </div>
-            )
-          })}
-        </div>
-        <div className="relative flex flex-col lg:flex-row w-full rounded-[24px] overflow-hidden min-h-[480px]">
-          <Image
-            src="/assets/Bg/BG01.png"
-            alt={data?.testimonial?.name || 'Background'}
-            fill
-            className="object-cover z-0"
-            priority
-          />
-          <div className="relative w-full flex flex-col lg:flex-row gap-3 z-10 min-h-[480px]">
-            <div className="w-full flex-1">
-              <div className="relative h-full md:mb-0 mb-4">
-                {/* desktop */}
-                <div className="relative  text-white flex w-full h-full">
-                  <div className="flex flex-col gap-3 py-8 px-6 max-w-[740px] w-full">
-                    {/* Company Logo */}
-                    <div className="flex flex-1">
-                      <div
-                        className="relative"
-                        style={{
-                          height: `38px`,
-                          width: `${
-                            38 *
-                            data?.testimonial?.secondaryLogo?.metadata
-                              ?.dimensions?.aspectRatio
-                          }px`,
-                        }}
-                      >
-                        <ImageLoader
-                          key={`testimonial-logo-${data?.testimonial?._id || data?.testimonial}`}
-                          image={data?.testimonial?.secondaryLogo?.url}
-                          className="w-full h-full object-contain"
-                          alt={
-                            data?.testimonial?.secondaryLogo?.altText ||
-                            'Brand Logo'
-                          }
-                        />
-                      </div>
-                    </div>
-                    {/* Metrics overlay */}
-                    <div className="flex flex-col gap-12">
-                      {data?.testimonial?.listItems?.length > 0 ? (
-                        <div className="relative grid grid-cols-2  gap-y-3 gap-x-6 md:gap-x-14">
-                          {data?.testimonial?.listItems?.map(
-                            (metric, index) => (
-                              <div
-                                key={index}
-                                className="text-white py-3 border-b border-white/30 "
-                              >
-                                <div
-                                  className="text-lg md:text-[32px] font-semibold testimonial-metric inline font-manrope"
-                                  dangerouslySetInnerHTML={{
-                                    __html: metric?.after
-                                      ? metric?.after
-                                      : metric?.description,
-                                  }}
-                                />
-                                <div className="text-sm md:text-base text-white opacity-70">
-                                  {metric?.listHeading}
-                                </div>
-                              </div>
-                            ),
-                          )}
-                        </div>
-                      ) : (
-                        <div className="relative flex text-lg text-white">
-                          <div className="text-lg md:text-[32px] font-semibold leading-[120%] font-manrope">
-                            {data?.testimonial?.testimonialdescription}
-                          </div>
-                        </div>
-                      )}
-                      <div className="items-center gap-4 flex sm:hidden">
+        <CardsList data={data} />
+        {data?.testimonial && (
+          <div className="relative flex flex-col lg:flex-row w-full rounded-[24px] overflow-hidden min-h-[480px]">
+            <Image
+              src="/assets/Bg/BG01.png"
+              alt={data?.testimonial?.name || 'Background'}
+              fill
+              className="object-cover z-0"
+              priority
+            />
+            <div className="relative w-full flex flex-col lg:flex-row gap-3 z-10 min-h-[480px]">
+              <div className="w-full flex-1">
+                <div className="relative h-full md:mb-0 mb-4">
+                  {/* desktop */}
+                  <div className="relative  text-white flex w-full h-full">
+                    <div className="flex flex-col gap-3 py-8 px-6 max-w-[740px] w-full">
+                      {/* Company Logo */}
+                      <div className="flex flex-1">
                         <div
                           className="relative"
                           style={{
-                            height: `451px`,
+                            height: `38px`,
                             width: `${
-                              451 *
-                              data?.testimonial?.testimonialImage?.metadata
+                              38 *
+                              data?.testimonial?.secondaryLogo?.metadata
                                 ?.dimensions?.aspectRatio
                             }px`,
                           }}
                         >
                           <ImageLoader
-                            key={`testimonial-image-${data?.testimonial?._id || data?.testimonial}`}
-                            image={data?.testimonial?.testimonialImage}
+                            key={`testimonial-logo-${data?.testimonial?._id || data?.testimonial}`}
+                            image={data?.testimonial?.secondaryLogo?.url}
                             className="w-full h-full object-contain"
-                            imageClassName="w-full h-auto object-contain"
+                            alt={
+                              data?.testimonial?.secondaryLogo?.altText ||
+                              'Brand Logo'
+                            }
                           />
                         </div>
-                        <div className="flex flex-col gap-1 text-white text-sm font-semibold">
-                          <p className="font-semibold">
+                      </div>
+                      {/* Metrics overlay */}
+                      <div className="flex flex-col gap-12">
+                        {data?.testimonial?.listItems?.length > 0 ? (
+                          <div className="relative grid grid-cols-2  gap-y-3 gap-x-6 md:gap-x-14">
+                            {data?.testimonial?.listItems?.map(
+                              (metric, index) => (
+                                <div
+                                  key={index}
+                                  className="text-white py-3 border-b border-white/30 "
+                                >
+                                  <div
+                                    className="text-lg md:text-[32px] font-semibold testimonial-metric inline font-manrope"
+                                    dangerouslySetInnerHTML={{
+                                      __html: metric?.after
+                                        ? metric?.after
+                                        : metric?.description,
+                                    }}
+                                  />
+                                  <div className="text-sm md:text-base text-white opacity-70">
+                                    {metric?.listHeading}
+                                  </div>
+                                </div>
+                              ),
+                            )}
+                          </div>
+                        ) : (
+                          <div className="relative flex text-lg text-white">
+                            <div className="text-lg md:text-[32px] font-semibold leading-[120%] font-manrope">
+                              {data?.testimonial?.testimonialdescription}
+                            </div>
+                          </div>
+                        )}
+                        <div className="items-center gap-4 flex sm:hidden">
+                          <div
+                            className="relative"
+                            style={{
+                              height: `451px`,
+                              width: `${
+                                451 *
+                                data?.testimonial?.testimonialImage?.metadata
+                                  ?.dimensions?.aspectRatio
+                              }px`,
+                            }}
+                          >
+                            <ImageLoader
+                              key={`testimonial-image-${data?.testimonial?._id || data?.testimonial}`}
+                              image={data?.testimonial?.testimonialImage}
+                              className="w-full h-full object-contain"
+                              imageClassName="w-full h-auto object-contain"
+                            />
+                          </div>
+                          <div className="flex flex-col gap-1 text-white text-sm font-semibold">
+                            <p className="font-semibold">
+                              {data?.testimonial?.name}
+                            </p>
+                            <p className=" text-white/60">
+                              {data?.testimonial?.designation}
+                            </p>
+                          </div>
+                        </div>
+
+                        {data?.ctaListItems?.length > 0 && (
+                          <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
+                            <Button
+                              type="primary"
+                              className="w-fit"
+                              onClick={() => {
+                                setOpenForm(true)
+                              }}
+                            >
+                              <span>
+                                {data?.ctaListItems[0]?.ctaText ||
+                                  'Book Free Demo'}
+                              </span>
+                            </Button>
+                            <Button
+                              type="secondary"
+                              className="w-fit text-white"
+                            >
+                              {data?.ctaListItems[1]?.ctaText || 'See Pricing'}
+                            </Button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="relative w-full  items-end justify-end hidden sm:flex">
+                      <div
+                        className="relative"
+                        style={{
+                          height: `451px`,
+                          width: `${
+                            451 *
+                            data?.testimonial?.testimonialImage?.metadata
+                              ?.dimensions?.aspectRatio
+                          }px`,
+                        }}
+                      >
+                        <ImageLoader
+                          key={`testimonial-image-${data?.testimonial?._id || data?.testimonial}`}
+                          image={data?.testimonial?.testimonialImage}
+                          className="w-full h-full object-contain"
+                          imageClassName="w-full h-auto object-contain"
+                        />
+                      </div>
+                      <div className="absolute bottom-8 right-0">
+                        <div className="flex flex-col py-6 pl-6 pr-8 rounded-l-[12px] rounded-r-none bg-white/5 backdrop-blur-[20px]">
+                          <p className="font-medium text-lg text-white">
                             {data?.testimonial?.name}
                           </p>
-                          <p className=" text-white/60">
+                          <p className=" text-white/60 text-base font-normal">
                             {data?.testimonial?.designation}
                           </p>
                         </div>
-                      </div>
-
-                      {data?.ctaListItems?.length > 0 && (
-                        <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
-                          <Button
-                            type="primary"
-                            className="w-fit"
-                            onClick={() => {
-                              setOpenForm(true)
-                            }}
-                          >
-                            <span>
-                              {data?.ctaListItems[0]?.ctaText ||
-                                'Book Free Demo'}
-                            </span>
-                          </Button>
-                          <Button type="secondary" className="w-fit text-white">
-                            {data?.ctaListItems[1]?.ctaText || 'See Pricing'}
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="relative w-full  items-end justify-end hidden sm:flex">
-                    <div
-                      className="relative"
-                      style={{
-                        height: `451px`,
-                        width: `${
-                          451 *
-                          data?.testimonial?.testimonialImage?.metadata
-                            ?.dimensions?.aspectRatio
-                        }px`,
-                      }}
-                    >
-                      <ImageLoader
-                        key={`testimonial-image-${data?.testimonial?._id || data?.testimonial}`}
-                        image={data?.testimonial?.testimonialImage}
-                        className="w-full h-full object-contain"
-                        imageClassName="w-full h-auto object-contain"
-                      />
-                    </div>
-                    <div className="absolute bottom-8 right-0">
-                      <div className="flex flex-col py-6 pl-6 pr-8 rounded-l-[12px] rounded-r-none bg-white/5 backdrop-blur-[20px]">
-                        <p className="font-medium text-lg text-white">
-                          {data?.testimonial?.name}
-                        </p>
-                        <p className=" text-white/60 text-base font-normal">
-                          {data?.testimonial?.designation}
-                        </p>
                       </div>
                     </div>
                   </div>
@@ -194,7 +180,7 @@ export default function CardsWithTestimonial({ data }: { data: any }) {
               </div>
             </div>
           </div>
-        </div>
+        )}
         {openForm && (
           <FormModal
             className={`pt-9  flex items-start`}

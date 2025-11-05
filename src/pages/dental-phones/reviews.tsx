@@ -32,12 +32,13 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
               pageData['testimonial-video-section']?.componentData?.refData
                 ?.testimonialListing
             }
+            hideTitle={true}
           />
         )}
+      </div>
         {pageData['review-testimonial']?.componentData && (
           <ReviewTestimonial data={pageData['review-testimonial']?.componentData} />
         )}
-      </div>
     </>
   )
 }
