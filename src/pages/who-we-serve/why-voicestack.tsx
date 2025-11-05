@@ -33,31 +33,35 @@ export default function WhyVoicestackIndex({ data, heroData, faq, features }: an
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  const currentLanguage = locale || 'en'
+  const region = locale || 'en'
   const client = getClient()
 
   try {
-    const queries = new Queries('why-voicestack', currentLanguage)
+    const queries = new Queries('why-voicestack', region)
   
-    const dataVal = await queries.getPageData('whyVoicestack', 'why-voicestack')
+    const pageData = await queries.getPageData('whyVoicestack', 'why-voicestack')
 
     // Check if data exists and has content
-    if (!dataVal || Object.keys(dataVal).length === 0 ){
+    const noPageData = Object.values(pageData).every(
+      (value) => value === null || value === undefined
+    )
+
+    if (noPageData) {
       return {
         notFound: true,
       }
-    } 
-    const heroData = dataVal?.['why-voicestack-hero']?.componentData || null
+    }
+    const heroData = pageData?.['why-voicestack-hero']?.componentData || null
     
     // Fetch features data for CategoryFeatureTabs
-    const features = await getFeaturesList(client, currentLanguage)
+    const features = await getFeaturesList(client, region)
 
     // Ensure FAQ data is serializable
-    const faqData = dataVal?.faqData?.[0] || dataVal?.faqReferenced?.[0] || null
+    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
     
     return {
       props: {
-        data: dataVal,
+        data: pageData,
         heroData: heroData,
         faq: faqData,
         features: features || []

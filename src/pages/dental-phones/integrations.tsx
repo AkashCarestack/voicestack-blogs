@@ -65,7 +65,6 @@ export default function DentalPhonesIntegrations({
   region,
   faq,
 }: DentalPhonesIntegrationsProps) {
-  console.log('pageDataDentalPhonesIntegrations', pageData)
 
   // Extract integration data from pageData instead of separate query
   const integrationData = React.useMemo(() => {
@@ -160,9 +159,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     // Fetch page data for integrations
     const pageData = await queries.getPageData('dentalPhones', slug)
-    console.log('integrations pageData', pageData)
 
-    if (!pageData || Object.keys(pageData).length === 0) {
+
+    const noPageData = Object.values(pageData).every(
+      (value) => value === null || value === undefined
+    )
+
+    if (noPageData) {
       return {
         notFound: true,
       }

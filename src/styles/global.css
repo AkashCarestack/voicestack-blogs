@@ -180,6 +180,10 @@ html {
   box-sizing: border-box;
 }
 
+.hs_error_rollup .hs-error-msgs{
+  @apply !static;
+}
+
 /* Focus State for Input Fields */
 #hubspot-form input[type="text"]:focus, 
 #hubspot-form input[type="email"]:focus, 
