@@ -56,8 +56,8 @@ export default function ThankYouPage() {
       </Head>
       <div className="py-24 px-4">
         <div className="w-full gap-16 flex flex-col justify-center items-center min-h-[500px]">
-          <div className="flex flex-col w-full items-center max-w-[780px] text-center gap-4 pb-8">
-            <div className="max-w-[620px] flex flex-col gap-4">
+          <div className="flex flex-col w-full items-center text-center gap-4 pb-8 max-w-[1020px]">
+            <div className="flex flex-col gap-4 w-full">
               <h1 className="text-2xl font-semibold leading-6 text-gray-900">
                 Thank you, {isClient ? fullName : 'there'}!
               </h1>
@@ -65,27 +65,29 @@ export default function ThankYouPage() {
                 A VoiceStack representative will reach out to you shortly.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center items-center">
-                  <Button
-                    type="primary"
-                    className="w-fit"
-                    link="/"
-                  >
-                    <span>Go to Home</span>
-                  </Button>
-                  {isClient && demoData?.meetingLink && (
-                    <Button type="secondary" className="w-fit" onClick={handleMeetingClick}>
-                      Schedule Your Meeting
-                    </Button>
-                  )}
-                </div>
-                {demoData?.meetingLink && ( 
+              
+              {demoData?.meetingLink && ( 
                 <div
                   className="meetings-iframe-container"
                   data-src={`${demoData?.meetingLink}?embed=true`}
                   // data-src="https://meetings.hubspot.com/marcomm-admin/test-link-harsha?embed=true"
                 ></div>
-                )}
+              )}
+
+              <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center items-center w-full">
+                <Button
+                  type="primary"
+                  className="w-fit"
+                  link="/"
+                >
+                  <span>Go to Home page</span>
+                </Button>
+                {/* {isClient && demoData?.meetingLink && (
+                  <Button type="secondary" className="w-fit" onClick={handleMeetingClick}>
+                    Schedule Your Meeting
+                  </Button>
+                )} */}
+              </div>
             </div>
           </div>
         </div>
