@@ -55,11 +55,8 @@ export default function ThankYouPage() {
               <p className="text-gray-500">
                 A VoiceStack representative will reach out to you shortly.
               </p>
-              <div>
-
-              </div>
               
-              <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
+              <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center items-center">
                   <Button
                     type="primary"
                     className="w-fit"
