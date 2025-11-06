@@ -162,7 +162,9 @@ class Queries {
           },
           
           testimonialdescription,
-          language
+          language,
+          keyStatement,
+          practiceName
         }
       }
     `
@@ -306,7 +308,8 @@ class Queries {
           testimonialdescription,
           thumbnail,
           locations,
-          
+          practiceName,
+          keyStatement,
           // Testimonial logo with metadata
           "logo": logo.asset-> {
             ${this.IMAGE_METADATA_FIELDS}
@@ -428,7 +431,8 @@ class Queries {
                       testimonialdescription,
                       keyStatement,
                       keyFeatures,
-                      language
+                      language,
+                      practiceName
                     }
                   }
                 },
@@ -443,7 +447,8 @@ class Queries {
                       _id,
                       name,
                       designation,
-                      
+                      practiceName,
+                      keyStatement,
                       // Testimonial logo
                       "logo": logo.asset-> {
                         ${this.IMAGE_METADATA_FIELDS}
@@ -617,6 +622,7 @@ class Queries {
                           testimonialdescription,
                           keyStatement,
                           keyFeatures,
+                          practiceName,
                         
                         }
                       }
@@ -831,9 +837,120 @@ class Queries {
   private fetchHomeCardList(_region: string) {
     return groq`
       *[_type == "homeSettings" && language == $region][0] {
-        // Global data references for home cards
-        'globalDataReference': globalDataReference-> {
-          ...
+        // Global data references for home cards (array)
+        'globalDataReference': globalDataReference[]-> {
+          _id,
+          name,
+          dataType,
+          dataSlug,
+          // Include all data types
+          ...,
+          // Explicitly fetch tabsListingComponent structure when dataType matches
+          "tabsListingComponent": select(
+            dataType == "tabsListingComponent" => tabsListingComponent {
+              headline,
+              subheadline,
+              subDescription,
+              showCTA,
+              tabs[] {
+                _key,
+                tabHeading,
+                tabSubHeading,
+                description,
+                "image": image.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                listItems[] {
+                  _key,
+                  subfeatureHeading,
+                  subfeatureSubheading,
+                  subfeatureDescription,
+                  "subfeatureImage": subfeatureImage.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  }
+                },
+                icon,
+                ctaListItems[] {
+                  _key,
+                  ctaLink,
+                  ctaText,
+                  ctaType
+                },
+                Link,
+                LinkText,
+                testimonial-> {
+                  _id,
+                  name,
+                  designation,
+                  place,
+                  region,
+                  locations,
+                  practiceName,
+                  thumbnail,
+                  "logo": logo.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  "secondaryLogo": secondaryLogo.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  video[] {
+                    ${this.VIDEO_FIELDS}
+                  },
+                  secondaryVideo[] {
+                    ${this.VIDEO_FIELDS}
+                  },
+                  "testimonialImage": testimonialImage.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  listItems[] {
+                    listHeading,
+                    before,
+                    after,
+                    description
+                  },
+                  testimonialheading,
+                  testimonialdescription,
+                  keyFeatures,
+                  language
+                }
+              }
+            }
+          ),
+          // Explicitly fetch testimonialListing structure when dataType matches
+          "testimonialListing": select(
+            dataType == "testimonialListing" => testimonialListing {
+              title,
+              description,
+              "testimonial": testimonialListReferences[]-> {
+                _id,
+                name,
+                designation,
+                "logo": logo.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                "secondaryLogo": secondaryLogo.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                },
+                video[] {
+                  ${this.VIDEO_FIELDS}
+                },
+                secondaryVideo[] {
+                  ${this.VIDEO_FIELDS}
+                },
+                thumbnail,
+                testimonialImage {
+                  asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  }
+                },
+                keyStatement,
+                testimonialdescription,
+                designation,
+                place,
+                practiceName
+              }
+            }
+          )
         }
       }
     `
