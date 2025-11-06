@@ -17,6 +17,7 @@ interface GroupsAndDSOProps {
 }
 
 export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
+  const tabsListingComponentData = pageData["smarter-systems"]?.componentData?.refData?.tabsListingComponent
   return (
     <>
          <div
@@ -30,9 +31,10 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
         data={pageData['dental-phones-hero']?.componentData}
       />
         </div>
-      {pageData?.['trusted-business-communications']?.tabsListingComponent &&
-        <SingleTabCardListing data={pageData?.['trusted-business-communications']?.tabsListingComponent}/>
-      }
+        
+      {tabsListingComponentData &&
+        <SingleTabCardListing data={tabsListingComponentData}/>
+      } 
       {pageData['testimonial-video-section']?.componentData && (
         <VerticalTestimonialListing
           data={pageData['testimonial-video-section']?.componentData?.refData?.testimonialListing}

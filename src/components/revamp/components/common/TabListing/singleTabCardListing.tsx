@@ -6,6 +6,7 @@ import SwitchableTabs from '../switchableTabs'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import { urlForImage } from '~/lib/sanity.image'
 import Image from 'next/image'
+import Button from '~/components/common/Button'
 
 export default function SingleTabCardListing({ data }: { data: any }) {
     console.log({data})
@@ -65,6 +66,9 @@ export default function SingleTabCardListing({ data }: { data: any }) {
                         )
                     })
                 }
+                <div className='flex justify-center md:pt-16 pt-8'>
+                    <Button type='primary' link={'/demo'} target='_blank'><span>{'Book Free Demo'}</span></Button>
+                </div>
             </div>
 
         </Container>

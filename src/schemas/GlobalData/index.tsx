@@ -115,6 +115,11 @@ const GlobalData = {
                           title: 'Image',
                           type: 'image',
                         },
+                        {
+                          name: 'svgCode',
+                          title: 'SVG Code',
+                          type: 'text',
+                        }
                       ],
                     
                     },
@@ -342,13 +347,13 @@ const GlobalData = {
           },
           description: 'Select one or more integration lists to display',
           hidden: ({ parent }: any) => parent?.showAllIntegrations === true,
-          validation: (Rule: any) => Rule.custom((value, context) => {
-            const parent = context.parent
-            if (parent?.showAllIntegrations === false && (!value || value.length === 0)) {
-              return 'At least one integration list must be selected when not showing all integrations'
-            }
-            return true
-          }),
+          // validation: (Rule: any) => Rule.custom((value, context) => {
+          //   const parent = context.parent
+          //   if (parent?.showAllIntegrations === false && (!value || value.length === 0)) {
+          //     return 'At least one integration list must be selected when not showing all integrations'
+          //   }
+          //   return true
+          // }),
         },
         {
           name: 'showAllIntegrations',
