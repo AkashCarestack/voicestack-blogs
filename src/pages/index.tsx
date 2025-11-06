@@ -49,10 +49,13 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const queries = new Queries('home', region)
   const fetchTabListingData = new Queries('easily-handle', region)
   const homeCardData = await queries.fetchHomeCardData(region)
+
   const tabListingData = await fetchTabListingData.getData()
   const heroSectionData = await queries.getHeroData(region)
-  const verticalTestimonialData =
-    await queries.getVerticalTestimonialListing(region)
+  // Get vertical testimonial data from globalDataReference with dataSlug "testimonial-video"
+  const verticalTestimonialData = homeCardData?.globalDataReference?.find(
+    (item: any) => item?.dataSlug === 'testimonial-video',
+  )?.testimonialListing
   const allTabsData = await queries.getAllTabsListingData(region)
   const testimonialSecitonData = allTabsData?.find(
     (item) => item.slug === 'testimonial-category-section',
@@ -209,17 +212,41 @@ export default function IndexPage(props: InferGetStaticPropsType<any>) {
         {logoSectionData && (
           <LogoSliderSection data={logoSectionData} refer={refer} />
         )}
-        {verticalTestimonialData && (
-          <VerticalTestimonialListing data={verticalTestimonialData} />
-        )}
-        {testimonialSecitonData && (
+        {homeCardData?.globalDataReference &&
+          (() => {
+            const testimonialVideoData = homeCardData.globalDataReference.find(
+              (item: any) => item?.dataSlug === 'testimonial-video',
+            )
+            return testimonialVideoData?.testimonialListing ? (
+              <VerticalTestimonialListing
+                data={testimonialVideoData.testimonialListing}
+              />
+            ) : null
+          })()}
+        {homeCardData?.globalDataReference &&
+          (() => {
+            const testimonialCategoryData =
+              homeCardData.globalDataReference.find(
+                (item: any) => item?.dataSlug === 'testimonial-category',
+              )
+            return testimonialCategoryData?.tabsListingComponent ? (
+              <Testimonials
+                data={testimonialCategoryData.tabsListingComponent}
+              />
+            ) : null
+          })()}
+        {/* {testimonialSecitonData && (
           <Testimonials data={testimonialSecitonData} refer={refer} />
-        )}
-        {homeCardData?.globalDataReference?.tabsListingComponent && (
-          <CardListing
-            data={homeCardData.globalDataReference.tabsListingComponent}
-          />
-        )}
+        )} */}
+        {homeCardData?.globalDataReference &&
+          (() => {
+            const businessOutcomesData = homeCardData.globalDataReference.find(
+              (item: any) => item?.dataSlug === 'business-outcomes',
+            )
+            return businessOutcomesData?.tabsListingComponent ? (
+              <CardListing data={businessOutcomesData.tabsListingComponent} />
+            ) : null
+          })()}
         {featuresData && <CategoryFeatureTabs features={featuresData || []} />}
         {comparisonLegendData && (
           <SiteComparisonSection
