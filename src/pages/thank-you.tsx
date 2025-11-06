@@ -17,6 +17,15 @@ export default function ThankYouPage() {
   const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.async = true;
+    script.src =
+      "https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js";
+    document.body.appendChild(script);
+  }, [])
+
+  useEffect(() => {
     setIsClient(true)
     const storedData = localStorage.getItem('demoData')
     if (storedData) {
@@ -70,6 +79,13 @@ export default function ThankYouPage() {
                     </Button>
                   )}
                 </div>
+                {demoData?.meetingLink && ( 
+                <div
+                  className="meetings-iframe-container"
+                  data-src={`${demoData?.meetingLink}?embed=true`}
+                  // data-src="https://meetings.hubspot.com/marcomm-admin/test-link-harsha?embed=true"
+                ></div>
+                )}
             </div>
           </div>
         </div>
