@@ -67,7 +67,7 @@ export default function SingleTabCardListing({ data }: { data: any }) {
                     })
                 }
                 <div className='flex justify-center md:pt-16 pt-8'>
-                    <Button type='primary' link={'/demo'} target='_blank'><span>{'Book Free Demo'}</span></Button>
+                    <Button type='primary' link={'/demo'} target='_self'><span>{'Book Free Demo'}</span></Button>
                 </div>
             </div>
 
