@@ -62,6 +62,12 @@ export default {
               title: 'Column Title',
               type: 'string'
             },
+            
+            {
+              name: 'titleLink',
+              title: 'Title Link URL',
+              type: 'string'
+            },
             {
               name: 'links',
               title: 'Column Links',
