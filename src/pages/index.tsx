@@ -55,11 +55,11 @@ export const getStaticProps: GetStaticProps<any> = async ({
   // Get vertical testimonial data from globalDataReference with dataSlug "testimonial-video"
   const verticalTestimonialData = homeCardData?.globalDataReference?.find(
     (item: any) => item?.dataSlug === 'testimonial-video',
-  )?.testimonialListing
+  )?.testimonialListing || null
   const allTabsData = await queries.getAllTabsListingData(region)
   const testimonialSecitonData = allTabsData?.find(
     (item) => item.slug === 'testimonial-category-section',
-  )?.tabsListingComponent
+  )?.tabsListingComponent || null
 
   // old queries
   const client = getClient(draftMode ? { token: readToken } : undefined)

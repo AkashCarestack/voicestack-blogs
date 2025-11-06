@@ -1,13 +1,9 @@
 import { GetStaticProps } from 'next'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
-import Layout from '~/components/Layout'
-import SimpleHead from '~/components/common/SimpleHead'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import Queries from '~/components/revamp/queries'
-import Container from '~/components/structure/Container'
-import Section from '~/components/structure/Section'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 
@@ -34,14 +30,12 @@ interface Feature {
 interface FeaturesPageProps {
   features: Feature[]
   currentLanguage: string
-  landingPage?: Feature | null
   data: any
 }
 
 export default function FeaturesPage({
   features,
   data,
-  landingPage,
 }: FeaturesPageProps) {
   console.log({ data })
   const heroData = data['feature-landing']?.heroComponent
@@ -83,12 +77,23 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const landingPageData = await queries.getPageData('featurePage', slug)
     const features = await getFeaturesList(getClient(), region)
 
+    // Only pass the data sections that are actually used to reduce payload size
+    const optimizedData = landingPageData
+      ? {
+          'feature-landing': landingPageData['feature-landing'] || null,
+          'stack-card-tab-testimonial':
+            landingPageData['stack-card-tab-testimonial'] || null,
+          faqData: landingPageData.faqData || null,
+          title: landingPageData.title || null,
+          description: landingPageData.description || null,
+        }
+      : null
+
     return {
       props: {
         features: features || [],
         currentLanguage: region,
-        landingPage: landingPageData || null,
-        data: landingPageData || null,
+        data: optimizedData,
       },
     }
   } catch (error) {
@@ -97,7 +102,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         features: [],
         currentLanguage: locale || 'en',
-        landingPage: null,
+        data: null,
       },
     }
   }
