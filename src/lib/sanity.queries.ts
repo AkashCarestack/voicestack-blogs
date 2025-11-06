@@ -298,6 +298,7 @@ export async function getFooterData(client: SanityClient, region: string) {
     },
     footerColumns[] {
       title,
+      titleLink,
       links[] {
         text,
         link,
