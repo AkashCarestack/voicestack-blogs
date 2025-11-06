@@ -3,6 +3,7 @@ import React from 'react'
 
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
+import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import Queries from '~/components/revamp/queries'
 
@@ -12,6 +13,7 @@ interface IndependentPracticesProps {
 }
 
 export default function IndependentPractices({ pageData, faq }: IndependentPracticesProps) {
+  const tabsListingComponentData = pageData["smarter-systems"]?.componentData?.refData?.tabsListingComponent
   return (
     <>
        <div
@@ -24,8 +26,11 @@ export default function IndependentPractices({ pageData, faq }: IndependentPract
         page=""
         data={pageData['dental-phones-hero']?.componentData}
       />
-
+  
        </div>
+       {tabsListingComponentData &&
+        <SingleTabCardListing data={tabsListingComponentData}/>
+      } 
       {pageData['stack-card-tab-testimonial']?.componentData && (
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
