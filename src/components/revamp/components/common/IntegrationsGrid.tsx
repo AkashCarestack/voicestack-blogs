@@ -93,27 +93,12 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
             {data.refData.integrationListing.integrationList?.map((integration, index) => (
               <div
                 key={integration._id}
-                className="flex flex-col items-center justify-end group relative"
+                className="flex flex-col items-center justify-end group relative   bg-vs-purple-logo-bg rounded-[12px] border-2absolute inset-0 border-2 border-[#6D62E5]"
               >
                 {/* Integration Image */}
-                <div className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 flex items-center justify-center rounded-lg overflow-hidden group-hover:shadow-lg transition-all duration-300">
+                <div className="w-12 h-12 inset-0 md:w-14 md:h-14 lg:w-16 lg:h-16 flex items-center justify-center group-hover:shadow-lg transition-all duration-300">
                   {(() => {
                     let imageUrl = integration?.image?.url;
-                    
-                    // try {
-                    //   if (integration.image && integration.image.asset) {
-                    //     if (integration.image.asset.url) {
-                    //       imageUrl = integration.image.asset.url;
-                    //     } else {
-                    //       const url = urlForImage(integration.image, { width: 60, height: 60 });
-                    //       if (url) {
-                    //         imageUrl = url;
-                    //       }
-                    //     }
-                    //   }
-                    // } catch (error) {
-                    //   console.warn('Error processing image for', integration.title, error);
-                    // }
                     if (imageUrl) {
                       return (
                         <Image

@@ -93,6 +93,7 @@ module.exports = {
   		},
 			
 			backgroundImage: {
+			'vs-purple-logo-bg':'linear-gradient(180deg, #4A3CE1 0%, #191078 100%);',
 			'vs-purple-gradient': 'linear-gradient(270deg, #4A3CE1 0%, #CAC5FF 100%)',
 			'hero-pattern': "url('/hero-background.webp')",
 			'grid-pattern': "url('/about-us.webp')",
