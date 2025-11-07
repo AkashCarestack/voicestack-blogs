@@ -15,6 +15,7 @@ import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import LogoListingSection from '~/components/LogoListingSection'
 import CardListing from '~/components/revamp/components/cardListing'
+import HoverTestimonial from '~/components/revamp/components/common/HoverTestimonial/HoverTestimonial'
 
 interface WhoWeServeIndexProps {
   pageData: any
@@ -55,7 +56,9 @@ export default function WhoWeServeIndex({
            <CardListing data={ pageData['real-business-outcomes']?.componentData.refData.tabsListingComponent}/>
         )
       }
-     
+     {/* {pageData['hover-card-change-testimonial']?.componentData && (
+      <HoverTestimonial data={pageData['hover-card-change-testimonial']?.componentData}/>
+     )} */}
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
           <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />

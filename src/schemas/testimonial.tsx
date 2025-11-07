@@ -151,6 +151,12 @@ export default defineType({
               title: 'Description',
               type: 'blockContent',
             },
+            {
+              name: 'isHighlighted',
+              title: 'Is Highlighted',
+              type: 'boolean',
+              initialValue: false,
+            }
           ],
         },
       ],
