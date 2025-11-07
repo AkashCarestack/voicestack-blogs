@@ -17,46 +17,70 @@ interface SpecialityPracticesProps {
   faq: any
 }
 
-export default function SpecialityPractices({ pageData, faq }: SpecialityPracticesProps) {
+export default function SpecialityPractices({
+  pageData,
+  faq,
+}: SpecialityPracticesProps) {
   return (
     <>
-      {pageData['dental-phones-hero']?.componentData && <HeroSection
-        page=""
-        data={pageData['dental-phones-hero']?.componentData}
-      />}
-      {
-        pageData?.['effortlessly-handle-calls']?.componentData &&
-        <SingleCardWithList data={pageData?.['effortlessly-handle-calls']?.componentData}/>
-      }
-      {pageData?.['trusted-business-communications']?.tabsListingComponent &&
-        <SingleTabCardListing data={pageData?.['trusted-business-communications']?.tabsListingComponent}/>
-      }
-      {pageData['testimonial-video-section']?.componentData && (
-        <VerticalTestimonialListing
-          data={pageData['testimonial-video-section']?.componentData?.refData?.testimonialListing}
+      {pageData['dental-phones-hero']?.componentData && (
+        <HeroSection
+          page=""
+          data={pageData['dental-phones-hero']?.componentData}
         />
       )}
-          <StatisticsSection />
-        {pageData['stack-card-tab-testimonial']?.componentData && (
+      {pageData?.['effortlessly-handle-calls']?.componentData && (
+        <SingleCardWithList
+          data={pageData?.['effortlessly-handle-calls']?.componentData}
+        />
+      )}
+      {pageData?.['trusted-business-communications']?.tabsListingComponent && (
+        <SingleTabCardListing
+          data={
+            pageData?.['trusted-business-communications']?.tabsListingComponent
+          }
+        />
+      )}
+      {pageData['testimonial-video-section']?.componentData && (
+        <VerticalTestimonialListing
+          data={
+            pageData['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
+        />
+      )}
+      <StatisticsSection />
+      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-       {pageData['integrations-listing']?.componentData && (
+      {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
-          <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />
+          <IntegrationsGrid
+            data={pageData['integrations-listing']?.componentData}
+          />
         </div>
       )}
-        {pageData?.['speciality-practices']?.componentData &&
-        <TabCardsListing data={pageData?.['speciality-practices']?.componentData} />
-      }
+      {pageData?.['speciality-practices']?.componentData && (
+        <TabCardsListing
+          data={pageData?.['speciality-practices']?.componentData}
+        />
+      )}
 
-       {/* FAQ Section */}
-       {faq && (
-         <div>
-           <FaqSection faqItems={faq} />
-         </div>
-       )}
+      {/* FAQ Section */}
+      {faq && (
+        <div>
+          <FaqSection faqItems={faq} />
+        </div>
+      )}
     </>
   )
 }
@@ -72,17 +96,18 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         ? 'speciality-practices'
         : `speciality-practices-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
-    if(!pageData){
+    if (!pageData) {
       console.error(`pageData not found for ${slug}`)
     }
 
-    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+    const faqData =
+      pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
     return {
       props: {
         pageData: pageData || null,
         region: region,
-        faq: faqData
+        faq: faqData,
       },
     }
   } catch (error) {
@@ -91,7 +116,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData: null,
         region: region,
-        faq: null
+        faq: null,
       },
     }
   }

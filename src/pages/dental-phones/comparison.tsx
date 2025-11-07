@@ -79,12 +79,18 @@ export default function ComparisonPage({
       )}
       
       {/* Testimonial Section */}
-      {pageData['stack-card-tab-testimonial']?.componentData && (
+      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-
       {/* FAQ Section */}
       {faq && (
         <div>

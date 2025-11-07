@@ -14,6 +14,7 @@ interface IndependentPracticesProps {
 
 export default function IndependentPractices({ pageData, faq }: IndependentPracticesProps) {
   const tabsListingComponentData = pageData["smarter-systems"]?.componentData?.refData?.tabsListingComponent
+  console.log(pageData, 'pageData in independent practices')
   return (
     <>
        <div
@@ -31,7 +32,14 @@ export default function IndependentPractices({ pageData, faq }: IndependentPract
        {tabsListingComponentData &&
         <SingleTabCardListing data={tabsListingComponentData}/>
       } 
-      {pageData['stack-card-tab-testimonial']?.componentData && (
+       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />

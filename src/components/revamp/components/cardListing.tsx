@@ -22,6 +22,7 @@ export default function CardListing({ data }: any) {
       ),
     },
   }
+  console.log(data?.tabs, 'data in card listing')
   return (
     <Section className="py-sm md:py-md lg:py-lg bg-white ">
       <Container className="flex-col">
@@ -37,9 +38,10 @@ export default function CardListing({ data }: any) {
                 <div key={e._key} className="md:max-w-[608px] md:gap-6 gap-4">
                   <div className="md:max-w-[608px] lg:h-[350px] h-[250px] w-full">
                     <ImageLoader
-                      image={urlForImage(e?.image)}
+                      image={e?.image?.url || urlForImage(e?.image)}
                       className="w-full h-full object-cover md:rounded-[24px] rounded-[12px] overflow-hidden"
                     />
+                   
                   </div>
                   <div className="flex flex-col  md:py-8 py-4 md:px-3 px-2">
                     <h3 className="text-sm  font-normal text-gray-950 uppercase opacity-70">

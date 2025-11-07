@@ -100,15 +100,15 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                       height: `48px`,
                       width: `${
                         48 *
-                          testimonial?.testimonial?.logo?.metadata?.dimensions
+                          testimonial?.testimonial?.secondaryLogo?.metadata?.dimensions
                             ?.aspectRatio || 2
                       }px`,
                     }}
                   >
                     <ImageLoader
-                      image={testimonial?.testimonial?.logo?.url}
-                      alt={testimonial?.testimonial?.logo?.altText}
-                      className="w-full h-full object-contain"
+                      image={testimonial?.testimonial?.secondaryLogo?.url}
+                      alt={testimonial?.testimonial?.secondaryLogo?.altText}
+                      className="w-full h-full object-contain invert-[100%]"
                     />
                   </div>
 
@@ -145,10 +145,10 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
             {/* Right Column - Testimonial Details */}
             <div className="xl:min-w-[606px] w-full flex flex-col md:gap-8 gap-4">
               {/* Quote */}
-              {currentTestimonial?.testimonial?.keyStatement && (
+              {currentTestimonial?.description && (
                 <blockquote className="text-xl lg:text-2xl font-medium text-left min-h-[259px]">
                   <PortableText
-                    value={currentTestimonial?.testimonial?.keyStatement}
+                    value={currentTestimonial?.description}
                     components={components}
                   />
                 </blockquote>
