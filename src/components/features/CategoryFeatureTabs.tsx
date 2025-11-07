@@ -420,7 +420,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                       {/* Features List Section */}
                       <section className="flex flex-col justify-end items-start self-stretch !mt-0 pt-6 px-6 pb-2.5" aria-label={`${category.name} features`}>
                         <h3 className="sr-only">Features included in {category.name}</h3>
-                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8" role="list">
+                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 w-full" role="list">
                           {category.features.map((feature, featureIndex) => {
                             const isLastItem = featureIndex === category.features.length - 1;
                             return (
