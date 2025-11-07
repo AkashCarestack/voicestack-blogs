@@ -14,7 +14,6 @@ import Container from '../../../../structure/Container'
 const HeroSection = ({
   data,
   refer = null,
-  video = undefined,
   page = '',
   isCentered = false,
 }) => {
@@ -284,10 +283,10 @@ const HeroSection = ({
             {/* Right Content - Video Section */}
             <div className="relative w-full max-w-[537px] md:py-9">
               <div className="relative w-full h-[550px] rounded-[12px] md:rounded-[24px] overflow-hidden md:aspect-video">
-                {video ? (
+                {data?.video   ? (
                   <VideoPlayers
-                    video={video[0]}
-                    thumbnail={video[0]?.videoThumbnail}
+                    video={data?.video[0]}
+                    thumbnail={data?.video[0]?.videoThumbnail}
                   />
                 ) : data?.testimonial ? (
                   <div className="md:max-w-[606px] leading-none flex-1 flex justify-center lg:justify-end items-start relative">
