@@ -401,6 +401,7 @@ class Queries {
                             subfeatureHeading,
                             subfeatureSubheading,
                             subfeatureDescription,
+                            svgCode,
                             "subfeatureImage": subfeatureImage.asset-> {
                               ${this.IMAGE_METADATA_FIELDS}
                             }

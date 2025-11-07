@@ -33,10 +33,11 @@ export default function SingleTabCardListing({ data }: { data: any }) {
                             activeTab == ele._key && (
                                 <div className='flex xl:flex-row flex-col gap-6 bg-white p-3 h-auto md:rounded-[24px] rounded-[12px] xl:h-[472px]' key={ele._key}>
                                     <div className='xl:w-[596px] w-full  bg-[#EEEDFF] flex-shrink-0 rounded-[12px] overflow-hidden relative'>
-                                        {ele?.image && (
+                                        {ele?.image?.url && (
                                             <Image 
+                                                
                                                 className='object-cover rounded-[12px]' 
-                                                src={urlForImage(ele.image)} 
+                                                src={ele?.image?.url || urlForImage(ele.image)} 
                                                 width={596} 
                                                 height={427} 
                                                 alt={ele.tabHeading}
