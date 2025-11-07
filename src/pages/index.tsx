@@ -203,7 +203,6 @@ export default function IndexPage(props: InferGetStaticPropsType<any>) {
               <HeroSection
                 data={heroSectionData}
                 refer={refer}
-                video={videoData}
                 page="home"
               />
             </div>
