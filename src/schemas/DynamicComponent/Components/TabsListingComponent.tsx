@@ -71,7 +71,7 @@ const TabsListingComponent = {
             {
               name: 'description',
               title: 'Description',
-              type: 'blockContent',
+              type: 'customBlockContent',
             },
             {
               name: 'image',

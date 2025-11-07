@@ -66,7 +66,6 @@ export default function DentalPhonesIntegrations({
   region,
   faq,
 }: DentalPhonesIntegrationsProps) {
-
   // Extract integration data from pageData instead of separate query
   const integrationData = React.useMemo(() => {
     const customData = pageData['custom']?.componentData
@@ -114,6 +113,7 @@ export default function DentalPhonesIntegrations({
     }
   }, [pageData])
 
+  console.log('pageDataDentalPhonesIntegrations', pageData)
   return (
     <>
       <div
@@ -137,7 +137,14 @@ export default function DentalPhonesIntegrations({
           />
         </div>
       )}
-      {pageData['stack-card-tab-testimonial']?.componentData && (
+      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
@@ -162,9 +169,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     // Fetch page data for integrations
     const pageData = await queries.getPageData('dentalPhones', slug)
 
-
     const noPageData = Object.values(pageData).every(
-      (value) => value === null || value === undefined
+      (value) => value === null || value === undefined,
     )
 
     if (noPageData) {

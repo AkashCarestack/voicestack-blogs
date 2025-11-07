@@ -22,7 +22,7 @@ class Queries {
   /**
    * Standard image metadata fields for consistent image data fetching
    */
-  private  IMAGE_METADATA_FIELDS = groq`
+  private IMAGE_METADATA_FIELDS = groq`
     _id,
     url,
     altText,
@@ -162,7 +162,9 @@ class Queries {
           },
           
           testimonialdescription,
-          language
+          language,
+          keyStatement,
+          practiceName
         }
       }
     `
@@ -306,7 +308,8 @@ class Queries {
           testimonialdescription,
           thumbnail,
           locations,
-          
+          practiceName,
+          keyStatement,
           // Testimonial logo with metadata
           "logo": logo.asset-> {
             ${this.IMAGE_METADATA_FIELDS}
@@ -372,7 +375,326 @@ class Queries {
                   },
                   subheadline,
                   subDescription,
-                  "refData": globalData->,
+                  "refData": globalData-> {
+                    _id,
+                    name,
+                    dataType,
+                    dataSlug,
+                    ...,
+                    // Explicitly fetch tabsListingComponent structure when dataType matches
+                    "tabsListingComponent": select(
+                      dataType == "tabsListingComponent" => tabsListingComponent {
+                        headline,
+                        subheadline,
+                        subDescription,
+                        showCTA,
+                        tabs[] {
+                          _key,
+                          tabHeading,
+                          tabSubHeading,
+                          description,
+                          "image": image.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          listItems[] {
+                            _key,
+                            subfeatureHeading,
+                            subfeatureSubheading,
+                            subfeatureDescription,
+                            "subfeatureImage": subfeatureImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            }
+                          },
+                          icon,
+                          ctaListItems[] {
+                            _key,
+                            ctaLink,
+                            ctaText,
+                            ctaType
+                          },
+                          Link,
+                          LinkText,
+                          testimonial-> {
+                            _id,
+                            name,
+                            designation,
+                            place,
+                            region,
+                            locations,
+                            practiceName,
+                            thumbnail,
+                            "logo": logo.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "secondaryLogo": secondaryLogo.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            video[] {
+                              ${this.VIDEO_FIELDS}
+                            },
+                            secondaryVideo[] {
+                              ${this.VIDEO_FIELDS}
+                            },
+                            "testimonialImage": testimonialImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            listItems[] {
+                              listHeading,
+                              before,
+                              after,
+                              description
+                            },
+                            testimonialheading,
+                            testimonialdescription,
+                            keyFeatures,
+                            language
+                          }
+                        }
+                      }
+                    ),
+                    // Explicitly fetch testimonialListing structure when dataType matches
+                    "testimonialListing": select(
+                      dataType == "testimonialListing" => testimonialListing {
+                        title,
+                        description,
+                        hideTitle,
+                        "testimonial": testimonialListReferences[]-> {
+                          _id,
+                          name,
+                          designation,
+                          "logo": logo.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          "secondaryLogo": secondaryLogo.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          video[] {
+                            ${this.VIDEO_FIELDS}
+                          },
+                          secondaryVideo[] {
+                            ${this.VIDEO_FIELDS}
+                          },
+                          thumbnail,
+                          testimonialImage {
+                            asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            }
+                          },
+                          keyStatement,
+                          testimonialdescription,
+                          designation,
+                          place,
+                          practiceName
+                        }
+                      }
+                    ),
+                    // Explicitly fetch integrationListing structure when dataType matches
+                    "integrationListing": select(
+                      dataType == "integrationListing" => integrationListing {
+                        title,
+                        description,
+                        showAllIntegrations,
+                        "integrationList": select(
+                          showAllIntegrations == true => 
+                            *[_type == "integrationList" && language == $language] | order(order asc, title asc) {
+                              _id,
+                              title,
+                              headline,
+                              description,
+                              shortDescription,
+                              slug,
+                              order,
+                              language,
+                              "image": image.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
+                              link,
+                              "integrationCategory": integrationCategory-> {
+                                _id,
+                                name,
+                                subheading,
+                                description,
+                                "mainImage": mainImage.asset-> {
+                                  ${this.IMAGE_METADATA_FIELDS}
+                                },
+                                "icon": icon.asset-> {
+                                  ${this.IMAGE_METADATA_FIELDS}
+                                },
+                                iconSvgCode,
+                                language
+                              }
+                            },
+                          integrationListReferences[]-> {
+                            _id,
+                            title,
+                            headline,
+                            description,
+                            shortDescription,
+                            slug,
+                            order,
+                            language,
+                            "image": image.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            link,
+                            "integrationCategory": integrationCategory-> {
+                              _id,
+                              name,
+                              subheading,
+                              description,
+                              "mainImage": mainImage.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
+                              "icon": icon.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
+                              iconSvgCode,
+                              language
+                            }
+                          }
+                        )
+                      }
+                    ),
+                    // Explicitly fetch customContent structure when dataType matches
+                    "customContent": select(
+                      dataType == "customContent" => customContent {
+                        title,
+                        subtitle,
+                        content,
+                        buttonText,
+                        buttonLink,
+                        "image": image.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
+                        backgroundColor
+                      }
+                    ),
+                    // Explicitly fetch featureList structure when dataType matches
+                    "featureList": select(
+                      dataType == "featureList" => featureList {
+                        title,
+                        description,
+                        selectAllFeatures,
+                        "featureListReference": featureListReference-> {
+                          _id,
+                          name,
+                          slug,
+                          description,
+                          "image": image.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          features[]-> {
+                            _id,
+                            name,
+                            slug,
+                            description,
+                            "image": image.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            category,
+                            language
+                          },
+                          language
+                        }
+                      }
+                    ),
+                    // Explicitly fetch genericListingComponent structure when dataType matches
+                    "genericListingComponent": select(
+                      dataType == "genericListingComponent" => genericListingComponent {
+                        heading,
+                        description,
+                        useReference,
+                        "blocksListingReference": blocksListingReference-> {
+                          _type,
+                          _id,
+                          name,
+                          language,
+                          heading,
+                          description,
+                          logoSectionHeader,
+                          logoSectionHeaderDescptn,
+                          'image': logo[]->image.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          testimonial[]-> {
+                            _id,
+                            name,
+                            designation,
+                            thumbnail,
+                            testimonialdescription,
+                            "logo": logo.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            video[] {
+                              ${this.VIDEO_FIELDS}
+                            },
+                            testimonialImage {
+                              asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              }
+                            }
+                          },
+                          subHeading,
+                          cardItems[] {
+                            "heading": cardItemHeading,
+                            "description": cardItemContent,
+                            "iconSvg": cardItemSvg,
+                            "image": cardItemImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            }
+                          },
+                          items[] {
+                            _key,
+                            heading,
+                            subheading,
+                            description,
+                            "image": image.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            link
+                          }
+                        },
+                        items[] {
+                          _key,
+                          heading,
+                          subheading,
+                          description,
+                          "image": image.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          "icon": icon.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          dynamicSvg,
+                          link {
+                            url,
+                            text,
+                            buttonType
+                          }
+                        },
+                        ctaListItems[] {
+                          _key,
+                          ctaLink,
+                          ctaText,
+                          ctaType
+                        },
+                        "testimonial": testimonial-> {
+                          _id,
+                          name,
+                          designation,
+                          practiceName,
+                          keyStatement,
+                          "logo": logo.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          "testimonialImage": testimonialImage.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          language
+                        }
+                      }
+                    )
+                  },
                   heading,
                   tabs[] {
                     _key,
@@ -409,7 +731,9 @@ class Queries {
                       "logo": logo.asset-> {
                         ${this.IMAGE_METADATA_FIELDS}
                       },
-                      
+                      "secondaryLogo": secondaryLogo.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
                       // Testimonial image
                       "testimonialImage": testimonialImage.asset-> {
                         ${this.IMAGE_METADATA_FIELDS}
@@ -428,7 +752,8 @@ class Queries {
                       testimonialdescription,
                       keyStatement,
                       keyFeatures,
-                      language
+                      language,
+                      practiceName
                     }
                   }
                 },
@@ -443,7 +768,8 @@ class Queries {
                       _id,
                       name,
                       designation,
-                      
+                      practiceName,
+                      keyStatement,
                       // Testimonial logo
                       "logo": logo.asset-> {
                         ${this.IMAGE_METADATA_FIELDS}
@@ -589,9 +915,9 @@ class Queries {
                           "logo": logo.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
                           },
-                            "secondaryLogo": secondaryLogo.asset-> {
-                              ${this.IMAGE_METADATA_FIELDS}
-                            },
+                          "secondaryLogo": secondaryLogo.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
                           
                           // Testimonial image
                           "testimonialImage": testimonialImage.asset-> {
@@ -617,6 +943,7 @@ class Queries {
                           testimonialdescription,
                           keyStatement,
                           keyFeatures,
+                          practiceName,
                         
                         }
                       }
@@ -699,23 +1026,23 @@ class Queries {
                     }
                   },
                   testimonial-> {
-                    _id,
-                    name,
-                    designation,
-                    thumbnail,
-                    testimonialdescription,
+                      _id,
+                      name,
+                      designation,
+                      thumbnail,
+                      testimonialdescription,
                   
                     "secondaryLogo": secondaryLogo.asset-> {
-                            ${this.IMAGE_METADATA_FIELDS}
-                          },
-                    video[] {
-                      ${this.VIDEO_FIELDS}
-                    },
+                          ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      video[] {
+                        ${this.VIDEO_FIELDS}
+                      },
                     secondaryVideo[] {
                       ${this.VIDEO_FIELDS}
                     },
                     "testimonialImage": testimonialImage.asset-> {
-                      ${this.IMAGE_METADATA_FIELDS}
+                          ${this.IMAGE_METADATA_FIELDS}
                     },
                     listItems[] {
                       listHeading,
@@ -812,6 +1139,7 @@ class Queries {
                     }
                   }
                 },
+                
                
               )
             }
@@ -831,9 +1159,332 @@ class Queries {
   private fetchHomeCardList(_region: string) {
     return groq`
       *[_type == "homeSettings" && language == $region][0] {
-        // Global data references for home cards
-        'globalDataReference': globalDataReference-> {
-          ...
+        // Global data references for home cards (array)
+        'globalDataReference': globalDataReference[]-> {
+          _id,
+          name,
+          dataType,
+          dataSlug,
+          // Include all data types
+          ...,
+          // Explicitly fetch tabsListingComponent structure when dataType matches
+          "tabsListingComponent": select(
+            dataType == "tabsListingComponent" => tabsListingComponent {
+              headline,
+              subheadline,
+              subDescription,
+              showCTA,
+              tabs[] {
+                _key,
+                tabHeading,
+                tabSubHeading,
+                description,
+                "image": image.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                listItems[] {
+                  _key,
+                  subfeatureHeading,
+                  subfeatureSubheading,
+                  subfeatureDescription,
+                  "subfeatureImage": subfeatureImage.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  }
+                },
+                icon,
+                ctaListItems[] {
+                  _key,
+                  ctaLink,
+                  ctaText,
+                  ctaType
+                },
+                Link,
+                LinkText,
+                testimonial-> {
+                  _id,
+                  name,
+                  designation,
+                  place,
+                  region,
+                  locations,
+                  practiceName,
+                  thumbnail,
+                  "logo": logo.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  "secondaryLogo": secondaryLogo.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  video[] {
+                    ${this.VIDEO_FIELDS}
+                  },
+                  secondaryVideo[] {
+                    ${this.VIDEO_FIELDS}
+                  },
+                  "testimonialImage": testimonialImage.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  listItems[] {
+                    listHeading,
+                    before,
+                    after,
+                    description
+                  },
+                  testimonialheading,
+                  testimonialdescription,
+                  keyFeatures,
+                  language
+                }
+              }
+            }
+          ),
+          // Explicitly fetch testimonialListing structure when dataType matches
+          "testimonialListing": select(
+            dataType == "testimonialListing" => testimonialListing {
+              title,
+              description,
+              hideTitle,
+              "testimonial": testimonialListReferences[]-> {
+                _id,
+                name,
+                designation,
+                "logo": logo.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                "secondaryLogo": secondaryLogo.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                },
+                video[] {
+                  ${this.VIDEO_FIELDS}
+                },
+                secondaryVideo[] {
+                  ${this.VIDEO_FIELDS}
+                },
+                thumbnail,
+                testimonialImage {
+                  asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  }
+                },
+                keyStatement,
+                testimonialdescription,
+                designation,
+                place,
+                practiceName
+              }
+            }
+          ),
+          // Explicitly fetch integrationListing structure when dataType matches
+          "integrationListing": select(
+            dataType == "integrationListing" => integrationListing {
+              title,
+              description,
+              showAllIntegrations,
+              "integrationList": select(
+                showAllIntegrations == true => 
+                  *[_type == "integrationList" && language == $region] | order(order asc, title asc) {
+                    _id,
+                    title,
+                    headline,
+                    description,
+                    shortDescription,
+                    slug,
+                    order,
+                    language,
+                    "image": image.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    link,
+                    "integrationCategory": integrationCategory-> {
+                      _id,
+                      name,
+                      subheading,
+                      description,
+                      "mainImage": mainImage.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      "icon": icon.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      iconSvgCode,
+                      language
+                    }
+                  },
+                integrationListReferences[]-> {
+                  _id,
+                  title,
+                  headline,
+                  description,
+                  shortDescription,
+                  slug,
+                  order,
+                  language,
+                  "image": image.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  link,
+                  "integrationCategory": integrationCategory-> {
+                    _id,
+                    name,
+                    subheading,
+                    description,
+                    "mainImage": mainImage.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    "icon": icon.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    iconSvgCode,
+                    language
+                  }
+                }
+              )
+            }
+          ),
+          // Explicitly fetch customContent structure when dataType matches
+          "customContent": select(
+            dataType == "customContent" => customContent {
+              title,
+              subtitle,
+              content,
+              buttonText,
+              buttonLink,
+              "image": image.asset-> {
+                ${this.IMAGE_METADATA_FIELDS}
+              },
+              backgroundColor
+            }
+          ),
+          // Explicitly fetch featureList structure when dataType matches
+          "featureList": select(
+            dataType == "featureList" => featureList {
+              title,
+              description,
+              selectAllFeatures,
+              "featureListReference": featureListReference-> {
+                _id,
+                name,
+                slug,
+                description,
+                "image": image.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                features[]-> {
+                  _id,
+                  name,
+                  slug,
+                  description,
+                  "image": image.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  category,
+                  language
+                },
+                language
+              }
+            }
+          ),
+          // Explicitly fetch genericListingComponent structure when dataType matches
+          "genericListingComponent": select(
+            dataType == "genericListingComponent" => genericListingComponent {
+              heading,
+              description,
+              useReference,
+              "blocksListingReference": blocksListingReference-> {
+                _type,
+                _id,
+                name,
+                language,
+                // Common fields across most schemas
+                heading,
+                description,
+                // logoListing specific
+                logoSectionHeader,
+                logoSectionHeaderDescptn,
+                'image': logo[]->image.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                // verticalTestimonialListing specific
+                testimonial[]-> {
+                  _id,
+                  name,
+                  designation,
+                  thumbnail,
+                  testimonialdescription,
+                  "logo": logo.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  video[] {
+                    ${this.VIDEO_FIELDS}
+                  },
+                  testimonialImage {
+                    asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    }
+                  }
+                },
+                // csCardsListing specific
+                subHeading,
+                cardItems[] {
+                  "heading": cardItemHeading,
+                  "description": cardItemContent,
+                  "iconSvg": cardItemSvg,
+                  "image": cardItemImage.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  }
+                },
+                // whoWeServeListing specific
+                items[] {
+                  _key,
+                  heading,
+                  subheading,
+                  description,
+                  "image": image.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  link
+                }
+              },
+              items[] {
+                _key,
+                heading,
+                subheading,
+                description,
+                "image": image.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                "icon": icon.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                dynamicSvg,
+                link {
+                  url,
+                  text,
+                  buttonType
+                }
+              },
+              ctaListItems[] {
+                _key,
+                ctaLink,
+                ctaText,
+                ctaType
+              },
+              "testimonial": testimonial-> {
+                _id,
+                name,
+                designation,
+                practiceName,
+                keyStatement,
+                "logo": logo.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                "testimonialImage": testimonialImage.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                language
+              }
+            }
+          )
         }
       }
     `
@@ -956,7 +1607,7 @@ class Queries {
       faqReferenced: result?.faqReferenced || null,
       title: result?.title || null,
       description: result?.description || null,
-      breadCrumb: result?.breadCrumb || null
+      breadCrumb: result?.breadCrumb || null,
     }
   }
 

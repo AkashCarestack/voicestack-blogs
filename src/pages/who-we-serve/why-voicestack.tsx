@@ -28,8 +28,17 @@ export default function WhyVoicestackIndex({ data, heroData, faq, features }: an
         <ListingWithTabs list={data['grow-your-practice']} />
       )}
       <CategoryFeatureTabs features={features} />
-      {data['stack-card-tab-testimonial']?.componentData && (
-        <StackCardTestimonial data={data['stack-card-tab-testimonial'].componentData} refer={data}/>
+      {data['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            data['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={data['stack-card-tab-testimonial']?.componentData}
+        />
       )}
       <FaqSection faqItems={faq}/>
     </>

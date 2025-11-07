@@ -62,7 +62,14 @@ export default function FeaturesPage({
           (feature) => feature.slug?.current !== 'landing',
         )}
       />
-      {data['stack-card-tab-testimonial']?.componentData && (
+       {data['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            data['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
         <StackCardTestimonial
           data={data['stack-card-tab-testimonial']?.componentData}
         />

@@ -55,7 +55,7 @@ export default function DemoPage({ formData, region }: DemoPageProps) {
               </p>
             </div>
           </div>
-          <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-6">
+          <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-6 min-h-[500px]">
             <HubSpotForm 
               id={formData?.dmeoFormId} 
               eventName={formData?.dmeoFormEventName} 

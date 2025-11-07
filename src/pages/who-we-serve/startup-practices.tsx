@@ -39,7 +39,14 @@ export default function StartupPractices({ pageData, faq }: StartupPracticesProp
         />
       )}
           <StatisticsSection />
-        {pageData['stack-card-tab-testimonial']?.componentData && (
+          {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />

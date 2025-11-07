@@ -24,9 +24,16 @@ const GlobalData = {
       },
       // validation: (Rule: any) => Rule.required(),
     },
-    {
+   
+     {
       name: 'name',
       title: 'Data Name',
+      type: 'string',
+      // validation: (Rule: any) => Rule.required(),
+    },
+    {
+      name: 'dataSlug',
+      title: 'Data Slug',
       type: 'string',
       // validation: (Rule: any) => Rule.required(),
     },

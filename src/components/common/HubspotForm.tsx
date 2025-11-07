@@ -40,8 +40,8 @@ const HubSpotForm = ({
             window.hbspt.forms.create({
               portalId: '4832409',
               region: 'na1',
-              formId: id || '6b2d6906-028e-4d65-9cd1-34d528e0d5c0',
-              // formId: "f2fbfea3-a1e5-4e17-a506-a9d341a45458",
+              // formId: id || '6b2d6906-028e-4d65-9cd1-34d528e0d5c0',
+              formId: "f2fbfea3-a1e5-4e17-a506-a9d341a45458",
               
               target: '#hubspotForm',
               inlineMessage:
@@ -75,17 +75,21 @@ const HubSpotForm = ({
                   }
                 }
 
+                const email = form.querySelector('input[name="email"]').value;
 
+                window.localStorage.setItem(
+                  "demoData",
+                  JSON.stringify({
+                    firstname: form.querySelector('input[name="firstname"]').value,
+                    lastname: form.querySelector('input[name="lastname"]').value,
+                    email: email,
+                    meetingLink: meetingLink || null,
+                  })
+                );
                 
-
-                const email = form.querySelector('input[name="email"]').value
-                window2.dataLayer.push({
-                  email: email,
-                  event: eventName || 'demo_submission_uk',
-                });
-                if(meetingLink){
+                // if(meetingLink){
                   document.getElementById("successMessage").style.display = "block";
-                }
+                // }
                 
                 trackEvent({
                   e_name: eventName || 'demo_submission_uk',
@@ -107,10 +111,12 @@ const HubSpotForm = ({
                     `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
                   ); 
                   // document.getElementById("successMessage").innerHTML = "Thank you, a VoiceStack representative will reach out to you shortly."; 
-                  if(meetingLink){
-                    var meetingUrl = `${meetingLink}?${params.toString()}`;
-                    router.push(meetingUrl);
-                  }
+                  // Commented out meeting redirect - now redirecting to thank-you page instead
+                  // if(meetingLink){
+                  //   var meetingUrl = `${meetingLink}?${params.toString()}`;
+                  //   router.push(meetingUrl);
+                  // }
+                  router.push('/thank-you');
                    
                 }, 3000)
               },
