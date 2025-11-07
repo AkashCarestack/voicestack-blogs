@@ -16,6 +16,7 @@ interface StartupPracticesProps {
 }
 
 export default function StartupPractices({ pageData, faq }: StartupPracticesProps) {
+  const tabsListingComponentData = pageData?.['smarter-system']?.componentData?.refData?.tabsListingComponent;
   return (
     <>
        <div
@@ -30,8 +31,8 @@ export default function StartupPractices({ pageData, faq }: StartupPracticesProp
       />
         
        </div>
-      {pageData?.['trusted-business-communications']?.tabsListingComponent &&
-        <SingleTabCardListing data={pageData?.['trusted-business-communications']?.tabsListingComponent}/>
+      {tabsListingComponentData &&
+        <SingleTabCardListing data={tabsListingComponentData}/>
       }
       {pageData['testimonial-video-section']?.componentData && (
         <VerticalTestimonialListing

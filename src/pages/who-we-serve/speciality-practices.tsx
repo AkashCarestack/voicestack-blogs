@@ -21,6 +21,7 @@ export default function SpecialityPractices({
   pageData,
   faq,
 }: SpecialityPracticesProps) {
+  const tabsListingComponentData = pageData?.['smarter-system']?.componentData?.refData?.tabsListingComponent;
   return (
     <>
       {pageData['dental-phones-hero']?.componentData && (
@@ -34,11 +35,9 @@ export default function SpecialityPractices({
           data={pageData?.['effortlessly-handle-calls']?.componentData}
         />
       )}
-      {pageData?.['trusted-business-communications']?.tabsListingComponent && (
+      {tabsListingComponentData && (
         <SingleTabCardListing
-          data={
-            pageData?.['trusted-business-communications']?.tabsListingComponent
-          }
+          data={tabsListingComponentData}
         />
       )}
       {pageData['testimonial-video-section']?.componentData && (
