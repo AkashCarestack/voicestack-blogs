@@ -56,6 +56,7 @@ export default function CardsWithTestimonial({ data }: { data: any }) {
                 <div className="relative z-10 grid grid-cols-2  gap-y-3 gap-x-6 md:gap-x-12">
                   {data?.testimonial?.listItems?.map(
                     (metric, index) => {
+                        
                       // Check if item has 'after' value (metric) or only 'description' (quote)
                       // 'after' is a string, 'description' is blockContent (array)
                       const hasAfter = metric?.after && (typeof metric.after === 'string' ? metric.after.trim() !== '' : true)

@@ -34,49 +34,59 @@ export default function WhoWeServeIndex({
 }: WhoWeServeIndexProps) {
   return (
     <>
-       <div
-         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
-         style={{
-           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
-         }}
-       >
-      <HeroSection
-        page=""
-        data={pageData['dental-phones-hero']?.componentData}
-      />
-       </div>
+      <div
+        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+        style={{
+          background:
+            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
+        }}
+      >
+        <HeroSection
+          page=""
+          data={pageData['dental-phones-hero']?.componentData}
+        />
+      </div>
 
       {pageData['how-voicestack-works']?.componentData && (
-        <CardsGridSection 
+        <CardsGridSection
           data={pageData['how-voicestack-works'].componentData}
         />
       )}
-      {
-        pageData['real-business-outcomes']?.componentData && (
-           <CardListing data={ pageData['real-business-outcomes']?.componentData.refData.tabsListingComponent}/>
-        )
-      }
-     {/* {pageData['hover-card-change-testimonial']?.componentData && (
-      <HoverTestimonial data={pageData['hover-card-change-testimonial']?.componentData}/>
-     )} */}
+      {pageData['real-business-outcomes']?.componentData && (
+        <CardListing
+          data={
+            pageData['real-business-outcomes']?.componentData.refData
+              .tabsListingComponent
+          }
+        />
+      )}
+      {pageData['hover-card-change-testimonial']?.componentData && (
+        <HoverTestimonial
+          data={pageData['hover-card-change-testimonial']?.componentData}
+        />
+      )}
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
-          <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />
+          <IntegrationsGrid
+            data={pageData['integrations-listing']?.componentData}
+          />
         </div>
       )}
 
       <StatisticsSection />
       {pageData['logo-listing']?.componentData && (
-        <LogoListingSection data={pageData['logo-listing']?.componentData?.blocksListingData} header={true}/>
+        <LogoListingSection
+          data={pageData['logo-listing']?.componentData?.blocksListingData}
+          header={true}
+        />
       )}
 
       {/* FAQ Section */}
       {faq && (
-         <div>
-           <FaqSection faqItems={faq} />
-         </div>
-       )}
-     
+        <div>
+          <FaqSection faqItems={faq} />
+        </div>
+      )}
     </>
   )
 }
@@ -88,9 +98,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     // Get all pages
     const queries = new Queries('landing', region)
     const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
-    const pageData = await queries.getPageData('whoWeServe', slug) 
+    const pageData = await queries.getPageData('whoWeServe', slug)
     // Ensure FAQ data is serializable
-    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+    const faqData =
+      pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
     if (!pageData || Object.keys(pageData).length === 0) {
       return {
@@ -102,7 +113,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData: pageData,
         region: region,
-        faq: faqData
+        faq: faqData,
       },
     }
   } catch (error) {
@@ -110,7 +121,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
       props: {
         pageData: [],
-        faq: null
+        faq: null,
       },
     }
   }
