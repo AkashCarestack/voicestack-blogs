@@ -271,14 +271,19 @@ class Queries {
                 listHeading,
                 before,
                 after,
-                description
+                description,
+                isHighlighted
               },
               
               // Testimonial content
               testimonialheading,
               testimonialdescription,
               keyFeatures,
-              language
+              language,
+              mainStatement,
+              subStatement,
+              keyStatement,
+              isHighlighted
             }
           }
         }
@@ -443,12 +448,17 @@ class Queries {
                               listHeading,
                               before,
                               after,
-                              description
+                              description,
+                              isHighlighted
                             },
                             testimonialheading,
                             testimonialdescription,
                             keyFeatures,
-                            language
+                            language,
+                            mainStatement,
+                            subStatement,
+                            keyStatement,
+                            isHighlighted
                           }
                         }
                       }
@@ -485,7 +495,11 @@ class Queries {
                           testimonialdescription,
                           designation,
                           place,
-                          practiceName
+                          practiceName,
+                          mainStatement,
+                          subStatement,
+                          keyStatement,
+                          isHighlighted
                         }
                       }
                     ),
@@ -745,7 +759,8 @@ class Queries {
                         listHeading,
                         before,
                         after,
-                        description
+                        description,
+                        isHighlighted
                       },
                       
                       // Testimonial content
@@ -754,7 +769,11 @@ class Queries {
                       keyStatement,
                       keyFeatures,
                       language,
-                      practiceName
+                      practiceName,
+                      mainStatement,
+                      subStatement,
+                      keyStatement,
+                      isHighlighted
                     }
                   }
                 },
@@ -795,7 +814,8 @@ class Queries {
                         listHeading,
                         before,
                         after,
-                        description
+                        description,
+                        isHighlighted
                       },
                       
                       // Testimonial content
@@ -1049,7 +1069,8 @@ class Queries {
                       listHeading,
                       before,
                       after,
-                      description
+                      description,
+                      isHighlighted
                     },
                   },
                   // Blocks & Lists Reference (all types)
@@ -1229,12 +1250,17 @@ class Queries {
                     listHeading,
                     before,
                     after,
-                    description
+                    description,
+                    isHighlighted
                   },
                   testimonialheading,
                   testimonialdescription,
                   keyFeatures,
-                  language
+                  language,
+                  mainStatement,
+                  subStatement,
+                  keyStatement,
+                  isHighlighted
                 }
               }
             }
