@@ -16,7 +16,7 @@ const PrevArrow = ({ onClick, currentSlide }: any) => {
     <button
       onClick={onClick}
       disabled={isDisabled}
-      className={`w-10 h-10 rounded-full flex items-center justify-center absolute bottom-0 left-2 z-10 mb-4
+      className={`w-10 h-10 rounded-full flex items-center justify-center
         ${isDisabled ? 'bg-gray-300 cursor-not-allowed opacity-50' : 'bg-white hover:bg-gray-100 transition-colors shadow-md'}`}
       aria-label="Previous"
     >
@@ -54,7 +54,7 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
     <button
       onClick={onClick}
       disabled={isDisabled}
-      className={`w-10 h-10 rounded-full flex items-center justify-center absolute bottom-0 right-2 z-10 mb-4
+      className={`w-10 h-10 rounded-full flex items-center justify-center
         ${isDisabled ? 'bg-gray-300 cursor-not-allowed opacity-50' : 'bg-white hover:bg-gray-100 transition-colors shadow-md'}`}
       aria-label="Next"
     >
@@ -116,6 +116,9 @@ export default function HoverTestimonial({ data }: any) {
     },
   }
 
+  // Slider ref for manual navigation
+  const sliderRef = React.useRef<any>(null)
+
   // Slider settings for mobile
   const sliderSettings = {
     dots: false,
@@ -123,18 +126,11 @@ export default function HoverTestimonial({ data }: any) {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: false, // Disable default arrows since we're using custom ones outside
     afterChange: (index: number) => {
       setCurrentSlide(index)
       setActiveIndex(index)
     },
-    prevArrow: <PrevArrow currentSlide={currentSlide} />,
-    nextArrow: (
-      <NextArrow
-        currentSlide={currentSlide}
-        slideCount={tabs.length}
-      />
-    ),
   }
 
   // Render content for a tab (used in both mobile slider and desktop)
@@ -223,9 +219,9 @@ export default function HoverTestimonial({ data }: any) {
       <div className="w-full max-w-[643px] flex flex-col lg:flex-row gap-4 rounded-[24px] bg-gradient-to-br from-[#F4F3FA] to-[#E0DDFF] p-3">
         {/* Left: Testimonial Block */}
         {tab?.testimonial && (
-          <div className="w-full lg:w-auto lg:flex-1 p-6 h-full">
+          <div className="w-full lg:w-auto lg:flex-1 p-6 h-full flex flex-col justify-between">
             {tab?.testimonial?.subStatement && (
-              <div className="text-base md:text-xl text-[#030712] mb-4 font-medium leading-[140%]">
+              <div className="text-base md:text-xl text-[#030712] mb-4 font-medium leading-[140%] min-h-[224px]">
                 {Array.isArray(tab.testimonial.subStatement) && tab.testimonial.subStatement.length > 0 ? (
                   <PortableText value={tab.testimonial.subStatement} components={quoteComponents} />
                 ) : typeof tab.testimonial.subStatement === 'string' ? (
@@ -234,7 +230,7 @@ export default function HoverTestimonial({ data }: any) {
               </div>
             )}
             {tab.testimonial.name && (
-              <div className="flex flex-col">
+              <div className="flex flex-col mt-auto">
                 <p className="font-semibold text-gray-900">
                   {tab.testimonial.name}
                 </p>
@@ -259,7 +255,7 @@ export default function HoverTestimonial({ data }: any) {
                 </div>
               )}
               {statistic.listHeading && (
-                <p className="text-4xl md:text-6xl font-bold text-[#4A3CE1] leading-relaxed">
+                <p className="text-4xl md:text-6xl font-bold text-[#4A3CE1] leading-relaxed font-manrope">
                   {statistic.listHeading}
                 </p>
               )}
@@ -313,7 +309,7 @@ export default function HoverTestimonial({ data }: any) {
           {/* Mobile View - Slider (below md) */}
           <div className="w-full md:hidden">
             <div className="relative">
-              <Slider {...sliderSettings}>
+              <Slider ref={sliderRef} {...sliderSettings}>
                 {tabs.map((tab, index) => (
                   <div key={tab._key || index} className="px-2">
                     <div className="flex flex-col gap-4">
@@ -325,6 +321,18 @@ export default function HoverTestimonial({ data }: any) {
                   </div>
                 ))}
               </Slider>
+            </div>
+            {/* Navigation Arrows - Outside content section */}
+            <div className="flex items-center justify-center gap-4 mt-6">
+              <PrevArrow
+                currentSlide={currentSlide}
+                onClick={() => sliderRef.current?.slickPrev()}
+              />
+              <NextArrow
+                currentSlide={currentSlide}
+                slideCount={tabs.length}
+                onClick={() => sliderRef.current?.slickNext()}
+              />
             </div>
           </div>
 
