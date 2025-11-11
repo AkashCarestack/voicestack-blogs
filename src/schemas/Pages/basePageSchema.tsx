@@ -41,7 +41,7 @@ export const createBasePageSchema = (name: string, title: string) => ({
         {
           name: 'description',
           title: 'Description',
-          type: 'text',
+          type: title === 'Company Page' ? 'blockContent' : 'text',
         },
         {
           name: 'icon',
