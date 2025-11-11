@@ -219,7 +219,7 @@ const HeroSection = ({
                   </Button>
                 )}
                 {data?.bookBtnContent[1]?.buttonText && (
-                  <Button type="secondary" className="w-fit">
+                  <Button type="secondary" className="w-fit" link={'/pricing'}>
                     {data?.bookBtnContent[1]?.buttonText || 'See Pricing'}
                   </Button>
                 )}
@@ -273,7 +273,7 @@ const HeroSection = ({
                       {data?.bookBtnContent[0]?.buttonText || 'Book Free Demo'}
                     </span>
                   </Button>
-                  <Button type="secondary" className="w-fit">
+                  <Button type="secondary" className="w-fit" link={'/pricing'}>
                     {data?.bookBtnContent[1]?.buttonText || 'See Pricing'}
                   </Button>
                 </div>

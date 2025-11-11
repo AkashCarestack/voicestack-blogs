@@ -590,7 +590,7 @@ const Header = ({ data, refer = null }) => {
                             </div>
                           )}
                           <Button type="primary" link="/demo">
-                            <span>{safeData?.ctabutton}</span>
+                            <span>{safeData?.ctabutton || 'Book Free Demo'}</span>
                           </Button>
                         </div>
 
@@ -600,6 +600,9 @@ const Header = ({ data, refer = null }) => {
                   </div>
 
                   <div className="lg:flex gap-3 items-center lg:justify-end hidden">
+                  <Button type="secondary" className="w-fit" link={'/pricing'}>
+                    {'See Pricing'}
+                  </Button>
                     <Button type="primary" link="/demo">
                       <span className="text-sm font-medium">{`Book Free Demo`}</span>
                     </Button>
