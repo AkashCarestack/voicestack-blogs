@@ -8,7 +8,10 @@ import Queries from '~/components/revamp/queries'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
-import { getAllComparisonValues, getComparisonTableData } from '~/lib/sanity.queries'
+import {
+  getAllComparisonValues,
+  getComparisonTableData,
+} from '~/lib/sanity.queries'
 import { getClient } from '~/lib/sanity.client'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
@@ -21,7 +24,6 @@ interface HeroComponentData {
   [key: string]: any // For flexibility with dynamic data
 }
 
-
 interface PageData {
   'integrations-hero': {
     componentData: HeroComponentData
@@ -32,7 +34,6 @@ interface PageData {
   [key: string]: any // For other page sections
 }
 
-
 export default function ComparisonPage({
   pageData,
   region,
@@ -40,22 +41,25 @@ export default function ComparisonPage({
   comparisonTableData,
   comparisonLegendData,
 }) {
+  console.log('pageData', pageData)
+  const comparisonTableTitle = pageData['comparison-table']?.componentData
   const comparisonSectionData = {
-    strip:
-      'The Best-in-Class Phone System. For the Best-in-Class Dental Practices.',
-    header:
-      'No other phone system can match VoiceStack’s AI-driven features,outcome-driven workflows and integration capabilities, as shown in the comparison chart below. ',
+    strip: comparisonTableTitle?.heading,
+    header: comparisonTableTitle?.description,
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
 
   // Extract integration data from pageData instead of separate query
- 
 
   return (
     <>
-      <div className="py-12"
-        style={{background:'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'}}
+      <div
+        className="py-12"
+        style={{
+          background:
+            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
+        }}
       >
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         {pageData['comparison-hero']?.componentData && (
@@ -67,17 +71,19 @@ export default function ComparisonPage({
       </div>
 
       {comparisonTableData && (
-        <SiteComparisonSection 
-          data={comparisonSectionData} 
+        <SiteComparisonSection
+          data={comparisonSectionData}
           legendData={comparisonLegendData || []}
         />
       )}
 
       {/* VoiceStack Comparison Cards Section */}
       {pageData['comparison-cards']?.componentData && (
-        <ComparisonCardsSection data={pageData['comparison-cards']?.componentData}/>
+        <ComparisonCardsSection
+          data={pageData['comparison-cards']?.componentData}
+        />
       )}
-      
+
       {/* Testimonial Section */}
       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
@@ -120,7 +126,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     // Fetch comparison table data
     const client = getClient()
     const comparisonTableData = await getComparisonTableData(client, region)
-    const comparisonLegendData = await getAllComparisonValues() || []
+    const comparisonLegendData = (await getAllComparisonValues()) || []
 
     console.log('comparisonTableData', comparisonTableData)
 

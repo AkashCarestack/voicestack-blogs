@@ -18,7 +18,7 @@ class Queries {
   }
 
   // ==================== COMMON QUERY PATTERNS ====================
-  
+
   /**
    * Standard image metadata fields for consistent image data fetching
    */
@@ -61,7 +61,7 @@ class Queries {
   /**
    * Fetches common page data for "whoWeServe" type pages
    * Includes FAQ data and content sections with dynamic component handling
-   * 
+   *
    * @param _slug - The page slug to fetch data for
    * @returns GROQ query string for fetching page data
    */
@@ -96,7 +96,7 @@ class Queries {
   /**
    * Fetches hero section data from home settings
    * Includes hero content, images, videos, and testimonial data
-   * 
+   *
    * @param _region - The language/region to fetch data for
    * @returns GROQ query string for fetching hero data
    */
@@ -173,7 +173,7 @@ class Queries {
   /**
    * Fetches all tabs listing components from global data
    * Includes complete tab data with images, testimonials, and CTA items
-   * 
+   *
    * @returns GROQ query string for fetching tabs listing data
    */
   private fetchAllTabsListingData() {
@@ -297,7 +297,7 @@ class Queries {
   /**
    * Fetches vertical testimonial listing data
    * Includes section heading and array of testimonial references with complete data
-   * 
+   *
    * @param _region - The language/region to fetch data for
    * @returns GROQ query string for fetching vertical testimonial listing
    */
@@ -350,7 +350,7 @@ class Queries {
   /**
    * Fetches page data with dynamic component handling
    * Supports multiple component types: TabsListing, Custom, Hero, and GenericListing
-   * 
+   *
    * @param _type - The document type to fetch
    * @param _slug - The page slug to fetch data for
    * @returns GROQ query string for fetching page data with component-specific data
@@ -1022,11 +1022,17 @@ class Queries {
                     },
                     
                     // Testimonial videos
-                    video[] {
-                      ${this.VIDEO_FIELDS}
-                    },
-                    
-                    // Testimonial image
+                      "video": video[] {
+                        ${this.VIDEO_FIELDS},
+                        "videoThumbnail": videoThumbnail.asset-> {
+                          _id,
+                          url,
+                          originalFilename,
+                          size,
+                          mimeType
+                        }
+                      },
+                                // Testimonial image
                     "testimonialImage": testimonialImage.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
                     },
@@ -1207,7 +1213,7 @@ class Queries {
   /**
    * Fetches home card list data from home settings
    * Includes global data references for home page cards
-   * 
+   *
    * @param _region - The language/region to fetch data for
    * @returns GROQ query string for fetching home card data
    */
@@ -1556,7 +1562,7 @@ class Queries {
   /**
    * Fetches FAQ referenced data for a specific page
    * Includes FAQ categories and visibility settings
-   * 
+   *
    * @returns GROQ query string for fetching FAQ referenced data
    */
   private fetchFaqReferencedData() {
@@ -1577,7 +1583,7 @@ class Queries {
   /**
    * Fetches common page data for the current slug and region
    * Includes FAQ data and content sections with dynamic component handling
-   * 
+   *
    * @returns Promise resolving to page data object
    */
   public async getData() {
@@ -1589,7 +1595,7 @@ class Queries {
   /**
    * Fetches hero section data for the specified region
    * Includes hero content, images, videos, and testimonial data
-   * 
+   *
    * @param region - The language/region to fetch hero data for
    * @returns Promise resolving to hero data object
    */
@@ -1602,7 +1608,7 @@ class Queries {
   /**
    * Fetches all tabs listing components from global data
    * Includes complete tab data with images, testimonials, and CTA items
-   * 
+   *
    * @param _region - The language/region (currently unused but kept for consistency)
    * @returns Promise resolving to array of tabs listing data
    * @throws Error if data fetching fails
@@ -1624,7 +1630,7 @@ class Queries {
   /**
    * Fetches vertical testimonial listing data for the specified region
    * Includes section heading and array of testimonial references with complete data
-   * 
+   *
    * @param region - The language/region to fetch testimonial data for
    * @returns Promise resolving to vertical testimonial listing data
    * @throws Error if data fetching fails
@@ -1642,7 +1648,7 @@ class Queries {
   /**
    * Fetches page data with dynamic component handling
    * Supports multiple component types and transforms sections into a keyed object
-   * 
+   *
    * @param type - The document type to fetch
    * @param slug - The page slug to fetch data for
    * @returns Promise resolving to transformed page sections object
@@ -1679,7 +1685,7 @@ class Queries {
   /**
    * Fetches home card data for the specified region
    * Includes global data references for home page cards
-   * 
+   *
    * @param region - The language/region to fetch home card data for
    * @returns Promise resolving to home card data object
    */
@@ -1691,7 +1697,7 @@ class Queries {
   /**
    * Fetches FAQ referenced data for a specific page and region
    * Includes FAQ categories and visibility settings
-   * 
+   *
    * @param page - The page type to fetch FAQ data for
    * @param region - The language/region to fetch FAQ data for
    * @returns Promise resolving to FAQ referenced data object
@@ -1796,7 +1802,7 @@ class Queries {
   /**
    * Fetches integration data for FeaturesSectionWithNavigation component
    * Returns both categories and integrations in a single optimized query
-   * 
+   *
    * @param language - The language to fetch data for
    * @returns Promise resolving to integration data object with categories and integrations
    */
