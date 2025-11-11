@@ -127,9 +127,6 @@ const HubSpotForm = ({
       }
     }
 
-    console.log(id, "formId");
-    console.log(meetingLink, "meetingLink");
-    console.log(eventName, "eventName");
     loadHubSpotScript()
 
     // Cleanup the script if necessary
