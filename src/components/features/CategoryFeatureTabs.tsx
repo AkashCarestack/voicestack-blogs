@@ -554,13 +554,13 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
 
                       {/* Image Section - No padding, full width */}
                       {displayCategory?.mainImage && (
-                        <figure className="relative overflow-hidden">
+                        <figure className="relative w-full h-full overflow-hidden">
                           <Image
                             src={displayCategory.mainImage.asset.url}
                             alt={`${displayCategory.name} feature illustration`}
                             width={400}
                             height={400}
-                            className="w-full h-full object-cover"
+                            className="md:max-w-[430px]   w-full h-full object-cover"
                           />
                         </figure>
                       )}
