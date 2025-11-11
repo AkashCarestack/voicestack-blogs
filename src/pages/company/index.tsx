@@ -1,6 +1,5 @@
 import React from 'react'
 import { GetStaticProps } from 'next'
-import Head from 'next/head'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import AboutCompany from '~/components/revamp/components/common/AboutCompany'
