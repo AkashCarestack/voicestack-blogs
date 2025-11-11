@@ -106,6 +106,7 @@ export default function TabCardsListing({ data }: { data: any }) {
                     width={886}
                     image={e.image?.url}
                     alt={e.tabHeading}
+                    title={e.tabHeading}
                     className="xl:w-[800px] w-full md:h-[476px] h-[400px] object-contain"
                   />
                 </div>

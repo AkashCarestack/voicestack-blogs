@@ -178,6 +178,8 @@ export default function CardsWithTestimonial({ data }: { data: any }) {
               <ImageLoader
                 key={`testimonial-image-${data?.testimonial?._id}`}
                 image={data?.testimonial?.testimonialImage}
+                alt={data?.testimonial?.testimonialImage?.alt || data?.testimonial?.name}
+                title={data?.testimonial?.testimonialImage?.title || data?.testimonial?.name}
                 imageClassName="w-full h-auto object-contain"
               />
             </div>

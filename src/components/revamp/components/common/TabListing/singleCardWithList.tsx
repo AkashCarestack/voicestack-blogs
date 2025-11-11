@@ -26,6 +26,7 @@ export default function SingleCardWithList({ data }: { data: any }) {
                             image={data. cardImage?.url}
                             radius={12}
                             alt={data?.headline}
+                            title={data?.headline}
                             width={608}
                             height={608}
                             fixed={true}

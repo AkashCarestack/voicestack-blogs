@@ -103,6 +103,7 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
                       return (
                         <Image
                           alt={integration.image.altText} 
+                          title={integration.image.title}
                           className="w-full h-full object-contain" 
                           src={imageUrl}
                           width={64}
