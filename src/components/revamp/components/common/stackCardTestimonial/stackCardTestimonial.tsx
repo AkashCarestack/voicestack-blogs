@@ -63,6 +63,8 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   const [activeTestimonial, setActiveTestimonial] = useState(0)
 
   const currentTestimonial = data?.tabs[activeTestimonial]
+  console.log(currentTestimonial.testimonial.practiceName)
+
   return (
     <Section className="relative py-sm md:py-md  bg-[#F9F9F9]">
       <Container className="w-full justify-center">
@@ -108,6 +110,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     <ImageLoader
                       image={testimonial?.testimonial?.secondaryLogo?.url}
                       alt={testimonial?.testimonial?.secondaryLogo?.altText}
+                      title={currentTestimonial?.testimonial?.practiceName? testimonial?.testimonial?.practiceName: testimonial?.testimonial?.secondaryLogo?.altText}
                       className="w-full h-full object-contain invert-[100%]"
                     />
                   </div>
@@ -137,8 +140,8 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                 <ImageLoader
                   image={currentTestimonial?.image?.url}
                   alt={currentTestimonial?.image?.alt || currentTestimonial?.tabHeading}
-                  title={currentTestimonial?.image?.title || currentTestimonial?.tabHeading}
-                  className="w-full h-full object-contain"
+                  title={currentTestimonial?.testimonial?.practiceName? currentTestimonial?.testimonial?.practiceName: currentTestimonial?.image?.title }
+                className="w-full h-full object-contain"
                 />
               </div>
             </div>
