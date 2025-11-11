@@ -1701,6 +1701,24 @@ class Queries {
     return await this.client.fetch(query, { region: region, page: page })
   }
 
+  /**
+   * Fetches FAQ data from faqRevamp schema by slug
+   * 
+   * @param slug - The slug to fetch FAQ data for (e.g., "pricing")
+   * @param region - The language/region to fetch FAQ data for
+   * @returns Promise resolving to FAQ data object or null
+   */
+  public async getFaqBySlug(slug: string, region: string) {
+    const query = groq`*[_type == "faqRevamp" && slug.current == $slug && (language == $region || language == null)][0]`
+    try {
+      const result = await this.client.fetch(query, { slug, region })
+      return result || null
+    } catch (error) {
+      console.error('Error fetching FAQ by slug:', error)
+      return null
+    }
+  }
+
   // Integrations Grid Query - Basic
   private fetchIntegrationsQuery() {
     return `

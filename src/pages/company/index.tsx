@@ -1,10 +1,9 @@
 import React from 'react'
 import { GetStaticProps } from 'next'
-import Head from 'next/head'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
-import Queries from '~/components/revamp/queries'
-import Link from 'next/link'
+import AboutCompany from '~/components/revamp/components/common/AboutCompany'
+import MinimalCardList from '~/components/revamp/components/common/minimalCardList'
 
 interface CompanyPageProps {
   pageData: any
@@ -13,26 +12,11 @@ interface CompanyPageProps {
   metaDescription?: string | null
   data: any
 }
-const MinimalCardList = ({ data }: { data: any }) => {
-  return (
-    <div className="flex flex-col gap-3 bg-white md:py-8 py-4 md:px-6 px-2 rounded-[24px]">
-      <h4 className="md:text-2xl text-xl font-bold text-gray-950 leading-[133.33%] font-manrope">
-        {data?.title}
-      </h4>
-      <p className="md:text-base text-sm font-normal leading-[150%] text-gray-700">
-        {data?.description}
-      </p>
-      {data?.cta && (
-        <Link href={data.cta.buttonLink}>{data.cta.buttonText}</Link>
-      )}
-    </div>
-  )
-}
 
 export default function CompanyPage({ data }: CompanyPageProps) {
-  console.log('data', data)
   return (
     <>
+      <AboutCompany />
       <Section className="py-sm md:py-md lg:py-lg ">
         <Container className="md:flex-row flex-col gap-6">
           {data?.leaderShipTeam && (
