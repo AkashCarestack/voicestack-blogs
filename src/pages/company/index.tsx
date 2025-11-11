@@ -2,8 +2,8 @@ import React from 'react'
 import { GetStaticProps } from 'next'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
-import MinimalCardList from '../../components/revamp/components/common/minimalCardList'
 import AboutCompany from '~/components/revamp/components/common/AboutCompany'
+import MinimalCardList from '~/components/revamp/components/common/minimalCardList'
 
 interface CompanyPageProps {
   pageData: any
@@ -13,9 +13,7 @@ interface CompanyPageProps {
   data: any
 }
 
-
 export default function CompanyPage({ data }: CompanyPageProps) {
-  console.log('data', data)
   return (
     <>
       <AboutCompany />
