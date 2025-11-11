@@ -22,7 +22,7 @@ export default function CardListing({ data }: any) {
       ),
     },
   }
-  console.log(data?.tabs, 'data in card listing')
+
   return (
     <Section className="py-sm md:py-md lg:py-lg bg-white ">
       <Container className="flex-col">

@@ -22,7 +22,6 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     const pathSegments = router.asPath
       .split('/')
       .filter((segment) => segment !== '' && !excludedSegments.includes(segment))
-    console.log({ breadCrumb })
     // If Sanity override exists, parse it
     if (breadCrumb && breadCrumb.trim()) {
       const overrideLabels = breadCrumb

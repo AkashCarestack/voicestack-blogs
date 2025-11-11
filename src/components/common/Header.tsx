@@ -14,6 +14,7 @@ import Head from 'next/head';
 import ProgressBar from '~/utils/progressBar/progressBar';
 import Anchor from './anchor';
 import SparklesIconFill from '../revamp/icons/SparklesIconFill';
+// import RegionStrip from '../revamp/components/regionStrip';
 
 // Constants
 const GEO_PATH = '/api/geo';
@@ -496,11 +497,17 @@ const Header = ({ data, refer = null }) => {
           showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'
         } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}
       >
+         {/* <RegionStrip locale={router.locale} className={`${
+          showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'
+        } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}  /> */}
+
         {/* Top Header Strip */}
         <div
           className={`hidden z-20 lg:flex justify-center w-full bg-gray-100 relative transition-transform duration-300 ease-in-out h-[42px]`}
         >
+          
           <div className="flex justify-end w-full lg:px-12">
+           
             <div className="flex justify-end items-center gap-3">
               {safeData?.phoneNumber && (
                 <div className="flex items-center gap-2 text-gray-900 text-sm mr-3">
