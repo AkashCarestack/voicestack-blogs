@@ -117,9 +117,9 @@ export default function DentalPhonesIndex({
         </div>
       )}
 
-      {pageData['comparison-cards']?.componentData && (
+      {/* {pageData['comparison-cards']?.componentData && (
         <ComparisonCardsSection data={pageData['comparison-cards']?.componentData} />
-      )}
+      )} */}
     </>
   )
 }

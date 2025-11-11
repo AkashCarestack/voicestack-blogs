@@ -36,7 +36,6 @@ const LogoListingSection = ({ data, refer = null, header = false }) => {
     setSelectedVideo(video)
     setIsOpen(true)
   }
-  console.log('dataLogoListingSection', data)
 
 
  

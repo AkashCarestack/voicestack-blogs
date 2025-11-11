@@ -11,7 +11,6 @@ import { getFeaturesListQuery, getFeaturesList } from '~/lib/sanity.queries'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 export default function WhyVoicestackIndex({ data, heroData, faq, features }: any) {
 
-  console.log({ data })
   return (
     <>
        <div
@@ -53,6 +52,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const queries = new Queries('why-voicestack', region)
   
     const pageData = await queries.getPageData('whyVoicestack', 'why-voicestack')
+    
 
     // Check if data exists and has content
     const noPageData = Object.values(pageData).every(
