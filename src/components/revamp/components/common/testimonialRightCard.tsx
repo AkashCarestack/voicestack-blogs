@@ -1,6 +1,7 @@
-import { PortableText } from "@portabletext/react"
-import Button from "~/components/common/Button"
-import ImageLoader from "~/components/common/imageLoader/imageLoader"
+import { PortableText } from '@portabletext/react'
+
+import Button from '~/components/common/Button'
+import ImageLoader from '~/components/common/imageLoader/imageLoader'
 
 export default function CardsWithTestimonial({ data }: { data: any }) {  
     const components: any = {
@@ -14,6 +15,7 @@ export default function CardsWithTestimonial({ data }: { data: any }) {
             <blockquote className="text-xl md:text-[32px] font-medium leading-[40px] font-manrope">
               &ldquo;{children}&rdquo;
             </blockquote>
+            
           ),
         },
         marks: {
@@ -52,60 +54,83 @@ export default function CardsWithTestimonial({ data }: { data: any }) {
             </div>
             {/* Metrics overlay */}
             <div className="flex flex-col gap-12">
-              {data?.testimonial?.listItems?.length > 0 ? (
-                <div className="relative z-10 grid grid-cols-2  gap-y-3 gap-x-6 md:gap-x-12">
-                  {data?.testimonial?.listItems?.map(
-                    (metric, index) => {
-                        
-                      // Check if item has 'after' value (metric) or only 'description' (quote)
-                      // 'after' is a string, 'description' is blockContent (array)
-                      const hasAfter = metric?.after && (typeof metric.after === 'string' ? metric.after.trim() !== '' : true)
-                      const hasDescription = metric?.description && (
-                        Array.isArray(metric.description) 
-                          ? metric.description.length > 0 
-                          : (typeof metric.description === 'string' ? metric.description.trim() !== '' : false)
-                      )
-                      const isDescriptionOnly = !hasAfter && hasDescription
-                      
-                      return (
-                        <div
-                          key={index}
-                          className={`text-white py-3 border-b border-white/30 ${
-                            isDescriptionOnly ? 'col-span-2' : ''
-                          }`}
-                        >
-                          {isDescriptionOnly ? (
-                            // Single line quote format for description-only items (blockContent)
-                            <PortableText value={metric.description} components={components} />
-                          ) : (
-                            // Metric format with large number and label
-                            <>
-                              {/* Main metric value - large and prominent */}
-                              <div
-                                className="text-lg md:text-[32px] font-semibold testimonial-metric inline font-manrope"
-                                dangerouslySetInnerHTML={{
-                                  __html: metric?.after || '',
-                                }}
+              {(() => {
+                // Filter listItems excluding those with isHighlighted true
+                const filteredListItems = data?.testimonial?.listItems?.filter(
+                  (item: any) => item?.isHighlighted !== true && item?.isHighlighted !== 'true'
+                ) || []
+
+                // Show listItems if available, otherwise show testimonialdescription
+                if (filteredListItems.length > 0) {
+                  return (
+                    <div className="relative z-10 grid grid-cols-2 gap-y-3 gap-x-6 md:gap-x-12">
+                      {filteredListItems.map((metric, index) => {
+                        // Check if item has 'after' value (metric) or only 'description' (quote)
+                        // 'after' is a string, 'description' is blockContent (array)
+                        const hasAfter =
+                          metric?.after &&
+                          (typeof metric.after === 'string'
+                            ? metric.after.trim() !== ''
+                            : true)
+                        const hasDescription =
+                          metric?.description &&
+                          (Array.isArray(metric.description)
+                            ? metric.description.length > 0
+                            : typeof metric.description === 'string'
+                              ? metric.description.trim() !== ''
+                              : false)
+                        const isDescriptionOnly = !hasAfter && hasDescription
+
+                        return (
+                          <div
+                            key={metric._key || index}
+                            className={`text-white py-3 border-b border-white/30 ${
+                              isDescriptionOnly ? 'col-span-2' : ''
+                            }`}
+                          >
+                            {isDescriptionOnly ? (
+                              // Single line quote format for description-only items (blockContent)
+                              <PortableText
+                                value={metric.description}
+                                components={components}
                               />
-                              
-                              {/* Heading/Label - below the metric */}
-                              <div className="text-sm md:text-base text-white opacity-70 mt-1">
-                                {metric?.listHeading || metric.heading || ''}
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      )
-                    },
-                  )}
-                </div>
-              ) : (
-                <div className="relative z-10 flex text-lg text-white">
-                  <div className="text-lg md:text-[32px] font-semibold leading-[120%] font-manrope">
-                    {data?.testimonial?.testimonialdescription}
-                  </div>
-                </div>
-              )}
+                            ) : (
+                              // Metric format with large number and label
+                              <>
+                                {/* Main metric value - large and prominent */}
+                                <div
+                                  className="text-lg md:text-[32px] font-semibold testimonial-metric inline font-manrope"
+                                  dangerouslySetInnerHTML={{
+                                    __html: metric?.after || '',
+                                  }}
+                                />
+
+                                {/* Heading/Label - below the metric */}
+                                <div className="text-sm md:text-base text-white opacity-70 mt-1">
+                                  {metric?.listHeading || metric.heading || ''}
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )
+                }
+
+                // Fallback to testimonialdescription if no filtered items
+                if (data?.testimonial?.testimonialdescription) {
+                  return (
+                    <div className="relative z-10 flex text-lg text-white">
+                      <div className="text-lg md:text-[32px] font-semibold leading-[120%] font-manrope">
+                        {data?.testimonial?.testimonialdescription}
+                      </div>
+                    </div>
+                  )
+                }
+
+                return null
+              })()}
               <div className="items-center gap-4 flex sm:hidden">
                 <div className="relative w-14 h-14 mb-4">
                   <div className="w-14 h-14 rounded-full flex items-center justify-center">

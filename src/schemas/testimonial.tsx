@@ -120,6 +120,12 @@ export default defineType({
       title: 'Testimonial Image',
       type: 'image',
     }),
+    defineField({
+      name: 'secondaryTestimonialImage',
+      title: 'Secondary Testimonial Image(for hover testimonial)',
+      type: 'image',
+    }),
+
 
     defineField({
       name: 'listItems',
