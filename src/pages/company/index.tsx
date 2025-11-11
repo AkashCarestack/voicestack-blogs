@@ -39,7 +39,7 @@ export default function CompanyPage({
       
          <Image 
            src={VoicestackLogo} 
-           className='mt-8 md:mt-16 w-auto h-auto' 
+           className='mt-8 md:mt-16' 
            width={199} 
            height={24} 
            alt="VoiceStack" 
