@@ -6,6 +6,10 @@ import Section from '~/components/structure/Section'
 import AboutCompany from '~/components/revamp/components/common/AboutCompany'
 import MinimalCardList from '~/components/revamp/components/common/minimalCardList'
 import Queries from '~/components/revamp/queries'
+import { PortableText } from '@portabletext/react'
+import Image from 'next/image'
+import VoicestackLogo from 'public/assets/voicestack-logo.svg'
+
 
 interface CompanyPageProps {
   pageData: any
@@ -23,27 +27,87 @@ export default function CompanyPage({
   data,
 }: CompanyPageProps) {
     console.log({pageData})
-    const heading = pageData["about-voicestack"].componentData.heading
-    const description = pageData["about-voicestack"].componentData.description
+    const heading = pageData["about-voicestack"]?.componentData?.heading
+    const description = pageData["about-voicestack"]?.componentData?.description
+    const image = pageData["about-voicestack"]?.componentData?.image
+    const icon = pageData?.icon
   return (
     <>
-      <Head>
-        <title>{metaTitle || 'Company | VoiceStack'}</title>
-        {metaDescription && (
-          <meta name="description" content={metaDescription} />
-        )}
-      </Head>
-      <AboutCompany heading={heading} description={description} />
-      <Section className="py-sm md:py-md lg:py-lg ">
-        <Container className="md:flex-row flex-col gap-6">
-          {data?.leaderShipTeam && (
-            <div className="flex flex-row gap-3">
-              <MinimalCardList data={data.leaderShipTeam} />
+
+      <AboutCompany heading={heading} description={description} image={image} icon={icon} />
+      <Section className="">
+        <Container className="flex flex-col px-4 md:px-0">
+      
+         <Image 
+           src={VoicestackLogo} 
+           className='mt-8 md:mt-16 w-auto h-auto' 
+           width={199} 
+           height={24} 
+           alt="VoiceStack" 
+           title="VoiceStack"
+         />
+          {pageData.description && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 py-6 md:py-8">
+              <div className="flex flex-col gap-4 md:gap-6 text-left">
+                <PortableText 
+                  value={Array.isArray(pageData.description) 
+                    ? pageData.description.slice(0, Math.ceil(pageData.description.length / 2))
+                    : pageData.description
+                  }
+                  components={{
+                    block: {
+                      normal: ({ children }) => (
+                        <p className="text-gray-700 text-base md:text-lg leading-[155.55%]">
+                          {children}
+                        </p>
+                      ),
+                    },
+                    marks: {
+                      strong: ({ children }) => (
+                        <strong className="font-semibold">{children}</strong>
+                      ),
+                    },
+                  }}
+                />
+              </div>
+              <div className="flex flex-col gap-4 md:gap-6 text-left">
+                <PortableText 
+                  value={Array.isArray(pageData.description) 
+                    ? pageData.description.slice(Math.ceil(pageData.description.length / 2))
+                    : []
+                  }
+                  components={{
+                    block: {
+                      normal: ({ children }) => (
+                        <p className="text-gray-700 text-base md:text-lg leading-[155.55%]">
+                          {children}
+                        </p>
+                      ),
+                    },
+                    marks: {
+                      strong: ({ children }) => (
+                        <strong className="font-semibold">{children}</strong>
+                      ),
+                    },
+                  }}
+                />
+              </div>
             </div>
           )}
-          {data?.partners && <MinimalCardList data={data.partners} />}
-          {/* Add your page content here */}
+          <div className='flex flex-col md:flex-row gap-4 md:gap-6 py-8 md:py-16'>
+            {data?.leaderShipTeam && (
+              <div className="flex-1">
+                <MinimalCardList data={data.leaderShipTeam} />
+              </div>
+            )}
+            {data?.partners && (
+              <div className="flex-1">
+                <MinimalCardList data={data.partners} />
+              </div>
+            )}
+          </div>
         </Container>
+        
       </Section>
     </>
   )
