@@ -428,8 +428,9 @@ const HeroSection = ({
                                     >
                                       <ImageLoader
                                         image={data?.testimonial?.logo?.url}
+                                        alt={data?.testimonial?.logo?.alt || 'Company Logo'}
+                                        title={data?.testimonial?.logo?.title || 'Company Logo'}
                                         className="w-full h-full object-contain filter brightness-[132%] contrast-[202%]"
-                                        alt="Company Logo"
                                       />
                                     </div>
 
@@ -462,6 +463,7 @@ const HeroSection = ({
                   <ImageLoader
                     image={data?.heroImage?.url}
                     alt={data?.heroImage?.altText}
+                    title={data?.heroImage?.title}
                     className="w-full h-full object-cover rounded-[12px] md:rounded-[24px]"
                   />
                 )}

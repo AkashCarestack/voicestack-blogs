@@ -136,8 +136,9 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
               >
                 <ImageLoader
                   image={currentTestimonial?.image?.url}
+                  alt={currentTestimonial?.image?.alt || currentTestimonial?.tabHeading}
+                  title={currentTestimonial?.image?.title || currentTestimonial?.tabHeading}
                   className="w-full h-full object-contain"
-                  alt="Company Logo"
                 />
               </div>
             </div>

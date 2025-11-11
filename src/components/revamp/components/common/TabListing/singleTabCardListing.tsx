@@ -35,12 +35,12 @@ export default function SingleTabCardListing({ data }: { data: any }) {
                                     <div className='xl:w-[596px] w-full  bg-[#EEEDFF] flex-shrink-0 rounded-[12px] overflow-hidden relative'>
                                         {ele?.image?.url && (
                                             <Image 
-                                                
+                                                alt={ele?.image?.alt || ele?.tabHeading}
+                                                title={ele?.image?.title || ele?.tabHeading}
                                                 className='object-cover rounded-[12px]' 
                                                 src={ele?.image?.url || urlForImage(ele.image)} 
                                                 width={596} 
                                                 height={427} 
-                                                alt={ele.tabHeading}
                                                 style={{ width: '100%', height: '100%' }}
                                             />
                                         )}

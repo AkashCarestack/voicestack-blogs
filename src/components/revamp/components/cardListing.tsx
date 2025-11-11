@@ -39,6 +39,8 @@ export default function CardListing({ data }: any) {
                   <div className="md:max-w-[608px] lg:h-[350px] h-[250px] w-full">
                     <ImageLoader
                       image={e?.image?.url || urlForImage(e?.image)}
+                      alt={e?.image?.alt || e?.tabHeading}
+                      title={e?.image?.title || e?.tabHeading}
                       className="w-full h-full object-cover md:rounded-[24px] rounded-[12px] overflow-hidden"
                     />
                    

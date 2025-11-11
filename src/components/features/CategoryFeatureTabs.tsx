@@ -401,12 +401,13 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                             </p>
                           </div>
 
-                          <div className="w-full lg:w-1/2">
+                          <div className="w-full inline-flex lg:w-1/2">
                             {category.mainImage && (
                               <figure className="relative">
                                 <Image
                                   src={category.mainImage.asset.url}
                                   alt={`${category.name} feature illustration`}
+                                  title={`${category.name || category.mainImage.asset.title}`}
                                   width={800}
                                   height={400}
                                   className="rounded-lg object-cover w-full h-full"
