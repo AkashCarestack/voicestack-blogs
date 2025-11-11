@@ -265,6 +265,9 @@ class Queries {
               "testimonialImage": testimonialImage.asset-> {
                 ${this.IMAGE_METADATA_FIELDS}
               },
+              "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                ${this.IMAGE_METADATA_FIELDS}
+              },
               
               // Testimonial list items
               listItems[] {
@@ -332,7 +335,9 @@ class Queries {
           "testimonialImage": testimonialImage.asset-> {
             ${this.IMAGE_METADATA_FIELDS}
           },
-          
+          "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+            ${this.IMAGE_METADATA_FIELDS}
+          },
           // Secondary testimonial videos
           secondaryVideo[] {
             ${this.VIDEO_FIELDS}
@@ -444,6 +449,9 @@ class Queries {
                             "testimonialImage": testimonialImage.asset-> {
                               ${this.IMAGE_METADATA_FIELDS}
                             },
+                            "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
                             listItems[] {
                               listHeading,
                               before,
@@ -490,6 +498,9 @@ class Queries {
                             asset-> {
                               ${this.IMAGE_METADATA_FIELDS}
                             }
+                          },
+                          "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
                           },
                           keyStatement,
                           testimonialdescription,
@@ -647,6 +658,9 @@ class Queries {
                               asset-> {
                                 ${this.IMAGE_METADATA_FIELDS}
                               }
+                            },
+                            "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
                             }
                           },
                           subHeading,
@@ -705,6 +719,9 @@ class Queries {
                           "testimonialImage": testimonialImage.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
                           },
+                          "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
                           language
                         }
                       }
@@ -753,6 +770,9 @@ class Queries {
                       "testimonialImage": testimonialImage.asset-> {
                         ${this.IMAGE_METADATA_FIELDS}
                       },
+                      "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
                       
                       // Testimonial list items
                       listItems[] {
@@ -797,6 +817,9 @@ class Queries {
                       
                       // Testimonial image
                       "testimonialImage": testimonialImage.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
                         ${this.IMAGE_METADATA_FIELDS}
                       },
                       video[] {
@@ -944,7 +967,9 @@ class Queries {
                           "testimonialImage": testimonialImage.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
                           },
-                          
+                          "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
                           // Video data
                           video[] {
                             videoPlatform,
@@ -1001,6 +1026,9 @@ class Queries {
                     
                     // Testimonial image
                     "testimonialImage": testimonialImage.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
                     },
                     
@@ -1065,7 +1093,10 @@ class Queries {
                     "testimonialImage": testimonialImage.asset-> {
                           ${this.IMAGE_METADATA_FIELDS}
                     },
-                    listItems[] {
+                    "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                      listItems[] {
                       listHeading,
                       before,
                       after,
@@ -1244,6 +1275,9 @@ class Queries {
                     ${this.VIDEO_FIELDS}
                   },
                   "testimonialImage": testimonialImage.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
                     ${this.IMAGE_METADATA_FIELDS}
                   },
                   listItems[] {

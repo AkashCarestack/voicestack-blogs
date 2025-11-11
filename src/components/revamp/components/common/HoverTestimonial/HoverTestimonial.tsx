@@ -216,10 +216,10 @@ export default function HoverTestimonial({ data }: any) {
     ) || []
 
     return (
-      <div className="w-full max-w-[643px] flex flex-col lg:flex-row gap-4 rounded-[24px] bg-gradient-to-br from-[#F4F3FA] to-[#E0DDFF] p-3">
+      <div className="w-full max-w-[643px] flex flex-col lg:flex-row gap-4 rounded-[24px] bg-gradient-to-br from-[#F4F3FA] to-[#E0DDFF] p-3 min-h-[400px] lg:min-h-[500px]">
         {/* Left: Testimonial Block */}
         {tab?.testimonial && (
-          <div className="w-full lg:w-auto lg:flex-1 p-6 h-full flex flex-col justify-between">
+          <div className="w-full lg:w-auto lg:flex-1 p-6 flex flex-col justify-between min-h-full">
             {tab?.testimonial?.subStatement && (
               <div className="text-base md:text-xl text-[#030712] mb-4 font-medium leading-[140%] min-h-[224px]">
                 {Array.isArray(tab.testimonial.subStatement) && tab.testimonial.subStatement.length > 0 ? (
@@ -245,7 +245,7 @@ export default function HoverTestimonial({ data }: any) {
         )}
 
         {/* Right: Statistics and Image Stacked */}
-        <div className="w-full lg:w-auto lg:flex-1 flex flex-col gap-4 h-full">
+        <div className="w-full lg:w-auto lg:flex-1 flex flex-col gap-4 min-h-full">
           {/* Statistic Blocks - Show all highlighted items */}
           {highlightedStatistics.length > 0 && highlightedStatistics.map((statistic: any, index: number) => (
             <div key={statistic._key || index} className="bg-[#E0DDFF] rounded-[14px] p-6 flex flex-col gap-12">
@@ -270,26 +270,26 @@ export default function HoverTestimonial({ data }: any) {
           {/* Image Block */}
           {tab?.testimonial?.testimonialImage && (
             <div className="rounded-[14px] overflow-hidden hidden lg:block">
-                <div
+              <div
                 className=""
                 style={{
                   height: `257px`,
                   width: `${
                     257 *
-                    data?.testimonial?.testimonialImage?.metadata
-                      ?.dimensions?.aspectRatio
+                    (tab?.testimonial?.testimonialImage?.metadata
+                      ?.dimensions?.aspectRatio || 1)
                   }px`,
                 }}
               >
-              <ImageLoader
-                image={tab?.testimonial?.testimonialImage?.url}
-                imageClassName="w-full h-auto object-cover rounded-[14px]"
-                alt={
-                  tab.tabSubHeading ||
-                  tab.testimonial?.name ||
-                  'Feature image'
-                }
-              />
+                <ImageLoader
+                  image={tab?.testimonial?.testimonialImage}
+                  imageClassName="w-full h-auto object-cover rounded-[14px]"
+                  alt={
+                    tab.tabSubHeading ||
+                    tab.testimonial?.name ||
+                    'Feature image'
+                  }
+                />
               </div>
             </div>
           )}
