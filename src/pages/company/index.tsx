@@ -4,6 +4,11 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import AboutCompany from '~/components/revamp/components/common/AboutCompany'
 import MinimalCardList from '~/components/revamp/components/common/minimalCardList'
+import Queries from '~/components/revamp/queries'
+import { PortableText } from '@portabletext/react'
+import Image from 'next/image'
+import VoicestackLogo from 'public/assets/voicestack-logo.svg'
+
 
 interface CompanyPageProps {
   pageData: any
@@ -13,18 +18,95 @@ interface CompanyPageProps {
   data: any
 }
 
-export default function CompanyPage({ data }: CompanyPageProps) {
+export default function CompanyPage({
+  pageData,
+  region,
+  metaTitle,
+  metaDescription,
+  data,
+}: CompanyPageProps) {
+    console.log({pageData})
+    const heading = pageData["about-voicestack"]?.componentData?.heading
+    const description = pageData["about-voicestack"]?.componentData?.description
+    const image = pageData["about-voicestack"]?.componentData?.image
+    const icon = pageData?.icon
   return (
     <>
-      <AboutCompany />
-      <Section className="py-sm md:py-md lg:py-lg ">
-        <Container className="md:flex-row flex-col gap-6">
-          {data?.leaderShipTeam && (
-            <div className='flex flex-row gap-3'><MinimalCardList data={data.leaderShipTeam} /> </div>
+
+      <AboutCompany heading={heading} description={description} image={image} icon={icon} />
+      <Section className="">
+        <Container className="flex flex-col px-4 md:px-0">
+      
+         <Image 
+           src={VoicestackLogo} 
+           className='mt-8 md:mt-16 w-auto h-auto' 
+           width={199} 
+           height={24} 
+           alt="VoiceStack" 
+           title="VoiceStack"
+         />
+          {pageData.description && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 py-6 md:py-8">
+              <div className="flex flex-col gap-4 md:gap-6 text-left">
+                <PortableText 
+                  value={Array.isArray(pageData.description) 
+                    ? pageData.description.slice(0, Math.ceil(pageData.description.length / 2))
+                    : pageData.description
+                  }
+                  components={{
+                    block: {
+                      normal: ({ children }) => (
+                        <p className="text-gray-700 text-base md:text-lg leading-[155.55%]">
+                          {children}
+                        </p>
+                      ),
+                    },
+                    marks: {
+                      strong: ({ children }) => (
+                        <strong className="font-semibold">{children}</strong>
+                      ),
+                    },
+                  }}
+                />
+              </div>
+              <div className="flex flex-col gap-4 md:gap-6 text-left">
+                <PortableText 
+                  value={Array.isArray(pageData.description) 
+                    ? pageData.description.slice(Math.ceil(pageData.description.length / 2))
+                    : []
+                  }
+                  components={{
+                    block: {
+                      normal: ({ children }) => (
+                        <p className="text-gray-700 text-base md:text-lg leading-[155.55%]">
+                          {children}
+                        </p>
+                      ),
+                    },
+                    marks: {
+                      strong: ({ children }) => (
+                        <strong className="font-semibold">{children}</strong>
+                      ),
+                    },
+                  }}
+                />
+              </div>
+            </div>
           )}
-          {data?.partners && <MinimalCardList data={data.partners} />}
-          {/* Add your page content here */}
+          <div className='flex flex-col md:flex-row gap-4 md:gap-6 py-8 md:py-16'>
+            {data?.leaderShipTeam && (
+              <div className="flex-1">
+                <MinimalCardList data={data.leaderShipTeam} />
+              </div>
+            )}
+            {data?.partners && (
+              <div className="flex-1">
+                <MinimalCardList data={data.partners} />
+              </div>
+            )}
+          </div>
         </Container>
+        
       </Section>
     </>
   )
@@ -32,6 +114,19 @@ export default function CompanyPage({ data }: CompanyPageProps) {
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
+    const region = locale || 'en'
+    const queries = new Queries('company', region)
+    const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
+
+    const pageData = await queries.getPageData('company', slug)
+
+    if (!pageData || Object.keys(pageData).length === 0) {
+      return {
+        notFound: true,
+      }
+    }
+
+    // Fallback data structure (can be removed once data is in Sanity)
     const data = {
       title: 'Company',
       leaderShipTeam: {
@@ -53,15 +148,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         },
       },
     }
-    const region = locale || 'en'
-
-
-
 
     return {
       props: {
-        data :data,
-        region: region,
+        pageData,
+        region,
+        metaTitle: pageData?.metaTitle || null,
+        metaDescription: pageData?.metaDescription || null,
+        data: data,
       },
     }
   } catch (error) {

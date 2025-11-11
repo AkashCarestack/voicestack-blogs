@@ -365,6 +365,9 @@ class Queries {
         "faqData": faqReferenced[]->,
         "metaTitle": seo.metaTitle,
         "metaDescription": seo.metaDescription,
+        "icon": basicInfo.icon.asset-> {
+          ${this.IMAGE_METADATA_FIELDS}
+        },
         
         // Page content sections
         content {
@@ -1679,6 +1682,7 @@ class Queries {
       breadCrumb: result?.breadCrumb || null,
       metaTitle: result?.metaTitle || null,
       metaDescription: result?.metaDescription || null,
+      icon: result?.icon || null,
     }
   }
 
