@@ -111,7 +111,7 @@ export default function HoverTestimonial({ data }: any) {
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className="text-sm md:text-base">{children}</p>
+        <p className="text-sm md:text-base leading-[150%] ">{children}</p>
       ),
     },
   }
@@ -152,7 +152,10 @@ export default function HoverTestimonial({ data }: any) {
         onMouseLeave={() => {
           setHoveredIndex(null)
         }}
-        onClick={() => setActiveIndex(index)}
+        onClick={() => {
+          setActiveIndex(index)
+          setHoveredIndex(null) // Clear hover state when clicking to ensure clicked tab is active
+        }}
       >
         {/* Pointer arrow for active/hovered card - Desktop only */}
         {isHighlighted && (
@@ -175,8 +178,8 @@ export default function HoverTestimonial({ data }: any) {
         {/* Label */}
         {tab.tabHeading && (
           <div
-            className={`text-xs font-semibold uppercase tracking-wider mb-2 ${
-              isHighlighted ? 'text-white' : 'text-gray-600'
+            className={`text-xs md:text-sm font-medium uppercase !leading-[200%] tracking-[0.8px] ${
+              isHighlighted ? 'text-white' : 'text-gray-400'
             }`}
           >
             {tab.tabHeading}
@@ -186,8 +189,8 @@ export default function HoverTestimonial({ data }: any) {
         {/* Title */}
         {tab.tabSubHeading && (
           <h3
-            className={`text-lg font-bold mb-3 font-manrope ${
-              isHighlighted ? 'text-white' : 'text-gray-900'
+            className={`text-lg md:text-2xl font-medium !leading-[133%] ${
+              isHighlighted ? 'text-white mb-3 ' : 'text-gray-600'
             }`}
           >
             {tab.tabSubHeading}
@@ -197,7 +200,7 @@ export default function HoverTestimonial({ data }: any) {
         {/* Description - Show on hover/active */}
         {isHighlighted && tab.description && (
           <div
-            className={`text-sm leading-relaxed transition-all duration-300 ${
+            className={`text-sm md:text-base leading-[150%] transition-all duration-300 ${
               isHighlighted ? 'text-white' : 'text-gray-700'
             }`}
           >
@@ -216,12 +219,12 @@ export default function HoverTestimonial({ data }: any) {
     ) || []
 
     return (
-      <div className="w-full max-w-[643px] flex flex-col lg:flex-row gap-4 rounded-[24px] bg-gradient-to-br from-[#F4F3FA] to-[#E0DDFF] p-3 min-h-[400px] lg:min-h-[500px]">
+      <div className="w-full lg:max-w-[643px] flex flex-col lg:flex-row gap-4 rounded-[12px] lg:rounded-[24px] bg-gradient-to-br from-[#F4F3FA] to-[#E0DDFF] p-3 lg:min-h-[500px]">
         {/* Left: Testimonial Block */}
         {tab?.testimonial && (
-          <div className="w-full lg:w-auto lg:flex-1 p-6 flex flex-col justify-between min-h-full">
+          <div className="w-full lg:w-auto lg:flex-1 p-6 hidden lg:flex flex-col justify-between min-h-full">
             {tab?.testimonial?.subStatement && (
-              <div className="text-base md:text-xl text-[#030712] mb-4 font-medium leading-[140%] min-h-[224px]">
+              <div className="text-base md:text-xl text-[#030712] font-medium leading-[140%] min-h-[224px]">
                 {Array.isArray(tab.testimonial.subStatement) && tab.testimonial.subStatement.length > 0 ? (
                   <PortableText value={tab.testimonial.subStatement} components={quoteComponents} />
                 ) : typeof tab.testimonial.subStatement === 'string' ? (
@@ -245,45 +248,46 @@ export default function HoverTestimonial({ data }: any) {
         )}
 
         {/* Right: Statistics and Image Stacked */}
-        <div className="w-full lg:w-auto lg:flex-1 flex flex-col gap-4 min-h-full">
+        <div className="w-full lg:w-auto lg:flex-1 flex flex-col gap-4 lg:max-w-[257px]">
           {/* Statistic Blocks - Show all highlighted items */}
           {highlightedStatistics.length > 0 && highlightedStatistics.map((statistic: any, index: number) => (
             <div key={statistic._key || index} className="bg-[#E0DDFF] rounded-[14px] p-6 flex flex-col gap-12">
               {statistic.after && (
-                <div className="text-4xl md:text-6xl font-bold text-[#4A3CE1] mb-2 font-manrope">
+                <div className="text-4xl md:text-5xl font-bold !leading-[120%] text-[#4A3CE1] font-manrope">
                   {statistic.after}
                 </div>
               )}
               {statistic.listHeading && (
-                <p className="text-4xl md:text-6xl font-bold text-[#4A3CE1] leading-relaxed font-manrope">
+                <p className="text-4xl md:text-5xl font-bold text-[#4A3CE1] !leading-[120%] font-manrope">
                   {statistic.listHeading}
                 </p>
               )}
               {statistic.description && !statistic.after && (
-                <div className="text-sm md:text-base text-[#4A3CE1] leading-relaxed">
-                  <PortableText value={statistic.description} components={components} />
+                <div className="text-sm md:text-base text-[#4A3CE1] leading-[150%]">
+                  <PortableText value={statistic.description}/>
                 </div>
               )}
             </div>
           ))}
 
           {/* Image Block */}
-          {tab?.testimonial?.testimonialImage && (
-            <div className="rounded-[14px] overflow-hidden hidden lg:block">
+          {tab?.testimonial?.secondaryTestimonialImage && (
+            <div className="rounded-[6px] lg:rounded-[14px] overflow-hidden hidden lg:block w-full mt-auto">
               <div
-                className=""
+                className="w-full rounded-[6px] lg:rounded-[14px] overflow-hidden"
                 style={{
                   height: `257px`,
                   width: `${
                     257 *
-                    (tab?.testimonial?.testimonialImage?.metadata
+                    (tab?.testimonial?.secondaryTestimonialImage?.metadata
                       ?.dimensions?.aspectRatio || 1)
                   }px`,
+                  maxWidth: '100%',
                 }}
               >
                 <ImageLoader
-                  image={tab?.testimonial?.testimonialImage}
-                  imageClassName="w-full h-auto object-cover rounded-[14px]"
+                  image={tab?.testimonial?.secondaryTestimonialImage}
+                  imageClassName="w-full h-full object-cover rounded-[14px]"
                   alt={
                     tab.tabSubHeading ||
                     tab.testimonial?.name ||
@@ -293,6 +297,34 @@ export default function HoverTestimonial({ data }: any) {
               </div>
             </div>
           )}
+            <div className="w-full lg:hidden flex gap-5 mt-3 ">
+            <div
+                className="w-full rounded-[6px] lg:rounded-[14px] overflow-hidden"
+                style={{
+                  height: `60px`,
+                  width: `${
+                    60 *
+                    (tab?.testimonial?.secondaryTestimonialImage?.metadata
+                      ?.dimensions?.aspectRatio || 1)
+                  }px`,
+                  maxWidth: '100%',
+                }}
+              >
+                <ImageLoader
+                  image={tab?.testimonial?.secondaryTestimonialImage}
+                  imageClassName="w-full h-full object-cover rounded-[14px]"
+                  alt={
+                    tab.tabSubHeading ||
+                    tab.testimonial?.name ||
+                    'Feature image'
+                  }
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <span className="text-lg font-medium text-gray-950 !leading-[150%]">{tab?.testimonial?.name}</span>
+                <span className="text-base text-gray-500 !leading-[150%]">{tab?.testimonial?.designation}</span>
+              </div>
+          </div>
         </div>
       </div>
     )
@@ -301,13 +333,13 @@ export default function HoverTestimonial({ data }: any) {
   return (
     <Section className="relative py-sm md:py-md lg:py-lg bg-[#F9F9F9]">
       <Container className="w-full relative">
-        <div className="flex flex-col items-center w-full gap-12">
+        <div className="flex flex-col items-center w-full gap-16">
           {/* Section Header */}
           <SectionHeader heading={data?.headline}  description={data?.subDescription}/>
 
           {/* Main Content */}
           {/* Mobile View - Slider (below md) */}
-          <div className="w-full md:hidden">
+          <div className="w-full lg:hidden">
             <div className="relative">
               <Slider ref={sliderRef} {...sliderSettings}>
                 {tabs.map((tab, index) => (
@@ -337,9 +369,9 @@ export default function HoverTestimonial({ data }: any) {
           </div>
 
           {/* Desktop View - Hover Layout (md and above) */}
-          <div className="hidden md:flex flex-col lg:flex-row w-full gap-8 justify-between">
+          <div className="hidden lg:flex flex-col lg:flex-row w-full gap-8 justify-between">
             {/* Left Column - Feature Cards */}
-            <div className="w-full max-w-[501px] flex flex-col gap-4">
+            <div className="w-full max-w-[501px] flex flex-col ">
               {tabs.map((tab, index) => renderTabContent(tab, index))}
             </div>
 
