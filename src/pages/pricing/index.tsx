@@ -7,6 +7,7 @@ import Button from '~/components/common/Button'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 
 // Define TypeScript interfaces
 interface PageData {
@@ -16,9 +17,10 @@ interface PageData {
 interface PricingProps {
   features: any
   landingPageData: any
+  faq: any
 }
 
-export default function Pricing({ features, landingPageData }: PricingProps) {
+export default function Pricing({ features, landingPageData, faq }: PricingProps) {
   const groupedData = features.reduce((acc: any, feature: any) => {
     const categoryName =
       feature?.featureCategory?.name?.replaceAll(' ', '-') || 'Uncategorized'
@@ -109,6 +111,8 @@ export default function Pricing({ features, landingPageData }: PricingProps) {
             <span>Get Pricing</span>
           </Button>
         </div>
+        {/* FAQ Section */}
+        {faq && <FaqSection faqItems={faq} />}
       </Container>
     </Section>
   )
@@ -124,6 +128,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const queries = new Queries('feature-landing', region)
     const landingPageData = await queries.getPageData('featurePage', slug)
     const features = await getFeaturesList(getClient(), region)
+    const faq = await queries.getFaqBySlug('pricing', region)
 
     return {
       props: {
@@ -131,6 +136,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         region,
         features,
         landingPageData,
+        faq: faq || null,
       },
     }
   } catch (error) {
@@ -141,6 +147,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         slug: '',
         region: locale || 'en',
         landingPageData: null,
+        faq: null,
       },
     }
   }

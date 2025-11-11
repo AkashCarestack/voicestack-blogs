@@ -10,6 +10,16 @@ export default defineType({
         title: 'Section Name',
         type: 'string',
       }),
+
+    defineField({
+      name: 'slug',
+      title: 'slug',
+      type: 'slug',
+      options: {
+        source: 'sectionName',
+      },
+      // validation: (Rule: any) => Rule.required(),
+    }),
       defineField({
         name: 'faqCategories',
         title: 'FAQ Categories',
