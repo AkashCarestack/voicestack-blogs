@@ -42,8 +42,7 @@ export default function FeaturesPage({
   features,
   data,
   landingPage,
-}: FeaturesPageProps) {
-  console.log({ data })
+}: FeaturesPageProps) {  
   const heroData = data['feature-landing']?.heroComponent
 
   return (

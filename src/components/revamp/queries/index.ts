@@ -363,6 +363,8 @@ class Queries {
         "description": basicInfo.description,
         "breadCrumb": basicInfo.breadCrumb,
         "faqData": faqReferenced[]->,
+        "metaTitle": seo.metaTitle,
+        "metaDescription": seo.metaDescription,
         
         // Page content sections
         content {
@@ -1669,6 +1671,8 @@ class Queries {
       title: result?.title || null,
       description: result?.description || null,
       breadCrumb: result?.breadCrumb || null,
+      metaTitle: result?.metaTitle || null,
+      metaDescription: result?.metaDescription || null,
     }
   }
 
