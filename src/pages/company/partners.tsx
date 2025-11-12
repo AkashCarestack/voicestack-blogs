@@ -39,6 +39,7 @@ export default function PartnersPage({ pageData, region }) {
           <Container className="flex flex-col items-center gap-8">
             <FeatureCategoryGrid
               data={cardList}
+              showTickIcon={false}
               displayMode="individual"
               fieldMapping={{
                 id: '_key',

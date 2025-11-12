@@ -15,6 +15,8 @@ interface FeatureCardSectionProps {
   // Card header
   cardTitle: string
   cardIcon?: string
+  showTitle?: boolean
+  showTickIcon?: boolean
   
   // Features list
   features: Feature[]
@@ -55,6 +57,7 @@ const FeatureCardSection: React.FC<FeatureCardSectionProps> = ({
   featureIdField = '_key',
   featureTitleField = 'title',
   className = '',
+  showTickIcon = true,
 }) => {
   const getFieldValue = (item: any, field: string | ((item: any) => any), fallback: any = ''): any => {
     if (!field) return fallback
@@ -100,7 +103,7 @@ const FeatureCardSection: React.FC<FeatureCardSectionProps> = ({
             key={featureId}
             className="flex md:py-2 py-1 items-start md:gap-3 gap-2 border-b-[#E6E7E8] last:border-b-0 border-b"
           >
-            <TickIcon />
+           {showTickIcon && <TickIcon />}
             {showTitle ? (
               <h4 className="font-geist md:text-base text-xs leading-[150%] text-gray-900">
                 {featureTitle}

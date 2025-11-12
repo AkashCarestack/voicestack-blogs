@@ -71,6 +71,7 @@ interface FeatureCategoryGridProps {
   
   // Custom className
   className?: string
+  showTickIcon?: boolean
 }
 
 
@@ -84,6 +85,7 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
   displayMode = 'grouped',
   ctaCard,
   className = '',
+  showTickIcon = true,
 }) => {
   // Helper function to get value from field mapping
   const getFieldValue = (
@@ -271,6 +273,7 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
           features={card.features}
           featureIdField={getFeatureIdField()}
           featureTitleField={getFeatureTitleField()}
+          showTickIcon={showTickIcon}
         />
       ))}
       {/* CTA Card */}
