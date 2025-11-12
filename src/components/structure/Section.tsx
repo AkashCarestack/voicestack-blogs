@@ -14,7 +14,7 @@ import React from 'react'
 
 export default function Section(props:any) {
   return (
-    <section id={props.id} className={`${props.className} w-full flex justify-center`}>
+    <section id={props.id} className={`${props.className} w-full flex justify-center`} style={props.style}>
         {props.children}
     </section>
   )

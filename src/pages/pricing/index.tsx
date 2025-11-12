@@ -6,8 +6,9 @@ import { getClient } from '~/lib/sanity.client'
 import Button from '~/components/common/Button'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
-import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import FaqSection from '~/components/revamp/components/common/faqSection'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 
 // Define TypeScript interfaces
 interface PageData {
@@ -18,9 +19,10 @@ interface PricingProps {
   features: any
   landingPageData: any
   faq: any
+  pricingPageData: any
 }
 
-export default function Pricing({ features, landingPageData, faq }: PricingProps) {
+export default function Pricing({ features, landingPageData, faq, pricingPageData }: PricingProps) {
   const groupedData = features.reduce((acc: any, feature: any) => {
     const categoryName =
       feature?.featureCategory?.name?.replaceAll(' ', '-') || 'Uncategorized'
@@ -30,6 +32,7 @@ export default function Pricing({ features, landingPageData, faq }: PricingProps
     acc[categoryName].push({
       title: feature.title,
       id: feature._id,
+      icon: feature?.featureCategory?.iconSvgCode,
       ...feature,
     })
     return acc
@@ -65,32 +68,51 @@ export default function Pricing({ features, landingPageData, faq }: PricingProps
   }
 
   return (
+    <>
+      <div
+        className="pt-lg pb-md vs-minimal-bg"
+        style={{
+          background:
+            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
+        }}
+      >
+        {pricingPageData && (() => {
+          // Find the hero section - try common patterns
+          const heroKey = Object.keys(pricingPageData).find(
+            (key) => key.includes('hero') && pricingPageData[key]?.componentData
+          )
+          const heroData = heroKey ? pricingPageData[heroKey]?.componentData : null
+          
+          return heroData ? (
+            <HeroSection
+              page=""
+              isCentered={true}
+              data={heroData}
+            />
+          ) : null
+        })()}
+      </div>
     <Section className="md:py-12 py-6">
       <Container className="flex flex-col items-center gap-8">
-        <SectionHeader heading="All the Features Included. No Extra Charges." />
-        <div className="w-full flex justify-center">
-          <Button type="primary" link="/demo" className="w-fit">
-            <span>Get Pricing</span>
-          </Button>
-        </div>
-        <div className="grid md:grid-cols-3 grid-cols-1 gap-6 justify-center p-6">
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-6 justify-center md:py-32 py-6">
           {Object.entries(groupedData).map(
             ([categoryKey, categoryFeatures]: [string, any]) => {
               const categoryName = getCategoryDisplayName(categoryKey)
-
+              const categoryIcon = categoryFeatures[0].icon
               return (
                 <div
                   key={categoryKey}
-                  className="bg-white w-full h-full md:p-8 p-6  md:rounded-[24px] rounded-[12px] flex flex-col"
+                  className="bg-[#F4F3FA] w-full h-full md:p-8 p-6  md:rounded-[24px] rounded-[12px] flex flex-col"
                 >
+                    <div
+                  className="w-fit md:mb-6 mb-4 bg-[#E0DDFF] md:px-6 px-4 md:py-3 py-2 rounded-full"
+                  dangerouslySetInnerHTML={{ __html: categoryIcon }}
+                />
                   {/* Title */}
-                  <h3 className="text-lg font-semibold text-gray-900 pb-4">
+                  <h3 className="text-lg font-semibold text-gray-950 pb-4">
                     {categoryName}
                   </h3>
-                  {/* <div className='flex gap-1 items-end md:py-6 py-4'>
-                    <span className='text-7xl font-semibold text-gray-900 font-manrope leading-[100%]'>$9</span>
-                    <span className='text-2xl font-semibold text-gray-900 font-geist leading-[150%]'>/user/month <span className='text-red-400 subpixel-antialiased'>*</span></span>
-                  </div> */}
+
                
                     {categoryFeatures.map((feature: any) => (
                       <div key={feature.id} className='flex md:py-2 py-1 items-start md:gap-3 gap-2 border-b-[#E6E7E8] last:border-b-0 border-b'>
@@ -104,17 +126,30 @@ export default function Pricing({ features, landingPageData, faq }: PricingProps
               )
             },
           )}
+          {/* CTA Card */}
+          <div className={` bg-vs-blue backdrop-blur-sm md:rounded-3xl md:h-full h-[241px] rounded-xl py-6 md:px-12 px-6 flex flex-col justify-center items-center md:gap-6 gap-4  hover:bg-vs-blue transition-all`}>
+                    <h3 className='md:text-xl text-lg font-bold text-white font-manrope text-center'>Curious if Voicestack Fits Your Practice</h3>
+                    <Button
+                      type="primary"
+                      className="w-fit"
+                      link="/demo"
+                    >
+                      <span>
+                        {'Book Free Demo'}
+                      </span>
+                    </Button>
+                  </div>
         </div>
-        {/* Button */}
-        <div className="w-full flex justify-center">
-          <Button type="primary" link="/demo" className="w-fit">
-            <span>Get Pricing</span>
-          </Button>
-        </div>
+        {landingPageData?.['stack-card-tab-testimonial']?.componentData && (
+          <StackCardTestimonial
+            data={landingPageData['stack-card-tab-testimonial']?.componentData}
+          />
+        )}
         {/* FAQ Section */}
         {faq && <FaqSection faqItems={faq} />}
       </Container>
     </Section>
+    </>
   )
 }
 
@@ -129,6 +164,11 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const landingPageData = await queries.getPageData('featurePage', slug)
     const features = await getFeaturesList(getClient(), region)
     const faq = await queries.getFaqBySlug('pricing', region)
+    
+    // Fetch company page data for pricing page hero section
+    const companyQueries = new Queries('company', region)
+    const pricingPageSlug = region === 'en' ? 'pricing-page' : `pricing-page-${region.toLowerCase()}`
+    const pricingPageData = await companyQueries.getPageData('company', pricingPageSlug)
 
     return {
       props: {
@@ -137,6 +177,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         features,
         landingPageData,
         faq: faq || null,
+        pricingPageData: pricingPageData || null,
       },
     }
   } catch (error) {
@@ -148,6 +189,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         region: locale || 'en',
         landingPageData: null,
         faq: null,
+        pricingPageData: null,
       },
     }
   }
