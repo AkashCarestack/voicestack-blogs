@@ -130,7 +130,7 @@ export default function Testimonials({ data, refer = null }) {
                               )}
                             </div>
                           </div>
-                          <Button type="underline">Learn More</Button>
+                          {activeTabData?.buttonText && <Button type="underline">{activeTabData?.buttonText}</Button>}
                         </div>
                       </div>
                     </div>

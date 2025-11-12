@@ -278,7 +278,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
         <Container className="flex flex-col items-center gap-16">
           <SectionHeader
             heading="Feature-Packed to Improve Every Front Office Workflow"
-            description='Empower your team members with AI-powered calls, messages, and analytics across devices, to measure, analyze and optimize staff performance at every touch point in your practice'
+            description='Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
           />
           <div className="bg-white rounded-2xl shadow-lg p-8 max-w-2xl w-full">
             <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Categories</h3>
@@ -299,7 +299,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
       <Container className="flex flex-col items-center gap-16">
       <SectionHeader
             heading="Feature-Packed to Improve Every Front Office Workflow"
-            description='Empower your team members with AI-powered calls, messages, and analytics across devices, to measure, analyze and optimize staff performance at every touch point in your practice'
+            description='Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
         />
 
         {/* Desktop Layout - Two Column */}

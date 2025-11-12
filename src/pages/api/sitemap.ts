@@ -29,7 +29,6 @@ function formatHreflang(locale: string): string {
 function getPathForPage(page: SitemapPage): string {
   const slug = page.slug || '';
   
-  // Handle "landing" slugs - they map to the base path
   if (slug === 'landing') {
     if (page._type === 'whoWeServe' || page._type === 'whoWeServePage' || page._type === 'whyVoicestack') {
       return 'who-we-serve';
@@ -39,7 +38,6 @@ function getPathForPage(page: SitemapPage): string {
     return '';
   }
   
-  // Handle different page types
   if (page._type === 'whoWeServe' || page._type === 'whoWeServePage') {
     return `who-we-serve/${slug}`;
   } else if (page._type === 'dentalSoftware') {
@@ -64,9 +62,7 @@ function buildUrl(path: string, locale: string): string {
   
   return cleanPath ? `${BASE_URL}/${locale}/${cleanPath}` : `${BASE_URL}/${locale}`;
 }
-
 async function getSitemapData(client: any): Promise<SitemapPage[]> {
-  // Query for pages with basicInfo.slug (whoWeServe, dentalSoftware, whyVoicestack)
   const query1 = groq`
     *[_type in ["whoWeServe", "whoWeServePage", "dentalSoftware", "whyVoicestack"] 
       && defined(basicInfo.slug.current) 
@@ -78,7 +74,6 @@ async function getSitemapData(client: any): Promise<SitemapPage[]> {
     }
   `;
   
-  // Query for pages with direct slug (page, features)
   const query2 = groq`
     *[_type in ["page", "features"] 
       && defined(slug.current) 
@@ -126,7 +121,6 @@ function generateSiteMap(pages: SitemapPage[]) {
     urlMap.set(key, variants);
   });
 
-  // Group pages by slug path (across all locales)
   const pagesByPath = new Map<string, SitemapPage[]>();
   
   pages.forEach(page => {
@@ -137,7 +131,6 @@ function generateSiteMap(pages: SitemapPage[]) {
     pagesByPath.get(path)!.push(page);
   });
 
-  // Generate URL variants ONLY for locales where pages actually exist
   pagesByPath.forEach((pageVariants, path) => {
     const variants: { [locale: string]: string } = {};
     const availableLocales = new Set<string>();
@@ -150,13 +143,11 @@ function generateSiteMap(pages: SitemapPage[]) {
       }
     });
     
-    // Only add to urlMap if we have at least one locale
     if (availableLocales.size > 0) {
       urlMap.set(path, variants);
     }
   });
 
-  // Generate XML - only for locales where pages exist
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
   xml += '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
@@ -165,20 +156,17 @@ function generateSiteMap(pages: SitemapPage[]) {
     const availableLocales = Object.keys(variants);
     const defaultLocale = availableLocales.includes('en') ? 'en' : availableLocales[0];
     
-    // Generate one <url> entry per locale variant that exists
     Object.entries(variants).forEach(([locale, url]) => {
       xml += '  <url>\n';
       xml += `    <loc>${url}</loc>\n`;
       xml += `    <lastmod>${new Date().toISOString()}</lastmod>\n`;
 
-      // Add hreflang links ONLY for locales where this page actually exists
       availableLocales.forEach(altLocale => {
         if (variants[altLocale]) {
           xml += `    <xhtml:link rel="alternate" hreflang="${formatHreflang(altLocale)}" href="${variants[altLocale]}"/>\n`;
         }
       });
 
-      // Add x-default (using en if available, otherwise first available locale)
       if (variants[defaultLocale]) {
         xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${variants[defaultLocale]}"/>\n`;
       }
