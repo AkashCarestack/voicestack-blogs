@@ -47,19 +47,9 @@ interface IntegrationsGridProps {
 const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
 
   className = "",
-  // New props for CMS control
   data
 }) => {
-  // Debug logging
-  // console.log('IntegrationsGrid received integrations:', integrations)
-  // console.log('IntegrationsGrid received customIntegrations:', customIntegrations)
-  
-  // Use custom integrations if provided, otherwise fall back to props
-  // const displayIntegrations = customIntegrations && customIntegrations.length > 0 
-  //   ? customIntegrations 
-  //   : integrations
 
-  // console.log('IntegrationsGrid displayIntegrations:', displayIntegrations)
 
   // Don't render if no integrations
   if (!data || data.length === 0) {

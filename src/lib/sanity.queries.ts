@@ -196,6 +196,53 @@ export async function getMiscellaneousData(
 
   return result
 }
+
+export async function getMiscellaneousDataBySlug(
+  client: SanityClient,
+  slug: string,
+  region: string,
+) {
+  const query = groq` *[_type == 'miscellaneous' && heroSectionSlug.current == $slug && language == $region][0]{
+    ...,
+    contentArea[] {
+      ...,
+      _type == "dynamicComponent" => {
+        listingBlock {
+          itemHeading,
+          listingItem[] {
+          ...,
+            key,
+            value
+          }
+        },
+        browserList {
+        ...,
+          mainHeading,
+          listingItem[] {
+            name,
+              "image": image.asset-> {
+                _id,
+                url,
+                altText,
+                metadata {
+                  dimensions {
+                    width,
+                    height,
+                    aspectRatio
+                  }
+                }
+              },
+              
+          }
+        }
+      }
+    }
+  }`
+
+  const result = await client.fetch(query, { slug, region })
+
+  return result
+}
 export async function getTestimonialSecitonData(
   client: SanityClient,
   region: string,
