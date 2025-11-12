@@ -717,7 +717,8 @@ export async function getDemoFormData(client: SanityClient, region: string) {
   const query = groq`*[_type == "homeSettings" && language == $region][0]{
     dmeoFormId,
     demoMeetingLink,
-    dmeoFormEventName
+    dmeoFormEventName,
+    redirectLink
   }`
   return await client.fetch(query, { region })
 }

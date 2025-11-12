@@ -110,7 +110,7 @@ function generateSiteMap(pages: SitemapPage[]) {
     { path: 'dental-phones', key: 'dental-phones' },
     { path: 'dental-software', key: 'dental-software' },
     { path: 'who-we-serve', key: 'who-we-serve' },
-    { path: 'pricing', key: 'pricing' },
+    // { path: 'pricing', key: 'pricing' },
   ];
 
   staticPaths.forEach(({ path, key }) => {
