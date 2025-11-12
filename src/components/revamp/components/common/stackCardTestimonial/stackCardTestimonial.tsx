@@ -62,8 +62,19 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   const [isOpen, setIsOpen] = useState(false)
   const [activeTestimonial, setActiveTestimonial] = useState(0)
 
-  const currentTestimonial = data?.tabs[activeTestimonial]
-  console.log(currentTestimonial.testimonial.practiceName)
+  // Early return if data is missing or invalid
+  if (!data || !data?.tabs || !Array.isArray(data.tabs) || data.tabs.length === 0) {
+    return null
+  }
+
+  // Ensure activeTestimonial is within valid bounds
+  const validActiveIndex = Math.max(0, Math.min(activeTestimonial, data.tabs.length - 1))
+  const currentTestimonial = data.tabs[validActiveIndex]
+  
+  // Early return if currentTestimonial is missing
+  if (!currentTestimonial) {
+    return null
+  }
 
   return (
     <Section className="relative py-sm md:py-md  bg-[#F9F9F9]">
@@ -236,12 +247,12 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     link="/demo"
                   >
                     <span>
-                      {currentTestimonial?.ctaListItems[0]?.ctaText ||
+                      {currentTestimonial?.ctaListItems?.[0]?.ctaText ||
                         'Book Free Demo'}
                     </span>
                   </Button>
                   <Button type="secondary" className="w-fit">
-                    {currentTestimonial.ctaListItems[1]?.ctaText ||
+                    {currentTestimonial?.ctaListItems?.[1]?.ctaText ||
                       'See Pricing'}
                   </Button>
                 </div>

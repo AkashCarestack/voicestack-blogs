@@ -1,13 +1,18 @@
 import { GetStaticProps } from 'next'
-import React from 'react'
-
+import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import LeadershipList from '~/components/revamp/components/common/LeadershipList/leadershipList'
+import PartnerLogoListing from '~/components/revamp/components/common/partnerLogoListing'
+import PartnersReferralSection from '~/components/revamp/components/common/partnerReferalSection'
+import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Queries from '~/components/revamp/queries'
+import Container from '~/components/structure/Container'
+import Section from '~/components/structure/Section'
 
 // Define proper TypeScript interfaces
 
 export default function PartnersPage({ pageData, region }) {
+  const cardList = pageData['partner-feature']?.componentData?.items
+
   return (
     <>
       <div
@@ -17,15 +22,48 @@ export default function PartnersPage({ pageData, region }) {
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
         }}
       >
-        {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
         {pageData['partners-hero']?.componentData && (
           <HeroSection
             page=""
             isCentered={true}
+            showFullDescription={true}
             data={pageData['partners-hero']?.componentData}
           />
         )}
       </div>
+      {pageData['partner-logos']?.componentData && (
+        <PartnerLogoListing data={pageData['partner-logos']?.componentData} />
+      )}
+      {cardList && cardList.length > 0 && (
+        <Section className="md:py-12 py-6">
+          <Container className="flex flex-col items-center gap-8">
+            <FeatureCategoryGrid
+              data={cardList}
+              showTickIcon={false}
+              displayMode="individual"
+              fieldMapping={{
+                id: '_key',
+                title: 'heading',
+                icon: 'dynamicSvg',
+              }}
+            />
+          </Container>
+        </Section>
+      )}
+            <PartnersReferralSection data={undefined} />
+            {pageData['logo-tabs']?.componentData?.refData ? (
+              <StackCardTestimonial
+                data={
+                  pageData['logo-tabs']?.componentData?.refData
+                    ?.tabsListingComponent
+                }
+              />
+            ) : (
+              <StackCardTestimonial
+                data={pageData['logo-tabs']?.componentData}
+              />
+            )}
+          
     </>
   )
 }

@@ -365,6 +365,9 @@ class Queries {
         "faqData": faqReferenced[]->,
         "metaTitle": seo.metaTitle,
         "metaDescription": seo.metaDescription,
+        "icon": basicInfo.icon.asset-> {
+          ${this.IMAGE_METADATA_FIELDS}
+        },
         
         // Page content sections
         content {
@@ -1020,6 +1023,9 @@ class Queries {
                     "logo": logo.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
                     },
+                    "secondaryLogo": secondaryLogo.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
                     
                     // Testimonial videos
                       "video": video[] {
@@ -1041,7 +1047,9 @@ class Queries {
                     },
                     
                     testimonialdescription,
-                    language
+                    language,
+                    keyStatement,
+
                   }
                 },
                 
@@ -1088,6 +1096,7 @@ class Queries {
                       designation,
                       thumbnail,
                       testimonialdescription,
+                      keyStatement,
                   
                     "secondaryLogo": secondaryLogo.asset-> {
                           ${this.IMAGE_METADATA_FIELDS}
@@ -1679,6 +1688,7 @@ class Queries {
       breadCrumb: result?.breadCrumb || null,
       metaTitle: result?.metaTitle || null,
       metaDescription: result?.metaDescription || null,
+      icon: result?.icon || null,
     }
   }
 
@@ -1872,6 +1882,58 @@ class Queries {
       }
     `
     return await this.client.fetch(query, { language })
+  }
+  public async getFooterData(client: SanityClient, region: string) {
+    const query = groq` *[_type == "footer" && language == $region][0]{
+      title,
+      ctaBanner {
+        title,
+        buttonText,
+        buttonLink,
+        showBanner
+      },
+      footerColumns[] {
+        title,
+        titleLink,
+        links[] {
+          text,
+          link,
+          newTab
+        }
+      },
+      socialMedia {
+        linkedin,
+        facebook,
+        instagram,
+        youtube,
+        twitter
+      },
+      appStoreLinks {
+        googlePlay,
+        appStore
+      },
+      bottomLinks[] {
+        text,
+        link,
+        newTab
+      },
+      copyrightText,
+      logo {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            }
+          }
+        },
+        alt
+      }
+    }`
+    return await client.fetch(query, { region })
   }
 }
 

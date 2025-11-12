@@ -31,7 +31,7 @@ export default function SingleTabCardListing({ data }: { data: any }) {
                     data?.tabs && Array.isArray(data.tabs) && data.tabs.map((ele:any)=>{
                         return(
                             activeTab == ele._key && (
-                                <div className='flex xl:flex-row flex-col gap-6 bg-white p-3 h-auto md:rounded-[24px] rounded-[12px] xl:h-[472px]' key={ele._key}>
+                                <div className='flex xl:flex-row flex-col gap-6 bg-white p-3 h-auto md:rounded-[24px] rounded-[12px]' key={ele._key}>
                                     <div className='xl:w-[596px] w-full  bg-[#EEEDFF] flex-shrink-0 rounded-[12px] overflow-hidden relative'>
                                         {ele?.image?.url && (
                                             <Image 
@@ -49,12 +49,12 @@ export default function SingleTabCardListing({ data }: { data: any }) {
                                         {
                                             ele?.listItems && Array.isArray(ele.listItems) && ele.listItems.map((item:any)=>{return(
                                                 <div key={item._key} className="xl:px-4 xl:py-4 px-2 py-2 relative flex flex-col items-start gap-4 xl:min-h-[212px]">
-                                                    <div className='md:px-6 md:py-3 px-4 py-2 bg-[#E5E7EB] rounded-full flex items-center justify-center flex-shrink-0'>
+                                                    <div className='md:px-6 md:py-3 px-4 py-2 bg-[#E0DDFF] rounded-full flex items-center justify-center flex-shrink-0'>
                                                         <div dangerouslySetInnerHTML={{__html:item.svgCode}}></div>
                                                     </div>
                                                     <div className="flex-1">
-                                                        <div className="text-gray-500 font-geist text-base font-medium leading-[155%]">{item.subfeatureHeading}</div>
-                                                        <div className="text-gray-500  text-sm leading-[150%] font-normal">{item.subfeatureDescription}</div>
+                                                        <div className="text-gray-950 font-geist font-medium leading-[155%] md:text-lg text-base">{item.subfeatureHeading}</div>
+                                                        <div className="text-gray-600  text-sm md:text-base leading-[150%] font-normal">{item.subfeatureDescription}</div>
                                                     </div>
                                                 </div>
                                             )})

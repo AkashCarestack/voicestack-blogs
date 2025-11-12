@@ -16,8 +16,11 @@ const HeroSection = ({
   refer = null,
   page = '',
   isCentered = false,
+  showFullDescription = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
+  const descriptionRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const videoId =
     router.locale == 'en' ? '3CsThXKvcvRrR3hwRsWWJY' : 'Hj4GYLXARVjqQEnaejq3Bz'
@@ -46,10 +49,57 @@ const HeroSection = ({
       ),
     },
   }
+  // Check if description needs "see more" functionality
+  const [needsSeeMore, setNeedsSeeMore] = useState(false)
+
+  useEffect(() => {
+    // Use setTimeout to ensure DOM is fully rendered
+    const timer = setTimeout(() => {
+      if (descriptionRef.current && !showFullDescription && data?.heroDescription) {
+        const element = descriptionRef.current
+        const paragraphs = element.querySelectorAll('p')
+        
+        if (paragraphs.length > 0) {
+          // Check all paragraphs to see if any are truncated
+          let hasTruncatedContent = false
+          
+          paragraphs.forEach((paragraph) => {
+            // Create a clone without line-clamp to measure full height
+            const clone = paragraph.cloneNode(true) as HTMLElement
+            clone.style.position = 'absolute'
+            clone.style.visibility = 'hidden'
+            clone.style.height = 'auto'
+            clone.style.maxHeight = 'none'
+            clone.classList.remove('line-clamp-2')
+            document.body.appendChild(clone)
+            
+            const fullHeight = clone.offsetHeight
+            const clampedHeight = paragraph.offsetHeight
+            const lineHeight = 28
+            const maxHeight = lineHeight * 2
+            
+            // Check if content exceeds 2 lines
+            if (fullHeight > maxHeight || fullHeight > clampedHeight) {
+              hasTruncatedContent = true
+            }
+            
+            document.body.removeChild(clone)
+          })
+          
+          setNeedsSeeMore(hasTruncatedContent)
+        }
+      } else {
+        setNeedsSeeMore(false)
+      }
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [showFullDescription, data?.heroDescription, isDescriptionExpanded])
+
   const descriptionComponents: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className="text-lg text-gray-950 leading-[28px] line-clamp-2 self-stretch font-normal ">
+        <p className={`${showFullDescription || isDescriptionExpanded ? "" : "line-clamp-2 self-stretch"} text-lg text-gray-950 leading-[28px]  font-normal `}>
           {children}
         </p>
       ),
@@ -85,6 +135,25 @@ const HeroSection = ({
           </span>
           <span>{children}</span>
         </li>
+      ),
+    },
+  }
+  const testimonialDescriptionComponents: any = {
+    block: {
+      normal: ({ children }: { children: React.ReactNode }) => (
+        <p className="text-base xl:text-lg font-medium">
+          &ldquo;{children}&rdquo;
+        </p>
+      ),
+      blockquote: ({ children }: { children: React.ReactNode }) => (
+        <blockquote className="text-base xl:text-lg font-medium">
+          &ldquo;{children}&rdquo;
+        </blockquote>
+      ),
+    },
+    marks: {
+      highlight: ({ children }: { children: React.ReactNode }) => (
+        <span className="text-[#B5EB92]">{children}</span>
       ),
     },
   }
@@ -194,17 +263,27 @@ const HeroSection = ({
     <section className="font-geist justify-center">
       <Container className={isCentered ? ' justify-center' : 'py-12'}>
         {isCentered ? (
-          <div className="flex flex-col items-center text-center max-w-[606px] gap-3  lg:pt-20">
+          <div className={`${showFullDescription ? "max-w-[808px]" : "max-w-[606px]"} flex flex-col items-center text-center  gap-3  lg:pt-20`}>
             <h1 className="text-base font-medium text-gray-950 ">
               {data?.heroStrip}
             </h1>
             <h2 className="text-3xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
               <PortableText value={data?.heroheading} components={components} />
             </h2>
-            <PortableText
-              value={data?.heroDescription}
-              components={descriptionComponents}
-            />
+            <div ref={descriptionRef} className="w-full">
+              <PortableText
+                value={data?.heroDescription}
+                components={descriptionComponents}
+              />
+            </div>
+            {!showFullDescription && needsSeeMore && (
+              <button
+                onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                className="text-base font-medium text-vs-purple hover:text-vs-purple/80 transition-colors mt-2 self-center"
+              >
+                {isDescriptionExpanded ? 'See Less' : 'See More'}
+              </button>
+            )}
             {data?.bookBtnContent && (
               <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
                 {data?.bookBtnContent[0]?.buttonText && (
@@ -257,10 +336,20 @@ const HeroSection = ({
               </div>
 
               {/* Description */}
-              <PortableText
-                value={data?.heroDescription}
-                components={descriptionComponents}
-              />
+              <div ref={descriptionRef} className="w-full">
+                <PortableText
+                  value={data?.heroDescription}
+                  components={descriptionComponents}
+                />
+              </div>
+              {!showFullDescription && needsSeeMore && (
+                <button
+                  onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                  className="text-base font-medium text-vs-purple hover:text-vs-purple/80 transition-colors mt-2 self-start"
+                >
+                  {isDescriptionExpanded ? 'See Less' : 'See More'}
+                </button>
+              )}
 
               {data?.bookBtnContent && (
                 <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
@@ -327,7 +416,7 @@ const HeroSection = ({
                                 position: 'absolute',
                                 top: 0,
                                 left: 0,
-                                width: '100%',
+                                width: '100% !important',
                                 height: '100%',
                                 border: 'none',
                                 borderRadius: '12px',
@@ -421,27 +510,35 @@ const HeroSection = ({
                                         height: `48px`,
                                         width: `${
                                           48 *
-                                            data?.testimonial?.logo?.metadata
+                                            data?.testimonial?.secondaryLogo?.metadata
                                               ?.dimensions?.aspectRatio || 2
                                         }px`,
                                       }}
                                     >
                                       <ImageLoader
-                                        image={data?.testimonial?.logo?.url}
-                                        alt={data?.testimonial?.logo?.alt || 'Company Logo'}
-                                        title={data?.testimonial?.logo?.title || 'Company Logo'}
+                                        image={data?.testimonial?.secondaryLogo?.url}
+                                        alt={data?.testimonial?.secondaryLogo?.alt || 'Company Logo'}
+                                        title={data?.testimonial?.secondaryLogo?.title || 'Company Logo'}
                                         className="w-full h-full object-contain filter brightness-[132%] contrast-[202%]"
                                       />
                                     </div>
 
-                                    <h3 className="text-base xl:text-lg font-medium">
-                                      &ldquo;
-                                      {
-                                        data?.testimonial
-                                          ?.testimonialdescription
-                                      }
-                                      &rdquo;
-                                    </h3>
+                                    {data?.testimonial?.keyStatement && (
+                                      <h3 className="text-base xl:text-lg font-medium">
+                                        {Array.isArray(data.testimonial.keyStatement) &&
+                                        data.testimonial.keyStatement.length > 0 ? (
+                                          <PortableText
+                                            value={data.testimonial.keyStatement}
+                                            components={testimonialDescriptionComponents}
+                                          />
+                                        ) : typeof data.testimonial.keyStatement === 'string' &&
+                                          data.testimonial.keyStatement.trim() ? (
+                                          <span>
+                                            &ldquo;{data.testimonial.keyStatement}&rdquo;
+                                          </span>
+                                        ) : null}
+                                      </h3>
+                                    )}
                                     <div className="h-[1px] w-full bg-white/20 my-3"></div>
                                     <p className="text-sm xl:text-base font-medium">
                                       {data?.testimonial?.name}

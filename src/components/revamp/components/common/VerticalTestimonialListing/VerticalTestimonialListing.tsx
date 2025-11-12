@@ -317,7 +317,7 @@ const VerticalTestimonialListing = ({
 
         {/*  Slider */}
         {data?.testimonial?.length > 0 && (
-          <div className="w-full relative h-[563px]">
+          <div className="w-full relative h-[560px]">
             <Slider {...settings}>
               {data &&
                 data?.testimonial?.map((logo: any, i: number) => {
@@ -332,9 +332,12 @@ const VerticalTestimonialListing = ({
                   const isYoutubePlaying = playingYoutubeIndex === i
 
                   return (
-                    <div key={i} className="group sm:px-2 h-[563px]">
+                    <div key={i} className="group h-[560px]" style={{ paddingLeft: '6px', paddingRight: '6px' }}>
                       <div
-                        className="flex flex-col justify-center rounded-2xl h-[563px] shadow-md cursor-pointer w-full aspect-[9/16] overflow-hidden relative"
+                        className="flex flex-col justify-center rounded-2xl h-[560px] shadow-md cursor-pointer aspect-[9/16] overflow-hidden relative"
+                        style={{
+                          width: `${560 * (9 / 16)}px`,
+                        }}
                         onMouseEnter={() => {
                           // Only play thumbnail video if YouTube is not playing
                           if (playingYoutubeIndex !== i) {

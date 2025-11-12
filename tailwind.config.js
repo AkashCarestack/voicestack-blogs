@@ -9,6 +9,12 @@ module.exports = {
 
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    'bg-[#4A3CE1]',
+    'text-[#4A3CE1]',
+    'border-[#4A3CE1]',
+	
+  ],
   theme: {
   	extend: {
 		backgroundColor: {
@@ -94,6 +100,7 @@ module.exports = {
 			
 			backgroundImage: {
 			'vs-purple-logo-bg':'linear-gradient(180deg, #4A3CE1 0%, #191078 100%);',
+			'vs-minimal-bg':'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%);',
 			'vs-purple-gradient': 'linear-gradient(270deg, #4A3CE1 0%, #CAC5FF 100%)',
 			'hero-pattern': "url('/hero-background.webp')",
 			'grid-pattern': "url('/about-us.webp')",
