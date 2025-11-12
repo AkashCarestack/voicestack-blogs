@@ -2,7 +2,9 @@ import { GetStaticProps } from 'next'
 import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import PartnerLogoListing from '~/components/revamp/components/common/partnerLogoListing'
+import PartnersReferralSection from '~/components/revamp/components/common/partnerReferalSection'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
+import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
@@ -46,15 +48,24 @@ export default function PartnersPage({ pageData, region }) {
                 title: 'heading',
                 icon: 'dynamicSvg',
               }}
-              // ctaCard={{
-              //   title: 'Curious if Voicestack Fits Your Practice',
-              //   buttonText: 'Book Free Demo',
-              //   buttonLink: '/demo',
-              // }}
             />
           </Container>
         </Section>
       )}
+            <PartnersReferralSection data={undefined} />
+            {pageData['logo-tabs']?.componentData?.refData ? (
+              <StackCardTestimonial
+                data={
+                  pageData['logo-tabs']?.componentData?.refData
+                    ?.tabsListingComponent
+                }
+              />
+            ) : (
+              <StackCardTestimonial
+                data={pageData['logo-tabs']?.componentData}
+              />
+            )}
+          
     </>
   )
 }
