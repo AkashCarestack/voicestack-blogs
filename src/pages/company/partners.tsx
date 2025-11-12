@@ -3,12 +3,10 @@ import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCa
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import PartnerLogoListing from '~/components/revamp/components/common/partnerLogoListing'
 import PartnersReferralSection from '~/components/revamp/components/common/partnerReferalSection'
-import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
-import { getClient } from '~/lib/sanity.client'
 
 // Define proper TypeScript interfaces
 
@@ -73,7 +71,6 @@ export default function PartnersPage({ pageData, region }) {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
-    const client = getClient()
     const queries = new Queries('partners', region)
     const slug =
       region === 'en' ? 'partners' : `partners-${region.toLowerCase()}`
