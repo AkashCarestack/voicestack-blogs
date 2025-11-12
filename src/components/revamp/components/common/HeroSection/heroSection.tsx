@@ -19,6 +19,8 @@ const HeroSection = ({
   showFullDescription = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
+  const descriptionRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
   const videoId =
     router.locale == 'en' ? '3CsThXKvcvRrR3hwRsWWJY' : 'Hj4GYLXARVjqQEnaejq3Bz'
@@ -47,10 +49,57 @@ const HeroSection = ({
       ),
     },
   }
+  // Check if description needs "see more" functionality
+  const [needsSeeMore, setNeedsSeeMore] = useState(false)
+
+  useEffect(() => {
+    // Use setTimeout to ensure DOM is fully rendered
+    const timer = setTimeout(() => {
+      if (descriptionRef.current && !showFullDescription && data?.heroDescription) {
+        const element = descriptionRef.current
+        const paragraphs = element.querySelectorAll('p')
+        
+        if (paragraphs.length > 0) {
+          // Check all paragraphs to see if any are truncated
+          let hasTruncatedContent = false
+          
+          paragraphs.forEach((paragraph) => {
+            // Create a clone without line-clamp to measure full height
+            const clone = paragraph.cloneNode(true) as HTMLElement
+            clone.style.position = 'absolute'
+            clone.style.visibility = 'hidden'
+            clone.style.height = 'auto'
+            clone.style.maxHeight = 'none'
+            clone.classList.remove('line-clamp-2')
+            document.body.appendChild(clone)
+            
+            const fullHeight = clone.offsetHeight
+            const clampedHeight = paragraph.offsetHeight
+            const lineHeight = 28
+            const maxHeight = lineHeight * 2
+            
+            // Check if content exceeds 2 lines
+            if (fullHeight > maxHeight || fullHeight > clampedHeight) {
+              hasTruncatedContent = true
+            }
+            
+            document.body.removeChild(clone)
+          })
+          
+          setNeedsSeeMore(hasTruncatedContent)
+        }
+      } else {
+        setNeedsSeeMore(false)
+      }
+    }, 100)
+
+    return () => clearTimeout(timer)
+  }, [showFullDescription, data?.heroDescription, isDescriptionExpanded])
+
   const descriptionComponents: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className={`${showFullDescription ? "" : "line-clamp-2 self-stretch"} text-lg text-gray-950 leading-[28px]  font-normal `}>
+        <p className={`${showFullDescription || isDescriptionExpanded ? "" : "line-clamp-2 self-stretch"} text-lg text-gray-950 leading-[28px]  font-normal `}>
           {children}
         </p>
       ),
@@ -221,10 +270,20 @@ const HeroSection = ({
             <h2 className="text-3xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
               <PortableText value={data?.heroheading} components={components} />
             </h2>
-            <PortableText
-              value={data?.heroDescription}
-              components={descriptionComponents}
-            />
+            <div ref={descriptionRef} className="w-full">
+              <PortableText
+                value={data?.heroDescription}
+                components={descriptionComponents}
+              />
+            </div>
+            {!showFullDescription && needsSeeMore && (
+              <button
+                onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                className="text-base font-medium text-vs-purple hover:text-vs-purple/80 transition-colors mt-2 self-center"
+              >
+                {isDescriptionExpanded ? 'See Less' : 'See More'}
+              </button>
+            )}
             {data?.bookBtnContent && (
               <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
                 {data?.bookBtnContent[0]?.buttonText && (
@@ -277,10 +336,20 @@ const HeroSection = ({
               </div>
 
               {/* Description */}
-              <PortableText
-                value={data?.heroDescription}
-                components={descriptionComponents}
-              />
+              <div ref={descriptionRef} className="w-full">
+                <PortableText
+                  value={data?.heroDescription}
+                  components={descriptionComponents}
+                />
+              </div>
+              {!showFullDescription && needsSeeMore && (
+                <button
+                  onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                  className="text-base font-medium text-vs-purple hover:text-vs-purple/80 transition-colors mt-2 self-start"
+                >
+                  {isDescriptionExpanded ? 'See Less' : 'See More'}
+                </button>
+              )}
 
               {data?.bookBtnContent && (
                 <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
