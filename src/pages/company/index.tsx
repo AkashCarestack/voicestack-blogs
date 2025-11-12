@@ -49,7 +49,7 @@ export default function CompanyPage({
           return heroData ? (
             <HeroSection
               page=""
-              showFullDescription={true}
+              showFullDescription={false}
               data={heroData}
             />
           ) : null
