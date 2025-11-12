@@ -7,7 +7,7 @@ export default defineType({
   type: 'array',
   of: [
     ...componentSchemas.map(schema => defineArrayMember({
-      ...schema,
+      type: schema.name,
       preview: {
         select: {
           title: 'title',
