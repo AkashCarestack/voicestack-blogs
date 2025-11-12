@@ -1,8 +1,14 @@
 import { GetStaticProps } from 'next'
+import React from 'react'
+
+import LogoListingSection from '~/components/LogoListingSection'
+import CardsWithTestimonial from '~/components/revamp/components/common/cardsWithTestimonial'
 import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import PartnerLogoListing from '~/components/revamp/components/common/partnerLogoListing'
+import PartnersReferralSection from '~/components/revamp/components/common/partnerReferalSection'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
+import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
@@ -11,7 +17,37 @@ import { getClient } from '~/lib/sanity.client'
 // Define proper TypeScript interfaces
 
 export default function PartnersPage({ pageData, region }) {
-  const cardList = pageData['partner-feature']?.componentData?.items
+  // Transform partner-logos data for FeatureCategoryGrid
+  const transformPartnerLogosData = (logosData: any[]) => {
+    if (!logosData || !Array.isArray(logosData) || logosData.length === 0) {
+      return { groupedData: {}, getCategoryDisplayName: () => '' }
+    }
+
+    // Group all logos into a single category
+    const groupedData = {
+      partners: logosData.map((item: any) => ({
+        id: item._key || item._id || Math.random().toString(),
+        title:
+          item.heading ||
+          item.image?.title ||
+          item.image?.altText ||
+          item.image?.originalFilename?.replace(/\.[^/.]+$/, '') ||
+          'Partner',
+        icon: item.icon || item.dynamicSvg || null,
+        ...item,
+      })),
+    }
+
+    const getCategoryDisplayName = (key: string) => {
+      if (key === 'partners') return 'Partners'
+      return key.replaceAll('-', ' ')
+    }
+
+    return { groupedData, getCategoryDisplayName }
+  }
+
+  const partnerLogosData = pageData['partner-logos']?.componentData?.items || pageData['partner-logos']?.componentData || []
+  const { groupedData, getCategoryDisplayName } = transformPartnerLogosData(partnerLogosData)
 
   return (
     <>
@@ -34,26 +70,34 @@ export default function PartnersPage({ pageData, region }) {
       {pageData['partner-logos']?.componentData && (
         <PartnerLogoListing data={pageData['partner-logos']?.componentData} />
       )}
-      {cardList && cardList.length > 0 && (
+      {/* {pageData['partner-feature']?.componentData && (
+        <CardsWithTestimonial
+          data={pageData['partner-feature']?.componentData}
+        />
+      )} */}
+      {Object.keys(groupedData).length > 0 && (
         <Section className="md:py-12 py-6">
-          <Container className="flex flex-col items-center gap-8">
+          <Container className="flex flex-col items-center gap-16">
+          <SectionHeader heading={pageData['partner-feature']?.componentData?.heading} description={pageData['partner-feature']?.componentData?.description} />
             <FeatureCategoryGrid
-              data={cardList}
-              showTickIcon={false}
-              displayMode="individual"
-              fieldMapping={{
-                id: '_key',
-                title: 'heading',
-                icon: 'dynamicSvg',
-              }}
-              // ctaCard={{
-              //   title: 'Curious if Voicestack Fits Your Practice',
-              //   buttonText: 'Book Free Demo',
-              //   buttonLink: '/demo',
-              // }}
+              groupedData={groupedData}
+              getCategoryDisplayName={getCategoryDisplayName}
             />
           </Container>
         </Section>
+      )}
+      <PartnersReferralSection data={undefined} />
+      {pageData['logo-tabs']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['logo-tabs']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={pageData['logo-tabs']?.componentData}
+        />
       )}
     </>
   )
