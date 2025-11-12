@@ -44,7 +44,6 @@ export default function CompanyPage({
           const heroKey = Object.keys(companyLandingData).find(
             (key) => key.includes('hero') && companyLandingData[key]?.componentData
           )
-
           const heroData =  pageData["company-hero"]?.componentData 
           
           return heroData ? (
