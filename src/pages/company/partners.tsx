@@ -46,11 +46,11 @@ export default function PartnersPage({ pageData, region }) {
                 title: 'heading',
                 icon: 'dynamicSvg',
               }}
-              ctaCard={{
-                title: 'Curious if Voicestack Fits Your Practice',
-                buttonText: 'Book Free Demo',
-                buttonLink: '/demo',
-              }}
+              // ctaCard={{
+              //   title: 'Curious if Voicestack Fits Your Practice',
+              //   buttonText: 'Book Free Demo',
+              //   buttonLink: '/demo',
+              // }}
             />
           </Container>
         </Section>
