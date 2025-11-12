@@ -1023,6 +1023,9 @@ class Queries {
                     "logo": logo.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
                     },
+                    "secondaryLogo": secondaryLogo.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
                     
                     // Testimonial videos
                       "video": video[] {
@@ -1044,7 +1047,9 @@ class Queries {
                     },
                     
                     testimonialdescription,
-                    language
+                    language,
+                    keyStatement,
+
                   }
                 },
                 
@@ -1091,6 +1096,7 @@ class Queries {
                       designation,
                       thumbnail,
                       testimonialdescription,
+                      keyStatement,
                   
                     "secondaryLogo": secondaryLogo.asset-> {
                           ${this.IMAGE_METADATA_FIELDS}

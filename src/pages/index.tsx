@@ -197,7 +197,7 @@ export default function IndexPage(props: InferGetStaticPropsType<any>) {
               className="rounded-[12px] md:rounded-[24px] bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
               style={{
                 background:
-                  'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
+                  ' linear-gradient(270deg, #F0EFFA 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
               }}
             >
               <HeroSection

@@ -3,7 +3,7 @@ import { PortableText } from '@portabletext/react'
 import Button from '~/components/common/Button'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 
-export default function CardsWithTestimonial({ data }: { data: any }) {  
+export default function TestimonialRightCard({ data }: { data: any }) {  
     const components: any = {
         block: {
           normal: ({ children }: { children: React.ReactNode }) => (
@@ -15,7 +15,7 @@ export default function CardsWithTestimonial({ data }: { data: any }) {
             <blockquote className="text-xl md:text-[32px] font-medium leading-[40px] font-manrope">
               &ldquo;{children}&rdquo;
             </blockquote>
-            
+
           ),
         },
         marks: {
