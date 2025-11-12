@@ -28,11 +28,8 @@ export default function CompanyPage({
   data,
   companyLandingData,
 }: CompanyPageProps) {
+  console.log({pageData})
 
-    const heading = pageData["about-voicestack"]?.componentData?.heading
-    const description = pageData["about-voicestack"]?.componentData?.description
-    const image = pageData["about-voicestack"]?.componentData?.image
-    const icon = pageData?.icon
   return (
     <>
       <div
@@ -47,7 +44,7 @@ export default function CompanyPage({
           const heroKey = Object.keys(companyLandingData).find(
             (key) => key.includes('hero') && companyLandingData[key]?.componentData
           )
-          const heroData = heroKey ? companyLandingData[heroKey]?.componentData : null
+          const heroData =  pageData["company-hero"]?.componentData 
           
           return heroData ? (
             <HeroSection

@@ -1,10 +1,21 @@
 import React from 'react'
 import Button from '~/components/common/Button'
+import FeatureCardSection from './FeatureCardSection'
 
 interface Feature {
-  id: string
-  title: string
+  id?: string
+  _id?: string
+  title?: string
+  name?: string
+  icon?: string
   [key: string]: any
+}
+
+interface CategoryCard {
+  key: string
+  name: string
+  icon?: string
+  features: Feature[]
 }
 
 interface CategoryFeatures {
@@ -17,76 +28,254 @@ interface CTACardProps {
   buttonLink?: string
 }
 
-interface FeatureCategoryGridProps {
-  groupedData: CategoryFeatures
-  getCategoryDisplayName: (key: string) => string
-  ctaCard?: CTACardProps
+interface FieldMapping {
+  // Feature fields
+  id?: string | ((item: any) => string) // Field name or function to get id
+  title?: string | ((item: any) => string) // Field name or function to get title
+  icon?: string | ((item: any) => string | undefined) // Field name or function to get icon
+  
+  // Category fields (for grouped data)
+  categoryKey?: string | ((item: any) => string) // Field name or function to get category key
+  categoryName?: string | ((key: string, item?: any) => string) // Field name or function to get category name
+  categoryIcon?: string | ((items: Feature[]) => string | undefined) // Field name or function to get category icon
 }
 
-const TickIcon = () => {
-  return (
-    <span className="mt-[6px]">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        viewBox="0 0 16 16"
-        fill="none"
-      >
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M13.3631 3.32223C13.4259 3.36993 13.4787 3.42956 13.5185 3.49769C13.5583 3.56583 13.5842 3.64114 13.5948 3.71931C13.6055 3.79748 13.6006 3.87698 13.5804 3.95325C13.5603 4.02953 13.5253 4.10109 13.4775 4.16383L7.07749 12.5638C7.02558 12.6319 6.95971 12.688 6.8843 12.7285C6.8089 12.769 6.72571 12.7929 6.64031 12.7986C6.55492 12.8042 6.46929 12.7916 6.38919 12.7615C6.30909 12.7313 6.23636 12.6844 6.17589 12.6238L2.57589 9.02383C2.46991 8.91009 2.41221 8.75965 2.41495 8.60421C2.41769 8.44877 2.48066 8.30046 2.59059 8.19053C2.70052 8.0806 2.84883 8.01763 3.00427 8.01489C3.15971 8.01215 3.31015 8.06985 3.42389 8.17583L6.53909 11.2902L12.5231 3.43663C12.6194 3.31019 12.7619 3.22713 12.9194 3.20569C13.0769 3.18424 13.2365 3.22615 13.3631 3.32223Z"
-          fill="#030712"
-        />
-      </svg>
-    </span>
-  )
+interface DataTransformer {
+  getCategoryKey?: (item: any) => string
+  getCategoryName?: (key: string, item?: any) => string
+  getCategoryIcon?: (items: Feature[]) => string | undefined
+  getFeatureId?: (feature: Feature) => string
+  getFeatureTitle?: (feature: Feature) => string
 }
+
+interface FeatureCategoryGridProps {
+  // Option 1: Pre-grouped data (current structure)
+  groupedData?: CategoryFeatures
+  getCategoryDisplayName?: (key: string) => string
+  
+  // Option 2: Raw data array with simple field mapping (EASIEST)
+  data?: any[]
+  fieldMapping?: FieldMapping
+  
+  // Option 3: Raw data array with transformer functions
+  dataTransformer?: DataTransformer
+  
+  // Option 4: Pre-formatted category cards
+  categoryCards?: CategoryCard[]
+  
+  // Display mode
+  displayMode?: 'grouped' | 'individual' // 'grouped' = group by category, 'individual' = one card per item
+  
+  // CTA Card
+  ctaCard?: CTACardProps
+  
+  // Custom className
+  className?: string
+  showTickIcon?: boolean
+}
+
 
 const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
   groupedData,
   getCategoryDisplayName,
+  data,
+  fieldMapping,
+  dataTransformer,
+  categoryCards,
+  displayMode = 'grouped',
   ctaCard,
+  className = '',
+  showTickIcon = true,
 }) => {
-  return (
-    <div className="grid md:grid-cols-3 grid-cols-1 gap-6 justify-center md:py-32 py-6">
-      {Object.entries(groupedData).map(
-        ([categoryKey, categoryFeatures]: [string, Feature[]]) => {
-          const categoryName = getCategoryDisplayName(categoryKey)
-          const categoryIcon = categoryFeatures[0]?.icon
+  // Helper function to get value from field mapping
+  const getFieldValue = (
+    item: any,
+    field: string | ((item: any) => any) | undefined,
+    fallback: any = undefined
+  ): any => {
+    if (!field) return fallback
+    if (typeof field === 'function') {
+      return field(item)
+    }
+    return item?.[field] ?? fallback
+  }
 
-          return (
-            <div
-              key={categoryKey}
-              className="bg-[#F4F3FA] w-full h-full md:p-8 p-6 md:rounded-[24px] rounded-[12px] flex flex-col"
-            >
-              {categoryIcon && (
-                <div
-                  className="w-fit md:mb-6 mb-4 bg-[#E0DDFF] md:px-6 px-4 md:py-3 py-2 rounded-full"
-                  dangerouslySetInnerHTML={{ __html: categoryIcon }}
-                />
-              )}
-              {/* Title */}
-              <h3 className="text-lg font-semibold text-gray-950 pb-4">
-                {categoryName}
-              </h3>
+  // Transform raw data into category cards if provided
+  const transformDataToCards = (): CategoryCard[] => {
+    if (categoryCards) {
+      return categoryCards
+    }
 
-              {categoryFeatures.map((feature: Feature) => (
-                <div
-                  key={feature.id}
-                  className="flex md:py-2 py-1 items-start md:gap-3 gap-2 border-b-[#E6E7E8] last:border-b-0 border-b"
-                >
-                  <TickIcon />
-                  <h4 className="font-geist md:text-base text-xs leading-[150%] text-gray-900">
-                    {feature.title}
-                  </h4>
-                </div>
-              ))}
-            </div>
+    // Simple field mapping approach (easiest to use)
+    if (data && fieldMapping) {
+      if (displayMode === 'individual') {
+        // Each item becomes its own card
+        return data.map((item: any, index: number) => {
+          const id = getFieldValue(item, fieldMapping.id, item._key || item.id || item._id || `item-${index}`)
+          const title = getFieldValue(item, fieldMapping.title, item.heading || item.title || item.name || '')
+          const icon = getFieldValue(item, fieldMapping.icon, item.dynamicSvg || item.icon || item.featureCategory?.iconSvgCode)
+          
+          return {
+            key: id,
+            name: title,
+            icon: icon,
+            features: [item], // Single item as feature
+          }
+        })
+      } else {
+        // Grouped mode
+        const grouped: { [key: string]: Feature[] } = {}
+        
+        data.forEach((item: any) => {
+          const categoryKey = getFieldValue(
+            item,
+            fieldMapping.categoryKey,
+            item?.category || item?.featureCategory?.name || 'Uncategorized'
           )
-        },
-      )}
+          
+          if (!grouped[categoryKey]) {
+            grouped[categoryKey] = []
+          }
+          grouped[categoryKey].push(item)
+        })
+
+        return Object.entries(grouped).map(([key, features]) => {
+          const categoryName = getFieldValue(
+            features[0],
+            fieldMapping.categoryName,
+            typeof fieldMapping.categoryName === 'function'
+              ? fieldMapping.categoryName(key, features[0])
+              : key.replaceAll('-', ' ')
+          )
+          
+          const categoryIcon = getFieldValue(
+            features,
+            fieldMapping.categoryIcon,
+            features[0]?.icon || features[0]?.dynamicSvg || features[0]?.featureCategory?.iconSvgCode
+          )
+
+          return {
+            key,
+            name: categoryName,
+            icon: categoryIcon,
+            features,
+          }
+        })
+      }
+    }
+
+    // Transformer functions approach
+    if (data && dataTransformer) {
+      if (displayMode === 'individual') {
+        return data.map((item: any, index: number) => {
+          const id = dataTransformer.getFeatureId
+            ? dataTransformer.getFeatureId(item)
+            : item._key || item.id || item._id || `item-${index}`
+          const title = dataTransformer.getFeatureTitle
+            ? dataTransformer.getFeatureTitle(item)
+            : item.heading || item.title || item.name || ''
+          
+          return {
+            key: id,
+            name: title,
+            icon: item.dynamicSvg || item.icon || item.featureCategory?.iconSvgCode,
+            features: [item],
+          }
+        })
+      } else {
+        const grouped: { [key: string]: Feature[] } = {}
+        
+        data.forEach((item: any) => {
+          const categoryKey = dataTransformer.getCategoryKey
+            ? dataTransformer.getCategoryKey(item)
+            : item?.category || item?.featureCategory?.name || 'Uncategorized'
+          
+          if (!grouped[categoryKey]) {
+            grouped[categoryKey] = []
+          }
+          grouped[categoryKey].push(item)
+        })
+
+        return Object.entries(grouped).map(([key, features]) => ({
+          key,
+          name: dataTransformer.getCategoryName
+            ? dataTransformer.getCategoryName(key, features[0])
+            : key.replaceAll('-', ' '),
+          icon: dataTransformer.getCategoryIcon
+            ? dataTransformer.getCategoryIcon(features)
+            : features[0]?.icon || features[0]?.dynamicSvg || features[0]?.featureCategory?.iconSvgCode,
+          features,
+        }))
+      }
+    }
+
+    // Pre-grouped data (backward compatible)
+    if (groupedData && getCategoryDisplayName) {
+      return Object.entries(groupedData).map(([key, features]) => ({
+        key,
+        name: getCategoryDisplayName(key),
+        icon: features[0]?.icon || features[0]?.dynamicSvg || features[0]?.featureCategory?.iconSvgCode,
+        features,
+      }))
+    }
+
+    return []
+  }
+
+  const cards = transformDataToCards()
+
+  const getFeatureId = (feature: Feature, mapping?: FieldMapping, transformer?: DataTransformer): string => {
+    if (mapping?.id) {
+      const id = getFieldValue(feature, mapping.id)
+      if (id) return String(id)
+    }
+    if (transformer?.getFeatureId) {
+      return transformer.getFeatureId(feature)
+    }
+    return feature.id || feature._id || feature._key || Math.random().toString()
+  }
+
+  const getFeatureTitle = (feature: Feature, mapping?: FieldMapping, transformer?: DataTransformer): string => {
+    if (mapping?.title) {
+      const title = getFieldValue(feature, mapping.title)
+      if (title) return String(title)
+    }
+    if (transformer?.getFeatureTitle) {
+      return transformer.getFeatureTitle(feature)
+    }
+    return feature.title || feature.name || feature.heading || ''
+  }
+
+  // Get field mappings for FeatureCardSection
+  const getFeatureIdField = (): string | ((feature: Feature) => string) => {
+    if (fieldMapping?.id) return fieldMapping.id
+    if (dataTransformer?.getFeatureId) {
+      return (feature: Feature) => dataTransformer.getFeatureId!(feature)
+    }
+    return '_key'
+  }
+
+  const getFeatureTitleField = (): string | ((feature: Feature) => string) => {
+    if (fieldMapping?.title) return fieldMapping.title
+    if (dataTransformer?.getFeatureTitle) {
+      return (feature: Feature) => dataTransformer.getFeatureTitle!(feature)
+    }
+    return 'title'
+  }
+
+  return (
+    <div className={`grid md:grid-cols-3 grid-cols-1 gap-6 justify-center md:py-32 py-6 ${className}`}>
+      {cards.map((card: CategoryCard) => (
+        <FeatureCardSection
+          key={card.key}
+          cardTitle={card.name}
+          cardIcon={card.icon}
+          features={card.features}
+          featureIdField={getFeatureIdField()}
+          featureTitleField={getFeatureTitleField()}
+          showTickIcon={showTickIcon}
+        />
+      ))}
       {/* CTA Card */}
       {ctaCard && (
         <div className="bg-vs-blue backdrop-blur-sm md:rounded-3xl md:h-full h-[241px] rounded-xl py-6 md:px-12 px-6 flex flex-col justify-center items-center md:gap-6 gap-4 hover:bg-vs-blue transition-all">
