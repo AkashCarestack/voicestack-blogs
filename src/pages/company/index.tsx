@@ -9,8 +9,9 @@ import Queries from '~/components/revamp/queries'
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
 import VoicestackLogo from 'public/assets/voicestack-logo.svg'
-import bg2 from 'public/assets/bg/upscalemedia-transformed-2.png'
-import bg3 from 'public/assets/bg/upscalemedia-transformed-3.png'
+import bg2 from 'public/background/upscalemedia-transformed-2.png'
+import bg3 from 'public/background/upscalemedia-transformed-3.png'
+
 
 
 interface CompanyPageProps {
