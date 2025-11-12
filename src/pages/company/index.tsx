@@ -4,6 +4,7 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import AboutCompany from '~/components/revamp/components/common/AboutCompany'
 import MinimalCardList from '~/components/revamp/components/common/minimalCardList'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import Queries from '~/components/revamp/queries'
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
@@ -16,6 +17,7 @@ interface CompanyPageProps {
   metaTitle?: string | null
   metaDescription?: string | null
   data: any
+  companyLandingData: any
 }
 
 export default function CompanyPage({
@@ -24,16 +26,39 @@ export default function CompanyPage({
   metaTitle,
   metaDescription,
   data,
+  companyLandingData,
 }: CompanyPageProps) {
-    console.log({pageData})
+
     const heading = pageData["about-voicestack"]?.componentData?.heading
     const description = pageData["about-voicestack"]?.componentData?.description
     const image = pageData["about-voicestack"]?.componentData?.image
     const icon = pageData?.icon
   return (
     <>
-
-      <AboutCompany heading={heading} description={description} image={image} icon={icon} />
+      <div
+        className="pt-lg pb-md"
+        style={{
+          background:
+            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
+        }}
+      >
+        {companyLandingData && (() => {
+          // Find the hero section - try common patterns
+          const heroKey = Object.keys(companyLandingData).find(
+            (key) => key.includes('hero') && companyLandingData[key]?.componentData
+          )
+          const heroData = heroKey ? companyLandingData[heroKey]?.componentData : null
+          
+          return heroData ? (
+            <HeroSection
+              page=""
+              showFullDescription={true}
+              data={heroData}
+            />
+          ) : null
+        })()}
+      </div>
+      {/* <AboutCompany heading={heading} description={description} image={image} icon={icon} /> */}
       <Section className="">
         <Container className="flex flex-col px-4 md:px-0">
       
@@ -126,6 +151,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
 
+    // Fetch company landing page data for hero section
+    const companyLandingSlug = region === 'en' ? 'company-landing' : `company-landing-${region.toLowerCase()}`
+    const companyLandingData = await queries.getPageData('company', companyLandingSlug)
+
     // Fallback data structure (can be removed once data is in Sanity)
     const data = {
       title: 'Company',
@@ -156,6 +185,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         metaTitle: pageData?.metaTitle || null,
         metaDescription: pageData?.metaDescription || null,
         data: data,
+        companyLandingData: companyLandingData || null,
       },
     }
   } catch (error) {
