@@ -1,53 +1,17 @@
 import { GetStaticProps } from 'next'
-import React from 'react'
-import LogoListingSection from '~/components/LogoListingSection'
-import CardsWithTestimonial from '~/components/revamp/components/common/cardsWithTestimonial'
 import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
-
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import LeadershipList from '~/components/revamp/components/common/LeadershipList/leadershipList'
 import PartnerLogoListing from '~/components/revamp/components/common/partnerLogoListing'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import { getClient } from '~/lib/sanity.client'
-import { logoSection } from '~/lib/sanity.queries'
 
 // Define proper TypeScript interfaces
 
 export default function PartnersPage({ pageData, region }) {
-  // Transform partner-logos data for FeatureCategoryGrid
-  const transformPartnerLogosData = (logosData: any[]) => {
-    if (!logosData || !Array.isArray(logosData) || logosData.length === 0) {
-      return { groupedData: {}, getCategoryDisplayName: () => '' }
-    }
-
-    // Group all logos into a single category
-    const groupedData = {
-      partners: logosData.map((item: any) => ({
-        id: item._key || item._id || Math.random().toString(),
-        title:
-          item.heading ||
-          item.image?.title ||
-          item.image?.altText ||
-          item.image?.originalFilename?.replace(/\.[^/.]+$/, '') ||
-          'Partner',
-        icon: item.icon || item.dynamicSvg || null,
-        ...item,
-      })),
-    }
-
-    const getCategoryDisplayName = (key: string) => {
-      if (key === 'partners') return 'Partners'
-      return key.replaceAll('-', ' ')
-    }
-
-    return { groupedData, getCategoryDisplayName }
-  }
-
-  const partnerLogosData = pageData['partner-logos']?.componentData?.items || pageData['partner-logos']?.componentData || []
-  const { groupedData, getCategoryDisplayName } = transformPartnerLogosData(partnerLogosData)
+  const cardList = pageData['partner-feature']?.componentData?.items
 
   return (
     <>
@@ -58,7 +22,6 @@ export default function PartnersPage({ pageData, region }) {
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
         }}
       >
-        {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
         {pageData['partners-hero']?.componentData && (
           <HeroSection
             page=""
@@ -71,18 +34,22 @@ export default function PartnersPage({ pageData, region }) {
       {pageData['partner-logos']?.componentData && (
         <PartnerLogoListing data={pageData['partner-logos']?.componentData} />
       )}
-      {/* {pageData['partner-feature']?.componentData && (
-        <CardsWithTestimonial
-          data={pageData['partner-feature']?.componentData}
-        />
-      )} */}
-      {Object.keys(groupedData).length > 0 && (
+      {cardList && cardList.length > 0 && (
         <Section className="md:py-12 py-6">
-          <Container className="flex flex-col items-center gap-16">
-          <SectionHeader heading={pageData['partner-feature']?.componentData?.heading} description={pageData['partner-feature']?.componentData?.description} />
+          <Container className="flex flex-col items-center gap-8">
             <FeatureCategoryGrid
-              groupedData={groupedData}
-              getCategoryDisplayName={getCategoryDisplayName}
+              data={cardList}
+              displayMode="individual"
+              fieldMapping={{
+                id: '_key',
+                title: 'heading',
+                icon: 'dynamicSvg',
+              }}
+              ctaCard={{
+                title: 'Curious if Voicestack Fits Your Practice',
+                buttonText: 'Book Free Demo',
+                buttonLink: '/demo',
+              }}
             />
           </Container>
         </Section>
