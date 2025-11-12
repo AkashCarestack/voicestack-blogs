@@ -37,6 +37,7 @@ export default function LeadershipTeamPage({
           <HeroSection
             page=""
             isCentered={true}
+            showFullDescription={true}
             data={pageData['leadership-team-hero']?.componentData}
             />
         )} 

@@ -11,7 +11,7 @@ export default function LeadershipList({ data }: { data: any }) {
         <div className="font-sans flex flex-col gap-16">
           <SectionHeader heading={data?.heading} />
           <div
-            className="columns-1 sm:columns-2 md:columns-3 lg:columns-4"
+            className="columns-1 sm:columns-2 md:columns-3 "
             style={{ columnGap: '1.5rem' }}
           >
             {data?.testimonial?.map((item: any) => (
