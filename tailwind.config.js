@@ -9,6 +9,12 @@ module.exports = {
 
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  safelist: [
+    'bg-[#4A3CE1]',
+    'text-[#4A3CE1]',
+    'border-[#4A3CE1]',
+	
+  ],
   theme: {
   	extend: {
 		backgroundColor: {

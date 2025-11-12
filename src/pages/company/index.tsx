@@ -9,6 +9,8 @@ import Queries from '~/components/revamp/queries'
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
 import VoicestackLogo from 'public/assets/voicestack-logo.svg'
+import bg2 from 'public/assets/bg/upscalemedia-transformed-2.png'
+import bg3 from 'public/assets/bg/upscalemedia-transformed-3.png'
 
 
 interface CompanyPageProps {
@@ -28,7 +30,8 @@ export default function CompanyPage({
   data,
   companyLandingData,
 }: CompanyPageProps) {
-  console.log({pageData})
+  const items = pageData["our-impact"]?.componentData?.items;
+
 
   return (
     <>
@@ -56,7 +59,7 @@ export default function CompanyPage({
         })()}
       </div>
       {/* <AboutCompany heading={heading} description={description} image={image} icon={icon} /> */}
-      <Section className="">
+      <Section className="bg-white">
         <Container className="flex flex-col px-4 md:px-0">
       
          <Image 
@@ -127,8 +130,59 @@ export default function CompanyPage({
               </div>
             )}
           </div>
+          {items && items.length > 0 && (
+            <div className="md:before:p-16 p-8 rounded-[20px] md:my-16 my-8 relative w-full bg-gray-50 overflow-hidden">
+              {/* Background images positioned absolutely */}
+              <div 
+                className="md:block hidden absolute left-0 top-0 w-[300px] h-[300px] md:w-[700px] md:h-[400px]"
+                style={{ 
+                  backgroundImage: `url(${bg2.src})`, 
+                  backgroundSize: 'contain', 
+                  backgroundPosition: 'left top',
+                  backgroundRepeat: 'no-repeat'
+                }}
+              />
+              <div 
+                className="md:block hidden absolute right-0 top-0 w-[200px] h-[200px] md:w-[300px] md:h-[300px]"
+                style={{ 
+                  backgroundImage: `url(${bg3.src})`, 
+                  backgroundSize: 'contain', 
+                  backgroundPosition: 'right top',
+                  backgroundRepeat: 'no-repeat'
+                }}
+              />
+              
+              {/* Content */}
+              <div className="relative z-10 flex flex-col md:flex-row md:items-start md:justify-between gap-8 md:gap-12">
+                <h4 className="text-xl text-center md:text-2xl font-bold text-gray-950">Our Impact</h4>
+                <div className="grid md:grid-cols-2 gap-[24px] justify-items-center">
+                  {items.map((item: any, index: number) => {
+                    const headingText = item.heading?.replace(/<[^>]*>/g, '').trim() || ''
+                    const isPurple = headingText.includes('$') || headingText.includes('2500+') || headingText.includes('145M')
+                    
+                    return (
+                      <div
+                        key={item._key || index}
+                        className="bg-white rounded-[20px] border border-[#D1D5DB] p-6 md:p-8 flex flex-col items-center justify-center min-h-[140px] max-w-[325px] w-full"
+                        style={{
+                          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.10)'
+                        }}
+                      >
+                        <div 
+                          className={`text-center font-manrope text-2xl md:text-4xl font-bold leading-[120%] mb-2 ${isPurple ? 'text-[#4A3CE1]' : 'text-gray-950'}`}
+                          dangerouslySetInnerHTML={{ __html: item.heading }}
+                        />
+                        <span className="text-[#000] text-center font-inter text-base font-normal leading-[160%]">
+                          {item.subheading}
+                        </span>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
         </Container>
-        
       </Section>
     </>
   )
