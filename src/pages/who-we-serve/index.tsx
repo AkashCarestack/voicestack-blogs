@@ -83,11 +83,11 @@ export default function WhoWeServeIndex({
       )}
 
       {/* FAQ Section */}
-      {faq && (
+      {/* {faq && (
         <div>
           <FaqSection faqItems={faq} />
         </div>
-      )}
+      )} */}
     </>
   )
 }
