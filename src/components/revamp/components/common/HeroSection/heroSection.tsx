@@ -440,7 +440,6 @@ const HeroSection = ({
                   ) : (
                     /* If 2 or fewer buttons, show them in a row */
                     <div className="flex flex-col sm:flex-row gap-4">
-                      {console.log(data,'fff')}
                       {data.bookBtnContent.map((button: any, index: number) => {
                        
                         return (
