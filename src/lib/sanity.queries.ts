@@ -765,7 +765,8 @@ export async function getDemoFormData(client: SanityClient, region: string) {
     dmeoFormId,
     demoMeetingLink,
     dmeoFormEventName,
-    redirectLink
+    redirectLink,
+    schedulerLink
   }`
   return await client.fetch(query, { region })
 }

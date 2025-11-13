@@ -15,26 +15,18 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
   const [hideTable, setHideTable] = useState(false);
   const router = useRouter();
 
-  // useEffect(()=>{
-  //   setHideTable(router.locale == "en-GB" || router.locale == "en-AU");
-  // },[router.locale])
-
   useEffect(() => {
     const checkWidth = () => {
       setIsMobile(window.innerWidth < 768);
     };
     
-    // Check on initial load
     checkWidth();
 
-    // Add event listener
     window.addEventListener('resize', checkWidth);
     
-    // Cleanup
     return () => window.removeEventListener('resize', checkWidth);
   }, []);
 
-  console.log({data})
   
   return (
     hideTable ? (
