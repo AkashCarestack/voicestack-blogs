@@ -97,7 +97,9 @@ const ComparisonSection: React.FC<ComparisonSectionProps> = ({ data }) => {
 
       <div className='max-w-[822px] mx-auto'>
         <p className="font-geist text-center text-lg font-normal leading-[28px] tracking-normal text-gray-600">
-          VoiceStacks supports all major {activeTab === 'deskPhone' ? 'desk phone' : 'cordless phone'} brands and models. Explore the supported devices below to find what fits your workspace best.
+          {activeTab === 'deskPhone' 
+            ? 'VoiceStack works seamlessly with Yealink and Polycom desk phones, ensuring clear audio, smooth integration, and AI-powered performance for modern dental practices. See supported models below.'
+            : 'VoiceStack connects seamlessly with Yealink cordless phones, delivering clear audio, reliable performance, and full AI integration across your practice. See supported models below.'}
         </p>
       </div>
 
