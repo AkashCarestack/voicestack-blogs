@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
 
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
@@ -21,6 +22,7 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
     pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
   return (
     <>
+    <SimpleHead data={pageData?.seo} />
       <div
         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
         style={{
@@ -86,8 +88,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const queries = new Queries('whoWeServe', region)
     const slug =
       region === 'en'
-        ? 'groups-and-dso'
-        : `groups-and-dso-${region.toLowerCase()}`
+        ? 'groups-and-dsos'
+        : `groups-and-dsos-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
 
     if (!pageData) {

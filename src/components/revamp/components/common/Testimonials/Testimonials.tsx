@@ -88,12 +88,14 @@ export default function Testimonials({ data, refer = null }) {
               description={data?.subDescription}
             />
           </div>
-          {/* Tab Navigation */}
+
           <SwitchableTabs
             isSticky={false}
             data={(data?.tabs || []).map((e: any) => ({
               key: e.tabHeading,
               title: e.tabHeading,
+              link:e.link,
+              linkText:e.linkText,
               setActiveTab: (key: string) => setActiveTab(key),
             }))}
             setActiveTab={(e: any) => setActiveTab(e)}
@@ -130,7 +132,7 @@ export default function Testimonials({ data, refer = null }) {
                               )}
                             </div>
                           </div>
-                          {activeTabData?.buttonText && <Button type="underline">{activeTabData?.buttonText}</Button>}
+                          { activeTabData?.Link && <Button type="underline" link={activeTabData?.Link}>{activeTabData?.LinkText}</Button>}
                         </div>
                       </div>
                     </div>

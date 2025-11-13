@@ -17,6 +17,7 @@ import StackCardTestimonial from '~/components/revamp/components/common/stackCar
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
+import SimpleHead from '~/components/common/SimpleHead'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -75,6 +76,7 @@ export default function DentalPhonesIndex({
 
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
        <div
          className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
          style={{

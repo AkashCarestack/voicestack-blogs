@@ -47,6 +47,7 @@ export default function FeaturesPage({
 
   return (
     <>
+    <SimpleHead data={data?.seo} />
       <div
         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
         style={{

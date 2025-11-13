@@ -32,7 +32,7 @@ export default function SupportPage({
           background:
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
         }}>
-        <Breadcrumb breadCrumb={breadCrumb} />
+        {/* <Breadcrumb breadCrumb={breadCrumb} /> */}
         <div
           className="pt-lg pb-md"
           

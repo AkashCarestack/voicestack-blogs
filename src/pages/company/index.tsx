@@ -11,6 +11,7 @@ import Image from 'next/image'
 import VoicestackLogo from 'public/assets/voicestack-logo.svg'
 import bg2 from 'public/background/upscalemedia-transformed-2.png'
 import bg3 from 'public/background/upscalemedia-transformed-3.png'
+import SimpleHead from '~/components/common/SimpleHead'
 
 
 
@@ -36,8 +37,9 @@ export default function CompanyPage({
 
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
       <div
-        className="pt-lg pb-md"
+        className="py-12"
         style={{
           background:
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',

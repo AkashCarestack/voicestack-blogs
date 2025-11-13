@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
 
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
@@ -24,12 +25,20 @@ export default function SpecialityPractices({
   const tabsListingComponentData = pageData?.['smarter-system']?.componentData?.refData?.tabsListingComponent;
   return (
     <>
-      {pageData['dental-phones-hero']?.componentData && (
-        <HeroSection
-          page=""
-          data={pageData['dental-phones-hero']?.componentData}
-        />
-      )}
+      <div
+         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+         style={{
+           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
+          }}
+       >
+          <SimpleHead data={pageData?.seo} />
+        {pageData['dental-phones-hero']?.componentData && (
+          <HeroSection
+            page=""
+            data={pageData['dental-phones-hero']?.componentData}
+          />
+        )}
+       </div>
       {pageData?.['effortlessly-handle-calls']?.componentData && (
         <SingleCardWithList
           data={pageData?.['effortlessly-handle-calls']?.componentData}
@@ -70,9 +79,9 @@ export default function SpecialityPractices({
           />
         </div>
       )}
-      {pageData?.['speciality-practices']?.componentData && (
+      {pageData?.['specialists']?.componentData && (
         <TabCardsListing
-          data={pageData?.['speciality-practices']?.componentData}
+          data={pageData?.['specialists']?.componentData}
         />
       )}
 
@@ -94,8 +103,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     const slug =
       region === 'en'
-        ? 'speciality-practices'
-        : `speciality-practices-${region.toLowerCase()}`
+        ? 'specialists'
+        : `specialists-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)

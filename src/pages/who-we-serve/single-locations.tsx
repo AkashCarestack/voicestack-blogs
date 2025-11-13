@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
 
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
@@ -14,9 +15,10 @@ interface IndependentPracticesProps {
 
 export default function IndependentPractices({ pageData, faq }: IndependentPracticesProps) {
   const tabsListingComponentData = pageData["smarter-systems"]?.componentData?.refData?.tabsListingComponent
-  console.log(pageData, 'pageData in independent practices')
+
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
        <div
          className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
          style={{
@@ -24,9 +26,9 @@ export default function IndependentPractices({ pageData, faq }: IndependentPract
          }}
        >
       <HeroSection
-        page=""
-        data={pageData['dental-phones-hero']?.componentData}
-      />
+          page=""
+          data={pageData['dental-phones-hero']?.componentData}
+        />
   
        </div>
        {tabsListingComponentData &&
@@ -61,8 +63,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     const slug =
       region === 'en'
-        ? 'independent-practices'
-        : `independent-practices-${region.toLowerCase()}`
+        ? 'single-locations'
+        : `single-locations-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
     if(!pageData){
       console.error(`pageData not found for ${slug}`)
@@ -77,7 +79,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       },
     }
   } catch (error) {
-    console.error('Error fetching Independent Practices page:', error)
+    console.error('Error fetching Single Locations page:', error)
     return {
       props: {
         pageData: null,

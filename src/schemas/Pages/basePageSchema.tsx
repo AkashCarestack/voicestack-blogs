@@ -154,6 +154,19 @@ export const createBasePageSchema = (name: string, title: string) => ({
           type: 'text',
           description: 'Description for SEO purposes',
         },
+        {
+          name: 'keyWords',
+          title: 'Key Words',
+          type: 'string',
+          description: 'Keywords for SEO purposes',
+        },
+        {
+          name: 'canonical',
+          title: 'Canonical URL',
+          type: 'url',
+          description: 'Canonical URL for SEO purposes',
+        },
+
       ],
     },
     {
