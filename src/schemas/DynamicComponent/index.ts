@@ -1,5 +1,6 @@
 import { InsertBelowIcon } from '@sanity/icons'
 import { componentSchemas } from './Components'
+import { ListingSchema } from './Components/ComparisonSchema'
 
 const dynamicComponent = {
   name: 'dynamicComponent',
@@ -89,4 +90,4 @@ const dynamicComponent = {
   },
 }
 
-export default [dynamicComponent, ...componentSchemas]
+export default [dynamicComponent, ListingSchema, ...componentSchemas]

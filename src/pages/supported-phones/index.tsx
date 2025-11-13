@@ -1,10 +1,10 @@
-// system-requirements/index.tsx
+  // system-requirements/index.tsx
 import { GetStaticProps } from 'next'
 import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
 import Header from '~/components/common/Header'
 import type { SanityClient } from 'next-sanity'
-import {getMiscellaneousData, getFooterData, getBannerData, getHeaderData } from '~/lib/sanity.queries'
+import {getMiscellaneousDataBySlug, getFooterData, getBannerData, getHeaderData } from '~/lib/sanity.queries'
 import { getHeroSectionData } from '~/lib/sanity.queries'
 import { useContext, useEffect } from 'react'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
@@ -34,12 +34,13 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const region = locale
 
   const client = getClient(draftMode ? { token: readToken } : undefined) as SanityClient
+  const slug = 'supported-phones'
   const [homeSettings, heroData, bannerData, footerData, miscellaneousData,] = await Promise.all([
     getHeaderData(client, region),
     getHeroSectionData(client, region),
     getBannerData(client, region),
     getFooterData(client, region),
-    getMiscellaneousData(client, region)
+    getMiscellaneousDataBySlug(client, slug, region)
   ])
   
  if (!miscellaneousData) {
@@ -62,11 +63,9 @@ export const getStaticProps: GetStaticProps<any> = async ({
   }
 }
 
-export default function SystemRequirements({ homeSettings, heroData, bannerData, footerData, region ,miscellaneousData,draftMode,token}: PageProps) {
-
-
-  
+export default function SupportedPhones({ homeSettings, heroData, bannerData, footerData, region ,miscellaneousData,draftMode,token}: PageProps) {
   const { isDemoPopUpShown, setIsDemoPopUpShown } = useContext(BookDemoContext);
+
 
   useEffect(() => {
     setIsDemoPopUpShown(heroData);
@@ -77,11 +76,11 @@ export default function SystemRequirements({ homeSettings, heroData, bannerData,
   return (
     <>
     <Head>
-      <title>VoiceStack® | System Requirements</title>
+      <title>VoiceStack® | Supported Phones</title>
       <meta name="description"  content="To ensure optimal performance of VoiceStack, your system should meet the following specifications"></meta>
     </Head>
       <ContentSection content={miscellaneousData} draftMode={draftMode} token={token}/>
-      <BannerSection data={bannerData}></BannerSection>
+      
     </>
   )
 }

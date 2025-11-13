@@ -5,6 +5,7 @@ import Container from '../structure/Container';
 import Section from '../structure/Section';
 import H1 from '../typography/H1';
 import HeroBg from 'public/assets/hero-bg.png';
+import Button from './Button';
 
 interface HeroInnerProps {
   data?: any;
@@ -40,10 +41,14 @@ const HeroInner: React.FC<HeroInnerProps> = ({ data }) => {
           </div>
           
           <H1 className="text-center">{heroSectionHeading}</H1>
-          
           <p className="text-white font-inter text-lg font-medium leading-[160%] text-center max-w-[600px] w-full">
             {heroSectionHeadingDesc}
           </p>
+          <div className='flex justify-center md:pt-[12px] pt-[10px]'>
+          <Button type='primary' link="/demo">
+                  <span>Book free demo</span>
+                </Button>
+          </div>
         </div>
       </Container>
     </Section>

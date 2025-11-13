@@ -47,19 +47,9 @@ interface IntegrationsGridProps {
 const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
 
   className = "",
-  // New props for CMS control
   data
 }) => {
-  // Debug logging
-  // console.log('IntegrationsGrid received integrations:', integrations)
-  // console.log('IntegrationsGrid received customIntegrations:', customIntegrations)
-  
-  // Use custom integrations if provided, otherwise fall back to props
-  // const displayIntegrations = customIntegrations && customIntegrations.length > 0 
-  //   ? customIntegrations 
-  //   : integrations
 
-  // console.log('IntegrationsGrid displayIntegrations:', displayIntegrations)
 
   // Don't render if no integrations
   if (!data || data.length === 0) {
@@ -69,12 +59,13 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
 
   return (
     <Section 
-      className={`py-16 md:py-20 lg:py-24 relative ${className}`}
+      className={`py-16 md:py-20 lg:py-24 relative overflow-hidden ${className}`}
       style={{ 
-        background: 'linear-gradient(90deg, rgba(244, 243, 250, 1) 0%, rgba(244, 243, 250, 1) 100%), linear-gradient(-70.51416480937942deg, rgba(202, 197, 255, 0.2) 0%, rgba(202, 197, 255, 0.5) 49.608%, rgba(202, 197, 255, 0.1) 100.18%)'
+        backgroundImage: 'linear-gradient(90deg, rgba(244, 243, 250, 1) 0%, rgba(244, 243, 250, 1) 100%), linear-gradient(-70.51416480937942deg, rgba(202, 197, 255, 0.2) 0%, rgba(202, 197, 255, 0.5) 49.608%, rgba(202, 197, 255, 0.1) 100.18%)',
+        background: 'rgba(244, 243, 250, 1)'
       }}
     >
-      <Container className="flex-col">
+      <Container className="flex-col relative z-10">
         <div className="flex flex-col gap-8 md:gap-12 lg:gap-16 items-center relative w-full">
                  {/* Title and Description */}
                  {/* <div className="flex flex-col gap-4 items-center text-center max-w-4xl">
@@ -93,7 +84,7 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
             {data.refData.integrationListing.integrationList?.map((integration, index) => (
               <div
                 key={integration._id}
-                className="flex flex-col items-center justify-end group relative   bg-vs-purple-logo-bg rounded-[12px] border-2absolute inset-0 border-2 border-[#6D62E5]"
+                className="flex flex-col items-center justify-end group relative bg-vs-purple-logo-bg rounded-[12px] border-2 border-[#6D62E5]"
               >
                 {/* Integration Image */}
                 <div className="w-12 h-12 inset-0 md:w-14 md:h-14 lg:w-16 lg:h-16 flex items-center justify-center group-hover:shadow-lg transition-all duration-300">

@@ -8,6 +8,9 @@ import comparisonValue from "./ComparisonValue"
 import CsCardsListing from './CsCardsListing/index'
 import customBlockContent from './customBlockContent'
 import customContent from './customContent'
+import customContentNew from './customContentNew'
+import listingBlock from './listingBlock'
+import browserList from './browserList'
 import DynamicComponent from './DynamicComponent'
 import faq from './faq'
 import faqRevamp from './faqRevamp'
@@ -75,6 +78,9 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     page,
     ...DynamicComponent,
     customContent,
+    customContentNew,
+    listingBlock,
+    browserList,
     footer,
     banner,
     FeatureCategoryOld,

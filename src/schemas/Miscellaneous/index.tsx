@@ -11,6 +11,14 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'heroSectionSlug',
+      title: 'Hero Section Slug',
+      type: 'slug',
+      options: {
+        source: 'heroSectionHeader',
+      },
+    }),
+    defineField({
       name: 'heroSectionHeading',
       title: 'Hero Section Heading',
       type: 'string',
@@ -23,7 +31,7 @@ export default defineType({
     defineField({
       name: 'contentArea',
       title: 'Content Area',
-      type: 'customContent',
+      type: 'customContentNew',
     }),
     {
       name: 'language',

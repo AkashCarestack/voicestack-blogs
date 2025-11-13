@@ -411,14 +411,7 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
     console.log('CustomComponent: Rendering features:', features.length, 'features')
 
     return (
-      <div className="mt-12">
-        {/* Debug: Log that we're rendering CategoryFeatureTabs */}
-        {(() => {
-          console.log('CustomComponent: Rendering CategoryFeatureTabs with', features.length, 'features');
-          console.log('CustomComponent: Features data for CategoryFeatureTabs:', features);
-          return null;
-        })()}
-        
+      <div className="mt-12">        
         <CategoryFeatureTabs features={features} />
       </div>
     )

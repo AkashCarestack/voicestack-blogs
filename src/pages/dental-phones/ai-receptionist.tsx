@@ -80,9 +80,6 @@ export default function AiReceptionist({
       {pageData['ai-features']?.componentData && (
         <CardsWithSvg data={pageData['ai-features'].componentData} />
       )}
-      {/* <CategoryFeatureTabs features={features} /> */}
-     
-      {/* <CategoryFeatureTabs features={features} /> */}
       {pageData['real-business-outcomes']?.componentData?.refData
         ?.tabsListingComponent && (
         <CardListing

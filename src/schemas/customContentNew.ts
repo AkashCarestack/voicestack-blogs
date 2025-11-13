@@ -1,9 +1,11 @@
 import { defineArrayMember, defineField, defineType } from 'sanity'
 import { componentSchemas } from './DynamicComponent/Components'
+import listingBlock from './listingBlock'
+import browserList from './browserList'
 
 export default defineType({
   title: 'Content Area',
-  name: 'customContent',
+  name: 'customContentNew',
   type: 'array',
   of: [
     ...componentSchemas.map(schema => defineArrayMember({
@@ -16,6 +18,14 @@ export default defineType({
         }
       }
     })),
+    defineArrayMember({
+      title: 'Listing Block',
+      type: 'listingBlock',
+    }),
+    defineArrayMember({
+      title: 'Browser List',
+      type: 'browserList',
+    }),
     defineArrayMember({
       title: 'Block',
       type: 'block',

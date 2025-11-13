@@ -22,6 +22,10 @@ export default defineType({
       name: 'menu',
       title: 'Menu',
     },
+    {
+      name: 'cta',
+      title: 'CTA',
+    },
   ],
   fields: [
     // Hero fields from shared schema
@@ -223,6 +227,19 @@ export default defineType({
       ],
     }),
 
+    defineField({
+      name: 'bookfreedeomi',
+      title: 'Book Free Demo',
+      type: 'string',
+      group: 'cta',
+    }),
+
+    defineField({
+      name: 'redirectLink',
+      title: 'Redirect Link',
+      type: 'url',
+      group: 'cta',
+    }),
 
     defineField({
       name: 'language',

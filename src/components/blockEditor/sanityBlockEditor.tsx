@@ -5,6 +5,12 @@ import {
 } from '@portabletext/react'
 import { getClient } from '~/lib/sanity.client'
 import DynamicComponent from './DynamicComponent'
+import ListingBlock from './ListingBlock'
+import BrowserBlock from './BrowserBlock'
+import TabsListingComponent from '../dynamic/TabsListingComponent'
+import CustomComponent from '../dynamic/CustomComponent'
+import ListingComponent from '../dynamic/ListingComponent'
+import ComparisonSchema from '../dynamic/ComparisonSchema'
 import WarningIcon from '../icons/WarningIcon'
 
 interface SanityPortableTextProps {
@@ -85,6 +91,81 @@ const SanityPortableText: React.FC<SanityPortableTextProps> = ({
           <DynamicComponent
             {...value}
             client={getClient(draftMode ? { token } : undefined)}
+          />
+        )
+      },
+      listingBlock: ({ value }) => {
+        if (!value) return null;
+        return (
+          <ListingBlock
+            itemHeading={value.itemHeading}
+            listingItem={value.listingItem}
+          />
+        )
+      },
+      browserList: ({ value }) => {
+        if (!value) return null;
+        return (
+          <BrowserBlock
+            mainHeading={value.mainHeading}
+            listingItem={value.listingItem}
+          />
+        )
+      },
+      // Dynamic component types from customContentNew
+      tabsListingComponent: ({ value }) => {
+        if (!value) return null;
+        return (
+          <TabsListingComponent 
+            data={value} 
+            slugData={{ slug: value?.slug?.current || value?.slug }}
+          />
+        )
+      },
+      genericListingComponent: ({ value }) => {
+        if (!value) return null;
+        // Map genericListingComponent data to listingComponent format
+        const listingData = {
+          title: value.heading,
+          description: value.description,
+          items: value.items || [],
+          layout: 'vertical' // default layout
+        };
+        return (
+          <ListingComponent 
+            data={listingData} 
+            slugData={{}}
+          />
+        )
+      },
+      customComponent: ({ value }) => {
+        if (!value) return null;
+        return (
+          <CustomComponent 
+            data={value} 
+            slugData={{}}
+          />
+        )
+      },
+      heroComponent: ({ value }) => {
+        if (!value) return null;
+        // Hero component rendering - using a simple placeholder for now
+        // You may want to create a proper HeroComponent renderer
+        return (
+          <div className="py-8 bg-blue-50 border border-blue-200 rounded-lg">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-blue-800 mb-2">Hero Component</h3>
+              <p className="text-blue-600">Hero component rendering - implement as needed</p>
+            </div>
+          </div>
+        )
+      },
+      comparisonSchema: ({ value }) => {
+        if (!value) return null;
+        return (
+          <ComparisonSchema 
+            data={value} 
+            slugData={{}}
           />
         )
       },
