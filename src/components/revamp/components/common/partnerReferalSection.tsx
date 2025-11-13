@@ -65,7 +65,7 @@ const PartnersReferralSection: React.FC<PartnerReferralProps> = () => {
 
               <div className="w-full h-[257px] rounded-[20px] overflow-hidden">
                 <ImageLoader
-                  image="/assets/refer-a-client.png"
+                  image="/assets/refer-a-clients.png"
                   alt="Partner referral image"
                   className="w-full h-auto object-cover"
                 />
