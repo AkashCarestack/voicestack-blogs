@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next'
+import SimpleHead from '~/components/common/SimpleHead'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
@@ -17,6 +18,7 @@ export default function PartnersPage({ pageData, region }) {
 
   return (
     <>
+    <SimpleHead data={pageData?.seo} />
       <div
         className="pt-lg pb-md"
         style={{

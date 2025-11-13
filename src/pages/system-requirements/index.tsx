@@ -77,8 +77,10 @@ export default function SystemRequirements({ homeSettings, heroData, bannerData,
   return (
     <>
     <Head>
-      <title>VoiceStack® | System Requirements</title>
-      <meta name="description"  content="To ensure optimal performance of VoiceStack, your system should meet the following specifications"></meta>
+      <title>System Requirements | Requirements For Using VoiceStack®</title>
+      <meta name="description"  content="View the system requirements for running VoiceStack® at your dental practice. Ensure your hardware & network meet the specs for optimal performance."></meta>
+      <meta name="keywords" content="voicestack system requirements, hardware requirements, internet requirements" />
+      <meta name="canonical" content="https://voicestack.com/system-requirements" />
     </Head>
       <ContentSection content={miscellaneousData} draftMode={draftMode} token={token} slugData={miscellaneousData?.heroSectionSlug?.current}/>
     </>
