@@ -111,6 +111,7 @@ class Queries {
         heroDescription,
         heroStrip,
         
+        
         // Primary hero image with metadata
         "heroImage": heroImage.asset-> {
           ${this.IMAGE_METADATA_FIELDS}
@@ -122,9 +123,8 @@ class Queries {
         },
         
         // Book button content references
-        "bookBtnContent": bookBtnContent[]-> {
-          buttonText,
-          buttonLink
+        "buttonValues": bookBtnContent[]-> {
+          ...,
         },
         
         // Video content with thumbnails

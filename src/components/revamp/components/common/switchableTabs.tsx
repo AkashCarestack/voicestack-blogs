@@ -58,7 +58,7 @@ export default function SwitchableTabs({
               key={itemKey}
               id={itemKey}
               onClick={() => handleTabClick(itemKey)}
-              className={`focus:outline-none text-left md:text-base text-xs lg:text-center cursor-pointer font-base font-geist leading-normal tracking-normal md:px-5 px-3 md:pt-2.5 pt-1.5 md:pb-2.5 pb-1.5 rounded-3xl transition-all duration-200 ease-in-out ${
+              className={`focus:outline-none text-left md:text-base text-xs lg:text-center cursor-pointer font-geist leading-normal tracking-normal md:px-5 px-3 md:pt-2.5 pt-1.5 md:pb-2.5 pb-1.5 rounded-3xl transition-all duration-200 ease-in-out ${
                 (activeTab || data[0]?.key || data[0]?.id || '0') === itemKey
                   ? 'bg-gray-950 text-white border border-transparent'
                   : 'text-gray-950 border border-[rgba(255,255,255,0.60)] bg-tab-hover-gradient shadow-[0_0_0_2px_#CAC5FF] lg:border-transparent lg:bg-transparent lg:shadow-none hover:border-[rgba(255,255,255,0.60)] hover:bg-tab-hover-gradient hover:shadow-[0_0_0_2px_#CAC5FF]'

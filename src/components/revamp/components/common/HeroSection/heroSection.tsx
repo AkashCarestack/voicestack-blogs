@@ -283,24 +283,70 @@ const HeroSection = ({
               >
                 {isDescriptionExpanded ? 'See Less' : 'See More'}
               </button>
+              
             )}
-            {data?.bookBtnContent && (
-              <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
-                {data?.bookBtnContent[0]?.buttonText && (
-                  <Button
-                    type="primary"
-                    className="w-fit"
-                    link="/demo"
-                  >
-                    <span>
-                      {data?.bookBtnContent[0]?.buttonText || 'Book Free Demo'}
-                    </span>
-                  </Button>
-                )}
-                {data?.bookBtnContent[1]?.buttonText && (
-                  <Button type="secondary" className="w-fit" link={'/pricing'}>
-                    {data?.bookBtnContent[1]?.buttonText || 'See Pricing'}
-                  </Button>
+            
+            {data?.bookBtnContent && Array.isArray(data.bookBtnContent) && data.bookBtnContent.length > 0 && (
+              <div className="flex flex-col gap-4 pt-5 justify-center lg:justify-start items-center ">
+                {data.bookBtnContent.length > 2 ? (
+                  <>
+                    {/* First button on top */}
+                    {data.bookBtnContent[0]?.buttonText && (
+                      <Button
+                        key={data.bookBtnContent[0]?._key || 0}
+                        type={!data.bookBtnContent[0]?.buttonType ? 'primary' : (data.bookBtnContent[0]?.buttonType || 'secondary')}
+                        className="w-fit"
+                        link={data.bookBtnContent[0]?.buttonLink}
+                        buttonVariant={data.bookBtnContent[0]?.buttonVariant}
+                      >
+                        {data.bookBtnContent[0]?.buttonIcon && (
+                          <span dangerouslySetInnerHTML={{ __html: data.bookBtnContent[0].buttonIcon }} />
+                        )}
+                        <span>{data.bookBtnContent[0].buttonText}</span>
+                      </Button>
+                    )}
+                    {/* Remaining buttons in a row */}
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      {data.bookBtnContent.slice(1).map((button: any, index: number) => {
+                        if (!button?.buttonText) return null
+                        return (
+                          <Button
+                            key={button?._key || index + 1}
+                            type={button?.buttonType || 'secondary'}
+                            className="w-fit"
+                            link={button?.buttonLink}
+                            buttonVariant={button?.buttonVariant}
+                          >
+                            {button?.buttonIcon && (
+                              <span dangerouslySetInnerHTML={{ __html: button.buttonIcon }} />
+                            )}
+                            <span>{button.buttonText}</span>
+                          </Button>
+                        )
+                      })}
+                    </div>
+                  </>
+                ) : (
+                  /* If 2 or fewer buttons, show them in a row */
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    {data.bookBtnContent.map((button: any, index: number) => {
+                      if (!button?.buttonText) return null
+                      return (
+                        <Button
+                          key={button?._key || index}
+                          type={index == 0 && !button?.buttonType ? 'primary' : (button?.buttonType || 'secondary')}
+                          className="w-fit"
+                          link={button?.buttonLink}
+                          buttonVariant={button?.buttonVariant}
+                        >
+                          {button?.buttonIcon && (
+                            <span dangerouslySetInnerHTML={{ __html: button.buttonIcon }} />
+                          )}
+                          <span>{button.buttonText}</span>
+                        </Button>
+                      )
+                    })}
+                  </div>
                 )}
               </div>
             )}
@@ -351,20 +397,69 @@ const HeroSection = ({
                 </button>
               )}
 
-              {data?.bookBtnContent && (
-                <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
-                  <Button
-                    type="primary"
-                    className="w-fit"
-                    link="/demo"
-                  >
-                    <span>
-                      {data?.bookBtnContent[0]?.buttonText || 'Book Free Demo'}
-                    </span>
-                  </Button>
-                  <Button type="secondary" className="w-fit" link={'/pricing'}>
-                    {data?.bookBtnContent[1]?.buttonText || 'See Pricing'}
-                  </Button>
+              {data?.bookBtnContent && Array.isArray(data.bookBtnContent) && data.bookBtnContent.length > 0 && (
+                <div className="flex flex-col gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start">
+                  {data.bookBtnContent.length > 2 ? (
+                    <>
+                      {/* First button on top */}
+                      {data.bookBtnContent[0]?.buttonText && (
+                        <Button
+                          key={data.bookBtnContent[0]?._key || 0}
+                          type={!data.bookBtnContent[0]?.buttonType ? 'primary' : (data.bookBtnContent[0]?.buttonType || 'secondary')}
+                          className="w-fit"
+                          link={data.bookBtnContent[0]?.buttonLink}
+                          buttonVariant={data.bookBtnContent[0]?.buttonVariant}
+                        >
+                          {data.bookBtnContent[0]?.buttonIcon && (
+                            <span dangerouslySetInnerHTML={{ __html: data.bookBtnContent[0].buttonIcon }} />
+                          )}
+                          <span>{data.bookBtnContent[0].buttonText}</span>
+                        </Button>
+                      )}
+                      {/* Remaining buttons in a row */}
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        {data.bookBtnContent.slice(1).map((button: any, index: number) => {
+                          if (!button?.buttonText) return null
+                          return (
+                            <Button
+                              key={button?._key || index + 1}
+                              type={button?.buttonType || 'secondary'}
+                              className="w-fit"
+                              link={button?.buttonLink}
+                              buttonVariant={button?.buttonVariant}
+                            >
+                              {button?.buttonIcon && (
+                                <span dangerouslySetInnerHTML={{ __html: button.buttonIcon }} />
+                              )}
+                              <span>{button.buttonText}</span>
+                            </Button>
+                          )
+                        })}
+                      </div>
+                    </>
+                  ) : (
+                    /* If 2 or fewer buttons, show them in a row */
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      {console.log(data,'fff')}
+                      {data.bookBtnContent.map((button: any, index: number) => {
+                       
+                        return (
+                          <Button
+                            key={button?._key || index}
+                            type={index === 0 && !button?.buttonType ? 'primary' : (button?.buttonType || 'secondary')}
+                            className="w-fit"
+                            link={button?.buttonLink}
+                            buttonVariant={button?.buttonVariant}
+                          >
+                            {button?.buttonIcon && (
+                              <span dangerouslySetInnerHTML={{ __html: button.buttonIcon }} />
+                            )}
+                            <span>{button?.buttonText}</span>
+                          </Button>
+                        )
+                      })}
+                    </div>
+                  )}
                 </div>
               )}
             </div>

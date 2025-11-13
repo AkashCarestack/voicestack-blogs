@@ -119,18 +119,6 @@ export default function CompanyPage({
               </div>
             </div>
           )}
-          <div className='flex flex-col md:flex-row gap-4 md:gap-6 py-8 md:py-16'>
-            {data?.leaderShipTeam && (
-              <div className="flex-1">
-                <MinimalCardList data={data.leaderShipTeam} />
-              </div>
-            )}
-            {data?.partners && (
-              <div className="flex-1">
-                <MinimalCardList data={data.partners} />
-              </div>
-            )}
-          </div>
           {items && items.length > 0 && (
             <div className="md:before:p-16 p-8 rounded-[20px] md:my-16 my-8 relative w-full bg-gray-50 overflow-hidden">
               {/* Background images positioned absolutely */}
@@ -155,7 +143,7 @@ export default function CompanyPage({
               
               {/* Content */}
               <div className="relative z-10 flex flex-col md:flex-row md:items-start md:justify-between gap-8 md:gap-12">
-                <h4 className="text-xl text-center md:text-2xl font-bold text-gray-950">Our Impact</h4>
+                <h4 className="text-center font-manrope text-2xl md:text-4xl font-bold leading-[120%] mb-2 text-gray-950s">Our Impact</h4>
                 <div className="grid md:grid-cols-2 gap-[24px] justify-items-center">
                   {items.map((item: any, index: number) => {
                     const headingText = item.heading?.replace(/<[^>]*>/g, '').trim() || ''
@@ -183,6 +171,18 @@ export default function CompanyPage({
               </div>
             </div>
           )}
+          <div className='flex flex-col md:flex-row gap-4 md:gap-6 py-8 md:py-16'>
+            {data?.leaderShipTeam && (
+              <div className="flex-1">
+                <MinimalCardList data={data.leaderShipTeam} />
+              </div>
+            )}
+            {data?.partners && (
+              <div className="flex-1">
+                <MinimalCardList data={data.partners} />
+              </div>
+            )}
+          </div>
         </Container>
       </Section>
     </>
