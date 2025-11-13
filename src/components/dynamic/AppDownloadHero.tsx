@@ -104,7 +104,7 @@ const AppDownloadHero: React.FC<AppDownloadHeroProps> = ({ data }) => {
                     href={appStoreLinks.appStore}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-6 px-2 py-2 pr-6 rounded-[18px] border border-white/20 bg-white hover:bg-white/90 transition-all duration-300"
+                    className="group flex items-center gap-6 px-2 py-2 pr-6 rounded-[18px] border border-white/20 bg-white hover:bg-white/25 transition-all duration-300"
                   >
                     <div className="flex items-center justify-center w-[62px] h-[62px] rounded-xl bg-black/10">
                       <AppleIcon />
@@ -126,9 +126,9 @@ const AppDownloadHero: React.FC<AppDownloadHeroProps> = ({ data }) => {
                     href={appStoreLinks.googlePlay}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-6 px-2 py-2 pr-6 rounded-[18px] border border-white/20 bg-white/15 hover:bg-white/25 transition-all duration-300"
+                    className="group flex items-center gap-6 px-2 py-2 pr-6 rounded-[18px] border border-white/20 bg-white hover:bg-white/25 transition-all duration-300"
                   >
-                    <div className="flex items-center justify-center w-[62px] h-[62px] rounded-xl bg-white">
+                    <div className="flex items-center justify-center w-[62px] h-[62px] rounded-xl bg-black/10">
                       <PlayIcon />
                     </div>
                     <div className="flex flex-col items-start">

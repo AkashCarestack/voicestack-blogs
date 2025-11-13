@@ -29,11 +29,11 @@ const HeroInner: React.FC<HeroInnerProps> = ({ data }) => {
     >
       <Container className="relative justify-center">
         <div className="flex flex-col items-center md:max-w-[606px] w-full gap-4">
-          <div className="flex py-2.5 px-[17px] justify-center items-center gap-2 rounded-full border border-white/10 bg-gray-50/5">
-            <span className="flex text-[#030712] text-center text-xs font-medium leading-[120%] tracking-[0.98px] uppercase">
-              {heroSectionHeader}
-            </span>
-          </div>
+          <div className="flex justify-center items-center gap-2 rounded-full border border-white/10 bg-gray-50/5 w-fit">
+              <span className="text-[#030712] text-center text-base font-medium leading-[120%] tracking-[0.84px] uppercase">
+                {heroSectionHeader}
+              </span>
+            </div>
           <H1 className="text-center !text-[#030712]">{heroSectionHeading}</H1>
           <p className="text-[#030712] font-inter text-lg font-normal leading-[160%] text-center max-w-[600px] w-full">
             {heroSectionHeadingDesc}
