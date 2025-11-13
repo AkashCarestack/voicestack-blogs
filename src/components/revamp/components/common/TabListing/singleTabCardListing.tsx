@@ -9,7 +9,6 @@ import Image from 'next/image'
 import Button from '~/components/common/Button'
 
 export default function SingleTabCardListing({ data }: { data: any }) {
-    console.log({data})
     const [activeTab, setActiveTabValue] = useState<any>(data?.tabs?.[0]?._key || '')
   return (
     <Section className='py-sm md:py-md lg:py-lg'>
