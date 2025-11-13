@@ -10,7 +10,7 @@ export default function CustomHead(props) {
 
   return (
     <Head>
-      <title>VoiceStack® | AI Powered Enterprise Phone System</title>
+      <title>AI-Powered, Enterprise Dental Phone System | VoiceStack®</title>
       <meta name="description"  content={props.siteSettings?.ogDescription}></meta>
       <link rel="icon" href={urlForImage(props.siteSettings?.ogFavicon)} sizes="any" type="image/png"/>
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />
@@ -21,6 +21,7 @@ export default function CustomHead(props) {
       <meta name="title" content='VoiceStack'></meta>
       <meta property="og:description" content={props.siteSettings?.ogDescription} />
       <meta property="og:image" content={urlForImage(props.siteSettings?.ogImage)} />
+      <meta property="keywords" content={props.siteSettings.seoSettings.keyWords?.join(',')} />
        <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}

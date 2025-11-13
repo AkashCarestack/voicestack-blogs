@@ -365,6 +365,8 @@ class Queries {
         "faqData": faqReferenced[]->,
         "metaTitle": seo.metaTitle,
         "metaDescription": seo.metaDescription,
+        "keyWords": seo.keyWords,
+        "canonical": seo.canonical,
         "icon": basicInfo.icon.asset-> {
           ${this.IMAGE_METADATA_FIELDS}
         },
@@ -1686,8 +1688,14 @@ class Queries {
       title: result?.title || null,
       description: result?.description || null,
       breadCrumb: result?.breadCrumb || null,
-      metaTitle: result?.metaTitle || null,
-      metaDescription: result?.metaDescription || null,
+      seo: {
+        metaTitle: result?.metaTitle || null,
+        metaDescription: result?.metaDescription || null,
+        keyWords: result?.keyWords || null,
+        canonical: result?.canonical || null
+      },
+      // metaTitle: result?.metaTitle || null,
+      // metaDescription: result?.metaDescription || null,
       icon: result?.icon || null,
     }
   }
