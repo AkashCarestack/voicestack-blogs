@@ -28,7 +28,7 @@ export default function TestimonialRightCard({ data }: { data: any }) {
       <div className="relative h-full md:mb-0 mb-4">
         {/* desktop */}
         <div className="relative flex-1 text-white flex w-full h-full justify-between">
-          <div className="flex flex-col gap-3 py-8 px-6">
+          <div className="flex flex-col gap-3 py-8 px-6 w-full">
             {/* Company Logo */}
             <div className="flex flex-1">
               <div
@@ -152,7 +152,7 @@ export default function TestimonialRightCard({ data }: { data: any }) {
                   </p>
                   
                   <p className="text-white/60 text-base font-normal">
-                  {data?.testimonial?.place} {data?.testimonial?.region ? ',' : ''}{data?.testimonial?.region}
+                  {data?.testimonial?.place}{data?.testimonial?.region ? ', ' : ''}{data?.testimonial?.region}
                 </p>
                   
                 </div>
