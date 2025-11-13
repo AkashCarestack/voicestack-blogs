@@ -4,7 +4,7 @@ import React from 'react'
 import Anchor from './anchor'
 
 interface ButtonProps {
-  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video'
+  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless'
   alter?: 'bgWhite' | 'borderWhite' | 'disabled' | 'default'
   children?: React.ReactNode
   link?: any
@@ -33,6 +33,8 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   const customClasses = clsx({
     'px-6 py-2.5 before:content-[""] before:absolute before:inset-[1px] before:rounded-[8px] before:border before:border-white/10 before:bg-[#B5EB92] p-[1px] text-base bg-gradient-to-r from-[#B5EB92] to-white shadow-[0_0_0_1px_#92D96A] hover:shadow-[0_0_0_2px_#92D96A] hover:from-white hover:to-[#B5EB92]':
       type === 'primary',
+    'border-none text-sm font-medium leading-[142%] tracking-normal':
+      type === 'borderless',
     'p-[1px] text-sm bg-gradient-to-r from-[#B5EB92] to-white shadow-[0_0_0_1px_#92D96A] hover:shadow-[0_0_0_2px_#92D96A] hover:from-white hover:to-[#B5EB92]':
       type === 'primarySm',
     'border-2 bg:white/10 border-[rgba(74,60,225,0.15)] hover:border-[rgba(74,60,225,0.15)] hover:bg-black/5 py-2.5 px-6':
@@ -41,6 +43,8 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       type === 'underline',
     'text-white border border-white/30 px-[17px] py-[10px]':
       type === 'video',
+
+
   }) 
 
   // Format link based on buttonVariant
