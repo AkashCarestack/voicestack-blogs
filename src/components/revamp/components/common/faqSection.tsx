@@ -114,7 +114,7 @@ export default function FaqSection({ faqItems }: any) {
     },
     marks: {
       strong: ({ children }: { children: React.ReactNode }) => (
-        <strong className="font-semibold">{children}</strong>
+        <strong className="">{children}</strong>
       ),
       em: ({ children }: { children: React.ReactNode }) => (
         <em className="italic">{children}</em>
@@ -122,7 +122,7 @@ export default function FaqSection({ faqItems }: any) {
     },
     list: {
       bullet: ({ children }: { children: React.ReactNode }) => (
-        <ul className="list-disc list-inside space-y-1">{children}</ul>
+        <ul className="list-disc my-2 list-inside space-y-1">{children}</ul>
       ),
       number: ({ children }: { children: React.ReactNode }) => (
         <ol className="list-decimal list-inside space-y-1">{children}</ol>
@@ -130,10 +130,10 @@ export default function FaqSection({ faqItems }: any) {
     },
     listItem: {
       bullet: ({ children }: { children: React.ReactNode }) => (
-        <li className="text-gray-600 md:text-base text-sm leading-[145%]">{children}</li>
+        <li className="text-gray-600 font-medium md:text-base text-sm leading-[145%]">{children}</li>
       ),
       number: ({ children }: { children: React.ReactNode }) => (
-        <li className="text-gray-600 md:text-base text-sm leading-[145%]">{children}</li>
+        <li className="text-gray-600 md:text-sm text-sm leading-[145%]">{children}</li>
       ),
     },
   }
@@ -152,7 +152,7 @@ export default function FaqSection({ faqItems }: any) {
 
       <div className='flex lg:flex-row flex-col md:gap-16 gap-6'>
         {/* Mobile Dropdown */}
-        <div className="lg:hidden w-full">
+       { !hideCategory && <div className="lg:hidden w-full">
           <div className="relative dropdown-container">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -184,7 +184,7 @@ export default function FaqSection({ faqItems }: any) {
               </div>
             )}
           </div>
-        </div>
+        </div>}
 
         {/* Desktop Categories Sidebar */}
         { !hideCategory && (
@@ -217,7 +217,7 @@ export default function FaqSection({ faqItems }: any) {
                 return (
                   <div 
                     key={questionKey} 
-                    className={`border rounded-[16px] md:p-6 p-2 py-6 px-4  transition-all duration-300 ease-in-out ${
+                    className={`border md:rounded-[16px] rounded-[8px] md:p-6 p-4 transition-all duration-300 ease-in-out ${
                       isQuestionOpen 
                         ? 'bg-gray-200 border-none shadow-sm' 
                         : 'border-gray-200 hover:border-gray-300'

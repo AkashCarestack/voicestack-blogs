@@ -39,7 +39,7 @@ export default function WhyVoicestackIndex({ data, heroData, faq, features }: an
           data={data['stack-card-tab-testimonial']?.componentData}
         />
       )}
-      <FaqSection faqItems={faq}/>
+      {/* <FaqSection faqItems={faq}/> */}
     </>
   )
 }
