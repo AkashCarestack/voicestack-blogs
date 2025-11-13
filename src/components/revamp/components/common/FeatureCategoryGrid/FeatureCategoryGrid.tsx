@@ -264,7 +264,7 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
   }
 
   return (
-    <div className={`grid md:grid-cols-3 grid-cols-1 gap-6 justify-center md:py-32 py-6 ${className}`}>
+    <div className={`grid md:grid-cols-3 grid-cols-1 gap-6 justify-center  ${className}`}>
       {cards.map((card: CategoryCard) => (
         <FeatureCardSection
           key={card.key}
