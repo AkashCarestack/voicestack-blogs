@@ -155,7 +155,7 @@ export default function CompanyPage({
               
               {/* Content */}
               <div className="relative z-10 flex flex-col md:flex-row md:items-start md:justify-between gap-8 md:gap-12">
-                <h4 className="text-xl text-center md:text-2xl font-bold text-gray-950">Our Impact</h4>
+                <h4 className="text-center font-manrope text-2xl md:text-4xl font-bold leading-[120%] mb-2 text-gray-950s">Our Impact</h4>
                 <div className="grid md:grid-cols-2 gap-[24px] justify-items-center">
                   {items.map((item: any, index: number) => {
                     const headingText = item.heading?.replace(/<[^>]*>/g, '').trim() || ''
