@@ -253,12 +253,12 @@ export default function HoverTestimonial({ data }: any) {
           {highlightedStatistics.length > 0 && highlightedStatistics.map((statistic: any, index: number) => (
             <div key={statistic._key || index} className="bg-[#E0DDFF] rounded-[14px] p-6 flex flex-col gap-12">
               {statistic.after && (
-                <div className="text-4xl md:text-5xl font-bold !leading-[120%] text-[#4A3CE1] font-manrope">
+                <div className="text-4xl md:text-6xl font-bold !leading-[120%] text-[#4A3CE1] font-manrope">
                   {statistic.after}
                 </div>
               )}
               {statistic.listHeading && (
-                <p className="text-4xl md:text-5xl font-bold text-[#4A3CE1] !leading-[120%] font-manrope">
+                <p className="text-4xl md:text-6xl font-bold text-[#4A3CE1] !leading-[120%] font-manrope">
                   {statistic.listHeading}
                 </p>
               )}

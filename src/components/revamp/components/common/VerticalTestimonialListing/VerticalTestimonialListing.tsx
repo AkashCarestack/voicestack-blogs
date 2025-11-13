@@ -307,7 +307,7 @@ const VerticalTestimonialListing = ({
   }
   return (
     <div className="py-12 px-4 md:px-12 md:pt-[130px] md:pb-24 ">
-      <div className="flex flex-col items-center w-full gap-16 max-w-[1728px] mx-auto">
+      <div className="flex flex-col items-center w-full gap-16 max-w-[1628px] mx-auto">
         {!hideTitle && (
           <SectionHeader
             heading={data?.heading || data?.title}
@@ -332,9 +332,9 @@ const VerticalTestimonialListing = ({
                   const isYoutubePlaying = playingYoutubeIndex === i
 
                   return (
-                    <div key={i} className="group sm:px-2 h-[563px]">
+                    <div key={i} className="group sm:px-1.5 h-[560px]">
                       <div
-                        className="flex flex-col justify-center rounded-2xl h-[563px] shadow-md cursor-pointer w-full aspect-[9/16] overflow-hidden relative"
+                        className="flex flex-col justify-center rounded-2xl h-[560px] shadow-md cursor-pointer w-full aspect-[9/16] overflow-hidden relative"
                         onMouseEnter={() => {
                           // Only play thumbnail video if YouTube is not playing
                           if (playingYoutubeIndex !== i) {
