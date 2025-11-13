@@ -10,6 +10,7 @@ interface ButtonProps {
   link?: any
   target?: '_blank' | '_self' | '_parent' | '_top' | ''
   isDemo?: boolean
+  buttonVariant?: 'tel' | 'mail'
   [x: string]: any
   className?: string
   locale?: string | false
@@ -24,6 +25,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   target,
   className,
   locale,
+  buttonVariant,
   ...rest
 }) => {
   const baseClasses = `relative [&>*]:relative inline-block rounded-[8px] text-gray-950 font-geist font-medium leading-[24px] flex items-center tracking-wide justify-center whitespace-nowrap gap-[8px] transition-all duration-300 ease-linear  ${className}`
@@ -41,12 +43,37 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       type === 'video',
   }) 
 
+  // Format link based on buttonVariant
+  const formatLink = (linkValue: string, variant?: 'tel' | 'mail'): string => {
+    if (!linkValue) return linkValue
+    
+    // If link already has protocol prefix, return as is
+    if (linkValue.startsWith('tel:') || linkValue.startsWith('mailto:') || linkValue.startsWith('http://') || linkValue.startsWith('https://') || linkValue.startsWith('/')) {
+      return linkValue
+    }
+    
+    // Format based on variant
+    if (variant === 'tel') {
+      // Remove any non-digit characters except + for phone numbers
+      const phoneNumber = linkValue.replace(/[^\d+]/g, '')
+      return `tel:${phoneNumber}`
+    }
+    
+    if (variant === 'mail') {
+      return `mailto:${linkValue}`
+    }
+    
+    return linkValue
+  }
+
+  const formattedLink = link ? formatLink(link, buttonVariant) : link
+
   const combinedClasses = clsx(baseClasses, customClasses, className)
-  if (link) {
+  if (formattedLink) {
     return (
       <>
         <Anchor
-          href={link}
+          href={formattedLink}
           className={combinedClasses}
           target={target}
           locale={locale}

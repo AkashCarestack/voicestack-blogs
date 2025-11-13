@@ -119,18 +119,6 @@ export default function CompanyPage({
               </div>
             </div>
           )}
-          <div className='flex flex-col md:flex-row gap-4 md:gap-6 py-8 md:py-16'>
-            {data?.leaderShipTeam && (
-              <div className="flex-1">
-                <MinimalCardList data={data.leaderShipTeam} />
-              </div>
-            )}
-            {data?.partners && (
-              <div className="flex-1">
-                <MinimalCardList data={data.partners} />
-              </div>
-            )}
-          </div>
           {items && items.length > 0 && (
             <div className="md:before:p-16 p-8 rounded-[20px] md:my-16 my-8 relative w-full bg-gray-50 overflow-hidden">
               {/* Background images positioned absolutely */}
@@ -183,6 +171,18 @@ export default function CompanyPage({
               </div>
             </div>
           )}
+          <div className='flex flex-col md:flex-row gap-4 md:gap-6 py-8 md:py-16'>
+            {data?.leaderShipTeam && (
+              <div className="flex-1">
+                <MinimalCardList data={data.leaderShipTeam} />
+              </div>
+            )}
+            {data?.partners && (
+              <div className="flex-1">
+                <MinimalCardList data={data.partners} />
+              </div>
+            )}
+          </div>
         </Container>
       </Section>
     </>

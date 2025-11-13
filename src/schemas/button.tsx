@@ -15,6 +15,28 @@ export default defineType({
       title: 'Button Link',
       type: 'string',
     }),
+    defineField({
+      name: 'buttonType',
+      title: 'Button Type',
+      type: 'string',
+    }),
+    defineField({
+      name: 'buttonIcon',
+      title: 'Button Icon',
+      type: 'text',
+    }),
+    defineField({
+      name: 'buttonVariant',
+      title: 'Button Variant',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'mail', value: 'mail' },
+          { title: 'tel', value: 'tel' },
+        ],
+      },
+    }),
+
   ],
   preview: {
     select: {
