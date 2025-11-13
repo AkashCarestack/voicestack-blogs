@@ -3,6 +3,7 @@ import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCa
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import PartnerLogoListing from '~/components/revamp/components/common/partnerLogoListing'
 import PartnersReferralSection from '~/components/revamp/components/common/partnerReferalSection'
+import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
@@ -35,8 +36,14 @@ export default function PartnersPage({ pageData, region }) {
         <PartnerLogoListing data={pageData['partner-logos']?.componentData} />
       )}
       {cardList && cardList.length > 0 && (
-        <Section className="md:py-12 py-6">
-          <Container className="flex flex-col items-center gap-8">
+        <Section className="py-sm md:py-md lg:py-lg">
+          <Container className="flex flex-col items-center gap-16">
+            <SectionHeader
+              heading={pageData['partner-feature']?.componentData?.heading}
+              description={
+                pageData['partner-feature']?.componentData?.description
+              }
+            />
             <FeatureCategoryGrid
               data={cardList}
               showTickIcon={false}
@@ -50,20 +57,34 @@ export default function PartnersPage({ pageData, region }) {
           </Container>
         </Section>
       )}
-            <PartnersReferralSection data={undefined} />
-            {pageData['logo-tabs']?.componentData?.refData ? (
-              <StackCardTestimonial
-                data={
-                  pageData['logo-tabs']?.componentData?.refData
-                    ?.tabsListingComponent
-                }
-              />
-            ) : (
-              <StackCardTestimonial
-                data={pageData['logo-tabs']?.componentData}
-              />
-            )}
-          
+      <PartnersReferralSection data={undefined} />
+      <Section className="py-sm md:py-md lg:py-lg">
+        <Container className="flex flex-col items-center gap-16">
+          <SectionHeader
+            heading={pageData['customer-love']?.componentData?.description}
+          />
+          <FeatureCategoryGrid
+            data={pageData['customer-love']?.componentData?.items}
+            showTickIcon={false}
+            displayMode="individual"
+            fieldMapping={{
+              id: '_key',
+              title: 'heading',
+              icon: 'dynamicSvg',
+            }}
+          />
+        </Container>
+      </Section>
+
+      {pageData['logo-tabs']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['logo-tabs']?.componentData?.refData?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial data={pageData['logo-tabs']?.componentData} />
+      )}
     </>
   )
 }
