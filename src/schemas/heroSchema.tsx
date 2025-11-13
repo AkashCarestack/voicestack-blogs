@@ -103,4 +103,27 @@ export const heroFields = [
       }
     }
   }),
+  defineField({
+    name: 'appStoreLinks',
+    title: 'App Store Links',
+    type: 'object',
+    fields: [
+      {
+        name: 'appStore',
+        title: 'Apple App Store URL',
+        type: 'url',
+      },
+      {
+        name: 'googlePlay',
+        title: 'Google Play Store URL',
+        type: 'url',
+      },
+      {
+        name: 'downloadText',
+        title: 'Download Text',
+        type: 'string',
+        description: 'Text above download buttons (e.g., "Download the app now")',
+      },
+    ],
+  }),
 ]

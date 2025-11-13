@@ -9,20 +9,20 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import { getFeaturesListQuery, getFeaturesList } from '~/lib/sanity.queries'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import SimpleHead from '~/components/common/SimpleHead'
 export default function WhyVoicestackIndex({ data, heroData, faq, features }: any) {
-
   return (
     <>
-       <div
-         className="py-12"
-         style={{
-           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
-         }}
-       >
+      <SimpleHead data={data?.seo} />
+      <div
+        className="py-12"
+        style={{
+          background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
+        }}
+      >
         <Breadcrumb breadCrumb={data?.breadCrumb} />
         <HeroSection data={heroData} refer={data} page="why-voicestack" />
-        
-       </div>
+      </div>
       {data['grow-your-practice'] && (
         <ListingWithTabs list={data['grow-your-practice']} />
       )}

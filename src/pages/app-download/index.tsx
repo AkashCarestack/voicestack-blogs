@@ -1,18 +1,16 @@
-// system-requirements/index.tsx
+  // app-download/index.tsx
 import { GetStaticProps } from 'next'
 import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
-import Header from '~/components/common/Header'
 import type { SanityClient } from 'next-sanity'
-import {getMiscellaneousData, getFooterData, getBannerData, getHeaderData } from '~/lib/sanity.queries'
+import {getMiscellaneousDataBySlug, getFooterData, getBannerData, getHeaderData } from '~/lib/sanity.queries'
 import { getHeroSectionData } from '~/lib/sanity.queries'
 import { useContext, useEffect } from 'react'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
-import Footer from '~/components/common/Footer'
 import BannerSection from '~/components/BannerSection'
 import ContentSection from '~/components/ContentSection'
 import Head from 'next/head'
-import { notFound } from 'next/navigation'
+import AppDownloadHero from '~/components/dynamic/AppDownloadHero'
 
 interface PageProps {
   homeSettings: any;
@@ -34,12 +32,13 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const region = locale
 
   const client = getClient(draftMode ? { token: readToken } : undefined) as SanityClient
+  const slug = 'app-download'
   const [homeSettings, heroData, bannerData, footerData, miscellaneousData,] = await Promise.all([
     getHeaderData(client, region),
     getHeroSectionData(client, region),
     getBannerData(client, region),
     getFooterData(client, region),
-    getMiscellaneousData(client, region)
+    getMiscellaneousDataBySlug(client, slug, region)
   ])
   
  if (!miscellaneousData) {
@@ -62,11 +61,9 @@ export const getStaticProps: GetStaticProps<any> = async ({
   }
 }
 
-export default function SystemRequirements({ homeSettings, heroData, bannerData, footerData, region ,miscellaneousData,draftMode,token}: PageProps) {
-
-
-  
+export default function AppDownload({ homeSettings, heroData, bannerData, footerData, region ,miscellaneousData,draftMode,token}: PageProps) {
   const { isDemoPopUpShown, setIsDemoPopUpShown } = useContext(BookDemoContext);
+
 
   useEffect(() => {
     setIsDemoPopUpShown(heroData);
@@ -77,10 +74,11 @@ export default function SystemRequirements({ homeSettings, heroData, bannerData,
   return (
     <>
     <Head>
-      <title>VoiceStack® | System Requirements</title>
-      <meta name="description"  content="To ensure optimal performance of VoiceStack, your system should meet the following specifications"></meta>
+      <title>VoiceStack® | App Download</title>
+      <meta name="description"  content="Download the VoiceStack app for your device"></meta>
     </Head>
-      <ContentSection content={miscellaneousData} draftMode={draftMode} token={token} slugData={miscellaneousData?.heroSectionSlug?.current}/>
+      <ContentSection slugData={miscellaneousData?.heroSectionSlug?.current} content={miscellaneousData} draftMode={draftMode} token={token}/>
+      
     </>
   )
 }

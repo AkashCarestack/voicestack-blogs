@@ -607,7 +607,7 @@ const Header = ({ data, refer = null }) => {
                   </div>
 
                   <div className="lg:flex gap-3 items-center lg:justify-end hidden">
-                  <Button type="secondary" className="w-fit" link={'/pricing'}>
+                  <Button type="secondary" className="w-fit text-sm font-medium" link={'/pricing'}>
                     {'See Pricing'}
                   </Button>
                     <Button type="primary" link="/demo">

@@ -79,7 +79,7 @@ export default function SupportedPhones({ homeSettings, heroData, bannerData, fo
       <title>VoiceStack® | Supported Phones</title>
       <meta name="description"  content="To ensure optimal performance of VoiceStack, your system should meet the following specifications"></meta>
     </Head>
-      <ContentSection content={miscellaneousData} draftMode={draftMode} token={token}/>
+      <ContentSection content={miscellaneousData} draftMode={draftMode} token={token} slugData="supported-phones"/>
       
     </>
   )
