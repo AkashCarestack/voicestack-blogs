@@ -45,7 +45,7 @@ export default function DemoPage({ formData, region }: DemoPageProps) {
         <meta name="keywords" content="voicestack demo, voicestack demo request, voicestack visual overview" />
       </Head>
       <div className="py-24 px-4">
-        <div className="w-full gap-16 flex flex-col items-center">
+        <div className="w-full gap-4 flex flex-col items-center">
           <div className="flex flex-col w-full items-center max-w-[780px] text-center gap-4 pb-8">
             <div className="max-w-[620px] flex flex-col gap-4">
               <h1 className="text-2xl font-semibold leading-6 text-gray-900">
