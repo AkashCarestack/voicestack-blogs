@@ -11,6 +11,7 @@ import TabsListingComponent from '../dynamic/TabsListingComponent'
 import CustomComponent from '../dynamic/CustomComponent'
 import ListingComponent from '../dynamic/ListingComponent'
 import ComparisonSchema from '../dynamic/ComparisonSchema'
+import AppDownloadHero from '../dynamic/AppDownloadHero'
 import WarningIcon from '../icons/WarningIcon'
 
 interface SanityPortableTextProps {
@@ -58,25 +59,6 @@ const SanityPortableText: React.FC<SanityPortableTextProps> = ({
       },
     },
     types: {
-      // image: ({ value }) => {
-      //   if (!value?.asset) return null;
-      //   return (
-      //     <ImageLoader
-      //       image={value.asset}
-      //       priority={true}
-      //       altText={value?.asset?.altText || 'Post image'}
-      //       title={value.asset.title || 'Post image'}
-      //       imageClassName="w-full"
-      //       fixed={false}
-      //       client={getClient(draftMode ? { token } : undefined)}
-      //        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-      //     />
-      //   )
-      // },
-
-      // table: ({ value }) => {
-      //   return <DecoratorTable>{value}</DecoratorTable>
-      // },
       htmlCode: ({ value }) => {
         return (
           <div
@@ -124,7 +106,6 @@ const SanityPortableText: React.FC<SanityPortableTextProps> = ({
       },
       genericListingComponent: ({ value }) => {
         if (!value) return null;
-        // Map genericListingComponent data to listingComponent format
         const listingData = {
           title: value.heading,
           description: value.description,
@@ -149,15 +130,11 @@ const SanityPortableText: React.FC<SanityPortableTextProps> = ({
       },
       heroComponent: ({ value }) => {
         if (!value) return null;
-        // Hero component rendering - using a simple placeholder for now
-        // You may want to create a proper HeroComponent renderer
         return (
-          <div className="py-8 bg-blue-50 border border-blue-200 rounded-lg">
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-blue-800 mb-2">Hero Component</h3>
-              <p className="text-blue-600">Hero component rendering - implement as needed</p>
-            </div>
-          </div>
+          <AppDownloadHero 
+            data={value} 
+            slugData={{}}
+          />
         )
       },
       comparisonSchema: ({ value }) => {

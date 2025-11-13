@@ -4,26 +4,56 @@ import Container from './structure/Container'
 import { useRouter } from 'next/router'
 import SanityPortableText from '~/components/blockEditor/sanityBlockEditor'
 import HeroInner from './common/HeroInner'
+import HeroSection from './revamp/components/common/HeroSection/heroSection'
 
-const ContentSection = ({ content, draftMode, token }) => {
+const ContentSection = ({ content, draftMode, token, slugData }) => {
   const router = useRouter()
 
 
   return (
     <>
-      <HeroInner data={content}/>
-      <Section className="py-sm md:py-md relative scroll-smooth scroll-m-16">
-        <Container className='justify-center'>
-          <div className="flex justify-center w-full max-w-[822px]">
-            <div className="flex flex-col  w-full">
-              <SanityPortableText
-                content={content?.contentArea}
-                draftMode={draftMode}
-                token={token}
-              />
+      {slugData !== 'app-download' &&
+      
+      
+      <HeroInner data={content} />
+
+
+      
+      }
+
+      <Section 
+        className="py-sm md:py-md relative scroll-smooth scroll-m-16" 
+        style={{ 
+          background: slugData === 'app-download' 
+            ? 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)' 
+            : undefined 
+        }}
+      >
+        {slugData === 'app-download' ? (
+          <>
+            <div className="flex justify-center w-full ">
+              <div className="flex flex-col w-full gap-6">
+                <SanityPortableText
+                  content={content?.contentArea}
+                  draftMode={draftMode}
+                  token={token}
+                />
+              </div>
             </div>
-          </div>
-        </Container>
+          </>
+        ) : (
+          <Container className='justify-center'>
+            <div className="flex justify-center w-full max-w-[822px]">
+              <div className="flex flex-col w-full gap-6">
+                <SanityPortableText
+                  content={content?.contentArea}
+                  draftMode={draftMode}
+                  token={token}
+                />
+              </div>
+            </div>
+          </Container>
+        )}
       </Section>
     </>
   )

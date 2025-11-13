@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import PartnerLogoListing from '~/components/revamp/components/common/partnerLogoListing'
@@ -22,6 +23,9 @@ export default function PartnersPage({ pageData, region }) {
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
         }}
       >
+        <Breadcrumb
+          breadCrumb={pageData?.breadCrumb}
+        />
         {pageData['partners-hero']?.componentData && (
           <HeroSection
             page=""
