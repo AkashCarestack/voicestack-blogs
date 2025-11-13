@@ -30,7 +30,6 @@ export default function MobilePractices({ pageData, faq }: MobilePracticesProps)
       />
 
        </div>
-       {console.log(pageData?.['trusted-business-communications']?.componentData?.refData, 'pageData')}
       {pageData?.['trusted-business-communications']?.componentData?.refData?.tabsListingComponent &&
         <SingleTabCardListing data={pageData?.['trusted-business-communications']?.componentData?.refData?.tabsListingComponent}/>
       }
