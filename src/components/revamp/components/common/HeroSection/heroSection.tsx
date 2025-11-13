@@ -220,8 +220,21 @@ const HeroSection = ({
     setPlayingIndex(index)
     const video = videoRefs.current[index]
     if (video) {
+      // Safari compatibility: ensure video is loaded before playing
+      if (video.readyState < 2) {
+        video.load()
+      }
       video.currentTime = 0
-      video.play().catch((err) => console.error('Video play failed:', err))
+      const playPromise = video.play()
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.error('Video play failed:', err)
+          // Safari might block autoplay, try again after a short delay
+          setTimeout(() => {
+            video.play().catch(() => {})
+          }, 100)
+        })
+      }
     } else {
       console.log('No video element found for index:', index)
     }
@@ -526,7 +539,17 @@ const HeroSection = ({
                             {/* Thumbnail Video - plays on hover */}
                             {data?.testimonial?.thumbnail && (
                               <video
-                                ref={(el) => (videoRefs.current[0] = el)}
+                                ref={(el) => {
+                                  videoRefs.current[0] = el
+                                  // Safari compatibility: ensure video loads
+                                  if (el) {
+                                    el.load()
+                                    // Try to play after load (Safari requires user interaction for autoplay)
+                                    el.play().catch(() => {
+                                      // Autoplay blocked, will play on hover
+                                    })
+                                  }
+                                }}
                                 key={data?.testimonial?.thumbnail}
                                 style={{
                                   backgroundColor: 'transparent',
@@ -541,6 +564,7 @@ const HeroSection = ({
                                 loop
                                 muted
                                 playsInline
+                                preload="auto"
                               >
                                 <source
                                   src={data?.testimonial?.thumbnail}
