@@ -7,6 +7,7 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import SimpleHead from '~/components/common/SimpleHead'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -116,6 +117,7 @@ export default function DentalPhonesIntegrations({
   console.log('pageDataDentalPhonesIntegrations', pageData)
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
       <div
         className="py-12"
         style={{

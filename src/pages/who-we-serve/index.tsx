@@ -1,8 +1,6 @@
 import { GetStaticProps } from 'next'
 
 import SimpleHead from '~/components/common/SimpleHead'
-import DynamicComponentRenderer from '~/components/dynamic/DynamicComponentRenderer'
-import Layout from '~/components/Layout'
 import LogoListingSection from '~/components/LogoListingSection'
 import CardListing from '~/components/revamp/components/cardListing'
 import CardsGridSection from '~/components/revamp/components/CardsGridSection'
@@ -10,13 +8,8 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HoverTestimonial from '~/components/revamp/components/common/HoverTestimonial/HoverTestimonial'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
-import { getClient } from '~/lib/sanity.client'
-import { urlForImage } from '~/lib/sanity.image'
-import { whoWeServeQueries } from '~/lib/sanity.queries'
 
 interface WhoWeServeIndexProps {
   pageData: any
@@ -35,6 +28,7 @@ export default function WhoWeServeIndex({
 }: WhoWeServeIndexProps) {
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
       <div
         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
         style={{

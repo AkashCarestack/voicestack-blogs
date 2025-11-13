@@ -14,6 +14,7 @@ import {
 } from '~/lib/sanity.queries'
 import { getClient } from '~/lib/sanity.client'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import SimpleHead from '~/components/common/SimpleHead'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -41,7 +42,6 @@ export default function ComparisonPage({
   comparisonTableData,
   comparisonLegendData,
 }) {
-  console.log('pageData', pageData)
   const comparisonTableTitle = pageData['comparison-table']?.componentData
   const comparisonSectionData = {
     strip: comparisonTableTitle?.heading,
@@ -54,6 +54,7 @@ export default function ComparisonPage({
 
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
       <div
         className="py-12"
         style={{

@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
 
 import CardListing from '~/components/revamp/components/cardListing'
 import CardsGridSection from '~/components/revamp/components/CardsGridSection'
@@ -61,6 +62,7 @@ export default function AiReceptionist({
   console.log({ pageData })
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
       <div
         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
         style={{

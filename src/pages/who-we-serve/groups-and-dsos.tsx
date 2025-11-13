@@ -1,44 +1,43 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
 
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import SingleCardWithList from '~/components/revamp/components/common/TabListing/singleCardWithList'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 
-interface SpecialityPracticesProps {
+interface GroupsAndDSOProps {
   pageData: any
   faq: any
 }
 
-export default function SpecialityPractices({
-  pageData,
-  faq,
-}: SpecialityPracticesProps) {
-  const tabsListingComponentData = pageData?.['smarter-system']?.componentData?.refData?.tabsListingComponent;
+export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
+  const tabsListingComponentData =
+    pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
   return (
     <>
-      {pageData['dental-phones-hero']?.componentData && (
+    <SimpleHead data={pageData?.seo} />
+      <div
+        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+        style={{
+          background:
+            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
+        }}
+      >
         <HeroSection
           page=""
           data={pageData['dental-phones-hero']?.componentData}
         />
-      )}
-      {pageData?.['effortlessly-handle-calls']?.componentData && (
-        <SingleCardWithList
-          data={pageData?.['effortlessly-handle-calls']?.componentData}
-        />
-      )}
+      </div>
+
       {tabsListingComponentData && (
-        <SingleTabCardListing
-          data={tabsListingComponentData}
-        />
+        <SingleTabCardListing data={tabsListingComponentData} />
       )}
       {pageData['testimonial-video-section']?.componentData && (
         <VerticalTestimonialListing
@@ -49,19 +48,17 @@ export default function SpecialityPractices({
         />
       )}
       <StatisticsSection />
-      {pageData['stack-card-tab-testimonial']?.componentData && (
-        pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
-          <StackCardTestimonial
-            data={
-              pageData['stack-card-tab-testimonial']?.componentData?.refData
-                ?.tabsListingComponent
-            }
-          />
-        ) : (
-          <StackCardTestimonial
-            data={pageData['stack-card-tab-testimonial']?.componentData}
-          />
-        )
+      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
       )}
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
@@ -70,10 +67,8 @@ export default function SpecialityPractices({
           />
         </div>
       )}
-      {pageData?.['speciality-practices']?.componentData && (
-        <TabCardsListing
-          data={pageData?.['speciality-practices']?.componentData}
-        />
+      {pageData?.['groups-and-dso']?.componentData && (
+        <TabCardsListing data={pageData?.['groups-and-dso']?.componentData} />
       )}
 
       {/* FAQ Section */}
@@ -91,16 +86,15 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   try {
     const queries = new Queries('whoWeServe', region)
-
     const slug =
       region === 'en'
-        ? 'speciality-practices'
-        : `speciality-practices-${region.toLowerCase()}`
+        ? 'groups-and-dsos'
+        : `groups-and-dsos-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
+
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
     }
-
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
@@ -112,7 +106,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       },
     }
   } catch (error) {
-    console.error('Error fetching Speciality Practices page:', error)
+    console.error('Error fetching groups and DSO page:', error)
     return {
       props: {
         pageData: null,

@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
 
 import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
@@ -25,8 +26,9 @@ export default function LeadershipTeamPage({
 
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
       <div
-        className="pt-lg pb-md"
+        className="py-12"
         style={{
           background:
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
@@ -53,9 +55,9 @@ export default function LeadershipTeamPage({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
-    const queries = new Queries('leadership-team', region)
+    const queries = new Queries('leadership', region)
     const slug =
-      region === 'en' ? 'leadership-team' : `leadership-team-${region.toLowerCase()}`
+      region === 'en' ? 'leadership' : `leadership-${region.toLowerCase()}`
 
     // Fetch page data for integrations
     const pageData = await queries.getPageData('company', slug)

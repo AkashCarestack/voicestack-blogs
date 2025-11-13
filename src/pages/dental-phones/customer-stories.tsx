@@ -10,6 +10,7 @@ import MasonryCardGridSection from '~/components/revamp/components/common/Masonr
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import SimpleHead from '~/components/common/SimpleHead'
 
 export default function CustomerStories({ pageData }: any) {
   const data =
@@ -24,6 +25,7 @@ export default function CustomerStories({ pageData }: any) {
   return (
     data && (
       <>
+      <SimpleHead data={pageData?.seo} />
        <div
         className="py-12"
         style={{

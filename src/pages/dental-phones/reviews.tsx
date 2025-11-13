@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
@@ -15,6 +16,7 @@ interface ReviewsProps {
 export default function Reviews({ pageData, faq }: ReviewsProps) {
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
       <div
         className="py-12"
         style={{
