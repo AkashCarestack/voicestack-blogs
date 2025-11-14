@@ -1,11 +1,13 @@
 import React from 'react'
 import dynamic from 'next/dynamic'
+import ComparisonSchema from '../dynamic/ComparisonSchema'
 
 const componentMap = {
   listingBlock: dynamic(() => import('./ListingBlock')),
   browserList: dynamic(
     () => import('./BrowserBlock'),
   ),
+  comparisonSchema: ComparisonSchema,
 }
 
 
@@ -20,6 +22,8 @@ const DynamicComponent = ({ componentType, ...props }) => {
       detectedComponentType = 'listingBlock'
     } else if (props.browserList) {
       detectedComponentType = 'browserList'
+    } else if (props.comparisonSchema) {
+      detectedComponentType = 'comparisonSchema'
     }
   }
 
@@ -35,6 +39,11 @@ const DynamicComponent = ({ componentType, ...props }) => {
   }
 
   const componentProps = props[detectedComponentType] || {}
+
+  // For comparisonSchema, pass data prop directly
+  if (detectedComponentType === 'comparisonSchema') {
+    return <Component data={componentProps} slugData={{}} />
+  }
 
   return <Component {...componentProps} />
 }

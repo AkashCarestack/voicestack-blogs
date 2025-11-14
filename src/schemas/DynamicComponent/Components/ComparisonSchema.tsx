@@ -76,6 +76,16 @@ const ComparisonSchema = defineType({
   type: 'object',
   fields: [
     defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+    }),
+    defineField({
       name: 'items',
       title: 'Comparison Items',
       type: 'array',

@@ -18,6 +18,9 @@ const dynamicComponent = {
           { title: 'Custom Component', value: 'Custom' },
           { title: 'Hero Component', value: 'Hero' },
           { title: 'Generic Listing Component', value: 'GenericListing' },
+          { title: 'Browser List', value: 'browserList' },
+          { title: 'Listing Block', value: 'listingBlock' },
+          { title: 'Comparison Schema', value: 'comparisonSchema' },
         ],
       },
       validation: (Rule: any) => Rule.required(),
@@ -47,6 +50,24 @@ const dynamicComponent = {
       type: 'genericListingComponent',
       hidden: ({ parent }: any) => parent?.componentType !== 'GenericListing',
     },
+    {
+      name: 'browserList',
+      title: 'Browser List',
+      type: 'browserList',
+      hidden: ({ parent }: any) => parent?.componentType !== 'browserList',
+    },
+    {
+      name: 'listingBlock',
+      title: 'Listing Block',
+      type: 'listingBlock',
+      hidden: ({ parent }: any) => parent?.componentType !== 'listingBlock',
+    },
+    {
+      name: 'comparisonSchema',
+      title: 'Comparison Schema',
+      type: 'comparisonSchema',
+      hidden: ({ parent }: any) => parent?.componentType !== 'comparisonSchema',
+    },
   ],
   preview: {
     select: {
@@ -56,9 +77,12 @@ const dynamicComponent = {
       heroTitle: 'heroComponent.heroheading',
       heroStrip: 'heroComponent.heroStrip',
       genericListingTitle: 'genericListingComponent.heading',
+      browserListTitle: 'browserList.mainHeading',
+      listingBlockTitle: 'listingBlock.itemHeading',
+      comparisonSchemaItems: 'comparisonSchema.items',
     },
     prepare(selection: any) {
-      const { componentType, tabsTitle, customTitle, heroTitle, heroStrip, genericListingTitle } = selection;
+      const { componentType, tabsTitle, customTitle, heroTitle, heroStrip, genericListingTitle, browserListTitle, listingBlockTitle, comparisonSchemaItems } = selection;
       
       let title = componentType || 'Dynamic Component';
       let subtitle = '';
@@ -80,6 +104,13 @@ const dynamicComponent = {
         }
       } else if (componentType === 'GenericListing' && genericListingTitle) {
         subtitle = genericListingTitle;
+      } else if (componentType === 'browserList' && browserListTitle) {
+        subtitle = browserListTitle;
+      } else if (componentType === 'listingBlock' && listingBlockTitle) {
+        subtitle = listingBlockTitle;
+      } else if (componentType === 'comparisonSchema') {
+        const itemCount = comparisonSchemaItems ? comparisonSchemaItems.length : 0;
+        subtitle = `Comparison Schema (${itemCount} item${itemCount !== 1 ? 's' : ''})`;
       }
       
       return {

@@ -13,6 +13,8 @@ import ListingComponent from '../dynamic/ListingComponent'
 import ComparisonSchema from '../dynamic/ComparisonSchema'
 import AppDownloadHero from '../dynamic/AppDownloadHero'
 import WarningIcon from '../icons/WarningIcon'
+import H2 from '../typography/H2'
+import Paragraph from '../typography/Paragraph'
 
 interface SanityPortableTextProps {
   content: any
@@ -47,7 +49,14 @@ const SanityPortableText: React.FC<SanityPortableTextProps> = ({
 
     block: {
       normal: ({ children }) => {
-        return <p className="text-gray-700 leading-[1.6] text-[16px]">{children}</p>
+        return (
+            <Paragraph className=''>{children}</Paragraph>
+        )
+      },
+      h2: ({ children }) => {
+        return (
+            <H2 className='text-center'>{children}</H2>
+        )
       },
       // Blockquote
       blockquote: ({ children }) => {
