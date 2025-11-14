@@ -15,6 +15,8 @@ import ProgressBar from '~/utils/progressBar/progressBar';
 import Anchor from './anchor';
 import SparklesIconFill from '../revamp/icons/SparklesIconFill';
 import PhoneIcon from '../icons/PhoneIcon';
+import { useLayoutData } from '~/providers/LayoutDataProvider';
+import { urlForImage } from '~/lib/sanity.image';
 // import RegionStrip from '../revamp/components/regionStrip';
 
 // Constants
@@ -377,6 +379,7 @@ const Header = ({ data, refer = null }) => {
   const matchedRegion = REGIONS.find((region) => region.locale === router.locale);
   const toggleRef = useRef<HTMLSpanElement>(null);
   const isMobile = useMediaQuery(767);
+  const { siteSettings } = useLayoutData();
 
   const { query } = router;
   const queryString = new URLSearchParams(query as Record<string, string>).toString();
@@ -522,13 +525,34 @@ const Header = ({ data, refer = null }) => {
     };
   }, [router]);
 
+  // Parse organization schema JSON-LD
+  let jsonLdData = null;
+  if (siteSettings?.injectJSONld) {
+    try {
+      jsonLdData = JSON.parse(siteSettings.injectJSONld);
+    } catch (error) {
+      console.error('Error parsing injectJSONld:', error);
+    }
+  }
+
   return (
     <>
       <Head>
-        <link rel="alternate" hrefLang="en-us" href="https://www.voicestack.com" />
+        {/* <link rel="alternate" hrefLang="en-us" href="https://www.voicestack.com" />
         <link rel="alternate" hrefLang="en-gb" href="https://www.voicestack.com/en-GB" />
         <link rel="alternate" hrefLang="en-au" href="https://www.voicestack.com/en-AU" />
-        <link rel="alternate" hrefLang="x-default" href="https://www.voicestack.com" />
+        <link rel="alternate" hrefLang="x-default" href="https://www.voicestack.com" /> */}
+        {/* organization schema */}
+        {jsonLdData && (
+          <>
+          <meta property="og:image" content={urlForImage(siteSettings?.ogImage)} />
+          <script
+              type="application/ld+json"
+              id="organization-schema"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
+            />
+          </>
+        )}
       </Head>
 
       <ProgressBar />
