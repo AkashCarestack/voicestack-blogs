@@ -493,7 +493,7 @@ const HeroSection = ({
 
             {/* Right Content - Video Section */}
             <div className="relative w-full max-w-[537px] md:py-9">
-              <div className="relative w-full h-[550px] rounded-[12px] md:rounded-[24px] overflow-hidden md:aspect-video">
+              <div className="relative w-full h-[550px] overflow-hidden md:aspect-video">
                 {data?.video   ? (
                   <VideoPlayers
                     video={data?.video[0]}
