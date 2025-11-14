@@ -44,6 +44,7 @@ export default function WhoWeServeIndex({
 
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection
+          customText="Curious if VoiceStack fits your practice"
           data={pageData['how-voicestack-works'].componentData}
         />
       )}
