@@ -35,15 +35,15 @@ export default function SingleCardWithList({ data }: { data: any }) {
                     </div>
                     <div>
                         <div className='flex flex-col gap-3'>
-                            <h4 className="text-gray-900 lg:text-[40px] md:text-3xl text-2xl leading-[120%] font-semibold font-manrope">{data?.headline}</h4>
-                            <p className="text-gray-700 lg:text-base text-sm leading-[155%] font-normal font-geist mb-6">{data?.subheadline}</p>
+                            <h4 className="text-gray-900 lg:text-[40px] md:text-3xl text-2xl !leading-[120%]  !tracking-normal font-bold font-manrope">{data?.headline}</h4>
+                            <p className="text-gray-700 lg:text-base text-sm leading-[120%] font-normal font-geist mb-6">{data?.subheadline}</p>
                         </div>
-                        <span className="text-[#4A3CE1] max-w-max flex px-3 py-1 bg-[#F3F1FA] lg:text-base text-sm leading-[150%] font-medium font-geist">{data?.subDescription}</span>
+                        <span className="text-[#4A3CE1] max-w-max flex px-3 rounded-[6px] py-1 bg-[#F3F1FA] lg:text-base text-sm leading-[150%] font-medium font-geist">{data?.subDescription}</span>
                         <div className='mt-3'>
                             {
                                 data?.tabs.map((e: any) => {
                                     return (
-                                        <div className="py-[14px] text-gray-950 flex flex-row gap-3 border-b border-b-[#E1E2E3] last:border-b-0 leading-[150%] lg:text-base text-sm" key={e?._id}><TickIcon />{e?.tabHeading}</div>
+                                        <div className="py-[14px] text-gray-950 items-center flex flex-row gap-3 border-b border-b-[#E1E2E3] last:border-b-0 leading-[150%] lg:text-base text-sm" key={e?._id}><TickIcon />{e?.tabHeading}</div>
                                     )
                                 })
                             }
