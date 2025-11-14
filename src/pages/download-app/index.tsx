@@ -74,8 +74,11 @@ export default function AppDownload({ homeSettings, heroData, bannerData, footer
   return (
     <>
     <Head>
-      <title>VoiceStack® | App Download</title>
-      <meta name="description"  content="Download the VoiceStack app for your device"></meta>
+      <title>Download VoiceStack® | VoiceStack® Mobile App Downloads</title>
+      <meta name="description"  content="Download the Official VoiceStack® App from the Apple App Store for iOS and Google Play for Android. Use VoiceStack® with your mobile phone today!"></meta>
+      <meta name="keywords" content="VoiceStack® app download, VoiceStack® mobile app, VoiceStack® app for iOS, VoiceStack® app for Android"></meta>
+      <meta name="author" content="VoiceStack®"></meta>
+      <meta name="canonical" content="https://voicestack.com/download-app"></meta>
     </Head>
       <ContentSection slugData={miscellaneousData?.heroSectionSlug?.current} content={miscellaneousData} draftMode={draftMode} token={token}/>
       
