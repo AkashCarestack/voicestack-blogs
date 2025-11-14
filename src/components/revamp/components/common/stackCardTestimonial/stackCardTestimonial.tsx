@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import Button from '~/components/common/Button'
 import SectionHeader from '../sectionHeader'
@@ -43,12 +43,12 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className="text-lg lg:text-2xl md:font-bold font-semibold text-gray-500 !leading-[150%] font-manrope">
+        <p className="text-base lg:text-2xl md:font-bold font-semibold text-gray-500 !leading-[150%] font-manrope">
           {children}
         </p>
       ),
       blockquote: ({ children }: { children: React.ReactNode }) => (
-        <blockquote className="text-lg lg:text-2xl font-medium text-gray-900 leading-relaxed">
+        <blockquote className="text-base lg:text-2xl font-medium text-gray-900 leading-relaxed">
           {children}
         </blockquote>
       ),
@@ -61,6 +61,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   }
   const [isOpen, setIsOpen] = useState(false)
   const [activeTestimonial, setActiveTestimonial] = useState(0)
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
 
   // Early return if data is missing or invalid
   if (!data || !data?.tabs || !Array.isArray(data.tabs) || data.tabs.length === 0) {
@@ -82,25 +83,49 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
         <div className="text-center flex flex-col md:gap-16 gap-8 overflow-hidden">
           <SectionHeader heading={data?.headline}  description={data?.subDescription}/>
 
-          {/* Company Logos Tabs */}
-          <SwitchableTabs
+          {/* Company Logos Tabs - Mobile */}
+          {/* <SwitchableTabs
             data={
               data?.tabs?.map((tab, index) => ({
                 ...tab,
                 id: tab.id || index.toString(),
+                key: tab.id || index.toString(),
+                testimonial: tab.testimonial || {},
               })) || []
             }
-            setActiveTab={(e: string) => setActiveTestimonial(Number(e))}
+            setActiveTab={(e: string) => {
+              const index = Number(e)
+              if (!isNaN(index) && index >= 0 && index < data.tabs.length) {
+                setActiveTestimonial(index)
+              }
+            }}
             activeTab={activeTestimonial.toString()}
             className="md:hidden block"
             isShowImage={true}
-          />
-          <div className="md:grid hidden md:grid-cols-4 gap-6 lg:gap-8 ">
+            isSticky={false}
+          /> */}
+          <div className="flex gap-6 lg:gap-8 overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none ">
             {data?.tabs?.map((testimonial, index) => (
               <button
+                ref={(el) => {
+                  if (tabRefs.current) {
+                    tabRefs.current[index] = el
+                  }
+                }}
                 key={testimonial.id}
-                onClick={() => setActiveTestimonial(index)}
-                className={`flex flex-col items-center w-full group transition-all duration-300 ${
+                onClick={() => {
+                  setActiveTestimonial(index)
+                  // Scroll the clicked tab into view to show there are more tabs available
+                  const targetElement = tabRefs.current[index]
+                  if (targetElement) {
+                    targetElement.scrollIntoView({
+                      behavior: 'smooth',
+                      inline: 'center',
+                      block: 'nearest',
+                    })
+                  }
+                }}
+                className={`flex flex-col items-center  flex-1 group transition-all duration-300 ${
                   activeTestimonial === index
                     ? 'opacity-100 border-b-[3px] border-gray-950'
                     : 'opacity-60 hover:opacity-80 border-b-[2px] border-gray-200'
@@ -108,7 +133,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
               >
                 <div className={`relative md:my-6 my-2`}>
                   <div
-                    className="mb-6"
+                    className="mb-6 hidden md:block"
                     style={{
                       height: `48px`,
                       width: `${
@@ -125,7 +150,24 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                       className="w-full h-full object-contain invert-[100%]"
                     />
                   </div>
-
+                  <div
+                    className="mb-6 block md:hidden"
+                    style={{
+                      height: `32px`,
+                      width: `${
+                        32 *
+                          testimonial?.testimonial?.secondaryLogo?.metadata?.dimensions
+                            ?.aspectRatio || 2
+                      }px`,
+                    }}
+                  >
+                    <ImageLoader
+                      image={testimonial?.testimonial?.secondaryLogo?.url}
+                      alt={testimonial?.testimonial?.secondaryLogo?.altText}
+                      title={currentTestimonial?.testimonial?.practiceName? testimonial?.testimonial?.practiceName: testimonial?.testimonial?.secondaryLogo?.altText}
+                      className="w-full h-full object-contain invert-[100%]"
+                    />
+                  </div>
                   {/* {activeTestimonial === index && (
                     <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gray-800 rounded-full"></div>
                   )} */}
@@ -161,7 +203,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
             <div className="xl:min-w-[606px] w-full flex flex-col md:gap-8 gap-4">
               {/* Quote */}
               {currentTestimonial?.description && (
-                <blockquote className="text-xl lg:text-2xl font-medium text-left min-h-[259px]">
+                <blockquote className="text-lg lg:text-2xl font-medium text-left md:min-h-[259px]">
                   <PortableText
                     value={currentTestimonial?.description}
                     components={components}
@@ -247,7 +289,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     link="/demo"
                   >
                     <span>
-                      {currentTestimonial?.ctaListItems?.[0]?.ctaText ||
+                      {currentTestimonial?.ctaListItems[0]?.ctaText ||
                         'Book Free Demo'}
                     </span>
                   </Button>

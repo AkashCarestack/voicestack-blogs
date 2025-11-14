@@ -30,7 +30,7 @@ export default function PartnersPage({ pageData, region }) {
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         {pageData['partners-hero']?.componentData && (
           <HeroSection
-            page=""
+            page="partners"
             isCentered={true}
             showFullDescription={true}
             data={pageData['partners-hero']?.componentData}

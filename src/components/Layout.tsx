@@ -50,7 +50,7 @@ export default function Layout({
     //   <ImageSwitchProvider>
 
         <div
-          className={`flex flex-col w-full items-center pt-[108px] bg-[#F9F9F9]`}
+          className={`flex flex-col w-full items-center pt-[48px] lg:pt-[108px] bg-[#F9F9F9]`}
         >
           <Header data={headerData} />
           <div className="w-full flex flex-col">{children}</div>

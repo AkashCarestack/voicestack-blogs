@@ -89,7 +89,15 @@ export default function DentalPhonesIndex({
       />
 
        </div>
-      {pageData['stack-card-tab-testimonial']?.componentData && (
+     
+       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
@@ -98,6 +106,7 @@ export default function DentalPhonesIndex({
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection
           data={pageData['how-voicestack-works'].componentData}
+          customText="Does VoiceStack fit your practice?"
         />
       )}
       {pageData['testimonial-video-section']?.componentData && (

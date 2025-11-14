@@ -18,8 +18,9 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const breadcrumbItems = useMemo(() => {
     const excludedSegments = ['en', 'en-GB', 'en-AU']
     
-    // Split URL path into segments
-    const pathSegments = router.asPath
+    // Split URL path into segments (remove hash from asPath to prevent hydration mismatch)
+    const pathWithoutHash = router.asPath.split('#')[0]
+    const pathSegments = pathWithoutHash
       .split('/')
       .filter((segment) => segment !== '' && !excludedSegments.includes(segment))
     // If Sanity override exists, parse it
@@ -59,7 +60,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
         href,
       }
     })
-  }, [router.asPath, breadCrumb])
+  }, [router.asPath.split('#')[0], breadCrumb])
 
   // Don't render if we're on the home page
   if (breadcrumbItems.length === 0) {

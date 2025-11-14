@@ -71,6 +71,7 @@ export default function AiReceptionist({
         }}
       >
         <HeroSection
+          showFullDescription={true}
           refer={pageData['dental-phones-hero']}
           data={pageData['dental-phones-hero']?.componentData}
           page="why-voicestack"

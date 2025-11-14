@@ -205,6 +205,11 @@ export default defineType({
       readOnly: true,
       hidden: true,
     }),
+    defineField({
+      name: 'rating',
+      title: 'Rating',
+      type: 'number',
+    }),
   ],
   preview: {
     select: {

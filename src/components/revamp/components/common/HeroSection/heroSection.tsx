@@ -285,7 +285,7 @@ const HeroSection = ({
 
   return (
     <section className="font-geist justify-center">
-      <Container className={isCentered ? ' justify-center' : 'py-12'}>
+      <Container className={`${isCentered ? ' ' : 'py-12'} justify-center`}>
         {isCentered ? (
           <div className={`${showFullDescription ? "max-w-[808px]" : "max-w-[606px]"} flex flex-col items-center text-center  gap-3  lg:pt-20`}>
             <h1 className="text-base font-medium text-gray-950 ">
@@ -318,10 +318,11 @@ const HeroSection = ({
                     {data.bookBtnContent[0]?.buttonText && (
                       <Button
                         key={data.bookBtnContent[0]?._key || 0}
-                        type={!data.bookBtnContent[0]?.buttonType ? 'primary' : (data.bookBtnContent[0]?.buttonType || 'secondary')}
+                        type={(!data.bookBtnContent[0]?.buttonType || data.bookBtnContent[0]?.buttonType === '') ? 'primary' : (data.bookBtnContent[0]?.buttonType || 'secondary')}
                         className="w-fit"
                         link={data.bookBtnContent[0]?.buttonLink}
                         buttonVariant={data.bookBtnContent[0]?.buttonVariant}
+                        target={data.bookBtnContent[0]?.openInNewTab ? '_blank' : '_self'}
                       >
                         {data.bookBtnContent[0]?.buttonIcon && (
                           <span dangerouslySetInnerHTML={{ __html: data.bookBtnContent[0].buttonIcon }} />
@@ -340,6 +341,7 @@ const HeroSection = ({
                             className="w-fit"
                             link={button?.buttonLink}
                             buttonVariant={button?.buttonVariant}
+                            target={data.bookBtnContent[0]?.openInNewTab ? '_blank' : '_self'}
                           >
                             {button?.buttonIcon && (
                               <span dangerouslySetInnerHTML={{ __html: button.buttonIcon }} />
@@ -356,14 +358,19 @@ const HeroSection = ({
                     {data.bookBtnContent.map((button: any, index: number) => {
                       if (!button?.buttonText) return null
                       const isPricingFirstButton = page === 'pricing' && index === 0
+                      // Default first button to 'primary' if buttonType is not set or is empty
+                      const buttonType = index === 0 && (!button?.buttonType || button?.buttonType === '') 
+                        ? 'primary' 
+                        : (button?.buttonType || 'secondary')
                       return (
                         <Button
                           key={button?._key || index}
-                          type={index == 0 && !button?.buttonType ? 'primary' : (button?.buttonType || 'secondary')}
+                          type={buttonType}
                           className="w-fit"
                           link={isPricingFirstButton ? undefined : button?.buttonLink}
                           onClick={isPricingFirstButton ? () => setIsPricingModalOpen(true) : undefined}
                           buttonVariant={button?.buttonVariant}
+                          target={data.bookBtnContent[0]?.openInNewTab ? '_blank' : '_self'}
                         >
                           {button?.buttonIcon && (
                             <span dangerouslySetInnerHTML={{ __html: button.buttonIcon }} />
@@ -383,7 +390,7 @@ const HeroSection = ({
             <div className="space-y-3 flex-1 max-w-[607px] w-full justify-center lg:justify-start">
               {/* Feature Tag */}
               {page === 'home' ? (
-                <div className="flex w-fit mx-auto lg:mx-0 text-center md:text-left items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
+                <div className="flex w-fit mx-auto lg:mx-0 text-center lg:text-left items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
                   <SuperChargeIcon />
                   <h1 className="text-sm font-medium text-gray-950 ">
                     {data?.heroStrip}
@@ -431,7 +438,7 @@ const HeroSection = ({
                       {data.bookBtnContent[0]?.buttonText && (
                         <Button
                           key={data.bookBtnContent[0]?._key || 0}
-                          type={!data.bookBtnContent[0]?.buttonType ? 'primary' : (data.bookBtnContent[0]?.buttonType || 'secondary')}
+                          type={(!data.bookBtnContent[0]?.buttonType || data.bookBtnContent[0]?.buttonType === '') ? 'primary' : (data.bookBtnContent[0]?.buttonType || 'secondary')}
                           className="w-fit"
                           link={page === 'pricing' ? undefined : data.bookBtnContent[0]?.buttonLink}
                           onClick={page === 'pricing' ? () => setIsPricingModalOpen(true) : undefined}
@@ -466,13 +473,17 @@ const HeroSection = ({
                     </>
                   ) : (
                     /* If 2 or fewer buttons, show them in a row */
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start">
                       {data.bookBtnContent.map((button: any, index: number) => {
                         const isPricingFirstButton = page === 'pricing' && index === 0
+                        // Default first button to 'primary' if buttonType is not set or is empty
+                        const buttonType = index === 0 && (!button?.buttonType || button?.buttonType === '') 
+                          ? 'primary' 
+                          : (button?.buttonType || 'secondary')
                         return (
                           <Button
                             key={button?._key || index}
-                            type={index === 0 && !button?.buttonType ? 'primary' : (button?.buttonType || 'secondary')}
+                            type={buttonType}
                             className="w-fit"
                             link={isPricingFirstButton ? undefined : button?.buttonLink}
                             onClick={isPricingFirstButton ? () => setIsPricingModalOpen(true) : undefined}
@@ -493,15 +504,15 @@ const HeroSection = ({
 
             {/* Right Content - Video Section */}
             <div className="relative w-full max-w-[537px] md:py-9">
-              <div className="relative w-full h-[550px] rounded-[12px] md:rounded-[24px] overflow-hidden md:aspect-video">
+              <div className="relative w-full h-full md:h-[550px] rounded-[12px] md:rounded-[24px] overflow-hidden md:aspect-video">
                 {data?.video   ? (
                   <VideoPlayers
                     video={data?.video[0]}
                     thumbnail={data?.video[0]?.videoThumbnail}
                   />
                 ) : data?.testimonial ? (
-                  <div className="md:max-w-[606px] leading-none flex-1 flex justify-center lg:justify-end items-start relative">
-                    <div className="absolute right-auto left-1/2 md:left-auto md:right-0 top-[0] bg-[#4A3CE1] opacity-10 rounded-[12px] md:rounded-[22px] -translate-x-1/2 lg:translate-x-0 rotate-[-7.7deg] scale-90 aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] shrink-0 origin-bottom-left"></div>
+                  <div className="lg:max-w-[606px] leading-none flex-1 flex justify-center lg:justify-end items-start relative">
+                    <div className="absolute right-auto left-1/2 lg:left-auto lg:right-0 top-[0] bg-[#4A3CE1] opacity-10 rounded-[12px] md:rounded-[22px] -translate-x-1/2 lg:translate-x-0 rotate-[-7.7deg] scale-90 aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] shrink-0 origin-bottom-left"></div>
                     <div className="relative rounded-[8px] md:rounded-[16px] aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] overflow-hidden shrink-0">
                       <div
                         className="group flex flex-col justify-center rounded-2xl h-[550px] shadow-md cursor-pointer w-full aspect-[9/16] overflow-hidden relative"
@@ -694,7 +705,7 @@ const HeroSection = ({
                     image={data?.heroImage?.url}
                     alt={data?.heroImage?.altText}
                     title={data?.heroImage?.title}
-                    className="w-full h-full object-cover rounded-[12px] md:rounded-[24px]"
+                    className="w-full h-full object-cover rounded-[12px] md:rounded-[24px] aspect-[1/1]"
                   />
                 )}
               </div>

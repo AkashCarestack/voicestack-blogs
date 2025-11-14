@@ -1,9 +1,6 @@
 import React from 'react'
 import { GetStaticProps } from 'next'
-import Container from '~/components/structure/Container'
-import Section from '~/components/structure/Section'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import SimpleHead from '~/components/common/SimpleHead'
@@ -63,7 +60,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       region === 'en' ? 'support-page-data' : `support-page-data-${region.toLowerCase()}`
 
     const supportPageData = await queries.getPageData('company', slug)
-    const faq = await queries.getFaqBySlug('support', region)
+    const faq = supportPageData?.faqData?.[0] || supportPageData?.faqReferenced?.[0] || null
+
 
     if (!supportPageData || Object.keys(supportPageData).length === 0) {
       return {
