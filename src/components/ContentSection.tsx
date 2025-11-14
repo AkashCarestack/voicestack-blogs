@@ -14,10 +14,7 @@ const ContentSection = ({ content, draftMode, token, slugData }) => {
     <>
       {slugData !== 'app-download' &&
       
-      
       <HeroInner data={content} />
-
-
       
       }
 
@@ -44,7 +41,7 @@ const ContentSection = ({ content, draftMode, token, slugData }) => {
         ) : (
           <Container className='justify-center'>
             <div className="flex justify-center w-full max-w-[822px]">
-              <div className="flex flex-col w-full gap-6">
+              <div className="flex flex-col w-full gap-12">
                 <SanityPortableText
                   content={content?.contentArea}
                   draftMode={draftMode}

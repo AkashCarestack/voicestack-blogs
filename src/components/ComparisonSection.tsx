@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import H2 from './typography/H2'
+import Paragraph from './typography/Paragraph'
 
 /**
  * COMPARISON SECTION COMPONENT
@@ -68,9 +70,25 @@ const ComparisonSection: React.FC<ComparisonSectionProps> = ({ data }) => {
   const description = activeItems.length > 0 ? activeItems[0].description : null
 
   return (
-    <div className="">
+    <div className="mt-12">
+      {/* Title and Description */}
+      {(data.title || data.description) && (
+        <div className="mb-8 md:mb-12 text-left">
+          {data.title && (
+            <H2 className="text-2xl md:text-4xl font-bold font-manrope mb-4">
+              {data.title}
+            </H2>
+          )}
+          {data.description && (
+            <Paragraph className="text-gray-700 text-lg leading-[28px] max-w-3xl ">
+              {data.description}
+            </Paragraph>
+          )}
+        </div>
+      )}
+
       {/* Tabs - Toggle/Segment Control */}
-      <div className="flex justify-center md:mb-12 mb-8">
+      <div className="flex justify-start md:mb-12 mb-8">
         <div className="rounded-full bg-white shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] flex p-1 gap-1">
           <button
             onClick={() => setActiveTab('deskPhone')}
@@ -96,7 +114,7 @@ const ComparisonSection: React.FC<ComparisonSectionProps> = ({ data }) => {
       </div>
 
       <div className='max-w-[822px] mx-auto'>
-        <p className="font-geist text-center text-lg font-normal leading-[28px] tracking-normal text-gray-600">
+        <p className="font-geist text-left text-lg font-normal leading-[28px] tracking-normal text-gray-600">
           {activeTab === 'deskPhone' 
             ? 'VoiceStack works seamlessly with Yealink and Polycom desk phones, ensuring clear audio, smooth integration, and AI-powered performance for modern dental practices. See supported models below.'
             : 'VoiceStack connects seamlessly with Yealink cordless phones, delivering clear audio, reliable performance, and full AI integration across your practice. See supported models below.'}
