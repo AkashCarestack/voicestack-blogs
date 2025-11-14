@@ -1143,6 +1143,21 @@ class Queries {
                       }
                     }},
                     
+                    // partnerListing specific
+                    'partnerImage':logo[]->image.asset->{url,_id,altText,   metadata {
+                      dimensions {
+                        width,
+                        height,
+                        aspectRatio
+                      }
+                    }},
+                    'partnerSecondaryImage':logo[]->secondaryImage.asset->{url,_id,altText,   metadata {
+                      dimensions {
+                        width,
+                        height,
+                        aspectRatio
+                      }
+                    }},
                     
                     // verticalTestimonialListing specific
                     testimonial[]-> {

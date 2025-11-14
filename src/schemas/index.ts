@@ -31,6 +31,7 @@ import HomeSettings from './HomeSettings/index'
 import layout from './layout'
 import legal from './Legal'
 import LogoListing from './LogoListing/index'
+import PartnerListing from './PartnerListing/index'
 import Miscellaneous from './Miscellaneous'
 import page from './page'
 import DentalSoftware from './Pages/DentalSoftware'
@@ -68,6 +69,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     Platforms,
     PlatformList,
     LogoListing,
+    PartnerListing,
     CsCardsListing,
     featureSubSection,
     testimonialSection,

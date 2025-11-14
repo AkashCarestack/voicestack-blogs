@@ -38,7 +38,7 @@ export default function PartnersPage({ pageData, region }) {
         )}
       </div>
       {pageData['partner-logos']?.componentData && (
-        <PartnerLogoListing data={pageData['partner-logos']?.componentData} />
+        <PartnerLogoListing data={pageData['partner-logos']?.componentData} refer={pageData['partner-logos']?.componentData?.blocksListingData}/>
       )}
       {cardList && cardList.length > 0 && (
         <Section className="py-sm md:py-md lg:py-lg">

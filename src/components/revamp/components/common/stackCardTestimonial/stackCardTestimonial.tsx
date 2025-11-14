@@ -251,7 +251,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                         'Book Free Demo'}
                     </span>
                   </Button>
-                  <Button type="secondary" className="w-fit">
+                  <Button type="secondary" className="w-fit" link={currentTestimonial?.ctaListItems?.[1]?.ctaLink ? currentTestimonial?.ctaListItems?.[1]?.ctaLink : '/pricing'}>
                     {currentTestimonial?.ctaListItems?.[1]?.ctaText ||
                       'See Pricing'}
                   </Button>

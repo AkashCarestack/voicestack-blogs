@@ -108,6 +108,7 @@ export default defineConfig({
         'comparisonValue',
         'testimonialSection',
         'logoListing',
+        'partnerListing',
         'verticalTestimonialListing',
         'csCardsListing',
         'whoWeServeListing',
