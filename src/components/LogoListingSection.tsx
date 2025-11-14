@@ -65,7 +65,7 @@ const LogoListingSection = ({ data, refer = null, header = false }) => {
                     title={logo.altText}
                     width={logo?.metadata?.dimensions?.width}
                     height={logo?.metadata?.dimensions?.height}
-                    className={`${isUk ? 'h-[52px]' : 'h-10'} w-auto`}
+                    className={`${isUk ? 'h-[52px]' : 'h-10'} w-auto grayscale`}
                     key={logo?._id}
                   ></Image>
                 )
