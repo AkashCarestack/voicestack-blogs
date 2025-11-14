@@ -43,12 +43,12 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className="text-lg lg:text-2xl md:font-bold font-semibold text-gray-500 !leading-[150%] font-manrope">
+        <p className="text-base lg:text-2xl md:font-bold font-semibold text-gray-500 !leading-[150%] font-manrope">
           {children}
         </p>
       ),
       blockquote: ({ children }: { children: React.ReactNode }) => (
-        <blockquote className="text-lg lg:text-2xl font-medium text-gray-900 leading-relaxed">
+        <blockquote className="text-base lg:text-2xl font-medium text-gray-900 leading-relaxed">
           {children}
         </blockquote>
       ),
@@ -133,7 +133,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
               >
                 <div className={`relative md:my-6 my-2`}>
                   <div
-                    className="mb-6"
+                    className="mb-6 hidden md:block"
                     style={{
                       height: `48px`,
                       width: `${
@@ -150,7 +150,24 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                       className="w-full h-full object-contain invert-[100%]"
                     />
                   </div>
-
+                  <div
+                    className="mb-6 block md:hidden"
+                    style={{
+                      height: `32px`,
+                      width: `${
+                        32 *
+                          testimonial?.testimonial?.secondaryLogo?.metadata?.dimensions
+                            ?.aspectRatio || 2
+                      }px`,
+                    }}
+                  >
+                    <ImageLoader
+                      image={testimonial?.testimonial?.secondaryLogo?.url}
+                      alt={testimonial?.testimonial?.secondaryLogo?.altText}
+                      title={currentTestimonial?.testimonial?.practiceName? testimonial?.testimonial?.practiceName: testimonial?.testimonial?.secondaryLogo?.altText}
+                      className="w-full h-full object-contain invert-[100%]"
+                    />
+                  </div>
                   {/* {activeTestimonial === index && (
                     <div className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gray-800 rounded-full"></div>
                   )} */}
@@ -186,7 +203,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
             <div className="xl:min-w-[606px] w-full flex flex-col md:gap-8 gap-4">
               {/* Quote */}
               {currentTestimonial?.description && (
-                <blockquote className="text-xl lg:text-2xl font-medium text-left min-h-[259px]">
+                <blockquote className="text-lg lg:text-2xl font-medium text-left md:min-h-[259px]">
                   <PortableText
                     value={currentTestimonial?.description}
                     components={components}

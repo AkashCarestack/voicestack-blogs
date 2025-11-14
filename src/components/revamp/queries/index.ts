@@ -655,6 +655,11 @@ class Queries {
                             designation,
                             thumbnail,
                             testimonialdescription,
+                            place,
+                            practiceName,
+                            mainStatement,
+                            subStatement, 
+                            region,
                             "logo": logo.asset-> {
                               ${this.IMAGE_METADATA_FIELDS}
                             },
@@ -720,6 +725,13 @@ class Queries {
                           designation,
                           practiceName,
                           keyStatement,
+                          place,
+                          region,
+                          practiceName,
+                          mainStatement,
+                          subStatement,
+                          keyStatement,
+                          isHighlighted,
                           "logo": logo.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
                           },
@@ -1099,6 +1111,12 @@ class Queries {
                       thumbnail,
                       testimonialdescription,
                       keyStatement,
+                      place,
+                      region,
+                      practiceName,
+                      mainStatement,
+                      subStatement,
+                      keyStatement,
                   
                     "secondaryLogo": secondaryLogo.asset-> {
                           ${this.IMAGE_METADATA_FIELDS}
@@ -1120,7 +1138,8 @@ class Queries {
                       before,
                       after,
                       description,
-                      isHighlighted
+                      isHighlighted,
+                      
                     },
                   },
                   // Blocks & Lists Reference (all types)

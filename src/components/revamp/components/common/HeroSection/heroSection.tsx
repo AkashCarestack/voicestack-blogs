@@ -473,7 +473,7 @@ const HeroSection = ({
                     </>
                   ) : (
                     /* If 2 or fewer buttons, show them in a row */
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start">
                       {data.bookBtnContent.map((button: any, index: number) => {
                         const isPricingFirstButton = page === 'pricing' && index === 0
                         // Default first button to 'primary' if buttonType is not set or is empty
