@@ -154,7 +154,7 @@ const RegionSwitcherDropdown = ({
           ) : (
             <Anchor
               key={`${index}-${region.flag.url}`}
-              href={`/${queryString}`}
+              href={`/${queryString ? `?${queryString}&flag=true` : '?flag=true'}`}
               locale={region.locale}
               className="flex gap-2 items-center py-[6px] pl-[12px] border-b border-gray-200 last:border-none hover:bg-gray-200 transition-all duration-300 ease-linea"
             >
@@ -186,7 +186,7 @@ const MobileRegionSwitcher = ({
       ) : (
         <Anchor
           key={`${index}-${region.flag.url}`}
-          href="/"
+          href="/?flag=true"
           locale={region.locale}
           className="flex gap-2 items-center"
           onClick={onClose}
@@ -218,7 +218,7 @@ const RegionPopup = ({
       </p>
       <Anchor
         className="bg-vs-blue hover:bg-vs-blue text-white border border-vs-blue px-[17px] py-[10px] rounded-[7px] font-inter text-base font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]"
-        href={`/${queryString}`}
+        href={`/${queryString ? `${queryString}&flag=true` : '?flag=true'}`}
         locale={preferredLocale}
         onClick={onClose}
       >
@@ -234,7 +234,7 @@ const RegionPopup = ({
             .map((region, index) => (
               <Link
                 key={`${index}-${region.regionName}`}
-                href={`/${queryString}`}
+                href={`/${queryString ? `${queryString}&flag=true` : '?flag=true'}`}
                 locale={region.locale}
                 className="flex py-[6px] px-3 rounded-[4px] text-xs font-medium text-gray-400 hover:bg-gray-100"
                 onClick={onClose}
@@ -476,6 +476,10 @@ const Header = ({ data, refer = null }) => {
   };
 
   const shouldRenderPopup = () => {
+    // Check if flag=true is in the URL - if so, don't show popup
+    if (router.query.flag === 'true') {
+      return false;
+    }
     const countryCd = getCookie('__cs_ver') ? getCookie('__cs_ver') : '1';
     return router.locale !== getLocaleFromCountry(country) && router.asPath === '/' && countryCd !== 'undefined';
   };
@@ -485,7 +489,7 @@ const Header = ({ data, refer = null }) => {
       setRegionSwitcher(shouldRenderPopup());
     }, 1000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [router.query.flag]);
 
   const openDemoPopup = () => {
     router.push('/demo');

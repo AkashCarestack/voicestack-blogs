@@ -24,6 +24,7 @@ export default function CustomHead(props) {
       <meta property="keywords" content={props.siteSettings.seoSettings.keyWords?.join(',')} />
        <script
         type="application/ld+json"
+        id="organization-schema"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
       ></script>
     </Head>
