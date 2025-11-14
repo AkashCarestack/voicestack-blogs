@@ -13,7 +13,7 @@ const config = {
     defaultLocale: 'en'
 
   },
-  basePath: "/en-AU",
+
   assetPrefix: "/en-AU",
 
   async redirects() {
