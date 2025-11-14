@@ -12,6 +12,8 @@ const config = {
     locales: ['en', 'en-GB','en-AU'],
     defaultLocale: 'en'
   },
+  basePath: "/en-GB",
+  assetPrefix: "/en-GB",
 
   async redirects() {
    
