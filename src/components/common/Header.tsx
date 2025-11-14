@@ -128,6 +128,22 @@ const RegionSwitcherDropdown = ({
   setOpenSwitcher: (open: boolean) => void;
 }) => {
   const matchedRegion = regions.find((r) => r.locale === currentLocale);
+  
+  // Helper function to safely add flag=true without duplication
+  const getHrefWithFlag = () => {
+    if (!queryString) {
+      return '/?flag=true';
+    }
+    // queryString already has '?' prefix, so extract the actual query params
+    const queryParams = queryString.startsWith('?') ? queryString.substring(1) : queryString;
+    const params = new URLSearchParams(queryParams);
+    if (params.has('flag') && params.get('flag') === 'true') {
+      return `/${queryString}`;
+    }
+    // Add flag=true to existing query string (queryString already has '?')
+    return `/${queryString}&flag=true`;
+  };
+
   return (
     <div className="relative hidden lg:flex">
       <div className="flex rounded-[8px] w-full border border-gray-200">
@@ -156,7 +172,7 @@ const RegionSwitcherDropdown = ({
           ) : (
             <Anchor
               key={`${index}-${region.flag.url}`}
-              href={`/${queryString ? `?${queryString}&flag=true` : '?flag=true'}`}
+              href={getHrefWithFlag()}
               locale={region.locale}
               className="flex gap-2 items-center py-[6px] pl-[12px] border-b border-gray-200 last:border-none hover:bg-gray-200 transition-all duration-300 ease-linea"
             >
@@ -188,7 +204,7 @@ const MobileRegionSwitcher = ({
       ) : (
         <Anchor
           key={`${index}-${region.flag.url}`}
-          href="/?flag=true"
+          href="/"
           locale={region.locale}
           className="flex gap-2 items-center"
           onClick={onClose}
@@ -220,7 +236,7 @@ const RegionPopup = ({
       </p>
       <Anchor
         className="bg-vs-blue hover:bg-vs-blue text-white border border-vs-blue px-[17px] py-[10px] rounded-[7px] font-inter text-base font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]"
-        href={`/${queryString ? `${queryString}&flag=true` : '?flag=true'}`}
+        href={queryString ? `/${queryString}` : '/'}
         locale={preferredLocale}
         onClick={onClose}
       >
@@ -236,7 +252,7 @@ const RegionPopup = ({
             .map((region, index) => (
               <Link
                 key={`${index}-${region.regionName}`}
-                href={`/${queryString ? `${queryString}&flag=true` : '?flag=true'}`}
+                href={queryString ? `/${queryString}` : '/'}
                 locale={region.locale}
                 className="flex py-[6px] px-3 rounded-[4px] text-xs font-medium text-gray-400 hover:bg-gray-100"
                 onClick={onClose}
