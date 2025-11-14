@@ -9,8 +9,9 @@ const config = {
   },
   i18n: {
     localeDetection:false,
-    locales: ['en', 'en-GB','en-AU'],
-    defaultLocale: 'en'
+    locales: ['en-GB'],
+    defaultLocale: 'en-GB'
+
   },
   basePath: "/en-GB",
   assetPrefix: "/en-GB",
