@@ -89,6 +89,7 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
 const VerticalTestimonialListing = ({
   data,
   refer = null,
+  showBookFeeBtn = true,
   hideTitle = false,
 }) => {
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -523,11 +524,11 @@ const VerticalTestimonialListing = ({
         )}
 
         {/* Book Demo Button */}
-        <div className="flex gap-4 items-center justify-center">
+        {showBookFeeBtn &&<div className="flex gap-4 items-center justify-center">
           <Button type="primary" link="/demo">
             <span className="text-base font-medium">{`Book Free Demo`}</span>
           </Button>
-        </div>
+        </div>}
 
         {/* Modals */}
         {isOpen && (
