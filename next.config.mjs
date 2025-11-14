@@ -9,8 +9,8 @@ const config = {
   },
   i18n: {
     localeDetection:false,
-    locales: ['en-GB'],
-    defaultLocale: 'en-GB'
+    locales: ['en','en-GB'],
+    defaultLocale: 'en'
 
   },
   basePath: "/en-GB",
