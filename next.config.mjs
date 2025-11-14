@@ -113,14 +113,24 @@ const config = {
       },
       {
         source: '/en-au',
-        destination: '/en-AU',
-        locale: false,
+        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
+        // locale: false,
       },
       {
-        source: '/en-au/:path*',
-        destination: '/en-AU/:path*',
-        locale: false,
+        source: '/en-AU',
+        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
+        // locale: false,
       },
+      {
+        source: '/en-au/:path',
+        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path',
+        // locale: false,
+      },
+      {
+        source: '/en-AU/:path*',
+        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path*',
+        // locale: false,
+      }
     ];
   },
   
