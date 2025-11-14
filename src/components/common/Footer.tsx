@@ -33,6 +33,10 @@ const Footer = ({ data }) => {
     setIsAu(router.locale == 'en-AU')
   }, [router.locale])
 
+  const noBannerPaths = ['/demo', '/en-GB/demo', '/en-AU/demo'];
+  const path = router.pathname; // better for static paths
+  const showBanner = !noBannerPaths.includes(path);
+
   // Social media icons component
   const SocialIcon = ({ href, title, children, className = '' }) => (
     <a
@@ -57,7 +61,7 @@ const Footer = ({ data }) => {
       <Container className="flex pt justify-center md:pt-24 pt-12">
         <div className="w-full">
           {/* CTA Banner Section */}
-          {data?.ctaBanner?.showBanner && data?.ctaBanner?.title && (
+          {showBanner && data?.ctaBanner?.showBanner && data?.ctaBanner?.title && (
             <div className="  rounded-xl bg-[#4A3CE1] flex flex-col items-center gap-6 px-8 py-16 self-stretch">
               <h3 className="text-center md:max-w-[818px] text-white font-manrope md:text-5xl text-xl font-bold md:leading-[60px] md:tracking-[-0.8px]">
                 {data.ctaBanner.title}
