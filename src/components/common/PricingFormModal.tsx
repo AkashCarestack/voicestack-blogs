@@ -1,5 +1,7 @@
 import * as React from 'react'
+
 import { CloseIcon } from '@sanity/icons'
+
 import PricingHubSpotForm from './PricingHubSpotForm'
 
 export interface PricingFormModalProps {
@@ -52,11 +54,11 @@ export const PricingFormModal: React.FC<PricingFormModalProps> = ({
                         className="text-2xl font-semibold leading-6 text-gray-900"
                         id="modal-title"
                       >
-                        We'll give you our best price!
+                        We&apos;ll give you our best price!
                       </h3>
 
                       <p className="text-gray-500">
-                        Leave your details with us and we'll get back to you with our pricing plans.
+                        Leave your details with us and we&apos;ll get back to you with our pricing plans.
                       </p>
                     </div>
 
@@ -82,4 +84,5 @@ export const PricingFormModal: React.FC<PricingFormModalProps> = ({
     </div>
   )
 }
+
 

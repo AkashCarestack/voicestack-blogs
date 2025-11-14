@@ -14,6 +14,7 @@ import Head from 'next/head';
 import ProgressBar from '~/utils/progressBar/progressBar';
 import Anchor from './anchor';
 import SparklesIconFill from '../revamp/icons/SparklesIconFill';
+import PhoneIcon from '../icons/PhoneIcon';
 // import RegionStrip from '../revamp/components/regionStrip';
 
 // Constants
@@ -250,56 +251,88 @@ const RegionPopup = ({
 const NavigationMenu = ({
   menuItems,
   onToggleMenu,
+  onCloseMenu,
 }: {
   menuItems: any[];
   onToggleMenu: () => void;
-}) => (
-  <nav className="flex items-center flex-col lg:flex-row lg:gap-y-4 gap-x-4 xl:gap-x-6 w-full lg:w-auto flex-wrap">
-    {menuItems.map((link: any, i: number) => {
-      const isExternal = link?.href?.includes('http');
-      const hasSubmenu = link?.hasSubmenu && link?.submenu?.length > 0;
+  onCloseMenu: () => void;
+}) => {
+  const isMobile = useMediaQuery(1023);
+  const [openSubmenus, setOpenSubmenus] = useState<Set<number>>(new Set());
+  
+  const toggleSubmenu = (index: number) => {
+    setOpenSubmenus((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(index)) {
+        newSet.delete(index);
+      } else {
+        newSet.add(index);
+      }
+      return newSet;
+    });
+  };
+  
+  return (
+    <nav className="flex lg:items-center flex-col lg:flex-row lg:gap-y-4 gap-x-4 xl:gap-x-6 w-full lg:w-auto flex-wrap">
+      {menuItems.map((link: any, i: number) => {
+        const isExternal = link?.href?.includes('http');
+        const hasSubmenu = link?.hasSubmenu && link?.submenu?.length > 0;
 
-      if (hasSubmenu) {
-        return (
-          <div key={`menu-${i}`} className="relative group cursor-pointer">
-            <div className="flex items-center gap-1 text-gray-700 lg:text-sm font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0 cursor-pointer">
-              <Link className="cursor-pointer" href={link.href}>
-                <span>{link.label}</span>
-              </Link>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                className="transition-transform duration-200 group-hover:rotate-180"
+        if (hasSubmenu) {
+          // In mobile, add "Overview" link as first submenu item
+          const submenuItems = isMobile && link.href 
+            ? [{ label: 'Overview', href: link.href, description: null }, ...link.submenu]
+            : link.submenu;
+          
+          const isSubmenuOpen = openSubmenus.has(i);
+
+          return (
+            <div key={`menu-${i}`} className="relative group cursor-pointer w-full lg:w-auto">
+              <div 
+                className="flex items-center gap-1 text-gray-700 lg:text-sm font-medium leading-[1.15] lg:text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0 cursor-pointer"
+                onClick={() => isMobile && toggleSubmenu(i)}
               >
-                <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-            <div className="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-              <div className="py-2">
-                {link.submenu.map((subItem: any, subIndex: number) => (
-                  <Anchor
-                    key={`submenu-${i}-${subIndex}`}
-                    href={subItem.href}
-                    target={subItem.href?.includes('http') ? '_blank' : '_self'}
-                    className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
-                    onClick={onToggleMenu}
-                  >
-                    <div className="font-medium">{subItem.label}</div>
-                    {subItem.description && <div className="text-xs text-gray-500 mt-1">{subItem.description}</div>}
-                  </Anchor>
-                ))}
+                {isMobile ? (
+                  <span>{link.label}</span>
+                ) : (
+                  <Link className="cursor-pointer" href={link.href}>
+                    <span>{link.label}</span>
+                  </Link>
+                )}
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className={`transition-transform duration-200 ${isMobile ? (isSubmenuOpen ? 'rotate-180' : '') : 'group-hover:rotate-180'}`}
+                >
+                  <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
+              <div className={`lg:absolute static top-full left-0 ${isMobile ? 'mt-0' : 'mt-2'} w-full lg:w-64 bg-white ${isMobile ? 'rounded-none' : 'rounded-lg'} lg:shadow-lg lg:border border-gray-200 ${isMobile ? (isSubmenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden') : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'} transition-all duration-200 z-50`}>
+                <div className="py-2">
+                  {submenuItems.map((subItem: any, subIndex: number) => (
+                    <Anchor
+                      key={`submenu-${i}-${subIndex}`}
+                      href={subItem.href}
+                      target={subItem.href?.includes('http') ? '_blank' : '_self'}
+                      className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
+                      onClick={onCloseMenu}
+                    >
+                      <div className="font-medium">{subItem.label}</div>
+                      {subItem.description && <div className="text-xs text-gray-500 mt-1">{subItem.description}</div>}
+                    </Anchor>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        );
-      }
+          );
+        }
 
       if (link.highlight) {
         return (
-          <Anchor key={`menu-${i}`} href={link.href} className="relative group">
-            <span className="flex items-center gap-2 text-white text-sm py-[4px] pl-[10px] pr-4 rounded-[6px] border-2 border-white/80 bg-gradient-to-r from-[#4A3CE1] to-[#FF708C] shadow-[0_4px_4px_0_rgba(200,200,200,0.20)] justify-center">
+          <Anchor key={`menu-${i}`} href={link.href} className="relative group self-start">
+            <span className="flex lg:my-0 my-4 items-center gap-2 text-white text-sm py-[4px] pl-[10px] pr-4 rounded-[6px] border-2 border-white/80 bg-gradient-to-r from-[#4A3CE1] to-[#FF708C] shadow-[0_4px_4px_0_rgba(200,200,200,0.20)] justify-center">
               <SparklesIconFill className="w-4 h-4" />
               <span>{link.label}</span>
             </span>
@@ -313,8 +346,8 @@ const NavigationMenu = ({
           key={`${link.href}-${i}`}
           href={link.href}
           target={isExternal ? '_blank' : '_self'}
-          className="text-gray-700 lg:text-sm font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
-          onClick={onToggleMenu}
+          className="text-gray-700 lg:text-sm font-medium leading-[1.15] lg:text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
+          onClick={onCloseMenu}
         >
           {link.label}
         </Anchor>
@@ -325,7 +358,8 @@ const NavigationMenu = ({
       );
     })}
   </nav>
-);
+  );
+};
 
 const Header = ({ data, refer = null }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -471,6 +505,19 @@ const Header = ({ data, refer = null }) => {
     return () => window.removeEventListener('hashchange', checkHash);
   }, []);
 
+  // Close menu on route change
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setShowMenu(false);
+      document.body.classList.remove('menu-active');
+    };
+
+    router.events?.on('routeChangeComplete', handleRouteChange);
+    return () => {
+      router.events?.off('routeChangeComplete', handleRouteChange);
+    };
+  }, [router]);
+
   return (
     <>
       <Head>
@@ -574,24 +621,25 @@ const Header = ({ data, refer = null }) => {
                   </Anchor>
 
                   <div
-                    className={`lg:flex flex-col lg:flex-row lg:gap-6 justify-between lg:rounded-none items-center lg:static absolute top-[44px] left-0 right-0 pb-20 lg:pb-0 h-[calc(100vh-40px)] lg:h-auto shadow-[0px_40px_40px_0px_rgba(0,0,0,0.10)] lg:shadow-none xl:flex-grow xl:justify-start ${
+                    className={`lg:flex flex-col lg:flex-row lg:gap-6 justify-between lg:rounded-none items-center lg:static absolute top-[48px] left-0 right-0 pb-20 lg:pb-0 h-[calc(100vh-48px)] lg:h-auto shadow-[0px_40px_40px_0px_rgba(0,0,0,0.10)] lg:shadow-none xl:flex-grow xl:justify-start ${
                       showMenu ? 'flex' : 'hidden'
                     }`}
                   >
                     <div
-                      className={`lg:flex-row top-[110px] right-0 px-4 pt-4 pb-8 w-full lg:w-auto lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col gap-2 justify-between lg:items-center flex`}
+                      className={`lg:flex-row h-full overflow-y-auto absolute top-0 lg:overflow-visible  right-0 px-4 pt-4 pb-8 w-full lg:w-auto lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col gap-2 justify-between lg:items-center flex`}
                     >
-                      <NavigationMenu menuItems={safeData?.navigationMenu || []} onToggleMenu={toggleMenu} />
+                      <NavigationMenu menuItems={safeData?.navigationMenu || []} onToggleMenu={toggleMenu} onCloseMenu={closeMenu} />
 
                       <div className="flex flex-col gap-8">
-                        <div className="flex flex-col md:flex-row gap-3 md:gap-5 items-center lg:hidden">
+                        <div className="flex flex-col lg:flex-row gap-3 md:gap-5 items-center lg:hidden">
                           {safeData?.phoneNumber && (
                             <div className="flex-shrink-0">
                               <Anchor
                                 href={`tel:${safeData?.phoneNumber}`}
                                 className="text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px] border border-gray-300"
                               >
-                                <TelIcon className="text-gray-700" />
+                                {/* <TelIcon className="text-gray-700" /> */}
+                                <PhoneIcon className="text-gray-700 w-5 h-5"/>
                                 {safeData?.phoneNumber}
                               </Anchor>
                             </div>

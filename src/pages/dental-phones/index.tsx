@@ -89,7 +89,15 @@ export default function DentalPhonesIndex({
       />
 
        </div>
-      {pageData['stack-card-tab-testimonial']?.componentData && (
+     
+       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
