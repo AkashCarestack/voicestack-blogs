@@ -83,22 +83,18 @@ const config = {
       {
         source: '/en-gb',
         destination: 'https://voicestack-engb.vercel.app/en-GB',
-        locale: false,
       },
       {
         source: '/en-gb/:path*',
         destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
-        locale: false,
       },
       {
         source: '/en-GB',
         destination: 'https://voicestack-engb.vercel.app/en-GB',
-        locale: false,
       },
       {
         source: '/en-GB/:path*',
         destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
-        locale: false,
       },
       {
         source: '/sitemap.xml',
