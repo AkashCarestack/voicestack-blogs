@@ -48,7 +48,7 @@ export default function SingleTabCardListing({ data }: { data: any }) {
                                         {
                                             ele?.listItems && Array.isArray(ele.listItems) && ele.listItems.map((item:any)=>{return(
                                                 <div key={item._key} className="xl:px-4 xl:py-4 px-2 py-2 relative flex flex-col items-start gap-4 xl:min-h-[212px]">
-                                                    <div className='md:px-6 md:py-3 px-4 py-2 bg-[#E0DDFF] rounded-full flex items-center justify-center flex-shrink-0'>
+                                                    <div className='md:px-6 md:py-3 px-4 py-2 bg-[#E5E7EB] rounded-full flex items-center justify-center flex-shrink-0'>
                                                         <div dangerouslySetInnerHTML={{__html:item.svgCode}}></div>
                                                     </div>
                                                     <div className="flex-1">
