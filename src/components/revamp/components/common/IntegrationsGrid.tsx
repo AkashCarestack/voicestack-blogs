@@ -118,13 +118,13 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
 
             {/* {/* {showButtons && ( */}
             <div className="flex flex-col sm:flex-row gap-4 items-center justify-center">
-              <Button type="primary">
+              <Button type="primary" link={data.refData.integrationListing.link ? data.refData.integrationListing.link : '/demo'}>
                 <span >
                 Book Free Demo
                 </span>
               </Button>
               
-              <Button type="secondary">
+              <Button type="secondary" link={data.refData.integrationListing.link ? data.refData.integrationListing.link : '/dental-phones/integrations'}>
                 See All Integrations
               </Button>
             </div>

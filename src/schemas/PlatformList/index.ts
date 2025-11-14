@@ -12,6 +12,11 @@ export default defineType({
       type: 'image',
     }),
     defineField({
+      name: 'secondaryImage',
+      title: 'Secondary Image',
+      type: 'image',
+    }),
+    defineField({
       name: 'link',
       title: 'Link',
       type: 'url',

@@ -72,7 +72,7 @@ export default function CardListing({ data }: any) {
             })}
         </div>
         <div className='flex justify-center'>
-        <Button className='w-fit' type='primary' link='/dental-phones/customer-stories'><span>Book Free Demo</span></Button>
+        <Button className='w-fit' type='primary' link='/demo'><span>Book Free Demo</span></Button>
         </div>
         </div>
       </Container>

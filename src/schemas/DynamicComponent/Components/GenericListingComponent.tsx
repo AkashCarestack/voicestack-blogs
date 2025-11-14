@@ -24,7 +24,8 @@ export const genericListingComponentFields = [
       { type: 'logoListing' },
       { type: 'verticalTestimonialListing' },
       { type: 'csCardsListing' },
-      { type: 'whoWeServeListing' }
+      { type: 'whoWeServeListing' },
+      { type: 'partnerListing' },
     ],
     options: {
       filter: ({ document, parent }: any) => {

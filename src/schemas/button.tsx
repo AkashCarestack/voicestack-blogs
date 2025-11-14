@@ -26,6 +26,11 @@ export default defineType({
       type: 'text',
     }),
     defineField({
+      name: 'openInNewTab',
+      title: 'Open in New Tab',
+      type: 'boolean',
+    }),
+    defineField({
       name: 'buttonVariant',
       title: 'Button Variant',
       type: 'string',
