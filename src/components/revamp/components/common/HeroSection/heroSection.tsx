@@ -431,7 +431,7 @@ const HeroSection = ({
               )}
 
               {data?.bookBtnContent && Array.isArray(data.bookBtnContent) && data.bookBtnContent.length > 0 && (
-                <div className="flex flex-col gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start">
+                <div className="flex flex-col !mt-0 gap-4 pt-12 justify-center lg:justify-start items-center lg:items-start">
                   {data.bookBtnContent.length > 2 ? (
                     <>
                       {/* First button on top */}

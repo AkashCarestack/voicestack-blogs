@@ -8,6 +8,10 @@ export default defineType({
   name: 'customContentNew',
   type: 'array',
   of: [
+    defineArrayMember({
+      title: 'Dynamic Component',
+      type: 'dynamicComponent',
+    }),
     ...componentSchemas.map(schema => defineArrayMember({
       type: schema.name,
       preview: {
