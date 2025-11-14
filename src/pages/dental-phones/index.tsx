@@ -98,6 +98,7 @@ export default function DentalPhonesIndex({
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection
           data={pageData['how-voicestack-works'].componentData}
+          customText="Does VoiceStack fit your practice?"
         />
       )}
       {pageData['testimonial-video-section']?.componentData && (

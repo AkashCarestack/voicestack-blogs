@@ -121,7 +121,7 @@ console.log(landingPageData, 'landingPageData in pricing page')
             />
           )}
           {/* FAQ Section */}
-          {faq && <FaqSection faqItems={faq} />}
+          {/* {faq && <FaqSection faqItems={faq} />} */}
         </Container>
       </Section>
     </>
