@@ -8,6 +8,8 @@ export default function LoginPage() {
         <title>Login | VoiceStack® Login | VoiceStack® Practice Login</title>
         <meta name="description" content="Login securely to your VoiceStack® account. Dentists, managers, &amp; team members can login to their VoiceStack® user account or reset their password." />
         <meta name="keywords" content="login, voicestack login, voicestack log in, voicestack provider login" />
+        <meta name="author" content="VoiceStack®" />
+        
       </Head>
       <div className="py-24 px-4">
         <div className="w-full gap-16 flex flex-col justify-center items-center min-h-[500px]">

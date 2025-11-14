@@ -87,7 +87,7 @@ const config = {
       },
       {
         source: '/en-gb/:path*',
-        destination:'https://voicestack-engb.vercel.app//en-GB/:path*',
+        destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
         locale: false,
       },
       {
@@ -97,7 +97,7 @@ const config = {
       },
       {
         source: '/en-GB/:path*',
-        destination:'https://voicestack-engb.vercel.app//en-GB/:path*',
+        destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
         locale: false,
       },
       {
