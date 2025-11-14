@@ -82,22 +82,22 @@ const config = {
     return [
       {
         source: '/en-gb',
-        destination: 'https://voicestack-engb.vercel.app/',
+        destination: 'https://voicestack-engb.vercel.app/en-GB',
         locale: false,
       },
       {
         source: '/en-gb/:path*',
-        destination:'https://voicestack-engb.vercel.app/:path*',
+        destination:'https://voicestack-engb.vercel.app//en-GB/:path*',
         locale: false,
       },
       {
         source: '/en-GB',
-        destination: 'https://voicestack-engb.vercel.app/',
+        destination: 'https://voicestack-engb.vercel.app/en-GB',
         locale: false,
       },
       {
         source: '/en-GB/:path*',
-        destination:'https://voicestack-engb.vercel.app/:path*',
+        destination:'https://voicestack-engb.vercel.app//en-GB/:path*',
         locale: false,
       },
       {
