@@ -7,11 +7,7 @@ import Head from 'next/head'
 import { faqJsonLd } from '~/components/utils/jsonld'
 
 export default function FaqSection({ faqItems }: any) {
-  // Early return if no FAQ items
-  if (!faqItems || (!faqItems.faqCategories && !Array.isArray(faqItems))) {
-    return null;
-  }
-
+  // All hooks must be called before any early returns
   const [hideCategory, setHideCategory] = useState(faqItems?.hideCategory)
   const [isOpen, setIsOpen] = useState({})
   const [activeCategory, setActiveCategory] = useState(null)
@@ -20,6 +16,7 @@ export default function FaqSection({ faqItems }: any) {
 
   const categories = faqItems?.faqCategories || []
   
+  // All useEffect hooks must be before early return
   React.useEffect(() => {
     if (categories.length > 0 && !activeCategory) {
       setActiveCategory(categories[0]._key)
@@ -51,6 +48,40 @@ export default function FaqSection({ faqItems }: any) {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isDropdownOpen])
+
+  // Compute JSON-LD data (needed for useEffect)
+  const jsonLd = faqJsonLd(faqItems);
+  const hasQuestions = jsonLd?.mainEntity && Array.isArray(jsonLd.mainEntity) && jsonLd.mainEntity.length > 0;
+
+  // JSON-LD script injection useEffect
+  React.useEffect(() => {
+    if (hasQuestions) {
+      const scriptId = `faqJSON-${faqItems?._uid || Date.now()}`;
+      // Remove existing script if it exists
+      const existingScript = document.getElementById(scriptId);
+      if (existingScript) {
+        existingScript.remove();
+      }
+      
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'application/ld+json';
+      script.innerHTML = JSON.stringify(jsonLd);
+      document.head.appendChild(script);
+      
+      return () => {
+        const scriptToRemove = document.getElementById(scriptId);
+        if (scriptToRemove) {
+          scriptToRemove.remove();
+        }
+      };
+    }
+  }, [hasQuestions, jsonLd, faqItems?._uid]);
+
+  // Early return if no FAQ items (after all hooks)
+  if (!faqItems || (!faqItems.faqCategories && !Array.isArray(faqItems))) {
+    return null;
+  }
   
   const showActiveCategory = (categoryKey: string) => {
     if (categoryKey === activeCategory) return
@@ -143,33 +174,6 @@ export default function FaqSection({ faqItems }: any) {
       ),
     },
   }
-
-  const jsonLd = faqJsonLd(faqItems);
-  const hasQuestions = jsonLd?.mainEntity && Array.isArray(jsonLd.mainEntity) && jsonLd.mainEntity.length > 0;
-
-  React.useEffect(() => {
-    if (hasQuestions) {
-      const scriptId = `faqJSON-${faqItems?._uid || Date.now()}`;
-      // Remove existing script if it exists
-      const existingScript = document.getElementById(scriptId);
-      if (existingScript) {
-        existingScript.remove();
-      }
-      
-      const script = document.createElement('script');
-      script.id = scriptId;
-      script.type = 'application/ld+json';
-      script.innerHTML = JSON.stringify(jsonLd);
-      document.head.appendChild(script);
-      
-      return () => {
-        const scriptToRemove = document.getElementById(scriptId);
-        if (scriptToRemove) {
-          scriptToRemove.remove();
-        }
-      };
-    }
-  }, [hasQuestions, jsonLd, faqItems?._uid]);
 
   return (
     <>
