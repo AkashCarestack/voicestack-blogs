@@ -186,7 +186,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
             <div className="xl:min-w-[606px] w-full flex flex-col md:gap-8 gap-4">
               {/* Quote */}
               {currentTestimonial?.description && (
-                <blockquote className="text-xl lg:text-2xl font-medium text-left min-h-[259px]">
+                <blockquote className="text-lg lg:text-2xl font-medium text-left md:min-h-[259px]">
                   <PortableText
                     value={currentTestimonial?.description}
                     components={components}
