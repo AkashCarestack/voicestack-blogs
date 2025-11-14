@@ -101,11 +101,11 @@ const config = {
         destination: '/api/sitemap',
       },
       
-      {
-        source: '/en-gb',
-        destination: '/en-GB',
-        locale: false,
-      },
+      // {
+      //   source: '/en-gb',
+      //   destination: '/en-GB',
+      //   locale: false,
+      // },
       {
         source: '/en-gb/:path*',
         destination: '/en-GB/:path*',
@@ -114,22 +114,22 @@ const config = {
       {
         source: '/en-au',
         destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
-        // locale: false,
+        
       },
       {
         source: '/en-AU',
         destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
-        // locale: false,
+      
       },
       {
         source: '/en-au/:path',
         destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path',
-        // locale: false,
+      
       },
       {
         source: '/en-AU/:path*',
         destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path*',
-        // locale: false,
+       
       }
     ];
   },
