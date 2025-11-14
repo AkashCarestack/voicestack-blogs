@@ -27,7 +27,20 @@ export default function Pricing({
   landingPageData,
   faq,
   pricingPageData,
-}: PricingProps) {
+  region,
+}: PricingProps & { region?: string }) {
+  // Get pricing form ID based on locale
+  const getPricingFormId = () => {
+    // Hardcoded US form ID
+    const usFormId = 'a28e5858-ce77-4b10-9c4b-4099cc6f1cef'
+    
+    // Future: add locale-based form IDs
+    // if (region === 'au') return 'au-form-id'
+    // if (region === 'uk') return 'uk-form-id'
+    
+    return usFormId
+  }
+
   const groupedData = features.reduce((acc: any, feature: any) => {
     const categoryName =
       feature?.featureCategory?.name?.replaceAll(' ', '-') || 'Uncategorized'
@@ -72,7 +85,12 @@ console.log(landingPageData, 'landingPageData in pricing page')
               : null
 
             return heroData ? (
-              <HeroSection page="" isCentered={true} data={heroData} />
+              <HeroSection 
+                page="pricing" 
+                isCentered={true} 
+                data={heroData}
+                pricingFormId={getPricingFormId()}
+              />
             ) : null
           })()}
       </div>

@@ -51,8 +51,10 @@ export default function ThankYouPage() {
   return (
     <>
       <Head>
-        <title>Thank You | VoiceStack</title>
-        <meta name="description" content="Thank you for your interest in VoiceStack." />
+        <title>Thank You | Your VoiceStack® Demo Request Has Been Submitted</title>
+        <meta name="description" content="Thank you for requesting a demo with VoiceStack. One of our team members will contact you shortly to discuss your needs and provide a complete overview." />
+        <meta name="keywords" content="voicestack thank you, voicestack demo thank you, voicestack demo request received" />
+        <meta name="robots" content="noindex, nofollow" />
       </Head>
       <div className="py-24 px-4">
         <div className="w-full gap-16 flex flex-col justify-center items-center min-h-[500px]">

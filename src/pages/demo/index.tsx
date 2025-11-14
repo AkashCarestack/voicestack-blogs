@@ -40,11 +40,12 @@ export default function DemoPage({ formData, region }: DemoPageProps) {
   return (
     <>
       <Head>
-        <title>Book Free Demo | VoiceStack</title>
-        <meta name="description" content="Book a free demo with VoiceStack today. Start your transition to VoiceStack." />
+        <title>Demo | Book A Free No-Obligation VoiceStack® Demo Today</title>
+        <meta name="description" content="Request a free, no-obligation demonstration of VoiceStack's AI-powered dental phone system to receive a personalized walkthrough with one of our experts." />
+        <meta name="keywords" content="voicestack demo, voicestack demo request, voicestack visual overview" />
       </Head>
       <div className="py-24 px-4">
-        <div className="w-full gap-16 flex flex-col items-center">
+        <div className="w-full gap-4 flex flex-col items-center">
           <div className="flex flex-col w-full items-center max-w-[780px] text-center gap-4 pb-8">
             <div className="max-w-[620px] flex flex-col gap-4">
               <h1 className="text-2xl font-semibold leading-6 text-gray-900">

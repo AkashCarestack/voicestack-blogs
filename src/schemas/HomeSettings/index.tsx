@@ -242,6 +242,14 @@ export default defineType({
     }),
 
     defineField({
+      name: 'schedulerLink',
+      title: 'Scheduler Link',
+      type: 'url',
+      description: 'Link to redirect after successful form submission (e.g., calendar booking link)',
+      group: 'cta',
+    }),
+
+    defineField({
       name: 'language',
       type: 'string',
       readOnly: true,

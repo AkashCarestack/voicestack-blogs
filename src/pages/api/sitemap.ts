@@ -48,6 +48,9 @@ function getPathForPage(page: SitemapPage): string {
     return `dental-phones/features/${slug}`;
   } else if (page._type === 'page') {
     return slug;
+  } else if (page._type === 'footerLink') {
+    // Footer links are already in the correct format
+    return slug;
   }
   
   return slug;
@@ -85,12 +88,68 @@ async function getSitemapData(client: any): Promise<SitemapPage[]> {
     }
   `;
   
-  const [pages1, pages2] = await Promise.all([
+  const footerQuery = groq`
+    *[_type == "footer" && !(_id in path("drafts.**"))] {
+      language,
+      footerColumns[] {
+        links[] {
+          link,
+          text
+        }
+      },
+      bottomLinks[] {
+        link,
+        text
+      }
+    }
+  `;
+  
+  const [pages1, pages2, footers] = await Promise.all([
     client.fetch(query1),
-    client.fetch(query2)
+    client.fetch(query2),
+    client.fetch(footerQuery)
   ]);
   
-  return [...pages1, ...pages2];
+  const footerPages: SitemapPage[] = [];
+  footers.forEach((footer: any) => {
+    if (footer.footerColumns) {
+      footer.footerColumns.forEach((column: any) => {
+        if (column.links) {
+          column.links.forEach((link: any) => {
+            if (link.link && !link.link.startsWith('http') && !link.link.startsWith('mailto:') && !link.link.startsWith('tel:')) {
+              const path = link.link.replace(/^\//, '').replace(/^(en-GB|en-AU)\//, '');
+              if (path) {
+                footerPages.push({
+                  slug: path,
+                  language: footer.language || 'en',
+                  _type: 'footerLink',
+                  _updatedAt: new Date().toISOString()
+                });
+              }
+            }
+          });
+        }
+      });
+    }
+    
+    if (footer.bottomLinks) {
+      footer.bottomLinks.forEach((link: any) => {
+        if (link.link && !link.link.startsWith('http') && !link.link.startsWith('mailto:') && !link.link.startsWith('tel:')) {
+          const path = link.link.replace(/^\//, '').replace(/^(en-GB|en-AU)\//, '');
+          if (path) {
+            footerPages.push({
+              slug: path,
+              language: footer.language || 'en',
+              _type: 'footerLink',
+              _updatedAt: new Date().toISOString()
+            });
+          }
+        }
+      });
+    }
+  });
+  
+  return [...pages1, ...pages2, ...footerPages];
 }
 
 function normalizeLanguage(language: string | null | undefined): string {

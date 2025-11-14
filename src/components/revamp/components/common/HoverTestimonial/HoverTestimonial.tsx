@@ -219,7 +219,7 @@ export default function HoverTestimonial({ data }: any) {
     ) || []
 
     return (
-      <div className="w-full lg:max-w-[643px] flex flex-col lg:flex-row gap-4 rounded-[12px] lg:rounded-[24px] bg-gradient-to-br from-[#F4F3FA] to-[#E0DDFF] p-3 lg:min-h-[500px]">
+      <div className="w-full lg:max-w-[643px] flex flex-col lg:flex-row gap-4 rounded-[12px] lg:rounded-[24px] bg-gradient-to-br from-[#F4F3FA] to-[#E0DDFF] p-3 lg:min-h-[550px]">
         {/* Left: Testimonial Block */}
         {tab?.testimonial && (
           <div className="w-full lg:w-auto lg:flex-1 p-6 hidden lg:flex flex-col justify-between min-h-full">
@@ -251,7 +251,8 @@ export default function HoverTestimonial({ data }: any) {
         <div className="w-full lg:w-auto lg:flex-1 flex flex-col gap-4 lg:max-w-[257px]">
           {/* Statistic Blocks - Show all highlighted items */}
           {highlightedStatistics.length > 0 && highlightedStatistics.map((statistic: any, index: number) => (
-            <div key={statistic._key || index} className="bg-[#E0DDFF] rounded-[14px] p-6 flex flex-col gap-12">
+            <div key={statistic._key || index} className="bg-[#E0DDFF] rounded-[14px] flex flex-1 flex-col gap-12">
+             <div className="p-6 flex flex-col justify-between gap-6 h-full">
               {statistic.after && (
                 <div className="text-4xl md:text-6xl font-bold !leading-[120%] text-[#4A3CE1] font-manrope">
                   {statistic.after}
@@ -267,12 +268,13 @@ export default function HoverTestimonial({ data }: any) {
                   <PortableText value={statistic.description}/>
                 </div>
               )}
+              </div>
             </div>
           ))}
 
           {/* Image Block */}
           {tab?.testimonial?.secondaryTestimonialImage && (
-            <div className="rounded-[6px] lg:rounded-[14px] overflow-hidden hidden lg:block w-full mt-auto">
+            <div className="rounded-[6px] lg:rounded-[14px] overflow-hidden hidden lg:block w-full mt-auto flex-1">
               <div
                 className="w-full rounded-[6px] lg:rounded-[14px] overflow-hidden"
                 style={{

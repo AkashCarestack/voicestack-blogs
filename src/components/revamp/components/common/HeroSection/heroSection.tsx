@@ -10,6 +10,7 @@ import SuperChargeIcon from '~/components/icons/superCharge'
 import Button from '../../../../common/Button'
 import { VideoItem } from '../../../../common/VideoModal'
 import Container from '../../../../structure/Container'
+import { PricingFormModal } from '../../../../common/PricingFormModal'
 
 const HeroSection = ({
   data,
@@ -17,11 +18,21 @@ const HeroSection = ({
   page = '',
   isCentered = false,
   showFullDescription = false,
+  pricingFormId,
+}: {
+  data?: any
+  refer?: any
+  page?: string
+  isCentered?: boolean
+  showFullDescription?: boolean
+  pricingFormId?: string
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
+  const [isPricingModalOpen, setIsPricingModalOpen] = useState(false)
   const descriptionRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
+  const locale = router.locale || 'en'
   const videoId =
     router.locale == 'en' ? '3CsThXKvcvRrR3hwRsWWJY' : 'Hj4GYLXARVjqQEnaejq3Bz'
 
@@ -220,8 +231,21 @@ const HeroSection = ({
     setPlayingIndex(index)
     const video = videoRefs.current[index]
     if (video) {
+      // Safari compatibility: ensure video is loaded before playing
+      if (video.readyState < 2) {
+        video.load()
+      }
       video.currentTime = 0
-      video.play().catch((err) => console.error('Video play failed:', err))
+      const playPromise = video.play()
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          console.error('Video play failed:', err)
+          // Safari might block autoplay, try again after a short delay
+          setTimeout(() => {
+            video.play().catch(() => {})
+          }, 100)
+        })
+      }
     } else {
       console.log('No video element found for index:', index)
     }
@@ -331,12 +355,14 @@ const HeroSection = ({
                   <div className="flex flex-col sm:flex-row gap-4">
                     {data.bookBtnContent.map((button: any, index: number) => {
                       if (!button?.buttonText) return null
+                      const isPricingFirstButton = page === 'pricing' && index === 0
                       return (
                         <Button
                           key={button?._key || index}
                           type={index == 0 && !button?.buttonType ? 'primary' : (button?.buttonType || 'secondary')}
                           className="w-fit"
-                          link={button?.buttonLink}
+                          link={isPricingFirstButton ? undefined : button?.buttonLink}
+                          onClick={isPricingFirstButton ? () => setIsPricingModalOpen(true) : undefined}
                           buttonVariant={button?.buttonVariant}
                         >
                           {button?.buttonIcon && (
@@ -407,7 +433,8 @@ const HeroSection = ({
                           key={data.bookBtnContent[0]?._key || 0}
                           type={!data.bookBtnContent[0]?.buttonType ? 'primary' : (data.bookBtnContent[0]?.buttonType || 'secondary')}
                           className="w-fit"
-                          link={data.bookBtnContent[0]?.buttonLink}
+                          link={page === 'pricing' ? undefined : data.bookBtnContent[0]?.buttonLink}
+                          onClick={page === 'pricing' ? () => setIsPricingModalOpen(true) : undefined}
                           buttonVariant={data.bookBtnContent[0]?.buttonVariant}
                         >
                           {data.bookBtnContent[0]?.buttonIcon && (
@@ -441,13 +468,14 @@ const HeroSection = ({
                     /* If 2 or fewer buttons, show them in a row */
                     <div className="flex flex-col sm:flex-row gap-4">
                       {data.bookBtnContent.map((button: any, index: number) => {
-                       
+                        const isPricingFirstButton = page === 'pricing' && index === 0
                         return (
                           <Button
                             key={button?._key || index}
                             type={index === 0 && !button?.buttonType ? 'primary' : (button?.buttonType || 'secondary')}
                             className="w-fit"
-                            link={button?.buttonLink}
+                            link={isPricingFirstButton ? undefined : button?.buttonLink}
+                            onClick={isPricingFirstButton ? () => setIsPricingModalOpen(true) : undefined}
                             buttonVariant={button?.buttonVariant}
                           >
                             {button?.buttonIcon && (
@@ -525,7 +553,17 @@ const HeroSection = ({
                             {/* Thumbnail Video - plays on hover */}
                             {data?.testimonial?.thumbnail && (
                               <video
-                                ref={(el) => (videoRefs.current[0] = el)}
+                                ref={(el) => {
+                                  videoRefs.current[0] = el
+                                  // Safari compatibility: ensure video loads
+                                  if (el) {
+                                    el.load()
+                                    // Try to play after load (Safari requires user interaction for autoplay)
+                                    el.play().catch(() => {
+                                      // Autoplay blocked, will play on hover
+                                    })
+                                  }
+                                }}
                                 key={data?.testimonial?.thumbnail}
                                 style={{
                                   backgroundColor: 'transparent',
@@ -540,6 +578,7 @@ const HeroSection = ({
                                 loop
                                 muted
                                 playsInline
+                                preload="auto"
                               >
                                 <source
                                   src={data?.testimonial?.thumbnail}
@@ -664,6 +703,13 @@ const HeroSection = ({
         )}
 
       </Container>
+      {isPricingModalOpen && (
+        <PricingFormModal
+          onClose={() => setIsPricingModalOpen(false)}
+          formId={pricingFormId}
+          locale={locale}
+        />
+      )}
     </section>
   )
 }

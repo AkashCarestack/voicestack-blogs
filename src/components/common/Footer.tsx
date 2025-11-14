@@ -85,7 +85,7 @@ const Footer = ({ data }) => {
               >
                 {safeData.footerColumns.map((column: any, index: number) => (
                   <div key={index} className="space-y-4">
-                    <h4 className="text-white/40 font-geist text-base font-medium leading-6 tracking-normal">
+                    <span className="text-white/40 font-geist text-base font-medium leading-6 tracking-normal">
                       {column.titleLink ? (
                         <Anchor
                           href={column.titleLink}
@@ -99,7 +99,7 @@ const Footer = ({ data }) => {
                           {column.title}
                         </span>
                       )}
-                    </h4>
+                    </span>
                     <ul className="space-y-2">
                       {column.links &&
                         column.links.map((link: any, linkIndex: number) => (

@@ -6,6 +6,7 @@ import HeroSection from '~/components/revamp/components/common/HeroSection/heroS
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
+import SimpleHead from '~/components/common/SimpleHead'
 
 interface SupportPageProps {
   supportPageData: any
@@ -28,6 +29,7 @@ export default function SupportPage({
 
   return (
     <>
+      <SimpleHead data={supportPageData?.seo} />
       <div style={{
           background:
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',

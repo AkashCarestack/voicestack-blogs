@@ -210,7 +210,7 @@ const RegionPopup = ({
   regions: Region[];
   onClose: () => void;
 }) => (
-  <div className="fixed bg-[hsla(0,0%,9%,0.6)] h-screen w-screen z-[999] flex justify-center items-center">
+  <div className="fixed bg-[hsla(0,0%,9%,0.6)] h-screen w-screen z-[999] top-0 left-0 flex justify-center items-center">
     <div className="bg-white mx-auto pt-10 p-6 rounded-lg flex items-center flex-col gap-6 relative w-[310px]">
       <p className="text-center text-gray-800 font-medium text-base leading-[1.5]">
         You will be viewing VoiceStack&apos;s website for the {currentRegion} region
