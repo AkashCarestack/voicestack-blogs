@@ -8,6 +8,8 @@ import Image from 'next/image'
 import { VideoModal } from '~/components/common/VideoModal'
 import Section from '~/components/structure/Section'
 import { PortableText } from '@portabletext/react'
+import Head from 'next/head'
+import { videoJsonLd } from '~/lib/jsonLd'
 
 interface ReviewTestimonialProps {
   data: any
@@ -53,7 +55,29 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
 
   // console.log(testimonials, "testimonials");
 
+   // Generate JSON-LD for videos
+   const newTestimonialList = testimonials ? testimonials.reduce(
+    (acc: any, testimonial: any) => {
+      if (testimonial?.secondaryVideo?.[0]?.videoId) {
+        return [...acc, videoJsonLd(testimonial)];
+      }
+      return acc;
+    },
+    []
+  ) : [];
   return (
+    <>
+     <Head>
+        {newTestimonialList && newTestimonialList.length > 0 && (
+          <script
+            type="application/ld+json"
+            id="review videos"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(newTestimonialList),
+            }}
+          />
+        )}
+      </Head>
     <Section className="relative py-sm md:py-md  bg-[#F9F9F9]">
       <Container className="w-full justify-center">
         <div className="font-sans">
@@ -61,19 +85,24 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
 
           {testimonials && (
             <div className="pt-16 md:pt-16">
-              <div className="columns-1 md:columns-2 lg:columns-3" style={{ columnGap: '1.5rem' }}>
+              <div
+                className="columns-1 md:columns-2 lg:columns-3"
+                style={{ columnGap: '1.5rem' }}
+              >
                 {testimonials.map((testimonial: any, index: number) => (
                   <div
                     key={index}
                     className={`bg-[#F4F3FA] rounded-[12px] md:rounded-[24px] p-3 break-inside-avoid mb-6 ${
-                      testimonial?.video?.[0]?.videoId ? 'relative' : ''
+                      testimonial?.secondaryVideo?.[0]?.videoId
+                        ? 'relative'
+                        : ''
                     }`}
                   >
                     <div className="relative flex flex-col gap-3">
-                      {testimonial?.video?.[0]?.videoId ? (
+                      {testimonial?.secondaryVideo?.[0]?.videoId ? (
                         <div className="relative rounded-[12px] overflow-hidden aspect-video">
                           <Image
-                            src={`https://img.youtube.com/vi/${testimonial.video[0].videoId}/maxresdefault.jpg`}
+                            src={`https://img.youtube.com/vi/${testimonial?.secondaryVideo?.[0].videoId}/maxresdefault.jpg`}
                             alt={`Video thumbnail for ${testimonial?.name || 'testimonial'}`}
                             fill
                             className="object-cover"
@@ -121,10 +150,11 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
 
                         {openModal === index &&
                           isOpen &&
-                          testimonial.video[0]?.videoId && (
+                          testimonial?.secondaryVideo?.[0]?.videoId && (
                             <VideoModal
                               videoDetails={{
-                                videoId: testimonial?.video[0]?.videoId,
+                                videoId:
+                                  testimonial?.secondaryVideo?.[0]?.videoId,
                                 videoPlatform: 'youtube',
                               }}
                               isPopup={true}
@@ -141,14 +171,25 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
                             // components={components}
                           />
                         </div>
-                        <div className="flex items-center gap-6">
-                          <div className="w-12 h-12 rounded-full overflow-hidden">
+                        <div className="flex items-center gap-6 pt-3">
+                          <div
+                            className=" rounded-full overflow-hidden"
+                            style={{
+                              height: `56px`,
+                              width: `${
+                                56 *
+                                  testimonial?.testimonialImage?.metadata
+                                    ?.dimensions?.aspectRatio || 2
+                              }px`,
+                            }}
+                          >
                             <ImageLoader
                               image={testimonial?.testimonialImage?.url}
                               alt={testimonial?.testimonialImage?.alt}
-                              className="w-full h-full object-cover"
+                              className="w-auto h-full object-cover"
                             />
                           </div>
+
                           <div className="flex flex-col gap-1 items-start">
                             <p className="font-semibold text-base md:text-lg leading-[150%] text-gray-950">
                               {testimonial?.name}
@@ -169,11 +210,7 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
           {data?.bookBtnContent && (
             <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center lg:justify-start items-center lg:items-start >">
               {data?.bookBtnContent[0]?.buttonText && (
-                <Button
-                  type="primary"
-                  className="w-fit"
-                  link="/demo"
-                >
+                <Button type="primary" className="w-fit" link="/demo">
                   <span>
                     {data?.bookBtnContent[0]?.buttonText || 'Book Free Demo'}
                   </span>
@@ -189,5 +226,6 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
         </div>
       </Container>
     </Section>
+    </>
   )
 }
