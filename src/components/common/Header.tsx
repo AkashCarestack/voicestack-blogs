@@ -275,7 +275,7 @@ const NavigationMenu = ({
   return (
     <nav className="flex lg:items-center flex-col lg:flex-row lg:gap-y-4 gap-x-4 xl:gap-x-6 w-full lg:w-auto flex-wrap">
       {menuItems.map((link: any, i: number) => {
-        const isExternal = link?.href?.includes('http');
+        const isExternal = link?.href?.includes('https');
         const hasSubmenu = link?.hasSubmenu && link?.submenu?.length > 0;
 
         if (hasSubmenu) {
@@ -574,6 +574,7 @@ const Header = ({ data, refer = null }) => {
                     <Anchor
                       key={item._key}
                       href={item.href}
+                      target={item.href?.includes('https') ? '_blank' : '_self'}
                       className="text-gray-900 text-sm font-normal flex items-center gap-2 hover:text-gray-800 transition-colors"
                     >
                       {item.label}
