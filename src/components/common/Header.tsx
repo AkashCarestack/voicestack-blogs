@@ -49,7 +49,7 @@ const Header = ({ data, refer=null }) => {
         "url": "https://cdn.sanity.io/images/76tr0pyh/production/ae5158a9a8fd8ce578ee8df1ba1ffa1bcee41b84-24x24.svg",
         "title": "US"
       },
-      "url": "./",
+      "url": "https://voicestack.com",
       "title": "US",
       "locale": "en",
       "regionName": "USA"
