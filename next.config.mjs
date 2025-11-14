@@ -9,12 +9,12 @@ const config = {
   },
   i18n: {
     localeDetection:false,
-    locales: ['en','en-GB'],
+    locales: ['en','en-AU'],
     defaultLocale: 'en'
 
   },
-  basePath: "/en-GB",
-  assetPrefix: "/en-GB",
+  basePath: "/en-AU",
+  assetPrefix: "/en-AU",
 
   async redirects() {
    
