@@ -99,6 +99,21 @@ const getLocaleFromCountry = (country: string): string | null => {
   return null;
 };
 
+// Helper function to safely add flag=true without duplication
+const getHrefWithFlag = (queryString: string): string => {
+  if (!queryString) {
+    return '/?flag=true';
+  }
+  // queryString already has '?' prefix, so extract the actual query params
+  const queryParams = queryString.startsWith('?') ? queryString.substring(1) : queryString;
+  const params = new URLSearchParams(queryParams);
+  if (params.has('flag') && params.get('flag') === 'true') {
+    return `/${queryString}`;
+  }
+  // Add flag=true to existing query string (queryString already has '?')
+  return `/${queryString}&flag=true`;
+};
+
 // Sub-components
 const RegionFlag = ({
   region,
@@ -128,21 +143,6 @@ const RegionSwitcherDropdown = ({
   setOpenSwitcher: (open: boolean) => void;
 }) => {
   const matchedRegion = regions.find((r) => r.locale === currentLocale);
-  
-  // Helper function to safely add flag=true without duplication
-  const getHrefWithFlag = () => {
-    if (!queryString) {
-      return '/?flag=true';
-    }
-    // queryString already has '?' prefix, so extract the actual query params
-    const queryParams = queryString.startsWith('?') ? queryString.substring(1) : queryString;
-    const params = new URLSearchParams(queryParams);
-    if (params.has('flag') && params.get('flag') === 'true') {
-      return `/${queryString}`;
-    }
-    // Add flag=true to existing query string (queryString already has '?')
-    return `/${queryString}&flag=true`;
-  };
 
   return (
     <div className="relative hidden lg:flex">
@@ -172,7 +172,7 @@ const RegionSwitcherDropdown = ({
           ) : (
             <Anchor
               key={`${index}-${region.flag.url}`}
-              href={getHrefWithFlag()}
+              href={getHrefWithFlag(queryString)}
               locale={region.locale}
               className="flex gap-2 items-center py-[6px] pl-[12px] border-b border-gray-200 last:border-none hover:bg-gray-200 transition-all duration-300 ease-linea"
             >
@@ -189,32 +189,36 @@ const RegionSwitcherDropdown = ({
 const MobileRegionSwitcher = ({
   regions,
   currentLocale,
+  queryString,
   onClose,
 }: {
   regions: Region[];
   currentLocale: string | null;
+  queryString: string;
   onClose: () => void;
-}) => (
-  <div className="bg-white flex gap-5 justify-center items-center lg:hidden">
-    {regions.map((region, index) =>
-      currentLocale === region.locale ? (
-        <div key={`${index}-${region.flag.url}`} className="flex gap-2 items-center">
-          <RegionFlag region={region} size={32} className="border-2 rounded-full border-black/20" />
-        </div>
-      ) : (
-        <Anchor
-          key={`${index}-${region.flag.url}`}
-          href="/"
-          locale={region.locale}
-          className="flex gap-2 items-center"
-          onClick={onClose}
-        >
-          <RegionFlag region={region} size={32} className="border-2 rounded-full border-white" />
-        </Anchor>
-      )
-    )}
-  </div>
-);
+}) => {
+  return (
+    <div className="bg-white flex gap-5 justify-center items-center lg:hidden">
+      {regions.map((region, index) =>
+        currentLocale === region.locale ? (
+          <div key={`${index}-${region.flag.url}`} className="flex gap-2 items-center">
+            <RegionFlag region={region} size={32} className="border-2 rounded-full border-black/20" />
+          </div>
+        ) : (
+          <Anchor
+            key={`${index}-${region.flag.url}`}
+            href={getHrefWithFlag(queryString)}
+            locale={region.locale}
+            className="flex gap-2 items-center"
+            onClick={onClose}
+          >
+            <RegionFlag region={region} size={32} className="border-2 rounded-full border-white" />
+          </Anchor>
+        )
+      )}
+    </div>
+  );
+};
 
 const RegionPopup = ({
   currentRegion,
@@ -694,7 +698,7 @@ const Header = ({ data, refer = null }) => {
                           </Button>
                         </div>
 
-                        <MobileRegionSwitcher regions={REGIONS} currentLocale={currentLocale} onClose={closeMenu} />
+                        <MobileRegionSwitcher regions={REGIONS} currentLocale={currentLocale} queryString={queryParam} onClose={closeMenu} />
                       </div>
                     </div>
                   </div>
