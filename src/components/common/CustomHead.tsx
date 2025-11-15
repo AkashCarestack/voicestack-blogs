@@ -15,10 +15,9 @@ export default function CustomHead(props) {
     <Head>
       <link rel="icon" href={urlForImage(props.siteSettings?.ogFavicon)} sizes="any" type="image/png"/>
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-      {/* <meta property="og:image" content={urlForImage(props.siteSettings?.ogImage)} /> */}
       {homepage && (
         <>
-        <meta name="description"  content={props.siteSettings?.ogDescription}></meta>
+        <meta name="description"  content={props.siteSettings?.ogDescription || 'Zynva - All-in-One Business Management Software for Clinics'}></meta>
         <title>AI-Powered, Enterprise Dental Phone System | VoiceStack®</title>
         <meta property="keywords" content={props.siteSettings.seoSettings?.keyWords?.join(',')} />
         <link rel="canonical" href={props?.siteSettings?.canonical} />
@@ -26,7 +25,10 @@ export default function CustomHead(props) {
         <meta property="og:url" content={props.siteSettings?.ogUrl} />
         <meta property="og:title" content={'VoiceStack'} />
         <meta name="title" content='VoiceStack'></meta>
-        <meta property="og:description" content={props.siteSettings?.ogDescription} />
+        <meta property="og:description" content={props.siteSettings?.ogDescription || 'Zynva - All-in-One Business Management Software for Clinics'} />
+        {props.siteSettings?.ogImage && (
+          <meta property="og:image" content={urlForImage(props.siteSettings?.ogImage)} />
+        )}
         </>
       )}
       {/* organization schema */}

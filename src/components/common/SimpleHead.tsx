@@ -12,13 +12,13 @@ export default function SimpleHead({ data }: SimpleHeadProps) {
     
     <Head>
       <title>{fullTitle}</title>
-      <meta name="description" content={data?.metaDescription || 'AI Powered Enterprise Phone System'} />
+      <meta name="description" content={data?.metaDescription || 'Zynva - All-in-One Business Management Software for Clinics'} />
       {data?.keyWords && <meta name="keywords" content={typeof data?.keyWords === 'string' ? data?.keyWords : data?.keyWords?.join(',')} />}
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />
       {data?.canonical && <link rel="canonical" href={data?.canonical} />}
       <meta property="og:type" content="website" />
       <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={data?.metaDescription || 'AI Powered Enterprise Phone System'} />
+      <meta property="og:description" content={data?.metaDescription || 'Zynva - All-in-One Business Management Software for Clinics'} />
       <meta name="title" content={fullTitle} />
     </Head>
   )

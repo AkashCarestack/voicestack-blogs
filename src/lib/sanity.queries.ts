@@ -357,7 +357,8 @@ export async function getFooterData(client: SanityClient, region: string) {
       facebook,
       instagram,
       youtube,
-      twitter
+      twitter,
+      discord
     },
     appStoreLinks {
       googlePlay,
