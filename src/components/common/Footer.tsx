@@ -85,17 +85,18 @@ const Footer = ({ data }) => {
               >
                 {safeData.footerColumns.map((column: any, index: number) => (
                   <div key={index} className="space-y-4">
-                    <span className="text-white/40 font-geist text-base font-medium leading-6 tracking-normal">
+                    <span className="font-geist text-base font-medium leading-6 tracking-normal" style={{ color: 'rgba(255, 255, 255, 0.40)' }}>
                       {column.titleLink ? (
                         <Anchor
                           href={column.titleLink}
                           target={column.titleLinkNewTab ? '_blank' : '_self'}
-                          className="text-white font-geist text-sm font-normal leading-5 tracking-normal hover:text-white/80 transition-colors duration-300"
+                          className="font-geist text-base font-medium leading-6 tracking-normal hover:text-white/80 transition-colors duration-300"
+                          style={{ color: 'rgba(255, 255, 255, 0.40)' }}
                         >
                           {column.title}
                         </Anchor>
                       ) : (
-                        <span className="text-white font-geist text-sm font-normal leading-5 tracking-normal">
+                        <span className="font-geist text-base font-medium leading-6 tracking-normal" style={{ color: 'rgba(255, 255, 255, 0.40)' }}>
                           {column.title}
                         </span>
                       )}
