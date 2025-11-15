@@ -66,6 +66,7 @@ export default function ComparisonPage({
           <HeroSection
             page=""
             data={pageData['comparison-hero']?.componentData}
+            showFullDescription={true}
           />
         )}
       </div>
