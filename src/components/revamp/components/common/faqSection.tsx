@@ -1,16 +1,10 @@
-import React, { useState } from 'react'
+import React, { use, useEffect, useState } from 'react'
 import { PortableText } from '@portabletext/react'
 import { Minus, Plus, ChevronDown } from 'lucide-react'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
-import Head from 'next/head'
-import { faqJsonLd } from '~/components/utils/jsonld'
 
 export default function FaqSection({ faqItems }: any) {
-  // Early return if no FAQ items
-  if (!faqItems || (!faqItems.faqCategories && !Array.isArray(faqItems))) {
-    return null;
-  }
 
   const [hideCategory, setHideCategory] = useState(faqItems?.hideCategory)
   const [isOpen, setIsOpen] = useState({})
@@ -144,44 +138,7 @@ export default function FaqSection({ faqItems }: any) {
     },
   }
 
-  const jsonLd = faqJsonLd(faqItems);
-  const hasQuestions = jsonLd?.mainEntity && Array.isArray(jsonLd.mainEntity) && jsonLd.mainEntity.length > 0;
-
-  React.useEffect(() => {
-    if (hasQuestions) {
-      const scriptId = `faqJSON-${faqItems?._uid || Date.now()}`;
-      // Remove existing script if it exists
-      const existingScript = document.getElementById(scriptId);
-      if (existingScript) {
-        existingScript.remove();
-      }
-      
-      const script = document.createElement('script');
-      script.id = scriptId;
-      script.type = 'application/ld+json';
-      script.innerHTML = JSON.stringify(jsonLd);
-      document.head.appendChild(script);
-      
-      return () => {
-        const scriptToRemove = document.getElementById(scriptId);
-        if (scriptToRemove) {
-          scriptToRemove.remove();
-        }
-      };
-    }
-  }, [hasQuestions, jsonLd, faqItems?._uid]);
-
   return (
-    <>
-    {hasQuestions && (
-      <Head>
-        <script
-          key={`faqJSON-${faqItems?._uid || Date.now()}`}
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </Head>
-    )}
     <Section className="py-sm md:py-md lg:py-lg">
     <Container className='py-16 flex-col gap-16'>
       <div className='flex flex-col md:gap-16 gap-6 font-manrope font-bold leading-[120%]'>
@@ -312,6 +269,5 @@ export default function FaqSection({ faqItems }: any) {
       </div>
     </Container>
     </Section>
-    </>
   )
 }

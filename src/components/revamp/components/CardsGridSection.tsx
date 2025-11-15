@@ -3,6 +3,8 @@ import Button from '~/components/common/Button'
 import Container from '~/components/structure/Container'
 import SectionHeader from './common/sectionHeader'
 import Image from 'next/image'
+import WorldMap from 'public/assets/world-map.png'
+import { urlForImage } from '~/lib/sanity.image'
 import Link from 'next/link'
 
 interface CardItem {
