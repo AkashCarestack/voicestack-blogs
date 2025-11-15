@@ -133,11 +133,6 @@ export default {
           name: 'twitter',
           title: 'Twitter URL',
           type: 'string'
-        },
-        {
-          name: 'discord',
-          title: 'Discord URL',
-          type: 'string'
         }
       ]
     },

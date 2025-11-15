@@ -1948,8 +1948,7 @@ class Queries {
         facebook,
         instagram,
         youtube,
-        twitter,
-        discord
+        twitter
       },
       appStoreLinks {
         googlePlay,
