@@ -15,6 +15,7 @@ import {
 import { getClient } from '~/lib/sanity.client'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -98,6 +99,9 @@ export default function ComparisonPage({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
+      <IntegrationsGrid data={pageData['integrations-listing']?.componentData}/>
+      <StatisticsSection/>
+      
       {/* FAQ Section */}
       {faq && (
         <div>
