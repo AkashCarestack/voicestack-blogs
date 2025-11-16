@@ -63,11 +63,11 @@ export default function Pricing({
     )
     return category?.featureCategory?.name || key.replaceAll('-', ' ')
   }
-console.log(landingPageData, 'landingPageData in pricing page')
+// console.log(landingPageData, 'landingPageData in pricing page')
   return (
     <>
       <div
-        className="pt-lg pb-md vs-minimal-bg"
+        className="py-12 vs-minimal-bg"
         style={{
           background:
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
@@ -94,9 +94,9 @@ console.log(landingPageData, 'landingPageData in pricing page')
             ) : null
           })()}
       </div>
-      <Section className="md:py-12 py-6">
+      <Section className="">
         <Container className="flex flex-col items-center gap-8">
-          <div className="md:py-32 py-6">
+          <div className="lg:py-lg md:py-md py-sm">
             <FeatureCategoryGrid
               groupedData={groupedData}
               getCategoryDisplayName={getCategoryDisplayName}

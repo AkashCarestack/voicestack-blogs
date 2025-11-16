@@ -84,6 +84,9 @@ export default function SpecialityPractices({
           data={pageData?.['specialists']?.componentData}
         />
       )}
+       {pageData?.['specialty-practices']?.componentData && (
+        <TabCardsListing data={pageData?.['specialty-practices']?.componentData} />
+      )}
 
       {/* FAQ Section */}
       {faq && (

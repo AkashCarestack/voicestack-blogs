@@ -33,7 +33,7 @@ export default function SupportPage({
         }}>
         {/* <Breadcrumb breadCrumb={breadCrumb} /> */}
         <div
-          className="pt-lg pb-md"
+          className="py-12"
           
         >
           {heroData && (

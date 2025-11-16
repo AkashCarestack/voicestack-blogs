@@ -125,10 +125,10 @@ const HeroSection = ({
     listItem: {
       bullet: ({ children }: { children: React.ReactNode }) => (
         <li
-          className="flex gap-3 py-[14px] text-base text-gray-950 leading-[24px] border-b"
+          className="flex lg:justify-start justify-center gap-3 py-[14px] text-base text-gray-950 leading-[24px] border-b"
           style={{ borderColor: '#0307121A' }}
         >
-          <span className="mt-1">
+          <span className="mt-1 lg:flex hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
@@ -287,7 +287,7 @@ const HeroSection = ({
     <section className="font-geist justify-center">
       <Container className={`${isCentered ? ' ' : 'py-12'} justify-center`}>
         {isCentered ? (
-          <div className={`${showFullDescription ? "max-w-[808px]" : "max-w-[606px]"} flex flex-col items-center text-center  gap-3  lg:pt-20`}>
+          <div className={`${showFullDescription ? "max-w-[808px]" : "max-w-[606px]"} flex flex-col items-center text-center  gap-3 py-12  lg:pt-md lg:pb-md`}>
             <h1 className="text-base font-medium text-gray-950 ">
               {data?.heroStrip}
             </h1>
@@ -387,7 +387,7 @@ const HeroSection = ({
         ) : (
           <div className="flex flex-col lg:flex-row justify-between lg:gap-24 gap-12 items-center">
             {/* Left Content */}
-            <div className="space-y-3 flex-1 max-w-[607px] w-full justify-center lg:justify-start">
+            <div className="space-y-3 flex-1 max-w-[607px] w-full justify-center lg:justify-start flex flex-col gap-3">
               {/* Feature Tag */}
               {page === 'home' ? (
                 <div className="flex w-fit mx-auto lg:mx-0 text-center lg:text-left items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
@@ -415,7 +415,7 @@ const HeroSection = ({
               </div>
 
               {/* Description */}
-              <div ref={descriptionRef} className="w-full">
+              <div ref={descriptionRef} className="w-full lg:text-left text-center">
                 <PortableText
                   value={data?.heroDescription}
                   components={descriptionComponents}
@@ -424,7 +424,7 @@ const HeroSection = ({
               {!showFullDescription && needsSeeMore && (
                 <button
                   onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-                  className="text-base font-medium text-vs-purple hover:text-vs-purple/80 transition-colors mt-2 self-start"
+                  className="text-base font-medium text-vs-purple hover:text-vs-purple/80 transition-colors mt-2 lg:self-start"
                 >
                   {isDescriptionExpanded ? 'See Less' : 'See More'}
                 </button>

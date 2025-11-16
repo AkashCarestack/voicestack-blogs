@@ -220,6 +220,39 @@ const MobileRegionSwitcher = ({
   );
 };
 
+const TopNavigationMenu = ({ safeData }: { safeData: any }) => {
+  return (
+    <>
+      {safeData?.phoneNumber && (
+        <div className="flex items-center gap-2 text-gray-900 text-sm mr-3">
+          <span>Talk to an expert</span>
+          <Anchor
+            href={`tel:${safeData?.phoneNumber}`}
+            className="text-gray-900 text-sm font-semibold flex items-center gap-2 hover:text-gray-800 transition-colors"
+          >
+            {safeData?.phoneNumber}
+          </Anchor>
+        </div>
+      )}
+
+      {safeData?.topNavigationMenu && (
+        <div className="flex items-center gap-4 lg:gap-6 text-gray-900 text-sm">
+          {safeData?.topNavigationMenu.map((item: any) => (
+            <Anchor
+              key={item._key}
+              href={item.href}
+              target={item.href?.includes('https') ? '_blank' : '_self'}
+              className="text-gray-900 text-sm font-normal flex items-center gap-2 hover:text-gray-800 transition-colors"
+            >
+              {item.label}
+            </Anchor>
+          ))}
+        </div>
+      )}
+    </>
+  );
+};
+
 const RegionPopup = ({
   currentRegion,
   preferredLocale,
@@ -295,7 +328,7 @@ const NavigationMenu = ({
   };
   
   return (
-    <nav className="flex lg:items-center flex-col lg:flex-row lg:gap-y-4 gap-x-4 xl:gap-x-6 w-full lg:w-auto flex-wrap">
+    <nav className="flex lg:items-center flex-col lg:flex-row lg:gap-y-4 gap-x-4 lg:gap-x-2 xl:gap-x-6 w-full lg:w-auto flex-wrap">
       {menuItems.map((link: any, i: number) => {
         const isExternal = link?.href?.includes('https');
         const hasSubmenu = link?.hasSubmenu && link?.submenu?.length > 0;
@@ -311,7 +344,7 @@ const NavigationMenu = ({
           return (
             <div key={`menu-${i}`} className="relative group cursor-pointer w-full lg:w-auto">
               <div 
-                className="flex items-center gap-1 text-gray-700 lg:text-sm font-medium leading-[1.15] lg:text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0 cursor-pointer"
+                className="flex items-center gap-1 text-gray-700 xl:text-sm lg:text-xs font-medium leading-[1.15] lg:text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0 cursor-pointer"
                 onClick={() => isMobile && toggleSubmenu(i)}
               >
                 {isMobile ? (
@@ -354,7 +387,7 @@ const NavigationMenu = ({
       if (link.highlight) {
         return (
           <Anchor key={`menu-${i}`} href={link.href} className="relative group self-start">
-            <span className="flex lg:my-0 my-4 items-center gap-2 text-white text-sm py-[4px] pl-[10px] pr-4 rounded-[6px] border-2 border-white/80 bg-gradient-to-r from-[#4A3CE1] to-[#FF708C] shadow-[0_4px_4px_0_rgba(200,200,200,0.20)] justify-center">
+            <span className="flex lg:my-0 my-4 items-center gap-2 text-white xl:text-sm md:text-xs text-sm py-[4px] pl-[10px] pr-4 rounded-[6px] border-2 border-white/80 bg-gradient-to-r from-[#4A3CE1] to-[#FF708C] shadow-[0_4px_4px_0_rgba(200,200,200,0.20)] justify-center">
               <SparklesIconFill className="w-4 h-4" />
               <span>{link.label}</span>
             </span>
@@ -604,32 +637,7 @@ const Header = ({ data, refer = null }) => {
           <div className="flex justify-end w-full lg:px-12">
            
             <div className="flex justify-end items-center gap-3">
-              {safeData?.phoneNumber && (
-                <div className="flex items-center gap-2 text-gray-900 text-sm mr-3">
-                  <span>Talk to an expert</span>
-                  <Anchor
-                    href={`tel:${safeData?.phoneNumber}`}
-                    className="text-gray-900 text-sm font-semibold flex items-center gap-2 hover:text-gray-800 transition-colors"
-                  >
-                    {safeData?.phoneNumber}
-                  </Anchor>
-                </div>
-              )}
-
-              {safeData?.topNavigationMenu && (
-                <div className="flex items-center gap-6 text-gray-900 text-sm">
-                  {safeData?.topNavigationMenu.map((item: any) => (
-                    <Anchor
-                      key={item._key}
-                      href={item.href}
-                      target={item.href?.includes('https') ? '_blank' : '_self'}
-                      className="text-gray-900 text-sm font-normal flex items-center gap-2 hover:text-gray-800 transition-colors"
-                    >
-                      {item.label}
-                    </Anchor>
-                  ))}
-                </div>
-              )}
+              <TopNavigationMenu safeData={safeData} />
 
               {REGIONS.length > 0 && (
                 <RegionSwitcherDropdown
@@ -647,7 +655,7 @@ const Header = ({ data, refer = null }) => {
 
         <header className={`transition-all duration-300 ease-linear bg-[#F9F9F9]`}>
           <div className={`text-white`}>
-            <div className="lg:px-12 px-4 flex gap-[10px]">
+            <div className="xl:px-12 px-4 flex gap-[10px]">
               <div
                 className={`flex flex-grow gap-6 justify-between py-0 transition-all duration-300 ease-linear items-center h-[48px] lg:h-[63px]`}
               >
@@ -658,11 +666,11 @@ const Header = ({ data, refer = null }) => {
                 >
                   <Anchor
                     href="/"
-                    className={`flex-shrink-0 text-2xl font-extrabold bg-gradient-text bg-clip-text text-transparent font-monrope tracking-tighterText mr-6 ${
+                    className={`flex-shrink-0 text-2xl font-extrabold bg-gradient-text bg-clip-text text-transparent font-monrope tracking-tighterText xl:mr-6 ${
                       isMobile && headerFixed && 'hidden'
                     }`}
                   >
-                    <Image src={VoicestackLogo} alt="VoiceStack" title="VoiceStack"></Image>
+                    <Image src={VoicestackLogo} alt="VoiceStack" title="VoiceStack" className="xl:max-w-none md:max-w-[110px] h-auto"></Image>
                   </Anchor>
 
                   <Anchor href="/" className={`${isMobile && headerFixed ? 'block' : 'hidden'}`}>
@@ -681,24 +689,27 @@ const Header = ({ data, refer = null }) => {
 
                       <div className="flex flex-col gap-8">
                         <div className="flex flex-col lg:flex-row gap-3 md:gap-5 items-center lg:hidden">
-                          {safeData?.phoneNumber && (
+                          {/* {safeData?.phoneNumber && (
                             <div className="flex-shrink-0">
                               <Anchor
                                 href={`tel:${safeData?.phoneNumber}`}
                                 className="text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px] border border-gray-300"
                               >
-                                {/* <TelIcon className="text-gray-700" /> */}
+                                
                                 <PhoneIcon className="text-gray-700 w-5 h-5"/>
                                 {safeData?.phoneNumber}
                               </Anchor>
                             </div>
-                          )}
+                          )} */}
                           <Button type="primary" link="/demo">
                             <span>{safeData?.ctabutton || 'Book Free Demo'}</span>
                           </Button>
                         </div>
 
                         <MobileRegionSwitcher regions={REGIONS} currentLocale={currentLocale} queryString={queryParam} onClose={closeMenu} />
+                        <div className="flex flex-wrap justify-center items-center gap-2 lg:hidden">
+                          <TopNavigationMenu safeData={safeData} />
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -93,31 +93,33 @@ const FeatureCardSection: React.FC<FeatureCardSectionProps> = ({
       </h3>
 
       {/* Features List */}
-      {features.map((feature: Feature) => {
-        const featureId = getFeatureId(feature)
-        const featureTitle = getFeatureTitle(feature)
-        const showTitle = cardTitle !== featureTitle // Don't show duplicate if card title matches feature title
-        
-        return (
-          <div
-            key={featureId}
-            className="flex md:py-2 py-1 items-start md:gap-3 gap-2 border-b-[#E6E7E8] last:border-b-0 border-b"
-          >
-           {showTickIcon && <TickIcon />}
-            {showTitle ? (
-              <h4 className="font-geist md:text-base text-xs leading-[150%] text-gray-900">
-                {featureTitle}
-              </h4>
-            ) : (
-              feature.description && (
-                <p className="font-geist md:text-base text-xs leading-[150%] text-gray-700">
-                  {feature.description}
-                </p>
-              )
-            )}
-          </div>
-        )
-      })}
+      <ul className="flex flex-col">
+        {features.map((feature: Feature) => {
+          const featureId = getFeatureId(feature)
+          const featureTitle = getFeatureTitle(feature)
+          const showTitle = cardTitle !== featureTitle // Don't show duplicate if card title matches feature title
+          
+          return (
+            <li
+              key={featureId}
+              className="flex md:py-3 py-2 items-center md:gap-3 gap-2 border-b-[#E6E7E8] last:border-b-0 border-b"
+            >
+            {showTickIcon && <TickIcon />}
+              {showTitle ? (
+                <h4 className="font-geist md:text-base text-xs leading-[150%] text-gray-900">
+                  {featureTitle}
+                </h4>
+              ) : (
+                feature.description && (
+                  <p className="font-geist md:text-base text-xs leading-[150%] text-gray-700">
+                    {feature.description}
+                  </p>
+                )
+              )}
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }

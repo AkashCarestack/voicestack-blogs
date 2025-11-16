@@ -14,7 +14,7 @@ export default function ContactPage({ heroSectionData }) {
   return (
     <>
       <div
-        className="pt-lg pb-md"
+        className="py-12"
         style={{
           background:
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',

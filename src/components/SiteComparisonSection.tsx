@@ -94,7 +94,7 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
           <div className='flex gap-4 items-center'>
               <Button type="primary" link="/demo">
                 {/* <ButtonArrow></ButtonArrow> */}
-                <span className="">{`Book free demo`}</span>
+                <span className="">{`Book Free Demo`}</span>
               </Button>
              
             </div>
