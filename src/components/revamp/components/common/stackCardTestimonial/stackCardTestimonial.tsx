@@ -497,7 +497,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                         (feature, index) => (
                           <span
                             key={index}
-                            className="bg-[#8379EA] border border-[#A5A5A5] text-[#F2F2F2] px-4 py-1.5 rounded-[500px] text-sm font-normal"
+                            className="bg-gray-100 border border-gray-200 text-gray-950 px-4 py-1.5 rounded-[500px] text-sm font-normal"
                           >
                             {feature}
                           </span>
