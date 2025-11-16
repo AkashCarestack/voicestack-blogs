@@ -175,7 +175,7 @@ export default defineType({
     }),
     defineField({
       name: 'testimonialdescription',
-      title: 'Testimonial Description',
+      title: 'Testimonial Description(for case studies)',
       type: 'text',
     }),
     defineField({

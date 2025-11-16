@@ -11,8 +11,11 @@ import VerticalTestimonialListing from '~/components/revamp/components/common/Ve
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
+import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
+import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 
 export default function CustomerStories({ pageData }: any) {
+  console.log(pageData, 'pageData in case studies')
   const data =
     pageData &&
     pageData['Powering-Startup'] &&
@@ -39,7 +42,10 @@ export default function CustomerStories({ pageData }: any) {
           data={pageData['dental-phones-hero']?.componentData}
           isCentered={true}
         />
-        {pageData['testimonial-video-section']?.componentData && (
+        {pageData['testimonial-tabs']?.componentData && (
+            <StackCardTestimonial page="case-studies" data={pageData['testimonial-tabs']?.componentData} />
+        )}
+        {/* {pageData['testimonial-video-section']?.componentData && (
           <VerticalTestimonialListing
             data={
               pageData['testimonial-video-section']?.componentData?.refData
@@ -47,16 +53,16 @@ export default function CustomerStories({ pageData }: any) {
             }
             hideTitle={true}
           />
-        )}
+        )} */}
       </div>
-        {masonryData && <MasonryCardGridSection data={masonryData} />}
+        {/* {masonryData && <MasonryCardGridSection data={masonryData} />}
         {data && (
           <ImageCardSection
             data={data?.items}
             heading={data?.heading}
             description={data?.description}
           />
-        )}
+        )} */}
       </>
     )
   )
