@@ -19,6 +19,7 @@ const HeroSection = ({
   isCentered = false,
   showFullDescription = false,
   pricingFormId,
+  style,
 }: {
   data?: any
   refer?: any
@@ -284,7 +285,7 @@ const HeroSection = ({
   }
 
   return (
-    <section className="font-geist justify-center">
+    <section className="font-geist justify-center" style={style}>
       <Container className={`${isCentered ? ' ' : 'py-12'} justify-center`}>
         {isCentered ? (
           <div className={`${showFullDescription ? "max-w-[808px]" : "max-w-[606px]"} flex flex-col items-center text-center  gap-3 py-12  lg:pt-md lg:pb-md`}>
