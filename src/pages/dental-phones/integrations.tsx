@@ -113,8 +113,6 @@ export default function DentalPhonesIntegrations({
       integrations: integrations,
     }
   }, [pageData])
-
-  console.log('pageDataDentalPhonesIntegrations', pageData)
   return (
     <>
       <SimpleHead data={pageData?.seo} />
@@ -150,6 +148,11 @@ export default function DentalPhonesIntegrations({
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
+      )}
+       {pageData['custom']?.componentData && (
+        <div className="mt-12">
+          <IntegrationsGrid showIntegrationBtn={false} data={pageData['custom']?.componentData} />
+        </div>
       )}
       {/* FAQ Section */}
       {faq && (

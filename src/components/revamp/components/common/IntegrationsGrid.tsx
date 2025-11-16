@@ -39,13 +39,14 @@ interface IntegrationsGridProps {
   integrations?: Integration[]
   showButtons?: boolean
   className?: string
+  showIntegrationBtn?: boolean
   // New props for CMS control
   customIntegrations?: Integration[]
   data:any
 }
 
 const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
-
+  showIntegrationBtn = true,
   className = "",
   data
 }) => {
@@ -67,17 +68,7 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
     >
       <Container className="flex-col relative z-10">
         <div className="flex flex-col gap-8 md:gap-12 lg:gap-16 items-center relative w-full">
-                 {/* Title and Description */}
-                 {/* <div className="flex flex-col gap-4 items-center text-center max-w-4xl">
-                   <h2 className="font-['Manrope',_sans-serif] font-bold text-2xl md:text-3xl lg:text-4xl text-gray-900 leading-tight">
-                     {title}
-                   </h2>
-                   <p className="font-['Geist',_sans-serif] font-normal text-base md:text-lg text-[#364153] leading-relaxed">
-                     {description}
-                   </p>
-                 </div> */}
-
-                 <SectionHeader heading={data.refData.integrationListing.title} description={data.refData.integrationListing.description} />
+           <SectionHeader showFullLength={true} heading={data.refData.integrationListing.title} description={data.refData.integrationListing.description} />
                  
           {/* Integrations Grid */}
           <div className="flex flex-wrap gap-4 md:gap-6 lg:gap-8 justify-center items-end w-full">
@@ -124,9 +115,9 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
                 </span>
               </Button>
               
-              <Button type="secondary" link={data.refData.integrationListing.link ? data.refData.integrationListing.link : '/dental-phones/integrations'}>
+              {showIntegrationBtn && <Button type="secondary" link={data.refData.integrationListing.link ? data.refData.integrationListing.link : '/dental-phones/integrations'}>
                 See All Integrations
-              </Button>
+              </Button>}
             </div>
           {/* )} */}
         </div>

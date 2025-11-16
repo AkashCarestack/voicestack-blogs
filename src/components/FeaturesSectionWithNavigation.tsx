@@ -435,9 +435,9 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
             
             {/* CTA Section */}
             <div className="mt-6 pt-6 border-t border-gray-200 md:block hidden">
-              <p className="text-base text-[#71717b] mb-5 font-geist">
+              {/* <p className="text-base text-[#71717b] mb-5 font-geist">
                 For Smarter Patient Call Management
-              </p>
+              </p> */}
               <Button type='primary' className='w-full' link="/demo">
                 <span>Book Free Demo</span>
               </Button>
