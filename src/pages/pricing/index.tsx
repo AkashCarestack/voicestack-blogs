@@ -9,6 +9,7 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
+import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 
 // Define TypeScript interfaces
 interface PageData {
@@ -29,6 +30,14 @@ export default function Pricing({
   pricingPageData,
   region,
 }: PricingProps & { region?: string }) {
+  console.log({pricingPageData})
+  const testimonialData = pricingPageData["groups-and-dso"].componentData.refData.tabsListingComponent;
+ testimonialData.headline = "Pricing that covers every touch point";
+ testimonialData.subDescription ="VoiceStack is committed to give you more value than you pay for. We provide onboarding, training, account management and customer support services as part of our pricing plans, so that all your teams are fully supported for continuous success.";
+ testimonialData.tabs.map((e:any)=>{
+  e.ctaListItems[0].ctaLink = "/pricing";
+  e.ctaListItems[0].ctaText = "Get Pricing";
+ })
   // Get pricing form ID based on locale
   const getPricingFormId = () => {
     // Hardcoded US form ID
@@ -100,12 +109,15 @@ export default function Pricing({
               groupedData={groupedData}
               getCategoryDisplayName={getCategoryDisplayName}
               ctaCard={{
-                title: 'Curious if Voicestack Fits Your Practice',
-                buttonText: 'Book Free Demo',
+                title: 'Flexible Pricing Models<br/> For Your Practice',
+                buttonText: 'Get Pricing',
                 buttonLink: '/demo',
               }}
             />
           </div>
+          {
+            testimonialData && (<TabCardsListing data={testimonialData} />)
+          }
 
           {landingPageData['stack-card-tab-testimonial']?.componentData?.refData ? (
             <StackCardTestimonial
