@@ -110,7 +110,7 @@ const HeroSection = ({
   const descriptionComponents: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className={`${showFullDescription || isDescriptionExpanded ? "" : "line-clamp-2 self-stretch"} text-lg text-gray-950 leading-[28px]  font-normal `}>
+        <p className={`${showFullDescription || isDescriptionExpanded ? "" : "line-clamp-2 self-stretch"} text-lg text-gray-950 leading-[28px] mb-3 font-normal `}>
           {children}
         </p>
       ),
@@ -285,7 +285,7 @@ const HeroSection = ({
 
   return (
     <section className="font-geist justify-center">
-      <Container className={`${isCentered ? ' ' : 'py-12'} justify-center`}>
+      <Container className={`${isCentered ? ' ' : 'py-4 lg:py-0'} justify-center`}>
         {isCentered ? (
           <div className={`${showFullDescription ? "max-w-[808px]" : "max-w-[606px]"} flex flex-col items-center text-center  gap-3 py-12  lg:pt-md lg:pb-md`}>
             <h1 className="text-base font-medium text-gray-950 ">
@@ -385,9 +385,9 @@ const HeroSection = ({
             )}
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row justify-between lg:gap-24 gap-12 items-center w-full">
+          <div className="flex flex-col lg:flex-row justify-between lg:gap-24 gap-12 w-full items-center lg:items-start">
             {/* Left Content */}
-            <div className="space-y-3 flex-1 max-w-[607px] w-full justify-center lg:justify-start flex flex-col gap-3">
+            <div className="space-y-3 flex-1 max-w-[607px] w-full justify-center lg:justify-start flex flex-col pt-8 lg:py-sm xl:py-md">
               {/* Feature Tag */}
               {page === 'home' ? (
                 <div className="flex w-fit mx-auto lg:mx-0 text-center lg:text-left items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
@@ -503,7 +503,7 @@ const HeroSection = ({
             </div>
 
             {/* Right Content - Video Section */}
-            <div className="relative w-full max-w-[537px] md:py-9">
+            <div className="relative w-full max-w-[537px] pb-4 md:py-12 lg:py-14">
               <div className="relative w-full h-full md:h-[550px] rounded-[12px] md:rounded-[24px] overflow-hidden md:aspect-video">
                 {data?.video   ? (
                   <VideoPlayers

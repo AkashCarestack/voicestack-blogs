@@ -9,6 +9,8 @@ import SingleTabCardListing from '~/components/revamp/components/common/TabListi
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import SimpleHead from '~/components/common/SimpleHead'
 
 interface StartupPracticesProps {
   pageData: any
@@ -19,16 +21,18 @@ export default function StartupPractices({ pageData, faq }: StartupPracticesProp
   const tabsListingComponentData = pageData?.['smarter-system']?.componentData?.refData?.tabsListingComponent;
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
        <div
-         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
          style={{
            background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
          }}
        >
-      <HeroSection
-        page=""
-        data={pageData['dental-phones-hero']?.componentData}
-      />
+        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+        <HeroSection
+          page=""
+          data={pageData['dental-phones-hero']?.componentData}
+        />
         
        </div>
       {tabsListingComponentData &&

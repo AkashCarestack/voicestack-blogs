@@ -93,13 +93,13 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
               {/* Breadcrumb Item */}
               {isLast ? (
-                <span className="text-gray-950/60 font-medium">
+                <span className="text-gray-950/60 font-medium text-sm">
                   {item.label}
                 </span>
               ) : (
                 <Anchor
                   href={item.href}
-                  className="text-gray-950 font-normal hover:text-gray-950/60"
+                  className="text-gray-950 font-normal hover:text-gray-950/60 text-sm"
                 >
                   {item.label}
                 </Anchor>
