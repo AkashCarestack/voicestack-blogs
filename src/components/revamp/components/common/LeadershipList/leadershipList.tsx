@@ -11,11 +11,11 @@ export default function LeadershipList({ data }: { data: any }) {
         <div className="font-sans flex flex-col gap-16">
           <SectionHeader heading={data?.heading} />
           <div
-            className="columns-1 sm:columns-2 md:columns-3 "
+            className="columns-1 sm:columns-2 md:columns-3"
             style={{ columnGap: '1.5rem' }}
           >
             {data?.testimonial?.map((item: any) => (
-              <div key={item._key} className="break-inside-avoid mb-6 flex flex-col items-center">
+              <div key={item._key} className="break-inside-avoid mb-6 flex flex-col">
                 <div
                   className="w-full rounded-[6px] lg:rounded-[14px] overflow-hidden mb-3"
                   style={{

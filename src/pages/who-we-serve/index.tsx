@@ -26,6 +26,7 @@ export default function WhoWeServeIndex({
   comparisonLegendData,
   faq,
 }: WhoWeServeIndexProps) {
+
   return (
     <>
       <SimpleHead data={pageData?.seo} />
