@@ -179,7 +179,7 @@ export default function IndexPage(props: InferGetStaticPropsType<any>) {
 
   const comparisonSectionData = {
     strip:
-      'The Best-in-Class Phone System. For the Best-in-Class Dental Practices.',
+      'The Best-in-Class Phone System.<br/> For the Best-in-Class Dental Practices.',
     header:
       'No other phone system can match VoiceStack’s AI-driven features,outcome-driven workflows and integration capabilities, as shown in the comparison chart below. ',
     columnDimensionName: 'Features',

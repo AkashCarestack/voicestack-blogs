@@ -173,10 +173,10 @@ const Footer = ({ data }) => {
                           >
                             <PlayIcon width={24} height={24} />
                             <div className="flex flex-col">
-                              <span className="text-xs text-gray-300">
+                              <span className="md:text-xs text-[10px] text-gray-300">
                                 GET IT ON
                               </span>
-                              <span className="text-sm font-semibold">
+                              <span className="md:text-sm text-xs font-semibold">
                                 Google Play
                               </span>
                             </div>
@@ -197,10 +197,10 @@ const Footer = ({ data }) => {
                           >
                             <MacIcon width={24} height={24} />
                             <div className="flex flex-col">
-                              <span className="text-xs text-gray-300">
+                              <span className="md:text-xs text-[10px] text-gray-300">
                                 DOWNLOAD ON
                               </span>
-                              <span className="text-sm font-semibold">
+                              <span className="md:text-sm text-xs font-semibold">
                                 App Store
                               </span>
                             </div>

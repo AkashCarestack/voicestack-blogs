@@ -53,9 +53,9 @@ const PartnersReferralSection: React.FC<PartnerReferralProps> = () => {
   }, [])
 
   return (
-    <Section className="py-sm md:py-md lg:py-lg bg-[#F9F9F9]">
+    <Section className="py-sm md:py-md lg:py-lg bg-[#F9F9F9]"  id="referral">
       <Container>
-        <div id="referral" className="font-sans" ref={containerRef}>
+        <div className="font-sans" ref={containerRef}>
           <div className="flex flex-col lg:flex-row bg-white rounded-[20px] overflow-hidden">
             {/* Left: Image and Content */}
             <div className="w-full lg:w-1/2 flex flex-col gap-6 bg-[#4A3CE1] md:py-12 md:px-16 py-8 px-4">
