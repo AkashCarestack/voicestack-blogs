@@ -80,7 +80,7 @@ const FeatureCardSection: React.FC<FeatureCardSectionProps> = ({
   }
 
   return (
-    <div className={`bg-[#F4F3FA] w-full h-full md:p-8 p-6 md:rounded-[24px] rounded-[12px] flex flex-col ${className}`}>
+    <div className={`bg-[#F4F3FA] w-full h-full md:p-6 p-3 md:rounded-[24px] rounded-[12px] flex flex-col ${className}`}>
       {cardIcon && (
         <div
           className="w-fit md:mb-6 mb-4 bg-[#E0DDFF] md:px-6 px-4 md:py-3 py-2 rounded-full"
@@ -88,7 +88,7 @@ const FeatureCardSection: React.FC<FeatureCardSectionProps> = ({
         />
       )}
       {/* Card Title */}
-      <h3 className="text-lg font-semibold text-gray-950 pb-4">
+      <h3 className="text-xl font-manrope font-bold text-gray-950 ">
         {cardTitle}
       </h3>
 
@@ -102,7 +102,7 @@ const FeatureCardSection: React.FC<FeatureCardSectionProps> = ({
           return (
             <li
               key={featureId}
-              className="flex md:py-3 py-2 items-center md:gap-3 gap-2 border-b-[#E6E7E8] last:border-b-0 border-b"
+              className="flex md:py-2 py-2 items-center md:gap-3 gap-2 border-b-[#E6E7E8] last:border-b-0 border-b"
             >
             {showTickIcon && <TickIcon />}
               {showTitle ? (
