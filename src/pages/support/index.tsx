@@ -4,6 +4,7 @@ import HeroSection from '~/components/revamp/components/common/HeroSection/heroS
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import SimpleHead from '~/components/common/SimpleHead'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 
 interface SupportPageProps {
   supportPageData: any
@@ -46,6 +47,10 @@ export default function SupportPage({
           )}
         </div>
       </div>
+      <div className='w-full lg:mb-24 mb-12 mt-12 lg:mt-32'>
+    <StatisticsSection/>
+    </div>
+      
       {/* FAQ Section */}
       {faq && <FaqSection faqItems={faq} />}
     </>

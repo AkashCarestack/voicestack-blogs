@@ -49,7 +49,7 @@ function Terms() {
             <span className="c2"></span>
           </p>
           <h2 className="c0 c6" id="h.hl9cnbmztz9b">
-            <span className="c9">1. Service; Updates</span>
+            <span className="c9">1. Service Updates</span>
           </h2>
           <p className="c0">
             <span className="c1">
@@ -231,7 +231,7 @@ function Terms() {
             <span className="c1"></span>
           </p>
           <h2 className="c0 c6" id="h.lstjbunyvx69">
-            <span className="c9">5. Fees; Payment</span>
+            <span className="c9">5. Fees Payment</span>
           </h2>
           <p className="c0">
             <span className="c1">
@@ -329,7 +329,7 @@ function Terms() {
           </p>
           <h2 className="c0 c6" id="h.wpl240td60ob">
             <span className="c9">
-              7. Customer Data; Business Associate Agreement
+              7. Customer Data Business Associate Agreement
             </span>
           </h2>
           <p className="c0">
@@ -443,7 +443,7 @@ function Terms() {
             <span className="c1"></span>
           </p>
           <h2 className="c0 c6" id="h.ytqh42ewx5p9">
-            <span className="c9">8. Term; Termination</span>
+            <span className="c9">8. Term Termination</span>
           </h2>
           <p className="c0">
             <span className="c1">
@@ -621,7 +621,7 @@ function Terms() {
             <span className="c1"></span>
           </p>
           <h2 className="c0 c6" id="h.lkc3nmn2srgo">
-            <span className="c9">10. Warranty; Disclaimer</span>
+            <span className="c9">10. Warranty Disclaimer</span>
           </h2>
           <p className="c0">
             <span className="c1">
