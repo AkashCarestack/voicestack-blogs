@@ -3,9 +3,12 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 
 import SectionHeader from '../sectionHeader'
+import StatisticsSection from '../../StatisticsSection'
 
 export default function LeadershipList({ data }: { data: any }) {
+
   return (
+    <>
     <Section className="relative py-sm md:py-md  bg-[#F9F9F9]">
       <Container className="w-full justify-center">
         <div className="font-sans flex flex-col gap-16">
@@ -45,8 +48,13 @@ export default function LeadershipList({ data }: { data: any }) {
               </div>
             ))}
           </div>
+       
         </div>
       </Container>
     </Section>
+    <div className='w-full lg:mb-24 mb-12'>
+    <StatisticsSection/>
+    </div>
+    </>
   )
 }

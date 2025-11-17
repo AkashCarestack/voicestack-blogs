@@ -18,7 +18,7 @@ interface StartupPracticesProps {
 }
 
 export default function StartupPractices({ pageData, faq }: StartupPracticesProps) {
-  console.log({pageData})
+  // console.log({pageData})
   const tabsListingComponentData = pageData["smarter-systems"]?.componentData?.refData?.tabsListingComponent
   // const tabsListingData = pageData?.['manage-every-calls']?.componentData?.refData?.tabsListingComponent;
   // const tabsListingData = pageData?.['startup-practices']?.componentData?.refData?.tabsListingComponent
