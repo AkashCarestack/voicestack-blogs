@@ -8,6 +8,8 @@ import Section from '../structure/Section';
 import Container from '../structure/Container';
 import SectionHeader from '../revamp/components/common/sectionHeader';
 import useMediaQuery from '~/utils/mediaQuery';
+import ImageLoader from '../common/imageLoader/imageLoader';
+import { PortableText } from '@portabletext/react';
 
 interface Feature {
   _id: string;
@@ -32,11 +34,47 @@ interface Feature {
   };
 }
 
-interface CategoryFeatureTabsProps {
-  features: Feature[];
+interface CaseStudyTab {
+  _key: string;
+  tabHeading: string;
+  tabSubHeading?: string;
+  description?: any;
+  image?: any;
+  listItems?: any[];
+  testimonial?: {
+    _id: string;
+    name: string;
+    designation: string;
+    practiceName?: string;
+    locations?: number;
+    logo?: any;
+    testimonialdescription?: string;
+    keyFeatures?: string[];
+    keyStatement?: any;
+    mainStatement?: any;
+    subStatement?: any;
+    testimonialImage?: any;
+    listItems?: Array<{
+      listHeading?: string;
+      before?: string;
+      after?: string;
+      description?: string;
+      isHighlighted?: boolean;
+    }>;
+  };
+  ctaListItems?: Array<{
+    ctaLink?: string;
+    ctaText?: string;
+  }>;
 }
 
-export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsProps) {
+interface CategoryFeatureTabsProps {
+  page: string;
+  features: Feature[] | CaseStudyTab[];
+}
+
+export default function CategoryFeatureTabs({ page, features }: CategoryFeatureTabsProps) {
+  console.log(features, 'features in category feature tabs');
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isUserScrolling, setIsUserScrolling] = useState(false);
   
@@ -55,7 +93,22 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
       return [];
     }
 
-    const featuresByCategory = features.reduce((acc, feature) => {
+    // Handle case-studies page with different data structure
+    if (page === 'case-studies') {
+      return (features as CaseStudyTab[]).map((tab) => ({
+        name: tab.tabHeading || 'Untitled',
+        subheading: tab.tabSubHeading,
+        description: tab.description,
+        mainImage: tab.image,
+        icon: null,
+        iconSvgCode: null,
+        features: [],
+        tabData: tab // Store the full tab data for case studies
+      }));
+    }
+
+    // Regular features processing
+    const featuresByCategory = (features as Feature[]).reduce((acc, feature) => {
       // Only process features that have a proper category assigned
       if (feature.featureCategory && feature.featureCategory.name) {
         const category = feature.featureCategory;
@@ -83,7 +136,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
         features: categoryData.features
       };
     });
-  }, [features]);
+  }, [features, page]);
 
   // Center active tab in mobile view
   const centerActiveTab = useCallback((categoryName: string) => {
@@ -227,6 +280,25 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
     }, 100);
   }, [centerActiveTab]);
 
+  // PortableText components for rendering blockContent
+  const portableTextComponents: any = {
+    block: {
+      normal: ({ children }: any) => (
+        <p className="text-base text-gray-700 leading-relaxed">{children}</p>
+      ),
+      blockquote: ({ children }: any) => (
+        <blockquote className="text-base text-gray-900 leading-relaxed italic border-l-4 border-purple-500 pl-4 my-4">
+          {children}
+        </blockquote>
+      ),
+    },
+    marks: {
+      highlight: ({ children }: any) => (
+        <span className="text-gray-950 font-semibold">{children}</span>
+      ),
+    },
+  };
+
   // Render category icon
   const renderCategoryIcon = (category: any, isActive: boolean = false) => {
     if (category.iconSvgCode) {
@@ -334,14 +406,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                           transition={{ duration: 0.4, delay: index * 0.1 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                          <div 
-                            className={`transition-colors duration-300 ${
-                              isActive ? 'text-black' : 'text-gray-500'
-                            }`}
-                            aria-hidden="true"
-                          >
-                            {renderCategoryIcon(category, isActive)}
-                          </div>
+                  
                           <span 
                             className={`text-lg font-normal transition-colors duration-300 font-geist leading-7 tracking-normal ${
                               isActive ? 'text-black' : 'text-gray-500'
@@ -368,6 +433,210 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
             <main className="flex-1 space-y-16">
               {allCategories.map((category, index) => {
                 const isActive = activeCategory === category.name;
+                const tabData = (category as any).tabData;
+                const testimonial = tabData?.testimonial;
+
+                // Render case study card
+                if (page === 'case-studies' && testimonial) {
+                  const metrics = testimonial.listItems?.filter(
+                    (item: any) => item?.after && !item?.isHighlighted
+                  ) || [];
+                  
+                  // Get location from first metric item
+                  const firstMetric = metrics[0];
+                  const locationValue = firstMetric?.after || firstMetric?.listHeading || testimonial.locations;
+                  // Strip HTML tags if present
+                  const locationText = typeof locationValue === 'string' 
+                    ? locationValue.replace(/<[^>]*>/g, '').trim() 
+                    : locationValue;
+
+                  return (
+                    <motion.article
+                      key={category.name}
+                      ref={(el) => (sectionRefs.current[category.name] = el)}
+                      data-category={category.name}
+                      id={`desktop-category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
+                      role="tabpanel"
+                      aria-labelledby={`desktop-tab-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
+                      className="overflow-hidden"
+                      initial={{ opacity: 0, y: 40 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                    >
+                      <div className="p-8 space-y-8">
+                        {/* Header with Logo and Location */}
+                        <header className="flex justify-between items-center w-full mb-6">
+                          <div className="flex-shrink-0">
+                            {testimonial.logo && (
+                              <div
+                                style={{
+                                  height: '48px',
+                                  width: `${48 * (testimonial.logo?.metadata?.dimensions?.aspectRatio || 2)}px`,
+                                }}
+                              >
+                                <ImageLoader
+                                  image={testimonial.logo?.url}
+                                  alt={testimonial.practiceName || 'Company Logo'}
+                                  className="w-full h-full object-contain"
+                                />
+                              </div>
+                            )}
+                          </div>
+
+                          {locationText && (
+                            <div className="flex items-center gap-1.5 flex-shrink-0">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M8.17417 15.832L8.22375 15.8603L8.24358 15.8716C8.32223 15.9142 8.41023 15.9364 8.49965 15.9364C8.58906 15.9364 8.67706 15.9142 8.75571 15.8716L8.77554 15.861L8.82583 15.832C9.10287 15.6677 9.3732 15.4924 9.63617 15.3064C10.3169 14.8258 10.953 14.2848 11.5366 13.69C12.9136 12.2804 14.3438 10.1625 14.3438 7.4375C14.3438 5.88764 13.7281 4.40126 12.6322 3.30534C11.5362 2.20943 10.0499 1.59375 8.5 1.59375C6.95014 1.59375 5.46376 2.20943 4.36784 3.30534C3.27193 4.40126 2.65625 5.88764 2.65625 7.4375C2.65625 10.1618 4.08708 12.2804 5.46337 13.69C6.04679 14.2847 6.68261 14.8257 7.36313 15.3064C7.62632 15.4924 7.89688 15.6677 8.17417 15.832ZM8.5 9.5625C9.06358 9.5625 9.60409 9.33862 10.0026 8.9401C10.4011 8.54159 10.625 8.00109 10.625 7.4375C10.625 6.87392 10.4011 6.33341 10.0026 5.9349C9.60409 5.53638 9.06358 5.3125 8.5 5.3125C7.93641 5.3125 7.39591 5.53638 6.9974 5.9349C6.59888 6.33341 6.375 6.87392 6.375 7.4375C6.375 8.00109 6.59888 8.54159 6.9974 8.9401C7.39591 9.33862 7.93641 9.5625 8.5 9.5625Z" fill="#4A3CE1"/>
+                              </svg>
+                              <span className="font-geist" style={{ fontSize: '18px', fontWeight: 500, color: '#4A3CE1', lineHeight: 'normal' }}>
+                                {`${locationText} ${locationText > 1 ? 'Locations' : 'Location'}`}
+                              </span>
+                            </div>
+                          )}
+            
+                        </header>
+
+                        {/* Practice Name Title */}
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                          {testimonial.practiceName || category.name}
+                        </h2>
+
+                        {/* Introduction Paragraph */}
+                        {testimonial.testimonialdescription && (
+                          <p className="text-base text-gray-700 leading-relaxed mb-8">
+                            {testimonial.testimonialdescription}
+                          </p>
+                        )}
+
+                        {/* Key Metrics Section */}
+                        {metrics.length > 0 && (
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            {metrics.slice(1, 3).map((metric: any, idx: number) => (
+                              <div
+                                key={idx}
+                                className="flex flex-col items-center justify-center p-6 border-l border-r border-gray-200 first:border-l-0 last:border-r-0"
+                              >
+                                <div
+                                  className="text-4xl md:text-5xl font-semibold text-purple-500 mb-2"
+                                  dangerouslySetInnerHTML={{
+                                    __html: metric.after || '',
+                                  }}
+                                />
+                                <div className="text-sm md:text-base text-gray-600 text-center">
+                                  {metric.listHeading || metric.heading || ''}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Content Sections */}
+                        <div className="space-y-8">
+                          {/* Key Statement Section */}
+                          {testimonial.keyStatement && (
+                            <section>
+                              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                                Automate Note Taking & Improve Productivity
+                              </h3>
+                              <div className="text-base text-gray-700 leading-relaxed">
+                                <PortableText
+                                  value={testimonial.keyStatement}
+                                  components={portableTextComponents}
+                                />
+                              </div>
+                            </section>
+                          )}
+
+                          {/* Main Statement Section */}
+                          {testimonial.mainStatement && (
+                            <section>
+                              <h3 className="text-xl font-bold text-gray-900 mb-4">
+                                What AI Can Do:
+                              </h3>
+                              <div className="text-base text-gray-700 leading-relaxed">
+                                <PortableText
+                                  value={testimonial.mainStatement}
+                                  components={portableTextComponents}
+                                />
+                              </div>
+                            </section>
+                          )}
+
+                          {/* Sub Statement Section */}
+                          {testimonial.subStatement && (
+                            <section>
+                              <div className="text-base text-gray-700 leading-relaxed">
+                                <PortableText
+                                  value={testimonial.subStatement}
+                                  components={portableTextComponents}
+                                />
+                              </div>
+                            </section>
+                          )}
+                        </div>
+
+                        {/* Purple CTA Section */}
+                        <div
+                          className="mt-12 p-8 rounded-2xl"
+                          style={{
+                            background: 'linear-gradient(277deg, rgba(202, 197, 255, 0.20) 0%, rgba(202, 197, 255, 0.50) 49.61%, rgba(202, 197, 255, 0.10) 100.18%)',
+                          }}
+                        >
+                          <h3 className="text-2xl font-bold text-purple-900 mb-4">
+                            Create A More Seamless Patient Experience
+                          </h3>
+                          
+                          {/* Quote */}
+                          {testimonial.keyStatement && (
+                            <blockquote className="text-lg text-purple-800 mb-6 italic">
+                              <PortableText
+                                value={testimonial.keyStatement}
+                                components={portableTextComponents}
+                              />
+                            </blockquote>
+                          )}
+
+                          {/* Key Features Pills */}
+                          {testimonial.keyFeatures && testimonial.keyFeatures.length > 0 && (
+                            <div className="flex flex-wrap gap-3 mb-6">
+                              {testimonial.keyFeatures.map((feature: string, idx: number) => (
+                                <span
+                                  key={idx}
+                                  className="px-4 py-2 bg-purple-100 text-purple-900 text-sm font-medium rounded-full"
+                                >
+                                  {feature}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+
+                          {/* Author Info */}
+                          <div className="flex items-center gap-4 mt-6">
+                            {testimonial.testimonialImage && (
+                              <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                                <ImageLoader
+                                  image={testimonial.testimonialImage?.url}
+                                  alt={testimonial.name || 'Author'}
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                            )}
+                            <div>
+                              <p className="font-bold text-purple-900 text-base">
+                                {testimonial.name}
+                              </p>
+                              <p className="text-purple-700 text-sm">
+                                {testimonial.designation}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.article>
+                  );
+                }
+
+                // Regular feature category card
                 return (
                   <motion.article
                     key={category.name}
@@ -506,9 +775,26 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                           transition={{ duration: 0.3, delay: index * 0.1 }}
                         >
                           <div className="flex items-center flex-col space-x-2">
-                            <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center`} aria-hidden="true">
-                              {renderCategoryIcon(category, isActive)}
-                            </div>
+                            {(category.icon || category.iconSvgCode || (page === 'case-studies' && (category as any).tabData?.testimonial?.logo)) && (
+                              <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center`} aria-hidden="true">
+                                {page === 'case-studies' && (category as any).tabData?.testimonial?.logo ? (
+                                  <div
+                                    style={{
+                                      height: '32px',
+                                      width: `${32 * ((category as any).tabData?.testimonial?.logo?.metadata?.dimensions?.aspectRatio || 2)}px`,
+                                    }}
+                                  >
+                                    <ImageLoader
+                                      image={(category as any).tabData?.testimonial?.logo?.url}
+                                      alt={category.name}
+                                      className="w-full h-full object-contain"
+                                    />
+                                  </div>
+                                ) : (
+                                  renderCategoryIcon(category, isActive)
+                                )}
+                              </div>
+                            )}
                             <span className="text-[12px] font-medium whitespace-nowrap">
                               {category.name}
                             </span>
@@ -533,67 +819,257 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                     transition={{ duration: 0.4 }}
                     className="space-y-0"
                   >
-                    <header 
-                      className="space-y-6"
-                      style={{
-                        background: 'linear-gradient(277deg, rgba(202, 197, 255, 0.20) 0%, rgba(202, 197, 255, 0.50) 49.61%, rgba(202, 197, 255, 0.10) 100.18%)',
-                      }}
-                    >
-                      <div className="p-6 space-y-6">
-                        <div className="text-start">
-                          <h3 className="md:text-2xl text-xl font-bold text-gray-900 mb-2">
-                            {displayCategory?.name}
-                          </h3>
-                        </div>
+                    {(() => {
+                      const tabData = (displayCategory as any)?.tabData;
+                      const testimonial = tabData?.testimonial;
 
-                        <div>
-                          <p className="text-base text-gray-700 leading-relaxed text-start">
-                            {displayCategory?.description}
-                          </p>
-                        </div>
-                      </div>
+                      // Render case study card for mobile
+                      if (page === 'case-studies' && testimonial) {
+                        const metrics = testimonial.listItems?.filter(
+                          (item: any) => item?.after && !item?.isHighlighted
+                        ) || [];
+                        
+                        // Get location from first metric item
+                        const firstMetric = metrics[0];
+                        const locationValue = firstMetric?.after || firstMetric?.listHeading || testimonial.locations;
+                        // Strip HTML tags if present
+                        const locationText = typeof locationValue === 'string' 
+                          ? locationValue.replace(/<[^>]*>/g, '').trim() 
+                          : locationValue;
 
-                      {/* Image Section - No padding, full width */}
-                      {displayCategory?.mainImage && (
-                        <figure className="relative w-full h-full overflow-hidden">
-                          <Image
-                            src={displayCategory.mainImage.asset.url}
-                            alt={`${displayCategory.name} feature illustration`}
-                            width={400}
-                            height={400}
-                            className="md:max-w-[430px]   w-full h-full object-cover"
-                          />
-                        </figure>
-                      )}
-                    </header>
-
-                    {/* Features List with White Background */}
-                    <section className="p-6 bg-white" aria-label={`${displayCategory?.name} features`}>
-                      <ul className="space-y-3" role="list">
-                        {displayCategory?.features.map((feature, featureIndex) => {
-                          const isLastItem = featureIndex === displayCategory.features.length - 1;
-                          return (
-                            <motion.li 
-                              key={feature._id} 
-                              className={`flex items-center space-x-3 py-[14px] ${!isLastItem ? 'border-b border-gray-200' : ''}`}
-                              initial={{ opacity: 0, x: 20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ duration: 0.3, delay: featureIndex * 0.05 }}
-                              role="listitem"
-                            >
-                              <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" aria-hidden="true">
-                                <svg width="16" height="25" viewBox="0 0 16 25" fill="black" xmlns="http://www.w3.org/2000/svg">
-                                  <path fillRule="evenodd" clipRule="evenodd" d="M13.3633 7.52243C13.4261 7.57013 13.4789 7.62975 13.5187 7.69789C13.5584 7.76602 13.5844 7.84133 13.595 7.9195C13.6056 7.99767 13.6007 8.07717 13.5806 8.15345C13.5605 8.22973 13.5255 8.30128 13.4777 8.36403L7.07767 16.764C7.02576 16.8321 6.95989 16.8882 6.88449 16.9287C6.80908 16.9692 6.72589 16.9931 6.6405 16.9988C6.5551 17.0044 6.46948 16.9918 6.38937 16.9617C6.30927 16.9315 6.23654 16.8846 6.17607 16.824L2.57607 13.224C2.47009 13.1103 2.41239 12.9598 2.41513 12.8044C2.41788 12.649 2.48084 12.5007 2.59078 12.3907C2.70071 12.2808 2.84901 12.2178 3.00445 12.2151C3.1599 12.2123 3.31033 12.27 3.42407 12.376L6.53927 15.4904L12.5233 7.63683C12.6196 7.51039 12.7621 7.42733 12.9196 7.40588C13.0771 7.38443 13.2367 7.42635 13.3633 7.52243Z" fill="#030712"/>
-                                </svg>
+                        return (
+                          <div className="p-6 space-y-6">
+                            {/* Header with Logo and Location */}
+                            <header className="flex justify-between items-center w-full mb-4">
+                              <div className="flex-shrink-0">
+                                {testimonial.logo && (
+                                  <div
+                                    style={{
+                                      height: '40px',
+                                      width: `${40 * (testimonial.logo?.metadata?.dimensions?.aspectRatio || 2)}px`,
+                                    }}
+                                  >
+                                    <ImageLoader
+                                      image={testimonial.logo?.url}
+                                      alt={testimonial.practiceName || 'Company Logo'}
+                                      className="w-full h-full object-contain"
+                                    />
+                                  </div>
+                                )}
                               </div>
-                              <span className="text-gray-700 font-medium">
-                                {feature.title}
-                              </span>
-                            </motion.li>
-                          );
-                        })}
-                      </ul>
-                    </section>
+                              {locationText && (
+                                <div className="flex items-center gap-1.5 flex-shrink-0">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M8.17417 15.832L8.22375 15.8603L8.24358 15.8716C8.32223 15.9142 8.41023 15.9364 8.49965 15.9364C8.58906 15.9364 8.67706 15.9142 8.75571 15.8716L8.77554 15.861L8.82583 15.832C9.10287 15.6677 9.3732 15.4924 9.63617 15.3064C10.3169 14.8258 10.953 14.2848 11.5366 13.69C12.9136 12.2804 14.3438 10.1625 14.3438 7.4375C14.3438 5.88764 13.7281 4.40126 12.6322 3.30534C11.5362 2.20943 10.0499 1.59375 8.5 1.59375C6.95014 1.59375 5.46376 2.20943 4.36784 3.30534C3.27193 4.40126 2.65625 5.88764 2.65625 7.4375C2.65625 10.1618 4.08708 12.2804 5.46337 13.69C6.04679 14.2847 6.68261 14.8257 7.36313 15.3064C7.62632 15.4924 7.89688 15.6677 8.17417 15.832ZM8.5 9.5625C9.06358 9.5625 9.60409 9.33862 10.0026 8.9401C10.4011 8.54159 10.625 8.00109 10.625 7.4375C10.625 6.87392 10.4011 6.33341 10.0026 5.9349C9.60409 5.53638 9.06358 5.3125 8.5 5.3125C7.93641 5.3125 7.39591 5.53638 6.9974 5.9349C6.59888 6.33341 6.375 6.87392 6.375 7.4375C6.375 8.00109 6.59888 8.54159 6.9974 8.9401C7.39591 9.33862 7.93641 9.5625 8.5 9.5625Z" fill="#4A3CE1"/>
+                                  </svg>
+                                  <span className="font-geist" style={{ fontSize: '18px', fontWeight: 500, color: '#4A3CE1', lineHeight: 'normal' }}>
+                                    {`${locationText} ${locationText > 1 ? 'Locations' : 'Location'}`}
+                                  </span>
+                                </div>
+                              )}
+                            </header>
+
+                            {/* Practice Name Title */}
+                            <h2 className="text-2xl font-bold text-gray-900 mb-3">
+                              {testimonial.practiceName || displayCategory?.name}
+                            </h2>
+
+                            {/* Introduction Paragraph */}
+                            {testimonial.testimonialdescription && (
+                              <p className="text-sm text-gray-700 leading-relaxed mb-6">
+                                {testimonial.testimonialdescription}
+                              </p>
+                            )}
+
+                            {/* Key Metrics Section */}
+                            {metrics.length > 0 && (
+                              <div className="grid grid-cols-3 gap-4 mb-6">
+                                {metrics.slice(0, 3).map((metric: any, idx: number) => (
+                                  <div
+                                    key={idx}
+                                    className="flex flex-col items-center justify-center p-4 border-l border-r border-gray-200 first:border-l-0 last:border-r-0"
+                                  >
+                                    <div
+                                      className="text-2xl font-semibold text-purple-500 mb-1"
+                                      dangerouslySetInnerHTML={{
+                                        __html: metric.after || '',
+                                      }}
+                                    />
+                                    <div className="text-xs text-gray-600 text-center">
+                                      {metric.listHeading || metric.heading || ''}
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+
+                            {/* Content Sections */}
+                            <div className="space-y-6">
+                              {testimonial.keyStatement && (
+                                <section>
+                                  <h3 className="text-lg font-bold text-gray-900 mb-3">
+                                    Automate Note Taking & Improve Productivity
+                                  </h3>
+                                  <div className="text-sm text-gray-700 leading-relaxed">
+                                    <PortableText
+                                      value={testimonial.keyStatement}
+                                      components={portableTextComponents}
+                                    />
+                                  </div>
+                                </section>
+                              )}
+
+                              {testimonial.mainStatement && (
+                                <section>
+                                  <h3 className="text-lg font-bold text-gray-900 mb-3">
+                                    What AI Can Do:
+                                  </h3>
+                                  <div className="text-sm text-gray-700 leading-relaxed">
+                                    <PortableText
+                                      value={testimonial.mainStatement}
+                                      components={portableTextComponents}
+                                    />
+                                  </div>
+                                </section>
+                              )}
+
+                              {testimonial.subStatement && (
+                                <section>
+                                  <div className="text-sm text-gray-700 leading-relaxed">
+                                    <PortableText
+                                      value={testimonial.subStatement}
+                                      components={portableTextComponents}
+                                    />
+                                  </div>
+                                </section>
+                              )}
+                            </div>
+
+                            {/* Purple CTA Section */}
+                            <div
+                              className="mt-8 p-6 rounded-xl"
+                              style={{
+                                background: 'linear-gradient(277deg, rgba(202, 197, 255, 0.20) 0%, rgba(202, 197, 255, 0.50) 49.61%, rgba(202, 197, 255, 0.10) 100.18%)',
+                              }}
+                            >
+                              <h3 className="text-xl font-bold text-purple-900 mb-3">
+                                Create A More Seamless Patient Experience
+                              </h3>
+                              
+                              {testimonial.keyStatement && (
+                                <blockquote className="text-base text-purple-800 mb-4 italic">
+                                  <PortableText
+                                    value={testimonial.keyStatement}
+                                    components={portableTextComponents}
+                                  />
+                                </blockquote>
+                              )}
+
+                              {testimonial.keyFeatures && testimonial.keyFeatures.length > 0 && (
+                                <div className="flex flex-wrap gap-2 mb-4">
+                                  {testimonial.keyFeatures.map((feature: string, idx: number) => (
+                                    <span
+                                      key={idx}
+                                      className="px-3 py-1.5 bg-purple-100 text-purple-900 text-xs font-medium rounded-full"
+                                    >
+                                      {feature}
+                                    </span>
+                                  ))}
+                                </div>
+                              )}
+
+                              {/* Author Info */}
+                              <div className="flex items-center gap-3 mt-4">
+                                {testimonial.testimonialImage && (
+                                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                                    <ImageLoader
+                                      image={testimonial.testimonialImage?.url}
+                                      alt={testimonial.name || 'Author'}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </div>
+                                )}
+                                <div>
+                                  <p className="font-bold text-purple-900 text-sm">
+                                    {testimonial.name}
+                                  </p>
+                                  <p className="text-purple-700 text-xs">
+                                    {testimonial.designation}
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      }
+
+                      // Regular feature category card for mobile
+                      return (
+                        <>
+                          <header 
+                            className="space-y-6"
+                            style={{
+                              background: 'linear-gradient(277deg, rgba(202, 197, 255, 0.20) 0%, rgba(202, 197, 255, 0.50) 49.61%, rgba(202, 197, 255, 0.10) 100.18%)',
+                            }}
+                          >
+                            <div className="p-6 space-y-6">
+                              <div className="text-start">
+                                <h3 className="md:text-2xl text-xl font-bold text-gray-900 mb-2">
+                                  {displayCategory?.name}
+                                </h3>
+                              </div>
+
+                              <div>
+                                <p className="text-base text-gray-700 leading-relaxed text-start">
+                                  {displayCategory?.description}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Image Section - No padding, full width */}
+                            {displayCategory?.mainImage && (
+                              <figure className="relative w-full h-full overflow-hidden">
+                                <Image
+                                  src={displayCategory.mainImage.asset.url}
+                                  alt={`${displayCategory.name} feature illustration`}
+                                  width={400}
+                                  height={400}
+                                  className="md:max-w-[430px]   w-full h-full object-cover"
+                                />
+                              </figure>
+                            )}
+                          </header>
+
+                          {/* Features List with White Background */}
+                          <section className="p-6 bg-white" aria-label={`${displayCategory?.name} features`}>
+                            <ul className="space-y-3" role="list">
+                              {displayCategory?.features.map((feature, featureIndex) => {
+                                const isLastItem = featureIndex === displayCategory.features.length - 1;
+                                return (
+                                  <motion.li 
+                                    key={feature._id} 
+                                    className={`flex items-center space-x-3 py-[14px] ${!isLastItem ? 'border-b border-gray-200' : ''}`}
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ duration: 0.3, delay: featureIndex * 0.05 }}
+                                    role="listitem"
+                                  >
+                                    <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" aria-hidden="true">
+                                      <svg width="16" height="25" viewBox="0 0 16 25" fill="black" xmlns="http://www.w3.org/2000/svg">
+                                        <path fillRule="evenodd" clipRule="evenodd" d="M13.3633 7.52243C13.4261 7.57013 13.4789 7.62975 13.5187 7.69789C13.5584 7.76602 13.5844 7.84133 13.595 7.9195C13.6056 7.99767 13.6007 8.07717 13.5806 8.15345C13.5605 8.22973 13.5255 8.30128 13.4777 8.36403L7.07767 16.764C7.02576 16.8321 6.95989 16.8882 6.88449 16.9287C6.80908 16.9692 6.72589 16.9931 6.6405 16.9988C6.5551 17.0044 6.46948 16.9918 6.38937 16.9617C6.30927 16.9315 6.23654 16.8846 6.17607 16.824L2.57607 13.224C2.47009 13.1103 2.41239 12.9598 2.41513 12.8044C2.41788 12.649 2.48084 12.5007 2.59078 12.3907C2.70071 12.2808 2.84901 12.2178 3.00445 12.2151C3.1599 12.2123 3.31033 12.27 3.42407 12.376L6.53927 15.4904L12.5233 7.63683C12.6196 7.51039 12.7621 7.42733 12.9196 7.40588C13.0771 7.38443 13.2367 7.42635 13.3633 7.52243Z" fill="#030712"/>
+                                      </svg>
+                                    </div>
+                                    <span className="text-gray-700 font-medium">
+                                      {feature.title}
+                                    </span>
+                                  </motion.li>
+                                );
+                              })}
+                            </ul>
+                          </section>
+                        </>
+                      );
+                    })()}
                   </motion.div>
                 </article>
               </div>
