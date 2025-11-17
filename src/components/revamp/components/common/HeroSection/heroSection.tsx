@@ -370,7 +370,7 @@ const HeroSection = ({
                           link={isPricingFirstButton ? undefined : button?.buttonLink}
                           onClick={isPricingFirstButton ? () => setIsPricingModalOpen(true) : undefined}
                           buttonVariant={button?.buttonVariant}
-                          target={data.bookBtnContent[0]?.openInNewTab ? '_blank' : '_self'}
+                          target={data.bookBtnContent[index]?.openInNewTab ? '_blank' : '_self'}
                         >
                           {button?.buttonIcon && (
                             <span dangerouslySetInnerHTML={{ __html: button.buttonIcon }} />

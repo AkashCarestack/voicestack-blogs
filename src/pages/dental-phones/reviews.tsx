@@ -47,7 +47,7 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
         {pageData['review-testimonial']?.componentData && (
           <ReviewTestimonial data={pageData['review-testimonial']?.componentData} />
         )}
-        <div className='w-full px-4 xl:px-12 md:pb-16 pb-8'>
+        <div className='w-full lg:mb-24 mb-12'>
         <StatisticsSection />
         </div>
     </>
