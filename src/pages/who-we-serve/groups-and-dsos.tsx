@@ -18,6 +18,7 @@ interface GroupsAndDSOProps {
 }
 
 export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
+  const tabsListingData = pageData["mobile-practices"].componentData.refData.tabsListingComponent
   const tabsListingComponentData =
     pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
   return (
@@ -36,9 +37,9 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
         />
       </div>
 
-      {tabsListingComponentData && (
+      {/* {tabsListingComponentData && (
         <SingleTabCardListing data={tabsListingComponentData} />
-      )}
+      )} */}
       {pageData['testimonial-video-section']?.componentData && (
         <VerticalTestimonialListing
           data={
@@ -67,9 +68,10 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
           />
         </div>
       )}
-      {pageData?.['groups-and-dso']?.componentData && (
-        <TabCardsListing data={pageData?.['groups-and-dso']?.componentData} />
-      )}
+
+      {
+        tabsListingData && (<TabCardsListing data={tabsListingData} />)
+      }
 
       {/* FAQ Section */}
       {faq && (
