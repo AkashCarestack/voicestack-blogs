@@ -432,6 +432,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                   }}
                 >
                   <ImageLoader
+                    radius={24}
                     image={currentTestimonial?.image?.url}
                     alt={
                       currentTestimonial?.image?.alt ||
