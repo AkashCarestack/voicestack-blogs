@@ -6,6 +6,7 @@ import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import ReviewTestimonial from '~/components/revamp/components/common/ReviewTestimonial/ReviewTestimonial'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 
 interface ReviewsProps {
@@ -42,9 +43,13 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
           />
         )}
       </div>
+     
         {pageData['review-testimonial']?.componentData && (
           <ReviewTestimonial data={pageData['review-testimonial']?.componentData} />
         )}
+        <div className='w-full px-4 xl:px-12 md:pb-16 pb-8'>
+        <StatisticsSection />
+        </div>
     </>
   )
 }

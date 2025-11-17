@@ -42,15 +42,15 @@ const LogoListingSection = ({ data, refer = null, header = false }) => {
   return (
     <Section className="py-sm md:py-md md:pb-16">
       <Container>
-        <div className="flex flex-col items-center w-full gap-16">
+        <div className="flex flex-col items-center w-full">
             {header && (
           <div className='flex items-center flex-col gap-4'>
-            <span className='flex'>{setImage("5")}</span>
-              <SectionHeader
+            {/* <span className='flex'>{setImage("5")}</span> */}
+              {/* <SectionHeader
               heading={data?.logoSectionHeader}
               description={data?.logoSectionHeaderDescptn}
               headingSm={true}
-            />
+            /> */}
           </div>
             )}
 
