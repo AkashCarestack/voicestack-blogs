@@ -16,7 +16,7 @@ const HeroSection = ({
   refer = null,
   page = '',
   isCentered = false,
-  showFullDescription = false,
+  showFullDescription = true,
 }: {
   data?: any
   refer?: any
@@ -44,7 +44,7 @@ const HeroSection = ({
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <span className="text-3xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope text-gray-950">
+        <span className="">
           {children}
         </span>
       ),
@@ -123,7 +123,7 @@ const HeroSection = ({
           className="flex lg:justify-start justify-center gap-3 py-[14px] text-base text-gray-950 leading-[24px] border-b"
           style={{ borderColor: '#0307121A' }}
         >
-          <span className="mt-1 lg:flex hidden">
+          <span className="mt-1 md:mt-0 lg:flex items-center hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
@@ -286,7 +286,7 @@ const HeroSection = ({
             <h1 className="text-base font-medium text-gray-950 ">
               {data?.heroStrip}
             </h1>
-            <h2 className="text-3xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
+            <h2 className="text-4xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
               <PortableText value={data?.heroheading} components={components} />
             </h2>
             <div ref={descriptionRef} className="w-full">
@@ -384,7 +384,7 @@ const HeroSection = ({
               {/* Feature Tag */}
               {page === 'home' ? (
                 <div className="flex w-fit mx-auto lg:mx-0 text-center lg:text-left items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
-                  <SuperChargeIcon />
+                  <span className="hidden md:block"><SuperChargeIcon /></span>
                   <h1 className="text-sm font-medium text-gray-950 ">
                     {data?.heroStrip}
                   </h1>
@@ -399,7 +399,7 @@ const HeroSection = ({
 
               {/* Main Headline */}
               <div className="space-y-4 text-center lg:text-left">
-                <h2 className="text-3xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
+                <h2 className="text-4xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
                   <PortableText
                     value={data?.heroheading}
                     components={components}
