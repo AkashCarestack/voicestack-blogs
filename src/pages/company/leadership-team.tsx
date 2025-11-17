@@ -22,7 +22,6 @@ export default function LeadershipTeamPage({
   pageData,
   region,
 }) {
-  console.log('pageData', pageData)
 
   return (
     <>

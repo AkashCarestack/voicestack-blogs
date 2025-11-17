@@ -468,7 +468,7 @@ const VerticalTestimonialListing = ({
                                     />
                                   </div>
 
-                                  <h3 className="text-base xl:text-lg !leading-[140%] !font-medium line-clamp-3">
+                                  <h3 className="text-base xl:text-lg !leading-[140%] !font-medium line-clamp-4">
                                     &ldquo;
                                     {logo?.keyStatement
                                       ?.slice(0, 3)
