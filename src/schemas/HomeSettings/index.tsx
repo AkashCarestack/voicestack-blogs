@@ -23,6 +23,10 @@ export default defineType({
       title: 'Menu',
     },
     {
+      name: 'contact',
+      title: 'Contact Info',
+    },
+    {
       name: 'cta',
       title: 'CTA',
     },
@@ -67,7 +71,15 @@ export default defineType({
       name: 'phoneNumber',
       title: 'Phone Number',
       type: 'string',
-      group: 'basic',
+      
+      group: 'contact',
+    }),
+    defineField({
+      name: 'supportPhoneNumber',
+      title: 'Support Phone Number',
+      type: 'string',
+      description:'Support phone number',
+      group: 'contact',
     }),
         
     defineField({
@@ -75,7 +87,15 @@ export default defineType({
       title: 'Contact Email',
       type: 'string',
       description:'Support email',
-      group: 'basic',
+      group: 'contact',
+    }),
+
+    defineField({
+      name: 'salesEmail',
+      title: 'Sales Email',
+      type: 'string',
+      description:'Sales email',
+      group: 'contact',
     }),
 
     defineField({
