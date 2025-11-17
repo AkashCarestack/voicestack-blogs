@@ -31,7 +31,7 @@ export default function Pricing({
   region,
 }: PricingProps & { region?: string }) {
   const testimonialData = pricingPageData["groups-and-dso"].componentData.refData.tabsListingComponent;
- testimonialData.headline = "Pricing that covers every touch point";
+ testimonialData.headline = "Pricing That Covers Every Touch Point";
  testimonialData.subDescription ="VoiceStack is committed to give you more value than you pay for. We provide onboarding, training, account management and customer support services as part of our pricing plans, so that all your teams are fully supported for continuous success.";
  testimonialData.tabs.map((e:any)=>{
   e.ctaListItems[0].ctaLink = "/pricing";
