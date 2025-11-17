@@ -16,7 +16,6 @@ interface ReviewTestimonialProps {
 }
 
 export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
-  console.log(data, 'data in review testimonial')
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
