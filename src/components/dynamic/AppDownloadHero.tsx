@@ -53,7 +53,10 @@ const AppDownloadHero: React.FC<AppDownloadHeroProps> = ({ data }) => {
                   },
                   marks: {
                     highlight: ({ children }: { children: React.ReactNode }) => (
-                      <span className="text-vs-purple font-manrope text-[36px] md:text-[48px] lg:text-[56px] font-bold leading-[1.16] tracking-[-1px] text-center !text-5xl">
+                      <span 
+                        className="text-vs-purple font-manrope text-[36px] md:text-[48px] lg:text-[56px] font-bold !leading-[1.16] !tracking-[-1px] text-center !text-5xl"
+                        style={{ letterSpacing: '-1px', lineHeight: '1.16' }}
+                      >
                         {children}
                       </span>
                     ),
