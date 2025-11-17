@@ -45,6 +45,7 @@ interface IntegrationList {
     iconSvgCode?: string
   }
   language: string
+  order?: number
 }
 
 interface FeaturesSectionWithNavigationProps {
@@ -200,7 +201,7 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
     };
   }, []);
 
-  // Group integrations by category
+  // Group integrations by category and sort by order within each category
   const groupedIntegrations = integrations.reduce((acc, integration) => {
     if (integration.integrationCategory) {
       const categoryId = integration.integrationCategory._id
@@ -211,6 +212,15 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
     }
     return acc
   }, {} as Record<string, IntegrationList[]>)
+
+  // Sort integrations within each category by order field
+  Object.keys(groupedIntegrations).forEach((categoryId) => {
+    groupedIntegrations[categoryId].sort((a, b) => {
+      const orderA = a.order ?? Number.MAX_SAFE_INTEGER
+      const orderB = b.order ?? Number.MAX_SAFE_INTEGER
+      return orderA - orderB
+    })
+  })
 
   // Render category icon (same logic as CategoryFeatureTabs)
   const renderCategoryIcon = (category: IntegrationCategory, isActive: boolean = false) => {

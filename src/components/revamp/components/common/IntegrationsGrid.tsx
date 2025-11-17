@@ -58,6 +58,16 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
     return null;
   }
 
+  // Sort integrations by order field (ascending), with items without order at the end
+  const sortedIntegrations = React.useMemo(() => {
+    const integrations = data.refData?.integrationListing?.integrationList || []
+    return [...integrations].sort((a: any, b: any) => {
+      const orderA = a.order ?? Number.MAX_SAFE_INTEGER
+      const orderB = b.order ?? Number.MAX_SAFE_INTEGER
+      return orderA - orderB
+    })
+  }, [data])
+
   return (
     <Section 
       className={`py-16 md:py-20 lg:py-24 relative overflow-hidden ${className}`}
@@ -72,7 +82,7 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
                  
           {/* Integrations Grid */}
           <div className="flex flex-wrap gap-4 md:gap-6 lg:gap-8 justify-center items-end w-full">
-            {data.refData.integrationListing.integrationList?.map((integration, index) => (
+            {sortedIntegrations.map((integration, index) => (
               <div
                 key={integration._id}
                 className="flex flex-col items-center justify-end group relative bg-vs-purple-logo-bg rounded-[12px] border-2 border-[#6D62E5]"

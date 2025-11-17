@@ -16,6 +16,7 @@ import { getClient } from '~/lib/sanity.client'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import LogoListingSection from '~/components/LogoListingSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -101,6 +102,12 @@ export default function ComparisonPage({
       )}
       <IntegrationsGrid data={pageData['integrations-listing']?.componentData}/>
       <StatisticsSection/>
+      {pageData['logo-listing']?.componentData && (
+          <LogoListingSection
+            data={pageData['logo-listing']?.componentData?.blocksListingData}
+            header={false}
+          />
+        )}
       
       {/* FAQ Section */}
       {faq && (

@@ -39,6 +39,7 @@ interface IntegrationList {
   link?: string
   integrationCategory?: IntegrationCategory
   language: string
+  order?: number
 }
 
 interface IntegrationData {
@@ -76,9 +77,16 @@ export default function DentalPhonesIntegrations({
 
     const integrations = customData.refData.integrationListing.integrationList
 
+    // Sort integrations by order field (ascending), with items without order at the end
+    const sortedIntegrations = [...integrations].sort((a: any, b: any) => {
+      const orderA = a.order ?? Number.MAX_SAFE_INTEGER
+      const orderB = b.order ?? Number.MAX_SAFE_INTEGER
+      return orderA - orderB
+    })
+
     // Group integrations by category
     const categoriesMap = new Map()
-    const groupedIntegrations = integrations.reduce(
+    const groupedIntegrations = sortedIntegrations.reduce(
       (acc: any, integration: any) => {
         if (integration.integrationCategory) {
           const categoryId = integration.integrationCategory._id
@@ -110,7 +118,7 @@ export default function DentalPhonesIntegrations({
 
     return {
       categories: Array.from(categoriesMap.values()),
-      integrations: integrations,
+      integrations: sortedIntegrations,
     }
   }, [pageData])
   return (
