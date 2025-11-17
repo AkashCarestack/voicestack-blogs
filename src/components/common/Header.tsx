@@ -236,7 +236,7 @@ const TopNavigationMenu = ({ safeData }: { safeData: any }) => {
       )}
 
       {safeData?.topNavigationMenu && (
-        <div className="flex items-center gap-4 lg:gap-6 text-gray-900 text-sm">
+        <div className="flex items-center gap-3 gap-y-1 lg:gap-6 text-gray-900 text-sm flex-wrap justify-center">
           {safeData?.topNavigationMenu.map((item: any) => (
             <Anchor
               key={item._key}
@@ -687,7 +687,7 @@ const Header = ({ data, refer = null }) => {
                     >
                       <NavigationMenu menuItems={safeData?.navigationMenu || []} onToggleMenu={toggleMenu} onCloseMenu={closeMenu} />
 
-                      <div className="flex flex-col gap-8">
+                      <div className="flex flex-col gap-8 pb-8 lg:pb-0">
                         <div className="flex flex-col lg:flex-row gap-3 md:gap-5 items-center lg:hidden">
                           {/* {safeData?.phoneNumber && (
                             <div className="flex-shrink-0">
