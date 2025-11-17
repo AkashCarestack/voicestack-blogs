@@ -1,7 +1,8 @@
 import clsx from 'clsx'
 import Link from 'next/link'
-import React from 'react'
+import React, { useMemo } from 'react'
 import Anchor from './anchor'
+import { usePricingModal } from './PricingModalContext'
 
 interface ButtonProps {
   type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless'
@@ -26,8 +27,60 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   className,
   locale,
   buttonVariant,
+  onClick,
   ...rest
 }) => {
+  // Get pricing modal context (may be undefined if provider is not available)
+  const pricingModal = usePricingModal()
+  const openPricingModal = pricingModal?.openPricingModal
+  
+  // Extract text from children to check for "get pricing"
+  const buttonText = useMemo(() => {
+    const extractText = (node: React.ReactNode): string => {
+      if (typeof node === 'string') {
+        return node
+      }
+      if (typeof node === 'number') {
+        return String(node)
+      }
+      if (React.isValidElement(node) && node.props.children) {
+        if (typeof node.props.children === 'string') {
+          return node.props.children
+        }
+        if (Array.isArray(node.props.children)) {
+          return node.props.children.map(extractText).join(' ')
+        }
+        return extractText(node.props.children)
+      }
+      return ''
+    }
+    
+    if (typeof children === 'string') {
+      return children
+    }
+    if (Array.isArray(children)) {
+      return children.map(extractText).join(' ')
+    }
+    return extractText(children)
+  }, [children])
+  
+  // Check if button text contains "get pricing" (case-insensitive)
+  const isPricingButton = useMemo(() => {
+    return buttonText.toLowerCase().includes('get pricing')
+  }, [buttonText])
+  
+  // Handle click - if it's a pricing button, open modal instead of navigating
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    if (isPricingButton && openPricingModal) {
+      e.preventDefault()
+      openPricingModal()
+    }
+    // Call original onClick if provided
+    if (onClick) {
+      onClick(e)
+    }
+  }
+  
   const baseClasses = `relative [&>*]:relative inline-block rounded-[8px] text-gray-950 font-geist font-medium tracking-[0]  !leading-[150%] flex items-center  justify-center whitespace-nowrap gap-[8px] transition-all duration-300 ease-linear  ${className}`
   // const customClasses = `bg-zinc-500 hover:bg-zinc-600 text-white`;
   const customClasses = clsx({
@@ -70,18 +123,20 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     return linkValue
   }
 
-  const formattedLink = link ? formatLink(link, buttonVariant) : link
+  // If it's a pricing button, don't use the link
+  const finalLink = isPricingButton ? undefined : (link ? formatLink(link, buttonVariant) : link)
 
   const combinedClasses = clsx(baseClasses, customClasses, className)
-  if (formattedLink) {
+  if (finalLink) {
     return (
       <>
         <Anchor
 
-          href={formattedLink}
+          href={finalLink}
           className={combinedClasses}
           target={target}
           locale={locale}
+          onClick={handleClick}
           {...rest}
         >
           {children}
@@ -91,7 +146,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   }
 
   return (
-    <button className={combinedClasses} {...rest}>
+    <button className={combinedClasses} onClick={handleClick} {...rest}>
       {children}
     </button>
   )

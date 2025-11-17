@@ -89,7 +89,6 @@ export default function Pricing({
                 page="pricing" 
                 isCentered={true} 
                 data={heroData}
-                pricingFormId={getPricingFormId()}
               />
             ) : null
           })()}

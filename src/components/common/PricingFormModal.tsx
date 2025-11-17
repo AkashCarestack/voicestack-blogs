@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useRouter } from 'next/router'
 
 import { CloseIcon } from '@sanity/icons'
 
@@ -20,9 +21,29 @@ export const PricingFormModal: React.FC<PricingFormModalProps> = ({
   onClose,
   source,
   source1,
-  formId,
-  locale,
+  formId: propFormId,
+  locale: propLocale,
 }) => {
+  const router = useRouter()
+  
+  // Get locale from router, fallback to prop or 'en'
+  const locale = propLocale || router.locale || 'en'
+  
+  // Get form ID - use prop if provided, otherwise use default based on locale
+  const getPricingFormId = () => {
+    if (propFormId) return propFormId
+    
+    // Default US form ID
+    const usFormId = 'a28e5858-ce77-4b10-9c4b-4099cc6f1cef'
+    
+    // Future: add locale-based form IDs
+    // if (locale === 'au') return 'au-form-id'
+    // if (locale === 'uk') return 'uk-form-id'
+    
+    return usFormId
+  }
+  
+  const formId = getPricingFormId()
   return (
     <div
       className={`relative z-[999] `}

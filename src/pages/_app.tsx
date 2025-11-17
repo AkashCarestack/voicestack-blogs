@@ -14,6 +14,7 @@ import { lazy } from 'react'
 import { cookieSelector } from '~/helpers/cookieSelector'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
 import LayoutDataProvider from '~/providers/LayoutDataProvider'
+import { PricingModalProvider } from '~/components/common/PricingModalContext'
 import { checkCookie, eraseCookie, getCookie } from '~/utils/tracker/cookie'
 import { addEvent } from '~/utils/tracker/events'
 import { createObservedUser, createSession, createUser, getUserData, TrackUserProvider } from '~/utils/tracker/intitialize'
@@ -155,19 +156,21 @@ function App({
           <Component {...pageProps}/>
         ) : (
           // Render regular pages with layout
-          <BookDemoContextProvider>
-            <LayoutDataProvider>
-              <Layout>
-                {draftMode ? (
-                  <PreviewProvider token={token}>
+          <PricingModalProvider>
+            <BookDemoContextProvider>
+              <LayoutDataProvider>
+                <Layout>
+                  {draftMode ? (
+                    <PreviewProvider token={token}>
+                      <Component {...pageProps}/>
+                    </PreviewProvider>
+                  ) : (
                     <Component {...pageProps}/>
-                  </PreviewProvider>
-                ) : (
-                  <Component {...pageProps}/>
-                )}
-              </Layout>
-            </LayoutDataProvider>
-          </BookDemoContextProvider>
+                  )}
+                </Layout>
+              </LayoutDataProvider>
+            </BookDemoContextProvider>
+          </PricingModalProvider>
         )}
       </TrackUserProvider>
     </main>
