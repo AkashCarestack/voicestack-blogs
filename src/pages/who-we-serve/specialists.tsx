@@ -46,11 +46,11 @@ export default function SpecialityPractices({
           data={pageData?.['effortlessly-handle-calls']?.componentData}
         />
       )}
-      {tabsListingComponentData && (
+      {/* {tabsListingComponentData && (
         <SingleTabCardListing
           data={tabsListingComponentData}
         />
-      )}
+      )} */}
       {pageData['testimonial-video-section']?.componentData && (
         <VerticalTestimonialListing
           data={

@@ -18,7 +18,10 @@ interface StartupPracticesProps {
 }
 
 export default function StartupPractices({ pageData, faq }: StartupPracticesProps) {
-  const tabsListingComponentData = pageData?.['smarter-system']?.componentData?.refData?.tabsListingComponent;
+  console.log({pageData})
+  const tabsListingComponentData = pageData["smarter-systems"]?.componentData?.refData?.tabsListingComponent
+  // const tabsListingData = pageData?.['manage-every-calls']?.componentData?.refData?.tabsListingComponent;
+  // const tabsListingData = pageData?.['startup-practices']?.componentData?.refData?.tabsListingComponent
   return (
     <>
       <SimpleHead data={pageData?.seo} />
@@ -35,9 +38,9 @@ export default function StartupPractices({ pageData, faq }: StartupPracticesProp
         />
         
        </div>
-      {tabsListingComponentData &&
+      {/* {tabsListingComponentData &&
         <SingleTabCardListing data={tabsListingComponentData}/>
-      }
+      } */}
       {pageData['testimonial-video-section']?.componentData && (
         <VerticalTestimonialListing
           data={pageData['testimonial-video-section']?.componentData?.refData?.testimonialListing}
@@ -64,6 +67,11 @@ export default function StartupPractices({ pageData, faq }: StartupPracticesProp
       {pageData?.['startup-practices']?.componentData &&
         <TabCardsListing data={pageData?.['startup-practices']?.componentData} />
       }
+      
+        {/* {
+          tabsListingData && (<TabCardsListing data={tabsListingData} />)
+        } */}
+      
 
        {/* FAQ Section */}
        {faq && (

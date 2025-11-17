@@ -4,9 +4,12 @@ import SimpleHead from '~/components/common/SimpleHead'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
+import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 
 interface IndependentPracticesProps {
@@ -15,6 +18,7 @@ interface IndependentPracticesProps {
 }
 
 export default function IndependentPractices({ pageData, faq }: IndependentPracticesProps) {
+  const tabsListingData = pageData?.['manage-every-calls']?.componentData?.refData?.tabsListingComponent;
   const tabsListingComponentData = pageData["smarter-systems"]?.componentData?.refData?.tabsListingComponent
 
   return (
@@ -35,7 +39,17 @@ export default function IndependentPractices({ pageData, faq }: IndependentPract
        {tabsListingComponentData &&
         <SingleTabCardListing data={tabsListingComponentData}/>
       } 
-       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+  
+   
+       {pageData['testimonial-video-section']?.componentData && (
+        <VerticalTestimonialListing
+          data={pageData['testimonial-video-section']?.componentData?.refData?.testimonialListing}
+        />
+      )}
+          <div className='md:pb-16 pb-8'>
+      <StatisticsSection />
+      </div>
+      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
             pageData['stack-card-tab-testimonial']?.componentData?.refData
@@ -47,11 +61,16 @@ export default function IndependentPractices({ pageData, faq }: IndependentPract
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-       {pageData['testimonial-video-section']?.componentData && (
-        <VerticalTestimonialListing
-          data={pageData['testimonial-video-section']?.componentData?.refData?.testimonialListing}
-        />
+      {pageData['custom']?.componentData && (
+        <div className="">
+          <IntegrationsGrid  data={pageData['custom']?.componentData} />
+        </div>
       )}
+      {/* {console.log(pageData?.['groups-and-dso']?.componentData, 'groups-and-dso')} */}
+      {
+        tabsListingData && (<TabCardsListing data={tabsListingData} />)
+      }
+ 
     </>
   )
 }

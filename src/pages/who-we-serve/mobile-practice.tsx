@@ -17,6 +17,9 @@ interface MobilePracticesProps {
 }
 
 export default function MobilePractices({ pageData, faq }: MobilePracticesProps) {
+  // tabsListingData["mobile-practices"]
+  const tabsListingData = pageData?.['mobile-practices'].componentData?.refData?.tabsListingComponent
+  console.log({tabsListingData})
   return (
     <>
        <div
@@ -58,11 +61,10 @@ export default function MobilePractices({ pageData, faq }: MobilePracticesProps)
           <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />
         </div>
       )}
-      {pageData?.['mobile-practices']?.componentData &&
-        <TabCardsListing data={pageData?.['mobile-practices']?.componentData} />
+
+    {
+        tabsListingData && (<TabCardsListing data={tabsListingData} />)
       }
-
-
       
        {/* FAQ Section */}
        {faq && (
