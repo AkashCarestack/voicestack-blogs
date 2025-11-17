@@ -11,8 +11,12 @@ import VerticalTestimonialListing from '~/components/revamp/components/common/Ve
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
+import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
+import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 
 export default function CustomerStories({ pageData }: any) {
+  console.log(pageData, 'pageData in case studies')
   const data =
     pageData &&
     pageData['Powering-Startup'] &&
@@ -38,25 +42,18 @@ export default function CustomerStories({ pageData }: any) {
           page=""
           data={pageData['dental-phones-hero']?.componentData}
           isCentered={true}
+          showFullDescription={true}
         />
-        {pageData['testimonial-video-section']?.componentData && (
-          <VerticalTestimonialListing
-            data={
-              pageData['testimonial-video-section']?.componentData?.refData
-                ?.testimonialListing
-            }
-            hideTitle={true}
-          />
+        {pageData['testimonial-tabs']?.componentData && (
+            <StackCardTestimonial page="case-studies" data={pageData['testimonial-tabs']?.componentData} />
         )}
+
+         {pageData['custom']?.componentData && (
+        <div className="mt-12">
+          <IntegrationsGrid data={pageData['custom']?.componentData} />
+        </div>
+      )}
       </div>
-        {masonryData && <MasonryCardGridSection data={masonryData} />}
-        {data && (
-          <ImageCardSection
-            data={data?.items}
-            heading={data?.heading}
-            description={data?.description}
-          />
-        )}
       </>
     )
   )

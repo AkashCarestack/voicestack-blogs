@@ -37,7 +37,7 @@ const StatisticsSection = () => {
                 isLeftAlign={true} 
                 isWhite={true}
                 heading={'The Most Advanced AI Phone System for Dentists Globally.'}
-                description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused dental practices across the US, UK, and Australia! From single offices to DSOs with hundreds of locations, brands rely upon VoiceStack'ssuperior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
+                description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused dental practices across the US, UK, and Australia. From single offices to DSOs with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
               />
               
               <div className="grid grid-cols-2 gap-6 md:gap-8">

@@ -124,7 +124,7 @@ const CardsGridSection = ({ data, customText }: CardsGridSectionProps) => {
                 })}
                 {items.length % 3 !== 0 && (
                   <div className={`${items.length % 3 === 1 ? 'col-span-2' : ''} bg-vs-blue backdrop-blur-sm md:rounded-3xl rounded-xl py-6 md:px-12 px-6 flex flex-col justify-center items-center md:gap-6 gap-4  hover:bg-vs-blue transition-all`}>
-                    <h3 className='md:text-xl text-lg font-bold text-white font-manrope text-center'>{customText || 'Guides and Resources for Smarter Patient Call Management'}</h3>
+                    <h3 className='text-lg font-bold text-white font-manrope text-center'>Unlock Hidden Opportunities.<br/> Supercharge Practice Growth.<br/><br/> Try VoiceStack today.</h3>
                     <Button
                       type="primary"
                       className="w-fit"

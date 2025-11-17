@@ -27,6 +27,7 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         <HeroSection
           page=""
+          showFullDescription={true}
           data={pageData['dental-phones-hero']?.componentData}
           isCentered={true}
         />

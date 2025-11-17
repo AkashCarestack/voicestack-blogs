@@ -55,7 +55,7 @@ export default function FeaturesPage({
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
         }}
       >
-        <HeroSection data={heroData} refer={data} page="feature-landing" />
+        <HeroSection data={heroData} refer={data} page="feature-landing"  showFullDescription={true}/>
       </div>
       <CategoryFeatureTabs
         features={features.filter(

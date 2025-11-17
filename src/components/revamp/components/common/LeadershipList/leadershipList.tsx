@@ -15,7 +15,7 @@ export default function LeadershipList({ data }: { data: any }) {
             style={{ columnGap: '1.5rem' }}
           >
             {data?.testimonial?.map((item: any) => (
-              <div key={item._key} className="break-inside-avoid mb-6">
+              <div key={item._key} className="break-inside-avoid mb-6 flex flex-col items-center">
                 <div
                   className="w-full rounded-[6px] lg:rounded-[14px] overflow-hidden mb-3"
                   style={{

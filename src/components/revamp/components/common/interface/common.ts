@@ -14,6 +14,7 @@ export interface SectionHeaderProps {
     isLeftAlign?: boolean,
     headingSm?: boolean
     className?: string
+    showFullLength?: boolean
 }
 
 import { ReactNode } from 'react';

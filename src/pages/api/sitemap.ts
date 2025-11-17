@@ -6,6 +6,15 @@ import siteConfig from 'config/siteConfig'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://www.voicestack.com"
 
+// Exclude list for test pages and patterns
+const EXCLUDED_PATHS = [
+  'who-we-serve/test-shakir',
+  'who-we-serve/ref',
+  'test2',
+  'en-GB/test',
+  'test',
+];
+
 interface SitemapPage {
   slug: string
   language: string | null
@@ -54,6 +63,32 @@ function getPathForPage(page: SitemapPage): string {
   }
   
   return slug;
+}
+
+function shouldExcludePath(path: string): boolean {
+  // Check exact matches
+  if (EXCLUDED_PATHS.includes(path)) {
+    return true;
+  }
+  
+  // Check if path starts with any excluded path
+  for (const excluded of EXCLUDED_PATHS) {
+    if (path.startsWith(excluded + '/') || path === excluded) {
+      return true;
+    }
+  }
+  
+  // Exclude all feature child pages (features/*)
+  if (path.startsWith('dental-phones/features/')) {
+    return true;
+  }
+  
+  // Exclude paths that start with 'test'
+  if (path.startsWith('test') || path.includes('/test')) {
+    return true;
+  }
+  
+  return false;
 }
 
 function buildUrl(path: string, locale: string): string {
@@ -159,9 +194,19 @@ function normalizeLanguage(language: string | null | undefined): string {
   return language;
 }
 
+function escapeXml(unsafe: string): string {
+  return unsafe
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
+}
+
 function generateSiteMap(pages: SitemapPage[]) {
-  const urlMap = new Map<string, { [locale: string]: string }>();
+  const urlMap = new Map<string, { [locale: string]: { url: string; lastmod: string } }>();
   const locales = siteConfig.locales;
+  const processedUrls = new Set<string>(); // Track processed URLs to avoid duplicates
 
   const staticPaths = [
     { path: '', key: 'home' },
@@ -173,16 +218,31 @@ function generateSiteMap(pages: SitemapPage[]) {
   ];
 
   staticPaths.forEach(({ path, key }) => {
-    const variants: { [locale: string]: string } = {};
+    const variants: { [locale: string]: { url: string; lastmod: string } } = {};
     locales.forEach(locale => {
-      variants[locale] = buildUrl(path, locale);
+      const url = buildUrl(path, locale);
+      if (!processedUrls.has(url)) {
+        variants[locale] = {
+          url,
+          lastmod: new Date().toISOString()
+        };
+        processedUrls.add(url);
+      }
     });
-    urlMap.set(key, variants);
+    if (Object.keys(variants).length > 0) {
+      urlMap.set(key, variants);
+    }
   });
 
   const pagesByPath = new Map<string, SitemapPage[]>();
   
-  pages.forEach(page => {
+  // Filter out excluded pages
+  const filteredPages = pages.filter(page => {
+    const path = getPathForPage(page);
+    return !shouldExcludePath(path);
+  });
+  
+  filteredPages.forEach(page => {
     const path = getPathForPage(page);
     if (!pagesByPath.has(path)) {
       pagesByPath.set(path, []);
@@ -191,14 +251,27 @@ function generateSiteMap(pages: SitemapPage[]) {
   });
 
   pagesByPath.forEach((pageVariants, path) => {
-    const variants: { [locale: string]: string } = {};
+    // Skip if path should be excluded
+    if (shouldExcludePath(path)) {
+      return;
+    }
+    
+    const variants: { [locale: string]: { url: string; lastmod: string } } = {};
     const availableLocales = new Set<string>();
     
     pageVariants.forEach(page => {
       const pageLocale = normalizeLanguage(page.language);
       if (locales.includes(pageLocale)) {
-        availableLocales.add(pageLocale);
-        variants[pageLocale] = buildUrl(path, pageLocale);
+        const url = buildUrl(path, pageLocale);
+        // Only add if URL hasn't been processed yet
+        if (!processedUrls.has(url)) {
+          availableLocales.add(pageLocale);
+          variants[pageLocale] = {
+            url,
+            lastmod: page._updatedAt || new Date().toISOString()
+          };
+          processedUrls.add(url);
+        }
       }
     });
     
@@ -215,19 +288,19 @@ function generateSiteMap(pages: SitemapPage[]) {
     const availableLocales = Object.keys(variants);
     const defaultLocale = availableLocales.includes('en') ? 'en' : availableLocales[0];
     
-    Object.entries(variants).forEach(([locale, url]) => {
+    Object.entries(variants).forEach(([locale, urlData]) => {
       xml += '  <url>\n';
-      xml += `    <loc>${url}</loc>\n`;
-      xml += `    <lastmod>${new Date().toISOString()}</lastmod>\n`;
+      xml += `    <loc>${escapeXml(urlData.url)}</loc>\n`;
+      xml += `    <lastmod>${escapeXml(urlData.lastmod)}</lastmod>\n`;
 
       availableLocales.forEach(altLocale => {
         if (variants[altLocale]) {
-          xml += `    <xhtml:link rel="alternate" hreflang="${formatHreflang(altLocale)}" href="${variants[altLocale]}"/>\n`;
+          xml += `    <xhtml:link rel="alternate" hreflang="${formatHreflang(altLocale)}" href="${escapeXml(variants[altLocale].url)}"/>\n`;
         }
       });
 
       if (variants[defaultLocale]) {
-        xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${variants[defaultLocale]}"/>\n`;
+        xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(variants[defaultLocale].url)}"/>\n`;
       }
 
       xml += '  </url>\n';
