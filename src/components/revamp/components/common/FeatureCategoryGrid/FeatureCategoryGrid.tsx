@@ -280,8 +280,8 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
       {ctaCard && (
         <div className="bg-vs-blue backdrop-blur-sm md:rounded-3xl md:h-full h-[241px] rounded-xl py-6 md:px-12 px-6 flex flex-col justify-center items-center md:gap-6 gap-4 hover:bg-vs-blue transition-all">
           {ctaCard.title && (
-            <h3 className="md:text-xl text-lg font-bold text-white font-manrope text-center">
-              {ctaCard.title}
+            <h3 dangerouslySetInnerHTML={{__html: ctaCard.title}} className="md:text-xl text-lg font-bold text-white font-manrope text-center">
+              
             </h3>
           )}
           <Button
