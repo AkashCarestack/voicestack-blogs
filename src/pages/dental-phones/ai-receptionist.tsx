@@ -59,7 +59,6 @@ export default function AiReceptionist({
   faq,
   features,
 }: AiReceptionistProps) {
-  console.log({ pageData })
   return (
     <>
       <SimpleHead data={pageData?.seo} />

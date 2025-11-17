@@ -183,13 +183,13 @@ export default function TestimonialRightCard({ data }: { data: any }) {
                 imageClassName="w-full h-auto object-contain"
               />
             </div>
-            <div className="absolute bottom-8 right-0 w-[310px]">
+            <div className="absolute bottom-8 right-0 w-[400px]">
               <div className="flex flex-col py-6 pl-6 pr-8 rounded-l-[12px] rounded-r-none bg-white/5 backdrop-blur-[20px]">
                 <p className="font-medium text-lg text-white">
                   {data?.testimonial?.name}
                 </p>
-                <p className=" text-white/60 text-base font-normal">
-                  {data?.testimonial?.designation}
+                <p dangerouslySetInnerHTML={{__html: data?.testimonial?.designation}} className=" text-white/60 text-base font-normal">
+                  
                 </p>
                 <p className="text-white/60 text-base font-normal">
                   {data?.testimonial?.place} , {data?.testimonial?.region}

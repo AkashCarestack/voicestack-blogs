@@ -760,6 +760,16 @@ export async function getHeaderData(client: SanityClient, region: string) {
   return await client.fetch(query, { region })
 }
 
+export async function getContactData(client: SanityClient, region: string) {
+  const query = groq`*[_type == "homeSettings" && language == $region][0]{
+    phoneNumber,
+    supportPhoneNumber,
+    contactEmail,
+    salesEmail,
+  }`
+  return await client.fetch(query, { region })
+}
+
 export async function getDemoFormData(client: SanityClient, region: string) {
   const query = groq`*[_type == "homeSettings" && language == $region][0]{
     dmeoFormId,

@@ -144,9 +144,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
 
     const pageData = await queries.getPageData('dentalPhones', slug)
-    console.log('pageData', pageData)
-
-    // Fetch comparison table data
     const client = getClient()
 
     if (!pageData || Object.keys(pageData).length === 0) {
