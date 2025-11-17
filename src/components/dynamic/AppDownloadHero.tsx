@@ -26,18 +26,6 @@ const AppDownloadHero: React.FC<AppDownloadHeroProps> = ({ data }) => {
     appStoreLinks,
   } = data
 
-  // Extract text from block content for heading
-  const getHeadingText = () => {
-    if (!heroheading || !Array.isArray(heroheading)) return ''
-    const firstBlock = heroheading[0]
-    if (firstBlock?.children && firstBlock.children.length > 0) {
-      return firstBlock.children.map((child: any) => child.text || '').join('')
-    }
-    return ''
-  }
-
-  const headingText = getHeadingText()
-
   return (
     <Section className="relative  ">
       <Container className="relative justify-center">
@@ -53,30 +41,31 @@ const AppDownloadHero: React.FC<AppDownloadHeroProps> = ({ data }) => {
           {/* Heading */}
           {heroheading && (
             <div className="flex flex-col">
-              {headingText ? (
-                <H1 className="text-center !text-[#030712]">
-                  {headingText}
-                </H1>
-              ) : (
-                <PortableText
-                  value={heroheading}
-                  components={{
-                    block: {
-                      normal: ({ children }) => (
-                        <H1 className="text-center !text-[#030712]">
-                          {children}
-                        </H1>
-                      ),
-                    },
-                  }}
-                />
-              )}
+              <PortableText
+                value={heroheading}
+                components={{
+                  block: {
+                    normal: ({ children }) => (
+                      <H1 className="text-center !text-[#030712] font-manrope text-[36px] md:text-[48px] lg:text-[56px] font-bold leading-[1.16] tracking-[-1px]  !text-5xl">
+                        {children}
+                      </H1>
+                    ),
+                  },
+                  marks: {
+                    highlight: ({ children }: { children: React.ReactNode }) => (
+                      <span className="text-vs-purple font-manrope text-[36px] md:text-[48px] lg:text-[56px] font-bold leading-[1.16] tracking-[-1px] text-center !text-5xl">
+                        {children}
+                      </span>
+                    ),
+                  },
+                }}
+              />
             </div>
           )}
 
           {/* Description */}
           {heroDescription && (
-            <p className="text-[#030712] font-inter text-lg font-normal leading-[160%] text-center max-w-[600px] w-full">
+            <p className="text-[#030712] font-geist text-lg font-normal leading-[160%] text-center max-w-[600px] w-full">
               <PortableText
                 value={heroDescription}
                 components={{
