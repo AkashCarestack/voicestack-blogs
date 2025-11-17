@@ -10,7 +10,6 @@ import SuperChargeIcon from '~/components/icons/superCharge'
 import Button from '../../../../common/Button'
 import { VideoItem } from '../../../../common/VideoModal'
 import Container from '../../../../structure/Container'
-import { PricingFormModal } from '../../../../common/PricingFormModal'
 
 const HeroSection = ({
   data,
@@ -18,21 +17,17 @@ const HeroSection = ({
   page = '',
   isCentered = false,
   showFullDescription = false,
-  pricingFormId,
 }: {
   data?: any
   refer?: any
   page?: string
   isCentered?: boolean
   showFullDescription?: boolean
-  pricingFormId?: string
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
-  const [isPricingModalOpen, setIsPricingModalOpen] = useState(false)
   const descriptionRef = useRef<HTMLDivElement>(null)
   const router = useRouter()
-  const locale = router.locale || 'en'
   const videoId =
     router.locale == 'en' ? '3CsThXKvcvRrR3hwRsWWJY' : 'Hj4GYLXARVjqQEnaejq3Bz'
 
@@ -357,7 +352,6 @@ const HeroSection = ({
                   <div className="flex flex-col sm:flex-row gap-4">
                     {data.bookBtnContent.map((button: any, index: number) => {
                       if (!button?.buttonText) return null
-                      const isPricingFirstButton = page === 'pricing' && index === 0
                       // Default first button to 'primary' if buttonType is not set or is empty
                       const buttonType = index === 0 && (!button?.buttonType || button?.buttonType === '') 
                         ? 'primary' 
@@ -367,8 +361,7 @@ const HeroSection = ({
                           key={button?._key || index}
                           type={buttonType}
                           className="w-fit"
-                          link={isPricingFirstButton ? undefined : button?.buttonLink}
-                          onClick={isPricingFirstButton ? () => setIsPricingModalOpen(true) : undefined}
+                          link={button?.buttonLink}
                           buttonVariant={button?.buttonVariant}
                           target={data.bookBtnContent[index]?.openInNewTab ? '_blank' : '_self'}
                         >
@@ -440,8 +433,7 @@ const HeroSection = ({
                           key={data.bookBtnContent[0]?._key || 0}
                           type={(!data.bookBtnContent[0]?.buttonType || data.bookBtnContent[0]?.buttonType === '') ? 'primary' : (data.bookBtnContent[0]?.buttonType || 'secondary')}
                           className="w-fit"
-                          link={page === 'pricing' ? undefined : data.bookBtnContent[0]?.buttonLink}
-                          onClick={page === 'pricing' ? () => setIsPricingModalOpen(true) : undefined}
+                          link={data.bookBtnContent[0]?.buttonLink}
                           buttonVariant={data.bookBtnContent[0]?.buttonVariant}
                         >
                           {data.bookBtnContent[0]?.buttonIcon && (
@@ -475,7 +467,6 @@ const HeroSection = ({
                     /* If 2 or fewer buttons, show them in a row */
                     <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start">
                       {data.bookBtnContent.map((button: any, index: number) => {
-                        const isPricingFirstButton = page === 'pricing' && index === 0
                         // Default first button to 'primary' if buttonType is not set or is empty
                         const buttonType = index === 0 && (!button?.buttonType || button?.buttonType === '') 
                           ? 'primary' 
@@ -485,8 +476,7 @@ const HeroSection = ({
                             key={button?._key || index}
                             type={buttonType}
                             className="w-fit"
-                            link={isPricingFirstButton ? undefined : button?.buttonLink}
-                            onClick={isPricingFirstButton ? () => setIsPricingModalOpen(true) : undefined}
+                            link={button?.buttonLink}
                             buttonVariant={button?.buttonVariant}
                           >
                             {button?.buttonIcon && (
@@ -714,13 +704,6 @@ const HeroSection = ({
         )}
 
       </Container>
-      {isPricingModalOpen && (
-        <PricingFormModal
-          onClose={() => setIsPricingModalOpen(false)}
-          formId={pricingFormId}
-          locale={locale}
-        />
-      )}
     </section>
   )
 }

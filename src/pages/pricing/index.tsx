@@ -99,7 +99,6 @@ export default function Pricing({
                 isCentered={true} 
                 data={heroData}
                 showFullDescription={true}
-                pricingFormId={getPricingFormId()}
               />
             ) : null
           })()}
