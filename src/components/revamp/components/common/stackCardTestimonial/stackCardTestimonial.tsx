@@ -35,12 +35,15 @@ interface StackCardTestimonialProps {
   page?: string
   refer?: any
   data?: any
+  isPricingPage?: boolean
 }
 
 const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   page,
   refer,
   data,
+  isPricingPage = false,
+
 }) => {
   const components: any = {
     block: {
@@ -120,7 +123,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                         })
                       }
                     }}
-                    className={`flex flex-1 flex-col items-center flex-shrink-0 group transition-all duration-300 ${
+                    className={`flex flex-1 flex-col items-center flex-shrink-0 group transition-opacity duration-300 ${
                       activeTestimonial === index
                         ? 'opacity-100 border-b-[3px] border-gray-950'
                         : 'opacity-60 hover:opacity-80 border-b-[2px] border-gray-200'
@@ -244,7 +247,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
             <>
               {/* Main Card - Two Column Layout */}
               <div
-                className="flex flex-col lg:flex-row w-full gap-6 lg:gap-8 rounded-[12px] md:rounded-[24px] p-3"
+                className="flex flex-col md:min-h-[555px] h-full  lg:flex-row w-full gap-6 lg:gap-8 rounded-[12px] md:rounded-[24px] p-3"
                 style={{
                   background:
                     'linear-gradient(288deg, #7467FF 0.48%, #4A3CE1 98.9%), #030712',
@@ -277,8 +280,6 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                       />
                     </div>
                   )}
-
-                  {/* Statistics - Non-highlighted items (isHighlighted is false or null) */}
                   {(() => {
                     const filteredListItems =
                       currentTestimonial?.testimonial?.listItems?.filter(
@@ -401,7 +402,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                         className="w-fit"
                       >
                         <span className="text-base font-medium">
-                          {currentTestimonial?.ctaListItems?.[0]?.ctaText ||
+                          {
                             'Book Free Demo'}
                         </span>
                       </Button>
@@ -534,11 +535,12 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                   <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center lg:items-start >">
                     <Button type="primary" className="w-fit" link="/demo">
                       <span>
-                        {currentTestimonial?.ctaListItems[0]?.ctaText ||
-                          'Book Free Demo'}
+                        {isPricingPage ? 'Get Pricing' : (currentTestimonial?.ctaListItems[0]?.ctaText ||
+                          'Book Free Demo')}
                       </span>
                     </Button>
-                    <Button
+                    { !isPricingPage && (
+                      <Button
                       type="secondary"
                       className="w-fit"
                       link={
@@ -550,6 +552,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                       {currentTestimonial?.ctaListItems?.[1]?.ctaText ||
                         'See Pricing'}
                     </Button>
+                    )}
                   </div>
                 )}
               </div>

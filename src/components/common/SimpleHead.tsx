@@ -7,9 +7,7 @@ interface SimpleHeadProps {
 
 export default function SimpleHead({ data }: SimpleHeadProps) {
   const fullTitle = data?.metaTitle ? `${data?.metaTitle}` : 'VoiceStack® | AI Powered Enterprise Phone System'
-  
   return (
-    
     <Head>
       <title>{fullTitle}</title>
       <meta name="description" content={data?.metaDescription || 'AI Powered Enterprise Phone System'} />

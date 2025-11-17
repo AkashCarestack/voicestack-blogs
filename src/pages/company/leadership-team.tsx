@@ -34,7 +34,6 @@ export default function LeadershipTeamPage({
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
         }}
       >
-        {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
         {pageData['leadership-team-hero']?.componentData && (
           <HeroSection
             page=""

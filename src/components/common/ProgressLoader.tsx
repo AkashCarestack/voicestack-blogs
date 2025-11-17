@@ -15,11 +15,9 @@ const ProgressLoader = () => {
       setIsLoading(true)
       setProgress(0)
       
-      // Simulate progress increment with more realistic behavior
       progressInterval = setInterval(() => {
         setProgress((prev) => {
-          if (prev >= 90) return prev // Stop at 90% until route change completes
-          // Slower, more realistic progress
+          if (prev >= 90) return prev ;
           const increment = Math.random() * 8 + 2
           return Math.min(prev + increment, 90)
         })
