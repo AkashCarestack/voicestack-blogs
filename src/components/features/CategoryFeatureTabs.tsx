@@ -69,11 +69,11 @@ interface CaseStudyTab {
 }
 
 interface CategoryFeatureTabsProps {
-  page: string;
+  page?: string;
   features: Feature[] | CaseStudyTab[];
 }
 
-export default function CategoryFeatureTabs({ page, features }: CategoryFeatureTabsProps) {
+export default function CategoryFeatureTabs({ page = "", features }: CategoryFeatureTabsProps) {
   console.log(features, 'features in category feature tabs');
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isUserScrolling, setIsUserScrolling] = useState(false);
