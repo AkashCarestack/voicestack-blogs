@@ -35,12 +35,15 @@ interface StackCardTestimonialProps {
   page?: string
   refer?: any
   data?: any
+  isPricingPage?: boolean
 }
 
 const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   page,
   refer,
   data,
+  isPricingPage = false,
+
 }) => {
   const components: any = {
     block: {
@@ -399,7 +402,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                         className="w-fit"
                       >
                         <span className="text-base font-medium">
-                          {currentTestimonial?.ctaListItems?.[0]?.ctaText ||
+                          {
                             'Book Free Demo'}
                         </span>
                       </Button>
@@ -532,11 +535,12 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                   <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center lg:items-start >">
                     <Button type="primary" className="w-fit" link="/demo">
                       <span>
-                        {currentTestimonial?.ctaListItems[0]?.ctaText ||
-                          'Book Free Demo'}
+                        {isPricingPage ? 'Get Pricing' : (currentTestimonial?.ctaListItems[0]?.ctaText ||
+                          'Book Free Demo')}
                       </span>
                     </Button>
-                    <Button
+                    { !isPricingPage && (
+                      <Button
                       type="secondary"
                       className="w-fit"
                       link={
@@ -548,6 +552,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                       {currentTestimonial?.ctaListItems?.[1]?.ctaText ||
                         'See Pricing'}
                     </Button>
+                    )}
                   </div>
                 )}
               </div>
