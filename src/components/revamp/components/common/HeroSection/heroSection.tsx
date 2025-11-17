@@ -385,7 +385,7 @@ const HeroSection = ({
             )}
           </div>
         ) : (
-          <div className="flex flex-col lg:flex-row justify-between lg:gap-24 gap-12 items-center">
+          <div className="flex flex-col lg:flex-row justify-between lg:gap-24 gap-12 items-center w-full">
             {/* Left Content */}
             <div className="space-y-3 flex-1 max-w-[607px] w-full justify-center lg:justify-start flex flex-col gap-3">
               {/* Feature Tag */}
