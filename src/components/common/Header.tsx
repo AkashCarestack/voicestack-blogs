@@ -401,7 +401,7 @@ const NavigationMenu = ({
           key={`${link.href}-${i}`}
           href={link.href}
           target={isExternal ? '_blank' : '_self'}
-          className="text-gray-700 lg:text-sm font-medium leading-[1.15] lg:text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
+          className="text-gray-700 xl:text-sm lg:text-xs font-medium leading-[1.15] lg:text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
           onClick={onCloseMenu}
         >
           {link.label}
