@@ -17,6 +17,7 @@ interface StartupPracticesProps {
 
 export default function StartupPractices({ pageData, faq }: StartupPracticesProps) {
   const tabsListingComponentData = pageData?.['smarter-system']?.componentData?.refData?.tabsListingComponent;
+  const tabsListingData = pageData?.['manage-every-calls']?.componentData?.refData?.tabsListingComponent;
   return (
     <>
        <div
@@ -60,6 +61,11 @@ export default function StartupPractices({ pageData, faq }: StartupPracticesProp
       {pageData?.['startup-practices']?.componentData &&
         <TabCardsListing data={pageData?.['startup-practices']?.componentData} />
       }
+      
+        {
+          tabsListingData && (<TabCardsListing data={tabsListingData} />)
+        }
+      
 
        {/* FAQ Section */}
        {faq && (

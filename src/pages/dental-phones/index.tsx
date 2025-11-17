@@ -18,6 +18,7 @@ import VerticalTestimonialListing from '~/components/revamp/components/common/Ve
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import SimpleHead from '~/components/common/SimpleHead'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -120,6 +121,7 @@ export default function DentalPhonesIndex({
           <IntegrationsGrid data={pageData['custom']?.componentData} />
         </div>
       )}
+      <StatisticsSection />
       
       {/* FAQ Section */}
       {faq && (

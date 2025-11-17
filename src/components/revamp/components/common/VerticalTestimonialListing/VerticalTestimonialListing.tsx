@@ -311,6 +311,7 @@ const VerticalTestimonialListing = ({
       <div className="flex flex-col items-center w-full gap-16 max-w-[1628px] mx-auto">
         {!hideTitle && (
           <SectionHeader
+            showFullLength={true}
             heading={data?.heading || data?.title}
             description={data?.description}
           />
