@@ -16,9 +16,9 @@ import SectionHeader from './sectionHeader'
 const components: any = {
   block: {
     normal: ({ children }: { children: React.ReactNode }) => (
-      <p className="text-zinc-950 font-manrope md:text-3xl text-xl font-bold leading-[133.33%] tracking-normal py-1">
+      <h3 className="text-zinc-950 font-manrope md:text-3xl text-xl font-bold leading-[133.33%] tracking-normal py-1">
         {children}
-      </p>
+      </h3>
     ),
   },
   marks: {
@@ -125,9 +125,9 @@ export default function ListingWithTabs({ list }: { list: any }) {
                               <h4 className="text-gray-950 text-base font-medium leading-normal tracking-normal">
                                 {item.subfeatureHeading}
                               </h4>
-                              <h5 className="text-gray-600 md:text-base text-sm font-medium leading-normal tracking-normal">
+                              <p className="text-gray-600 md:text-base text-sm font-medium leading-normal tracking-normal">
                                 {item.subfeatureDescription}
-                              </h5>
+                              </p>
                             </div>
                             </div>
                           )

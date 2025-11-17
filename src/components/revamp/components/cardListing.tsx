@@ -11,10 +11,10 @@ export default function CardListing({ data }: any) {
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className="md:text-base text-sm font-normal leading-[150%] text-gray-700">
+        <p className="md:text-base text-sm font-normal leading-[150%] text-gray-700 [&>strong]:font-semibold">
           {children}
         </p>
-      ),
+      ),      
     },
     marks: {
       highlight: ({ children }: { children: React.ReactNode }) => (
