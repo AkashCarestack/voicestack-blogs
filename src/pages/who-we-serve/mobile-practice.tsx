@@ -16,6 +16,7 @@ interface MobilePracticesProps {
 }
 
 export default function MobilePractices({ pageData, faq }: MobilePracticesProps) {
+  const tabsListingData = pageData?.['manage-every-calls']?.componentData?.refData?.tabsListingComponent;
   return (
     <>
        <div
@@ -60,7 +61,9 @@ export default function MobilePractices({ pageData, faq }: MobilePracticesProps)
         <TabCardsListing data={pageData?.['mobile-practices']?.componentData} />
       }
 
-
+    {
+        tabsListingData && (<TabCardsListing data={tabsListingData} />)
+      }
       
        {/* FAQ Section */}
        {faq && (
