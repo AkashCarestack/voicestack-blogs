@@ -129,6 +129,11 @@ export default function DentalPhonesIntegrations({
           data={pageData['dental-phones-hero']?.componentData}
         />
       </div>
+      {pageData['custom']?.componentData && (
+        <div className="">
+          <IntegrationsGrid showIntegrationBtn={false} data={pageData['custom']?.componentData} />
+        </div>
+      )}
       {integrationData && (
         <div>
           <FeaturesSectionWithNavigation
@@ -149,11 +154,7 @@ export default function DentalPhonesIntegrations({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-       {pageData['custom']?.componentData && (
-        <div className="mt-12">
-          <IntegrationsGrid showIntegrationBtn={false} data={pageData['custom']?.componentData} />
-        </div>
-      )}
+      
       {/* FAQ Section */}
       {faq && (
         <div>
