@@ -85,7 +85,6 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
 }
 
 export default function HoverTestimonial({ data }: any) {
-  console.log(data, 'data in hover testimonial')
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [activeIndex, setActiveIndex] = useState<number>(0) // Default to first card
   const [currentSlide, setCurrentSlide] = useState(0)

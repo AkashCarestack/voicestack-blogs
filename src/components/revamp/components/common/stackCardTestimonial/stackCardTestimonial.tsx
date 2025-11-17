@@ -369,14 +369,14 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     <div className="flex items-center gap-3">
                       {currentTestimonial?.testimonial?.testimonialImage && (
                         <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
-                          <ImageLoader
+                          <ImageLoader 
                             image={
                               currentTestimonial.testimonial.testimonialImage
                             }
                             alt={
                               currentTestimonial?.testimonial?.name || 'Author'
                             }
-                            className="w-full h-full object-cover"
+                            className="w-full h-full object-cover bg-[#ababab]"
                           />
                         </div>
                       )}
@@ -517,7 +517,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                       alt={
                         currentTestimonial?.testimonial?.testimonialImage?.alt
                       }
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover bg-[#ababab]"
                     />
                   </div>
                   <div className="flex flex-col gap-1 items-start">

@@ -14,6 +14,8 @@ import SimpleHead from '~/components/common/SimpleHead'
 import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import LogoListingSection from '~/components/LogoListingSection'
 
 export default function CustomerStories({ pageData }: any) {
   console.log(pageData, 'pageData in case studies')
@@ -47,13 +49,21 @@ export default function CustomerStories({ pageData }: any) {
         {pageData['testimonial-tabs']?.componentData && (
             <StackCardTestimonial page="case-studies" data={pageData['testimonial-tabs']?.componentData} />
         )}
+        </div>
 
          {pageData['custom']?.componentData && (
-        <div className="mt-12">
+        <div className="">
           <IntegrationsGrid data={pageData['custom']?.componentData} />
         </div>
       )}
-      </div>
+        
+        <StatisticsSection />
+        {pageData['logo-listing']?.componentData && (
+          <LogoListingSection
+            data={pageData['logo-listing']?.componentData?.blocksListingData}
+            header={false}
+          />
+        )}
       </>
     )
   )
