@@ -38,15 +38,9 @@ export default function Pricing({
   e.ctaListItems[0].ctaLink = "/pricing";
   e.ctaListItems[0].ctaText = "Get Pricing";
  })
-  // Get pricing form ID based on locale
+ 
   const getPricingFormId = () => {
-    // Hardcoded US form ID
-    const usFormId = 'a28e5858-ce77-4b10-9c4b-4099cc6f1cef'
-    
-    // Future: add locale-based form IDs
-    // if (region === 'au') return 'au-form-id'
-    // if (region === 'uk') return 'uk-form-id'
-    
+    const usFormId = 'a28e5858-ce77-4b10-9c4b-4099cc6f1cef'    
     return usFormId
   }
 
@@ -120,16 +114,14 @@ export default function Pricing({
             testimonialData && (<TabCardsListing data={testimonialData} />)
           }
 
-          {landingPageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+          {landingPageData['stack-card-tab-testimonial']?.componentData?.refData && (
+            
             <StackCardTestimonial
+              isPricingPage={true}
               data={
                 landingPageData['stack-card-tab-testimonial']?.componentData?.refData
                   ?.tabsListingComponent
               }
-            />
-          ) : (
-            <StackCardTestimonial
-              data={landingPageData['stack-card-tab-testimonial']?.componentData}
             />
           )}
           {/* FAQ Section */}
