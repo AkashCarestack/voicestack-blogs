@@ -64,7 +64,6 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
 
   // Don't render if no integrations
   if (!data || !sortedIntegrations || sortedIntegrations.length === 0) {
-    console.log('IntegrationsGrid: No integrations to display')
     return null;
   }
 
@@ -94,7 +93,7 @@ const IntegrationsGrid: React.FC<IntegrationsGridProps> = ({
                     if (imageUrl) {
                       return (
                         <Image
-                          alt={integration.image.altText} 
+                          alt={integration.image.altText || integration.title} 
                           title={integration.image.title}
                           className="w-full h-full object-contain" 
                           src={imageUrl}

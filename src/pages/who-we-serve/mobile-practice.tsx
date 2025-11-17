@@ -19,7 +19,6 @@ interface MobilePracticesProps {
 export default function MobilePractices({ pageData, faq }: MobilePracticesProps) {
   // tabsListingData["mobile-practices"]
   const tabsListingData = pageData?.['mobile-practices'].componentData?.refData?.tabsListingComponent
-  console.log({tabsListingData})
   return (
     <>
        <div
