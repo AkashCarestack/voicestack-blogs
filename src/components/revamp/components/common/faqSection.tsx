@@ -5,8 +5,9 @@ import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
 import Head from 'next/head'
 import { faqJsonLd } from '~/components/utils/jsonld'
-
+import { useLayoutData } from '~/providers/LayoutDataProvider'
 export default function FaqSection({ faqItems }: any) {
+  const { contactData } = useLayoutData()
   // All hooks must be called before any early returns
   const [hideCategory, setHideCategory] = useState(faqItems?.hideCategory)
   const [isOpen, setIsOpen] = useState({})
@@ -191,9 +192,16 @@ export default function FaqSection({ faqItems }: any) {
       <div className='flex flex-col md:gap-16 gap-6 font-manrope font-bold leading-[120%]'>
       <div className='flex md:flex-row flex-col gap-2 md:justify-between justify-start items-center md:items-start'>
         <h2 className='md:text-[40px] text-2xl leading-[120%] md:max-w-[500px] md:text-left text-center'>Frequently Asked Questions</h2>
-        <div>
-        <p className='text-gray-600 md:text-left text-center font-normal  font-inter text-base leading-[145%]'>For queries contact</p>
-        <a href={`mailto:support@voicestack.com`} className='text-vs-blue font-medium text-base leading-[145%] font-inter'>{'support@voicestack.com'}</a>
+        <div className='flex flex-col gap-2'>
+          <div className='flex flex-row gap-2'>
+            <p className='text-gray-600 md:text-left text-center font-normal  font-inter text-base leading-[145%]'>Support:</p>
+            <a href={`mailto:${contactData?.contactEmail}`} className='text-vs-blue font-medium text-base leading-[145%] font-inter'>{contactData?.contactEmail}</a>
+            
+          </div>
+          <div className='flex flex-row gap-2'>
+            <p className='text-gray-600 md:text-left text-center font-normal  font-inter text-base leading-[145%]'>Sales:</p>
+            <a href={`mailto:${contactData?.salesEmail}`} className='text-vs-blue font-medium text-base leading-[145%] font-inter'>{contactData?.salesEmail}</a>
+          </div>
         </div>
       </div>
 
