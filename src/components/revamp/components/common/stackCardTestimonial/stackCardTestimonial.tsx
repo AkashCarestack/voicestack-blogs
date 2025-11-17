@@ -49,8 +49,8 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
         <p className="text-base lg:text-2xl md:font-bold font-semibold text-gray-500 !leading-[150%] font-manrope">
-          {children}
-        </p>
+          "{children}"
+        </p>  
       ),
       blockquote: ({ children }: { children: React.ReactNode }) => (
         <blockquote className="text-base lg:text-2xl font-medium text-gray-900 leading-relaxed">

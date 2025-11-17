@@ -62,8 +62,8 @@ const Footer = ({ data }) => {
         <div className="w-full">
           {/* CTA Banner Section */}
           {showBanner && data?.ctaBanner?.showBanner && data?.ctaBanner?.title && (
-            <div className="  rounded-xl bg-[#4A3CE1] flex flex-col items-center gap-6 px-8 py-16 self-stretch">
-              <h3 className="text-center md:max-w-[900px] text-white font-manrope font-bold lg:text-[40px] text-2xl]" dangerouslySetInnerHTML={{ __html: data.ctaBanner.title }}>
+            <div className="  rounded-xl bg-[#4A3CE1] flex flex-col items-center gap-6 md:px-8 px-4 md:py-16 py-12 self-stretch">
+              <h3 className="text-center md:max-w-[900px] text-white font-manrope font-bold lg:text-4xl text-2xl" dangerouslySetInnerHTML={{ __html: data.ctaBanner.title }}>
                
               </h3>
               {data.ctaBanner.buttonText && (

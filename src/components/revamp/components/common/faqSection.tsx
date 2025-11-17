@@ -160,7 +160,7 @@ export default function FaqSection({ faqItems }: any) {
     },
     list: {
       bullet: ({ children }: { children: React.ReactNode }) => (
-        <ul className="list-disc my-2 list-inside space-y-1">{children}</ul>
+        <ul className="list-disc my-2 list-inside space-y-1 font-geist">{children}</ul>
       ),
       number: ({ children }: { children: React.ReactNode }) => (
         <ol className="list-decimal list-inside space-y-1">{children}</ol>
@@ -168,7 +168,7 @@ export default function FaqSection({ faqItems }: any) {
     },
     listItem: {
       bullet: ({ children }: { children: React.ReactNode }) => (
-        <li className="text-gray-600 font-medium md:text-base text-sm leading-[145%]">{children}</li>
+        <li className="text-gray-600 font-normal md:text-base text-sm leading-[145%]">{children}</li>
       ),
       number: ({ children }: { children: React.ReactNode }) => (
         <li className="text-gray-600 md:text-sm text-sm leading-[145%]">{children}</li>
@@ -192,7 +192,7 @@ export default function FaqSection({ faqItems }: any) {
       <div className='flex flex-col md:gap-16 gap-6 font-manrope font-bold leading-[120%]'>
       <div className='flex md:flex-row flex-col gap-2 md:justify-between justify-start items-center md:items-start'>
         <h2 className='md:text-[40px] text-2xl leading-[120%] md:max-w-[500px] md:text-left text-center'>Frequently Asked Questions</h2>
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-2 font-inter'>
           <div className='flex flex-row gap-2'>
             <p className='text-gray-600 md:text-left text-center font-normal  font-inter text-base leading-[145%]'>Support:</p>
             <a href={`mailto:${contactData?.contactEmail}`} className='text-vs-blue font-medium text-base leading-[145%] font-inter'>{contactData?.contactEmail}</a>
@@ -297,7 +297,7 @@ export default function FaqSection({ faqItems }: any) {
                       </div>
                     </button>
                     <div 
-                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                      className={`font-geist overflow-hidden transition-all duration-300 ease-in-out ${
                         isQuestionOpen 
                           ? 'max-h-96 opacity-100' 
                           : 'max-h-0 opacity-0'
