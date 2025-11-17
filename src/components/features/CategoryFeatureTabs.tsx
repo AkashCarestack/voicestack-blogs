@@ -394,8 +394,9 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
                             }}>
                               {category.name}
                             </h3>
-                            <p className="text-base font-normal text-gray-700 mt-2 md:mt-0 font-geist leading-6 tracking-normal break-keep" style={{
-                              color: 'var(--color-gray-700, #364153)'
+                            <p className="text-base font-normal text-gray-700 mt-2 md:mt-0 font-geist leading-6 tracking-normal" style={{
+                              color: 'var(--color-gray-700, #364153)',
+                              textWrap: 'balance'
                             }}>
                               {category.description}
                             </p>
