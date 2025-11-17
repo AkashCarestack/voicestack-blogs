@@ -277,7 +277,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
       <Section id="features" className="py-sm md:py-md lg:py-lg scroll-m-16 bg-gray-50">
         <Container className="flex flex-col items-center gap-16">
           <SectionHeader
-            heading="Feature-Packed to Improve Every Front Office Workflow"
+            heading="Feature-Packed to Improve <br/>Every Front Office Workflow"
             description='Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
           />
           <div className="bg-white rounded-2xl shadow-lg p-8 max-w-2xl w-full">
@@ -298,7 +298,7 @@ export default function CategoryFeatureTabs({ features }: CategoryFeatureTabsPro
     <Section id="features" className="py-sm md:py-md lg:py-lg scroll-m-16 bg-gray-50">
       <Container className="flex flex-col items-center gap-16">
       <SectionHeader
-            heading="Feature-Packed to Improve Every Front Office Workflow"
+            heading="Feature-Packed to Improve <br/> Every Front Office Workflow"
             description='Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
         />
 
