@@ -597,14 +597,11 @@ const Header = ({ data, refer = null }) => {
         <link rel="alternate" hrefLang="x-default" href="https://www.voicestack.com" /> */}
         {/* organization schema */}
         {jsonLdData && (
-          <>
-          <meta property="og:image" content={urlForImage(siteSettings?.ogImage)} />
           <script
               type="application/ld+json"
               id="organization-schema"
               dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
             />
-          </>
         )}
       </Head>
 
