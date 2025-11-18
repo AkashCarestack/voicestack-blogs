@@ -16,7 +16,7 @@ import StackCardTestimonial from '~/components/revamp/components/common/stackCar
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import LogoListingSection from '~/components/LogoListingSection'
-import PracticeCards from '~/components/revamp/components/common/PracticeCards/practiceCards'
+// import PracticeCards from '~/components/revamp/components/common/PracticeCards/practiceCards'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 
 export default function CustomerStories({ pageData }: any) {

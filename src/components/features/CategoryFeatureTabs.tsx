@@ -75,7 +75,7 @@ interface CaseStudyTab {
 }
 
 interface CategoryFeatureTabsProps {
-  page: string;
+  page?: string;
   features: Feature[] | CaseStudyTab[];
   sectionHeading?: any;
 }
