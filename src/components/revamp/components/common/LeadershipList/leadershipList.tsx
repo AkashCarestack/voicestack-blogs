@@ -38,10 +38,10 @@ export default function LeadershipList({ data }: { data: any }) {
                   />
                 </div>
                 <div className="text-left">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                  <h3 className="md:text-[21px] text-base leading-[120%] font-manrope font-semibold text-gray-900 mb-1.5">
                     {item.name}
                   </h3>
-                  <p className="text-base text-gray-600">
+                  <p className="text-[17px] md:leading-6 font-manrope font-normal text-gray-600">
                     {item.designation}
                   </p>
                 </div>
