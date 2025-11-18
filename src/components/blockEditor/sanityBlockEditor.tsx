@@ -14,6 +14,7 @@ import ComparisonSchema from '../dynamic/ComparisonSchema'
 import AppDownloadHero from '../dynamic/AppDownloadHero'
 import WarningIcon from '../icons/WarningIcon'
 import H2 from '../typography/H2'
+import H3 from '../typography/H3'
 import Paragraph from '../typography/Paragraph'
 
 interface SanityPortableTextProps {
@@ -45,6 +46,11 @@ const SanityPortableText: React.FC<SanityPortableTextProps> = ({
           {children}
         </span>
       ),
+      underline: ({ children }: { children: React.ReactNode }) => (
+        <span style={{ textDecoration: 'underline' }}>
+          {children}
+        </span>
+      ),
     },
 
     block: {
@@ -56,6 +62,26 @@ const SanityPortableText: React.FC<SanityPortableTextProps> = ({
       h2: ({ children }) => {
         return (
             <H2 className='text-center'>{children}</H2>
+        )
+      },
+      h3: ({ children }) => {
+        return (
+            <H3 className='!font-manrope !text-2xl'>{children}</H3>
+        )
+      },
+      h4: ({ children }) => {
+        return (
+            <h4 className="text-2xl font-bold text-gray-900 font-manrope">{children}</h4>
+        )
+      },
+      h5: ({ children }) => {
+        return (
+            <h5 className="text-xl font-bold text-gray-900 font-manrope">{children}</h5>
+        )
+      },
+      h6: ({ children }) => {
+        return (
+            <h6 className="text-lg font-bold text-gray-900 font-manrope">{children}</h6>
         )
       },
       // Blockquote

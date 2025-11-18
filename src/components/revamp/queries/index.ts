@@ -164,7 +164,9 @@ class Queries {
           testimonialdescription,
           language,
           keyStatement,
-          practiceName
+          practiceName,
+          keyNoteHeading,
+          keyNoteStatement
         }
       }
     `
@@ -286,6 +288,8 @@ class Queries {
               mainStatement,
               subStatement,
               keyStatement,
+              keyNoteHeading,
+              keyNoteStatement,
               isHighlighted
             }
           }
@@ -314,6 +318,8 @@ class Queries {
           name,
           designation,
           testimonialdescription,
+          keyNoteHeading,
+          keyNoteStatement,
           thumbnail,
           locations,
           practiceName,
@@ -468,6 +474,8 @@ class Queries {
                             },
                             testimonialheading,
                             testimonialdescription,
+                            keyNoteHeading,
+                            keyNoteStatement,
                             keyFeatures,
                             language,
                             mainStatement,
@@ -511,6 +519,8 @@ class Queries {
                           },
                           keyStatement,
                           testimonialdescription,
+                          keyNoteHeading,
+                          keyNoteStatement,
                           designation,
                           place,
                           practiceName,
@@ -655,6 +665,8 @@ class Queries {
                             designation,
                             thumbnail,
                             testimonialdescription,
+                            keyNoteHeading,
+                            keyNoteStatement,
                             place,
                             practiceName,
                             mainStatement,
@@ -805,6 +817,8 @@ class Queries {
                       // Testimonial content
                       testimonialheading,
                       testimonialdescription,
+                      keyNoteHeading,
+                      keyNoteStatement,
                       keyStatement,
                       keyFeatures,
                       language,
@@ -863,6 +877,8 @@ class Queries {
                       // Testimonial content
                       testimonialheading,
                       testimonialdescription,
+                      keyNoteHeading,
+                      keyNoteStatement,
                       keyStatement,
                       keyFeatures,
                       language
@@ -1006,6 +1022,8 @@ class Queries {
                           thumbnail,
                           // Testimonial content
                           testimonialdescription,
+                          keyNoteHeading,
+                          keyNoteStatement,
                           keyStatement,
                           keyFeatures,
                           practiceName,
@@ -1525,6 +1543,8 @@ class Queries {
                   designation,
                   thumbnail,
                   testimonialdescription,
+                  keyNoteHeading,
+                  keyNoteStatement,
                   "logo": logo.asset-> {
                     ${this.IMAGE_METADATA_FIELDS}
                   },

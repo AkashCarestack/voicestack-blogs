@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion} from 'framer-motion';
+import { PortableText } from '@portabletext/react';
 import Button from '../common/Button';
 import ButtonArrow from '../icons/ButtonArrow';
 import Section from '../structure/Section';
@@ -9,7 +10,9 @@ import Container from '../structure/Container';
 import SectionHeader from '../revamp/components/common/sectionHeader';
 import useMediaQuery from '~/utils/mediaQuery';
 import ImageLoader from '../common/imageLoader/imageLoader';
-import { PortableText } from '@portabletext/react';
+import CaseStudyContent from './CaseStudyContent';
+import Paragraph from '../typography/Paragraph';
+import H3 from '../typography/H3';
 
 interface Feature {
   _id: string;
@@ -49,10 +52,13 @@ interface CaseStudyTab {
     locations?: number;
     logo?: any;
     testimonialdescription?: string;
+    description?: any;
     keyFeatures?: string[];
     keyStatement?: any;
     mainStatement?: any;
     subStatement?: any;
+    keyNoteHeading?: string;
+    keyNoteStatement?: any;
     testimonialImage?: any;
     listItems?: Array<{
       listHeading?: string;
@@ -74,7 +80,6 @@ interface CategoryFeatureTabsProps {
 }
 
 export default function CategoryFeatureTabs({ page, features }: CategoryFeatureTabsProps) {
-  console.log(features, 'features in category feature tabs');
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isUserScrolling, setIsUserScrolling] = useState(false);
   
@@ -85,6 +90,8 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const mobileTabsRef = useRef<HTMLDivElement | null>(null);
   const isMobile = useMediaQuery(1024);
+
+  console.log(features, 'features in category feature tabs');
   
   // Memoize the categories processing to prevent unnecessary re-renders
   const allCategories = useMemo(() => {
@@ -138,7 +145,6 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
     });
   }, [features, page]);
 
-  // Center active tab in mobile view
   const centerActiveTab = useCallback((categoryName: string) => {
     if (mobileTabsRef.current) {
       const activeTab = mobileTabsRef.current.querySelector(`[data-category="${categoryName}"]`) as HTMLElement;
@@ -157,7 +163,6 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
     }
   }, []);
 
-  // Set initial active category
   useEffect(() => {
     if (allCategories.length > 0) {
       const firstCategory = allCategories[0].name;
@@ -280,24 +285,6 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
     }, 100);
   }, [centerActiveTab]);
 
-  // PortableText components for rendering blockContent
-  const portableTextComponents: any = {
-    block: {
-      normal: ({ children }: any) => (
-        <p className="text-base text-gray-700 leading-relaxed">{children}</p>
-      ),
-      blockquote: ({ children }: any) => (
-        <blockquote className="text-base text-gray-900 leading-relaxed italic border-l-4 border-purple-500 pl-4 my-4">
-          {children}
-        </blockquote>
-      ),
-    },
-    marks: {
-      highlight: ({ children }: any) => (
-        <span className="text-gray-950 font-semibold">{children}</span>
-      ),
-    },
-  };
 
   // Render category icon
   const renderCategoryIcon = (category: any, isActive: boolean = false) => {
@@ -343,7 +330,6 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
     }
   };
 
-  // If no categories found, show a message
   if (allCategories.length === 0) {
     return (
       <Section id="features" className="py-sm md:py-md lg:py-lg scroll-m-16 bg-gray-50">
@@ -376,7 +362,7 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
 
         {/* Desktop Layout - Two Column */}
         <div className="hidden lg:flex gap-16 w-full mt-[50px]">
-            <aside className="w-80 flex-shrink-0">
+            <aside className="!max-w-[291px] w-full">
               <div className="sticky top-24">
                 <nav className="rounded-2xl" role="tablist" aria-label="Feature category navigation">
                   <div className="flex flex-col gap-[6px] mb-[24px]">
@@ -463,7 +449,7 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.1 }}
                     >
-                      <div className="p-8 space-y-8">
+                      <div className="space-y-8">
                         {/* Header with Logo and Location */}
                         <header className="flex justify-between items-center w-full mb-6">
                           <div className="flex-shrink-0">
@@ -496,113 +482,59 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
             
                         </header>
 
-                        {/* Practice Name Title */}
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                          {testimonial.practiceName || category.name}
-                        </h2>
+                        {/* Full Description from PortableText */}
+                        <CaseStudyContent description={tabData?.description} />
 
-                        {/* Introduction Paragraph */}
-                        {testimonial.testimonialdescription && (
-                          <p className="text-base text-gray-700 leading-relaxed mb-8">
-                            {testimonial.testimonialdescription}
-                          </p>
-                        )}
 
-                        {/* Key Metrics Section */}
-                        {metrics.length > 0 && (
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                            {metrics.slice(1, 3).map((metric: any, idx: number) => (
-                              <div
-                                key={idx}
-                                className="flex flex-col items-center justify-center p-6 border-l border-r border-gray-200 first:border-l-0 last:border-r-0"
-                              >
-                                <div
-                                  className="text-4xl md:text-5xl font-semibold text-purple-500 mb-2"
-                                  dangerouslySetInnerHTML={{
-                                    __html: metric.after || '',
-                                  }}
-                                />
-                                <div className="text-sm md:text-base text-gray-600 text-center">
-                                  {metric.listHeading || metric.heading || ''}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        {/* Content Sections */}
-                        <div className="space-y-8">
-                          {/* Key Statement Section */}
-                          {testimonial.keyStatement && (
-                            <section>
-                              <h3 className="text-xl font-bold text-gray-900 mb-4">
-                                Automate Note Taking & Improve Productivity
-                              </h3>
-                              <div className="text-base text-gray-700 leading-relaxed">
-                                <PortableText
-                                  value={testimonial.keyStatement}
-                                  components={portableTextComponents}
-                                />
-                              </div>
-                            </section>
-                          )}
-
-                          {/* Main Statement Section */}
-                          {testimonial.mainStatement && (
-                            <section>
-                              <h3 className="text-xl font-bold text-gray-900 mb-4">
-                                What AI Can Do:
-                              </h3>
-                              <div className="text-base text-gray-700 leading-relaxed">
-                                <PortableText
-                                  value={testimonial.mainStatement}
-                                  components={portableTextComponents}
-                                />
-                              </div>
-                            </section>
-                          )}
-
-                          {/* Sub Statement Section */}
-                          {testimonial.subStatement && (
-                            <section>
-                              <div className="text-base text-gray-700 leading-relaxed">
-                                <PortableText
-                                  value={testimonial.subStatement}
-                                  components={portableTextComponents}
-                                />
-                              </div>
-                            </section>
-                          )}
-                        </div>
+                 
 
                         {/* Purple CTA Section */}
                         <div
-                          className="mt-12 p-8 rounded-2xl"
+                          className="mt-6 px-[40px] py-9 rounded-2xl"
                           style={{
-                            background: 'linear-gradient(277deg, rgba(202, 197, 255, 0.20) 0%, rgba(202, 197, 255, 0.50) 49.61%, rgba(202, 197, 255, 0.10) 100.18%)',
+                            background: 'linear-gradient(123deg, #F4F3FA 0%, #E0DDFF 99.43%)',
                           }}
                         >
-                          <h3 className="text-2xl font-bold text-purple-900 mb-4">
-                            Create A More Seamless Patient Experience
-                          </h3>
-                          
-                          {/* Quote */}
-                          {testimonial.keyStatement && (
-                            <blockquote className="text-lg text-purple-800 mb-6 italic">
-                              <PortableText
-                                value={testimonial.keyStatement}
-                                components={portableTextComponents}
-                              />
-                            </blockquote>
+                          <H3 className="!text-3xl text-[#151315] font-manrope font-semibold !leading-[120%] !tracking-[37.5%] mb-3">
+                            {testimonial.keyNoteHeading}
+                          </H3>
+
+                          {testimonial.keyNoteStatement && (
+                            <div className="mb-4">
+                              {Array.isArray(testimonial.keyNoteStatement) ? (
+                                <PortableText 
+                                  value={testimonial.keyNoteStatement}
+                                  components={{
+                                    block: {
+                                      normal: ({ children }: any) => (
+                                        <p className="text-[#5F6368] font-geist text-lg font-medium leading-[28px] tracking-normal mb-4">
+                                          {children}
+                                        </p>
+                                      ),
+                                    },
+                                  }}
+                                />
+                              ) : (
+                                <p className="text-[#5F6368] font-geist text-lg font-medium leading-[28px] tracking-normal">
+                                  {testimonial.keyNoteStatement}
+                                </p>
+                              )}
+                            </div>
                           )}
+                          
+                          {/* Quote - Using description content instead */}
 
                           {/* Key Features Pills */}
                           {testimonial.keyFeatures && testimonial.keyFeatures.length > 0 && (
-                            <div className="flex flex-wrap gap-3 mb-6">
+                            <div className="flex flex-wrap gap-3 md:my-[30px] my-4">
                               {testimonial.keyFeatures.map((feature: string, idx: number) => (
                                 <span
                                   key={idx}
-                                  className="px-4 py-2 bg-purple-100 text-purple-900 text-sm font-medium rounded-full"
+                                  className="flex items-center gap-1 py-[6px] px-4 text-[#271E82] font-geist text-sm font-normal leading-6 rounded-full border"
+                                  style={{
+                                    borderColor: '#A8A0FF',
+                                    backgroundColor: '#D8D4FF',
+                                  }}
                                 >
                                   {feature}
                                 </span>
@@ -622,10 +554,10 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
                               </div>
                             )}
                             <div>
-                              <p className="font-bold text-purple-900 text-base">
+                              <p className="text-[#151315] font-geist text-lg font-medium leading-[28px] tracking-normal">
                                 {testimonial.name}
                               </p>
-                              <p className="text-purple-700 text-sm">
+                              <p className="text-black/60 font-geist text-base font-normal leading-6 tracking-normal">
                                 {testimonial.designation}
                               </p>
                             </div>
@@ -869,80 +801,9 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
                               )}
                             </header>
 
-                            {/* Practice Name Title */}
-                            <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                              {testimonial.practiceName || displayCategory?.name}
-                            </h2>
-
-                            {/* Introduction Paragraph */}
-                            {testimonial.testimonialdescription && (
-                              <p className="text-sm text-gray-700 leading-relaxed mb-6">
-                                {testimonial.testimonialdescription}
-                              </p>
-                            )}
-
-                            {/* Key Metrics Section */}
-                            {metrics.length > 0 && (
-                              <div className="grid grid-cols-3 gap-4 mb-6">
-                                {metrics.slice(0, 3).map((metric: any, idx: number) => (
-                                  <div
-                                    key={idx}
-                                    className="flex flex-col items-center justify-center p-4 border-l border-r border-gray-200 first:border-l-0 last:border-r-0"
-                                  >
-                                    <div
-                                      className="text-2xl font-semibold text-purple-500 mb-1"
-                                      dangerouslySetInnerHTML={{
-                                        __html: metric.after || '',
-                                      }}
-                                    />
-                                    <div className="text-xs text-gray-600 text-center">
-                                      {metric.listHeading || metric.heading || ''}
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-
-                            {/* Content Sections */}
-                            <div className="space-y-6">
-                              {testimonial.keyStatement && (
-                                <section>
-                                  <h3 className="text-lg font-bold text-gray-900 mb-3">
-                                    Automate Note Taking & Improve Productivity
-                                  </h3>
-                                  <div className="text-sm text-gray-700 leading-relaxed">
-                                    <PortableText
-                                      value={testimonial.keyStatement}
-                                      components={portableTextComponents}
-                                    />
-                                  </div>
-                                </section>
-                              )}
-
-                              {testimonial.mainStatement && (
-                                <section>
-                                  <h3 className="text-lg font-bold text-gray-900 mb-3">
-                                    What AI Can Do:
-                                  </h3>
-                                  <div className="text-sm text-gray-700 leading-relaxed">
-                                    <PortableText
-                                      value={testimonial.mainStatement}
-                                      components={portableTextComponents}
-                                    />
-                                  </div>
-                                </section>
-                              )}
-
-                              {testimonial.subStatement && (
-                                <section>
-                                  <div className="text-sm text-gray-700 leading-relaxed">
-                                    <PortableText
-                                      value={testimonial.subStatement}
-                                      components={portableTextComponents}
-                                    />
-                                  </div>
-                                </section>
-                              )}
+                            {/* Full Description from PortableText */}
+                            <div className="mt-4">
+                              <CaseStudyContent description={tabData?.description} />
                             </div>
 
                             {/* Purple CTA Section */}
@@ -956,14 +817,7 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
                                 Create A More Seamless Patient Experience
                               </h3>
                               
-                              {testimonial.keyStatement && (
-                                <blockquote className="text-base text-purple-800 mb-4 italic">
-                                  <PortableText
-                                    value={testimonial.keyStatement}
-                                    components={portableTextComponents}
-                                  />
-                                </blockquote>
-                              )}
+                              {/* Quote - Using description content instead */}
 
                               {testimonial.keyFeatures && testimonial.keyFeatures.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mb-4">
@@ -990,10 +844,10 @@ export default function CategoryFeatureTabs({ page, features }: CategoryFeatureT
                                   </div>
                                 )}
                                 <div>
-                                  <p className="font-bold text-purple-900 text-sm">
+                                  <p className="text-[#151315] font-geist text-lg font-medium leading-[28px] tracking-normal">
                                     {testimonial.name}
                                   </p>
-                                  <p className="text-purple-700 text-xs">
+                                  <p className="text-black/60 font-geist text-base font-normal leading-6 tracking-normal">
                                     {testimonial.designation}
                                   </p>
                                 </div>
