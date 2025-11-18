@@ -120,7 +120,7 @@ const HeroSection = ({
     listItem: {
       bullet: ({ children }: { children: React.ReactNode }) => (
         <li
-          className="flex lg:justify-start justify-center gap-3 py-[14px] text-base text-gray-950 leading-[24px] border-b"
+          className="flex lg:justify-start justify-center gap-3 py-[10px] md:py-[14px] text-base text-gray-950 leading-[24px] border-b"
           style={{ borderColor: '#0307121A' }}
         >
           <span className="mt-1 md:mt-0 lg:flex items-center hidden">

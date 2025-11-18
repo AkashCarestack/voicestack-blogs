@@ -177,14 +177,14 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
                               height: `56px`,
                               width: `${
                                 56 *
-                                  testimonial?.testimonialImage?.metadata
+                                  testimonial?.secondaryTestimonialImage?.metadata
                                     ?.dimensions?.aspectRatio || 2
                               }px`,
                             }}
                           >
                             <ImageLoader
-                              image={testimonial?.testimonialImage?.url}
-                              alt={testimonial?.testimonialImage?.alt}
+                              image={testimonial?.secondaryTestimonialImage?.url}
+                              alt={testimonial?.secondaryTestimonialImage?.alt}
                               className="w-auto h-full object-cover"
                             />
                           </div>
