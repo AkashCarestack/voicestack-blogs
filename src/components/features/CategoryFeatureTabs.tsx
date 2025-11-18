@@ -436,7 +436,7 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                           className={`w-full flex items-center self-stretch transition-all duration-300 ${
                             isActive 
                               ? '  bg-white rounded-full' 
-                              : ' rounded-xl bg-transparent'
+                              : ' rounded-full bg-transparent hover:bg-[#F3F4F6]'
                           }`}
                           style={{
                             gap: '16px',
@@ -447,7 +447,11 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                           transition={{ duration: 0.4, delay: index * 0.1 }}
                           whileTap={{ scale: 0.98 }}
                         >
-                  
+                          {page !== 'case-studies' && (category.icon || category.iconSvgCode) && (
+                            <div className="flex items-center justify-center w-5 h-5 flex-shrink-0">
+                              {renderCategoryIcon(category, isActive)}
+                            </div>
+                          )}
                           <span 
                             className={`text-lg font-normal transition-colors duration-300 font-geist leading-7 tracking-normal ${
                               isActive ? 'text-black' : 'text-gray-500'
@@ -747,10 +751,10 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                           aria-selected={isActive}
                           aria-controls={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                           id={`tab-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                          className={`flex-shrink-0 p-3 rounded-xl transition-all duration-300 ${
+                          className={`flex-shrink-0 p-3 rounded-full transition-all duration-300 ${
                             isActive 
                               ? 'text-gray-900 shadow-sm' 
-                              : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50'
+                              : 'bg-white text-gray-700 border border-gray-200 hover:bg-[#F3F4F6]'
                           }`}
                           style={{
                             backgroundColor: isActive ? 'rgba(21, 45, 24, 0.05)' : undefined
@@ -761,7 +765,11 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                           transition={{ duration: 0.3, delay: index * 0.1 }}
                         >
                           <div className="flex items-center flex-col space-x-2">
-                   
+                            {page !== 'case-studies' && (category.icon || category.iconSvgCode) && (
+                              <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center`} aria-hidden="true">
+                                {renderCategoryIcon(category, isActive)}
+                              </div>
+                            )}
                             <span className="text-[12px] font-medium whitespace-nowrap">
                               {category.name}
                             </span>
