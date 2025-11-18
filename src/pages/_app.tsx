@@ -160,7 +160,7 @@ function App({
           <PricingModalProvider>
             <BookDemoContextProvider>
               <LayoutDataProvider>
-                <GlobalHead />
+                {/* <GlobalHead /> */}
                 <Layout>
                   {draftMode ? (
                     <PreviewProvider token={token}>

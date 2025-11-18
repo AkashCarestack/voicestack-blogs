@@ -15,9 +15,9 @@ export default function CustomHead(props) {
     <Head>
       <link rel="icon" href={urlForImage(props.siteSettings?.ogFavicon)} sizes="any" type="image/png"/>
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-      {/* {props.siteSettings?.ogImage && (
+      {props.siteSettings?.ogImage && (
         <meta property="og:image" content={urlForImage(props.siteSettings?.ogImage)} />
-      )} */}
+      )}
       {homepage && (
         <>
         <meta name="description"  content={props.siteSettings?.ogDescription}></meta>
