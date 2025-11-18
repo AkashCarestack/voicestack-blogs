@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { PortableText } from '@portabletext/react';
 import H2 from '../typography/H2';
 import H3 from '../typography/H3';
@@ -11,20 +11,31 @@ interface CaseStudyContentProps {
 
 const CaseStudyContent: React.FC<CaseStudyContentProps> = ({ description }) => {
   let page = 'case-study';
+  
+  const paragraphIndexRef = useRef(0);
+  
+  paragraphIndexRef.current = 0;
+  
   const portableTextComponents: any = {
     block: {
-      normal: ({ children }: any) => (
-        <Paragraph className="text-lg text-gray-700 font-geist font-normal tracking-normal !leading-[155%] md:mb-[40px] mb-[16px]">
-          {children}
-        </Paragraph>
-      ),
+      normal: ({ children }: any) => {
+        const currentIndex = paragraphIndexRef.current++;
+        const isFirstThree = currentIndex < 3;
+        const marginBottom = isFirstThree ? 'mb-2' : 'md:mb-[40px] mb-[16px]';
+        
+        return (
+          <Paragraph className={` text-base text-gray-700 font-geist font-normal tracking-normal !leading-[155%] ${marginBottom}`}>
+            {children}
+          </Paragraph>
+        );
+      },
       h2: ({ children }: any) => (
-        <H2 className="!text-[40px] text-gray-900 font-manrope font-bold !leading-[48px] mb-4">
+        <H2 className="md:!text-[40px] !text-[24px] text-gray-900 font-manrope font-bold md:!leading-[48px] !leading-[120%]  mb-4">
           {children}
         </H2>
       ),
       h3: ({ children }: any) => (
-        <H3 className="!text-2xl text-[#111827] font-manrope font-bold !leading-[200%] ">
+        <H3 className=" md:!text-2xl !text-[20px] text-[#111827] font-manrope font-bold mb-3  ">
           {children}
         </H3>
       ),
@@ -43,10 +54,17 @@ const CaseStudyContent: React.FC<CaseStudyContentProps> = ({ description }) => {
           {children}
         </h6>
       ),
+      strong: ({ children }: any) => (
+        <strong className="text-gray-900 font-manrope font-bold leading-[20px] mb-2">
+          {children}
+        </strong>
+      ),
       blockquote: ({ children }: any) => (
         <blockquote className="text-2xl text-gray-900 font-manrope font-bold leading-[48px] border-l-4 border-purple-500 pl-4 my-4 italic">
           {children}
         </blockquote>
+
+        
       ),
     },
     marks: {
@@ -81,7 +99,7 @@ const CaseStudyContent: React.FC<CaseStudyContentProps> = ({ description }) => {
   }
 
   return (
-    <div className="mt-6">
+    <div className="">
       <PortableText
         value={description}
         components={portableTextComponents}

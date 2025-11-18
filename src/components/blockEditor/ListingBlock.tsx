@@ -13,10 +13,10 @@ const ListingBlock: React.FC<ListingBlockProps> = ({ itemHeading, listingItem, p
   const isCaseStudy = page === 'case-study' 
 
   if (isCaseStudy) {
-    return (
-      <div className="flex flex-col gap-3 md:mt-16 mt-8 md:mb-[40px] mb-[16px]">
+  return (
+      <div className="flex flex-col gap-3  md:my-[40px] my-[16px]">
         {itemHeading && <H2>{itemHeading}</H2>}
-        <div className="flex">
+        <div className="flex md:flex-row flex-col gap-4">
           {listingItem && listingItem.length > 0 && (
             listingItem.map((item: any, index: number) => {
               return (
@@ -27,7 +27,7 @@ const ListingBlock: React.FC<ListingBlockProps> = ({ itemHeading, listingItem, p
                     borderColor: 'rgba(0, 0, 0, 0.30)',
                   }}
                 >
-                  <div className="text-[#4A3CE1] font-manrope text-[36px] font-semibold leading-[111.11%]">
+                  <div className="text-[#4A3CE1] font-manrope md:!text-[36px] !text-[24px] font-semibold leading-[111.11%]">
                     {item.key}
                   </div>
                   <div className="text-black/70 font-geist text-base font-normal !leading-[150%] tracking-normal">
