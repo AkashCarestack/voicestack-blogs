@@ -23,6 +23,7 @@ import { getUser } from '~/utils/tracker/user'
 
 import Layout from '../components/Layout'
 import ProgressLoader from '../components/common/ProgressLoader'
+import GlobalHead from '../components/common/GlobalHead'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -159,6 +160,7 @@ function App({
           <PricingModalProvider>
             <BookDemoContextProvider>
               <LayoutDataProvider>
+                <GlobalHead />
                 <Layout>
                   {draftMode ? (
                     <PreviewProvider token={token}>
