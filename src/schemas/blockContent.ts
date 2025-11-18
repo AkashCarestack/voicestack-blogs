@@ -27,35 +27,40 @@ export default defineType({
         { title: 'H2', value: 'h2' },
         { title: 'H3', value: 'h3' },
         { title: 'H4', value: 'h4' },
-        {title: 'H5', value: 'h5' },
-        {title: 'H6', value: 'h6' },
+        { title: 'H5', value: 'h5' },
+        { title: 'H6', value: 'h6' },
+        { title: 'Quote', value: 'blockquote' },
       ],
-      lists: [{ title: 'Bullet', value: 'bullet' },
+      lists: [
+        { title: 'Bullet', value: 'bullet' },
         { title: 'Number', value: 'number' },
-        { title: 'letter', value: 'crossDatasetReference' }
       ],
+      options: {
+        spellCheck: true,
+      },
       // Marks let you mark up inline text in the block editor.
       marks: {
         // Decorators usually describe a single property – e.g. a typographic
         // preference or highlighting by editors.
         decorators: [
           { title: 'Strong', value: 'strong' },
+          { title: 'Underline', value: 'underline' },
           { title: 'Highlight', value: 'highlight' },
         ],
         // Annotations can be any object structure – e.g. a link or a footnote.
         annotations: [
-          // {
-          //   title: 'URL',
-          //   name: 'link',
-          //   type: 'object',
-          //   fields: [
-          //     {
-          //       title: 'URL',
-          //       name: 'href',
-          //       type: 'url',
-          //     },
-          //   ],
-          // },
+          {
+            title: 'URL',
+            name: 'link',
+            type: 'object',
+            fields: [
+              {
+                title: 'URL',
+                name: 'href',
+                type: 'url',
+              },
+            ],
+          },
         ],
       },
     }),

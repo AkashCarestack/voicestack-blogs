@@ -125,7 +125,7 @@ export default function ListingWithTabs({ list }: { list: any }) {
                               <h4 className="text-gray-950 text-base font-medium leading-normal tracking-normal">
                                 {item.subfeatureHeading}
                               </h4>
-                              <p className="text-gray-600 md:text-base text-sm font-medium leading-normal tracking-normal">
+                              <p className="text-gray-600 md:text-base text-sm font-normal leading-normal tracking-normal">
                                 {item.subfeatureDescription}
                               </p>
                             </div>

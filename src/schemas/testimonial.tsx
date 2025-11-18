@@ -200,6 +200,18 @@ export default defineType({
       type: 'blockContent',
     }),
     defineField({
+      name: 'keyNoteHeading',
+      title: 'Key Note Heading',
+      type: 'string',
+      description: 'This is the heading that will be displayed in the key note section of the case study page',
+    }),
+    defineField({
+      name: 'keyNoteStatement',
+      title: 'Key Note Statement',
+      type: 'blockContent',
+      description: 'This is the statement that will be displayed in the key note section of the case study page',
+    }),
+    defineField({
       name: 'language',
       type: 'string',
       readOnly: true,

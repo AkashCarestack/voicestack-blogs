@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion} from 'framer-motion';
+import { PortableText } from '@portabletext/react';
 import Button from '../common/Button';
 import ButtonArrow from '../icons/ButtonArrow';
 import Section from '../structure/Section';
@@ -9,7 +10,9 @@ import Container from '../structure/Container';
 import SectionHeader from '../revamp/components/common/sectionHeader';
 import useMediaQuery from '~/utils/mediaQuery';
 import ImageLoader from '../common/imageLoader/imageLoader';
-import { PortableText } from '@portabletext/react';
+import CaseStudyContent from './CaseStudyContent';
+import Paragraph from '../typography/Paragraph';
+import H3 from '../typography/H3';
 
 interface Feature {
   _id: string;
@@ -49,10 +52,13 @@ interface CaseStudyTab {
     locations?: number;
     logo?: any;
     testimonialdescription?: string;
+    description?: any;
     keyFeatures?: string[];
     keyStatement?: any;
     mainStatement?: any;
     subStatement?: any;
+    keyNoteHeading?: string;
+    keyNoteStatement?: any;
     testimonialImage?: any;
     listItems?: Array<{
       listHeading?: string;
@@ -71,10 +77,10 @@ interface CaseStudyTab {
 interface CategoryFeatureTabsProps {
   page?: string;
   features: Feature[] | CaseStudyTab[];
+  sectionHeading?: any;
 }
 
-export default function CategoryFeatureTabs({ page = "", features }: CategoryFeatureTabsProps) {
-  console.log(features, 'features in category feature tabs');
+export default function CategoryFeatureTabs({ page, features, sectionHeading }: CategoryFeatureTabsProps) {
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isUserScrolling, setIsUserScrolling] = useState(false);
   
@@ -85,6 +91,9 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const mobileTabsRef = useRef<HTMLDivElement | null>(null);
   const isMobile = useMediaQuery(1024);
+
+  console.log(sectionHeading, 'sectionHeading in category feature tabs');
+
   
   // Memoize the categories processing to prevent unnecessary re-renders
   const allCategories = useMemo(() => {
@@ -138,7 +147,6 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
     });
   }, [features, page]);
 
-  // Center active tab in mobile view
   const centerActiveTab = useCallback((categoryName: string) => {
     if (mobileTabsRef.current) {
       const activeTab = mobileTabsRef.current.querySelector(`[data-category="${categoryName}"]`) as HTMLElement;
@@ -157,7 +165,6 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
     }
   }, []);
 
-  // Set initial active category
   useEffect(() => {
     if (allCategories.length > 0) {
       const firstCategory = allCategories[0].name;
@@ -177,13 +184,13 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
 
   // Intersection Observer for smooth category highlighting
   useEffect(() => {
-    // Only run observer if user is not manually scrolling
+    // Don't set up observer if user is manually scrolling
     if (isUserScrolling) return;
 
     const observerOptions = {
       root: null,
-      rootMargin: '-120px 0px -40% 0px',
-      threshold: [0.1, 0.5, 0.8]
+      rootMargin: '-120px 0px -50% 0px',
+      threshold: [0.1, 0.3, 0.5, 0.7]
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -200,23 +207,83 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
         }
       });
       
-      if (mostVisibleEntry && highestRatio > 0.3) {
+      if (mostVisibleEntry && highestRatio > 0.2) {
         const categoryName = mostVisibleEntry.target.getAttribute('data-category');
         if (categoryName && categoryName !== activeCategoryRef.current) {
-          setActiveCategory(categoryName);
           activeCategoryRef.current = categoryName;
+          setActiveCategory(categoryName);
         }
       }
     }, observerOptions);
 
-    // Observe all sections
-    Object.values(sectionRefs.current).forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
+    // Small delay to ensure refs are set
+    const timeoutId = setTimeout(() => {
+      // Observe all sections
+      Object.values(sectionRefs.current).forEach((ref) => {
+        if (ref) observer.observe(ref);
+      });
+    }, 100);
 
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(timeoutId);
+      observer.disconnect();
+    };
   }, [allCategories, isUserScrolling]);
 
+  // Handle manual scrolling to update active category
+  useEffect(() => {
+    let scrollTimer: NodeJS.Timeout | null = null;
+    
+    const handleScroll = () => {
+      // Clear existing timer
+      if (scrollTimer) {
+        clearTimeout(scrollTimer);
+      }
+      
+      // Set a flag to indicate scrolling is happening
+      // But don't block the observer completely
+      scrollTimer = setTimeout(() => {
+        // After scrolling stops, check which section is most visible
+        const sections = Object.entries(sectionRefs.current);
+        let mostVisibleSection = null;
+        let maxVisibility = 0;
+        
+        sections.forEach(([categoryName, element]) => {
+          if (!element) return;
+          
+          const rect = element.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          const headerHeight = 120;
+          
+          // Calculate how much of the section is visible in the viewport
+          const visibleTop = Math.max(0, rect.top - headerHeight);
+          const visibleBottom = Math.min(viewportHeight - headerHeight, rect.bottom - headerHeight);
+          const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+          const visibilityRatio = visibleHeight / Math.min(viewportHeight - headerHeight, rect.height);
+          
+          if (visibilityRatio > maxVisibility && visibilityRatio > 0.3) {
+            maxVisibility = visibilityRatio;
+            mostVisibleSection = categoryName;
+          }
+        });
+        
+        if (mostVisibleSection && mostVisibleSection !== activeCategoryRef.current) {
+          activeCategoryRef.current = mostVisibleSection;
+          setActiveCategory(mostVisibleSection);
+        }
+      }, 150);
+    };
+    
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (scrollTimer) {
+        clearTimeout(scrollTimer);
+      }
+    };
+  }, []);
+  
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
@@ -280,24 +347,6 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
     }, 100);
   }, [centerActiveTab]);
 
-  // PortableText components for rendering blockContent
-  const portableTextComponents: any = {
-    block: {
-      normal: ({ children }: any) => (
-        <p className="text-base text-gray-700 leading-relaxed">{children}</p>
-      ),
-      blockquote: ({ children }: any) => (
-        <blockquote className="text-base text-gray-900 leading-relaxed italic border-l-4 border-purple-500 pl-4 my-4">
-          {children}
-        </blockquote>
-      ),
-    },
-    marks: {
-      highlight: ({ children }: any) => (
-        <span className="text-gray-950 font-semibold">{children}</span>
-      ),
-    },
-  };
 
   // Render category icon
   const renderCategoryIcon = (category: any, isActive: boolean = false) => {
@@ -343,7 +392,6 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
     }
   };
 
-  // If no categories found, show a message
   if (allCategories.length === 0) {
     return (
       <Section id="features" className="py-sm md:py-md lg:py-lg scroll-m-16 bg-gray-50">
@@ -352,31 +400,24 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
             heading="Feature-Packed to Improve <br/>Every Front Office Workflow"
             description='Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
           />
-          <div className="bg-white rounded-2xl shadow-lg p-8 max-w-2xl w-full">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">Categories</h3>
-            <div className="text-center py-8">
-              <p className="text-gray-600 mb-4">No categorized features found.</p>
-              <p className="text-sm text-gray-500">
-                Features need to be properly assigned to categories in the CMS to display here.
-              </p>
-            </div>
-          </div>
         </Container>
       </Section>
     );
   }
 
+
+
   return (
     <Section id="features" className="py-sm md:py-md lg:py-lg scroll-m-16 bg-gray-50">
       <Container className="flex flex-col items-center gap-16">
       <SectionHeader
-            heading="Feature-Packed to Improve <br/> Every Front Office Workflow"
-            description='Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
+            heading={sectionHeading?.headline ? sectionHeading?.headline : 'Feature-Packed to Improve <br/> Every Front Office Workflow'}
+            description={sectionHeading?.subheadline ? sectionHeading?.subheadline : 'Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'}
         />
 
         {/* Desktop Layout - Two Column */}
         <div className="hidden lg:flex gap-16 w-full mt-[50px]">
-            <aside className="w-80 flex-shrink-0">
+            <aside className="!max-w-[291px] w-full">
               <div className="sticky top-24">
                 <nav className="rounded-2xl" role="tablist" aria-label="Feature category navigation">
                   <div className="flex flex-col gap-[6px] mb-[24px]">
@@ -430,7 +471,7 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
               </div>
             </aside>
 
-            <main className="flex-1 space-y-16">
+            <main className="flex-1 space-y-[114px]">
               {allCategories.map((category, index) => {
                 const isActive = activeCategory === category.name;
                 const tabData = (category as any).tabData;
@@ -463,9 +504,9 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: index * 0.1 }}
                     >
-                      <div className="p-8 space-y-8">
+                      <div className="">
                         {/* Header with Logo and Location */}
-                        <header className="flex justify-between items-center w-full mb-6">
+                        <header className="flex justify-between items-center w-full mb-12">
                           <div className="flex-shrink-0">
                             {testimonial.logo && (
                               <div
@@ -483,126 +524,65 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
                             )}
                           </div>
 
-                          {locationText && (
+                          {/* {locationText && (
                             <div className="flex items-center gap-1.5 flex-shrink-0">
                               <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                 <path fillRule="evenodd" clipRule="evenodd" d="M8.17417 15.832L8.22375 15.8603L8.24358 15.8716C8.32223 15.9142 8.41023 15.9364 8.49965 15.9364C8.58906 15.9364 8.67706 15.9142 8.75571 15.8716L8.77554 15.861L8.82583 15.832C9.10287 15.6677 9.3732 15.4924 9.63617 15.3064C10.3169 14.8258 10.953 14.2848 11.5366 13.69C12.9136 12.2804 14.3438 10.1625 14.3438 7.4375C14.3438 5.88764 13.7281 4.40126 12.6322 3.30534C11.5362 2.20943 10.0499 1.59375 8.5 1.59375C6.95014 1.59375 5.46376 2.20943 4.36784 3.30534C3.27193 4.40126 2.65625 5.88764 2.65625 7.4375C2.65625 10.1618 4.08708 12.2804 5.46337 13.69C6.04679 14.2847 6.68261 14.8257 7.36313 15.3064C7.62632 15.4924 7.89688 15.6677 8.17417 15.832ZM8.5 9.5625C9.06358 9.5625 9.60409 9.33862 10.0026 8.9401C10.4011 8.54159 10.625 8.00109 10.625 7.4375C10.625 6.87392 10.4011 6.33341 10.0026 5.9349C9.60409 5.53638 9.06358 5.3125 8.5 5.3125C7.93641 5.3125 7.39591 5.53638 6.9974 5.9349C6.59888 6.33341 6.375 6.87392 6.375 7.4375C6.375 8.00109 6.59888 8.54159 6.9974 8.9401C7.39591 9.33862 7.93641 9.5625 8.5 9.5625Z" fill="#4A3CE1"/>
                               </svg>
-                              <span className="font-geist" style={{ fontSize: '18px', fontWeight: 500, color: '#4A3CE1', lineHeight: 'normal' }}>
+                              <span className="font-geist text-lg font-medium text-[#4A3CE1] leading-normal">
                                 {`${locationText} ${locationText > 1 ? 'Locations' : 'Location'}`}
                               </span>
                             </div>
-                          )}
+                          )} */}
             
                         </header>
-
-                        {/* Practice Name Title */}
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                          {testimonial.practiceName || category.name}
-                        </h2>
-
-                        {/* Introduction Paragraph */}
-                        {testimonial.testimonialdescription && (
-                          <p className="text-base text-gray-700 leading-relaxed mb-8">
-                            {testimonial.testimonialdescription}
-                          </p>
-                        )}
-
-                        {/* Key Metrics Section */}
-                        {metrics.length > 0 && (
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                            {metrics.slice(1, 3).map((metric: any, idx: number) => (
-                              <div
-                                key={idx}
-                                className="flex flex-col items-center justify-center p-6 border-l border-r border-gray-200 first:border-l-0 last:border-r-0"
-                              >
-                                <div
-                                  className="text-4xl md:text-5xl font-semibold text-purple-500 mb-2"
-                                  dangerouslySetInnerHTML={{
-                                    __html: metric.after || '',
-                                  }}
-                                />
-                                <div className="text-sm md:text-base text-gray-600 text-center">
-                                  {metric.listHeading || metric.heading || ''}
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        {/* Content Sections */}
-                        <div className="space-y-8">
-                          {/* Key Statement Section */}
-                          {testimonial.keyStatement && (
-                            <section>
-                              <h3 className="text-xl font-bold text-gray-900 mb-4">
-                                Automate Note Taking & Improve Productivity
-                              </h3>
-                              <div className="text-base text-gray-700 leading-relaxed">
-                                <PortableText
-                                  value={testimonial.keyStatement}
-                                  components={portableTextComponents}
-                                />
-                              </div>
-                            </section>
-                          )}
-
-                          {/* Main Statement Section */}
-                          {testimonial.mainStatement && (
-                            <section>
-                              <h3 className="text-xl font-bold text-gray-900 mb-4">
-                                What AI Can Do:
-                              </h3>
-                              <div className="text-base text-gray-700 leading-relaxed">
-                                <PortableText
-                                  value={testimonial.mainStatement}
-                                  components={portableTextComponents}
-                                />
-                              </div>
-                            </section>
-                          )}
-
-                          {/* Sub Statement Section */}
-                          {testimonial.subStatement && (
-                            <section>
-                              <div className="text-base text-gray-700 leading-relaxed">
-                                <PortableText
-                                  value={testimonial.subStatement}
-                                  components={portableTextComponents}
-                                />
-                              </div>
-                            </section>
-                          )}
-                        </div>
-
-                        {/* Purple CTA Section */}
-                        <div
-                          className="mt-12 p-8 rounded-2xl"
+                        <CaseStudyContent description={tabData?.description} />                 
+                               <div
+                          className="mt-6 px-[40px] py-9 rounded-2xl"
                           style={{
-                            background: 'linear-gradient(277deg, rgba(202, 197, 255, 0.20) 0%, rgba(202, 197, 255, 0.50) 49.61%, rgba(202, 197, 255, 0.10) 100.18%)',
+                            background: 'linear-gradient(123deg, #F4F3FA 0%, #E0DDFF 99.43%)',
                           }}
                         >
-                          <h3 className="text-2xl font-bold text-purple-900 mb-4">
-                            Create A More Seamless Patient Experience
-                          </h3>
-                          
-                          {/* Quote */}
-                          {testimonial.keyStatement && (
-                            <blockquote className="text-lg text-purple-800 mb-6 italic">
-                              <PortableText
-                                value={testimonial.keyStatement}
-                                components={portableTextComponents}
-                              />
-                            </blockquote>
+                          <H3 className="!text-3xl text-[#151315] font-manrope font-semibold !leading-[120%] !tracking-[37.5%] mb-3">
+                            {testimonial.keyNoteHeading}
+                          </H3>
+
+                          {testimonial.keyNoteStatement && (
+                            <div className="mb-4">
+                              {Array.isArray(testimonial.keyNoteStatement) ? (
+                                <PortableText 
+                                  value={testimonial.keyNoteStatement}
+                                  components={{
+                                    block: {
+                                      normal: ({ children }: any) => (
+                                        <p className="text-[#5F6368] font-geist text-lg font-medium leading-[28px] tracking-normal mb-4">
+                                          {children}
+                                        </p>
+                                      ),
+                                    },
+                                  }}
+                                />
+                              ) : (
+                                <p className="text-[#5F6368] font-geist text-lg font-medium leading-[28px] tracking-normal">
+                                  {testimonial.keyNoteStatement}
+                                </p>
+                              )}
+                            </div>
                           )}
+                          
+                          {/* Quote - Using description content instead */}
 
                           {/* Key Features Pills */}
                           {testimonial.keyFeatures && testimonial.keyFeatures.length > 0 && (
-                            <div className="flex flex-wrap gap-3 mb-6">
+                            <div className="flex flex-wrap gap-3 md:my-[30px] my-4">
                               {testimonial.keyFeatures.map((feature: string, idx: number) => (
                                 <span
                                   key={idx}
-                                  className="px-4 py-2 bg-purple-100 text-purple-900 text-sm font-medium rounded-full"
+                                  className="flex items-center gap-1 py-[6px] px-4 text-[#271E82] font-geist text-sm font-normal leading-6 rounded-full border"
+                                  style={{
+                                    borderColor: '#A8A0FF',
+                                    backgroundColor: '#D8D4FF',
+                                  }}
                                 >
                                   {feature}
                                 </span>
@@ -622,10 +602,10 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
                               </div>
                             )}
                             <div>
-                              <p className="font-bold text-purple-900 text-base">
+                              <p className="text-[#151315] font-geist text-lg font-medium leading-[28px] tracking-normal">
                                 {testimonial.name}
                               </p>
-                              <p className="text-purple-700 text-sm">
+                              <p className="text-black/60 font-geist text-base font-normal leading-6 tracking-normal">
                                 {testimonial.designation}
                               </p>
                             </div>
@@ -645,7 +625,7 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
                     id={`desktop-category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                     role="tabpanel"
                     aria-labelledby={`desktop-tab-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                    className="bg-white rounded-3xl shadow-lg overflow-hidden"
+                    className="bg-white rounded-3xl  overflow-hidden"
                     initial={{ opacity: 0, y: 40 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -693,11 +673,17 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
                         <h3 className="sr-only">Features included in {category.name}</h3>
                         <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 w-full" role="list">
                           {category.features.map((feature, featureIndex) => {
-                            const isLastItem = featureIndex === category.features.length - 1;
+                            const featuresLength = category.features.length;
+                            const isOdd = featuresLength % 2 !== 0;
+                            const isLastItem = featureIndex === featuresLength - 1;
+                            const isSecondLastItem = featureIndex === featuresLength - 2;
+                            const shouldShowBorder = isOdd 
+                              ? !isLastItem 
+                              : !isLastItem && !isSecondLastItem;
                             return (
                               <motion.li 
                                 key={feature._id} 
-                                className={`flex items-center gap-2 py-[14px] ${!isLastItem ? 'border-b border-gray-200' : ''}`}
+                                className={`flex items-center gap-2 py-[14px] ${shouldShowBorder ? 'border-b border-gray-200' : ''}`}
                                 initial={{ opacity: 0, x: 20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.4, delay: featureIndex * 0.1 }}
@@ -775,26 +761,7 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
                           transition={{ duration: 0.3, delay: index * 0.1 }}
                         >
                           <div className="flex items-center flex-col space-x-2">
-                            {(category.icon || category.iconSvgCode || (page === 'case-studies' && (category as any).tabData?.testimonial?.logo)) && (
-                              <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center`} aria-hidden="true">
-                                {page === 'case-studies' && (category as any).tabData?.testimonial?.logo ? (
-                                  <div
-                                    style={{
-                                      height: '32px',
-                                      width: `${32 * ((category as any).tabData?.testimonial?.logo?.metadata?.dimensions?.aspectRatio || 2)}px`,
-                                    }}
-                                  >
-                                    <ImageLoader
-                                      image={(category as any).tabData?.testimonial?.logo?.url}
-                                      alt={category.name}
-                                      className="w-full h-full object-contain"
-                                    />
-                                  </div>
-                                ) : (
-                                  renderCategoryIcon(category, isActive)
-                                )}
-                              </div>
-                            )}
+                   
                             <span className="text-[12px] font-medium whitespace-nowrap">
                               {category.name}
                             </span>
@@ -857,120 +824,67 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
                                   </div>
                                 )}
                               </div>
-                              {locationText && (
+                              {/* {locationText && (
                                 <div className="flex items-center gap-1.5 flex-shrink-0">
                                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
                                     <path fillRule="evenodd" clipRule="evenodd" d="M8.17417 15.832L8.22375 15.8603L8.24358 15.8716C8.32223 15.9142 8.41023 15.9364 8.49965 15.9364C8.58906 15.9364 8.67706 15.9142 8.75571 15.8716L8.77554 15.861L8.82583 15.832C9.10287 15.6677 9.3732 15.4924 9.63617 15.3064C10.3169 14.8258 10.953 14.2848 11.5366 13.69C12.9136 12.2804 14.3438 10.1625 14.3438 7.4375C14.3438 5.88764 13.7281 4.40126 12.6322 3.30534C11.5362 2.20943 10.0499 1.59375 8.5 1.59375C6.95014 1.59375 5.46376 2.20943 4.36784 3.30534C3.27193 4.40126 2.65625 5.88764 2.65625 7.4375C2.65625 10.1618 4.08708 12.2804 5.46337 13.69C6.04679 14.2847 6.68261 14.8257 7.36313 15.3064C7.62632 15.4924 7.89688 15.6677 8.17417 15.832ZM8.5 9.5625C9.06358 9.5625 9.60409 9.33862 10.0026 8.9401C10.4011 8.54159 10.625 8.00109 10.625 7.4375C10.625 6.87392 10.4011 6.33341 10.0026 5.9349C9.60409 5.53638 9.06358 5.3125 8.5 5.3125C7.93641 5.3125 7.39591 5.53638 6.9974 5.9349C6.59888 6.33341 6.375 6.87392 6.375 7.4375C6.375 8.00109 6.59888 8.54159 6.9974 8.9401C7.39591 9.33862 7.93641 9.5625 8.5 9.5625Z" fill="#4A3CE1"/>
                                   </svg>
-                                  <span className="font-geist" style={{ fontSize: '18px', fontWeight: 500, color: '#4A3CE1', lineHeight: 'normal' }}>
+                                  <span className="font-geist text-lg font-medium text-[#4A3CE1] leading-normal">
                                     {`${locationText} ${locationText > 1 ? 'Locations' : 'Location'}`}
                                   </span>
                                 </div>
-                              )}
+                              )} */}
                             </header>
 
-                            {/* Practice Name Title */}
-                            <h2 className="text-2xl font-bold text-gray-900 mb-3">
-                              {testimonial.practiceName || displayCategory?.name}
-                            </h2>
-
-                            {/* Introduction Paragraph */}
-                            {testimonial.testimonialdescription && (
-                              <p className="text-sm text-gray-700 leading-relaxed mb-6">
-                                {testimonial.testimonialdescription}
-                              </p>
-                            )}
-
-                            {/* Key Metrics Section */}
-                            {metrics.length > 0 && (
-                              <div className="grid grid-cols-3 gap-4 mb-6">
-                                {metrics.slice(0, 3).map((metric: any, idx: number) => (
-                                  <div
-                                    key={idx}
-                                    className="flex flex-col items-center justify-center p-4 border-l border-r border-gray-200 first:border-l-0 last:border-r-0"
-                                  >
-                                    <div
-                                      className="text-2xl font-semibold text-purple-500 mb-1"
-                                      dangerouslySetInnerHTML={{
-                                        __html: metric.after || '',
-                                      }}
-                                    />
-                                    <div className="text-xs text-gray-600 text-center">
-                                      {metric.listHeading || metric.heading || ''}
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-
-                            {/* Content Sections */}
-                            <div className="space-y-6">
-                              {testimonial.keyStatement && (
-                                <section>
-                                  <h3 className="text-lg font-bold text-gray-900 mb-3">
-                                    Automate Note Taking & Improve Productivity
-                                  </h3>
-                                  <div className="text-sm text-gray-700 leading-relaxed">
-                                    <PortableText
-                                      value={testimonial.keyStatement}
-                                      components={portableTextComponents}
-                                    />
-                                  </div>
-                                </section>
-                              )}
-
-                              {testimonial.mainStatement && (
-                                <section>
-                                  <h3 className="text-lg font-bold text-gray-900 mb-3">
-                                    What AI Can Do:
-                                  </h3>
-                                  <div className="text-sm text-gray-700 leading-relaxed">
-                                    <PortableText
-                                      value={testimonial.mainStatement}
-                                      components={portableTextComponents}
-                                    />
-                                  </div>
-                                </section>
-                              )}
-
-                              {testimonial.subStatement && (
-                                <section>
-                                  <div className="text-sm text-gray-700 leading-relaxed">
-                                    <PortableText
-                                      value={testimonial.subStatement}
-                                      components={portableTextComponents}
-                                    />
-                                  </div>
-                                </section>
-                              )}
+                            {/* Full Description from PortableText */}
+                            <div className="mt-4">
+                              <CaseStudyContent description={tabData?.description} />
                             </div>
 
                             {/* Purple CTA Section */}
                             <div
-                              className="mt-8 p-6 rounded-xl"
+                              className="mt-6 px-[40px] py-9 rounded-2xl"
                               style={{
-                                background: 'linear-gradient(277deg, rgba(202, 197, 255, 0.20) 0%, rgba(202, 197, 255, 0.50) 49.61%, rgba(202, 197, 255, 0.10) 100.18%)',
+                                background: 'linear-gradient(123deg, #F4F3FA 0%, #E0DDFF 99.43%)',
                               }}
                             >
-                              <h3 className="text-xl font-bold text-purple-900 mb-3">
-                                Create A More Seamless Patient Experience
-                              </h3>
-                              
-                              {testimonial.keyStatement && (
-                                <blockquote className="text-base text-purple-800 mb-4 italic">
-                                  <PortableText
-                                    value={testimonial.keyStatement}
-                                    components={portableTextComponents}
-                                  />
-                                </blockquote>
+                              <H3 className="md:!text-3xl !text-[20px] text-[#151315] font-manrope font-semibold !leading-[120%] !tracking-[37.5%] mb-3">
+                                {testimonial.keyNoteHeading}
+                              </H3>
+
+                              {testimonial.keyNoteStatement && (
+                                <div className="mb-4">
+                                  {Array.isArray(testimonial.keyNoteStatement) ? (
+                                    <PortableText 
+                                      value={testimonial.keyNoteStatement}
+                                      components={{
+                                        block: {
+                                          normal: ({ children }: any) => (
+                                            <p className="text-[#5F6368] font-geist text-base font-medium leading-[28px] tracking-normal mb-4">
+                                              {children}
+                                            </p>
+                                          ),
+                                        },
+                                      }}
+                                    />
+                                  ) : (
+                                    <p className="text-[#5F6368] font-geist text-lg font-medium leading-[28px] tracking-normal">
+                                      {testimonial.keyNoteStatement}
+                                    </p>
+                                  )}
+                                </div>
                               )}
 
                               {testimonial.keyFeatures && testimonial.keyFeatures.length > 0 && (
-                                <div className="flex flex-wrap gap-2 mb-4">
+                                <div className="flex flex-wrap gap-3 md:my-[30px] my-4">
                                   {testimonial.keyFeatures.map((feature: string, idx: number) => (
                                     <span
                                       key={idx}
-                                      className="px-3 py-1.5 bg-purple-100 text-purple-900 text-xs font-medium rounded-full"
+                                      className="flex items-center gap-1 py-[6px] px-4 text-[#271E82] font-geist md:text-sm text-xs font-normal leading-6 rounded-full border"
+                                      style={{
+                                        borderColor: '#A8A0FF',
+                                        backgroundColor: '#D8D4FF',
+                                      }}
                                     >
                                       {feature}
                                     </span>
@@ -979,9 +893,9 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
                               )}
 
                               {/* Author Info */}
-                              <div className="flex items-center gap-3 mt-4">
+                              <div className="flex items-center gap-4 mt-6">
                                 {testimonial.testimonialImage && (
-                                  <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                                  <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
                                     <ImageLoader
                                       image={testimonial.testimonialImage?.url}
                                       alt={testimonial.name || 'Author'}
@@ -990,10 +904,10 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
                                   </div>
                                 )}
                                 <div>
-                                  <p className="font-bold text-purple-900 text-sm">
+                                  <p className="text-[#151315] font-geist md:text-lg text-base font-medium leading-[28px] tracking-normal">
                                     {testimonial.name}
                                   </p>
-                                  <p className="text-purple-700 text-xs">
+                                  <p className="text-black/60 font-geist md:text-base text-sm font-normal leading-6 tracking-normal">
                                     {testimonial.designation}
                                   </p>
                                 </div>
@@ -1044,11 +958,19 @@ export default function CategoryFeatureTabs({ page = "", features }: CategoryFea
                           <section className="p-6 bg-white" aria-label={`${displayCategory?.name} features`}>
                             <ul className="space-y-3" role="list">
                               {displayCategory?.features.map((feature, featureIndex) => {
-                                const isLastItem = featureIndex === displayCategory.features.length - 1;
+                                const featuresLength = displayCategory.features.length;
+                                const isOdd = featuresLength % 2 !== 0;
+                                const isLastItem = featureIndex === featuresLength - 1;
+                                const isSecondLastItem = featureIndex === featuresLength - 2;
+                                // If odd: remove border from last item only
+                                // If even: remove border from last 2 items
+                                const shouldShowBorder = isOdd 
+                                  ? !isLastItem 
+                                  : !isLastItem && !isSecondLastItem;
                                 return (
                                   <motion.li 
                                     key={feature._id} 
-                                    className={`flex items-center space-x-3 py-[14px] ${!isLastItem ? 'border-b border-gray-200' : ''}`}
+                                    className={`flex items-center space-x-3 py-[14px] ${shouldShowBorder ? 'border-b border-gray-200' : ''}`}
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.3, delay: featureIndex * 0.05 }}

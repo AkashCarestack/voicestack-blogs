@@ -14,7 +14,7 @@ export default function LeadershipList({ data }: { data: any }) {
         <div className="font-sans flex flex-col gap-16">
           <SectionHeader heading={data?.heading} />
           <div
-            className="columns-1 sm:columns-2 md:columns-3"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
             style={{ columnGap: '1.5rem' }}
           >
             {data?.testimonial?.map((item: any) => (
@@ -33,15 +33,15 @@ export default function LeadershipList({ data }: { data: any }) {
                 >
                   <ImageLoader
                     image={item?.testimonialImage}
-                    imageClassName="w-full h-full object-cover rounded-[6px] lg:rounded-[14px]"
+                    imageClassName="w-full h-full bg-[#DDDCDF] object-cover rounded-[6px] lg:rounded-[14px]"
                     alt={item.name || item.designation || 'Feature image'}
                   />
                 </div>
                 <div className="text-left">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                  <h3 className="md:text-[21px] text-base leading-[120%] font-manrope font-semibold text-gray-900 mb-1.5">
                     {item.name}
                   </h3>
-                  <p className="text-base text-gray-600">
+                  <p className="text-[17px] md:leading-6 font-manrope font-normal text-gray-600">
                     {item.designation}
                   </p>
                 </div>
