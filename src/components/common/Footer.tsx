@@ -44,7 +44,7 @@ const Footer = ({ data }) => {
       target="_blank"
       rel="noreferrer"
       title={title}
-      className={`group inline-flex items-center justify-center p-6 transition-colors duration-300 ${className}`}
+      className={`md:h-[84px] group inline-flex items-center justify-center p-6 transition-colors duration-300 ${className}`}
       style={{
         borderRadius: 'var(--radius-lg, 8px)',
         border: '0 solid rgba(255, 255, 255, 0.40)',
@@ -128,7 +128,7 @@ const Footer = ({ data }) => {
             <div className="py-3 border-gray-800 ">
               <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
                 {/* Logo and Copyright */}
-                <div className="flex md:gap-0 gap-6 flex-col md:flex-row items-center justify-between rounded-xl bg-zinc-900 flex-1 py-3 px-3 md:pl-8">
+                <div className="flex md:gap-0 gap-6 flex-col md:flex-row md:h-[84px] items-center justify-between rounded-xl bg-zinc-900 flex-1 py-3 px-3 md:pl-8">
                   <div className="flex flex-col md:flex-row items-center gap-4">
                     <Anchor
                       elementId="footer-logo"
@@ -212,7 +212,7 @@ const Footer = ({ data }) => {
 
                 {/* Social Media Links */}
                 {data?.socialMedia && (
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center md:gap-6 gap-3">
                     {data.socialMedia.linkedin && (
                       <SocialIcon
                         className=""
