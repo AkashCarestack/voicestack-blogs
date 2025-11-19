@@ -67,7 +67,7 @@ const CardsGridSection = ({ data, customText }: CardsGridSectionProps) => {
                         {/* Icon/Image */}
                         {item.dynamicSvg ? (
                           <div 
-                            className="py-4 px-6 flex items-center justify-center rounded-full self-start bg-vs-purple-50 group-hover:bg-vs-purple-gradient transition-all"
+                            className="py-4 px-6 flex items-center justify-center rounded-full self-start bg-vs-purple-50 group-hover:bg-vs-purple-gradient transition-all [&_svg]:transition-all [&_svg]:duration-300 group-hover:[&_svg]:brightness-0 group-hover:[&_svg]:invert"
                             dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
                           />
                         ) : item.image?.url ? (

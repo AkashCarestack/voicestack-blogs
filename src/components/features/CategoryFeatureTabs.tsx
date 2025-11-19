@@ -547,7 +547,7 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                             background: 'linear-gradient(123deg, #F4F3FA 0%, #E0DDFF 99.43%)',
                           }}
                         >
-                          <H3 className="!text-3xl text-[#151315] font-manrope font-semibold !leading-[120%] !tracking-[37.5%] mb-3">
+                          <H3 className="!text-3xl text-[#151315] font-manrope font-semibold !leading-[120%]  mb-3">
                             {testimonial.keyNoteHeading}
                           </H3>
 
@@ -594,12 +594,12 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                             </div>
                           )}
 
-                          {/* Author Info */}
+                          {/* Author Info */} 
                           <div className="flex items-center gap-4 mt-6">
-                            {testimonial.testimonialImage && (
-                              <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                            {testimonial.secondaryTestimonialImage && (
+                              <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-[#B1A6DA]">
                                 <ImageLoader
-                                  image={testimonial.testimonialImage?.url}
+                                  image={testimonial.secondaryTestimonialImage?.url}
                                   alt={testimonial.name || 'Author'}
                                   className="w-full h-full object-cover"
                                 />
@@ -856,7 +856,7 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                                 background: 'linear-gradient(123deg, #F4F3FA 0%, #E0DDFF 99.43%)',
                               }}
                             >
-                              <H3 className="md:!text-3xl !text-[20px] text-[#151315] font-manrope font-semibold !leading-[120%] !tracking-[37.5%] mb-3">
+                              <H3 className="md:!text-3xl !text-[20px] text-[#151315] font-manrope font-semibold !leading-[120%]  mb-3">
                                 {testimonial.keyNoteHeading}
                               </H3>
 
@@ -902,10 +902,10 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
 
                               {/* Author Info */}
                               <div className="flex items-center gap-4 mt-6">
-                                {testimonial.testimonialImage && (
-                                  <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                                {testimonial.secondaryTestimonialImage && (
+                                  <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-[#B1A6DA]">
                                     <ImageLoader
-                                      image={testimonial.testimonialImage?.url}
+                                      image={testimonial.secondaryTestimonialImage?.url}
                                       alt={testimonial.name || 'Author'}
                                       className="w-full h-full object-cover"
                                     />
