@@ -403,7 +403,7 @@ const HeroSection = ({
                 <div className="flex w-fit mx-auto lg:mx-0 text-center lg:text-left items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
                   <span className="hidden md:block"><SuperChargeIcon /></span>
                   <h1 className="text-sm font-medium text-gray-950 uppercase">
-                    {toCamelCase(data?.heroStrip)}
+                    {data?.heroStrip}
                   </h1>
                 </div>
               ) : (
