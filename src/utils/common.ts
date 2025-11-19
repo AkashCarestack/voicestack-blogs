@@ -219,3 +219,36 @@ export const cookieSelector = (consentString, field) => {
   const match = consentString && consentString.match(regex);
   return match && match[1] ? match[1] : "false";
 };
+
+// Convert text to Title Case for HTML, CSS will display as uppercase
+// Preserves spaces from Sanity between words
+// If text is already in proper case, returns it as-is
+export const toCamelCase = (text: string | undefined): string => {
+  if (!text) return ''
+  
+  // Check if text is already in proper case:
+  // - Not all uppercase
+  // - Starts with lowercase letter
+  // - Has mixed case (contains both uppercase and lowercase)
+  const isAllUppercase = text === text.toUpperCase()
+  const isAllLowercase = text === text.toLowerCase()
+  const startsWithLowercase = text.charAt(0) === text.charAt(0).toLowerCase()
+  const hasMixedCase = !isAllUppercase && !isAllLowercase
+  
+  const isAlreadyCamelCase = 
+    !isAllUppercase && 
+    startsWithLowercase && 
+    (hasMixedCase || text.split(' ').some(word => word.length > 0 && word.charAt(0) === word.charAt(0).toUpperCase()))
+  
+  // If already in proper case, return as-is
+  if (isAlreadyCamelCase) {
+    return text
+  }
+  
+  // Otherwise, convert to Title Case (capitalize first letter of each word)
+  return text
+    .toLowerCase()
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}

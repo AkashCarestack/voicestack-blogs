@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import VideoPlayers from '~/components/common/VideoPlayer'
 import SuperChargeIcon from '~/components/icons/superCharge'
+import { toCamelCase } from '~/utils/common'
 
 import Button from '../../../../common/Button'
 import { VideoItem } from '../../../../common/VideoModal'
@@ -283,8 +284,8 @@ const HeroSection = ({
       <Container className={`${isCentered ? ' ' : 'py-4 lg:py-0'} justify-center`}>
         {isCentered ? (
           <div className={`${showFullDescription ? "max-w-[808px]" : "max-w-[606px]"} flex flex-col items-center text-center  gap-3 py-12  lg:pt-md lg:pb-md`}>
-            <h1 className="text-base font-medium text-gray-950 ">
-              {data?.heroStrip}
+            <h1 className="text-base font-medium text-gray-950 uppercase">
+              {toCamelCase(data?.heroStrip)}
             </h1>
             <h2 className="text-4xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
               <PortableText value={data?.heroheading} components={components} />
@@ -385,14 +386,14 @@ const HeroSection = ({
               {page === 'home' ? (
                 <div className="flex w-fit mx-auto lg:mx-0 text-center lg:text-left items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
                   <span className="hidden md:block"><SuperChargeIcon /></span>
-                  <h1 className="text-sm font-medium text-gray-950 ">
-                    {data?.heroStrip}
+                  <h1 className="text-sm font-medium text-gray-950 uppercase">
+                    {toCamelCase(data?.heroStrip)}
                   </h1>
                 </div>
               ) : (
                 <div className="text-center lg:text-left">
-                  <h1 className="text-base font-medium text-gray-950">
-                    {data?.heroStrip}
+                  <h1 className="text-base font-medium text-gray-950 uppercase">
+                    {toCamelCase(data?.heroStrip)}
                   </h1>
                 </div>
               )}
