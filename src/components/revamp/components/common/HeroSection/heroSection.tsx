@@ -124,7 +124,7 @@ const HeroSection = ({
           className="flex lg:justify-start justify-center gap-3 py-[10px] md:py-[14px] text-base text-gray-950 leading-[24px] border-b"
           style={{ borderColor: '#0307121A' }}
         >
-          <span className="mt-1 md:mt-0 lg:flex items-center hidden">
+          <span className="mt-1 md:mt-2 lg:flex hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
