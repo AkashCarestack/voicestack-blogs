@@ -1,7 +1,4 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { getClient } from '~/lib/sanity.client';
-import { getHeaderData, getFooterData, getALLSiteSettings, getContactData } from '~/lib/sanity.queries';
 
 interface LayoutDataContextType {
   headerData: any;
@@ -50,61 +47,33 @@ export default function LayoutDataProvider({
   const [contactData, setContactData] = useState(initialContactData);
   const [loading, setLoading] = useState(!initialHeaderData && !initialFooterData);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
+  // Sync props to state when they change (important for client-side navigation)
+  // This ensures that when getInitialProps provides new data during navigation, we update state
+  // getInitialProps runs server-side on initial load, and client-side during navigation
   useEffect(() => {
-    // Only fetch if we don't have initial data or if locale changed
-    // Skip if we already have initial data and locale hasn't changed
-    if (initialHeaderData && initialFooterData && !router.locale) {
-      return;
+    // Only update state if we have valid data (not null/undefined)
+    // This prevents clearing existing state during navigation when getInitialProps is still fetching
+    if (initialHeaderData !== null && initialHeaderData !== undefined) {
+      setHeaderData(initialHeaderData);
     }
-
-    const fetchLayoutData = async () => {
-      try {
-        const region = router.locale || 'en';
-        const client = getClient();
-        
-        const [header, footer, siteSettingsData, contactData] = await Promise.all([
-          getHeaderData(client, region),
-          getFooterData(client, region),
-          client.fetch(getALLSiteSettings(region)),
-          getContactData(client, region)
-        ]);
-        
-        setHeaderData(header);
-        setFooterData(footer);
-        setSiteSettings(siteSettingsData);
-        setContactData(contactData);
-        setError(null);
-      } catch (error) {
-        console.error('Error fetching layout data:', error);
-        setError(error.message);
-        
-        // Set fallback data to prevent null data issues
-        setHeaderData({
-          navigationMenu: [],
-          topNavigationMenu: [],
-          phoneNumber: '',
-          ctabutton: 'Book Demo'
-        });
-        setFooterData({
-          title: 'VoiceStack',
-          footerColumns: [],
-          socialMedia: {},
-          bottomLinks: [],
-          copyrightText: '© 2024 VoiceStack. All rights reserved.'
-        });
-        setSiteSettings(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    // Only fetch if we don't have initial data
-    if (!initialHeaderData || !initialFooterData) {
-      fetchLayoutData();
+    if (initialFooterData !== null && initialFooterData !== undefined) {
+      setFooterData(initialFooterData);
     }
-  }, [router.locale, initialHeaderData, initialFooterData]);
+    if (initialSiteSettings !== null && initialSiteSettings !== undefined) {
+      setSiteSettings(initialSiteSettings);
+    }
+    if (initialContactData !== null && initialContactData !== undefined) {
+      setContactData(initialContactData);
+    }
+    
+    // Update loading state based on whether we have data
+    if (initialHeaderData && initialFooterData) {
+      setLoading(false);
+      setError(null);
+    }
+    // Don't set loading to true if props are null during navigation - preserve existing state
+  }, [initialHeaderData, initialFooterData, initialSiteSettings, initialContactData]);
 
   return (
     <LayoutDataContext.Provider value={{ headerData, footerData, siteSettings, contactData, loading, error }}>
