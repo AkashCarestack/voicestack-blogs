@@ -133,12 +133,12 @@ export default function TestimonialRightCard({ data }: { data: any }) {
               })()}
               <div className="items-center gap-4 flex sm:hidden">
                 <div className="relative w-14 h-14 mb-4">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-[8px] flex items-center justify-center bg-img-gray overflow-hidden">
                     <ImageLoader
                       key={`testimonial-image-${data?.testimonial?._id}`}
-                      image={data?.testimonial?.testimonialImage}
-                      width={56}
-                      height={56}
+                      image={data?.testimonial?.secondaryTestimonialImage}
+                      alt={data?.testimonial?.secondaryTestimonialImage?.alt || data?.testimonial?.name}
+                      title={data?.testimonial?.secondaryTestimonialImage?.title || data?.testimonial?.name}
                       imageClassName="w-full h-auto object-contain"
                     />
                   </div>

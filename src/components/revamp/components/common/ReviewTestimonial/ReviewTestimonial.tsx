@@ -20,8 +20,13 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
         <p className="text-lg lg:text-xl font-bold text-gray-950 !leading-[150%] font-manrope">
-          {children}
+          &ldquo;{children}&rdquo;
         </p>
+      ),
+      blockquote: ({ children }: { children: React.ReactNode }) => (
+        <blockquote className="text-lg lg:text-xl font-bold text-gray-950 !leading-[150%] font-manrope">
+          &ldquo;{children}&rdquo;
+        </blockquote>
       ),
     },
   }
@@ -77,9 +82,9 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
           />
         )}
       </Head>
-    <Section className="relative py-sm md:py-md  bg-[#F9F9F9]">
+    <Section className="relative py-sm md:py-md  bg-[#F9F9F9] font-geist">
       <Container className="w-full justify-center">
-        <div className="font-sans">
+        <div className="">
           <SectionHeader heading={data?.heading} />
 
           {testimonials && (
@@ -172,24 +177,24 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
                         </div>
                         <div className="flex items-center gap-6 pt-3">
                           <div
-                            className=" rounded-full overflow-hidden"
+                            className=" rounded-[8px] overflow-hidden bg-img-gray"
                             style={{
                               height: `56px`,
                               width: `${
                                 56 *
-                                  testimonial?.testimonialImage?.metadata
+                                  testimonial?.secondaryTestimonialImage?.metadata
                                     ?.dimensions?.aspectRatio || 2
                               }px`,
                             }}
                           >
                             <ImageLoader
-                              image={testimonial?.testimonialImage?.url}
-                              alt={testimonial?.testimonialImage?.alt}
+                              image={testimonial?.secondaryTestimonialImage?.url}
+                              alt={testimonial?.secondaryTestimonialImage?.alt}
                               className="w-auto h-full object-cover"
                             />
                           </div>
 
-                          <div className="flex flex-col gap-1 items-start">
+                          <div className="flex flex-col items-start">
                             <p className="font-semibold text-base md:text-lg leading-[150%] text-gray-950">
                               {testimonial?.name}
                             </p>

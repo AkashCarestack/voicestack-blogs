@@ -160,7 +160,7 @@ function App({
           <PricingModalProvider>
             <BookDemoContextProvider>
               <LayoutDataProvider>
-                <GlobalHead />
+                {/* <GlobalHead /> */}
                 <Layout>
                   {draftMode ? (
                     <PreviewProvider token={token}>
@@ -194,7 +194,7 @@ export default TrackWrapper;
 
 function dispatchEvent(data: any) {      
   const cookieAnalytics = cookieSelector(getCookie('cookieyes-consent'),'analytics')
-  const countryVersion:any = getCookie("__cs_ver"); 
+  const countryVersion:any = getCookie("__vs_ver"); 
   const pageVersion:any = getCookie("__cs_pc");       
                 
   if((cookieAnalytics && cookieAnalytics !== "yes") && countryVersion == 2 && !(pageVersion === "ph-c")){

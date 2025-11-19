@@ -17,6 +17,7 @@ import SparklesIconFill from '../revamp/icons/SparklesIconFill';
 import PhoneIcon from '../icons/PhoneIcon';
 import { useLayoutData } from '~/providers/LayoutDataProvider';
 import { urlForImage } from '~/lib/sanity.image';
+import RegionStrip from '../revamp/components/regionStrip';
 // import RegionStrip from '../revamp/components/regionStrip';
 
 // Constants
@@ -423,6 +424,8 @@ const Header = ({ data, refer = null }) => {
   const [currentLocale, setCurrentLocale] = useState<string | null>(null);
   const [countryCode, setCountryCode] = useState<string>('');
   const [regionSwitcher, setRegionSwitcher] = useState(false);
+  const [regionSwitcherTop, setRegionSwitcherTop] = useState(false);
+  const [regionSwitcherTopShow, setRegionSwitcherTopShow] = useState(true);
   const [preferredLocale, setPreferredLocale] = useState<string>('en');
   const [currentRegion, setCurrentRegion] = useState<string>('USA');
   const [showTopStrip, setShowTopStrip] = useState(true);
@@ -500,11 +503,13 @@ const Header = ({ data, refer = null }) => {
 
     if (currentScrollY <= 0) {
       setShowTopStrip(true);
+      setRegionSwitcherTopShow(true);
     } else if (currentScrollY < lastScrollY) {
       setShowTopStrip(true);
       setHeaderFixed(false);
     } else if (currentScrollY > lastScrollY) {
       setShowTopStrip(false);
+      setRegionSwitcherTopShow(false);
     }
 
     setLastScrollY(currentScrollY);
@@ -536,9 +541,21 @@ const Header = ({ data, refer = null }) => {
     if (router.query.flag === 'true') {
       return false;
     }
-    const countryCd = getCookie('__cs_ver') ? getCookie('__cs_ver') : '1';
+    const countryCd = getCookie('__vs_ver') ? getCookie('__vs_ver') : '1';
     return router.locale !== getLocaleFromCountry(country) && router.asPath === '/' && countryCd !== 'undefined';
   };
+
+  const shouldRenderPopupTop = () => {
+    // console.log(router.locale, getLocaleFromCountry(country), country, "shouldRenderPopupTop");
+    return (
+      !router.asPath.includes("/legal") &&
+      router.locale !== getLocaleFromCountry(country) &&
+      // router.locale !== getRegionFromCountryCode(countryCode) &&
+      router.asPath !== '/' &&
+      !router.query.flag &&
+      regionSwitcherTopShow
+    );
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -546,6 +563,10 @@ const Header = ({ data, refer = null }) => {
     }, 1000);
     return () => clearTimeout(timer);
   }, [router.query.flag]);
+
+  useEffect(() => {
+    setRegionSwitcherTop(shouldRenderPopupTop());
+  }, [router.query.flag, regionSwitcherTopShow]);
 
   const openDemoPopup = () => {
     router.push('/demo');
@@ -597,11 +618,14 @@ const Header = ({ data, refer = null }) => {
         <link rel="alternate" hrefLang="x-default" href="https://www.voicestack.com" /> */}
         {/* organization schema */}
         {jsonLdData && (
+          <>
+          <meta property="og:image" content={urlForImage(siteSettings?.ogImage)} />
           <script
               type="application/ld+json"
               id="organization-schema"
               dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
             />
+          </>
         )}
       </Head>
 
@@ -622,9 +646,12 @@ const Header = ({ data, refer = null }) => {
           showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'
         } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}
       >
-         {/* <RegionStrip locale={router.locale} className={`${
-          showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'
-        } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}  /> */}
+        {/* top region switcher */}
+        {regionSwitcherTop && (
+          <RegionStrip locale={router.locale} setRegionSwitcherTop={setRegionSwitcherTop} className={`${
+            showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'
+          } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}  />
+        )}
 
         {/* Top Header Strip */}
         <div

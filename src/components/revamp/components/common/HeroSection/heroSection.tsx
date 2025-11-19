@@ -121,7 +121,7 @@ const HeroSection = ({
     listItem: {
       bullet: ({ children }: { children: React.ReactNode }) => (
         <li
-          className="flex lg:justify-start justify-center gap-3 py-[14px] text-base text-gray-950 leading-[24px] border-b"
+          className="flex lg:justify-start justify-center gap-3 py-[10px] md:py-[14px] text-base text-gray-950 leading-[24px] border-b"
           style={{ borderColor: '#0307121A' }}
         >
           <span className="mt-1 md:mt-0 lg:flex items-center hidden">
@@ -143,6 +143,22 @@ const HeroSection = ({
           <span>{children}</span>
         </li>
       ),
+    },
+    marks: {
+      link: ({ children, value }: { children: React.ReactNode; value?: any }) => {
+        const href = value?.href || '#'
+        const isExternal = href?.startsWith('http') || href?.startsWith('//')
+        return (
+          <a
+            href={href}
+            target={'_self'}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+            className="text-vs-blue font-medium   hover:text-vs-purple transition-colors duration-200"
+          >
+            {children}
+          </a>
+        )
+      },    
     },
   }
   const testimonialDescriptionComponents: any = {

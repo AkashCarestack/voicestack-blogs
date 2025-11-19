@@ -16,7 +16,6 @@ import SwitchableTabs from '../switchableTabs'
 import TestimonialRightCard from '../testimonialRightCard'
 
 export default function Testimonials({ data, refer = null }) {
-
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
@@ -41,14 +40,14 @@ export default function Testimonials({ data, refer = null }) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null)
   const [stickyStates, setStickyStates] = useState<boolean[]>([]) // Tracks if each card is sticky
-  const [activeTab, setActiveTab] = useState<string>(data?.tabs[0]?.tabHeading)
+  const [activeTab, setActiveTab] = useState<string>(data?.tabs[0]?._key || '')
   const router = useRouter()
   const handleOpenVideo = (video: VideoItem) => {
     setSelectedVideo(video)
     setIsOpen(true)
   }
 
-  const activeTabData = data?.tabs?.find((tab) => tab.tabHeading == activeTab)
+  const activeTabData = data?.tabs?.find((tab) => tab._key == activeTab)
 
   // useEffect(() => {
   //   const handleScroll = () => {
@@ -77,7 +76,8 @@ export default function Testimonials({ data, refer = null }) {
       </>
     )
   }
- 
+  console.log(activeTabData, 'activeTabData')
+
   return (
     <Section className="relative py-sm md:py-md lg:py-lg bg-[#F9F9F9]">
       <Container className="w-full relative">
@@ -92,10 +92,10 @@ export default function Testimonials({ data, refer = null }) {
           <SwitchableTabs
             isSticky={false}
             data={(data?.tabs || []).map((e: any) => ({
-              key: e.tabHeading,
+              key: e._key,
               title: e.tabHeading,
-              link:e.link,
-              linkText:e.linkText,
+              link: e.link,
+              linkText: e.linkText,
               setActiveTab: (key: string) => setActiveTab(key),
             }))}
             setActiveTab={(e: any) => setActiveTab(e)}
@@ -104,15 +104,25 @@ export default function Testimonials({ data, refer = null }) {
 
           {/* Tab Content */}
           <div className="flex w-full gap-8 z-10 relative">
-            <div className="w-full relative rounded-[12px] md:rounded-[24px] overflow-hidden min-h-[504px]">
+            <div className="w-full relative rounded-[12px] md:rounded-[24px] overflow-hidden lg:min-h-[504px]">
               <div className="flex flex-col lg:flex-row w-full h-full">
-                <Image
-                  src="/assets/Bg/BG01.png"
-                  alt={activeTabData?.tabHeading}
-                  width={600}
-                  height={600}
-                  className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
-                />
+                {activeTabData?.image?.url ? (
+                  <Image
+                    src={activeTabData?.image?.url}
+                    alt={activeTabData?.tabHeading}
+                    width={600}
+                    height={600}
+                    className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
+                  />
+                ) : (
+                  <Image
+                    src="/assets/Bg/BG01.png"
+                    alt={activeTabData?.tabHeading}
+                    width={600}
+                    height={600}
+                    className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
+                  />
+                )}
                 <div className="w-full flex flex-col lg:flex-row gap-3">
                   {/* Left Panel - Description */}
                   <div className="p-3 z-10 lg:max-w-[320px] w-full h-full flex">
@@ -121,7 +131,7 @@ export default function Testimonials({ data, refer = null }) {
                         <IconBadge icon={activeTabData?.icon} />
                         <div className="flex flex-col gap-6 items-start ">
                           <div className="">
-                            <h3 className="text-base md:text-lg font-bold text-gray-950 mb-4 font-manrope">
+                            <h3 className="text-base md:text-lg font-bold text-gray-950 mb-2 font-manrope">
                               {activeTabData?.tabHeading}
                             </h3>
                             <div className="text-gray-700 leading-relaxed text-sm md:text-base">
@@ -132,16 +142,22 @@ export default function Testimonials({ data, refer = null }) {
                               )}
                             </div>
                           </div>
-                          { activeTabData?.Link && <Button type="underline" link={activeTabData?.Link}>{activeTabData?.LinkText}</Button>}
+                          {activeTabData?.Link && (
+                            <Button type="underline" link={activeTabData?.Link}>
+                              {activeTabData?.LinkText}
+                            </Button>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Right Panel - Testimonial */}
-                  <div className="max-w-[956px] w-full flex-1">
-                    <TestimonialRightCard data={activeTabData} />
-                  </div>
+                  {activeTabData?.testimonial && (
+                    <div className="max-w-[956px] w-full flex-1">
+                      <TestimonialRightCard data={activeTabData} />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
