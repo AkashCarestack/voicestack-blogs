@@ -246,9 +246,19 @@ export const toCamelCase = (text: string | undefined): string => {
   }
   
   // Otherwise, convert to Title Case (capitalize first letter of each word)
+  // Preserve acronyms like AI, API, UI, etc. in uppercase
+  const commonAcronyms = ['AI', 'API', 'UI', 'UX', 'SEO', 'CMS', 'CRM', 'SaaS', 'PaaS', 'IaaS', 'HTTP', 'HTTPS', 'URL', 'PDF', 'FAQ']
+  
   return text
     .toLowerCase()
     .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => {
+      const upperWord = word.toUpperCase()
+      // Check if word is a common acronym
+      if (commonAcronyms.includes(upperWord)) {
+        return upperWord
+      }
+      return word.charAt(0).toUpperCase() + word.slice(1)
+    })
     .join(' ')
 }
