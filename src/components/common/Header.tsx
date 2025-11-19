@@ -561,8 +561,11 @@ const Header = ({ data, refer = null }) => {
     const timer = setTimeout(() => {
       setRegionSwitcher(shouldRenderPopup());
     }, 1000);
-    setRegionSwitcherTop(shouldRenderPopupTop());
     return () => clearTimeout(timer);
+  }, [router.query.flag]);
+
+  useEffect(() => {
+    setRegionSwitcherTop(shouldRenderPopupTop());
   }, [router.query.flag, regionSwitcherTopShow]);
 
   const openDemoPopup = () => {
