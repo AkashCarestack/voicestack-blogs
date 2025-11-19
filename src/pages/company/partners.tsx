@@ -75,7 +75,7 @@ export default function PartnersPage({ pageData, region }) {
                 key={item._key}
                 className="flex gap-3 p-4 md:p-8 rounded-[6px] md:rounded-[12px] bg-[#F4F3FA]"
               >
-                <span className="w-5 h-5">
+                <span className="w-5 h-5 mt-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"

@@ -275,7 +275,7 @@ export default function HoverTestimonial({ data }: any) {
           {tab?.testimonial?.secondaryTestimonialImage && (
             <div className="rounded-[6px] lg:rounded-[14px] overflow-hidden hidden lg:block w-full mt-auto flex-1">
               <div
-                className="w-full rounded-[6px] lg:rounded-[14px] overflow-hidden"
+                className="w-full rounded-[6px] lg:rounded-[14px] overflow-hidden bg-[#B1A6DA]"
                 style={{
                   height: `257px`,
                   width: `${
@@ -300,7 +300,7 @@ export default function HoverTestimonial({ data }: any) {
           )}
             <div className="w-full lg:hidden flex gap-5 mt-3 ">
             <div
-                className="w-full rounded-[6px] lg:rounded-[14px] overflow-hidden"
+                className="w-full rounded-[6px] lg:rounded-[14px] overflow-hidden bg-[#B1A6DA]"
                 style={{
                   height: `60px`,
                   width: `${
