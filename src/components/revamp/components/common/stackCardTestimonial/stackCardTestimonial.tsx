@@ -511,7 +511,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
 
                 {/* Profile */}
                 <div className="flex items-center gap-3 border-b border-gray-200 pb-6">
-                  <div className="w-12 h-12 rounded-[6px] overflow-hidden bg-img-gray">
+                  <div className="w-12 h-12 rounded-[6px] overflow-hidden bg-img-gray flex-shrink-0">
                     <ImageLoader
                       image={
                         currentTestimonial?.testimonial?.secondaryTestimonialImage?.url
@@ -526,7 +526,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     <p className="font-semibold text-gray-900">
                       {currentTestimonial?.testimonial?.name}
                     </p>
-                    <p className="text-gray-600">
+                    <p className="text-gray-600 text-left">
                       {currentTestimonial?.testimonial?.designation}
                     </p>
                   </div>
