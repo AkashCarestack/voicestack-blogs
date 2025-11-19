@@ -112,14 +112,16 @@ export default function Testimonials({ data, refer = null }) {
                     alt={activeTabData?.tabHeading}
                     width={1800}
                     height={1800}
+                    priority
+                    layout="fill"
                     className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
                   />
                 ) : (
                   <Image
                     src="/assets/Bg/BG01.png"
                     alt={activeTabData?.tabHeading}
-                    width={700}
-                    height={700}
+                    width={1920}
+                    height={1080}
                     className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
                   />
                 )}

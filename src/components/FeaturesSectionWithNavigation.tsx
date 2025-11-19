@@ -421,7 +421,7 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
                data={switchableTabsData}
                setActiveTab={(categoryId: string) => handleCategoryClick(categoryId)}
                activeTab={activeSection}
-               className="md:hidden block"
+               className="md:hidden block !top-[55px] z-50"
                isShowImage={false}
                isSticky={true}
              />

@@ -900,7 +900,7 @@ export default function CategoryFeatureTabs({
                   id={`category-${displayCategory?.name.toLowerCase().replace(/\s+/g, '-')}`}
                   role="tabpanel"
                   aria-labelledby={`tab-${displayCategory?.name.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden"
+                  className="bg-white rounded-2xl overflow-hidden"
                 >
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -1067,7 +1067,7 @@ export default function CategoryFeatureTabs({
                           >
                             <div className="p-6 space-y-6">
                               <div className="text-start">
-                                <h3 className="md:text-2xl text-xl font-bold text-gray-900 mb-2">
+                                <h3 className="md:text-2xl text-xl font-manrope font-bold text-gray-900 mb-2">
                                   {displayCategory?.name}
                                 </h3>
                               </div>
