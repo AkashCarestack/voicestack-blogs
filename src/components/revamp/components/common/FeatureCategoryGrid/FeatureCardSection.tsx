@@ -88,7 +88,7 @@ const FeatureCardSection: React.FC<FeatureCardSectionProps> = ({
         />
       )}
       {/* Card Title */}
-      <h3 className="text-xl font-manrope font-bold text-gray-950 ">
+      <h3 className="text-xl md:mb-6 mb-4 font-manrope font-bold text-gray-950 ">
         {cardTitle}
       </h3>
 
@@ -102,7 +102,7 @@ const FeatureCardSection: React.FC<FeatureCardSectionProps> = ({
           return (
             <li
               key={featureId}
-              className="flex md:py-2 py-2 items-center md:gap-3 gap-2 border-b-[#E6E7E8] last:border-b-0 border-b"
+              className="flex md:py-3.5 py-2 items-center md:gap-3 gap-2 border-b-[#E6E7E8] last:border-b-0 border-b"
             >
             {showTickIcon && <TickIcon />}
               {showTitle ? (
