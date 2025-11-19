@@ -547,7 +547,7 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                             background: 'linear-gradient(123deg, #F4F3FA 0%, #E0DDFF 99.43%)',
                           }}
                         >
-                          <H3 className="!text-3xl text-[#151315] font-manrope font-semibold !leading-[120%] !tracking-[37.5%] mb-3">
+                          <H3 className="!text-3xl text-[#151315] font-manrope font-semibold !leading-[120%] tracking-[1px] mb-3">
                             {testimonial.keyNoteHeading}
                           </H3>
 
@@ -856,7 +856,7 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                                 background: 'linear-gradient(123deg, #F4F3FA 0%, #E0DDFF 99.43%)',
                               }}
                             >
-                              <H3 className="md:!text-3xl !text-[20px] text-[#151315] font-manrope font-semibold !leading-[120%] !tracking-[37.5%] mb-3">
+                              <H3 className="md:!text-3xl !text-[20px] text-[#151315] font-manrope font-semibold !leading-[120%] tracking-[1px] mb-3">
                                 {testimonial.keyNoteHeading}
                               </H3>
 
