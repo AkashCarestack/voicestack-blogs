@@ -110,23 +110,23 @@ export default function Testimonials({ data, refer = null }) {
                   <Image
                     src={activeTabData?.image?.url}
                     alt={activeTabData?.tabHeading}
-                    width={600}
-                    height={600}
+                    width={1800}
+                    height={1800}
                     className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
                   />
                 ) : (
                   <Image
                     src="/assets/Bg/BG01.png"
                     alt={activeTabData?.tabHeading}
-                    width={600}
-                    height={600}
+                    width={700}
+                    height={700}
                     className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
                   />
                 )}
                 <div className="w-full flex flex-col lg:flex-row gap-3">
                   {/* Left Panel - Description */}
                   <div className="p-3 z-10 lg:max-w-[320px] w-full h-full flex">
-                    <div className="bg-[#F4F3FA] hover:bg-[#F0EFFA] transition-all duration-300 ease-in-out rounded-[12px] md:rounded-[24px] p-6 flex-1 cursor-pointer">
+                    <div className="group bg-[#F4F3FA] hover:bg-[#F0EFFA] transition-all duration-300 ease-in-out rounded-[12px] md:rounded-[24px] p-6 flex-1 cursor-pointer">
                       <div className="group flex flex-col gap-6 justify-between h-full">
                         <IconBadge icon={activeTabData?.icon} />
                         <div className="flex flex-col gap-6 items-start ">
