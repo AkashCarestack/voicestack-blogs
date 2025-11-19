@@ -20,6 +20,9 @@ import { addEvent } from '~/utils/tracker/events'
 import { createObservedUser, createSession, createUser, getUserData, TrackUserProvider } from '~/utils/tracker/intitialize'
 import { getSession } from '~/utils/tracker/session'
 import { getUser } from '~/utils/tracker/user'
+import { getClient } from '~/lib/sanity.client'
+import { getHeaderData, getFooterData, getALLSiteSettings, getContactData } from '~/lib/sanity.queries'
+import type { AppContext } from 'next/app'
 
 import Layout from '../components/Layout'
 import ProgressLoader from '../components/common/ProgressLoader'
@@ -46,6 +49,12 @@ export interface SharedPageProps {
   comparisonTableData:any
   draftMode: boolean
   token: string
+  layoutData?: {
+    headerData?: any
+    footerData?: any
+    siteSettings?: any
+    contactData?: any
+  }
 }
 
 const PreviewProvider = lazy(() => import('~/components/PreviewProvider'));
@@ -56,7 +65,7 @@ function App({
   Component,
   pageProps,
 }: AppProps<SharedPageProps>) {
-  const { draftMode, token } = pageProps
+  const { draftMode, token, layoutData } = pageProps
   const router = useRouter();
   
   // Check if current page is studio page
@@ -159,7 +168,12 @@ function App({
           // Render regular pages with layout
           <PricingModalProvider>
             <BookDemoContextProvider>
-              <LayoutDataProvider>
+              <LayoutDataProvider
+                initialHeaderData={layoutData?.headerData}
+                initialFooterData={layoutData?.footerData}
+                initialSiteSettings={layoutData?.siteSettings}
+                initialContactData={layoutData?.contactData}
+              >
                 {/* <GlobalHead /> */}
                 <Layout>
                   {draftMode ? (
@@ -178,6 +192,54 @@ function App({
     </main>
   )
 }
+
+// Fetch layout data server-side
+App.getInitialProps = async (appContext: AppContext) => {
+  const { ctx, Component } = appContext;
+  const locale = ctx.locale || ctx.defaultLocale || 'en';
+  
+  // Call the page's getInitialProps if it exists
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+  
+  try {
+    const client = getClient();
+    const [headerData, footerData, siteSettings, contactData] = await Promise.all([
+      getHeaderData(client, locale),
+      getFooterData(client, locale),
+      client.fetch(getALLSiteSettings(locale)),
+      getContactData(client, locale)
+    ]);
+
+    return {
+      pageProps: {
+        ...pageProps,
+        layoutData: {
+          headerData,
+          footerData,
+          siteSettings,
+          contactData,
+        },
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching layout data in getInitialProps:', error);
+    // Return empty layout data on error - provider will handle fallback
+    return {
+      pageProps: {
+        ...pageProps,
+        layoutData: {
+          headerData: null,
+          footerData: null,
+          siteSettings: null,
+          contactData: null,
+        },
+      },
+    };
+  }
+};
 
 let trackData: any[] = [];
 let isSending = false;
