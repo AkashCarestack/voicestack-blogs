@@ -32,22 +32,42 @@ export default function SwitchableTabs({
         inline: 'center',
         block: 'nearest',
       })
-      
     }
-   
   }
+
+  // Firefox-only border fix
+  useEffect(() => {
+    const styleId = 'switchable-tabs-firefox-fix'
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style')
+      style.id = styleId
+      style.textContent = `
+        @-moz-document url-prefix() {
+          .rounded-full button.rounded-3xl {
+            -moz-appearance: none !important;
+            background-image: none !important;
+            border-width: 1px !important;
+            border-style: solid !important;
+          }
+        }
+      `
+      document.head.appendChild(style)
+    }
+  }, [])
 
   return (
     <div
-      className={`${isSticky && 'sticky'} ${scrollUp ? 'md:top-[-5px] top-[28px] ' : 'md:top-[38px] top-[35px]'} flex gap-2.5 w-full justify-center items-center transition-all duration-300 ease-in-out ${className}`}
-    >
-      <div
-        className="lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] rounded-full p-1.5 flex flex-row 
-        gap-2.5  lg:w-fit lg:bg-white bg-white 
-         overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none transition-all duration-300 ease-in-out"
+        className={`${isSticky && 'sticky'} ${scrollUp ? 'md:top-[-5px] top-[28px] ' : 'md:top-[38px] top-[35px]'} flex gap-2.5 w-full justify-center items-center transition-all duration-300 ease-in-out ${className}`}
       >
+        <div
+          className="lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] rounded-full p-1.5 flex flex-row 
+          gap-2.5  lg:w-fit lg:bg-white bg-white 
+           overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none transition-all duration-300 ease-in-out"
+        >
         {data.map((item, idx) => {
           const itemKey = item.key || item.id || idx.toString()
+          const isActive = (activeTab || data[0]?.key || data[0]?.id || '0') === itemKey
+          
           return (
             <button
               ref={(el) => {
@@ -59,10 +79,13 @@ export default function SwitchableTabs({
               id={itemKey}
               onClick={() => handleTabClick(itemKey)}
               className={`focus:outline-none text-left md:text-base text-xs lg:text-center cursor-pointer font-geist leading-normal tracking-normal md:px-5 px-3 md:pt-2.5 pt-1.5 md:pb-2.5 pb-1.5 rounded-3xl transition-all duration-200 ease-in-out ${
-                (activeTab || data[0]?.key || data[0]?.id || '0') === itemKey
+                isActive
                   ? 'bg-gray-950 text-white border border-transparent'
                   : 'text-gray-950 border border-[rgba(255,255,255,0.60)] bg-tab-hover-gradient shadow-[0_0_0_2px_#CAC5FF] lg:border-transparent lg:bg-transparent lg:shadow-none hover:border-[rgba(255,255,255,0.60)] hover:bg-tab-hover-gradient hover:shadow-[0_0_0_2px_#CAC5FF]'
               }`}
+              style={{
+                MozAppearance: 'none',
+              }}
             >
               {isShowImage ? (
                 <div
@@ -88,7 +111,7 @@ export default function SwitchableTabs({
             </button>
           )
         })}
+        </div>
       </div>
-    </div>
   )
 }
