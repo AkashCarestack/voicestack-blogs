@@ -17,6 +17,7 @@ import SparklesIconFill from '../revamp/icons/SparklesIconFill';
 import PhoneIcon from '../icons/PhoneIcon';
 import { useLayoutData } from '~/providers/LayoutDataProvider';
 import { urlForImage } from '~/lib/sanity.image';
+import RegionStrip from '../revamp/components/regionStrip';
 // import RegionStrip from '../revamp/components/regionStrip';
 
 // Constants
@@ -423,6 +424,7 @@ const Header = ({ data, refer = null }) => {
   const [currentLocale, setCurrentLocale] = useState<string | null>(null);
   const [countryCode, setCountryCode] = useState<string>('');
   const [regionSwitcher, setRegionSwitcher] = useState(false);
+  const [regionSwitcherTop, setRegionSwitcherTop] = useState(false);
   const [preferredLocale, setPreferredLocale] = useState<string>('en');
   const [currentRegion, setCurrentRegion] = useState<string>('USA');
   const [showTopStrip, setShowTopStrip] = useState(true);
@@ -536,14 +538,26 @@ const Header = ({ data, refer = null }) => {
     if (router.query.flag === 'true') {
       return false;
     }
-    const countryCd = getCookie('__cs_ver') ? getCookie('__cs_ver') : '1';
+    const countryCd = getCookie('__vs_ver') ? getCookie('__vs_ver') : '1';
     return router.locale !== getLocaleFromCountry(country) && router.asPath === '/' && countryCd !== 'undefined';
   };
+
+  const shouldRenderPopupTop = () => {
+    // console.log(router.locale, getLocaleFromCountry(country), country, "shouldRenderPopupTop");
+    return (
+      !router.asPath.includes("/legal") &&
+      router.locale !== getLocaleFromCountry(country) &&
+      // router.locale !== getRegionFromCountryCode(countryCode) &&
+      router.asPath !== '/' &&
+      !router.query.flag
+    );
+  }
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setRegionSwitcher(shouldRenderPopup());
     }, 1000);
+    setRegionSwitcherTop(shouldRenderPopupTop());
     return () => clearTimeout(timer);
   }, [router.query.flag]);
 
@@ -625,9 +639,12 @@ const Header = ({ data, refer = null }) => {
           showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'
         } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}
       >
-         {/* <RegionStrip locale={router.locale} className={`${
-          showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'
-        } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}  /> */}
+        {/* top region switcher */}
+        {regionSwitcherTop && (
+          <RegionStrip locale={router.locale} setRegionSwitcherTop={setRegionSwitcherTop} className={`${
+            showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'
+          } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}  />
+        )}
 
         {/* Top Header Strip */}
         <div

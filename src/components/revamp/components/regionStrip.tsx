@@ -4,6 +4,7 @@ import React from 'react'
 interface RegionStripProps {
   locale: string
   className?: string
+  setRegionSwitcherTop: (value: boolean) => void
 }
 
 const getRegionName = (locale: string): string => {
@@ -15,7 +16,7 @@ const getRegionName = (locale: string): string => {
   return regionMap[locale] || 'USA'
 }
 
-export default function RegionStrip({ locale, className }: RegionStripProps) {
+export default function RegionStrip({ locale, setRegionSwitcherTop, className }: RegionStripProps) {
   const regionName = getRegionName(locale)
   
   const getOtherRegions = () => {
@@ -42,28 +43,39 @@ export default function RegionStrip({ locale, className }: RegionStripProps) {
 
   return (
     <div
-      className={`w-full md:h-[28px] md:px-12 px-4 md:py-1.5 py-1 h-[20px] flex items-center justify-start gap-6 ${className}`}
+      className={`w-full md:h-[40px] md:px-12 px-4 md:py-1.5 py-1 flex md:items-center justify-between gap-6 ${className}`}
       style={{
         background: 'linear-gradient(90deg, #4A3CE1 0%, #191078 100%)',
       }}
     >
-      <div className="text-white text-xs font-geist leading-[142.857%] md:text-sm font-medium">
-        You are currently viewing our <span className="font-semibold">{regionName}</span> Website.
+      <div className="flex flex-col md:flex-row gap-2 md:gap-6">
+        <div className="text-white text-xs font-geist leading-[142.857%] md:text-sm font-medium">
+          You are currently viewing our <span className="">{regionName}</span> Website.
+        </div>
+
+        <div className="flex gap-4 md:gap-6">
+          {otherRegions.map((region) => (
+            <Link
+              key={region.locale}
+              href="/"
+              locale={region.locale}
+              className="text-white text-sm font-semibold leading-5 tracking-normal underline decoration-dotted decoration-[12%] underline-offset-[25%] underline-from-font"
+              style={{
+                textDecorationSkipInk: 'none',
+                textDecorationThickness: '12%',
+              }}
+            >
+              Go to VoiceStack {region.name}
+            </Link>
+          ))}
+        </div>  
       </div>
-      {otherRegions.map((region) => (
-        <Link
-          key={region.locale}
-          href="/"
-          locale={region.locale}
-          className="text-white text-sm font-semibold leading-5 tracking-normal underline decoration-dotted decoration-[12%] underline-offset-[25%] underline-from-font"
-          style={{
-            textDecorationSkipInk: 'none',
-            textDecorationThickness: '12%',
-          }}
-        >
-          Go to VoiceStack {region.name}
-        </Link>
-      ))}
+
+      <svg onClick={() => {
+        setRegionSwitcherTop(false)
+      }} className="text-white cursor-pointer" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path fillRule="evenodd" clipRule="evenodd" d="M4.29279 4.29357C4.48031 4.1061 4.73462 4.00078 4.99979 4.00078C5.26495 4.00078 5.51926 4.1061 5.70679 4.29357L9.99979 8.58657L14.2928 4.29357C14.385 4.19806 14.4954 4.12188 14.6174 4.06947C14.7394 4.01706 14.8706 3.98947 15.0034 3.98832C15.1362 3.98717 15.2678 4.01247 15.3907 4.06275C15.5136 4.11303 15.6253 4.18728 15.7192 4.28117C15.8131 4.37507 15.8873 4.48672 15.9376 4.60962C15.9879 4.73251 16.0132 4.86419 16.012 4.99697C16.0109 5.12975 15.9833 5.26097 15.9309 5.38297C15.8785 5.50498 15.8023 5.61532 15.7068 5.70757L11.4138 10.0006L15.7068 14.2936C15.8889 14.4822 15.9897 14.7348 15.9875 14.997C15.9852 15.2592 15.88 15.51 15.6946 15.6954C15.5092 15.8808 15.2584 15.986 14.9962 15.9882C14.734 15.9905 14.4814 15.8897 14.2928 15.7076L9.99979 11.4146L5.70679 15.7076C5.51818 15.8897 5.26558 15.9905 5.00339 15.9882C4.74119 15.986 4.49038 15.8808 4.30497 15.6954C4.11956 15.51 4.01439 15.2592 4.01211 14.997C4.00983 14.7348 4.11063 14.4822 4.29279 14.2936L8.58579 10.0006L4.29279 5.70757C4.10532 5.52004 4 5.26573 4 5.00057C4 4.73541 4.10532 4.4811 4.29279 4.29357Z" fill="white" />
+      </svg>
     </div>
   )
 }
