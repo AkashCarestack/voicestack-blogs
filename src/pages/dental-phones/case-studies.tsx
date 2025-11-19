@@ -48,14 +48,12 @@ export default function CustomerStories({ pageData }: any) {
           isCentered={true}
           showFullDescription={true}
         />
-        {/* {pageData['testimonial-tabs']?.componentData && (
-            <StackCardTestimonial page="case-studies" data={pageData['testimonial-tabs']?.componentData} />
-        )} */}
+        </div>
+
 
         {pageData['testimonial-tabs']?.componentData && (
           <CategoryFeatureTabs page="case-studies" sectionHeading={pageData['testimonial-tabs']?.componentData} features={pageData['testimonial-tabs']?.componentData?.tabs} />
         )}
-        </div>
 
          {pageData['custom']?.componentData && (
         <div className="">

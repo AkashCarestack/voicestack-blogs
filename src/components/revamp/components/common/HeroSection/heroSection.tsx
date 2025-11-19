@@ -6,6 +6,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import VideoPlayers from '~/components/common/VideoPlayer'
 import SuperChargeIcon from '~/components/icons/superCharge'
+import { toCamelCase } from '~/utils/common'
 
 import Button from '../../../../common/Button'
 import { VideoItem } from '../../../../common/VideoModal'
@@ -123,7 +124,7 @@ const HeroSection = ({
           className="flex lg:justify-start justify-center gap-3 py-[10px] md:py-[14px] text-base text-gray-950 leading-[24px] border-b"
           style={{ borderColor: '#0307121A' }}
         >
-          <span className="mt-1 md:mt-0 lg:flex items-center hidden">
+          <span className="mt-1 md:mt-2 lg:flex hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
@@ -300,7 +301,7 @@ const HeroSection = ({
         {isCentered ? (
           <div className={`${showFullDescription ? "max-w-[808px]" : "max-w-[606px]"} flex flex-col items-center text-center  gap-3 py-12  lg:pt-md lg:pb-md`}>
             <h1 className="text-base font-medium text-gray-950 uppercase">
-              {data?.heroStrip}
+              {toCamelCase(data?.heroStrip)}
             </h1>
             <h2 className="text-4xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
               <PortableText value={data?.heroheading} components={components} />
@@ -408,7 +409,7 @@ const HeroSection = ({
               ) : (
                 <div className="text-center lg:text-left">
                   <h1 className="text-base font-medium text-gray-950 uppercase">
-                    {data?.heroStrip}
+                    {toCamelCase(data?.heroStrip)}
                   </h1>
                 </div>
               )}
