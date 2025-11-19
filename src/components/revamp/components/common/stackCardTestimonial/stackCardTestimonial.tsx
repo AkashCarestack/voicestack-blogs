@@ -184,8 +184,8 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                   }}
                   className={`flex flex-col items-center  flex-1 group transition-all duration-300 ${
                     activeTestimonial === index
-                      ? 'opacity-100 border-b-[3px] border-gray-950'
-                      : 'opacity-60 hover:opacity-80 border-b-[2px] border-gray-200'
+                      ? 'grayscale-100 border-b-[3px] border-gray-950'
+                      : 'grayscale hover:grayscale-0 border-b-[2px] border-gray-200'
                   }`}
                 >
                   <div className={`relative md:my-6 my-2`}>
@@ -195,20 +195,20 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                         height: `48px`,
                         width: `${
                           48 *
-                            testimonial?.testimonial?.secondaryLogo?.metadata
+                            testimonial?.testimonial?.logo?.metadata
                               ?.dimensions?.aspectRatio || 2
                         }px`,
                       }}
                     >
                       <ImageLoader
-                        image={testimonial?.testimonial?.secondaryLogo?.url}
-                        alt={testimonial?.testimonial?.secondaryLogo?.altText}
+                        image={testimonial?.testimonial?.logo?.url}
+                        alt={testimonial?.testimonial?.logo?.altText}
                         title={
                           currentTestimonial?.testimonial?.practiceName
                             ? testimonial?.testimonial?.practiceName
-                            : testimonial?.testimonial?.secondaryLogo?.altText
+                            : testimonial?.testimonial?.logo?.altText
                         }
-                        className="w-full h-full object-contain invert-[100%]"
+                        className="w-full h-full object-contain"
                       />
                     </div>
                     <div
@@ -217,20 +217,20 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                         height: `32px`,
                         width: `${
                           32 *
-                            testimonial?.testimonial?.secondaryLogo?.metadata
+                            testimonial?.testimonial?.logo?.metadata
                               ?.dimensions?.aspectRatio || 2
                         }px`,
                       }}
                     >
                       <ImageLoader
-                        image={testimonial?.testimonial?.secondaryLogo?.url}
-                        alt={testimonial?.testimonial?.secondaryLogo?.altText}
+                        image={testimonial?.testimonial?.logo?.url}
+                        alt={testimonial?.testimonial?.logo?.altText}
                         title={
                           currentTestimonial?.testimonial?.practiceName
                             ? testimonial?.testimonial?.practiceName
-                            : testimonial?.testimonial?.secondaryLogo?.altText
+                            : testimonial?.testimonial?.logo?.altText
                         }
-                        className="w-full h-full object-contain invert-[100%]"
+                        className="w-full h-full object-contain "
                       />
                     </div>
                     {/* {activeTestimonial === index && (
@@ -514,10 +514,10 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                   <div className="w-12 h-12 rounded-full overflow-hidden">
                     <ImageLoader
                       image={
-                        currentTestimonial?.testimonial?.testimonialImage?.url
+                        currentTestimonial?.testimonial?.secondaryTestimonialImage?.url
                       }
                       alt={
-                        currentTestimonial?.testimonial?.testimonialImage?.alt
+                        currentTestimonial?.testimonial?.secondaryTestimonialImage?.alt
                       }
                       className="w-full h-full object-cover bg-[#ababab]"
                     />
