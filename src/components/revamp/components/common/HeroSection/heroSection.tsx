@@ -583,7 +583,7 @@ const HeroSection = ({
                             )}
 
                             {/* Play button that shows on hover - Top right of card */}
-                            <div className="absolute top-4 right-4 z-30 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                            <div className="absolute top-4 right-4  opacity-0 group-hover:opacity-100 transform !z-10 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                               <div
                                 className="rounded-full flex items-center cursor-pointer justify-center w-24 h-10 border border-white/20 bg-black/15 text-white hover:bg-black/25 transition-colors duration-200"
                                 onClick={() =>
