@@ -18,11 +18,17 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   const breadcrumbItems = useMemo(() => {
     const excludedSegments = ['en', 'en-GB', 'en-AU']
     
-    // Split URL path into segments (remove hash from asPath to prevent hydration mismatch)
-    const pathWithoutHash = router.asPath.split('#')[0]
+    // Remove query parameters and hash from asPath to prevent hydration mismatch
+    const pathWithoutQuery = router.asPath.split('?')[0]
+    const pathWithoutHash = pathWithoutQuery.split('#')[0]
     const pathSegments = pathWithoutHash
       .split('/')
-      .filter((segment) => segment !== '' && !excludedSegments.includes(segment))
+      .filter((segment) => {
+        // Remove query params from individual segments and filter out empty/excluded segments
+        const cleanSegment = segment.split('?')[0].split('#')[0]
+        return cleanSegment !== '' && !excludedSegments.includes(cleanSegment)
+      })
+      .map((segment) => segment.split('?')[0].split('#')[0]) // Clean any remaining query params from segments
     // If Sanity override exists, parse it
     if (breadCrumb && breadCrumb.trim()) {
       const overrideLabels = breadCrumb
@@ -60,7 +66,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
         href,
       }
     })
-  }, [router.asPath.split('#')[0], breadCrumb])
+  }, [router.asPath.split('?')[0].split('#')[0], breadCrumb])
 
   // Don't render if we're on the home page
   if (breadcrumbItems.length === 0) {

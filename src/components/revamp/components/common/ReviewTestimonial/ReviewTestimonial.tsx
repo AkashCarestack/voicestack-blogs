@@ -177,20 +177,16 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
                         </div>
                         <div className="flex items-center gap-6 pt-3">
                           <div
-                            className=" rounded-[8px] overflow-hidden bg-img-gray"
+                            className="rounded-[8px] overflow-hidden bg-img-gray flex-shrink-0"
                             style={{
                               height: `56px`,
-                              width: `${
-                                56 *
-                                  testimonial?.secondaryTestimonialImage?.metadata
-                                    ?.dimensions?.aspectRatio || 2
-                              }px`,
+                              width: `56px`,
                             }}
                           >
                             <ImageLoader
                               image={testimonial?.secondaryTestimonialImage?.url}
                               alt={testimonial?.secondaryTestimonialImage?.alt}
-                              className="w-auto h-full object-cover"
+                              className="w-full h-full object-cover"
                             />
                           </div>
 
