@@ -11,7 +11,7 @@ const getRegionName = (locale: string): string => {
   const regionMap: { [key: string]: string } = {
     'en': 'USA',
     'en-GB': 'UK',
-    'en-AU': 'AU',
+    'en-AU': 'ANZ',
   }
   return regionMap[locale] || 'USA'
 }
@@ -23,14 +23,14 @@ export default function RegionStrip({ locale, setRegionSwitcherTop, className }:
     if (regionName === 'USA') {
       return [
         { name: 'UK', locale: 'en-GB' },
-        { name: 'AU', locale: 'en-AU' },
+        { name: 'ANZ', locale: 'en-AU' },
       ]
     } else if (regionName === 'UK') {
       return [
         { name: 'USA', locale: 'en' },
-        { name: 'AU', locale: 'en-AU' },
+        { name: 'ANZ', locale: 'en-AU' },
       ]
-    } else if (regionName === 'AU') {
+    } else if (regionName === 'ANZ') {
       return [
         { name: 'USA', locale: 'en' },
         { name: 'UK', locale: 'en-GB' },
