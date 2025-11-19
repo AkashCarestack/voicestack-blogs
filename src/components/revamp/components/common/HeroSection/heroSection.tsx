@@ -143,6 +143,22 @@ const HeroSection = ({
         </li>
       ),
     },
+    marks: {
+      link: ({ children, value }: { children: React.ReactNode; value?: any }) => {
+        const href = value?.href || '#'
+        const isExternal = href?.startsWith('http') || href?.startsWith('//')
+        return (
+          <a
+            href={href}
+            target={'_self'}
+            rel={isExternal ? 'noopener noreferrer' : undefined}
+            className="text-vs-blue font-medium   hover:text-vs-purple transition-colors duration-200"
+          >
+            {children}
+          </a>
+        )
+      },    
+    },
   }
   const testimonialDescriptionComponents: any = {
     block: {
