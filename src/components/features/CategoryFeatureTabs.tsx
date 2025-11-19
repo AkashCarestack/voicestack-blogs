@@ -526,7 +526,7 @@ export default function CategoryFeatureTabs({
             </div>
           </aside>
 
-          <main className="flex-1 space-y-[114px]">
+          <main className="flex flex-col gap-16">
             {allCategories.map((category, index) => {
               const isActive = activeCategory === category.name
               const tabData = (category as any).tabData
@@ -874,7 +874,7 @@ export default function CategoryFeatureTabs({
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.3, delay: index * 0.1 }}
                         >
-                          <div className="flex items-center flex-col space-x-2">
+                          <div className="flex items-center flex-col ">
                             {page !== 'case-studies' &&
                               (category.icon || category.iconSvgCode) && (
                                 <div
@@ -884,7 +884,7 @@ export default function CategoryFeatureTabs({
                                   {renderCategoryIcon(category, isActive)}
                                 </div>
                               )}
-                            <span className="text-[12px] font-medium whitespace-nowrap">
+                            <span className="text-[12px] font-medium whitespace-nowrap mx-2.5">
                               {category.name}
                             </span>
                           </div>
