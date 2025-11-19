@@ -425,6 +425,7 @@ const Header = ({ data, refer = null }) => {
   const [countryCode, setCountryCode] = useState<string>('');
   const [regionSwitcher, setRegionSwitcher] = useState(false);
   const [regionSwitcherTop, setRegionSwitcherTop] = useState(false);
+  const [regionSwitcherTopShow, setRegionSwitcherTopShow] = useState(true);
   const [preferredLocale, setPreferredLocale] = useState<string>('en');
   const [currentRegion, setCurrentRegion] = useState<string>('USA');
   const [showTopStrip, setShowTopStrip] = useState(true);
@@ -502,11 +503,13 @@ const Header = ({ data, refer = null }) => {
 
     if (currentScrollY <= 0) {
       setShowTopStrip(true);
+      setRegionSwitcherTopShow(true);
     } else if (currentScrollY < lastScrollY) {
       setShowTopStrip(true);
       setHeaderFixed(false);
     } else if (currentScrollY > lastScrollY) {
       setShowTopStrip(false);
+      setRegionSwitcherTopShow(false);
     }
 
     setLastScrollY(currentScrollY);
@@ -549,7 +552,8 @@ const Header = ({ data, refer = null }) => {
       router.locale !== getLocaleFromCountry(country) &&
       // router.locale !== getRegionFromCountryCode(countryCode) &&
       router.asPath !== '/' &&
-      !router.query.flag
+      !router.query.flag &&
+      regionSwitcherTopShow
     );
   }
 
@@ -559,7 +563,7 @@ const Header = ({ data, refer = null }) => {
     }, 1000);
     setRegionSwitcherTop(shouldRenderPopupTop());
     return () => clearTimeout(timer);
-  }, [router.query.flag]);
+  }, [router.query.flag, regionSwitcherTopShow]);
 
   const openDemoPopup = () => {
     router.push('/demo');
