@@ -15,6 +15,10 @@ const EXCLUDED_PATHS = [
   'test',
 ];
 
+// Locales that should only have root pages (no child pages)
+// This can be easily modified later if needed
+const LOCALES_WITHOUT_CHILD_PAGES = ['en-GB', 'en-AU'];
+
 interface SitemapPage {
   slug: string
   language: string | null
@@ -220,6 +224,10 @@ function generateSiteMap(pages: SitemapPage[]) {
   staticPaths.forEach(({ path, key }) => {
     const variants: { [locale: string]: { url: string; lastmod: string } } = {};
     locales.forEach(locale => {
+      // Exclude locales that shouldn't have pages (only 'en' should have pages for now)
+      if (LOCALES_WITHOUT_CHILD_PAGES.includes(locale)) {
+        return;
+      }
       const url = buildUrl(path, locale);
       if (!processedUrls.has(url)) {
         variants[locale] = {
@@ -256,12 +264,35 @@ function generateSiteMap(pages: SitemapPage[]) {
       return;
     }
     
+    // Identify root-level static paths (these should exist for all locales)
+    const staticPathKeys = staticPaths.map(sp => sp.key);
+    const isRootPage = path === '' || staticPathKeys.includes(path);
+    const isChildPage = !isRootPage;
+    
+    // Filter out child pages for locales that should only have root pages
+    if (isChildPage) {
+      pageVariants = pageVariants.filter(page => {
+        const pageLocale = normalizeLanguage(page.language);
+        return !LOCALES_WITHOUT_CHILD_PAGES.includes(pageLocale);
+      });
+      
+      // If no variants remain after filtering, skip this path entirely
+      if (pageVariants.length === 0) {
+        return;
+      }
+    }
+    
     const variants: { [locale: string]: { url: string; lastmod: string } } = {};
     const availableLocales = new Set<string>();
     
     pageVariants.forEach(page => {
       const pageLocale = normalizeLanguage(page.language);
       if (locales.includes(pageLocale)) {
+        // Final safety check: don't add child pages for restricted locales
+        if (isChildPage && LOCALES_WITHOUT_CHILD_PAGES.includes(pageLocale)) {
+          return;
+        }
+        
         const url = buildUrl(path, pageLocale);
         // Only add if URL hasn't been processed yet
         if (!processedUrls.has(url)) {
