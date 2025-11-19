@@ -150,7 +150,7 @@ const HeroSection = ({
         return (
           <a
             href={href}
-            target={isExternal ? '_blank' : '_self'}
+            target={'_self'}
             rel={isExternal ? 'noopener noreferrer' : undefined}
             className="text-vs-blue font-medium   hover:text-vs-purple transition-colors duration-200"
           >
