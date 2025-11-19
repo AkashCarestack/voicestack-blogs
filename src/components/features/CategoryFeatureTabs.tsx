@@ -656,7 +656,7 @@ export default function CategoryFeatureTabs({
                         {/* Author Info */}
                         <div className="flex items-center gap-4 mt-6">
                           {testimonial.secondaryTestimonialImage && (
-                            <div className="w-12 h-12 rounded-full overflow-hidden bg-[#B1A6DA] flex-shrink-0">
+                            <div className="w-12 h-12 rounded-[6px] overflow-hidden bg-[#B1A6DA] flex-shrink-0">
                               <ImageLoader
                                 image={testimonial.secondaryTestimonialImage?.url}
                                 alt={testimonial.name || 'Author'}
@@ -1033,7 +1033,7 @@ export default function CategoryFeatureTabs({
                               {/* Author Info */}
                               <div className="flex items-center gap-4 mt-6">
                                 {testimonial.secondaryTestimonialImage && (
-                                  <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0 bg-[#B1A6DA]">
+                                  <div className="w-12 h-12 rounded-[6px] overflow-hidden flex-shrink-0 bg-[#B1A6DA]">
                                     <ImageLoader
                                       image={testimonial.secondaryTestimonialImage?.url}
                                       alt={testimonial.name || 'Author'}
