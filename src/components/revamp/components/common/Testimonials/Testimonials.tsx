@@ -131,7 +131,7 @@ export default function Testimonials({ data, refer = null }) {
                         <IconBadge icon={activeTabData?.icon} />
                         <div className="flex flex-col gap-6 items-start ">
                           <div className="">
-                            <h3 className="text-base md:text-lg font-bold text-gray-950 mb-4 font-manrope">
+                            <h3 className="text-base md:text-lg font-bold text-gray-950 mb-2 font-manrope">
                               {activeTabData?.tabHeading}
                             </h3>
                             <div className="text-gray-700 leading-relaxed text-sm md:text-base">
