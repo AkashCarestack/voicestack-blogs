@@ -31,18 +31,34 @@ export const useLayoutData = () => {
 
 interface LayoutDataProviderProps {
   children: React.ReactNode;
+  initialHeaderData?: any;
+  initialFooterData?: any;
+  initialSiteSettings?: any;
+  initialContactData?: any;
 }
 
-export default function LayoutDataProvider({ children }: LayoutDataProviderProps) {
-  const [headerData, setHeaderData] = useState(null);
-  const [footerData, setFooterData] = useState(null);
-  const [siteSettings, setSiteSettings] = useState(null);
-  const [contactData, setContactData] = useState(null);
-  const [loading, setLoading] = useState(true);
+export default function LayoutDataProvider({ 
+  children,
+  initialHeaderData = null,
+  initialFooterData = null,
+  initialSiteSettings = null,
+  initialContactData = null,
+}: LayoutDataProviderProps) {
+  const [headerData, setHeaderData] = useState(initialHeaderData);
+  const [footerData, setFooterData] = useState(initialFooterData);
+  const [siteSettings, setSiteSettings] = useState(initialSiteSettings);
+  const [contactData, setContactData] = useState(initialContactData);
+  const [loading, setLoading] = useState(!initialHeaderData && !initialFooterData);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
+    // Only fetch if we don't have initial data or if locale changed
+    // Skip if we already have initial data and locale hasn't changed
+    if (initialHeaderData && initialFooterData && !router.locale) {
+      return;
+    }
+
     const fetchLayoutData = async () => {
       try {
         const region = router.locale || 'en';
@@ -84,8 +100,11 @@ export default function LayoutDataProvider({ children }: LayoutDataProviderProps
       }
     };
 
-    fetchLayoutData();
-  }, [router.locale]);
+    // Only fetch if we don't have initial data
+    if (!initialHeaderData || !initialFooterData) {
+      fetchLayoutData();
+    }
+  }, [router.locale, initialHeaderData, initialFooterData]);
 
   return (
     <LayoutDataContext.Provider value={{ headerData, footerData, siteSettings, contactData, loading, error }}>

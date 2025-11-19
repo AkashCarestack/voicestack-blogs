@@ -31,7 +31,7 @@ interface FeatureCardSectionProps {
 
 const TickIcon = () => {
   return (
-    <span className="">
+    <span className="md:mt-[6px]">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
@@ -102,7 +102,7 @@ const FeatureCardSection: React.FC<FeatureCardSectionProps> = ({
           return (
             <li
               key={featureId}
-              className="flex md:py-3.5 py-2 items-center md:gap-3 gap-2 border-b-[#E6E7E8] last:border-b-0 border-b"
+              className="flex md:py-3.5 py-2  md:gap-3 gap-2 border-b-[#E6E7E8] last:border-b-0 border-b"
             >
             {showTickIcon && <TickIcon />}
               {showTitle ? (
