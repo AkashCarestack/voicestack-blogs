@@ -133,10 +133,10 @@ export default function ListingWithTabs({ list }: { list: any }) {
                           )
                         })}
                       </div>
-                      <div>
+                      <div className='self-start'>
                         {element.ctaListItems?.map((btn: any, key: number) => {
                           return (
-                            <Button key={`${btn.ctaText}-${key}`} type={btn?.ctaType || 'primary'}>
+                            <Button link={btn.ctaLink} key={`${btn.ctaText}-${key}`} type={btn?.ctaType || 'primary'}>
                               <span>{btn.ctaText}</span>
                             </Button>
                           )
