@@ -523,21 +523,6 @@ const HeroSection = ({
                     <div className="relative rounded-[8px] md:rounded-[16px] aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] overflow-hidden shrink-0">
                       <div
                         className="group flex flex-col justify-center rounded-2xl h-[550px] shadow-md cursor-pointer w-full aspect-[9/16] overflow-hidden relative"
-                        onMouseEnter={() => {
-                          // Only play thumbnail video if YouTube is not playing
-                          if (playingYoutubeIndex !== 0) {
-                            setActiveVideoIndex(0)
-                            handleVideoPlay(0)
-                          }
-                        }}
-                        onMouseLeave={() => {
-                          // Only pause thumbnail video if YouTube is not playing
-                          if (playingYoutubeIndex !== 0) {
-                            handleVideoPause(0)
-                            setActiveVideoIndex(null)
-                            setPlayingIndex(null)
-                          }
-                        }}
                         onClick={() => {
                           const videoId = data?.testimonial?.video?.[0]?.videoId
                           handleVideoClick(0, videoId)
@@ -573,16 +558,7 @@ const HeroSection = ({
                               <video
                                 ref={(el) => {
                                   videoRefs.current[0] = el
-                                  // Safari compatibility: ensure video loads
-                                  if (el) {
-                                    el.load()
-                                    // Try to play after load (Safari requires user interaction for autoplay)
-                                    el.play().catch(() => {
-                                      // Autoplay blocked, will play on hover
-                                    })
-                                  }
                                 }}
-                                key={data?.testimonial?.thumbnail}
                                 style={{
                                   backgroundColor: 'transparent',
                                   backgroundImage: 'none',
@@ -606,20 +582,6 @@ const HeroSection = ({
                               </video>
                             )}
 
-                            {/* Blur Overlay */}
-                            <div className="absolute bottom-0 h-64 w-full pointer-events-none z-0 group-hover:opacity-0">
-                              <div className="absolute  backdrop-blur-[0.5px]  [mask-image:linear-gradient(180deg,rgba(0,0,0,0),#000_10%)] left-0 top-0 z-[1] w-full h-full " />
-                              <div className="absolute backdrop-blur-[2px]  [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_10%,#000_20%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[4.5px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_20%,#000_30%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[8px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_30%,#000_40%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[12px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_40%,#000_50%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[18px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_50%,#000_60%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[24px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_60%,#000_70%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[31px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_70%,#000_80%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[40px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_80%,#000_90%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[49px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_90%,#000_100%)] left-0 top-0 z-[1] w-full h-full" />
-                            </div>
-                            <div className="absolute bottom-0 h-64 mix-blend-darken w-full z-0 "></div>
                             {/* Play button that shows on hover - Top right of card */}
                             <div className="absolute top-4 right-4 z-30 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                               <div
@@ -650,55 +612,53 @@ const HeroSection = ({
                               </div>
                             </div>
 
-                            {/* Content that shows by default and hides on hover */}
-                            <div className="absolute bottom-0 w-full h-2/3 z-10 flex flex-col justify-end bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.1)_100%),linear-gradient(180deg,rgba(0,0,0,0)_0%,#000_100%)]">
+                            {/* Content that shows by default and stays visible on hover */}
+                            <div className="absolute bottom-0 w-full h-2/3 z-10 flex flex-col justify-end bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.1)_100%),linear-gradient(180deg,rgba(0,0,0,0)_0%,rgba(0,0,0,0.85)_100%)] rounded-b-2xl overflow-hidden">
                               <div className="flex flex-col justify-end w-full pb-6 text-white">
-                                {playingIndex !== 0 && (
-                                  <div className="px-6">
-                                    <div
-                                      className="mb-4"
-                                      style={{
-                                        height: `48px`,
-                                        width: `${
-                                          48 *
-                                            data?.testimonial?.secondaryLogo?.metadata
-                                              ?.dimensions?.aspectRatio || 2
-                                        }px`,
-                                      }}
-                                    >
-                                      <ImageLoader
-                                        image={data?.testimonial?.secondaryLogo?.url}
-                                        alt={data?.testimonial?.secondaryLogo?.alt || 'Company Logo'}
-                                        title={data?.testimonial?.secondaryLogo?.title || 'Company Logo'}
-                                        className="w-full h-full object-contain filter brightness-[132%] contrast-[202%]"
-                                      />
-                                    </div>
-
-                                    {data?.testimonial?.keyStatement && (
-                                      <h3 className="text-base xl:text-lg font-medium">
-                                        {Array.isArray(data.testimonial.keyStatement) &&
-                                        data.testimonial.keyStatement.length > 0 ? (
-                                          <PortableText
-                                            value={data.testimonial.keyStatement}
-                                            components={testimonialDescriptionComponents}
-                                          />
-                                        ) : typeof data.testimonial.keyStatement === 'string' &&
-                                          data.testimonial.keyStatement.trim() ? (
-                                          <span>
-                                            &ldquo;{data.testimonial.keyStatement}&rdquo;
-                                          </span>
-                                        ) : null}
-                                      </h3>
-                                    )}
-                                    <div className="h-[1px] w-full bg-white/20 my-3"></div>
-                                    <p className="text-sm xl:text-base font-medium">
-                                      {data?.testimonial?.name}
-                                    </p>
-                                    <p className="text-sm text-white/60">
-                                      {data?.testimonial?.designation}
-                                    </p>
+                                <div className="px-6">
+                                  <div
+                                    className="mb-4"
+                                    style={{
+                                      height: `48px`,
+                                      width: `${
+                                        48 *
+                                          data?.testimonial?.secondaryLogo?.metadata
+                                            ?.dimensions?.aspectRatio || 2
+                                      }px`,
+                                    }}
+                                  >
+                                    <ImageLoader
+                                      image={data?.testimonial?.secondaryLogo?.url}
+                                      alt={data?.testimonial?.secondaryLogo?.alt || 'Company Logo'}
+                                      title={data?.testimonial?.secondaryLogo?.title || 'Company Logo'}
+                                      className="w-full h-full object-contain filter brightness-[132%] contrast-[202%]"
+                                    />
                                   </div>
-                                )}
+
+                                  {data?.testimonial?.keyStatement && (
+                                    <h3 className="text-base xl:text-lg font-medium">
+                                      {Array.isArray(data.testimonial.keyStatement) &&
+                                      data.testimonial.keyStatement.length > 0 ? (
+                                        <PortableText
+                                          value={data.testimonial.keyStatement}
+                                          components={testimonialDescriptionComponents}
+                                        />
+                                      ) : typeof data.testimonial.keyStatement === 'string' &&
+                                        data.testimonial.keyStatement.trim() ? (
+                                        <span>
+                                          &ldquo;{data.testimonial.keyStatement}&rdquo;
+                                        </span>
+                                      ) : null}
+                                    </h3>
+                                  )}
+                                  <div className="h-[1px] w-full bg-white/20 my-3"></div>
+                                  <p className="text-sm xl:text-base font-medium">
+                                    {data?.testimonial?.name}
+                                  </p>
+                                  <p className="text-sm text-white/60">
+                                    {data?.testimonial?.designation}
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </div>

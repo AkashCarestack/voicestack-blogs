@@ -475,7 +475,7 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
               </div>
             </aside>
 
-            <main className="flex-1 space-y-[114px]">
+            <main className="flex-1 space-y-[64px]">
               {allCategories.map((category, index) => {
                 const isActive = activeCategory === category.name;
                 const tabData = (category as any).tabData;
@@ -764,13 +764,13 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ duration: 0.3, delay: index * 0.1 }}
                         >
-                          <div className="flex items-center flex-col space-x-2">
+                          <div className="flex items-center flex-col">
                             {page !== 'case-studies' && (category.icon || category.iconSvgCode) && (
                               <div className={`w-8 h-8 rounded-lg flex flex-col items-center justify-center`} aria-hidden="true">
                                 {renderCategoryIcon(category, isActive)}
                               </div>
                             )}
-                            <span className="text-[12px] font-medium whitespace-nowrap">
+                            <span className="text-[12px] font-medium whitespace-nowrap mx-2.5">
                               {category.name}
                             </span>
                           </div>
@@ -786,7 +786,7 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                   id={`category-${displayCategory?.name.toLowerCase().replace(/\s+/g, '-')}`}
                   role="tabpanel"
                   aria-labelledby={`tab-${displayCategory?.name.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="bg-white rounded-2xl shadow-lg overflow-hidden"
+                  className="bg-white rounded-2xl overflow-hidden"
                 >
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -936,7 +936,7 @@ export default function CategoryFeatureTabs({ page, features, sectionHeading }: 
                           >
                             <div className="p-6 space-y-6">
                               <div className="text-start">
-                                <h3 className="md:text-2xl text-xl font-bold text-gray-900 mb-2">
+                                <h3 className="md:text-2xl text-xl font-manrope font-bold text-gray-900 mb-2">
                                   {displayCategory?.name}
                                 </h3>
                               </div>
