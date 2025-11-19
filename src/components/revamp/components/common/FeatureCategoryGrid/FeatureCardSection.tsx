@@ -31,7 +31,7 @@ interface FeatureCardSectionProps {
 
 const TickIcon = () => {
   return (
-    <span className="mt-[6px]">
+    <span className="">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="16"
