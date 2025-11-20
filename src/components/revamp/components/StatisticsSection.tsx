@@ -5,7 +5,11 @@ import SectionHeader from './common/sectionHeader'
 import Image from 'next/image'
 import WorldMap from 'public/assets/world-map.png'
 
-const StatisticsSection = () => {
+interface StatisticsSectionProps {
+  bgColor?: string
+}
+
+const StatisticsSection = ({ bgColor }: StatisticsSectionProps = {}) => {
   const statistics = [
     {
       value: "1500+",
@@ -26,7 +30,7 @@ const StatisticsSection = () => {
   ]
 
   return (
-    <div className='w-full px-4 xl:px-12'>
+    <div className='w-full px-4 xl:px-12' style={{ backgroundColor: bgColor }}>
       <div className={`rounded-[24px] bg-[linear-gradient(288deg,_#E0DDFF_0.48%,_#4A3CE1_98.9%)] justify-center relative`}>
         <Container className='w-full lg:py-24 py-16 px-6'>
           <div className="relative w-full flex gap-16">
