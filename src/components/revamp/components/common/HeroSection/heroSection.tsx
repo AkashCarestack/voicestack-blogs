@@ -520,6 +520,7 @@ console.log(data)
                   playsInline
                   autoPlay
                   className="w-full h-full object-cover"
+                  controls={false}
                 >
                   {data?.video?.[0]?.uploadVideos?.map((video: any, index: number) => (
                     <source
