@@ -110,19 +110,16 @@ export default function Testimonials({ data, refer = null }) {
                   <Image
                     src={activeTabData?.image?.url}
                     alt={activeTabData?.tabHeading}
-                    width={1800}
-                    height={1800}
+                    fill
                     priority
-                    layout="fill"
-                    className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
+                    className="object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
                   />
                 ) : (
                   <Image
                     src="/assets/Bg/BG01.png"
                     alt={activeTabData?.tabHeading}
-                    width={1920}
-                    height={1080}
-                    className="w-full h-full object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
+                    fill
+                    className="object-cover absolute left-0 right-0 top-0 bottom-0 z-0"
                   />
                 )}
                 <div className="w-full flex flex-col lg:flex-row gap-3">
