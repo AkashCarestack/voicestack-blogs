@@ -2,6 +2,7 @@ import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
+import { usePricingModal } from './PricingModalContext'
 
 const PricingHubSpotForm = ({
   id,
@@ -12,7 +13,7 @@ const PricingHubSpotForm = ({
 }) => {
   const { trackEvent } = useTracking({}, {})
   const router = useRouter()
-
+  const { closePricingModal } = usePricingModal()
   // Hardcoded form ID for US, structure ready for locale-based IDs
   const getFormId = () => {
     // For now, use hardcoded US form ID
@@ -110,11 +111,12 @@ const PricingHubSpotForm = ({
 
                 setTimeout(async () => {
                   const urlParams = new URLSearchParams(window.location.search)
-                  const responseData = await fetch(
-                    `/api/hs?email=${email}&source=${urlParams.get('utm_source')}&campaign=${urlParams.get('utm_campaign')}&medium=${urlParams.get('utm_medium')}&term=${urlParams.get('utm_term')}&lead_source=${urlParams.get('lead_source')}`,
-                  )
+                  // const responseData = await fetch(
+                  //   `/api/hs?email=${email}&source=${urlParams.get('utm_source')}&campaign=${urlParams.get('utm_campaign')}&medium=${urlParams.get('utm_medium')}&term=${urlParams.get('utm_term')}&lead_source=${urlParams.get('lead_source')}`,
+                  // )
+                  closePricingModal()
                   router.push('/pricing/thank-you')
-                }, 3000)
+                }, 1000)
               },
             } as any)
           }
