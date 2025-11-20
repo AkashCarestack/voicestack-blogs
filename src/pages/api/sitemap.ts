@@ -19,6 +19,9 @@ const EXCLUDED_PATHS = [
 // This can be easily modified later if needed
 const LOCALES_WITHOUT_CHILD_PAGES = ['en-GB', 'en-AU'];
 
+// Paths that should be available for all locales (including en-GB and en-AU)
+const PATHS_AVAILABLE_FOR_ALL_LOCALES = ['', 'system-requirements'];
+
 interface SitemapPage {
   slug: string
   language: string | null
@@ -224,8 +227,9 @@ function generateSiteMap(pages: SitemapPage[]) {
   staticPaths.forEach(({ path, key }) => {
     const variants: { [locale: string]: { url: string; lastmod: string } } = {};
     locales.forEach(locale => {
-      // Exclude locales that shouldn't have pages (only 'en' should have pages for now)
-      if (LOCALES_WITHOUT_CHILD_PAGES.includes(locale)) {
+      // Allow all locales for home and system-requirements, but exclude en-GB and en-AU for other paths
+      const isAllowedForAllLocales = PATHS_AVAILABLE_FOR_ALL_LOCALES.includes(path);
+      if (!isAllowedForAllLocales && LOCALES_WITHOUT_CHILD_PAGES.includes(locale)) {
         return;
       }
       const url = buildUrl(path, locale);
@@ -264,12 +268,14 @@ function generateSiteMap(pages: SitemapPage[]) {
       return;
     }
     
-    // Identify root-level static paths (these should exist for all locales)
+    // Identify root-level static paths and paths available for all locales
     const staticPathKeys = staticPaths.map(sp => sp.key);
     const isRootPage = path === '' || staticPathKeys.includes(path);
-    const isChildPage = !isRootPage;
+    const isAllowedForAllLocales = PATHS_AVAILABLE_FOR_ALL_LOCALES.includes(path);
+    const isChildPage = !isRootPage && !isAllowedForAllLocales;
     
     // Filter out child pages for locales that should only have root pages
+    // But allow paths that are available for all locales (like system-requirements)
     if (isChildPage) {
       pageVariants = pageVariants.filter(page => {
         const pageLocale = normalizeLanguage(page.language);
@@ -289,6 +295,7 @@ function generateSiteMap(pages: SitemapPage[]) {
       const pageLocale = normalizeLanguage(page.language);
       if (locales.includes(pageLocale)) {
         // Final safety check: don't add child pages for restricted locales
+        // But allow paths that are available for all locales
         if (isChildPage && LOCALES_WITHOUT_CHILD_PAGES.includes(pageLocale)) {
           return;
         }
