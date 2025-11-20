@@ -121,7 +121,7 @@ export default function DentalPhonesIndex({
           <IntegrationsGrid data={pageData['custom']?.componentData} />
         </div>
       )}
-      <StatisticsSection />
+      <div className="py-sm md:py-md lg:py-lg"><StatisticsSection /></div>
       
       {/* FAQ Section */}
       {faq && (

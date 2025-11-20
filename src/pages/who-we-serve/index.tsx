@@ -70,7 +70,7 @@ export default function WhoWeServeIndex({
         </div>
       )}
 
-      <StatisticsSection />
+      <div className="py-sm md:py-md lg:py-lg"><StatisticsSection /></div>
       {pageData['logo-listing']?.componentData && (
         <LogoListingSection
           data={pageData['logo-listing']?.componentData?.blocksListingData}

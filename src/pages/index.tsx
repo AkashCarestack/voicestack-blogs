@@ -254,7 +254,7 @@ export default function IndexPage(props: InferGetStaticPropsType<any>) {
             refer={refer}
           />
         )}
-        <StatisticsSection />
+        <div className="py-sm md:py-md lg:py-lg"><StatisticsSection /></div>
         {logoSectionData && (
           <LogoListingSection data={logoSectionData} refer={refer} />
         )}
