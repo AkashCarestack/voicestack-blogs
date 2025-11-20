@@ -129,11 +129,11 @@ export default function CompanyPage({
                 <MinimalCardList data={data.leaderShipTeam} />
               </div>
             )}
-            {data?.partners && (
+            {/* {data?.partners && (
               <div className="flex-1">
                 <MinimalCardList data={data.partners} />
               </div>
-            )}
+            )} */}
           </div>
         </Container>
       </Section>
