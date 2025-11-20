@@ -11,6 +11,7 @@ import { toCamelCase } from '~/utils/common'
 import Button from '../../../../common/Button'
 import { VideoItem } from '../../../../common/VideoModal'
 import Container from '../../../../structure/Container'
+import { urlForVideo } from '~/lib/sanity.image'
 
 const HeroSection = ({
   data,
@@ -294,7 +295,7 @@ const HeroSection = ({
       }
     }
   }
-
+console.log(data)
   return (
     <section className="font-geist justify-center">
       <Container className={`${isCentered ? ' ' : 'py-4 lg:py-0'} justify-center`}>
@@ -513,10 +514,26 @@ const HeroSection = ({
             <div className="relative w-full max-w-[537px] pb-4 md:py-12 lg:py-14">
               <div className="relative w-full h-full md:h-[550px] rounded-[12px] md:rounded-[24px] overflow-hidden md:aspect-video">
                 {data?.video   ? (
-                  <VideoPlayers
-                    video={data?.video[0]}
-                    thumbnail={data?.video[0]?.videoThumbnail}
-                  />
+                  <video
+                  muted
+                  loop
+                  playsInline
+                  autoPlay
+                  className="w-full h-full object-cover"
+                >
+                  {data?.video?.[0]?.uploadVideos?.map((video: any, index: number) => (
+                    <source
+                      key={index}
+                      src={video?.url}
+                      type={`video/${video?.type}`}
+                    />
+                  ))}
+                  {/* <source
+                    src={urlForVideo(thumbnail)}
+                    type="video/mp4"
+                  /> */}
+                  Your browser does not support HTML5 video.
+                </video>
                 ) : data?.testimonial ? (
                   <div className="lg:max-w-[606px] leading-none flex-1 flex justify-center lg:justify-end items-start relative">
                     <div className="absolute right-auto left-1/2 lg:left-auto lg:right-0 top-[0] bg-[#4A3CE1] opacity-10 rounded-[12px] md:rounded-[22px] -translate-x-1/2 lg:translate-x-0 rotate-[-7.7deg] scale-90 aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] shrink-0 origin-bottom-left"></div>
