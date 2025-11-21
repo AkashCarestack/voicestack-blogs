@@ -694,6 +694,8 @@ const HeroSection = ({
                                 height: '100%',
                                 border: 'none',
                                 borderRadius: '12px',
+                                objectFit: 'cover',
+                                transform: 'scale(1.25)',
                               }}
                               allow="autoplay; encrypted-media"
                               allowFullScreen

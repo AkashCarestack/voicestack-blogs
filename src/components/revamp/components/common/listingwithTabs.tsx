@@ -103,6 +103,8 @@ export default function ListingWithTabs({ list }: { list: any }) {
                    radius={12}
                     className="md:max-w-[489px] md:h-[616px] h-[300px] object-contain"
                     image={element?.image?.url || urlForImage(element.image)}
+                    alt={element?.image?.alt || ''}
+                    title={element?.image?.title || ''}
                   />
                   <div className="w-full h-auto md:p-6 p-4 flex flex-col">
                     <div className="text-gray-950 md:text-sm text-xs leading-[142%] tracking-[0.8px] uppercase">

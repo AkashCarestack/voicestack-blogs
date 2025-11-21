@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 export default function CustomHead(props) {
   const router = useRouter();
   const SchemaData = formatOrganizationSchema(props.siteSettings.seoSettings)
-  const jsonLdData = JSON.parse(props.siteSettings.injectJSONld)
+  const jsonLdData = props?.siteSettings?.injectJSONld ? JSON?.parse(props?.siteSettings?.injectJSONld) : null
   const homepage = router.pathname === '/'
   
 
