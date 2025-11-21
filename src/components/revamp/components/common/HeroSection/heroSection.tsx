@@ -1,7 +1,7 @@
 import { PortableText } from '@portabletext/react'
 import { useSearchParams } from 'next/navigation'
 import { useRouter } from 'next/router'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import VideoPlayers from '~/components/common/VideoPlayer'
@@ -11,6 +11,7 @@ import { toCamelCase } from '~/utils/common'
 import Button from '../../../../common/Button'
 import { VideoItem } from '../../../../common/VideoModal'
 import Container from '../../../../structure/Container'
+import { urlForVideo } from '~/lib/sanity.image'
 
 const HeroSection = ({
   data,
@@ -39,15 +40,48 @@ const HeroSection = ({
 
   const [activeIndex, setActiveIndex] = useState(0)
   const [wordIndex, setWordIndex] = useState(0)
+  const movFile = data?.video?.[0]?.uploadVideos?.find(
+    (e: any) => e.type === 'mov',
+  )?.url
+  const webpFile = data?.video?.[0]?.uploadVideos?.find(
+    (e: any) => e.type === 'webm',
+  )?.url
+  const mp4File = data?.video?.[0]?.uploadVideos?.find(
+    (e: any) => e.type === 'mp4',
+  )?.url
+  const [movFileUrl, setMovFile] = useState<string>(
+    data?.video?.[0]?.uploadVideos?.find((e: any) => e.type === 'mov')?.url,
+  )
+  const [webpFileUrl, setWebpFile] = useState<string>(
+    data?.video?.[0]?.uploadVideos?.find((e: any) => e.type === 'webm')?.url,
+  )
+  const [mp4FileUrl, setMp4File] = useState<string>(
+    data?.video?.[0]?.uploadVideos?.find((e: any) => e.type === 'mp4')?.url,
+  )
+  useEffect(() => {
+    if (movFile) {
+      setMovFile(movFile)
+    }
+    if (webpFile) {
+      setWebpFile(webpFile)
+    }
+    if (mp4File) {
+      setMp4File(mp4File)
+    }
+  }, [movFile, webpFile, mp4File])
+
+  const videoKey = useMemo(
+    () => `${webpFileUrl}-${movFileUrl}-${mp4FileUrl}`,
+    [webpFileUrl, movFileUrl, mp4FileUrl],
+  )
+
   const searchParams = useSearchParams()
   const source2 = searchParams.get('source')
 
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <span className="">
-          {children}
-        </span>
+        <span className="">{children}</span>
       ),
     },
     marks: {
@@ -62,14 +96,18 @@ const HeroSection = ({
   useEffect(() => {
     // Use setTimeout to ensure DOM is fully rendered
     const timer = setTimeout(() => {
-      if (descriptionRef.current && !showFullDescription && data?.heroDescription) {
+      if (
+        descriptionRef.current &&
+        !showFullDescription &&
+        data?.heroDescription
+      ) {
         const element = descriptionRef.current
         const paragraphs = element.querySelectorAll('p')
-        
+
         if (paragraphs.length > 0) {
           // Check all paragraphs to see if any are truncated
           let hasTruncatedContent = false
-          
+
           paragraphs.forEach((paragraph) => {
             // Create a clone without line-clamp to measure full height
             const clone = paragraph.cloneNode(true) as HTMLElement
@@ -79,20 +117,20 @@ const HeroSection = ({
             clone.style.maxHeight = 'none'
             clone.classList.remove('line-clamp-2')
             document.body.appendChild(clone)
-            
+
             const fullHeight = clone.offsetHeight
             const clampedHeight = paragraph.offsetHeight
             const lineHeight = 28
             const maxHeight = lineHeight * 2
-            
+
             // Check if content exceeds 2 lines
             if (fullHeight > maxHeight || fullHeight > clampedHeight) {
               hasTruncatedContent = true
             }
-            
+
             document.body.removeChild(clone)
           })
-          
+
           setNeedsSeeMore(hasTruncatedContent)
         }
       } else {
@@ -106,7 +144,9 @@ const HeroSection = ({
   const descriptionComponents: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <p className={`${showFullDescription || isDescriptionExpanded ? "" : "line-clamp-2 self-stretch"} text-lg text-gray-950 leading-[28px] mb-3 font-normal `}>
+        <p
+          className={`${showFullDescription || isDescriptionExpanded ? '' : 'line-clamp-2 self-stretch'} text-lg text-gray-950 leading-[28px] mb-3 font-normal `}
+        >
           {children}
         </p>
       ),
@@ -124,7 +164,7 @@ const HeroSection = ({
           className="flex lg:justify-start justify-center gap-3 py-[10px] md:py-[14px] text-base text-gray-950 leading-[24px] border-b"
           style={{ borderColor: '#0307121A' }}
         >
-          <span className="mt-1 md:mt-0 lg:flex items-center hidden">
+          <span className="mt-1 md:mt-2 lg:flex hidden">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
@@ -145,7 +185,13 @@ const HeroSection = ({
       ),
     },
     marks: {
-      link: ({ children, value }: { children: React.ReactNode; value?: any }) => {
+      link: ({
+        children,
+        value,
+      }: {
+        children: React.ReactNode
+        value?: any
+      }) => {
         const href = value?.href || '#'
         const isExternal = href?.startsWith('http') || href?.startsWith('//')
         return (
@@ -158,7 +204,7 @@ const HeroSection = ({
             {children}
           </a>
         )
-      },    
+      },
     },
   }
   const testimonialDescriptionComponents: any = {
@@ -294,12 +340,16 @@ const HeroSection = ({
       }
     }
   }
-
+  console.log(data)
   return (
     <section className="font-geist justify-center">
-      <Container className={`${isCentered ? ' ' : 'py-4 lg:py-0'} justify-center`}>
+      <Container
+        className={`${isCentered ? ' ' : 'py-4 lg:py-0'} justify-center`}
+      >
         {isCentered ? (
-          <div className={`${showFullDescription ? "max-w-[808px]" : "max-w-[606px]"} flex flex-col items-center text-center  gap-3 py-12  lg:pt-md lg:pb-md`}>
+          <div
+            className={`${showFullDescription ? 'max-w-[808px]' : 'max-w-[606px]'} flex flex-col items-center text-center  gap-3 py-12  lg:pt-md lg:pb-md`}
+          >
             <h1 className="text-base font-medium text-gray-950 uppercase">
               {toCamelCase(data?.heroStrip)}
             </h1>
@@ -319,80 +369,115 @@ const HeroSection = ({
               >
                 {isDescriptionExpanded ? 'See Less' : 'See More'}
               </button>
-              
             )}
-            
-            {data?.bookBtnContent && Array.isArray(data.bookBtnContent) && data.bookBtnContent.length > 0 && (
-              <div className="flex flex-col gap-4 pt-5 justify-center lg:justify-start items-center ">
-                {data.bookBtnContent.length > 2 ? (
-                  <>
-                    {/* First button on top */}
-                    {data.bookBtnContent[0]?.buttonText && (
-                      <Button
-                        key={data.bookBtnContent[0]?._key || 0}
-                        type={(!data.bookBtnContent[0]?.buttonType || data.bookBtnContent[0]?.buttonType === '') ? 'primary' : (data.bookBtnContent[0]?.buttonType || 'secondary')}
-                        className="w-fit"
-                        link={data.bookBtnContent[0]?.buttonLink}
-                        buttonVariant={data.bookBtnContent[0]?.buttonVariant}
-                        target={data.bookBtnContent[0]?.openInNewTab ? '_blank' : '_self'}
-                      >
-                        {data.bookBtnContent[0]?.buttonIcon && (
-                          <span dangerouslySetInnerHTML={{ __html: data.bookBtnContent[0].buttonIcon }} />
-                        )}
-                        <span>{data.bookBtnContent[0].buttonText}</span>
-                      </Button>
-                    )}
-                    {/* Remaining buttons in a row */}
+
+            {data?.bookBtnContent &&
+              Array.isArray(data.bookBtnContent) &&
+              data.bookBtnContent.length > 0 && (
+                <div className="flex flex-col gap-4 pt-5 justify-center lg:justify-start items-center ">
+                  {data.bookBtnContent.length > 2 ? (
+                    <>
+                      {/* First button on top */}
+                      {data.bookBtnContent[0]?.buttonText && (
+                        <Button
+                          key={data.bookBtnContent[0]?._key || 0}
+                          type={
+                            !data.bookBtnContent[0]?.buttonType ||
+                            data.bookBtnContent[0]?.buttonType === ''
+                              ? 'primary'
+                              : data.bookBtnContent[0]?.buttonType ||
+                                'secondary'
+                          }
+                          className="w-fit"
+                          link={data.bookBtnContent[0]?.buttonLink}
+                          buttonVariant={data.bookBtnContent[0]?.buttonVariant}
+                          target={
+                            data.bookBtnContent[0]?.openInNewTab
+                              ? '_blank'
+                              : '_self'
+                          }
+                        >
+                          {data.bookBtnContent[0]?.buttonIcon && (
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: data.bookBtnContent[0].buttonIcon,
+                              }}
+                            />
+                          )}
+                          <span>{data.bookBtnContent[0].buttonText}</span>
+                        </Button>
+                      )}
+                      {/* Remaining buttons in a row */}
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        {data.bookBtnContent
+                          .slice(1)
+                          .map((button: any, index: number) => {
+                            if (!button?.buttonText) return null
+                            return (
+                              <Button
+                                key={button?._key || index + 1}
+                                type={button?.buttonType || 'secondary'}
+                                className="w-fit"
+                                link={button?.buttonLink}
+                                buttonVariant={button?.buttonVariant}
+                                target={
+                                  data.bookBtnContent[0]?.openInNewTab
+                                    ? '_blank'
+                                    : '_self'
+                                }
+                              >
+                                {button?.buttonIcon && (
+                                  <span
+                                    dangerouslySetInnerHTML={{
+                                      __html: button.buttonIcon,
+                                    }}
+                                  />
+                                )}
+                                <span>{button.buttonText}</span>
+                              </Button>
+                            )
+                          })}
+                      </div>
+                    </>
+                  ) : (
+                    /* If 2 or fewer buttons, show them in a row */
                     <div className="flex flex-col sm:flex-row gap-4">
-                      {data.bookBtnContent.slice(1).map((button: any, index: number) => {
+                      {data.bookBtnContent.map((button: any, index: number) => {
                         if (!button?.buttonText) return null
+                        // Default first button to 'primary' if buttonType is not set or is empty
+                        const buttonType =
+                          index === 0 &&
+                          (!button?.buttonType || button?.buttonType === '')
+                            ? 'primary'
+                            : button?.buttonType || 'secondary'
                         return (
                           <Button
-                            key={button?._key || index + 1}
-                            type={button?.buttonType || 'secondary'}
+                            key={button?._key || index}
+                            type={buttonType}
                             className="w-fit"
                             link={button?.buttonLink}
                             buttonVariant={button?.buttonVariant}
-                            target={data.bookBtnContent[0]?.openInNewTab ? '_blank' : '_self'}
+                            target={
+                              data.bookBtnContent[index]?.openInNewTab
+                                ? '_blank'
+                                : '_self'
+                            }
                           >
                             {button?.buttonIcon && (
-                              <span dangerouslySetInnerHTML={{ __html: button.buttonIcon }} />
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: button.buttonIcon,
+                                }}
+                              />
                             )}
                             <span>{button.buttonText}</span>
                           </Button>
                         )
                       })}
                     </div>
-                  </>
-                ) : (
-                  /* If 2 or fewer buttons, show them in a row */
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    {data.bookBtnContent.map((button: any, index: number) => {
-                      if (!button?.buttonText) return null
-                      // Default first button to 'primary' if buttonType is not set or is empty
-                      const buttonType = index === 0 && (!button?.buttonType || button?.buttonType === '') 
-                        ? 'primary' 
-                        : (button?.buttonType || 'secondary')
-                      return (
-                        <Button
-                          key={button?._key || index}
-                          type={buttonType}
-                          className="w-fit"
-                          link={button?.buttonLink}
-                          buttonVariant={button?.buttonVariant}
-                          target={data.bookBtnContent[index]?.openInNewTab ? '_blank' : '_self'}
-                        >
-                          {button?.buttonIcon && (
-                            <span dangerouslySetInnerHTML={{ __html: button.buttonIcon }} />
-                          )}
-                          <span>{button.buttonText}</span>
-                        </Button>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
-            )}
+                  )}
+                </div>
+              )}
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row justify-between lg:gap-24 gap-12 w-full items-center lg:items-start">
@@ -401,7 +486,9 @@ const HeroSection = ({
               {/* Feature Tag */}
               {page === 'home' ? (
                 <div className="flex w-fit mx-auto lg:mx-0 text-center lg:text-left items-center space-x-2 rounded-full border border-[rgba(174,160,255,0.20)] bg-[rgba(174,160,255,0.20)] py-[9px] pl-4 pr-[14px]">
-                  <span className="hidden md:block"><SuperChargeIcon /></span>
+                  <span className="hidden md:block">
+                    <SuperChargeIcon />
+                  </span>
                   <h1 className="text-sm font-medium text-gray-950 uppercase">
                     {data?.heroStrip}
                   </h1>
@@ -425,7 +512,10 @@ const HeroSection = ({
               </div>
 
               {/* Description */}
-              <div ref={descriptionRef} className="w-full lg:text-left text-center">
+              <div
+                ref={descriptionRef}
+                className="w-full lg:text-left text-center"
+              >
                 <PortableText
                   value={data?.heroDescription}
                   components={descriptionComponents}
@@ -433,111 +523,155 @@ const HeroSection = ({
               </div>
               {!showFullDescription && needsSeeMore && (
                 <button
-                  onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
+                  onClick={() =>
+                    setIsDescriptionExpanded(!isDescriptionExpanded)
+                  }
                   className="text-base font-medium text-vs-purple hover:text-vs-purple/80 transition-colors mt-2 lg:self-start"
                 >
                   {isDescriptionExpanded ? 'See Less' : 'See More'}
                 </button>
               )}
 
-              {data?.bookBtnContent && Array.isArray(data.bookBtnContent) && data.bookBtnContent.length > 0 && (
-                <div className="flex flex-col !mt-0 gap-4 pt-12 justify-center lg:justify-start items-center lg:items-start">
-                  {data.bookBtnContent.length > 2 ? (
-                    <>
-                      {/* First button on top */}
-                      {data.bookBtnContent[0]?.buttonText && (
-                        <Button
-                          key={data.bookBtnContent[0]?._key || 0}
-                          type={(!data.bookBtnContent[0]?.buttonType || data.bookBtnContent[0]?.buttonType === '') ? 'primary' : (data.bookBtnContent[0]?.buttonType || 'secondary')}
-                          className="w-fit"
-                          link={data.bookBtnContent[0]?.buttonLink}
-                          buttonVariant={data.bookBtnContent[0]?.buttonVariant}
-                        >
-                          {data.bookBtnContent[0]?.buttonIcon && (
-                            <span dangerouslySetInnerHTML={{ __html: data.bookBtnContent[0].buttonIcon }} />
-                          )}
-                          <span>{data.bookBtnContent[0].buttonText}</span>
-                        </Button>
-                      )}
-                      {/* Remaining buttons in a row */}
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        {data.bookBtnContent.slice(1).map((button: any, index: number) => {
-                          if (!button?.buttonText) return null
-                          return (
-                            <Button
-                              key={button?._key || index + 1}
-                              type={button?.buttonType || 'secondary'}
-                              className="w-fit"
-                              link={button?.buttonLink}
-                              buttonVariant={button?.buttonVariant}
-                            >
-                              {button?.buttonIcon && (
-                                <span dangerouslySetInnerHTML={{ __html: button.buttonIcon }} />
-                              )}
-                              <span>{button.buttonText}</span>
-                            </Button>
-                          )
-                        })}
-                      </div>
-                    </>
-                  ) : (
-                    /* If 2 or fewer buttons, show them in a row */
-                    <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start">
-                      {data.bookBtnContent.map((button: any, index: number) => {
-                        // Default first button to 'primary' if buttonType is not set or is empty
-                        const buttonType = index === 0 && (!button?.buttonType || button?.buttonType === '') 
-                          ? 'primary' 
-                          : (button?.buttonType || 'secondary')
-                        return (
+              {data?.bookBtnContent &&
+                Array.isArray(data.bookBtnContent) &&
+                data.bookBtnContent.length > 0 && (
+                  <div className="flex flex-col !mt-0 gap-4 pt-12 justify-center lg:justify-start items-center lg:items-start">
+                    {data.bookBtnContent.length > 2 ? (
+                      <>
+                        {/* First button on top */}
+                        {data.bookBtnContent[0]?.buttonText && (
                           <Button
-                            key={button?._key || index}
-                            type={buttonType}
+                            key={data.bookBtnContent[0]?._key || 0}
+                            type={
+                              !data.bookBtnContent[0]?.buttonType ||
+                              data.bookBtnContent[0]?.buttonType === ''
+                                ? 'primary'
+                                : data.bookBtnContent[0]?.buttonType ||
+                                  'secondary'
+                            }
                             className="w-fit"
-                            link={button?.buttonLink}
-                            buttonVariant={button?.buttonVariant}
+                            link={data.bookBtnContent[0]?.buttonLink}
+                            buttonVariant={
+                              data.bookBtnContent[0]?.buttonVariant
+                            }
                           >
-                            {button?.buttonIcon && (
-                              <span dangerouslySetInnerHTML={{ __html: button.buttonIcon }} />
+                            {data.bookBtnContent[0]?.buttonIcon && (
+                              <span
+                                dangerouslySetInnerHTML={{
+                                  __html: data.bookBtnContent[0].buttonIcon,
+                                }}
+                              />
                             )}
-                            <span>{button?.buttonText}</span>
+                            <span>{data.bookBtnContent[0].buttonText}</span>
                           </Button>
-                        )
-                      })}
-                    </div>
-                  )}
-                </div>
-              )}
+                        )}
+                        {/* Remaining buttons in a row */}
+                        <div className="flex flex-col sm:flex-row gap-4">
+                          {data.bookBtnContent
+                            .slice(1)
+                            .map((button: any, index: number) => {
+                              if (!button?.buttonText) return null
+                              return (
+                                <Button
+                                  key={button?._key || index + 1}
+                                  type={button?.buttonType || 'secondary'}
+                                  className="w-fit"
+                                  link={button?.buttonLink}
+                                  buttonVariant={button?.buttonVariant}
+                                >
+                                  {button?.buttonIcon && (
+                                    <span
+                                      dangerouslySetInnerHTML={{
+                                        __html: button.buttonIcon,
+                                      }}
+                                    />
+                                  )}
+                                  <span>{button.buttonText}</span>
+                                </Button>
+                              )
+                            })}
+                        </div>
+                      </>
+                    ) : (
+                      /* If 2 or fewer buttons, show them in a row */
+                      <div className="flex flex-col sm:flex-row gap-4 items-center lg:items-start">
+                        {data.bookBtnContent.map(
+                          (button: any, index: number) => {
+                            // Default first button to 'primary' if buttonType is not set or is empty
+                            const buttonType =
+                              index === 0 &&
+                              (!button?.buttonType || button?.buttonType === '')
+                                ? 'primary'
+                                : button?.buttonType || 'secondary'
+                            return (
+                              <Button
+                                key={button?._key || index}
+                                type={buttonType}
+                                className="w-fit"
+                                link={button?.buttonLink}
+                                buttonVariant={button?.buttonVariant}
+                              >
+                                {button?.buttonIcon && (
+                                  <span
+                                    dangerouslySetInnerHTML={{
+                                      __html: button.buttonIcon,
+                                    }}
+                                  />
+                                )}
+                                <span>{button?.buttonText}</span>
+                              </Button>
+                            )
+                          },
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
             </div>
 
             {/* Right Content - Video Section */}
             <div className="relative w-full max-w-[537px] pb-4 md:py-12 lg:py-14">
-              <div className="relative w-full h-full md:h-[550px] rounded-[12px] md:rounded-[24px] overflow-hidden md:aspect-video">
-                {data?.video   ? (
-                  <VideoPlayers
-                    video={data?.video[0]}
-                    thumbnail={data?.video[0]?.videoThumbnail}
-                  />
+              <div className="relative w-full h-full md:h-[550px] rounded-[12px] md:rounded-[24px] overflow-hidden md:aspect-video bg-transparent">
+                {data?.video ? (
+                  <video
+                    key={videoKey}
+                    muted
+                    loop
+                    playsInline
+                    autoPlay
+                    preload="auto"
+                    className="w-full h-full object-cover"
+                    controls={false}
+                  >
+                    {movFileUrl && (
+                      <source
+                        key={movFileUrl}
+                        src={movFileUrl}
+                        type='video/mp4; codecs="hvc1"'
+                      />
+                    )}
+                    {webpFileUrl && (
+                      <source
+                        key={webpFileUrl}
+                        src={webpFileUrl}
+                        type="video/webm"
+                      />
+                    )}
+                    {mp4FileUrl && (
+                      <source
+                        key={mp4FileUrl}
+                        src={mp4FileUrl}
+                        type="video/mp4"
+                      />
+                    )}
+                    Your browser does not support HTML5 video.
+                  </video>
                 ) : data?.testimonial ? (
                   <div className="lg:max-w-[606px] leading-none flex-1 flex justify-center lg:justify-end items-start relative">
                     <div className="absolute right-auto left-1/2 lg:left-auto lg:right-0 top-[0] bg-[#4A3CE1] opacity-10 rounded-[12px] md:rounded-[22px] -translate-x-1/2 lg:translate-x-0 rotate-[-7.7deg] scale-90 aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] shrink-0 origin-bottom-left"></div>
                     <div className="relative rounded-[8px] md:rounded-[16px] aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] overflow-hidden shrink-0">
                       <div
                         className="group flex flex-col justify-center rounded-2xl h-[550px] shadow-md cursor-pointer w-full aspect-[9/16] overflow-hidden relative"
-                        onMouseEnter={() => {
-                          // Only play thumbnail video if YouTube is not playing
-                          if (playingYoutubeIndex !== 0) {
-                            setActiveVideoIndex(0)
-                            handleVideoPlay(0)
-                          }
-                        }}
-                        onMouseLeave={() => {
-                          // Only pause thumbnail video if YouTube is not playing
-                          if (playingYoutubeIndex !== 0) {
-                            handleVideoPause(0)
-                            setActiveVideoIndex(null)
-                            setPlayingIndex(null)
-                          }
-                        }}
                         onClick={() => {
                           const videoId = data?.testimonial?.video?.[0]?.videoId
                           handleVideoClick(0, videoId)
@@ -573,16 +707,7 @@ const HeroSection = ({
                               <video
                                 ref={(el) => {
                                   videoRefs.current[0] = el
-                                  // Safari compatibility: ensure video loads
-                                  if (el) {
-                                    el.load()
-                                    // Try to play after load (Safari requires user interaction for autoplay)
-                                    el.play().catch(() => {
-                                      // Autoplay blocked, will play on hover
-                                    })
-                                  }
                                 }}
-                                key={data?.testimonial?.thumbnail}
                                 style={{
                                   backgroundColor: 'transparent',
                                   backgroundImage: 'none',
@@ -606,22 +731,8 @@ const HeroSection = ({
                               </video>
                             )}
 
-                            {/* Blur Overlay */}
-                            <div className="absolute bottom-0 h-64 w-full pointer-events-none z-0 group-hover:opacity-0">
-                              <div className="absolute  backdrop-blur-[0.5px]  [mask-image:linear-gradient(180deg,rgba(0,0,0,0),#000_10%)] left-0 top-0 z-[1] w-full h-full " />
-                              <div className="absolute backdrop-blur-[2px]  [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_10%,#000_20%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[4.5px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_20%,#000_30%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[8px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_30%,#000_40%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[12px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_40%,#000_50%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[18px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_50%,#000_60%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[24px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_60%,#000_70%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[31px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_70%,#000_80%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[40px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_80%,#000_90%)] left-0 top-0 z-[1] w-full h-full" />
-                              <div className="absolute backdrop-blur-[49px] [mask-image:linear-gradient(180deg,rgba(0,0,0,0)_90%,#000_100%)] left-0 top-0 z-[1] w-full h-full" />
-                            </div>
-                            <div className="absolute bottom-0 h-64 mix-blend-darken w-full z-0 "></div>
                             {/* Play button that shows on hover - Top right of card */}
-                            <div className="absolute top-4 right-4 z-30 opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                            <div className="absolute top-4 right-4  opacity-0 group-hover:opacity-100 transform !z-10 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
                               <div
                                 className="rounded-full flex items-center cursor-pointer justify-center w-24 h-10 border border-white/20 bg-black/15 text-white hover:bg-black/25 transition-colors duration-200"
                                 onClick={() =>
@@ -650,55 +761,69 @@ const HeroSection = ({
                               </div>
                             </div>
 
-                            {/* Content that shows by default and hides on hover */}
-                            <div className="absolute bottom-0 w-full h-2/3 z-10 flex flex-col justify-end bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.1)_100%),linear-gradient(180deg,rgba(0,0,0,0)_0%,#000_100%)]">
+                            {/* Content that shows by default and stays visible on hover */}
+                            <div className="absolute bottom-0 w-full h-2/3 z-10 flex flex-col justify-end bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.1)_100%),linear-gradient(180deg,rgba(0,0,0,0)_0%,rgba(0,0,0,0.85)_100%)] rounded-b-2xl overflow-hidden">
                               <div className="flex flex-col justify-end w-full pb-6 text-white">
-                                {playingIndex !== 0 && (
-                                  <div className="px-6">
-                                    <div
-                                      className="mb-4"
-                                      style={{
-                                        height: `48px`,
-                                        width: `${
-                                          48 *
-                                            data?.testimonial?.secondaryLogo?.metadata
-                                              ?.dimensions?.aspectRatio || 2
-                                        }px`,
-                                      }}
-                                    >
-                                      <ImageLoader
-                                        image={data?.testimonial?.secondaryLogo?.url}
-                                        alt={data?.testimonial?.secondaryLogo?.alt || 'Company Logo'}
-                                        title={data?.testimonial?.secondaryLogo?.title || 'Company Logo'}
-                                        className="w-full h-full object-contain filter brightness-[132%] contrast-[202%]"
-                                      />
-                                    </div>
-
-                                    {data?.testimonial?.keyStatement && (
-                                      <h3 className="text-base xl:text-lg font-medium">
-                                        {Array.isArray(data.testimonial.keyStatement) &&
-                                        data.testimonial.keyStatement.length > 0 ? (
-                                          <PortableText
-                                            value={data.testimonial.keyStatement}
-                                            components={testimonialDescriptionComponents}
-                                          />
-                                        ) : typeof data.testimonial.keyStatement === 'string' &&
-                                          data.testimonial.keyStatement.trim() ? (
-                                          <span>
-                                            &ldquo;{data.testimonial.keyStatement}&rdquo;
-                                          </span>
-                                        ) : null}
-                                      </h3>
-                                    )}
-                                    <div className="h-[1px] w-full bg-white/20 my-3"></div>
-                                    <p className="text-sm xl:text-base font-medium">
-                                      {data?.testimonial?.name}
-                                    </p>
-                                    <p className="text-sm text-white/60">
-                                      {data?.testimonial?.designation}
-                                    </p>
+                                <div className="px-6">
+                                  <div
+                                    className="mb-4"
+                                    style={{
+                                      height: `48px`,
+                                      width: `${
+                                        48 *
+                                          data?.testimonial?.secondaryLogo
+                                            ?.metadata?.dimensions
+                                            ?.aspectRatio || 2
+                                      }px`,
+                                    }}
+                                  >
+                                    <ImageLoader
+                                      image={
+                                        data?.testimonial?.secondaryLogo?.url
+                                      }
+                                      alt={
+                                        data?.testimonial?.secondaryLogo?.alt ||
+                                        'Company Logo'
+                                      }
+                                      title={
+                                        data?.testimonial?.secondaryLogo
+                                          ?.title || 'Company Logo'
+                                      }
+                                      className="w-full h-full object-contain filter brightness-[132%] contrast-[202%]"
+                                    />
                                   </div>
-                                )}
+
+                                  {data?.testimonial?.keyStatement && (
+                                    <h3 className="text-base xl:text-lg font-medium">
+                                      {Array.isArray(
+                                        data.testimonial.keyStatement,
+                                      ) &&
+                                      data.testimonial.keyStatement.length >
+                                        0 ? (
+                                        <PortableText
+                                          value={data.testimonial.keyStatement}
+                                          components={
+                                            testimonialDescriptionComponents
+                                          }
+                                        />
+                                      ) : typeof data.testimonial
+                                          .keyStatement === 'string' &&
+                                        data.testimonial.keyStatement.trim() ? (
+                                        <span>
+                                          &ldquo;{data.testimonial.keyStatement}
+                                          &rdquo;
+                                        </span>
+                                      ) : null}
+                                    </h3>
+                                  )}
+                                  <div className="h-[1px] w-full bg-white/20 my-3"></div>
+                                  <p className="text-sm xl:text-base font-medium">
+                                    {data?.testimonial?.name}
+                                  </p>
+                                  <p className="text-sm text-white/60">
+                                    {data?.testimonial?.designation}
+                                  </p>
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -719,7 +844,6 @@ const HeroSection = ({
             </div>
           </div>
         )}
-
       </Container>
     </section>
   )

@@ -69,11 +69,16 @@ export default function ThankYouPage() {
               
               
               {demoData?.meetingLink && ( 
+                <>
+                <p className="text-gray-500 text-center">
+                  You can also schedule a meeting with us.
+                </p>
                 <div
                   className="meetings-iframe-container"
                   data-src={`${demoData?.meetingLink}?embed=true`}
                   // data-src="https://meetings.hubspot.com/marcomm-admin/test-link-harsha?embed=true"
                 ></div>
+                </>
               )}
 
               <div className="flex flex-col sm:flex-row gap-4 pt-5 justify-center items-center w-full">

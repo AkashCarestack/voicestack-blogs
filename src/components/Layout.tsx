@@ -33,7 +33,9 @@ export default function Layout({
 
   const { headerData, footerData, loading, error } = useLayoutData();
 
-  if (loading) {
+  // Only show loading state if we truly don't have data yet
+  // Don't hide header/footer if we're just waiting for new data during navigation
+  if (loading && !headerData && !footerData) {
     return (
       <NavigationContextProvider>
         <ImageSwitchProvider>
@@ -52,9 +54,9 @@ export default function Layout({
         <div
           className={`flex flex-col w-full items-center pt-[48px] lg:pt-[108px] bg-[#F9F9F9]`}
         >
-          <Header data={headerData} />
+          {headerData && <Header data={headerData} />}
           <div className="w-full flex flex-col">{children}</div>
-          <Footer data={footerData} />
+          {footerData && <Footer data={footerData} />}
         </div>
     //   </ImageSwitchProvider>
     // </NavigationContextProvider>

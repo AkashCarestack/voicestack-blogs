@@ -71,6 +71,35 @@ export const heroFields = [
             title: 'Video Thumbnail',
             type: 'file',
           },
+          {
+            name: 'uploadVideos',
+            title: 'Upload Videos',
+            type: 'array',
+            of: [{
+              type: 'object',
+              name: 'uploadVideo',
+              title: 'Upload Video',
+                fields: [
+                {
+                  name: 'type',
+                  title: 'File Type',
+                  type: 'string',
+                  options: {
+                    list: [
+                      { title: 'Mov', value: 'mov' }, 
+                      { title: 'Mp4', value: 'mp4' },
+                      { title: 'Webm', value: 'webm' },
+                    ],
+                  },
+                },
+                {
+                  name: 'url',
+                  title: 'URL',
+                  type: 'string',
+                },
+              ],
+            }],
+          },
         ],
         preview: {
           select: {

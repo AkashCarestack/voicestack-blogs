@@ -3,7 +3,7 @@ import { PortableText } from '@portabletext/react'
 import Button from '~/components/common/Button'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 
-export default function TestimonialRightCard({ data }: { data: any }) {  
+export default function TestimonialRightCard({ data, page }: { data: any, page?: string }) {  
     const components: any = {
         block: {
           normal: ({ children }: { children: React.ReactNode }) => (
@@ -28,7 +28,7 @@ export default function TestimonialRightCard({ data }: { data: any }) {
       <div className="relative h-full md:mb-0 mb-4">
         {/* desktop */}
         <div className="relative flex-1 text-white flex w-full h-full justify-between">
-          <div className="flex flex-col gap-3 py-8 px-6 w-full">
+          <div className={`${page === 'aiPage' ? 'py-9 px-9' : 'py-8 px-6'} flex flex-col gap-3  w-full`}>
             {/* Company Logo */}
             <div className="flex flex-1">
               <div

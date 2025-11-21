@@ -61,7 +61,7 @@ export default function CustomerStories({ pageData }: any) {
         </div>
       )}
         
-        <StatisticsSection />
+        <StatisticsSection bgColor="#f4f3fa" />
         {pageData['logo-listing']?.componentData && (
           <LogoListingSection
             data={pageData['logo-listing']?.componentData?.blocksListingData}

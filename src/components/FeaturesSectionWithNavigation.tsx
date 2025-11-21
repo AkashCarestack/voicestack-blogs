@@ -110,16 +110,16 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({
 }) => {
   return (
     <section id={id} className={`py-16 first:pt-0 ${className}`}>
-      <div className="flex items-end justify-between mb-6">
-        <div className="max-w-[396px]">
-          <h2 className="md:text-3xl text-xl font-bold text-zinc-950 mb-4 font-manrope">
+      <div className="flex items-end justify-between mb-6 md:flex-row flex-col gap-4">
+        <div className="md:max-w-[396px] w-full">
+          <h2 className="md:text-3xl text-xl leading-[133%] tracking-normal font-bold text-zinc-950 font-manrope">
             {title}
           </h2>
-          <p className="md:text-base text-sm text-[#364153] leading-6 font-geist">
+          <p className="md:text-base text-sm text-[#364153] tracking-normal leading-6 font-geist">
             {description}
           </p>
         </div>
-        <p className="md:text-base text-sm text-[#6a7282] font-geist">
+        <p className="md:text-base text-sm text-[#6a7282] font-geist flex-shrink-0">
           {integrationCount}
         </p>
       </div>
@@ -415,13 +415,13 @@ const FeaturesSectionWithNavigation: React.FC<FeaturesSectionWithNavigationProps
         }
       `}</style>
       <Container className="">
-        <div className="flex flex-col md:flex-row gap-6 w-full">
+        <div className="flex flex-col md:flex-row gap-16 w-full">
            {/* Mobile Navigation - SwitchableTabs */}
              <SwitchableTabs
                data={switchableTabsData}
                setActiveTab={(categoryId: string) => handleCategoryClick(categoryId)}
                activeTab={activeSection}
-               className="md:hidden block"
+               className="md:hidden block !top-[55px] z-50"
                isShowImage={false}
                isSticky={true}
              />

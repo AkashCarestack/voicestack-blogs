@@ -40,7 +40,7 @@ const HeroInner: React.FC<HeroInnerProps> = ({ data }) => {
           </p>
           <div className='flex justify-center md:pt-[12px] pt-[10px]'>
           <Button type='primary' link="/demo">
-              <span>Book free demo</span>
+              <span>Book Free Demo</span>
           </Button>
           </div>
         </div>

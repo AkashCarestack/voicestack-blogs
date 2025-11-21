@@ -64,7 +64,7 @@ export default function CompanyPage({
       {/* <AboutCompany heading={heading} description={description} image={image} icon={icon} /> */}
       <Section className="bg-white">
         <Container className="flex flex-col px-4 md:px-0">
-          <h2 className='text-2xl md:text-4xl md:pt-8 pt-6 font-semibold leading-[120%] mb-2 text-gray-950'>Our Story</h2>
+          <h2 className='text-2xl md:text-4xl md:pt-8 pt-6 font-manrope font-semibold leading-[120%] mb-2 text-gray-950'>Our Story</h2>
       
          {/* <Image 
            src={VoicestackLogo} 
@@ -129,11 +129,11 @@ export default function CompanyPage({
                 <MinimalCardList data={data.leaderShipTeam} />
               </div>
             )}
-            {data?.partners && (
+            {/* {data?.partners && (
               <div className="flex-1">
                 <MinimalCardList data={data.partners} />
               </div>
-            )}
+            )} */}
           </div>
         </Container>
       </Section>

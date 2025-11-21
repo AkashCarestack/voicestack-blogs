@@ -33,7 +33,7 @@ const LogoSliderSection = React.memo(({ data, refer = null }: { data: any, refer
                 title={logo.altText}
                 width={logo?.metadata?.dimensions?.width}
                 height={logo?.metadata?.dimensions?.height}
-                className={`lg:h-[52px] h-[36px] w-auto filter grayscale hover:filter-none transition-all duration-300`}
+                className={`lg:h-[48px] h-[36px] w-auto filter grayscale hover:filter-none transition-all duration-300`}
                 // priority={i < 4} // Prioritize first few images
               />
             </div>
@@ -49,7 +49,7 @@ const LogoSliderSection = React.memo(({ data, refer = null }: { data: any, refer
                 title={logo.altText}
                 width={logo?.metadata?.dimensions?.width}
                 height={logo?.metadata?.dimensions?.height}
-                className={`lg:h-[52px] h-[36px] w-auto filter grayscale hover:filter-none transition-all duration-300`}
+                className={`lg:h-[48px] h-[36px] w-auto filter grayscale hover:filter-none transition-all duration-300`}
               />
             </div>
           </div>
@@ -93,7 +93,7 @@ const LogoSliderSection = React.memo(({ data, refer = null }: { data: any, refer
   }, [router.locale])
 
   return (
-    <Section className="py-sm md:py-md bg-[#F9F9F9]">
+    <Section className="py-[56px]  bg-[#F9F9F9]">
       {/* <Container> */}
         <div className="flex flex-col items-center w-full">
           {/* Custom CSS Infinite Slider for Logos */}
@@ -121,7 +121,7 @@ const LogoSliderSection = React.memo(({ data, refer = null }: { data: any, refer
         
         .logo-slider-track {
           display: flex;
-          animation: marquee 20s linear infinite;
+          animation: marquee 40s linear infinite;
           width: max-content;
         }
         

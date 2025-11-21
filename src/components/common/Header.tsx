@@ -566,7 +566,7 @@ const Header = ({ data, refer = null }) => {
 
   useEffect(() => {
     setRegionSwitcherTop(shouldRenderPopupTop());
-  }, [router.query.flag, regionSwitcherTopShow]);
+  }, [router.query.flag]);
 
   const openDemoPopup = () => {
     router.push('/demo');

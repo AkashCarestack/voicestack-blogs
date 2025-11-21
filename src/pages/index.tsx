@@ -194,7 +194,7 @@ export default function IndexPage(props: InferGetStaticPropsType<any>) {
         {heroSectionData && (
           <div className="px-4 xl:px-12 pt-2">
             <div
-              className="rounded-[12px] md:rounded-[24px] bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA]"
+              className="rounded-[12px] md:rounded-[24px] bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
               style={{
                 background:
                   ' linear-gradient(270deg, #F0EFFA 0%, #F2F1FA 51.44%, #F0EFFA 100%)',

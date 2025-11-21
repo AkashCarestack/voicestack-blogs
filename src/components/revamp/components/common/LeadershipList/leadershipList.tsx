@@ -41,7 +41,7 @@ export default function LeadershipList({ data }: { data: any }) {
                   <h3 className="md:text-[21px] text-base leading-[120%] font-manrope font-semibold text-gray-900 mb-1.5">
                     {item.name}
                   </h3>
-                  <p className="text-[17px] md:leading-6 font-manrope font-normal text-gray-600">
+                  <p className="text-[17px] md:leading-6 font-geist font-normal text-gray-600">
                     {item.designation}
                   </p>
                 </div>
