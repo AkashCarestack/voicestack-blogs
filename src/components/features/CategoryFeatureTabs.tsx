@@ -96,8 +96,6 @@ export default function CategoryFeatureTabs({
   const mobileTabsRef = useRef<HTMLDivElement | null>(null)
   const isMobile = useMediaQuery(1024)
 
-  console.log(sectionHeading, 'sectionHeading in category feature tabs')
-
   // Memoize the categories processing to prevent unnecessary re-renders
   const allCategories = useMemo(() => {
     // Add null/undefined check for features array
@@ -327,7 +325,6 @@ export default function CategoryFeatureTabs({
   // Handle category button click - FIXED
   const handleCategoryClick = useCallback(
     (categoryName: string) => {
-      console.log('Category clicked:', categoryName)
 
       // Clear any existing timeout
       if (scrollTimeoutRef.current) {
@@ -358,7 +355,6 @@ export default function CategoryFeatureTabs({
   // Handle mobile tab click
   const handleMobileTabClick = useCallback(
     (categoryName: string) => {
-      console.log('Mobile category tab clicked:', categoryName)
       setActiveCategory(categoryName)
 
       // Center the active tab

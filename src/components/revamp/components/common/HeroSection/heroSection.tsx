@@ -340,7 +340,7 @@ const HeroSection = ({
       }
     }
   }
-  console.log(data)
+  
   return (
     <section className="font-geist justify-center">
       <Container

@@ -20,7 +20,6 @@ import LogoListingSection from '~/components/LogoListingSection'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 
 export default function CustomerStories({ pageData }: any) {
-  console.log(pageData, 'pageData in case studies')
   const data =
     pageData &&
     pageData['Powering-Startup'] &&

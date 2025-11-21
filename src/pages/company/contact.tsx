@@ -10,7 +10,6 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 
 export default function ContactPage({ heroSectionData }) {
-  console.log(heroSectionData, 'heroSectionData in contact page')
   return (
     <>
       <div
