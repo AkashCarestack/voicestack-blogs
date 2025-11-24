@@ -8,11 +8,14 @@ import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
+import { useLayoutData } from '~/providers/LayoutDataProvider'
 
-export default function ContactPage({ heroSectionData }) {
+
+export default function ContactPage({ pageData }) {
+  const { contactData } = useLayoutData()
   return (
     <>
-      <div
+      {/* <div
         className="py-12"
         style={{
           background:
@@ -45,25 +48,56 @@ export default function ContactPage({ heroSectionData }) {
             </div>
           </Container>
         </Section>
+      </div> */}
+      <div style={{
+          background:
+            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
+        }}>
+        {/* <Breadcrumb breadCrumb={breadCrumb} /> */}
+        <div
+          className="py-12"
+        >
+          {pageData['contact-hero']?.componentData && (
+            <HeroSection
+              page="contact"
+              isCentered={true}
+              data={pageData['contact-hero']?.componentData}
+              showFullDescription={true}
+              contactData={contactData}
+            />
+          )}
+        </div>
       </div>
     </>
   )
 }
-export const getStaticProps: GetStaticProps<any> = async ({
-  locale,
-  draftMode = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? true : false,
-}) => {
-  const region = locale || 'en'
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  try {
+    const region = locale || 'en'
+    const queries = new Queries('contact', region)
+    const slug =
+      region === 'en' ? 'contact' : `contact-${region.toLowerCase()}`
 
-  // revamp queries
-  const queries = new Queries('home', region)
+    // Fetch page data for integrations
+    const pageData = await queries.getPageData('company', slug)
 
-  const heroSectionData = await queries.getHeroData(region)
+    if (!pageData || Object.keys(pageData).length === 0) {
+      return {
+        notFound: true,
+      }
+    }
 
-  return {
-    props: {
-      region,
-      heroSectionData,
-    },
+   
+    return {
+      props: {
+        pageData,
+        region,
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching integrations page data:', error)
+    return {
+      notFound: true,
+    }
   }
 }

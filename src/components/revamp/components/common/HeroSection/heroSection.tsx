@@ -19,12 +19,14 @@ const HeroSection = ({
   page = '',
   isCentered = false,
   showFullDescription = true,
+  contactData = null,
 }: {
   data?: any
   refer?: any
   page?: string
   isCentered?: boolean
   showFullDescription?: boolean
+  contactData?: any
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
@@ -375,72 +377,8 @@ const HeroSection = ({
               Array.isArray(data.bookBtnContent) &&
               data.bookBtnContent.length > 0 && (
                 <div className="flex flex-col gap-4 pt-5 justify-center lg:justify-start items-center ">
-                  {data.bookBtnContent.length > 2 ? (
-                    <>
-                      {/* First button on top */}
-                      {data.bookBtnContent[0]?.buttonText && (
-                        <Button
-                          key={data.bookBtnContent[0]?._key || 0}
-                          type={
-                            !data.bookBtnContent[0]?.buttonType ||
-                            data.bookBtnContent[0]?.buttonType === ''
-                              ? 'primary'
-                              : data.bookBtnContent[0]?.buttonType ||
-                                'secondary'
-                          }
-                          className="w-fit"
-                          link={data.bookBtnContent[0]?.buttonLink}
-                          buttonVariant={data.bookBtnContent[0]?.buttonVariant}
-                          target={
-                            data.bookBtnContent[0]?.openInNewTab
-                              ? '_blank'
-                              : '_self'
-                          }
-                        >
-                          {data.bookBtnContent[0]?.buttonIcon && (
-                            <span
-                              dangerouslySetInnerHTML={{
-                                __html: data.bookBtnContent[0].buttonIcon,
-                              }}
-                            />
-                          )}
-                          <span>{data.bookBtnContent[0].buttonText}</span>
-                        </Button>
-                      )}
-                      {/* Remaining buttons in a row */}
-                      <div className="flex flex-col sm:flex-row gap-4">
-                        {data.bookBtnContent
-                          .slice(1)
-                          .map((button: any, index: number) => {
-                            if (!button?.buttonText) return null
-                            return (
-                              <Button
-                                key={button?._key || index + 1}
-                                type={button?.buttonType || 'secondary'}
-                                className="w-fit"
-                                link={button?.buttonLink}
-                                buttonVariant={button?.buttonVariant}
-                                target={
-                                  data.bookBtnContent[0]?.openInNewTab
-                                    ? '_blank'
-                                    : '_self'
-                                }
-                              >
-                                {button?.buttonIcon && (
-                                  <span
-                                    dangerouslySetInnerHTML={{
-                                      __html: button.buttonIcon,
-                                    }}
-                                  />
-                                )}
-                                <span>{button.buttonText}</span>
-                              </Button>
-                            )
-                          })}
-                      </div>
-                    </>
-                  ) : (
-                    /* If 2 or fewer buttons, show them in a row */
+                  
+                    {/* If 2 or fewer buttons, show them in a row */}
                     <div className="flex flex-col sm:flex-row gap-4">
                       {data.bookBtnContent.map((button: any, index: number) => {
                         if (!button?.buttonText) return null
@@ -475,9 +413,33 @@ const HeroSection = ({
                         )
                       })}
                     </div>
-                  )}
+                  
                 </div>
-              )}
+            )}
+
+            {contactData && (
+              <div className="flex flex-col md:flex-row gap-4 pt-5 justify-center lg:justify-start items-center ">
+                {page == 'contact' ? (
+                  <>
+                  <Button type="secondaryTel" link={`tel:${contactData.phoneNumber}`}>
+                    <span>{contactData.phoneNumber}</span>
+                  </Button>
+                  <Button type="secondaryMail" link={`mailto:${contactData.contactEmail}`}>
+                    <span>{contactData.contactEmail}</span>
+                  </Button>
+                  </>
+                ): page == 'support' ? (
+                  <>
+                  <Button type="secondaryTel" link={`tel:${contactData.supportPhoneNumber}`}>
+                    <span>{contactData.supportPhoneNumber}</span>
+                  </Button>
+                  <Button type="secondaryMail" link={`mailto:${contactData.contactEmail}`}>
+                    <span>{contactData.contactEmail}</span>
+                  </Button>
+                  </>
+                ): null}
+              </div>
+            )}
           </div>
         ) : (
           <div className="flex flex-col lg:flex-row justify-between lg:gap-24 gap-12 w-full items-center lg:items-start">

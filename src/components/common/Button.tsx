@@ -3,9 +3,11 @@ import Link from 'next/link'
 import React, { useMemo } from 'react'
 import Anchor from './anchor'
 import { usePricingModal } from './PricingModalContext'
+import MailIcon from '../icons/MailIcon'
+import PhoneIcon from '../icons/PhoneIcon'
 
 interface ButtonProps {
-  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless'
+  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel'
   alter?: 'bgWhite' | 'borderWhite' | 'disabled' | 'default'
   children?: React.ReactNode
   link?: any
@@ -96,7 +98,10 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       type === 'underline',
     'text-white border border-white/30 px-[17px] py-[10px]':
       type === 'video',
-
+    'border-2 md:h-[44px] bg:white/10 border-[rgba(74,60,225,0.15)] hover:border-[rgba(74,60,225,0.15)] hover:bg-black/5 py-2.5 px-6 flex items-center':
+      type === 'secondaryMail',
+    'border-2 md:h-[44px] bg:white/10 border-[rgba(74,60,225,0.15)] hover:border-[rgba(74,60,225,0.15)] hover:bg-black/5 py-2.5 px-6 items-center':
+      type === 'secondaryTel',
 
   }) 
 
@@ -139,6 +144,8 @@ const Button: React.FunctionComponent<ButtonProps> = ({
           onClick={handleClick}
           {...rest}
         >
+          {type === 'secondaryMail' && <MailIcon className='size-4'/>}
+          {type === 'secondaryTel' && <PhoneIcon className='size-4'/>}
           {children}
         </Anchor>
       </>
