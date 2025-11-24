@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const MinimalCardList = ({ data }: { data: any }) => {
   return (
-    <div className="flex flex-col gap-3 bg-[#F9FAFB] md:py-8 py-4 md:px-6 px-4 rounded-[24px]">
+    <div className="flex flex-col gap-3 bg-[#F9FAFB] md:py-8 py-6 md:px-6 px-6 md:rounded-[24px] rounded-lg">
       <h4 className="md:text-2xl text-xl font-bold text-gray-950 leading-[133.33%] font-manrope">
         {data?.title}
       </h4>

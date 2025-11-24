@@ -62,9 +62,9 @@ export default function CompanyPage({
         })()}
       </div>
       {/* <AboutCompany heading={heading} description={description} image={image} icon={icon} /> */}
-      <Section className="bg-white">
-        <Container className="flex flex-col px-4 md:px-0">
-          <h2 className='text-2xl md:text-4xl md:pt-8 pt-6 font-manrope font-semibold leading-[120%] mb-2 text-gray-950'>Our Story</h2>
+      <Section className="bg-white py-sm md:py-md">
+        <Container className="flex flex-col px-4">
+          <h2 className='text-2xl md:text-4xl font-manrope font-semibold leading-[120%] mb-2 text-gray-950'>Our Story</h2>
       
          {/* <Image 
            src={VoicestackLogo} 
@@ -123,7 +123,7 @@ export default function CompanyPage({
             </div>
           )}
        
-          <div className='flex flex-col md:flex-row gap-4 md:gap-6 py-8 md:py-16'>
+          <div className='flex flex-col md:flex-row gap-4 md:gap-6 pt-8 md:pt-16'>
             {data?.leaderShipTeam && (
               <div className="flex-1">
                 <MinimalCardList data={data.leaderShipTeam} />

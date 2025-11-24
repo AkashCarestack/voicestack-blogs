@@ -1,6 +1,7 @@
 import { GetStaticProps } from 'next'
 
 import Button from '~/components/common/Button'
+import SimpleHead from '~/components/common/SimpleHead'
 import MailIcon from '~/components/icons/MailIcon'
 import PhoneIcon from '~/components/icons/PhoneIcon'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
@@ -49,6 +50,7 @@ export default function ContactPage({ pageData }) {
           </Container>
         </Section>
       </div> */}
+      <SimpleHead data={pageData?.seo} />
       <div style={{
           background:
             'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
