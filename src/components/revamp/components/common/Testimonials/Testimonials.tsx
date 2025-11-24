@@ -76,7 +76,6 @@ export default function Testimonials({ data, refer = null }) {
       </>
     )
   }
-  console.log(activeTabData, 'activeTabData')
 
   return (
     <Section className="relative py-sm md:py-md lg:py-lg bg-[#F9F9F9]">

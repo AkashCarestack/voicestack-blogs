@@ -49,34 +49,9 @@ export default function FaqSection({ faqItems }: any) {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isDropdownOpen])
 
-  // Compute JSON-LD data (needed for useEffect)
+  // Compute JSON-LD data
   const jsonLd = faqJsonLd(faqItems);
   const hasQuestions = jsonLd?.mainEntity && Array.isArray(jsonLd.mainEntity) && jsonLd.mainEntity.length > 0;
-
-  // JSON-LD script injection useEffect
-  React.useEffect(() => {
-    if (hasQuestions) {
-      const scriptId = `faqJSON-${faqItems?._uid || Date.now()}`;
-      // Remove existing script if it exists
-      const existingScript = document.getElementById(scriptId);
-      if (existingScript) {
-        existingScript.remove();
-      }
-      
-      const script = document.createElement('script');
-      script.id = scriptId;
-      script.type = 'application/ld+json';
-      script.innerHTML = JSON.stringify(jsonLd);
-      document.head.appendChild(script);
-      
-      return () => {
-        const scriptToRemove = document.getElementById(scriptId);
-        if (scriptToRemove) {
-          scriptToRemove.remove();
-        }
-      };
-    }
-  }, [hasQuestions, jsonLd, faqItems?._uid]);
 
   // Early return if no FAQ items (after all hooks)
   if (!faqItems || (!faqItems.faqCategories && !Array.isArray(faqItems))) {

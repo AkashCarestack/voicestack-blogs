@@ -100,6 +100,30 @@ const getLocaleFromCountry = (country: string): string | null => {
   return null;
 };
 
+// Get country code for phone number based on locale
+const getPhoneCountryCode = (locale: string | null | undefined): string => {
+  if (locale === 'en-GB') return '+44';
+  if (locale === 'en-AU') return '+61';
+  return '+1'; // Default to US
+};
+
+// Format phone number with country code
+const formatPhoneNumberWithCountryCode = (phoneNumber: string, locale: string | null | undefined): string => {
+  if (!phoneNumber) return phoneNumber;
+  
+  // Remove any existing country code or non-digit characters (except +)
+  const cleanedNumber = phoneNumber.replace(/[^\d+]/g, '');
+  
+  // If it already starts with +, return as is
+  if (cleanedNumber.startsWith('+')) {
+    return cleanedNumber;
+  }
+  
+  // Get country code and append to phone number
+  const countryCode = getPhoneCountryCode(locale);
+  return `${countryCode}${cleanedNumber}`;
+};
+
 // Helper function to safely add flag=true without duplication
 const getHrefWithFlag = (queryString: string): string => {
   if (!queryString) {
@@ -221,14 +245,18 @@ const MobileRegionSwitcher = ({
   );
 };
 
-const TopNavigationMenu = ({ safeData }: { safeData: any }) => {
+const TopNavigationMenu = ({ safeData, currentLocale }: { safeData: any; currentLocale?: string | null }) => {
+  const phoneNumberWithCountryCode = safeData?.phoneNumber 
+    ? formatPhoneNumberWithCountryCode(safeData.phoneNumber, currentLocale)
+    : '';
+  
   return (
     <>
       {safeData?.phoneNumber && (
         <div className="flex items-center gap-2 text-gray-900 text-sm mr-3">
           <span>Talk to an expert</span>
           <Anchor
-            href={`tel:${safeData?.phoneNumber}`}
+            href={`tel:${phoneNumberWithCountryCode}`}
             className="text-gray-900 text-sm font-semibold flex items-center gap-2 hover:text-gray-800 transition-colors"
           >
             {safeData?.phoneNumber}
@@ -661,7 +689,7 @@ const Header = ({ data, refer = null }) => {
           <div className="flex justify-end w-full lg:px-12">
            
             <div className="flex justify-end items-center gap-3">
-              <TopNavigationMenu safeData={safeData} />
+              <TopNavigationMenu safeData={safeData} currentLocale={currentLocale} />
 
               {REGIONS.length > 0 && (
                 <RegionSwitcherDropdown
@@ -732,7 +760,7 @@ const Header = ({ data, refer = null }) => {
 
                         <MobileRegionSwitcher regions={REGIONS} currentLocale={currentLocale} queryString={queryParam} onClose={closeMenu} />
                         <div className="flex flex-wrap justify-center items-center gap-2 lg:hidden">
-                          <TopNavigationMenu safeData={safeData} />
+                          <TopNavigationMenu safeData={safeData} currentLocale={currentLocale} />
                         </div>
                       </div>
                     </div>

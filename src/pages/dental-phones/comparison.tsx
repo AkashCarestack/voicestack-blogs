@@ -140,8 +140,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const comparisonTableData = await getComparisonTableData(client, region)
     const comparisonLegendData = (await getAllComparisonValues()) || []
 
-    console.log('comparisonTableData', comparisonTableData)
-
     // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null

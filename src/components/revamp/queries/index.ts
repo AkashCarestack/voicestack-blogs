@@ -129,6 +129,7 @@ class Queries {
         
         // Video content with thumbnails
         "video": video[] {
+          ...,
           ${this.VIDEO_FIELDS},
           "videoThumbnail": videoThumbnail.asset-> {
             _id,
@@ -136,9 +137,13 @@ class Queries {
             originalFilename,
             size,
             mimeType
+          },
+          "uploadedVideos": uploadVideos[] {
+          type,
+          url
           }
         },
-        
+
         // Featured testimonial with complete data
         "testimonial": testimonialVideo-> {
           _id,
@@ -1044,6 +1049,13 @@ class Queries {
                   "heroImageSecondary" : heroImageSecondary.asset-> {
                     ${this.IMAGE_METADATA_FIELDS}
                   },
+                  video[] {
+                    ...,
+                    "uploadedVideos": uploadVideos[] {
+                      type,
+                      url
+                    }
+                  },
                   // Featured testimonial
                   "testimonial": testimonialVideo-> {
                     _id,
@@ -1746,7 +1758,7 @@ class Queries {
         metaTitle: result?.metaTitle || null,
         metaDescription: result?.metaDescription || null,
         keyWords: result?.keyWords || null,
-        canonical: result?.canonical || null
+        canonical: result?.canonical || null,
       },
       // metaTitle: result?.metaTitle || null,
       // metaDescription: result?.metaDescription || null,
@@ -1781,7 +1793,7 @@ class Queries {
 
   /**
    * Fetches FAQ data from faqRevamp schema by slug
-   * 
+   *
    * @param slug - The slug to fetch FAQ data for (e.g., "pricing")
    * @param region - The language/region to fetch FAQ data for
    * @returns Promise resolving to FAQ data object or null

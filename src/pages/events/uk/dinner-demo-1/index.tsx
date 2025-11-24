@@ -72,35 +72,6 @@ function DinnerDemo() {
           href="https://www.voicestack.com"
         />
 
-        {/* JSON-LD Structured Data */}
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: "VoiceStack",
-            description:
-              "VoiceStack is an AI-Driven Phone System for Dental Offices designed to optimize business communication through smart call routing, real-time analytics, and seamless integration with existing business tools.",
-            applicationCategory: "BusinessApplication",
-            operatingSystem: "All",
-            url: "https://www.voicestack.com",
-            image: "https://www.voicestack.com/images/og.png",
-            author: {
-              "@type": "Organization",
-              name: "VoiceStack",
-              url: "https://www.voicestack.com",
-            },
-            offers: {
-              "@type": "Offer",
-              priceCurrency: "USD",
-              price: "99.99",
-              url: "https://www.voicestack.com",
-              eligibleRegion: {
-                "@type": "Place",
-                name: "Worldwide",
-              },
-            },
-          })}
-        </script>
       </Head>
       <Section className="relative flex-col items-center w-full min-h-lvh bg-gradient-to-br from-purple-800 via-black  to-vs-purple text-white overflow-hidden">
         <Container className="flex flex-col items-center gap-10 z-10 px-4 py-2 leading-[1.375]4 md:py-32">

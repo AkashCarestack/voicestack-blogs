@@ -47,7 +47,7 @@ export default function CardsWithTestimonial({ data }: { data: any }) {
             />
             <div className="relative w-full flex flex-col lg:flex-row gap-3 z-10 min-h-[480px]">
               <div className="w-full flex-1">
-                <TestimonialRightCard data={data} />
+                <TestimonialRightCard data={data} page="aiPage"/>
               </div>
             </div>
           </div>
