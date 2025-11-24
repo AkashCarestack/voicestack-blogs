@@ -18,6 +18,7 @@ import PhoneIcon from '../icons/PhoneIcon';
 import { useLayoutData } from '~/providers/LayoutDataProvider';
 import { urlForImage } from '~/lib/sanity.image';
 import RegionStrip from '../revamp/components/regionStrip';
+import { formatPhoneNumberWithCountryCode } from '../utils/helper';
 // import RegionStrip from '../revamp/components/regionStrip';
 
 // Constants
@@ -98,30 +99,6 @@ const getLocaleFromCountry = (country: string): string | null => {
   if (country === '2') return 'en-GB';
   if (country === '3') return 'en-AU';
   return null;
-};
-
-// Get country code for phone number based on locale
-const getPhoneCountryCode = (locale: string | null | undefined): string => {
-  if (locale === 'en-GB') return '+44';
-  if (locale === 'en-AU') return '+61';
-  return '+1'; // Default to US
-};
-
-// Format phone number with country code
-const formatPhoneNumberWithCountryCode = (phoneNumber: string, locale: string | null | undefined): string => {
-  if (!phoneNumber) return phoneNumber;
-  
-  // Remove any existing country code or non-digit characters (except +)
-  const cleanedNumber = phoneNumber.replace(/[^\d+]/g, '');
-  
-  // If it already starts with +, return as is
-  if (cleanedNumber.startsWith('+')) {
-    return cleanedNumber;
-  }
-  
-  // Get country code and append to phone number
-  const countryCode = getPhoneCountryCode(locale);
-  return `${countryCode}${cleanedNumber}`;
 };
 
 // Helper function to safely add flag=true without duplication
@@ -256,7 +233,7 @@ const TopNavigationMenu = ({ safeData, currentLocale }: { safeData: any; current
         <div className="flex items-center gap-2 text-gray-900 text-sm mr-3">
           <span>Talk to an expert</span>
           <Anchor
-            href={`tel:${phoneNumberWithCountryCode}`}
+            href={`tel://${phoneNumberWithCountryCode}`}
             className="text-gray-900 text-sm font-semibold flex items-center gap-2 hover:text-gray-800 transition-colors"
           >
             {safeData?.phoneNumber}

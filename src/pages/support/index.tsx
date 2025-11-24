@@ -5,6 +5,7 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import SimpleHead from '~/components/common/SimpleHead'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import { useLayoutData } from '~/providers/LayoutDataProvider'
 
 interface SupportPageProps {
   supportPageData: any
@@ -24,7 +25,7 @@ export default function SupportPage({
     (key) => key.includes('hero') && supportPageData[key]?.componentData
   )
   const heroData = heroKey ? supportPageData[heroKey]?.componentData : null
-
+  const { contactData } = useLayoutData()
   return (
     <>
       <SimpleHead data={supportPageData?.seo} />
@@ -39,9 +40,10 @@ export default function SupportPage({
         >
           {heroData && (
             <HeroSection
-              page=""
+              page="support"
               isCentered={true}
               data={heroData}
+              contactData={contactData}
               showFullDescription={true}
             />
           )}

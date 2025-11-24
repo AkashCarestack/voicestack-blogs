@@ -5,6 +5,7 @@ import Anchor from './anchor'
 import { usePricingModal } from './PricingModalContext'
 import MailIcon from '../icons/MailIcon'
 import PhoneIcon from '../icons/PhoneIcon'
+import { formatPhoneNumberWithCountryCode } from '../utils/helper'
 
 interface ButtonProps {
   type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel'
@@ -110,15 +111,15 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     if (!linkValue) return linkValue
     
     // If link already has protocol prefix, return as is
-    if (linkValue.startsWith('tel:') || linkValue.startsWith('mailto:') || linkValue.startsWith('http://') || linkValue.startsWith('https://') || linkValue.startsWith('/')) {
+    if (linkValue.startsWith('tel:') || linkValue.startsWith('tel://') || linkValue.startsWith('mailto:') || linkValue.startsWith('http://') || linkValue.startsWith('https://') || linkValue.startsWith('/')) {
       return linkValue
     }
     
     // Format based on variant
     if (variant === 'tel') {
-      // Remove any non-digit characters except + for phone numbers
-      const phoneNumber = linkValue.replace(/[^\d+]/g, '')
-      return `tel:${phoneNumber}`
+      // Format phone number with country code and dashes
+      const formattedNumber = formatPhoneNumberWithCountryCode(linkValue, locale)
+      return `tel://${formattedNumber}`
     }
     
     if (variant === 'mail') {

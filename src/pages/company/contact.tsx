@@ -40,7 +40,7 @@ export default function ContactPage({ pageData }) {
               <Button
                 type="secondary"
                 className="w-fit"
-                link={'tel:+14078336436'}
+                link={'tel://1-407-833-6436'}
               >
                 <PhoneIcon />
                 <span>(407) 833-6436</span>

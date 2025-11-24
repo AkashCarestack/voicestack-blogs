@@ -12,6 +12,7 @@ import Button from '../../../../common/Button'
 import { VideoItem } from '../../../../common/VideoModal'
 import Container from '../../../../structure/Container'
 import { urlForVideo } from '~/lib/sanity.image'
+import { formatPhoneNumberWithCountryCode } from '~/components/utils/helper'
 
 const HeroSection = ({
   data,
@@ -352,18 +353,29 @@ const HeroSection = ({
           <div
             className={`${showFullDescription ? 'max-w-[808px]' : 'max-w-[606px]'} flex flex-col items-center text-center  gap-3 py-12  lg:pt-md lg:pb-md`}
           >
-            <h1 className="text-base font-medium text-gray-950 uppercase">
-              {toCamelCase(data?.heroStrip)}
-            </h1>
-            <h2 className="text-4xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
-              <PortableText value={data?.heroheading} components={components} />
-            </h2>
-            <div ref={descriptionRef} className="w-full">
-              <PortableText
-                value={data?.heroDescription}
-                components={descriptionComponents}
-              />
-            </div>
+            {data.heroStrip && data.heroheading ? (
+              <>
+                <h1 className="text-base font-medium text-gray-950 uppercase">
+                  {toCamelCase(data?.heroStrip)}
+                </h1>
+                <h2 className="text-4xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
+                  <PortableText value={data?.heroheading} components={components} />
+                </h2>
+              </>
+            ): data.heroStrip ?(
+              <h1 className="text-4xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
+                {data.heroStrip}
+              </h1>
+            ): null}
+
+            {data?.heroDescription && (
+              <div ref={descriptionRef} className="w-full">
+                <PortableText
+                  value={data?.heroDescription}
+                  components={descriptionComponents}
+                />
+              </div>
+            )}
             {!showFullDescription && needsSeeMore && (
               <button
                 onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
@@ -421,21 +433,21 @@ const HeroSection = ({
               <div className="flex flex-col md:flex-row gap-4 pt-5 justify-center lg:justify-start items-center ">
                 {page == 'contact' ? (
                   <>
-                  <Button type="secondaryTel" link={`tel:${contactData.phoneNumber}`}>
-                    <span>{contactData.phoneNumber}</span>
-                  </Button>
-                  <Button type="secondaryMail" link={`mailto:${contactData.contactEmail}`}>
-                    <span>{contactData.contactEmail}</span>
-                  </Button>
+                    <Button type="secondaryTel" link={`tel:${formatPhoneNumberWithCountryCode(contactData.phoneNumber, router.locale)}`}>
+                      <span>{contactData.phoneNumber}</span>
+                    </Button>
+                    <Button type="secondaryMail" link={`mailto:${contactData.salesEmail}`}>
+                      <span>{contactData.salesEmail}</span>
+                    </Button>
                   </>
                 ): page == 'support' ? (
                   <>
-                  <Button type="secondaryTel" link={`tel:${contactData.supportPhoneNumber}`}>
-                    <span>{contactData.supportPhoneNumber}</span>
-                  </Button>
-                  <Button type="secondaryMail" link={`mailto:${contactData.contactEmail}`}>
-                    <span>{contactData.contactEmail}</span>
-                  </Button>
+                    <Button type="secondaryTel" link={`tel:${formatPhoneNumberWithCountryCode(contactData.supportPhoneNumber, router.locale)}`}>
+                      <span>{contactData.supportPhoneNumber}</span>
+                    </Button>
+                    <Button type="secondaryMail" link={`mailto:${contactData.contactEmail}`}>
+                      <span>{contactData.contactEmail}</span>
+                    </Button>
                   </>
                 ): null}
               </div>
