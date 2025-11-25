@@ -44,7 +44,7 @@ const Footer = ({ data }) => {
       target="_blank"
       rel="noreferrer"
       title={title}
-      className={`md:h-[84px] group inline-flex items-center justify-center p-6 transition-colors duration-300 ${className}`}
+      className={`md:h-[78px] md:w-[79px] p-3 md:p-0 group inline-flex items-center justify-center transition-colors duration-300 ${className}`}
       style={{
         borderRadius: 'var(--radius-lg, 8px)',
         border: '0 solid rgba(255, 255, 255, 0.40)',
@@ -212,7 +212,7 @@ const Footer = ({ data }) => {
 
                 {/* Social Media Links */}
                 {data?.socialMedia && (
-                  <div className="flex items-center md:gap-6 gap-3">
+                  <div className="flex items-center gap-3">
                     {data.socialMedia.linkedin && (
                       <SocialIcon
                         className=""
