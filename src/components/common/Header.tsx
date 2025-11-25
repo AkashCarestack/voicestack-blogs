@@ -19,6 +19,7 @@ import { useLayoutData } from '~/providers/LayoutDataProvider';
 import { urlForImage } from '~/lib/sanity.image';
 import RegionStrip from '../revamp/components/regionStrip';
 import { formatPhoneNumberWithCountryCode } from '../utils/helper';
+import { formatOrganizationSchema } from '../utils/common';
 // import RegionStrip from '../revamp/components/regionStrip';
 
 // Constants
@@ -613,6 +614,8 @@ const Header = ({ data, refer = null }) => {
       console.error('Error parsing injectJSONld:', error);
     }
   }
+  console.log(jsonLdData, "jsonLdData");
+  const SchemaData = formatOrganizationSchema(siteSettings.seoSettings);
 
   return (
     <>
@@ -622,13 +625,13 @@ const Header = ({ data, refer = null }) => {
         <link rel="alternate" hrefLang="en-au" href="https://www.voicestack.com/en-AU" />
         <link rel="alternate" hrefLang="x-default" href="https://www.voicestack.com" /> */}
         {/* organization schema */}
-        {jsonLdData && (
+        {SchemaData && (
           <>
           <meta property="og:image" content={urlForImage(siteSettings?.ogImage)} />
           <script
               type="application/ld+json"
               id="organization-schema"
-              dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(SchemaData) }}
             />
           </>
         )}
