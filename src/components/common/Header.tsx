@@ -19,7 +19,7 @@ import { useLayoutData } from '~/providers/LayoutDataProvider';
 import { urlForImage } from '~/lib/sanity.image';
 import RegionStrip from '../revamp/components/regionStrip';
 import { formatPhoneNumberWithCountryCode } from '../utils/helper';
-import { formatOrganizationSchema } from '../utils/common';
+import { formatOrganizationSchema, formatSoftwareSchema } from '../utils/common';
 // import RegionStrip from '../revamp/components/regionStrip';
 
 // Constants
@@ -614,9 +614,9 @@ const Header = ({ data, refer = null }) => {
       console.error('Error parsing injectJSONld:', error);
     }
   }
-  console.log(jsonLdData, "jsonLdData");
-  const SchemaData = formatOrganizationSchema(siteSettings.seoSettings);
-
+  const OrganizationSchemaData = formatOrganizationSchema(siteSettings.seoSettings);
+  const SoftwareSchemaData = formatSoftwareSchema(siteSettings.seoSettings);
+  const isDentalPhonesPages = router.pathname.includes('/dental-phones');
   return (
     <>
       <Head>
@@ -625,13 +625,22 @@ const Header = ({ data, refer = null }) => {
         <link rel="alternate" hrefLang="en-au" href="https://www.voicestack.com/en-AU" />
         <link rel="alternate" hrefLang="x-default" href="https://www.voicestack.com" /> */}
         {/* organization schema */}
-        {SchemaData && (
+        {OrganizationSchemaData && (
           <>
           <meta property="og:image" content={urlForImage(siteSettings?.ogImage)} />
           <script
               type="application/ld+json"
               id="organization-schema"
-              dangerouslySetInnerHTML={{ __html: JSON.stringify(SchemaData) }}
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(OrganizationSchemaData) }}
+            />
+          </>
+        )}
+        {SoftwareSchemaData && isDentalPhonesPages && (
+          <>
+          <script
+              type="application/ld+json"
+              id="software-schema"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(SoftwareSchemaData) }}
             />
           </>
         )}
