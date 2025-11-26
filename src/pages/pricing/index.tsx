@@ -10,6 +10,7 @@ import HeroSection from '~/components/revamp/components/common/HeroSection/heroS
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
+import SimpleHead from '~/components/common/SimpleHead'
 
 // Define TypeScript interfaces
 interface PageData {
@@ -67,6 +68,7 @@ export default function Pricing({
   }
   return (
     <>
+      <SimpleHead data={pricingPageData?.seo} />
       <div
         className="py-12 vs-minimal-bg"
         style={{

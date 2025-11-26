@@ -10,6 +10,7 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import SimpleHead from '~/components/common/SimpleHead'
 
 interface MobilePracticesProps {
   pageData: any
@@ -21,6 +22,7 @@ export default function MobilePractices({ pageData, faq }: MobilePracticesProps)
   const tabsListingData = pageData?.['mobile-practices'].componentData?.refData?.tabsListingComponent
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
        <div
          className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
          style={{

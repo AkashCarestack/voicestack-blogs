@@ -729,7 +729,7 @@ export const formatOrganizationSchema = (props: any) => {
             "contactType": "Sales",
             "areaServed": "US",
             "availableLanguage": "en",
-            "url": "https://voicestack.com/sales"
+            "url": "https://voicestack.com/demo"
           }
         ],
   
