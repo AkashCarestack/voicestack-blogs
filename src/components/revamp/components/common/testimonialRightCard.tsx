@@ -151,7 +151,7 @@ export default function TestimonialRightCard({ data, page }: { data: any, page?:
                     {data?.testimonial?.designation}
                   </p>
                   
-                  <p className="text-white/60 text-base font-normal">
+                  <p className="text-white/60 font-normal">
                   {data?.testimonial?.place}{data?.testimonial?.region ? ', ' : ''}{data?.testimonial?.region}
                 </p>
                   

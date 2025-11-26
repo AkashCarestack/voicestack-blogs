@@ -156,7 +156,7 @@ const HeroSection = ({
     },
     list: {
       bullet: ({ children }: { children: React.ReactNode }) => (
-        <ul className="text-base text-gray-950 leading-[24px] self-stretch pt-3 list-inside font-normal">
+        <ul className="text-base text-gray-950 leading-[24px] self-stretch pt-3 pl-2 md:pl-0 list-inside font-normal text-left">
           {children}
         </ul>
       ),
@@ -167,7 +167,7 @@ const HeroSection = ({
           className="flex lg:justify-start justify-center gap-3 py-[10px] md:py-[14px] text-base text-gray-950 leading-[24px] border-b"
           style={{ borderColor: '#0307121A' }}
         >
-          <span className="mt-1 md:mt-2 lg:flex hidden">
+          <span className="mt-[6px] md:mt-2 flex-shrink-0">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="12"
@@ -643,7 +643,7 @@ const HeroSection = ({
                 ) : data?.testimonial ? (
                   <div className="lg:max-w-[606px] leading-none flex-1 flex justify-center lg:justify-end items-start relative">
                     <div className="absolute right-auto left-1/2 lg:left-auto lg:right-0 top-[0] bg-[#4A3CE1] opacity-10 rounded-[12px] md:rounded-[22px] -translate-x-1/2 lg:translate-x-0 rotate-[-7.7deg] scale-90 aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] shrink-0 origin-bottom-left"></div>
-                    <div className="relative rounded-[8px] md:rounded-[16px] aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] overflow-hidden shrink-0">
+                    <div className="relative rounded-[8px] md:rounded-[16px] aspect-[9/16] lg:aspect-[380/550] w-[320px] lg:w-[380px] overflow-hidden shrink-0">
                       <div
                         className="group flex flex-col justify-center rounded-2xl h-[550px] shadow-md cursor-pointer w-full aspect-[9/16] overflow-hidden relative"
                         onClick={() => {
