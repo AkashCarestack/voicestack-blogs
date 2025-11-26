@@ -145,8 +145,8 @@ const Button: React.FunctionComponent<ButtonProps> = ({
           onClick={handleClick}
           {...rest}
         >
-          {type === 'secondaryMail' && <MailIcon className='size-4'/>}
-          {type === 'secondaryTel' && <PhoneIcon className='size-4'/>}
+          {type === 'secondaryMail' && <MailIcon className='size-6'/>}
+          {type === 'secondaryTel' && <PhoneIcon className='size-6'/>}
           {children}
         </Anchor>
       </>

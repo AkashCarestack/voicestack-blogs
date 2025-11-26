@@ -616,7 +616,7 @@ const Header = ({ data, refer = null }) => {
   }
   const OrganizationSchemaData = formatOrganizationSchema(siteSettings.seoSettings);
   const SoftwareSchemaData = formatSoftwareSchema(siteSettings.seoSettings);
-  const isDentalPhonesPages = router.pathname.includes('/dental-phones');
+  const isDentalPhonesPages = router?.pathname?.includes('/dental-phones');
   return (
     <>
       <Head>
