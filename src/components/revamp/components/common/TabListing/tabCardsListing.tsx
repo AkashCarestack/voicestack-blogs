@@ -84,7 +84,7 @@ export default function TabCardsListing({ data }: { data: any }) {
                   <h4 className="text-[#4F525A] font-geist !leading-[142%] text-sm tracking-wide md:tracking-[0.8px] uppercase">
                     {e.tabHeading}
                   </h4>
-                  <p className="text-gray-[950px] font-manrope text-xl md:text-3xl md:font-bold font-semibold leading-[133.33%] tracking-normal" style={{
+                  <p className="text-gray-[950px] font-manrope [&_br]:hidden md:[&_br]:block text-xl md:text-3xl md:font-bold font-semibold leading-[133.33%] tracking-normal" style={{
                     wordBreak: 'keep-all',
                     overflowWrap: 'normal',
                     hyphens: 'none'
