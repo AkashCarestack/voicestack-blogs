@@ -151,7 +151,7 @@ export const mergeAndRemoveDuplicates = (
   return result
 }
 
-export const formatOrganizationSchema = (props: any) => {
+export const formatOrganizationSchemaDynamic = (props: any) => {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
@@ -184,6 +184,586 @@ export const formatOrganizationSchema = (props: any) => {
     numberOfEmployees: 50,
     description: `${props?.description}`,
     keywords: `${props?.keyWords}`,
+  }
+  return schema
+}
+export const formatSoftwareSchema = (props: any) => {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "@id": "https://voicestack.com/#software",
+    "name": "VoiceStack",
+    "alternateName": "VoiceStack Dental Phones",
+    "url": "https://voicestack.com/",
+    "image": [
+      {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#primaryImage",
+        "url": "https://voicestack.com/assets/schema/schema-logo-voicestack-1200x1200.jpg",
+        "width": 1200,
+        "height": 1200
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#brand1",
+        "url": "https://voicestack.com/assets/schema/schema-logo-voicestack-1200x630.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "VoiceStack Logo"
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#brand2",
+        "url": "https://voicestack.com/assets/schema/schema-icon-voicestack-purple-1200x1200.jpg",
+        "width": 1200,
+        "height": 1200,
+        "caption": "VoiceStack Icon (Purple)"
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#brand3",
+        "url": "https://voicestack.com/assets/schema/schema-icon-voicestack-black-1200x1200.jpg",
+        "width": 1200,
+        "height": 1200,
+        "caption": "VoiceStack Icon (Black)"
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#brand4",
+        "url": "https://voicestack.com/assets/schema/schema-icon-voicestack-white-1200x1200.jpg",
+        "width": 1200,
+        "height": 1200,
+        "caption": "VoiceStack Icon (White)"
+      }
+    ],
+    "applicationCategory": "BusinessApplication",
+    "applicationSubCategory": "Dental Phones, Dental Phone System, Dental VoIP, AI Dental Phones",
+    "description": "VoiceStack® is an award-winning, AI-powered phone system that's trusted by thousands of dentists & dental practices. Answer More Calls. Convert More Patients. Grow Your Practice Faster.",
+    "keywords": "Dental phones, Dental VoIP, AI phone system, Call analytics, Two-way texting",
+    "publisher": {
+      "@id": "https://voicestack.com/#organization"
+    },
+    "brand": {
+      "@id": "https://voicestack.com/#organization"
+    },
+    "sameAs": [
+      "https://www.facebook.com/voicestack/",
+      "https://www.instagram.com/voicestack.ai/",
+      "https://www.linkedin.com/company/voice-stack/",
+      "https://www.youtube.com/@VoiceStack"
+    ],
+    "softwareVersion": "1.0",
+    "releaseNotes": "VoiceStack's AI powered phone system caters to every requirement of a modern, growing dental practice operation. VoiceStack's features including missed call analysis, missed opportunity tracking, automated tasks and staff performance dashboards enable practices to improve their patient growth and increase practice revenue.",
+    "applicationSuite": "VoiceStack Dental Communications Platform",
+    "operatingSystem": [
+      "Windows 10 or later",
+      "macOS 11 Big Sur or later",
+      "Web-based (Chrome, Firefox, Safari, Edge latest versions)"
+    ],
+    "softwareRequirements": [
+      {
+        "@type": "PropertyValue",
+        "name": "Operating System",
+        "value": "Windows 10 or later, macOS 11 Big Sur or later, Web browser latest versions"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "CPU",
+        "value": "Minimum Intel i5 / AMD Ryzen 5 or equivalent, Quad-core recommended"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "RAM",
+        "value": "Minimum 8GB, recommended 16GB"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Storage",
+        "value": "At least 500MB free disk space"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Internet",
+        "value": "Minimum 10 Mbps, Static IP recommended, Network latency below 50ms"
+      },
+      {
+        "@type": "PropertyValue",
+        "name": "Ethernet",
+        "value": "CAT5 or higher, PoE optional"
+      }
+    ],
+    "featureList": [
+      "IVR & Call Routing",
+      "Visual Voicemail",
+      "Missed Call Response Tracking",
+      "Call Flow Analytics",
+      "Two-Way Texting",
+      "Cloud Fax",
+      "Call Flow Management",
+      "Custom Phone Trees",
+      "After-Hours Call Transfers",
+      "Monitoring & Reporting",
+      "Time Zone Management",
+      "AI Receptionist",
+      "AI Call Transcripts",
+      "AI Call Scoring",
+      "Missed Call Automations",
+      "Opportunity Detection",
+      "Opportunity Tracking",
+      "Post-Call Task Detection",
+      "Call Source Tracking",
+      "Dynamic Number Insertion",
+      "Campaign & Keyword Tracking",
+      "Marketing Spend Optimization",
+      "Google Analytics Integration",
+      "Google Ads Integration"
+    ],
+    "softwareHelp": "https://voicestack.com/support",
+    "screenshot": [
+      {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot1",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-01.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "The AI Receptionist works 24/7, reduces missed opportunities, boosts conversions, and improves operational efficiency across your practice."
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot2",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-02.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Answer more phone Calls at your front desk or call center to drive growth."
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot3",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-03.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Identify, Re-Engage and Convert Missed Opportunities in Real-Time."
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot4",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-04.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Automated Tasks for Staff Members to Keep Track of Every Opportunity."
+      },
+      {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot5",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-05.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Track, Analyze and Improve the Performance of Every Team Member."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot6",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-06.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Effortlessly Automating Calls for Superior Patient Experience and Analytics."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot7",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-07.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "AI chatbots, integrated forms, and automated workflows centralize patient data and manage all appointments, calls, and follow-ups."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot8",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-08.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Reliable, scalable cloud calling integrates all voice, video, and messaging for effortless, secure business communication."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot9",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-09.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "AI analyzes call performance for instant insights, tracking key metrics and providing coaching tools for smarter business decisions."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot10",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-10.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Real-time dashboards and custom reports provide full visibility into calls, chats, and CRM data to ensure data-driven growth."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot11",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-11.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Enhance patient experience with AI call scoring, analytics, and automation to improve communication and processes."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot12",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-12.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Centralize calls, build remote teams, and configure rules to seamlessly transfer calls between AI, agents, and call centers."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot13",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-13.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Track call outcomes, analyze call transcripts and follow-up on missed opportunities to convert more new patients with the power of AI."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot14",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-14.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Use Attribution Analytics to track top marketing channels, identify best patient acquisition sources, and optimize your budget for maximum ROI."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot15",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-15.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "Deeply integrated into all major practice management systems, CRM systems and analytics platforms."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot16",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-16.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "VoiceStack's superior AI phone system is compared side-by-side with Mango Voice, Peerlogic, and Patient Prism."
+      },
+          {
+        "@type": "ImageObject",
+        "@id": "https://voicestack.com/#screenshot17",
+        "url": "https://voicestack.com/assets/schema/schema-screenshot-voicestack-17.jpg",
+        "width": 1200,
+        "height": 630,
+        "caption": "AI transcription and call summaries enhance team training and conversions, while real-time analytics provide clear visibility for instantly optimizing marketing campaign strategies."
+      }
+    ],
+    "video": [
+      {
+        "@type": "VideoObject",
+        "@id": "https://voicestack.com/#video1",
+        "url": "https://www.youtube.com/watch?v=dVku6w0tyBk",
+        "name": "VoiceStack, the world’s first AI-powered phone system built exclusively for dental practices!",
+        "description": "VoiceStack transforms the way dental practice front desks handle calls, ensuring no missed opportunities, smarter patient engagement, and revenue growth of up to $100K/month.",
+        "uploadDate": "2025-04-01T00:00-08:00",
+        "thumbnailUrl": "https://i3.ytimg.com/vi/dVku6w0tyBk/maxresdefault.jpg",
+        "embedUrl": "https://www.youtube.com/embed/dVku6w0tyBk?si=angatjXetJeg_3h9"
+      },
+      {
+        "@type": "VideoObject",
+        "@id": "https://voicestack.com/#video2",
+        "url": "https://www.youtube.com/watch?v=wsVrybAXrOY",
+        "name": "Himesh Kana | Dental Depot DFW | US | VoiceStack Review",
+        "description": "Every day, thousands of marketing dollars are wasted at dental practices when patients call in to book an appointment but, for some reason, end up not booking. Maybe they would have booked if they had a payment plan option or a different time slot. Your staff may have missed out on offering these to the patient, and now the call has ended. So how can you get those patients back? VoiceStack can help.",
+        "uploadDate": "2025-11-11T00:00-08:00",
+        "thumbnailUrl": "https://i3.ytimg.com/vi/wsVrybAXrOY/maxresdefault.jpg",
+        "embedUrl": "https://www.youtube.com/embed/wsVrybAXrOY?si=RSdKBaaz5vIxegRa"
+      },
+      {
+        "@type": "VideoObject",
+        "@id": "https://voicestack.com/#video3",
+        "url": "https://www.youtube.com/watch?v=SdNy_OZ2VGw",
+        "name": "How VoiceStack Boosted Patient Conversions and Streamlined Dental Practice Operations",
+        "description": "Learn how Dr. Robbie Hughes from Dental Excellence used VoiceStack to transform patient communication and streamline practice operations. VoiceStack helped his team identify 90% of missed patient calls, prioritize key consultations, and flag emergencies to deliver timely, high-quality care. With advanced call reviews and workflow optimization, Dr. Hughes achieved greater efficiency and improved patient experiences.",
+        "uploadDate": "2025-01-11T00:00-08:00",
+        "thumbnailUrl": "https://i3.ytimg.com/vi/SdNy_OZ2VGw/maxresdefault.jpg",
+        "embedUrl": "https://www.youtube.com/embed/SdNy_OZ2VGw?si=iQjw5cbn1M9Q5Xjz"
+      },
+      {
+        "@type": "VideoObject",
+        "@id": "https://voicestack.com/#video4",
+        "url": "https://www.youtube.com/watch?v=p239r-x8-3A",
+        "name": "Transforming Dental Practices with VoiceStack: Dr. Simon Chard's Testimonial",
+        "description": "Discover how VoiceStack’s AI-powered business phone system has revolutionized Rothley Lodge Dental! Hear from Dr. Simon Chard, Co-owner of the practice, as he shares how VoiceStack enhanced team communication, reclaimed 60% of AI-recognized opportunities, and elevated patient care. Ready to transform your dental practice with cutting-edge AI technology? Book your free demo today at voicestack.com.",
+        "uploadDate": "2025-01-09T00:00-08:00",
+        "thumbnailUrl": "https://i3.ytimg.com/vi/p239r-x8-3A/maxresdefault.jpg",
+        "embedUrl": "https://www.youtube.com/embed/p239r-x8-3A?si=cr8rr7mbPgRocrY3"
+      }
+    ],
+    "offers": [
+      {
+        "@type": "Offer",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "price": "Varies",
+          "priceCurrency": "USD",
+          "description": "Subscription pricing varies by plan"
+        },
+        "url": "https://voicestack.com/pricing",
+        "availability": "https://schema.org/InStock"
+      },
+      {
+        "@type": "Offer",
+        "name": "Android App Download",
+        "url": "https://play.google.com/store/apps/details?id=com.voicestack.mobile&hl=en_US",
+        "price": "0",
+        "priceCurrency": "USD",
+        "operatingSystem": "Android",
+        "applicationCategory": "https://schema.org/MobileApplication",
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@id": "https://voicestack.com/#organization"
+        }
+      },
+      {
+        "@type": "Offer",
+        "name": "iOS App Download",
+        "url": "https://apps.apple.com/us/app/voicestack/id6741469847",
+        "price": "0",
+        "priceCurrency": "USD",
+        "operatingSystem": "iOS",
+        "applicationCategory": "https://schema.org/MobileApplication",
+        "availability": "https://schema.org/InStock",
+        "seller": {
+          "@id": "https://voicestack.com/#organization"
+        }
+      }
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "ratingCount": "9",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Tim Hill"
+        },
+        "datePublished": "2025-11-01",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "With VoiceStack, we now have complete visibility into every call, making it easy to track call quality, patient satisfaction, and booking outcomes. We can analyze performance at both the practice and enterprise level, see results by campaign, and measure how well we convert potential patients. It’s an incredible tool for data-driven growth."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Katie Post"
+        },
+        "datePublished": "2025-11-02",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "After 30 days on VoiceStack, we identified 52 missed patient calls in our opportunity bucket. The AI organized each call with the patient’s details, allowing us to follow up and schedule them. This resulted in converting all 52 opportunities, generating approximately $78,000 in additional revenue for the practice."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Laura Dye"
+        },
+        "datePublished": "2025-11-03",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "VoiceStack has been a game-changer for our two locations with a centralized call center. It tracks missed opportunities, boosts call conversion rates, and provides clear insights into call center needs. The AI feature transcribes calls into easy-to-read scripts, making it simple to review content and tone. It has streamlined workflows and positively impacted practice growth."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Stuart McGuiggan"
+        },
+        "datePublished": "2025-11-04",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "VoiceStack helps us prioritize calls, identifying emergencies and patients seeking specific treatments. This allowed us to follow up quickly, securing over $100,000 in treatment. The AI call transcription also supports staff training, letting us review calls, provide guidance, and improve processes, enhancing both team performance and patient care across the practice."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Hardik Chodavadia"
+        },
+        "datePublished": "2025-11-05",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "The biggest advantage of switching to VoiceStack has been gaining full visibility into our call data. Immediately, we could see how many calls were being missed and where in the process they were lost. With only 63% of calls answered and 15% missed due to process gaps, implementing VoiceStack helped us recover at least 12% of calls almost overnight."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Himesh Kana"
+        },
+        "datePublished": "2025-11-06",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "VoiceStack has transformed our call management, increasing first-call answer rates to 95–97% and reducing missed calls to under 6%. AI-powered transcription scores patient likelihood to schedule, enabling fast follow-ups and better outcomes. Integrated with CareStack, it improves scheduling, boosts new patient numbers, and enhances team performance, creating measurable impact on both patients and practice growth."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Neel Patel"
+        },
+        "datePublished": "2025-11-07",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "VoiceStack has brought clarity to our call data, helping us make actionable decisions. Answer rates have increased by 35%, leading to more new patients and higher production. The AI insights also support team training, allowing us to improve performance, optimize workflows, and make data-driven decisions without guesswork."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Kalpesh Patel"
+        },
+        "datePublished": "2025-11-08",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "VoiceStack makes it easy to track team performance and coach effectively. The dashboard provides clear metrics, while AI transcribes calls and highlights tone, helping team members understand their own performance. Listening to calls with feedback and call scoring has significantly improved training, making a real difference in call quality and patient interactions."
+      },
+      {
+        "@type": "Review",
+        "author": {
+          "@type": "Person",
+          "name": "Laura Rogers"
+        },
+        "datePublished": "2025-11-09",
+        "reviewRating": {
+          "@type": "Rating",
+          "ratingValue": "5",
+          "bestRating": "5"
+        },
+        "reviewBody": "Switching to VoiceStack from our old system has been a game-changer. With seamless integration into CareStack, its AI-powered transcription, summaries, and detailed reporting help us track answer and conversion rates, identify missed opportunities, and train our team effectively. VoiceStack has elevated visibility, performance, and the overall patient experience across all our offices."
+      }
+    ]
+  }
+  return schema
+}
+
+export const formatOrganizationSchema = (props: any) => {
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://voicestack.com/#organization",
+        "name": "VoiceStack",
+        "url": "https://voicestack.com/",
+        "logo": "https://voicestack.com/assets/schema/schema-logo-voicestack-1200x1200.jpg",
+        "image": "https://voicestack.com/assets/schema/schema-logo-voicestack-1200x1200.jpg",
+        "description": "VoiceStack® is an award-winning, AI-powered phone system that's trusted by thousands of dentists & dental practices.",
+        "slogan": "The Most Advanced AI-Powered Dental Phone System.",
+        "foundingDate": "2024",
+  
+        "founder": {
+          "@type": "Person",
+          "@id": "https://voicestack.com/#founder",
+          "name": "Krishnan RV",
+          "jobTitle": "Founder",
+          "url": "https://voicestack.com/company/leadership-team",
+          "sameAs": [
+            "https://www.linkedin.com/company/voice-stack/"
+          ]
+        },
+  
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "2954 Mallory Cir #209",
+          "addressLocality": "Kissimmee",
+          "addressRegion": "FL",
+          "postalCode": "34747",
+          "addressCountry": "US"
+        },
+  
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "(407) 833-6436",
+            "email": "support@voicestack.com",
+            "contactType": "Customer Service",
+            "areaServed": "US",
+            "availableLanguage": "en",
+            "url": "https://voicestack.com/support"
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "(407) 559-6068",
+            "email": "sales.us@voicestack.com",
+            "contactType": "Sales",
+            "areaServed": "US",
+            "availableLanguage": "en",
+            "url": "https://voicestack.com/demo"
+          }
+        ],
+  
+        "hasProduct": {
+        "@id": "https://voicestack.com/#software"
+        },
+  
+        "sameAs": [
+          "https://www.facebook.com/voicestack/",
+          "https://www.instagram.com/voicestack.ai/",
+          "https://www.linkedin.com/company/voice-stack/",
+          "https://www.youtube.com/@VoiceStack"
+        ],
+  
+        "mainEntityOfPage": {
+          "@id": "https://voicestack.com/#website"
+        }
+      },
+  
+      {
+        "@type": "WebSite",
+        "@id": "https://voicestack.com/#website",
+        "url": "https://voicestack.com/",
+        "name": "VoiceStack",
+        "publisher": {
+          "@id": "https://voicestack.com/#organization"
+        },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://voicestack.com/?s={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
   }
   return schema
 }

@@ -9,7 +9,6 @@ export default function CustomHead(props) {
   const SchemaData = formatOrganizationSchema(props.siteSettings.seoSettings)
   const jsonLdData = props?.siteSettings?.injectJSONld ? JSON?.parse(props?.siteSettings?.injectJSONld) : null
   const homepage = router.pathname === '/'
-  
 
   return (
     <Head>
@@ -35,7 +34,7 @@ export default function CustomHead(props) {
        {/* <script
         type="application/ld+json"
         id="organization-schema"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(SchemaData) }}
       ></script> */}
     </Head>
   )
