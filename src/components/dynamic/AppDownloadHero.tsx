@@ -46,7 +46,7 @@ const AppDownloadHero: React.FC<AppDownloadHeroProps> = ({ data }) => {
                 components={{
                   block: {
                     normal: ({ children }) => (
-                      <H1 className="text-center !text-[#030712] font-manrope text-[36px] md:text-[48px] lg:text-[56px] font-bold leading-[1.16] tracking-[-1px]  !text-5xl">
+                      <H1 className="text-center !text-[#030712] font-manrope text-[36px] md:text-[48px]  font-bold !leading-[120%]">
                         {children}
                       </H1>
                     ),
@@ -54,7 +54,7 @@ const AppDownloadHero: React.FC<AppDownloadHeroProps> = ({ data }) => {
                   marks: {
                     highlight: ({ children }: { children: React.ReactNode }) => (
                       <span 
-                        className="text-vs-purple font-manrope text-[36px] md:text-[48px] lg:text-[56px] font-bold !leading-[1.16] !tracking-[-1px] text-center !text-5xl"
+                        className="text-vs-purple font-manrope text-[36px] md:text-[48px] font-bold !leading-[120%] text-center"
                         style={{ letterSpacing: '-1px', lineHeight: '1.16' }}
                       >
                         {children}

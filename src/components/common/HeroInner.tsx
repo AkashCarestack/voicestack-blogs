@@ -34,7 +34,7 @@ const HeroInner: React.FC<HeroInnerProps> = ({ data }) => {
                 {heroSectionHeader}
               </span>
             </div>
-          <H1 className="text-center !text-[#030712]">{heroSectionHeading}</H1>
+          <H1 className="text-center !text-4xl !lg:text-5xl !text-[#030712] !tracking-[-0.8px] !leading-[120%] ">{heroSectionHeading}</H1>
           <p className="text-[#030712] font-inter text-lg font-normal leading-[160%] text-center max-w-[600px] w-full">
             {heroSectionHeadingDesc}
           </p>

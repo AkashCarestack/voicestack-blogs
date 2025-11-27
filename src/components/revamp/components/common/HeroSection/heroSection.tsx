@@ -84,7 +84,7 @@ const HeroSection = ({
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
-        <span className="">{children}</span>
+        <span className="[&_br]:hidden md:[&_br]:block">{children}</span>
       ),
     },
     marks: {
@@ -358,7 +358,7 @@ const HeroSection = ({
                 <h1 className="text-base font-medium text-gray-950 uppercase">
                   {toCamelCase(data?.heroStrip)}
                 </h1>
-                <h2 className="text-4xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
+                <h2 className="text-4xl lg:text-5xl font-bold !leading-[120%] font-manrope">
                   <PortableText value={data?.heroheading} components={components} />
                 </h2>
               </>
@@ -477,7 +477,7 @@ const HeroSection = ({
 
               {/* Main Headline */}
               <div className="space-y-4 text-center lg:text-left">
-                <h2 className="text-4xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
+                <h2 className="text-4xl lg:text-5xl font-bold !leading-[120%]  font-manrope">
                   <PortableText
                     value={data?.heroheading}
                     components={components}
