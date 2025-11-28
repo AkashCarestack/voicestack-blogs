@@ -13,6 +13,7 @@ const EXCLUDED_PATHS = [
   'test2',
   'en-GB/test',
   'test',
+  'search',
 ];
 
 // Locales that should only have root pages (no child pages)

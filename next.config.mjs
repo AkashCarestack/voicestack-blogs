@@ -76,7 +76,14 @@ const config = {
         destination: '/en-GB?lead_source=FMC&utm_medium=digital',
         permanent: false,
       },
-      
+      {
+        source: '/',
+        has: [
+          { type: 'query', key: 's' }
+        ],
+        destination: '/search',
+        permanent: false,
+      }
     ]
   },
 
