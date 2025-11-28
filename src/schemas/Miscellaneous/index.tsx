@@ -6,7 +6,7 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
-      name: 'heroSectionHeader',
+      name: 'heroStrip',
       title: 'Hero Section Header',
       type: 'string',
     }),
@@ -15,18 +15,24 @@ export default defineType({
       title: 'Hero Section Slug',
       type: 'slug',
       options: {
-        source: 'heroSectionHeader',
+        source: 'heroStrip',
       },
     }),
     defineField({
-      name: 'heroSectionHeading',
+      name: 'heroheading',
       title: 'Hero Section Heading',
-      type: 'string',
+      type: 'customBlockContent',
     }),
     defineField({
-      name: 'heroSectionHeadingDesc',
+      name: 'heroDescription',
       title: 'Hero Section Description',
-      type: 'string',
+      type: 'blockContent',
+    }),
+    defineField({
+      name: 'bookBtnContent',
+      title: 'CTA Button',
+      type: 'array',
+      of: [{ type: 'button' }],
     }),
     defineField({
       name: 'contentArea',
@@ -43,7 +49,7 @@ export default defineType({
 ],
 preview: {
       select: {
-        title: 'heroSectionHeader',
+        title: 'heroStrip',
         language:'language',
       },
       prepare(selection) {

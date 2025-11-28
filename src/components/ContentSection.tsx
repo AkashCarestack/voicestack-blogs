@@ -12,9 +12,17 @@ const ContentSection = ({ content, draftMode, token, slugData }) => {
 
   return (
     <>
-      {slugData !== 'app-download' &&
-      
-      <HeroInner data={content} />
+      {slugData !== 'app-download' &&     
+      // <HeroInner data={content} />
+      <div
+        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
+        style={{
+          background:
+            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
+        }}
+      >
+        <HeroSection data={content} isCentered={true} />
+      </div>
       
       }
 
