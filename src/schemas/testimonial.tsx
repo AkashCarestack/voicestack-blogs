@@ -52,8 +52,15 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'imageThumbnail',
+      title: 'Image Thumbnail',
+      description: 'This is the thumbnail image for the vertical video below',
+      type: 'image',
+    }),
+    defineField({
       name: 'thumbnail',
-      title: 'Thumbnail',
+      title: 'Video Thumbnail',
+      description: 'This is the thumbnail video for the vertical video below',
       type: 'string',
     }),
     defineField({
