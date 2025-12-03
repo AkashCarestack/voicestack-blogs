@@ -6,6 +6,7 @@ import Queries from '~/components/revamp/queries'
 import SimpleHead from '~/components/common/SimpleHead'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import { useLayoutData } from '~/providers/LayoutDataProvider'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 interface SupportPageProps {
   supportPageData: any
@@ -29,29 +30,22 @@ export default function SupportPage({
   return (
     <>
       <SimpleHead data={supportPageData?.seo} />
-      <div style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}>
-        {/* <Breadcrumb breadCrumb={breadCrumb} /> */}
-        <div
-          className="py-12"
-          
-        >
-          {heroData && (
-            <HeroSection
-              page="support"
-              isCentered={true}
-              data={heroData}
-              contactData={contactData}
-              showFullDescription={true}
-            />
-          )}
-        </div>
-      </div>
+
+      <HeroWrapper>
+        {heroData && (
+          <HeroSection
+            page="support"
+            isCentered={true}
+            data={heroData}
+            contactData={contactData}
+            showFullDescription={true}
+          />
+        )}
+      </HeroWrapper>
+
       <div className='w-full lg:mb-24 mb-12 mt-12 lg:mt-32'>
-    <StatisticsSection/>
-    </div>
+        <StatisticsSection/>
+      </div>
       
       {/* FAQ Section */}
       {faq && <FaqSection faqItems={faq} />}

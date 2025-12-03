@@ -18,7 +18,8 @@ const config = {
       { hostname: 'cdn.vidyard.com' },
       { hostname: 'www.figma.com' },
       { hostname: 'img.youtube.com' },
-      { hostname: 'a.storyblok.com' }
+      { hostname: 'a.storyblok.com' },
+      { hostname: 'i.ytimg.com' }
     ],
     dangerouslyAllowSVG: true,
   },

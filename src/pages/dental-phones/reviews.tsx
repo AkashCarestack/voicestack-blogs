@@ -4,6 +4,7 @@ import SimpleHead from '~/components/common/SimpleHead'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import ReviewTestimonial from '~/components/revamp/components/common/ReviewTestimonial/ReviewTestimonial'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
@@ -18,13 +19,7 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <div
-        className="py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+      <HeroWrapper>
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         <HeroSection
           page=""
@@ -42,7 +37,7 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
             hideTitle={true}
           />
         )}
-      </div>
+      </HeroWrapper>
      
         {pageData['review-testimonial']?.componentData && (
           <ReviewTestimonial data={pageData['review-testimonial']?.componentData} />

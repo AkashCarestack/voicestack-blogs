@@ -6,6 +6,7 @@ import CardListing from '~/components/revamp/components/cardListing'
 import CardsGridSection from '~/components/revamp/components/CardsGridSection'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import HoverTestimonial from '~/components/revamp/components/common/HoverTestimonial/HoverTestimonial'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
@@ -30,18 +31,13 @@ export default function WhoWeServeIndex({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <div
-        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+      
+      <HeroWrapper>
         <HeroSection
           page=""
           data={pageData['dental-phones-hero']?.componentData}
         />
-      </div>
+      </HeroWrapper>
 
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection

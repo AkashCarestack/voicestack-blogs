@@ -18,6 +18,7 @@ import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import LogoListingSection from '~/components/LogoListingSection'
 // import PracticeCards from '~/components/revamp/components/common/PracticeCards/practiceCards'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 export default function CustomerStories({ pageData }: any) {
   const data =
@@ -32,23 +33,17 @@ export default function CustomerStories({ pageData }: any) {
   return (
     data && (
       <>
-      <SimpleHead data={pageData?.seo} />
-       <div
-        className="py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
-        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        <HeroSection
-          page=""
-          data={pageData['dental-phones-hero']?.componentData}
-          isCentered={true}
-          showFullDescription={true}
-        />
-        </div>
-
+        <SimpleHead data={pageData?.seo} />
+        
+        <HeroWrapper>
+          <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+          <HeroSection
+            page=""
+            data={pageData['dental-phones-hero']?.componentData}
+            isCentered={true}
+            showFullDescription={true}
+          />
+        </HeroWrapper>
 
         {pageData['testimonial-tabs']?.componentData && (
           <CategoryFeatureTabs page="case-studies" sectionHeading={pageData['testimonial-tabs']?.componentData} features={pageData['testimonial-tabs']?.componentData?.tabs} />

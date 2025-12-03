@@ -5,6 +5,7 @@ import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleCardWithList from '~/components/revamp/components/common/TabListing/singleCardWithList'
@@ -26,21 +27,16 @@ export default function SpecialityPractices({
   const tabsListingComponentData = pageData?.['smarter-system']?.componentData?.refData?.tabsListingComponent;
   return (
     <>
-      <div
-         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-         style={{
-           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
-          }}
-       >
-          <SimpleHead data={pageData?.seo} />
-          <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-          {pageData['dental-phones-hero']?.componentData && (
-            <HeroSection
-              page=""
-              data={pageData['dental-phones-hero']?.componentData}
-            />
-          )}
-       </div>
+      <SimpleHead data={pageData?.seo} />
+
+      <HeroWrapper>
+        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+        <HeroSection
+          page=""
+          data={pageData['dental-phones-hero']?.componentData}
+        />
+      </HeroWrapper>
+      
       {pageData?.['effortlessly-handle-calls']?.componentData && (
         <SingleCardWithList
           data={pageData?.['effortlessly-handle-calls']?.componentData}

@@ -19,6 +19,7 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import SimpleHead from '~/components/common/SimpleHead'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -78,20 +79,15 @@ export default function DentalPhonesIndex({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-       <div
-         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-         style={{
-           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
-         }}
-       >
-      <HeroSection
-        page=""
-        data={pageData['dental-phones-hero']?.componentData}
-      />
 
-       </div>
+      <HeroWrapper>
+        <HeroSection
+          page=""
+          data={pageData['dental-phones-hero']?.componentData}
+        />
+      </HeroWrapper>
      
-       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
             pageData['stack-card-tab-testimonial']?.componentData?.refData

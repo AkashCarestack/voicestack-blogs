@@ -11,6 +11,7 @@ import StackCardTestimonial from '~/components/revamp/components/common/stackCar
 import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 import SimpleHead from '~/components/common/SimpleHead'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 // Define TypeScript interfaces
 interface PageData {
@@ -69,13 +70,8 @@ export default function Pricing({
   return (
     <>
       <SimpleHead data={pricingPageData?.seo} />
-      <div
-        className="py-12 vs-minimal-bg"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+
+      <HeroWrapper>
         {pricingPageData &&
           (() => {
             // Find the hero section - try common patterns
@@ -96,7 +92,8 @@ export default function Pricing({
               />
             ) : null
           })()}
-      </div>
+      </HeroWrapper>
+      
       <Section className="">
         <Container className="flex flex-col items-center gap-8">
           <div className="lg:py-lg md:py-md py-sm">

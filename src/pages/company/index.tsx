@@ -12,6 +12,7 @@ import VoicestackLogo from 'public/assets/voicestack-logo.svg'
 import bg2 from 'public/background/upscalemedia-transformed-2.png'
 import bg3 from 'public/background/upscalemedia-transformed-3.png'
 import SimpleHead from '~/components/common/SimpleHead'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 
 
@@ -38,13 +39,7 @@ export default function CompanyPage({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <div
-        className="py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+      <HeroWrapper>
         {companyLandingData && (() => {
           // Find the hero section - try common patterns
           const heroKey = Object.keys(companyLandingData).find(
@@ -60,7 +55,7 @@ export default function CompanyPage({
             />
           ) : null
         })()}
-      </div>
+      </HeroWrapper>
       {/* <AboutCompany heading={heading} description={description} image={image} icon={icon} /> */}
       <Section className="bg-white py-sm md:py-md">
         <Container className="flex flex-col px-4">

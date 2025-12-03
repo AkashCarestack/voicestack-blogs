@@ -6,6 +6,7 @@ import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavig
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import LeadershipList from '~/components/revamp/components/common/LeadershipList/leadershipList'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
@@ -26,13 +27,7 @@ export default function LeadershipTeamPage({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <div
-        className="py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+      <HeroWrapper>
         {pageData['leadership-team-hero']?.componentData && (
           <HeroSection
             page=""
@@ -41,10 +36,10 @@ export default function LeadershipTeamPage({
             data={pageData['leadership-team-hero']?.componentData}
             />
         )} 
-            </div>
-        {pageData['leadership-team-list']?.componentData && (
-          <LeadershipList data={pageData['leadership-team-list']?.componentData} />
-        )}
+      </HeroWrapper>
+      {pageData['leadership-team-list']?.componentData && (
+        <LeadershipList data={pageData['leadership-team-list']?.componentData} />
+      )}
 
     </>
   )
