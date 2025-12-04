@@ -58,9 +58,30 @@ export function buildUrl(path: string, locale: string, baseUrl: string): string 
 export function useAlternatePaths(origin?: string) {
   const router = useRouter();
   const locales = siteConfig.locales || ['en', 'en-GB', 'en-AU'];
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.voicestack.com';
-  const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === 'production';
-  const baseUrl = origin || (isProduction ? BASE_URL : (process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'));
+  
+  // Determine base URL - prioritize origin param, then env var, then current origin, then fallback
+  const getBaseUrl = () => {
+    let url: string;
+    
+    if (origin) {
+      url = origin;
+    } else if (process.env.NEXT_PUBLIC_BASE_URL) {
+      // Use NEXT_PUBLIC_BASE_URL if set
+      url = process.env.NEXT_PUBLIC_BASE_URL;
+    } else if (typeof window !== 'undefined') {
+      // In browser, use current origin (works for both dev and prod)
+      url = window.location.origin;
+    } else {
+      // Server-side fallback
+      const isProduction = process.env.NODE_ENV === 'production';
+      url = isProduction ? 'https://www.voicestack.com' : 'http://localhost:3000';
+    }
+    
+    // Remove trailing slash
+    return url.replace(/\/+$/, '');
+  };
+  
+  const baseUrl = getBaseUrl();
 
   return useMemo(() => {
     const paths: AlternatePath[] = [];
