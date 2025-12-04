@@ -17,6 +17,7 @@ import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import LogoListingSection from '~/components/LogoListingSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -57,12 +58,7 @@ export default function ComparisonPage({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <div
-         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-         style={{
-           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
-         }}
-       >
+      <HeroWrapper>
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         {pageData['comparison-hero']?.componentData && (
           <HeroSection
@@ -71,7 +67,7 @@ export default function ComparisonPage({
             showFullDescription={true}
           />
         )}
-      </div>
+      </HeroWrapper>
 
       {comparisonTableData && (
         <SiteComparisonSection

@@ -5,6 +5,7 @@ import SimpleHead from '~/components/common/SimpleHead'
 import MailIcon from '~/components/icons/MailIcon'
 import PhoneIcon from '~/components/icons/PhoneIcon'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
@@ -51,25 +52,17 @@ export default function ContactPage({ pageData }) {
         </Section>
       </div> */}
       <SimpleHead data={pageData?.seo} />
-      <div style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}>
-        {/* <Breadcrumb breadCrumb={breadCrumb} /> */}
-        <div
-          className="py-12"
-        >
-          {pageData['contact-hero']?.componentData && (
-            <HeroSection
-              page="contact"
-              isCentered={true}
-              data={pageData['contact-hero']?.componentData}
-              showFullDescription={true}
-              contactData={contactData}
-            />
-          )}
-        </div>
-      </div>
+      <HeroWrapper>
+        {pageData['contact-hero']?.componentData && (
+          <HeroSection
+            page="contact"
+            isCentered={true}
+            data={pageData['contact-hero']?.componentData}
+            showFullDescription={true}
+            contactData={contactData}
+          />
+        )}
+      </HeroWrapper>
     </>
   )
 }

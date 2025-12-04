@@ -4,6 +4,7 @@ import SimpleHead from '~/components/common/SimpleHead'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
@@ -24,18 +25,14 @@ export default function IndependentPractices({ pageData, faq }: IndependentPract
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-       <div
-         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-         style={{
-           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
-         }}
-       >
-      <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <HeroSection
+      
+      <HeroWrapper>
+        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+        <HeroSection
           data={pageData['dental-phones-hero']?.componentData}
         />
-  
-       </div>
+       </HeroWrapper>
+       
        {tabsListingComponentData &&
         <SingleTabCardListing data={tabsListingComponentData}/>
       } 

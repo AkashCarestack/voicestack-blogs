@@ -74,7 +74,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   }
 
   return (
-    <Container className={`py-4 ${className}`}>
+    <Container className={`py-0 ${className}`}>
       <nav aria-label="Breadcrumb" className="flex items-center gap-2">
         {/* Home Icon */}
         <Anchor href="/" className="flex items-center justify-center">

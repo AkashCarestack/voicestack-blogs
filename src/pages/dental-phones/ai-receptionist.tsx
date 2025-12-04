@@ -7,6 +7,7 @@ import CardsGridSection from '~/components/revamp/components/CardsGridSection'
 import CardsWithSvg from '~/components/revamp/components/common/cardsWithTestimonial'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
@@ -62,20 +63,14 @@ export default function AiReceptionist({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <div
-        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+      <HeroWrapper>
         <HeroSection
           showFullDescription={true}
           refer={pageData['dental-phones-hero']}
           data={pageData['dental-phones-hero']?.componentData}
           page="why-voicestack"
         />
-      </div>
+      </HeroWrapper>
       {/* {pageData['ai-features']?.componentData && (
         <CardsWithSvg data={pageData['ai-features']} />
       )} */}

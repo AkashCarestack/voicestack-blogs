@@ -251,6 +251,9 @@ class Queries {
               locations,
               practiceName,
               thumbnail,
+              "imageThumbnail": imageThumbnail.asset-> {
+                ${this.IMAGE_METADATA_FIELDS}
+              },
               
               // Testimonial logo
               "logo": logo.asset-> {
@@ -452,6 +455,9 @@ class Queries {
                             locations,
                             practiceName,
                             thumbnail,
+                            "imageThumbnail": imageThumbnail.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
                             "logo": logo.asset-> {
                               ${this.IMAGE_METADATA_FIELDS}
                             },
@@ -749,6 +755,9 @@ class Queries {
                           subStatement,
                           keyStatement,
                           isHighlighted,
+                          "imageThumbnail": imageThumbnail.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
                           "logo": logo.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
                           },
@@ -794,7 +803,9 @@ class Queries {
                       _id,
                       name,
                       designation,
-                      
+                      "imageThumbnail": imageThumbnail.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
                       // Testimonial logo
                       "logo": logo.asset-> {
                         ${this.IMAGE_METADATA_FIELDS}
@@ -1147,7 +1158,9 @@ class Queries {
                       mainStatement,
                       subStatement,
                       keyStatement,
-                  
+                      "imageThumbnail": imageThumbnail.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
                     "secondaryLogo": secondaryLogo.asset-> {
                           ${this.IMAGE_METADATA_FIELDS}
                       },
@@ -1345,6 +1358,9 @@ class Queries {
                   locations,
                   practiceName,
                   thumbnail,
+                  "imageThumbnail": imageThumbnail.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
                   "logo": logo.asset-> {
                     ${this.IMAGE_METADATA_FIELDS}
                   },
@@ -1392,6 +1408,9 @@ class Queries {
                 _id,
                 name,
                 designation,
+                "imageThumbnail": imageThumbnail.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
                 "logo": logo.asset-> {
                   ${this.IMAGE_METADATA_FIELDS}
                 },

@@ -206,21 +206,18 @@ const VerticalTestimonialListing = ({
 
   // Video handling functions
   const handleVideoPlay = (index: number) => {
-    setPlayingIndex(index)
     const video = videoRefs.current[index]
     if (video) {
       video.currentTime = 0
-      video.play().catch((err) => console.error('Video play failed:', err))
+      video.play().catch(() => {})
     }
   }
 
   const handleVideoPause = (index: number) => {
-    if (playingIndex !== index) {
-      const video = videoRefs.current[index]
-      if (video) {
-        video.pause()
-        video.currentTime = 0
-      }
+    const video = videoRefs.current[index]
+    if (video) {
+      video.pause()
+      video.currentTime = 0
     }
   }
 
@@ -324,7 +321,7 @@ const VerticalTestimonialListing = ({
               {data &&
                 data?.testimonial?.map((logo: any, i: number) => {
                   const hasVideo = !!logo?.video?.[0]?.videoId
-                  const image = logo?.testimonialImage
+                  const image = logo?.imageThumbnail
                   // Try different possible video sources
                   const videoSrc =
                     logo?.video?.[0]?.videoFile ||
@@ -382,37 +379,41 @@ const VerticalTestimonialListing = ({
                         ) : (
                           <div className="relative w-full h-full">
                             {/* Thumbnail Image */}
-                            {/* {image ? (
-                            <ImageLoader
-                              image={image}
-                              className={`absolute w-full h-full object-cover z-0 transition-opacity duration-300 ${
-                                activeVideoIndex === i ? 'opacity-0' : 'opacity-100'
-                              }`}
-                              alt={image?.alt || 'Testimonial Thumbnail'}
-                            />
-                          ) : (
-                            <Image
-                          src={`https://i.ytimg.com/vi/${logo?.video?.[0]?.videoId}/maxresdefault.jpg`}
-                          width={400} height={400}
-                          className="absolute w-full h-full object-cover z-0"
-                          alt="Company Logo"
-                        />
-                          )} */}
+                            {image ? (
+                              <Image
+                                src={image?.url}
+                                className={`absolute w-full h-full object-cover z-0 transition-opacity duration-300 ${
+                                  activeVideoIndex === i
+                                    ? 'opacity-0'
+                                    : 'opacity-100'
+                                }`}
+                                width={400}
+                                height={400}
+                                alt={image?.alt || 'Testimonial Thumbnail'}
+                              />
+                            ) : (
+                              <Image
+                                src={`https://i.ytimg.com/vi/${logo?.video?.[0]?.videoId}/maxresdefault.jpg`}
+                                width={400}
+                                height={400}
+                                className="absolute w-full h-full object-cover z-0"
+                                alt="Company Logo"
+                              />
+                            )}
 
                             {/* Thumbnail Video - plays on hover */}
                             {hasVideo && (
                               <video
-                                key={logo?.thumbnail}
+                                ref={(el) => (videoRefs.current[i] = el)}
                                 style={{
                                   backgroundColor: 'transparent',
-                                  backgroundImage: 'none',
-                                  backgroundSize: 0,
-                                  backgroundPosition: 0,
-                                  backgroundRepeat: 'no-repeat',
                                   objectFit: 'cover',
                                 }}
-                                className="absolute h-full w-full object-cover"
-                                autoPlay
+                                className={`absolute h-full w-full object-cover transition-opacity duration-300 ${
+                                  activeVideoIndex === i
+                                    ? 'opacity-100'
+                                    : 'opacity-0'
+                                }`}
                                 loop
                                 muted
                                 playsInline
@@ -421,7 +422,6 @@ const VerticalTestimonialListing = ({
                                   src={logo?.thumbnail}
                                   type="video/mp4"
                                 />
-                                Your browser does not support the video tag.
                               </video>
                             )}
 
@@ -525,11 +525,13 @@ const VerticalTestimonialListing = ({
         )}
 
         {/* Book Demo Button */}
-        {showBookFeeBtn &&<div className="flex gap-4 items-center justify-center">
-          <Button type="primary" link="/demo">
-            <span className="text-base font-medium">{`Book Free Demo`}</span>
-          </Button>
-        </div>}
+        {showBookFeeBtn && (
+          <div className="flex gap-4 items-center justify-center">
+            <Button type="primary" link="/demo">
+              <span className="text-base font-medium">{`Book Free Demo`}</span>
+            </Button>
+          </div>
+        )}
 
         {/* Modals */}
         {isOpen && (

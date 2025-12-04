@@ -351,7 +351,7 @@ const NavigationMenu = ({
           return (
             <div key={`menu-${i}`} className="relative group cursor-pointer w-full lg:w-auto">
               <div 
-                className="flex items-center gap-1 text-gray-700 xl:text-sm lg:text-xs font-medium leading-[1.15] lg:text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0 cursor-pointer"
+                className="flex items-center justify-between lg:justify-start gap-1 text-gray-700 xl:text-sm lg:text-xs font-medium leading-[1.15] lg:text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0 cursor-pointer"
                 onClick={() => isMobile && toggleSubmenu(i)}
               >
                 {isMobile ? (
@@ -378,7 +378,7 @@ const NavigationMenu = ({
                       key={`submenu-${i}-${subIndex}`}
                       href={subItem.href}
                       target={subItem.href?.includes('http') ? '_blank' : '_self'}
-                      className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
+                      className="block lg:px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
                       onClick={onCloseMenu}
                     >
                       <div className="font-medium">{subItem.label}</div>

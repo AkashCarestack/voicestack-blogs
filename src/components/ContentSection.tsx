@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import SanityPortableText from '~/components/blockEditor/sanityBlockEditor'
 import HeroInner from './common/HeroInner'
 import HeroSection from './revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from './revamp/components/common/HeroWrapper'
 
 const ContentSection = ({ content, draftMode, token, slugData }) => {
   const router = useRouter()
@@ -13,16 +14,9 @@ const ContentSection = ({ content, draftMode, token, slugData }) => {
   return (
     <>
       {slugData !== 'app-download' &&     
-      // <HeroInner data={content} />
-      <div
-        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+      <HeroWrapper>
         <HeroSection data={content} isCentered={true} />
-      </div>
+      </HeroWrapper>
       
       }
 

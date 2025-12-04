@@ -10,6 +10,7 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 interface Feature {
   _id: string
@@ -47,16 +48,12 @@ export default function FeaturesPage({
 
   return (
     <>
-    <SimpleHead data={data?.seo} />
-      <div
-        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+      <SimpleHead data={data?.seo} />
+
+      <HeroWrapper>
         <HeroSection data={heroData} refer={data} page="feature-landing"  showFullDescription={true}/>
-      </div>
+      </HeroWrapper>
+
       <CategoryFeatureTabs
         features={features.filter(
           (feature) => feature.slug?.current !== 'landing',

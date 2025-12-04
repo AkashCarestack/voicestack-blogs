@@ -18,7 +18,8 @@ const config = {
       { hostname: 'cdn.vidyard.com' },
       { hostname: 'www.figma.com' },
       { hostname: 'img.youtube.com' },
-      { hostname: 'a.storyblok.com' }
+      { hostname: 'a.storyblok.com' },
+      { hostname: 'i.ytimg.com' }
     ],
     dangerouslyAllowSVG: true,
   },
@@ -76,7 +77,14 @@ const config = {
         destination: '/en-GB?lead_source=FMC&utm_medium=digital',
         permanent: false,
       },
-      
+      {
+        source: '/',
+        has: [
+          { type: 'query', key: 's' }
+        ],
+        destination: '/search',
+        permanent: false,
+      }
     ]
   },
 

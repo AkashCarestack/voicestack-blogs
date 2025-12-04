@@ -8,6 +8,7 @@ import Queries from '~/components/revamp/queries'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -124,19 +125,15 @@ export default function DentalPhonesIntegrations({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <div
-        className="py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+
+      <HeroWrapper>
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         <HeroSection
           page=""
           data={pageData['dental-phones-hero']?.componentData}
         />
-      </div>
+      </HeroWrapper>
+      
       {pageData['custom']?.componentData && (
         <div className="">
           <IntegrationsGrid showIntegrationBtn={false} data={pageData['custom']?.componentData} />
