@@ -1,12 +1,19 @@
 import Head from 'next/head'
 import React from 'react'
+import { useAlternatePaths, AlternatePath } from '~/components/utils/alternatePaths'
 
 interface SimpleHeadProps {
   data?: any
 }
 
+export { useAlternatePaths, formatHreflang, removeLocale, buildUrl } from '~/components/utils/alternatePaths'
+export type { AlternatePath } from '~/components/utils/alternatePaths'
+
 export default function SimpleHead({ data }: SimpleHeadProps) {
-  const fullTitle = data?.metaTitle ? `${data?.metaTitle}` : 'VoiceStack® | AI Powered Enterprise Phone System'
+  const { alternatePaths, defaultUrl } = useAlternatePaths();
+
+  const fullTitle = data?.metaTitle ? `${data?.metaTitle}` : 'VoiceStack® | AI Powered Enterprise Phone System';
+
   return (
     <Head>
       <title>{fullTitle}</title>
@@ -18,6 +25,24 @@ export default function SimpleHead({ data }: SimpleHeadProps) {
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={data?.metaDescription || 'AI Powered Enterprise Phone System'} />
       <meta name="title" content={fullTitle} />
+      
+      {alternatePaths.length > 0 && alternatePaths.map((item: AlternatePath) => (
+        <link 
+          key={item.path} 
+          rel="alternate" 
+          href={item.path.replace(/\/home$|\/$/, '').replace(/\/$/, '')} 
+          hrefLang={item.locale} 
+        />
+      ))}
+      
+      {/* x-default link */}
+      {defaultUrl && (
+        <link 
+          rel="alternate" 
+          href={defaultUrl.replace(/\/home$|\/$/, '').replace(/\/$/, '')} 
+          hrefLang="x-default" 
+        />
+      )}
     </Head>
   )
 }

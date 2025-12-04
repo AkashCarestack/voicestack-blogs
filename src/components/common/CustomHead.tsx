@@ -2,13 +2,15 @@ import Head from 'next/head'
 import React from 'react'
 import { formatOrganizationSchema } from '../utils/common'
 import { urlForImage } from '~/lib/sanity.image'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
+import { useAlternatePaths, AlternatePath } from '~/components/utils/alternatePaths'
 
 export default function CustomHead(props) {
   const router = useRouter();
   const SchemaData = formatOrganizationSchema(props.siteSettings.seoSettings)
   const jsonLdData = props?.siteSettings?.injectJSONld ? JSON?.parse(props?.siteSettings?.injectJSONld) : null
   const homepage = router.pathname === '/'
+  const { alternatePaths, defaultUrl } = useAlternatePaths()
 
   return (
     <Head>
@@ -30,6 +32,26 @@ export default function CustomHead(props) {
         <meta property="og:description" content={props.siteSettings?.ogDescription} />
         </>
       )}
+      
+      {alternatePaths.length > 0 && alternatePaths.map((item: AlternatePath) => (
+        <link 
+          key={item.path} 
+          rel="alternate" 
+          href={item.path.replace(/\/home$|\/$/, '').replace(/\/$/, '')} 
+          hrefLang={item.locale} 
+        />
+      ))}
+      
+      {/* x-default link - Required for SEO: tells search engines which version to show 
+          to users whose language preference doesn't match any available hreflang tags */}
+      {defaultUrl && (
+        <link 
+          rel="alternate" 
+          href={defaultUrl.replace(/\/home$|\/$/, '').replace(/\/$/, '')} 
+          hrefLang="x-default" 
+        />
+      )}
+      
       {/* organization schema */}
        {/* <script
         type="application/ld+json"
