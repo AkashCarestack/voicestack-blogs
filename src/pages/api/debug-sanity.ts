@@ -4,10 +4,6 @@ import { getClient } from '~/lib/sanity.client'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const client = getClient()
-    
-    console.log('Testing Sanity client...')
-    
-    // Test 1: Check all document types
     const allDocumentsQuery = `*[_type in ["whoWeServe", "whoWeServe_enGB", "whoWeServe_enAU"]] | order(_type asc) {
       _type,
       _id,

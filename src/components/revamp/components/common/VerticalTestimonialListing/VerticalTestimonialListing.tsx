@@ -32,16 +32,16 @@ const PrevArrow = ({ onClick, currentSlide }: any) => {
         <path
           d="M5 12H19"
           stroke="#030712"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M12 5L19 12L12 19"
           stroke="#030712"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </button>
@@ -70,16 +70,16 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
         <path
           d="M5 12H19"
           stroke="#030712"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M12 5L19 12L12 19"
           stroke="#030712"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
     </button>
