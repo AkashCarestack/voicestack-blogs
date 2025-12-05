@@ -510,6 +510,9 @@ class Queries {
                           "logo": logo.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
                           },
+                          "imageThumbnail": imageThumbnail.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
                           "secondaryLogo": secondaryLogo.asset-> {
                               ${this.IMAGE_METADATA_FIELDS}
                           },
@@ -1006,6 +1009,9 @@ class Queries {
                           _id,
                           name,
                           designation,
+                          "imageThumbnail": imageThumbnail.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
                           // Logo images
                           "logo": logo.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
