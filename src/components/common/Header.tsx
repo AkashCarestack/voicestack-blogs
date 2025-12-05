@@ -13,13 +13,14 @@ import { getCookie, setCookie } from '~/utils/cookie';
 import Head from 'next/head';
 import ProgressBar from '~/utils/progressBar/progressBar';
 import Anchor from './anchor';
-import SparklesIconFill from '../revamp/icons/SparklesIconFill';
 import PhoneIcon from '../icons/PhoneIcon';
 import { useLayoutData } from '~/providers/LayoutDataProvider';
 import { urlForImage } from '~/lib/sanity.image';
 import RegionStrip from '../revamp/components/regionStrip';
-import { formatPhoneNumberWithCountryCode } from '../utils/helper';
 import { formatOrganizationSchema, formatSoftwareSchema } from '../utils/common';
+import TopNavigationMenu from './TopNavigationMenu';
+import NavigationMenu from './NavigationMenu';
+import { RegionFlag, RegionSwitcherDropdown, MobileRegionSwitcher, RegionPopup, type Region } from './HeaderRegionComponents';
 // import RegionStrip from '../revamp/components/regionStrip';
 
 // Constants
@@ -56,8 +57,6 @@ const REGIONS = [
     regionName: 'ANZ',
   },
 ];
-
-type Region = typeof REGIONS[number];
 
 const DEFAULT_DATA = {
   navigationMenu: [],
@@ -100,327 +99,6 @@ const getLocaleFromCountry = (country: string): string | null => {
   if (country === '2') return 'en-GB';
   if (country === '3') return 'en-AU';
   return null;
-};
-
-// Helper function to safely add flag=true without duplication
-const getHrefWithFlag = (queryString: string): string => {
-  if (!queryString) {
-    return '/?flag=true';
-  }
-  // queryString already has '?' prefix, so extract the actual query params
-  const queryParams = queryString.startsWith('?') ? queryString.substring(1) : queryString;
-  const params = new URLSearchParams(queryParams);
-  if (params.has('flag') && params.get('flag') === 'true') {
-    return `/${queryString}`;
-  }
-  // Add flag=true to existing query string (queryString already has '?')
-  return `/${queryString}&flag=true`;
-};
-
-// Sub-components
-const RegionFlag = ({
-  region,
-  size = 18,
-  className = '',
-}: {
-  region: Region;
-  size?: number;
-  className?: string;
-}) => (
-  <Image src={region.flag.url} alt={region.flag.title} title={region.flag.title} width={size} height={size} className={className} />
-);
-
-const RegionSwitcherDropdown = ({
-  regions,
-  currentLocale,
-  queryString,
-  toggleRef,
-  openSwitcher,
-  setOpenSwitcher,
-}: {
-  regions: Region[];
-  currentLocale: string | null;
-  queryString: string;
-  toggleRef: React.RefObject<HTMLSpanElement>;
-  openSwitcher: boolean;
-  setOpenSwitcher: (open: boolean) => void;
-}) => {
-  const matchedRegion = regions.find((r) => r.locale === currentLocale);
-
-  return (
-    <div className="relative hidden lg:flex">
-      <div className="flex rounded-[8px] w-full border border-gray-200">
-        <span
-          ref={toggleRef}
-          className="select-none flex w-full items-center p-[6px] justify-between cursor-pointer text-gray-900"
-          onClick={() => setOpenSwitcher(!openSwitcher)}
-        >
-          {matchedRegion && <RegionFlag region={matchedRegion} />}
-        </span>
-      </div>
-      <div
-        className={`py-[6px] rounded-[8px] overflow-hidden bg-white shadow-[0px_7px_40px_0px_rgba(0,0,0,0.10)] absolute top-[calc(100%+4px)] left-auto w-[70px] right-0 flex-col ${
-          openSwitcher ? 'flex' : 'hidden'
-        }`}
-      >
-        {regions.map((region, index) =>
-          currentLocale === region.locale ? (
-            <div
-              key={`${index}-${region.flag.url}`}
-              className="flex bg-gray-200 gap-2 items-center py-[6px] pl-[12px] border-b border-gray-200 last:border-none"
-            >
-              <RegionFlag region={region} />
-              <span className="text-gray-900 text-xs font-medium">{region.title}</span>
-            </div>
-          ) : (
-            <Anchor
-              key={`${index}-${region.flag.url}`}
-              href={getHrefWithFlag(queryString)}
-              locale={region.locale}
-              className="flex gap-2 items-center py-[6px] pl-[12px] border-b border-gray-200 last:border-none hover:bg-gray-200 transition-all duration-300 ease-linea"
-            >
-              <RegionFlag region={region} />
-              <span className="text-gray-900 text-xs font-medium">{region.title}</span>
-            </Anchor>
-          )
-        )}
-      </div>
-    </div>
-  );
-};
-
-const MobileRegionSwitcher = ({
-  regions,
-  currentLocale,
-  queryString,
-  onClose,
-}: {
-  regions: Region[];
-  currentLocale: string | null;
-  queryString: string;
-  onClose: () => void;
-}) => {
-  return (
-    <div className="bg-white flex gap-5 justify-center items-center lg:hidden">
-      {regions.map((region, index) =>
-        currentLocale === region.locale ? (
-          <div key={`${index}-${region.flag.url}`} className="flex gap-2 items-center">
-            <RegionFlag region={region} size={32} className="border-2 rounded-full border-black/20" />
-          </div>
-        ) : (
-          <Anchor
-            key={`${index}-${region.flag.url}`}
-            href={getHrefWithFlag(queryString)}
-            locale={region.locale}
-            className="flex gap-2 items-center"
-            onClick={onClose}
-          >
-            <RegionFlag region={region} size={32} className="border-2 rounded-full border-white" />
-          </Anchor>
-        )
-      )}
-    </div>
-  );
-};
-
-const TopNavigationMenu = ({ safeData, currentLocale }: { safeData: any; currentLocale?: string | null }) => {
-  const phoneNumberWithCountryCode = safeData?.phoneNumber 
-    ? formatPhoneNumberWithCountryCode(safeData.phoneNumber, currentLocale)
-    : '';
-  
-  return (
-    <>
-      {safeData?.phoneNumber && (
-        <div className="flex items-center gap-2 text-gray-900 text-sm mr-3">
-          <span>Talk to an expert</span>
-          <Anchor
-            href={`tel://${phoneNumberWithCountryCode}`}
-            className="text-gray-900 text-sm font-semibold flex items-center gap-2 hover:text-gray-800 transition-colors"
-          >
-            {safeData?.phoneNumber}
-          </Anchor>
-        </div>
-      )}
-
-      {safeData?.topNavigationMenu && (
-        <div className="flex items-center gap-3 gap-y-1 lg:gap-6 text-gray-900 text-sm flex-wrap justify-center">
-          {safeData?.topNavigationMenu.map((item: any) => (
-            <Anchor
-              key={item._key}
-              href={item.href}
-              target={item.href?.includes('https') ? '_blank' : '_self'}
-              className="text-gray-900 text-sm font-normal flex items-center gap-2 hover:text-gray-800 transition-colors"
-            >
-              {item.label}
-            </Anchor>
-          ))}
-        </div>
-      )}
-    </>
-  );
-};
-
-const RegionPopup = ({
-  currentRegion,
-  preferredLocale,
-  queryString,
-  regions,
-  onClose,
-}: {
-  currentRegion: string;
-  preferredLocale: string;
-  queryString: string;
-  regions: Region[];
-  onClose: () => void;
-}) => (
-  <div className="fixed bg-[hsla(0,0%,9%,0.6)] h-screen w-screen z-[999] top-0 left-0 flex justify-center items-center">
-    <div className="bg-white mx-auto pt-10 p-6 rounded-lg flex items-center flex-col gap-6 relative w-[310px]">
-      <p className="text-center text-gray-800 font-medium text-base leading-[1.5]">
-        You will be viewing VoiceStack&apos;s website for the {currentRegion} region
-      </p>
-      <Anchor
-        className="bg-vs-blue hover:bg-vs-blue text-white border border-vs-blue px-[17px] py-[10px] rounded-[7px] font-inter text-base font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]"
-        href={queryString ? `/${queryString}` : '/'}
-        locale={preferredLocale}
-        onClick={onClose}
-      >
-        <span className="text-base font-medium">Continue with VoiceStack {currentRegion}</span>
-      </Anchor>
-      <div className="w-full">
-        <div className="mb-[6px] w-full flex justify-center relative after:content-[''] after:absolute after:left-0 after:top-1/2 after:border-b after:border-[#E5E7EB] after:right-0 after:-z-1">
-          <span className="flex px-3 text-xs bg-white relative z-[1] text-gray-400">Or Go To</span>
-        </div>
-        <div className="flex items-center justify-center gap-2">
-          {regions
-            .filter((region) => preferredLocale !== region.locale)
-            .map((region, index) => (
-              <Link
-                key={`${index}-${region.regionName}`}
-                href={queryString ? `/${queryString}` : '/'}
-                locale={region.locale}
-                className="flex py-[6px] px-3 rounded-[4px] text-xs font-medium text-gray-400 hover:bg-gray-100"
-                onClick={onClose}
-              >
-                VoiceStack {region.regionName}
-              </Link>
-            ))}
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-const NavigationMenu = ({
-  menuItems,
-  onToggleMenu,
-  onCloseMenu,
-}: {
-  menuItems: any[];
-  onToggleMenu: () => void;
-  onCloseMenu: () => void;
-}) => {
-  const isMobile = useMediaQuery(1023);
-  const [openSubmenus, setOpenSubmenus] = useState<Set<number>>(new Set());
-  
-  const toggleSubmenu = (index: number) => {
-    setOpenSubmenus((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(index)) {
-        newSet.delete(index);
-      } else {
-        newSet.add(index);
-      }
-      return newSet;
-    });
-  };
-  
-  return (
-    <nav className="flex lg:items-center flex-col lg:flex-row lg:gap-y-4 gap-x-4 lg:gap-x-2 xl:gap-x-6 w-full lg:w-auto flex-wrap">
-      {menuItems.map((link: any, i: number) => {
-        const isExternal = link?.href?.includes('https');
-        const hasSubmenu = link?.hasSubmenu && link?.submenu?.length > 0;
-
-        if (hasSubmenu) {
-          // In mobile, add "Overview" link as first submenu item
-          const submenuItems = isMobile && link.href 
-            ? [{ label: 'Overview', href: link.href, description: null }, ...link.submenu]
-            : link.submenu;
-          
-          const isSubmenuOpen = openSubmenus.has(i);
-
-          return (
-            <div key={`menu-${i}`} className="relative group cursor-pointer w-full lg:w-auto">
-              <div 
-                className="flex items-center justify-between lg:justify-start gap-1 text-gray-700 xl:text-sm lg:text-xs font-medium leading-[1.15] lg:text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0 cursor-pointer"
-                onClick={() => isMobile && toggleSubmenu(i)}
-              >
-                {isMobile ? (
-                  <span>{link.label}</span>
-                ) : (
-                  <Link className="cursor-pointer" href={link.href}>
-                    <span>{link.label}</span>
-                  </Link>
-                )}
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className={`transition-transform duration-200 ${isMobile ? (isSubmenuOpen ? 'rotate-180' : '') : 'group-hover:rotate-180'}`}
-                >
-                  <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-              <div className={`lg:absolute static top-full left-0 ${isMobile ? 'mt-0' : 'mt-2'} w-full lg:w-64 bg-white ${isMobile ? 'rounded-none' : 'rounded-lg'} lg:shadow-lg lg:border border-gray-200 ${isMobile ? (isSubmenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden') : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'} transition-all duration-200 z-50`}>
-                <div className="py-2">
-                  {submenuItems.map((subItem: any, subIndex: number) => (
-                    <Anchor
-                      key={`submenu-${i}-${subIndex}`}
-                      href={subItem.href}
-                      target={subItem.href?.includes('http') ? '_blank' : '_self'}
-                      className="block lg:px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
-                      onClick={onCloseMenu}
-                    >
-                      <div className="font-medium">{subItem.label}</div>
-                      {subItem.description && <div className="text-xs text-gray-500 mt-1">{subItem.description}</div>}
-                    </Anchor>
-                  ))}
-                </div>
-              </div>
-            </div>
-          );
-        }
-
-      if (link.highlight) {
-        return (
-          <Anchor key={`menu-${i}`} href={link.href} className="relative group self-start">
-            <span className="flex lg:my-0 my-4 items-center gap-2 text-white xl:text-sm md:text-xs text-sm py-[4px] pl-[10px] pr-4 rounded-[6px] border-2 border-white/80 bg-gradient-to-r from-[#4A3CE1] to-[#FF708C] shadow-[0_4px_4px_0_rgba(200,200,200,0.20)] justify-center">
-              <SparklesIconFill className="w-4 h-4" />
-              <span>{link.label}</span>
-            </span>
-          </Anchor>
-        );
-      }
-
-      return link?.href ? (
-        <Anchor
-          elementId={`header-menu-${link.label}`}
-          key={`${link.href}-${i}`}
-          href={link.href}
-          target={isExternal ? '_blank' : '_self'}
-          className="text-gray-700 xl:text-sm lg:text-xs font-medium leading-[1.15] lg:text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0"
-          onClick={onCloseMenu}
-        >
-          {link.label}
-        </Anchor>
-      ) : (
-        <span className="text-gray-700 lg:text-sm font-medium leading-[1.15] text-center py-4 border-b border-gray-200 lg:border-0 lg:p-0">
-          {link.label}
-        </span>
-      );
-    })}
-  </nav>
-  );
 };
 
 const Header = ({ data, refer = null }) => {
@@ -506,16 +184,17 @@ const Header = ({ data, refer = null }) => {
   const handleScrollMob = () => {
     const currentScrollY = window.scrollY;
     setHeaderFixed(currentScrollY > 44);
+    setRegionSwitcherTopShow(currentScrollY < 1)
 
     if (currentScrollY <= 0) {
       setShowTopStrip(true);
-      setRegionSwitcherTopShow(true);
+      // setRegionSwitcherTopShow(true);
     } else if (currentScrollY < lastScrollY) {
       setShowTopStrip(true);
       setHeaderFixed(false);
     } else if (currentScrollY > lastScrollY) {
       setShowTopStrip(false);
-      setRegionSwitcherTopShow(false);
+      // setRegionSwitcherTopShow(false);
     }
 
     setLastScrollY(currentScrollY);
@@ -558,8 +237,7 @@ const Header = ({ data, refer = null }) => {
       router.locale !== getLocaleFromCountry(country) &&
       // router.locale !== getRegionFromCountryCode(countryCode) &&
       router.asPath !== '/' &&
-      !router.query.flag &&
-      regionSwitcherTopShow
+      !router.query.flag
     );
   }
 
@@ -660,14 +338,14 @@ const Header = ({ data, refer = null }) => {
 
       <div
         className={`${
-          showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'
+          showTopStrip ? 'lg:translate-y-0' :  'lg:-translate-y-[42px]'
         } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}
       >
         {/* top region switcher */}
         {regionSwitcherTop && (
           <RegionStrip locale={router.locale} setRegionSwitcherTop={setRegionSwitcherTop} className={`${
-            showTopStrip ? 'lg:translate-y-0' : 'lg:-translate-y-[42px]'
-          } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}  />
+            regionSwitcherTopShow ? 'lg:mt-0' : 'lg:mt-[-42px] mt-[-48px]'
+          } fixed lg:static top-0 left-0 z-30 transition-all duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}  />
         )}
 
         {/* Top Header Strip */}
@@ -730,18 +408,6 @@ const Header = ({ data, refer = null }) => {
 
                       <div className="flex flex-col gap-8 pb-8 lg:pb-0">
                         <div className="flex flex-col lg:flex-row gap-3 md:gap-5 items-center lg:hidden">
-                          {/* {safeData?.phoneNumber && (
-                            <div className="flex-shrink-0">
-                              <Anchor
-                                href={`tel:${safeData?.phoneNumber}`}
-                                className="text-gray-700 px-[12px] py-[7px] rounded-[7px] text-sm font-medium leading-6 flex items-center whitespace-nowrap gap-[8px] border border-gray-300"
-                              >
-                                
-                                <PhoneIcon className="text-gray-700 w-5 h-5"/>
-                                {safeData?.phoneNumber}
-                              </Anchor>
-                            </div>
-                          )} */}
                           <Button type="primary" link="/demo">
                             <span>{safeData?.ctabutton || 'Book Free Demo'}</span>
                           </Button>
