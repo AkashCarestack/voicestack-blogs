@@ -155,4 +155,10 @@ export const heroFields = [
       },
     ],
   }),
+  defineField({
+    name: 'hubspotFormId',
+    title: 'Form Id',
+    type: 'string',
+    description: 'Hubspot form Id for the hero section',
+  }),
 ]

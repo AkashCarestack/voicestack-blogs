@@ -43,6 +43,7 @@ import DentalPhones from './Pages/DentalPhones'
 import AiReceptionist from './Pages/AiReceptionist'
 import FeaturePage from './Pages/FeaturePage'
 import CompanyPage from './Pages/CompanyPage'
+import PartnerPage from './Pages/PartnerPage'
 import PlatformList from './PlatformList'
 import Platforms from './Platforms/index'
 import portableContent from './portableContent'
@@ -100,6 +101,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     AiReceptionist,
     FeaturePage,
     CompanyPage,
+    PartnerPage,
     GlobalData,
     VerticalTestimonialListing,
     WhoWeServeListing,

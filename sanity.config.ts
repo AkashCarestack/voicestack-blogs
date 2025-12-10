@@ -129,7 +129,9 @@ export default defineConfig({
         'faqRevamp',
         'integrationCategory',
         'integrationList',
-        'aiReceptionist'
+        'aiReceptionist',
+        'company',
+        'partner'
       ],
     }),
 
