@@ -359,7 +359,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
                       S.documentTypeList('features')
                         .title('All Features')
                         .filter('_type == "features"')
-                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                        .defaultOrdering([{field: 'language', direction: 'asc'}, {field: 'order', direction: 'asc'}])
                     ),
                   // US English
                   S.listItem()

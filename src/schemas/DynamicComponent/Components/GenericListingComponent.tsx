@@ -168,6 +168,39 @@ export const genericListingComponentFields = [
       },
     },
   },
+  {
+    name: 'showRelatedFeatures',
+    title: 'Show Related Features',
+    type: 'boolean',
+    initialValue: false,
+    description: 'Enable this to show related features section',
+  },
+  {
+    name: 'relatedFeatures',
+    title: 'Related Features',
+    type: 'array',
+    of: [
+      {
+        type: 'reference',
+        to: [{ type: 'features' }],
+        options: {
+          filter: ({ document }) => {
+            // Filter features based on the current document's language
+            const currentLanguage = document?.language || 'en'
+
+            return {
+              filter: `language == $language && _id != $id`,
+              params: { 
+                language: currentLanguage,
+                id: document?._id || ''
+              },
+            }
+          },
+        },
+      },
+    ],
+    hidden: ({ parent }: any) => !parent?.showRelatedFeatures,
+  },
 ];
 
 const GenericListingComponent = {

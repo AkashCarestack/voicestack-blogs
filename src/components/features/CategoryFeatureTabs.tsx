@@ -16,8 +16,17 @@ import H3 from '../typography/H3'
 
 interface Feature {
   _id: string
-  title: string
-  slug: {
+  basicInfo?: {
+    title: string
+    slug?: {
+      current: string
+    }
+    description?: string
+    icon?: any
+  }
+  // Legacy support for old data structure
+  title?: string
+  slug?: {
     current: string
   }
   language: string
@@ -137,7 +146,7 @@ export default function CategoryFeatureTabs({
       {} as Record<string, { category: any; features: Feature[] }>,
     )
 
-    return Object.keys(featuresByCategory).map((categoryName) => {
+    const categories = Object.keys(featuresByCategory).map((categoryName) => {
       const categoryData = featuresByCategory[categoryName]
       return {
         name: categoryName,
@@ -146,8 +155,22 @@ export default function CategoryFeatureTabs({
         mainImage: categoryData.category.mainImage,
         icon: categoryData.category.icon,
         iconSvgCode: categoryData.category.iconSvgCode,
+        featureOrder: categoryData.category.featureOrder,
         features: categoryData.features,
       }
+    })
+
+    // Sort categories by featureOrder (ascending), then by name if featureOrder is not set
+    return categories.sort((a, b) => {
+      const orderA = a.featureOrder ?? 9999 // Put items without order at the end
+      const orderB = b.featureOrder ?? 9999
+      
+      if (orderA !== orderB) {
+        return orderA - orderB
+      }
+      
+      // If featureOrder is the same or both are null, sort by name
+      return a.name.localeCompare(b.name)
     })
   }, [features, page])
 
@@ -790,7 +813,7 @@ export default function CategoryFeatureTabs({
                                 </svg>
                               </div>
                               <span className="text-gray-950 font-geist text-base font-normal leading-6 tracking-normal transition-colors">
-                                {feature.title}
+                                {feature.basicInfo?.title || feature.title}
                               </span>
                             </motion.li>
                           )
@@ -1141,7 +1164,7 @@ export default function CategoryFeatureTabs({
                                         </svg>
                                       </div>
                                       <span className="text-gray-700 font-medium">
-                                        {feature.title}
+                                        {feature.basicInfo?.title || feature.title}
                                       </span>
                                     </motion.li>
                                   )
