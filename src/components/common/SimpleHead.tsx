@@ -4,12 +4,13 @@ import { useAlternatePaths, AlternatePath } from '~/components/utils/alternatePa
 
 interface SimpleHeadProps {
   data?: any
+  noindex?: boolean
 }
 
 export { useAlternatePaths, formatHreflang, removeLocale, buildUrl } from '~/components/utils/alternatePaths'
 export type { AlternatePath } from '~/components/utils/alternatePaths'
 
-export default function SimpleHead({ data }: SimpleHeadProps) {
+export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
   const { alternatePaths, defaultUrl } = useAlternatePaths();
 
   const fullTitle = data?.metaTitle ? `${data?.metaTitle}` : 'VoiceStack® | AI Powered Enterprise Phone System';
@@ -25,6 +26,7 @@ export default function SimpleHead({ data }: SimpleHeadProps) {
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={data?.metaDescription || 'AI Powered Enterprise Phone System'} />
       <meta name="title" content={fullTitle} />
+      {noindex && <meta name="robots" content="noindex, nofollow, noarchive" />}
       
       {alternatePaths.length > 0 && alternatePaths.map((item: AlternatePath) => (
         <link 

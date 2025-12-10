@@ -4,6 +4,7 @@ import SimpleHead from '~/components/common/SimpleHead'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import PartnerPageTestimonial from '~/components/revamp/components/common/PartnerPageTestimonial/PartnerPageTestimonial'
 import Queries from '~/components/revamp/queries'
 
 interface EmpowerEMRProps {
@@ -15,8 +16,7 @@ export default function EmpowerEMR({ pageData, faq }: EmpowerEMRProps) {
  
   return (
     <>
-      <SimpleHead data={pageData?.seo} />
-      
+      <SimpleHead data={pageData?.seo} noindex={true} />
       <HeroWrapper>
         {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
 
@@ -27,6 +27,10 @@ export default function EmpowerEMR({ pageData, faq }: EmpowerEMRProps) {
           />
         )}
       </HeroWrapper>
+
+      {pageData['empower-emr-testimonials']?.componentData && (
+        <PartnerPageTestimonial data={pageData['empower-emr-testimonials']?.componentData} />
+      )}
 
       
     </>
