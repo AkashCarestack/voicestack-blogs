@@ -1735,12 +1735,11 @@ export const contentSectionQueries = {
 
   // Features queries
   getFeaturesList: `
-    *[_type == "features" && (language == $language || language == null)] | order(language asc, order asc, title asc) {
+    *[_type == "features" && (language == $language || language == null)] | order(language asc,order asc, title asc) {
       _id,
       title,
       slug,
       language,
-      order,
       heroTitle,
       heroSubtitle,
       heroImage {
@@ -1777,35 +1776,28 @@ export const contentSectionQueries = {
   `,
 
   getFeatureBySlug: `
-    *[_type == "features" && slug.current == $slug && (language == $language || language == null)][0] {
+    *[_type == "features" && basicInfo.slug.current == $slug && (language == $language || language == null)][0] {
       _id,
-      title,
-      slug,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon {
+          asset-> {
+            _id,
+            url
+          }
+        }
+      },
       language,
       order,
-      heroTitle,
-      heroSubtitle,
-      heroImage {
-        asset-> {
-          _id,
-          url
+      content {
+        sections[] {
+          title,
+          slug,
+          component
         }
       },
-      mainImage {
-        asset-> {
-          _id,
-          url
-        }
-      },
-      secondaryImage {
-        asset-> {
-          _id,
-          url
-        }
-      },
-      overview,
-      description,
-      shortDescription,
       featureCategory-> {
         name,
         description,
@@ -1823,180 +1815,113 @@ export const contentSectionQueries = {
           isHighlighted
         }
       },
-      benefits[] {
-        title,
-        description,
-        icon {
-          asset-> {
-            _id,
-            url
-          }
-        }
+      seo {
+        metaTitle,
+        metaDescription,
+        keyWords,
+        canonical
       },
-      pricing {
-        isFree,
-        price,
-        billingPeriod,
-        trialAvailable,
-        trialPeriod
-      },
-      cta {
-        primaryText,
-        primaryLink,
-        secondaryText,
-        secondaryLink
-      },
-      relatedFeatures[]-> {
+      faqReferenced[]-> {
         _id,
-        title,
-        slug,
-        heroImage {
-          asset-> {
-            _id,
-            url
-          }
-        },
-        shortDescription
-      },
-      metaTitle,
-      metaDescription,
-      keywords,
-      canonicalUrl
+        question,
+        answer
+      }
     }
   `
 }
 
 // Features queries
 export const getFeaturesListQuery = groq`
-  *[_type == "features" && (language == $language || language == null)] | order(language asc, order asc, title asc) {
+  *[_type == "features" && (language == $language || language == null)] | order(language asc, basicInfo.title asc) {
     _id,
-    title,
-    slug,
-    language,
-    order,
-    heroTitle,
-    heroSubtitle,
-    heroImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    shortDescription,
-    featureCategory-> {
-      name,
-      subheading,
+    basicInfo {
+      title,
+      slug,
       description,
-      mainImage {
-        asset-> {
-          _id,
-          url
-        }
-      },
       icon {
         asset-> {
           _id,
           url
         }
-      },
-      iconSvgCode,
-    }
+      }
+    },
+    language,
+    order,
+      featureCategory-> {
+        name,
+        subheading,
+        description,
+        featureOrder,
+        mainImage {
+          asset-> {
+            _id,
+            url
+          }
+        },
+        icon {
+          asset-> {
+            _id,
+            url
+          }
+        },
+        iconSvgCode,
+      }
   }
 `
 
 export const getFeatureBySlugQuery = groq`
-  *[_type == "features" && slug.current == $slug && (language == $language || language == null)][0] {
+  *[_type == "features" && basicInfo.slug.current == $slug && (language == $language || language == null)][0] {
     _id,
-    title,
-    slug,
-    language,
-    order,
-    heroTitle,
-    heroSubtitle,
-    heroImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    secondaryImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    overview,
-    description,
-    shortDescription,
-    featureCategory-> {
-      name,
-      subheading,
-      description,
-      mainImage {
-        asset-> {
-          _id,
-          url
-        }
-      },
-      icon {
-        asset-> {
-          _id,
-          url
-        }
-      },
-      iconSvgCode,
-    },
-    benefits[] {
-      title,
-      description,
-      icon {
-        asset-> {
-          _id,
-          url
-        }
-      }
-    },
-    pricing {
-      isFree,
-      price,
-      billingPeriod,
-      trialAvailable,
-      trialPeriod
-    },
-    cta {
-      primaryText,
-      primaryLink,
-      secondaryText,
-      secondaryLink
-    },
-    relatedFeatures[]-> {
-      _id,
+    basicInfo {
       title,
       slug,
-      heroImage {
+      description,
+      icon {
         asset-> {
           _id,
           url
         }
-      },
-      shortDescription
+      }
     },
-    metaTitle,
-    metaDescription,
-    keywords,
-    canonicalUrl
+    language,
+    order,
+    content {
+      sections[] {
+        title,
+        slug,
+        component
+      }
+    },
+      featureCategory-> {
+        name,
+        subheading,
+        description,
+        featureOrder,
+        mainImage {
+          asset-> {
+            _id,
+            url
+          }
+        },
+        icon {
+          asset-> {
+            _id,
+            url
+          }
+        },
+        iconSvgCode,
+      },
+    seo {
+      metaTitle,
+      metaDescription,
+      keyWords,
+      canonical
+    },
+    faqReferenced[]-> {
+      _id,
+      question,
+      answer
+    }
   }
 `
 
@@ -2050,6 +1975,7 @@ export const getFeatureListQuery = groq`
         name,
         subheading,
         description,
+        featureOrder,
         mainImage {
           asset-> {
             _id,
@@ -2097,23 +2023,19 @@ export const getGlobalDataFeatureListQuery = groq`
         language,
         featureReferences[]-> {
           _id,
-          title,
-          slug,
-          heroTitle,
-          heroSubtitle,
-          heroImage {
-            asset-> {
-              _id,
-              url
+          basicInfo {
+            title,
+            slug,
+            description,
+            icon {
+              asset-> {
+                _id,
+                url
+              }
             }
           },
-          mainImage {
-            asset-> {
-              _id,
-              url
-            }
-          },
-          shortDescription,
+          language,
+          order,
           featureCategory-> {
             name,
             subheading,
@@ -2131,8 +2053,7 @@ export const getGlobalDataFeatureListQuery = groq`
               }
             },
             iconSvgCode
-          },
-          language
+          }
         },
         displaySettings {
           layout,
@@ -2151,25 +2072,21 @@ export const getGlobalDataFeatureListQuery = groq`
 
 // Query to get all features for bulk selection
 export const getAllFeaturesQuery = groq`
-  *[_type == "features" && (language == $language || language == null)] | order(title asc) {
+  *[_type == "features" && (language == $language || language == null)] | order(basicInfo.title asc) {
     _id,
-    title,
-    slug,
-    heroTitle,
-    heroSubtitle,
-    heroImage {
-      asset-> {
-        _id,
-        url
+    basicInfo {
+      title,
+      slug,
+      description,
+      icon {
+        asset-> {
+          _id,
+          url
+        }
       }
     },
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    shortDescription,
+    language,
+    order,
     featureCategory-> {
       name,
       subheading,
@@ -2187,33 +2104,27 @@ export const getAllFeaturesQuery = groq`
         }
       },
       iconSvgCode
-    },
-    language
+    }
   }
 `
 
 // Query to get features by category
 export const getFeaturesByCategoryQuery = groq`
-  *[_type == "features" && references($categoryId)] | order(title asc) {
+  *[_type == "features" && references($categoryId)] | order(basicInfo.title asc) {
     _id,
-    title,
-    slug,
-    heroTitle,
-    heroSubtitle,
-    heroImage {
-      asset-> {
-        _id,
-        url
+    basicInfo {
+      title,
+      slug,
+      description,
+      icon {
+        asset-> {
+          _id,
+          url
+        }
       }
     },
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    shortDescription,
-    language
+    language,
+    order
   }
 `
 
@@ -2238,10 +2149,12 @@ export const getFeatureCategoriesWithCountQuery = groq`
     },
     iconSvgCode,
     "featuresCount": count(*[_type == "features" && references(^._id)]),
-    "features": *[_type == "features" && references(^._id)] | order(title asc) {
+    "features": *[_type == "features" && references(^._id)] | order(basicInfo.title asc) {
       _id,
-      title,
-      slug,
+      basicInfo {
+        title,
+        slug
+      },
       language
     }
   }
@@ -2277,6 +2190,7 @@ export const getFeatureListBySlugQuery = groq`
         name,
         subheading,
         description,
+        featureOrder,
         mainImage {
           asset-> {
             _id,

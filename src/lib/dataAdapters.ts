@@ -331,7 +331,11 @@ export const componentDataResolvers = {
     if (component.sortBy === 'priority') {
       features.sort((a: any, b: any) => a.priority - b.priority)
     } else if (component.sortBy === 'title') {
-      features.sort((a: any, b: any) => a.title.localeCompare(b.title))
+      features.sort((a: any, b: any) => {
+        const titleA = a.basicInfo?.title || a.title || ''
+        const titleB = b.basicInfo?.title || b.title || ''
+        return titleA.localeCompare(titleB)
+      })
     } else if (component.sortBy === 'category') {
       features.sort((a: any, b: any) => (a.category || '').localeCompare(b.category || ''))
     }
