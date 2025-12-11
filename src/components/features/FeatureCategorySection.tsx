@@ -2,11 +2,11 @@ import React from 'react'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 
-interface FeatureBenefitSectionProps {
+interface FeatureCategorySectionProps {
   data: any
 }
 
-export default function FeatureBenefitSection({ data }: FeatureBenefitSectionProps) {
+export default function FeatureCategorySection({ data }: FeatureCategorySectionProps) {
   if (!data || !data.componentData) {
     return null
   }
