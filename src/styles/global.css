@@ -260,6 +260,10 @@ html {
   @apply block w-full;
 }
 
+#hubspotForm .form-columns-1, #hubspotForm .form-columns-2 {
+  @apply w-full;
+}
+
 
 #hubspotForm .actions input[type='submit'] {
   @apply block w-full mx-auto tracking-normal text-base mt-2 bg-gray-950 px-4 py-2 rounded text-white hover:cursor-pointer hover:-translate-y-0 transform duration-150;
@@ -290,7 +294,7 @@ html {
   @apply text-sm;
 }
 
-#hubspotForm .hs-form-field input {
+#hubspotForm .hs-form-field input, #hubspotForm .hs-form-field textarea {
   @apply text-base border py-2 px-4 rounded w-full focus:outline-gray-950;
 }
 
