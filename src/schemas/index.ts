@@ -37,6 +37,7 @@ import page from './page'
 import DentalSoftware from './Pages/DentalSoftware'
 // import DentalSoftware from './Pages/DentalSoftware'
 import FeaturesPage from './Pages/Features'
+import HomePage from './Pages/HomePage'
 import WhoWeServe from './Pages/WhoWeServe'
 import WhyVoicestack from './Pages/WhyVoicestack'
 import DentalPhones from './Pages/DentalPhones'
@@ -93,6 +94,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     IntegrationList,
     portableContent,
     HtmlCode,
+    HomePage,
     WhoWeServe,
     DentalSoftware,
     FeaturesPage,

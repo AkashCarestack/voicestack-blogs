@@ -21,6 +21,8 @@ const dynamicComponent = {
           { title: 'Browser List', value: 'browserList' },
           { title: 'Listing Block', value: 'listingBlock' },
           { title: 'Comparison Schema', value: 'comparisonSchema' },
+          { title: 'Feature Benefit Component', value: 'FeatureBenefit' },
+          { title: 'Feature Category Component', value: 'FeatureCategory' },
         ],
       },
       validation: (Rule: any) => Rule.required(),
@@ -68,6 +70,18 @@ const dynamicComponent = {
       type: 'comparisonSchema',
       hidden: ({ parent }: any) => parent?.componentType !== 'comparisonSchema',
     },
+    {
+      name: 'featureBenefitComponent',
+      title: 'Feature Benefit Component',
+      type: 'featureBenefitComponent',
+      hidden: ({ parent }: any) => parent?.componentType !== 'FeatureBenefit',
+    },
+    {
+      name: 'featureCategoryComponent',
+      title: 'Feature Category Component',
+      type: 'featureCategoryComponent',
+      hidden: ({ parent }: any) => parent?.componentType !== 'FeatureCategory',
+    },
   ],
   preview: {
     select: {
@@ -80,9 +94,11 @@ const dynamicComponent = {
       browserListTitle: 'browserList.mainHeading',
       listingBlockTitle: 'listingBlock.itemHeading',
       comparisonSchemaItems: 'comparisonSchema.items',
+      featureBenefitTitle: 'featureBenefitComponent.heading',
+      featureCategoryTitle: 'featureCategoryComponent.heading',
     },
     prepare(selection: any) {
-      const { componentType, tabsTitle, customTitle, heroTitle, heroStrip, genericListingTitle, browserListTitle, listingBlockTitle, comparisonSchemaItems } = selection;
+      const { componentType, tabsTitle, customTitle, heroTitle, heroStrip, genericListingTitle, browserListTitle, listingBlockTitle, comparisonSchemaItems, featureBenefitTitle, featureCategoryTitle } = selection;
       
       let title = componentType || 'Dynamic Component';
       let subtitle = '';
@@ -111,6 +127,10 @@ const dynamicComponent = {
       } else if (componentType === 'comparisonSchema') {
         const itemCount = comparisonSchemaItems ? comparisonSchemaItems.length : 0;
         subtitle = `Comparison Schema (${itemCount} item${itemCount !== 1 ? 's' : ''})`;
+      } else if (componentType === 'FeatureBenefit' && featureBenefitTitle) {
+        subtitle = featureBenefitTitle;
+      } else if (componentType === 'FeatureCategory' && featureCategoryTitle) {
+        subtitle = featureCategoryTitle;
       }
       
       return {

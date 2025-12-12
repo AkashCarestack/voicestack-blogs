@@ -15,12 +15,10 @@ export default function WhyVoicestackIndex({ data, heroData, faq, features }: an
   return (
     <>
       <SimpleHead data={data?.seo} />
-
       <HeroWrapper>
         <Breadcrumb breadCrumb={data?.breadCrumb} />
         <HeroSection data={heroData} refer={data} page="why-voicestack" />
       </HeroWrapper>
-      
       {data['grow-your-practice'] && (
         <ListingWithTabs list={data['grow-your-practice']} />
       )}
