@@ -123,7 +123,7 @@ export default function HeroRightSection({ data }: { data: any }) {
         <h3 className="md:text-3xl text-2xl font-semibold mb-4 font-geist text-[#030712]">
           Book a Demo
         </h3>
-        <div className="mt-4">
+        <div className="mt-4 vs-button">
           <HubspotGenericForm
             formId={data?.hubspotFormId || 'f2fbfea3-a1e5-4e17-a506-a9d341a45458'}
             portalId="4832409"
