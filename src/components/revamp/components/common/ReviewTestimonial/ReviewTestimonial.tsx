@@ -13,9 +13,10 @@ import { videoJsonLd } from '~/lib/jsonLd'
 
 interface ReviewTestimonialProps {
   data: any
+  buttonDemo?: boolean
 }
 
-export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
+export default function ReviewTestimonial({ data, buttonDemo = false }: ReviewTestimonialProps) {
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
@@ -233,7 +234,7 @@ export default function ReviewTestimonial({ data }: ReviewTestimonialProps) {
               </div>
             )}
             <div className="w-full flex justify-center md:mt-16 mt-10">
-              <Button type="primary" className="w-fit" link="/demo">
+              <Button type="primary" className="w-fit" link={`${buttonDemo ? '#demo' : '/demo'}`}>
                 <span>Book Free Demo</span>
               </Button>
             </div>
