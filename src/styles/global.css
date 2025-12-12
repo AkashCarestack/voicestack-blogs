@@ -245,7 +245,8 @@ html {
 }
 
 #hubspotForm form {
-  @apply flex flex-wrap gap-x-8 gap-y-6;
+  /* @apply flex flex-wrap gap-x-8 gap-y-6; */
+  @apply flex flex-wrap;
 }
 
 #hubspotForm fieldset div:first-child {
@@ -281,8 +282,12 @@ html {
   @apply text-red-800 text-sm;
 }
 
+.hs_error_rollup{
+  @apply hidden;
+}
+
 #hubspotForm .hs-error-msgs {
-  @apply absolute -bottom-7 w-full h-6 line-clamp-1 overflow-hidden left-0 text-ellipsis;
+  @apply absolute -bottom-[24px] w-full line-clamp-1 overflow-hidden left-0 text-ellipsis;
 }
 
 
@@ -296,6 +301,10 @@ html {
 
 #hubspotForm .hs-form-field label {
   @apply text-sm;
+}
+
+#hubspotForm .hs-form-field label.hs-error-msg {
+  @apply text-[13px] mb-1 inline-block;
 }
 
 #hubspotForm .hs-form-field input, #hubspotForm .hs-form-field textarea {
