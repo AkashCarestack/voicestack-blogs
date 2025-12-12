@@ -52,7 +52,7 @@ export default function Pricing({
       acc[categoryName] = []
     }
     acc[categoryName].push({
-      title: feature.title,
+      title: feature?.basicInfo?.title,
       id: feature._id,
       icon: feature?.featureCategory?.iconSvgCode,
       ...feature,
