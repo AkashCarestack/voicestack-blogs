@@ -744,12 +744,12 @@ export default function CategoryFeatureTabs({
                         </div>
 
                         <div className="w-full inline-flex lg:w-1/2">
-                          {category.mainImage && (
+                          {category?.mainImage && (
                             <figure className="relative">
                               <Image
-                                src={category.mainImage.asset.url}
+                                src={category?.mainImage?.asset?.url}
                                 alt={`${category.name} feature illustration`}
-                                title={`${category.name || category.mainImage.asset.title}`}
+                                title={`${category.name || category?.mainImage?.asset?.title}`}
                                 width={800}
                                 height={400}
                                 className="rounded-lg object-cover w-full h-full"
@@ -1102,8 +1102,8 @@ export default function CategoryFeatureTabs({
                             {displayCategory?.mainImage && (
                               <figure className="relative w-full h-full overflow-hidden">
                                 <Image
-                                  src={displayCategory.mainImage.asset.url}
-                                  alt={`${displayCategory.name} feature illustration`}
+                                  src={displayCategory?.mainImage?.asset?.url}
+                                  alt={`${displayCategory?.name} feature illustration`}
                                   width={400}
                                   height={400}
                                   className="md:max-w-[430px]   w-full h-full object-cover"

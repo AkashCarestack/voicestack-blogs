@@ -904,6 +904,95 @@ class Queries {
                     },
                   
                   "refData": referenceGlobalSchema->{
+                    _id,
+                    name,
+                    dataType,
+                    dataSlug,
+                         // TabsListing specific data
+                    "tabsListingComponent": select(
+                      dataType == "tabsListingComponent" => tabsListingComponent {
+                        headline,
+                        subheadline,
+                        subDescription,
+                        showCTA,
+                        tabs[] {
+                          _key,
+                          tabHeading,
+                          tabSubHeading,
+                          description,
+                          "image": image.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          listItems[] {
+                            _key,
+                            subfeatureHeading,
+                            subfeatureSubheading,
+                            subfeatureDescription,
+                            svgCode,
+                            "subfeatureImage": subfeatureImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            }
+                          },
+                          icon,
+                          ctaListItems[] {
+                            _key,
+                            ctaLink,
+                            ctaText,
+                            ctaType
+                          },
+                          Link,
+                          LinkText,
+                          testimonial-> {
+                            _id,
+                            name,
+                            designation,
+                            place,
+                            region,
+                            locations,
+                            practiceName,
+                            thumbnail,
+                            "imageThumbnail": imageThumbnail.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "logo": logo.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "secondaryLogo": secondaryLogo.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            video[] {
+                              ${this.VIDEO_FIELDS}
+                            },
+                            secondaryVideo[] {
+                              ${this.VIDEO_FIELDS}
+                            },
+                            "testimonialImage": testimonialImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            listItems[] {
+                              listHeading,
+                              before,
+                              after,
+                              description,
+                              isHighlighted
+                            },
+                            testimonialheading,
+                            testimonialdescription,
+                            keyNoteHeading,
+                            keyNoteStatement,
+                            keyFeatures,
+                            language,
+                            mainStatement,
+                            subStatement,
+                            keyStatement,
+                            isHighlighted
+                          }
+                        }
+                      }
+                    ),
                    
                     
                     // Integration Listing specific data
@@ -1543,6 +1632,7 @@ class Queries {
                   name,
                   slug,
                   description,
+                  order,
                   "image": image.asset-> {
                     ${this.IMAGE_METADATA_FIELDS}
                   },

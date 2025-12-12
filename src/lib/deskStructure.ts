@@ -1,24 +1,23 @@
-import { StructureBuilder } from 'sanity/desk'
 import { 
-  CogIcon, 
-  HomeIcon, 
-  DocumentIcon, 
-  StarIcon, 
   BoltIcon, 
-  ExpandIcon,
-  UsersIcon,
-  TagIcon,
-  ImageIcon,
-  DocumentTextIcon,
-  HelpCircleIcon,
+  CogIcon, 
   CommentIcon,
-  StackIcon,
+  DocumentIcon, 
+  DocumentTextIcon,
   EarthGlobeIcon,
-  WrenchIcon,
+  ExpandIcon,
   FolderIcon,
+  HelpCircleIcon,
+  HomeIcon, 
+  ImageIcon,
+  OlistIcon,
+  StackIcon,
+  StarIcon, 
   StringIcon,
-  OlistIcon
-} from '@sanity/icons'
+  TagIcon,
+  UsersIcon,
+  WrenchIcon} from '@sanity/icons'
+import { StructureBuilder } from 'sanity/desk'
 
 // Schema type to icon mapping
 const schemaIconMap: Record<string, any> = {
@@ -29,6 +28,7 @@ const schemaIconMap: Record<string, any> = {
   
       // Pages & Content Management
     page: DocumentIcon,
+    homePage: HomeIcon,
     whoWeServe: UsersIcon,
     dentalSoftware: DocumentIcon,
     dentalPhones: DocumentIcon,
@@ -95,6 +95,7 @@ const schemaIconMap: Record<string, any> = {
 // Custom title mapping for specific schemas
 const customTitleMap: Record<string, string> = {
   page: 'Pages',
+  homePage: 'Home Page',
   whoWeServe: 'Who We Serve',
   dentalSoftware: 'Dental Software',
   dentalPhones: 'Dental Phones',
@@ -158,7 +159,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     settings: ['siteSettings', 'homeSettings', 'layout'],
     
     // Pages & Content Management - NEW PROMINENT SECTION
-    pages: ['page', 'whoWeServe', 'whyVoicestack', 'dentalSoftware', 'dentalPhones', 'aiReceptionist', 'featurePage', 'company', 'partner', 'globalData', 'features', 'featureCategory'],
+    pages: ['page', 'homePage','whoWeServe', 'whyVoicestack', 'dentalSoftware', 'dentalPhones', 'aiReceptionist', 'featurePage', 'company', 'partner', 'globalData', 'features', 'featureCategory'],
     
     // Content Management - Centralized Data
     contentManagement: ['author', 'centralizedTestimonial', 'featureItem'],
@@ -278,7 +279,73 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
                 ])
             )
         )
-      } else if (schemaName === 'dentalPhones') {
+      } else if (schemaName === 'homePage') {
+        // Special handling for Home Page to show language indicators
+        items.push(
+          S.listItem()
+            .title(title)
+            .icon(icon)
+            .child(
+              S.list()
+                .title(title)
+                .items([
+                  // All Home Page documents
+                  S.listItem()
+                    .title('All Home Page')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentTypeList('homePage')
+                        .title('All Home Page')
+                        .filter('_type == "homePage"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                    ),
+                  // US English
+                  S.listItem()
+                    .title('🇺🇸 US English (en)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentList()
+                        .title('US English Home Page')
+                        .schemaType('homePage')
+                        .filter('_type == "homePage" && language == "en"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                        .initialValueTemplates([
+                          S.initialValueTemplateItem('homePage-en')
+                        ])
+                    ),
+                  // UK English
+                  S.listItem()
+                    .title('🇬🇧 UK English (en-GB)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentList()
+                        .title('UK English Home Page')
+                        .schemaType('homePage')
+                        .filter('_type == "homePage" && language == "en-GB"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                        .initialValueTemplates([
+                          S.initialValueTemplateItem('homePage-en-GB')
+                        ])
+                    ),
+                  // Australia English
+                  S.listItem()
+                    .title('🇦🇺 Australia English (en-AU)')
+                    .icon(DocumentIcon)
+                    .child(
+                      S.documentList()
+                        .title('Australia English Home Page')
+                        .schemaType('homePage')
+                        .filter('_type == "homePage" && language == "en-AU"')
+                        .defaultOrdering([{field: 'order', direction: 'asc'}])
+                        .initialValueTemplates([
+                          S.initialValueTemplateItem('homePage-en-AU')
+                        ])
+                    ),
+                ])
+            )
+        )
+      }
+      else if (schemaName === 'dentalPhones') {
         // Special handling for Dental Phones to show language indicators
         items.push(
           S.listItem()
