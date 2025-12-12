@@ -249,7 +249,7 @@ html {
   @apply flex flex-wrap;
 }
 
-#hubspotForm fieldset div:first-child {
+#hubspotForm fieldset > div {
   margin-bottom: 1rem !important;
 }
 
@@ -311,6 +311,9 @@ html {
   @apply text-base border py-2 px-4 rounded w-full focus:outline-gray-950;
 }
 
+#hubspotForm .hs-form-field textarea {
+  @apply h-[90px];
+}
 /* .hs-richtext.hs-main-font-element {
   display: none;
 } */

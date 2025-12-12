@@ -119,7 +119,7 @@ export default function HeroRightSection({ data }: { data: any }) {
   return (
     <>
     {data?.hubspotFormId ? (
-      <div id="demo" className="scroll-mt-28 sticky top-20 p-8 rounded-[12px] md:rounded-[24px] bg-white w-full max-w-[537px] md:pb-4 md:py-12 lg:py-14 md:my-12 lg:my-16">
+      <div id="demo" className="min-h-[760px] scroll-mt-28 sticky top-20 p-8 rounded-[12px] md:rounded-[24px] bg-white w-full max-w-[537px] md:p-12 md:my-12 lg:my-16">
         <h3 className="md:text-3xl text-2xl font-semibold mb-4 font-geist text-[#030712]">
           Book a Demo
         </h3>
