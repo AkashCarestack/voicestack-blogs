@@ -9,6 +9,7 @@ import Button from '../../../../common/Button'
 import Container from '../../../../structure/Container'
 import { formatPhoneNumberWithCountryCode } from '~/components/utils/helper'
 import HeroRightSection from './heroRightSection'
+import BackgroundWave from './BackgroundWave'
 
 const HeroSection = ({
   data,
@@ -169,9 +170,10 @@ const HeroSection = ({
   }, [])
 
   return (
-    <section className="font-geist justify-center">
+    <section className="relative font-geist justify-center overflow-hidden">
+      <BackgroundWave />
       <Container
-        className={`${isCentered ? ' ' : 'py-4 lg:py-0'} justify-center`}
+        className={`${isCentered ? ' ' : 'py-4 lg:py-0'} justify-center relative z-10`}
       >
         {isCentered ? (
           <div

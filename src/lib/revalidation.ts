@@ -47,10 +47,9 @@ export async function revalidateMultiplePages(paths: string[]): Promise<Revalida
 export const REVALIDATION_PATHS = {
   HOME: ['/'],
   WHO_WE_SERVE: ['/who-we-serve', '/who-we-serve/index'],
-  DENTAL_SOFTWARE: ['/dental-software', '/dental-software/index'],
   FEATURES: ['/features', '/features/index'],
   SYSTEM_REQUIREMENTS: ['/system-requirements'],
-  ALL: ['/', '/who-we-serve', '/who-we-serve/index', '/dental-software', '/dental-software/index', '/features', '/features/index', '/system-requirements']
+  ALL: ['/', '/who-we-serve', '/who-we-serve/index', '/features', '/features/index', '/system-requirements']
 } as const
 
 export async function revalidateByContentType(contentType: keyof typeof REVALIDATION_PATHS): Promise<RevalidationResult[]> {

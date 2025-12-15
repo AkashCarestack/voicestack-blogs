@@ -23,6 +23,7 @@ const config = {
     ],
     dangerouslyAllowSVG: true,
   },
+  transpilePackages: ['three', '@react-three/fiber', '@react-three/drei'],
   env: {
     PUBLIC_URL: '/',
   },

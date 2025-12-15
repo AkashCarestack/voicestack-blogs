@@ -121,7 +121,6 @@ export default defineConfig({
         'featureList',
         'featureCategory',
         'whoWeServe',
-        'dentalSoftware',
         'dentalPhones',
         'whyVoicestack',
         'globalData',

@@ -15,10 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       'whoWeServe': ['/who-we-serve', '/who-we-serve/index'],
       'whoWeServe_enGB': ['/who-we-serve', '/who-we-serve/index'],
       'whoWeServe_enAU': ['/who-we-serve', '/who-we-serve/index'],
-      'dentalSoftware': ['/dental-software', '/dental-software/index'],
-      'dentalSoftware_enGB': ['/dental-software', '/dental-software/index'],
-      'dentalSoftware_enAU': ['/dental-software', '/dental-software/index'],
-      'globalData': ['/who-we-serve', '/dental-software', '/'],
+      'globalData': ['/who-we-serve', '/'],
       'homePage': ['/'],
       'systemRequirements': ['/system-requirements'],
       'miscellaneousData': ['/system-requirements']
@@ -30,8 +27,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (slug?.current) {
       if (_type?.includes('whoWeServe')) {
         pagesToRevalidate.push(`/who-we-serve/${slug.current}`)
-      } else if (_type?.includes('dentalSoftware')) {
-        pagesToRevalidate.push(`/dental-software/${slug.current}`)
       }
     }
 

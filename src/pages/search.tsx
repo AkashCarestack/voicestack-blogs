@@ -218,7 +218,7 @@ function getPathForPage(page: { _type: string; slug: string }): string {
   if (slug === 'landing') {
     if (page._type === 'whoWeServe' || page._type === 'whoWeServePage' || page._type === 'whyVoicestack') {
       return '/who-we-serve';
-    } else if (page._type === 'dentalPhones' || page._type === 'dentalSoftware') {
+    } else if (page._type === 'dentalPhones') {
       return '/dental-phones';
     }
     return '/';

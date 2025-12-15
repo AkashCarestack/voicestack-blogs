@@ -1291,206 +1291,9 @@ export const dentalPhonesQueries = {
   `
 }
 
-// Dental Software Queries
-export const dentalSoftwareQueries = {
-  // Get the home page content for Dental Software
-  getDentalSoftwareHome: `
-    *[_type == "dentalSoftware" && basicInfo.slug.current == "landing" && (language == $language || language == null)] {
-      _id,
-      basicInfo {
-        title,
-        slug,
-        description,
-        icon
-      },
-      content {
-        mainContent,
-        sections[] {
-          title,
-          slug,
-          component {
-            componentType,
-            tabsListingComponent {
-              headline,
-              subheadline,
-              subDescription,
-              showCTA,
-              globalData-> {
-                _id,
-                title,
-                comparisonTable,
-                dataType
-              },
-              tabs[] {
-                tabHeading,
-                tabSubHeading,
-                description,
-                image,
-                listItems[] {
-                  subfeatureHeading,
-                  subfeatureSubheading,
-                  subfeatureDescription,
-                  subfeatureImage
-                },
-                icon,
-                ctaListItems[] {
-                  ctaLink,
-                  ctaText,
-                  ctaType
-                },
-                Link,
-                LinkText,
-                testimonial
-              }
-            },
-            customComponent {
-              title,
-              subtitle,
-              content,
-              buttonText,
-              buttonLink,
-              backgroundColor,
-              image,
-              referenceGlobalSchema-> {
-                _id,
-                title,
-                comparisonTable,
-                dataType
-              }
-            }
-          }
-        }
-      },
-      seo {
-        metaTitle,
-        metaDescription
-      },
-      language
-    }[0]
-  `,
-
-  // Get all Dental Software pages for listing
-  getAllDentalSoftwarePages: `
-    *[_type == "dentalSoftware" && (language == $language || language == null)] | order(basicInfo.title asc) {
-      _id,
-      basicInfo {
-        title,
-        slug,
-        description,
-        icon
-      },
-      language
-    }
-  `,
-
-  // Get specific Dental Software page by slug
-  getDentalSoftwarePageBySlug: `
-    *[_type == "dentalSoftware" && basicInfo.slug.current == $slug && (language == $language || language == null)] {
-      _id,
-      basicInfo {
-        title,
-        slug,
-        description,
-        icon
-      },
-      content {
-        mainContent,
-        sections[] {
-          title,
-          slug,
-          component {
-            componentType,
-            tabsListingComponent {
-              headline,
-              subheadline,
-              subDescription,
-              showCTA,
-              globalData-> {
-                _id,
-                title,
-                comparisonTable,
-                dataType
-              },
-              tabs[] {
-                tabHeading,
-                tabSubHeading,
-                description,
-                image,
-                listItems[] {
-                  subfeatureHeading,
-                  subfeatureSubheading,
-                  subfeatureDescription,
-                  subfeatureImage
-                },
-                icon,
-                ctaListItems[] {
-                  ctaLink,
-                  ctaText,
-                  ctaType
-                },
-                Link,
-                LinkText,
-                testimonial
-              }
-            },
-            customComponent {
-              title,
-              subtitle,
-              content,
-              buttonText,
-              buttonLink,
-              backgroundColor,
-              image,
-              referenceGlobalSchema-> {
-                _id,
-                title,
-                comparisonTable,
-                dataType
-              }
-            }
-          }
-        }
-      },
-      seo {
-        metaTitle,
-        metaDescription
-      },
-      language
-    }[0]
-  `,
-
-  // Get Dental Software page slugs for routing
-  getDentalSoftwareSlugs: `
-    *[_type == "dentalSoftware" && (language == $language || language == null)] {
-      basicInfo {
-        slug
-      }
-    }
-  `,
-
-  // Create landing page from existing data if no landing page exists
-  createLandingPageFromExisting: `
-    *[_type == "dentalSoftware" && (language == $language || language == null)] | order(_createdAt asc)[0] {
-      _id,
-      basicInfo {
-        title,
-        slug,
-        description,
-        icon
-      },
-      content,
-      seo {
-        metaTitle,
-        metaDescription
-      },
-      language
-    }
-  `
-}
-
 export const whyVoicestackQueries = {
-  // Get the home page content for Dental Software
-  getDentalSoftwareHome: `
+  // Get the home page content for Why Voicestack
+  getWhyVoicestackHome: `
     *[_type == "whyVoicestack" && basicInfo.slug.current == "landing" && (language == $language || language == null)] {
       _id,
       basicInfo {
@@ -1565,7 +1368,7 @@ export const whyVoicestackQueries = {
     }[0]
   `,
 
-  // Get all Dental Software pages for listing
+  // Get all Why Voicestack pages for listing
   whyVoiceStackPages: `
     *[_type == "whyVoicestack" && (language == $language || language == null)] | order(basicInfo.title asc) {
       _id,
@@ -1579,9 +1382,9 @@ export const whyVoicestackQueries = {
     }
   `,
 
-  // Get specific Dental Software page by slug
+  // Get specific Why Voicestack page by slug
   getVoicestackPageBySlug: `
-    *[_type == "dentalSoftware" && basicInfo.slug.current == $slug && (language == $language || language == null)] {
+    *[_type == "whyVoicestack" && basicInfo.slug.current == $slug && (language == $language || language == null)] {
       _id,
       basicInfo {
         title,
@@ -1655,9 +1458,9 @@ export const whyVoicestackQueries = {
     }[0]
   `,
 
-  // Get Dental Software page slugs for routing
-  getDentalSoftwareSlugs: `
-    *[_type == "dentalSoftware" && (language == $language || language == null)] {
+  // Get Why Voicestack page slugs for routing
+  getWhyVoicestackSlugs: `
+    *[_type == "whyVoicestack" && (language == $language || language == null)] {
       basicInfo {
         slug
       }
@@ -1666,7 +1469,7 @@ export const whyVoicestackQueries = {
 
   // Create landing page from existing data if no landing page exists
   createLandingPageFromExisting: `
-    *[_type == "dentalSoftware" && (language == $language || language == null)] | order(_createdAt asc)[0] {
+    *[_type == "whyVoicestack" && (language == $language || language == null)] | order(_createdAt asc)[0] {
       _id,
       basicInfo {
         title,
@@ -1700,22 +1503,9 @@ export const contentSectionQueries = {
     }[0].content.sections[slug.current == $sectionSlug][0]
   `,
 
-  // Get content section by slug from Dental Software pages
-  getDentalSoftwareSectionBySlug: `
-    *[_type == "dentalSoftware" && (language == $language || language == null)] {
-      content {
-        sections[] {
-          title,
-          slug,
-          component
-        }
-      }
-    }[0].content.sections[slug.current == $sectionSlug][0]
-  `,
-
   // Get all content sections with slugs for listing
   getAllContentSections: `
-    *[_type in ["whoWeServe", "dentalSoftware"] && (language == $language || language == null)] {
+    *[_type == "whoWeServe" && (language == $language || language == null)] {
       _type,
       basicInfo {
         title,

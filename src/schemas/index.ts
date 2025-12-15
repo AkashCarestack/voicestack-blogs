@@ -34,8 +34,6 @@ import LogoListing from './LogoListing/index'
 import PartnerListing from './PartnerListing/index'
 import Miscellaneous from './Miscellaneous'
 import page from './page'
-import DentalSoftware from './Pages/DentalSoftware'
-// import DentalSoftware from './Pages/DentalSoftware'
 import FeaturesPage from './Pages/Features'
 import HomePage from './Pages/HomePage'
 import WhoWeServe from './Pages/WhoWeServe'
@@ -96,7 +94,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     HtmlCode,
     HomePage,
     WhoWeServe,
-    DentalSoftware,
     FeaturesPage,
     WhyVoicestack,
     DentalPhones,

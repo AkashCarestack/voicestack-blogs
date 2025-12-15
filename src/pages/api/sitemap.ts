@@ -49,16 +49,12 @@ function getPathForPage(page: SitemapPage): string {
   if (slug === 'landing') {
     if (page._type === 'whoWeServe' || page._type === 'whoWeServePage' || page._type === 'whyVoicestack') {
       return 'who-we-serve';
-    } else if (page._type === 'dentalSoftware') {
-      return 'dental-software';
     }
     return '';
   }
   
   if (page._type === 'whoWeServe' || page._type === 'whoWeServePage') {
     return `who-we-serve/${slug}`;
-  } else if (page._type === 'dentalSoftware') {
-    return `dental-software/${slug}`;
   } else if (page._type === 'whyVoicestack') {
     return `who-we-serve/${slug}`;
   } else if (page._type === 'features') {
@@ -110,7 +106,7 @@ function buildUrl(path: string, locale: string): string {
 }
 async function getSitemapData(client: any): Promise<SitemapPage[]> {
   const query1 = groq`
-    *[_type in ["whoWeServe", "whoWeServePage", "dentalSoftware", "whyVoicestack"] 
+    *[_type in ["whoWeServe", "whoWeServePage", "whyVoicestack"] 
       && defined(basicInfo.slug.current) 
       && !(_id in path("drafts.**"))] {
       _type,
@@ -220,7 +216,6 @@ function generateSiteMap(pages: SitemapPage[]) {
     { path: '', key: 'home' },
     { path: 'system-requirements', key: 'system-requirements' },
     { path: 'dental-phones', key: 'dental-phones' },
-    { path: 'dental-software', key: 'dental-software' },
     { path: 'who-we-serve', key: 'who-we-serve' },
     // { path: 'pricing', key: 'pricing' },
   ];
