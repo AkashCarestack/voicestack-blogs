@@ -124,6 +124,65 @@ export const genericListingComponentFields = [
     hidden: ({ parent }: any) => parent?.useReference === true,
   },
   {
+    name: 'customListingItems',
+    title: 'Custom Listing Items',
+    type: 'array',
+    of: [
+      {
+        type: 'object',
+        fields: [
+          {
+            name: 'heading',
+            title: 'Heading',
+            type: 'string',
+            // description: 'Industry name (e.g., "Dental", "Physical Therapy")',
+          },
+          {
+            name: 'listItems',
+            title: 'List Items',
+            type: 'array',
+            of: [
+              {
+                type: 'object',
+                fields: [
+                  {
+                    name: 'itemHeading',
+                    title: 'Item Heading',
+                    type: 'string',
+                  },
+                  {
+                    name: 'dynamicSvgCode',
+                    title: 'Dynamic SVG Code',
+                    type: 'text',
+                    description: 'Paste your SVG code here',
+                  },
+                  {
+                    name: 'content',
+                    title: 'Content',
+                    type: 'customListingContent',
+                    description: 'Rich text content with h4 headings, subheadings, lists, and highlights',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        preview: {
+          select: {
+            title: 'heading',
+            itemCount: 'listItems',
+          },
+          prepare({ title, itemCount }: any) {
+            return {
+              title: title || 'Untitled Industry',
+              subtitle: itemCount ? `${itemCount.length} list item${itemCount.length !== 1 ? 's' : ''}` : 'No items',
+            };
+          },
+        },
+      },
+    ],
+  },
+  {
     name: 'ctaListItems',
     title: 'Call to Action List',
     type: 'array',
