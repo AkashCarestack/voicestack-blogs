@@ -2,7 +2,7 @@ import React from 'react'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import StatisticsSection from './StatisticsSection'
-import ContentVideoTabs from '~/components/ui/content-video-tabs'
+import ContentVideoTabs from '~/components/ui/contentVideotabs'
 
 export default function HomeAU({
   data,
@@ -19,7 +19,7 @@ export default function HomeAU({
   comparisonSectionData: any
   pageData: any
 }) {
-  console.log(data, 'data')
+  console.log(pageData, 'pageData in homeAU.tsx')
   return (
     <>
     {featuresData && <CategoryFeatureTabs features={featuresData || []} />}
@@ -30,7 +30,7 @@ export default function HomeAU({
         legendData={comparisonLegendData}
       />
     )}
-    {featuresData && <ContentVideoTabs pageData={pageData} features={featuresData || []} />}
+    {pageData['voicestack-solution']?.componentData && <ContentVideoTabs data={pageData['voicestack-solution']?.componentData} />}
 
     {/* Statistics Section */}
     <StatisticsSection />

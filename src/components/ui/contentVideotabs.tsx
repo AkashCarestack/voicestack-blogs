@@ -5,8 +5,7 @@ import VideoPlayers from '~/components/common/VideoPlayer';
 import Button from '../common/Button';
 import Section from '../structure/Section';
 import Container from '../structure/Container';
-import { contentVideoTabsDummyData } from './content-video-tabs-dummy-data';
-import SectionHeader from '../revamp/components/common/sectionHeader';
+import { contentVideoTabsDummyData } from './contentDummy';
 import SectionHeaderV2 from '../revamp/components/common/sectionHeaderV2';
 
 interface Feature {
@@ -60,11 +59,11 @@ interface ContentVideoTabsProps {
   tabs?: TabItem[]; // Fallback for manual tabs
   className?: string;
   containerClassName?: string;
-  pageData: any;
+  data: any;
 }
 
 export default function ContentVideoTabs({
-  pageData,
+  data,
   features,
   tabs: manualTabs,
   className,
@@ -155,7 +154,7 @@ export default function ContentVideoTabs({
   const scrollToSection = useCallback((tabKey: string) => {
     const section = sectionRefs.current[tabKey];
     if (section) {
-      const headerHeight = 100; 
+      const headerHeight = 250; 
       const elementPosition = section.offsetTop;
       const offsetPosition = elementPosition - headerHeight;
 
@@ -260,12 +259,17 @@ export default function ContentVideoTabs({
   return (
     <Section className={cn("w-full flex flex-col !bg-white", containerClassName)}>
 
-      <SectionHeaderV2
-        heading={'Features'}
-      />
-    <Container type='V2' border='all' className={cn("w-full flex flex-col !bg-white", containerClassName)}>
-      <div className="sticky top-[80px] z-40 py-4 mb-8">
-        <div>
+
+<Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0" >
+<div className="flex-col relative w-full flex gap-16 mb-[60px]">
+        <SectionHeaderV2
+              heading={data?.sectionHeadingDynamic}
+              description={data?.description}
+              className='xl:px-12 md:px-6 px-4'
+          />
+      </div>
+      <div className="sticky top-[80px] z-40 pt-[16px]">
+        <div className='mb-[72px] '>
           <div className="flex justify-center">
             <div className="flex gap-2.5 overflow-x-auto scrollbar-hide p-1.5 rounded-full border border-gray-200 bg-white">
               {tabs.map((tab) => {
