@@ -659,6 +659,7 @@ class Queries {
                     "genericListingComponent": select(
                       dataType == "genericListingComponent" => genericListingComponent {
                         heading,
+                        sectionHeadingDynamic,
                         description,
                         useReference,
                         "blocksListingReference": blocksListingReference-> {
@@ -1207,6 +1208,7 @@ class Queries {
                 componentType == "GenericListing" => genericListingComponent {
                   _type,
                   heading,
+                  sectionHeadingDynamic,
                   description,
                   useReference,
                   ctaListItems[] {
@@ -1647,6 +1649,7 @@ class Queries {
           "genericListingComponent": select(
             dataType == "genericListingComponent" => genericListingComponent {
               heading,
+              sectionHeadingDynamic,
               description,
               useReference,
               "blocksListingReference": blocksListingReference-> {

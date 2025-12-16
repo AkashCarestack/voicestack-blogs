@@ -5,6 +5,12 @@ export const genericListingComponentFields = [
     type: 'string',
   },
   {
+    name: 'sectionHeadingDynamic',
+    title: 'Section Heading Dynamic',
+    type: 'customBlockContent',
+    description: 'Rich text heading with formatting options (same as hero section heading)',
+  },
+  {
     name: 'description',
     title: 'Section Description',
     type: 'text',
