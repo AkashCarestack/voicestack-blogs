@@ -104,11 +104,12 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
         />
       )}
 
-      <Section className=' bg-[#ffffff]'>
-        <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="all">
-          <div className="flex-col relative w-full flex gap-16 px-12">
+      <Section className='bg-[#ffffff]' border="y">
+        <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0" innerPadding>
+          <div className="flex-col relative w-full flex gap-16">
             <SectionHeaderV2
-              heading={"Test Heading"}
+              heading={pageData['how-voicestack-works2'].componentData.sectionHeadingDynamic}
+              // heading={pageData['how-voicestack-works2'].componentData.heading}
               description={"lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."}
             />
 

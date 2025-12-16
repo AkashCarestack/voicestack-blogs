@@ -4,6 +4,7 @@ import Container from '~/components/structure/Container'
 import SectionHeader from './common/sectionHeader'
 import Image from 'next/image'
 import Link from 'next/link'
+import SectionHeaderV2 from './common/sectionHeaderV2'
 
 interface CardItem {
   _key?: string
@@ -22,6 +23,7 @@ interface CardItem {
 interface CardsGridSectionProps {
   data?: {
     heading?: string
+    sectionHeadingDynamic?: string
     description?: string
     items?: CardItem[]
     useReference?: boolean
@@ -57,6 +59,10 @@ const CardsGridSection = ({ data, customText }: CardsGridSectionProps) => {
               heading={heading}
               description={description}
             />
+            {/* <SectionHeaderV2
+              heading={displayData?.sectionHeadingDynamic}
+              description={description}
+            /> */}
             <div className="relative z-10 w-full flex flex-col gap-12 flex-grow">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-6">
                 {items.map((item) => {
