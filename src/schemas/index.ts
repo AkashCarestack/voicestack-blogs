@@ -7,6 +7,7 @@ import comparison from './Comparison'
 import comparisonValue from "./ComparisonValue"
 import CsCardsListing from './CsCardsListing/index'
 import customBlockContent from './customBlockContent'
+import customListingContent from './customListingContent'
 import customContent from './customContent'
 import customContentNew from './customContentNew'
 import listingBlock from './listingBlock'
@@ -77,6 +78,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     testimonialSection,
     faq,
     customBlockContent,
+    customListingContent,
     TestimonialHighlight,
     Miscellaneous,
     page,

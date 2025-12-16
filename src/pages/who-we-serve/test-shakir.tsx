@@ -11,6 +11,9 @@ import { getComparisonTableData, getAllComparisonValues } from '~/lib/sanity.que
 import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
+import Section from '~/components/structure/Section'
+import Container from '~/components/structure/Container'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -93,11 +96,28 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
           data={pageData['how-voicestack-works'].componentData}
         />
       )}
+
+
       {pageData['how-voicestack-works2']?.componentData && (
         <CardsGridSection 
           data={pageData['how-voicestack-works2'].componentData}
         />
       )}
+
+      <Section className=' bg-[#ffffff]'>
+        <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="all">
+          <div className="flex-col relative w-full flex gap-16 px-12">
+            <SectionHeaderV2
+              heading={"Test Heading"}
+              description={"lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."}
+            />
+
+            <div>
+              test content
+            </div>
+          </div>
+        </Container>
+      </Section>
 
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">

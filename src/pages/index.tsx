@@ -31,19 +31,21 @@ interface IndexPageProps {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
+  console.log("locale", locale);
   try {
     const region = locale || 'en'
     const queries = new Queries('landing', region)
     const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
+    console.log("slug", slug);
 
     const pageData = await queries.getPageData('homePage', slug)
     const client = getClient()
 
-    if (!pageData || Object.keys(pageData).length === 0) {
-      return {
-        notFound: true,
-      }
-    }
+    // if (!pageData || Object.keys(pageData).length === 0) {
+    //   return {
+    //     notFound: true,
+    //   }
+    // }
     // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
@@ -170,6 +172,7 @@ console.log("featuresData", featuresData)
             refer={refer}
           />
         )}
+        
 
         {/* Vertical Testimonial Listing */}
         {pageData['testimonial-video-section']?.componentData?.refData
