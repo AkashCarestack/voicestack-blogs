@@ -60,9 +60,11 @@ interface ContentVideoTabsProps {
   tabs?: TabItem[]; // Fallback for manual tabs
   className?: string;
   containerClassName?: string;
+  pageData: any;
 }
 
 export default function ContentVideoTabs({
+  pageData,
   features,
   tabs: manualTabs,
   className,
