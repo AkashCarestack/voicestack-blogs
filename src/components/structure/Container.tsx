@@ -1,9 +1,27 @@
 import React from 'react'
 
-export default function Container(props) {
+interface ContainerProps {
+  children: React.ReactNode
+  className?: string
+  type?: "V1" | "V2"
+  border?: "all" | "noTop" | "noBottom" | "noY"
+}
+
+export default function Container(props:ContainerProps) {
+  const { children, className, type = "V1", border = "none" } = props
+  const borderClass = border === "all" ? "border border-gray-200" : border === "noTop" ? "border border-gray-200 border-t-0" : border === "noBottom" ? "border border-gray-200 border-b-0" : border === "noY" ? "border border-gray-200 border-y-0" : ""
+  if (type === "V2") {
+    return (
+      <div className={`flex w-full max-w-[1372px] m-auto px-4 }`}>
+        <div className={`w-full ${borderClass} ${className}`}>
+          {children}
+        </div>
+      </div>
+    ) 
+  }
   return (
-    <div className={`flex w-full max-w-7xl m-auto px-4 ${props.className}`}>
-      {props.children}
+    <div className={`flex w-full max-w-7xl m-auto px-4 ${className}`}>
+      {children}
     </div>
   )
 }
