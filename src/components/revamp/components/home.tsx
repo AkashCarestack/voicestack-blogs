@@ -12,14 +12,12 @@ import SiteComparisonSection from '~/components/SiteComparisonSection'
 
 export default function Home({
   data,
-  refer,
   featuresData,
   comparisonLegendData,
   comparisonTableData,
   comparisonSectionData,
 }: {
   data: any
-  refer: any
   featuresData: any
   comparisonLegendData: any
   comparisonTableData: any
@@ -38,7 +36,6 @@ export default function Home({
           >
             <HeroSection
               data={data['home-hero']?.componentData}
-              refer={refer}
               page="home"
             />
           </div>
@@ -49,7 +46,6 @@ export default function Home({
       {data['logo-listing']?.componentData && (
         <LogoSliderSection
           data={data['logo-listing']?.componentData?.blocksListingData}
-          refer={refer}
         />
       )}
 
@@ -93,7 +89,6 @@ export default function Home({
         <SiteComparisonSection
           data={comparisonSectionData}
           legendData={comparisonLegendData}
-          refer={refer}
         />
       )}
 
@@ -104,7 +99,6 @@ export default function Home({
       {data['logo-listing']?.componentData && (
         <LogoListingSection
           data={data['logo-listing']?.componentData?.blocksListingData}
-          refer={refer}
         />
       )}
 

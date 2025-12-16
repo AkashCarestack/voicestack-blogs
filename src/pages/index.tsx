@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 
 import SimpleHead from '~/components/common/SimpleHead'
 import Home from '~/components/revamp/components/home'
-import HomeAus from '~/components/revamp/components/homeAU'
+import HomeAU from '~/components/revamp/components/homeAU'
 import HomeGB from '~/components/revamp/components/homeGB'
 import Queries from '~/components/revamp/queries'
 import { getParams } from '~/helpers/getQueryParams'
@@ -136,18 +136,26 @@ export default function IndexPage({
       {region === 'en' && (
         <Home
           data={pageData}
-          refer={refer as any}
           featuresData={featuresData}
           comparisonLegendData={comparisonLegendData}
           comparisonTableData={comparisonTableData}
           comparisonSectionData={comparisonSectionData}
         />
       )}
-      {region === 'gb' && (
-        <HomeGB data={pageData['hero-section']?.componentData} />
+      {region === 'en-GB' && (
+        <HomeGB data={pageData['hero-section']?.componentData}
+       
+
+         />
       )}
-      {region === 'au' && (
-        <HomeAus data={pageData['hero-section']?.componentData} />
+   
+      {region === 'en-AU' && (
+        <HomeAU 
+        featuresData={featuresData}
+        comparisonLegendData={comparisonLegendData}
+        comparisonTableData={comparisonTableData}
+        comparisonSectionData={comparisonSectionData}
+        data={pageData['hero-section']?.componentData} />
       )}
     </Track>
   )
