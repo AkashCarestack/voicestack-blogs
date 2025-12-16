@@ -1,18 +1,14 @@
 
 import { defineField, defineType } from 'sanity'
 import showCountryFlag from '~/components/utils/common';
-import { listingItemSchema, ctaListItemSchema } from '~/schemas/Common/commonSchema'
+import { listingItemSchema, ctaListItemSchema, sectionHeadingDynamicSchema } from '~/schemas/Common/commonSchema'
 
 export default defineType({
-  name: 'whoWeServeListing',
-  title: 'Who We Serve',
+  name: 'costOfMissedCallsListing',
+  title: 'Cost of Missed Calls',
   type: 'document',
   fields: [
-    defineField({
-      name: 'heading',
-      title: 'Section Heading',
-      type: 'string',
-    }),
+    sectionHeadingDynamicSchema,
     defineField({
       name: 'description',
       title: 'Section Description',
@@ -30,6 +26,7 @@ export default defineType({
       type: 'array',
       of: [ctaListItemSchema],
     }),
+    
     defineField({
       name: 'language',
       type: 'string',
@@ -46,7 +43,7 @@ export default defineType({
     prepare(selection) {
       const itemCount = selection.itemCount?.length || 0;
       return {
-        title: selection?.title || 'Who We Serve',
+        title: selection?.title || 'Cost of Missed Calls',
         subtitle: `${itemCount} items`,
         media: <img src={showCountryFlag(selection?.language)}/>
       };

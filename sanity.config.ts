@@ -76,7 +76,7 @@ export default defineConfig({
       // Select US English by default
       defaultLanguages: ['en'],
       // Show language filter for these document types
-      documentTypes: ['homeSettings', 'homePage', 'whoWeServe', 'whyVoicestack', 'page', 'features', 'dentalPhones', 'whoWeServeListing'],
+      documentTypes: ['homeSettings', 'homePage', 'whoWeServe', 'whyVoicestack', 'page', 'features', 'dentalPhones', 'whoWeServeListing', 'costOfMissedCallsListing'],
     }),
 
     internationalizedArray({
@@ -112,6 +112,7 @@ export default defineConfig({
         'verticalTestimonialListing',
         'csCardsListing',
         'whoWeServeListing',
+        'costOfMissedCallsListing',
         'platform',
         'testimonialHighlightSection',
         'banner',

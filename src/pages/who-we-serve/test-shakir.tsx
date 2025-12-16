@@ -104,6 +104,12 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
         />
       )}
 
+      {pageData['test-listing-2']?.componentData && (
+        <CardsGridSection type="three-col"
+          data={pageData['test-listing-2'].componentData}
+        />
+      )}
+
       <Section className='bg-[#ffffff]' border="b">
         <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0" innerPadding>
           <div className="flex-col relative w-full flex gap-16">

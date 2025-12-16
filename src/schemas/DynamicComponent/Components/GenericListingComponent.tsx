@@ -1,15 +1,12 @@
+import { listingItemSchema, ctaListItemSchema, sectionHeadingDynamicSchema } from '~/schemas/Common/commonSchema'
+
 export const genericListingComponentFields = [
   {
     name: 'heading',
     title: 'Section Heading',
     type: 'string',
   },
-  {
-    name: 'sectionHeadingDynamic',
-    title: 'Section Heading Dynamic',
-    type: 'customBlockContent',
-    description: 'Rich text heading with formatting options (same as hero section heading)',
-  },
+    sectionHeadingDynamicSchema,
   {
     name: 'description',
     title: 'Section Description',
@@ -31,6 +28,7 @@ export const genericListingComponentFields = [
       { type: 'verticalTestimonialListing' },
       { type: 'csCardsListing' },
       { type: 'whoWeServeListing' },
+      { type: 'costOfMissedCallsListing' },
       { type: 'partnerListing' },
     ],
     options: {
@@ -50,83 +48,7 @@ export const genericListingComponentFields = [
     name: 'items',
     title: 'Listing Items',
     type: 'array',
-    of: [
-      {
-        type: 'object',
-        fields: [
-          {
-            name: 'heading',
-            title: 'Item Heading',
-            type: 'string',
-          },
-          {
-            name: 'subheading',
-            title: 'Item Subheading',
-            type: 'string',
-          },
-          {
-            name: 'description',
-            title: 'Item Description',
-            type: 'text',
-          },
-          {
-            name: 'link',
-            title: 'Link',
-            type: 'object',
-            options: {
-              collapsible: true,
-              collapsed: true,
-            },
-            fields: [
-              {
-                name: 'url',
-                title: 'URL',
-                type: 'string',
-              },
-              {
-                name: 'text',
-                title: 'Link Text',
-                type: 'string',
-              },
-              {
-                name: 'buttonType',
-                title: 'Button Type',
-                type: 'string',
-                options: {
-                  list: [
-                    { title: 'Primary', value: 'primary' },
-                    { title: 'Secondary', value: 'secondary' },
-                    { title: 'Outline', value: 'outline' },
-                    { title: 'Text', value: 'text' },
-                  ],
-                },
-                initialValue: 'text',
-              },
-            ],
-          },
-          {
-            name: 'dynamicSvg',
-            title: 'Dynamic SVG Code',
-            type: 'text',
-            description: 'Paste your SVG code here',
-          },
-          {
-            name: 'image',
-            title: 'Image',
-            type: 'image',
-            options: {
-              hotspot: true,
-            },
-          },
-          {
-            name: 'icon',
-            title: 'Icon',
-            type: 'image',
-            
-          },
-        ],
-      },
-    ],
+    of: [listingItemSchema],
     hidden: ({ parent }: any) => parent?.useReference === true,
   },
   {
@@ -192,28 +114,7 @@ export const genericListingComponentFields = [
     name: 'ctaListItems',
     title: 'Call to Action List',
     type: 'array',
-    of: [
-      {
-        type: 'object',
-        fields: [
-          {
-            name: 'ctaText',
-            title: 'CTA Text',
-            type: 'string',
-          },
-          {
-            name: 'ctaLink',
-            title: 'CTA Link',
-            type: 'string',
-          },
-          {
-            name: 'ctaType',
-            title: 'Button type',
-            type: 'string',
-          },
-        ],
-      },
-    ],
+    of: [ctaListItemSchema],
     hidden: ({ parent }: any) => parent?.useReference === true,
   },
   {
