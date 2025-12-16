@@ -3,6 +3,11 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { cn } from "~/lib/utils";
 import VideoPlayers from '~/components/common/VideoPlayer';
 import Button from '../common/Button';
+import Section from '../structure/Section';
+import Container from '../structure/Container';
+import { contentVideoTabsDummyData } from './content-video-tabs-dummy-data';
+import SectionHeader from '../revamp/components/common/sectionHeader';
+import SectionHeaderV2 from '../revamp/components/common/sectionHeaderV2';
 
 interface Feature {
   _id: string;
@@ -71,6 +76,11 @@ export default function ContentVideoTabs({
 
   // Transform featuresData into tabs structure
   const tabs = useMemo(() => {
+    // Priority: 1. Dummy data, 2. Manual tabs, 3. Features data
+    if (contentVideoTabsDummyData && contentVideoTabsDummyData.length > 0) {
+      return contentVideoTabsDummyData;
+    }
+
     if (manualTabs && manualTabs.length > 0) {
       return manualTabs;
     }
@@ -143,7 +153,7 @@ export default function ContentVideoTabs({
   const scrollToSection = useCallback((tabKey: string) => {
     const section = sectionRefs.current[tabKey];
     if (section) {
-      const headerHeight = 100; // Adjust based on your header height
+      const headerHeight = 100; 
       const elementPosition = section.offsetTop;
       const offsetPosition = elementPosition - headerHeight;
 
@@ -246,116 +256,139 @@ export default function ContentVideoTabs({
   }
 
   return (
-    <div className={cn("w-full", containerClassName)}>
-      {/* Tabs Navigation */}
-      <div className="sticky top-[80px] z-40 bg-white py-4 mb-8">
-        <div className="max-w-7xl mx-auto px-4 xl:px-12">
-          <div className="flex gap-2.5 overflow-x-auto scrollbar-hide pb-2">
-            {tabs.map((tab) => {
-              const isActive = activeTab === tab.key;
-              return (
-                <button
-                  key={tab.key}
-                  onClick={() => handleTabClick(tab.key)}
-                  className={cn(
-                    "px-5 py-2.5 rounded-3xl text-base font-geist transition-all duration-200 ease-in-out whitespace-nowrap",
-                    isActive
-                      ? "bg-gray-950 text-white"
-                      : "text-gray-950 bg-transparent hover:bg-gray-100"
-                  )}
-                >
-                  {tab.title}
-                </button>
-              );
-            })}
+    <Section className={cn("w-full flex flex-col !bg-white", containerClassName)}>
+
+      <SectionHeaderV2
+        heading={'Features'}
+      />
+    <Container type='V2' border='all' className={cn("w-full flex flex-col !bg-white", containerClassName)}>
+      <div className="sticky top-[80px] z-40 py-4 mb-8">
+        <div>
+          <div className="flex justify-center">
+            <div className="flex gap-2.5 overflow-x-auto scrollbar-hide p-1.5 rounded-full border border-gray-200 bg-white">
+              {tabs.map((tab) => {
+                const isActive = activeTab === tab.key;
+                return (
+                  <button
+                    key={tab.key}
+                    onClick={() => handleTabClick(tab.key)}
+                    className={cn(
+                      "px-5 py-2.5 rounded-full text-base font-geist transition-all duration-200 ease-in-out whitespace-nowrap",
+                      isActive
+                        ? "bg-gray-950 text-white border border-transparent"
+                        : "text-gray-950 bg-transparent hover:bg-tab-hover-gradient hover:shadow-[0_0_0_2px_#CAC5FF]"
+                    )}
+                  >
+                    {tab.title}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
 
       {/* Content Sections */}
-      <div className="max-w-7xl mx-auto px-4 xl:px-12">
-        {tabs.map((tab, index) => {
-          const isActive = activeTab === tab.key;
-          return (
+      {tabs?.map((tab, index) => {
+        const isActive = activeTab === tab.key;
+        return (
+          <section
+            key={tab.key}
+            className={cn(
+              "min-h-screen py-12 bg-white",
+              className
+            )}
+          >
             <div
-              key={tab.key}
               ref={(el) => {
                 sectionRefs.current[tab.key] = el;
               }}
               data-tab-key={tab.key}
-              className={cn(
-                "min-h-screen py-12 flex flex-col lg:flex-row gap-8 lg:gap-12",
-                className
-              )}
             >
-              {/* Left Content Section */}
-              <div className="flex-1 flex flex-col justify-center">
-                {tab.category && (
-                  <div className="text-sm font-medium text-purple-600 mb-2">
-                    {tab.category}
-                  </div>
-                )}
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                  {tab.heading}
-                </h2>
-                <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                  {tab.description}
-                </p>
-                {tab.features && tab.features.length > 0 && (
-                  <div className="flex flex-wrap gap-3 mb-8">
-                    {tab.features.map((feature, idx) => (
-                      <div
-                        key={idx}
-                        className="flex items-center gap-2 text-gray-700 text-sm"
-                      >
-                        <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
-                        <span>{feature}</span>
-                        <svg
-                          className="w-3 h-3"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
+              <Container >
+              <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+                {/* Left Content Section */}
+                <div className="flex-1 flex flex-col justify-center">
+                  {tab.category && (
+                    <div className=" text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
+                      {tab.category}
+                    </div>
+                  )}
+                  <h2 className="my-3 text-gray-900 text-4xl font-manrope font-semibold leading-10 tracking-normal">
+                    {tab.heading}
+                  </h2>
+                  <p className=" text-gray-500 text-lg font-geist font-normal leading-[155.55%] tracking-normal">
+                    {tab.description}
+                  </p>
+                  {tab.features && tab.features.length > 0 && (
+                    <div className="flex flex-wrap gap-4 md:mt-6 mt-3">
+                      {tab?.features.map((feature, idx) => (
+                        <div
+                          key={idx}
+                          className="group flex items-center gap-2 text-gray-950 text-base font-geist font-medium leading-6 tracking-normal cursor-pointer transition-colors duration-200 hover:text-vs-purple"
                         >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                          <span className="transition-colors duration-200">{feature}</span>
+                          <svg 
+                            xmlns="http://www.w3.org/2000/svg" 
+                            width="16" 
+                            height="16" 
+                            viewBox="0 0 16 16" 
+                            fill="none"
+                            className="transition-transform duration-200 group-hover:translate-y-[-2px]"
+                          >
+                            <path 
+                              d="M4.66675 4.66675H11.3334V11.3334" 
+                              stroke="#6A7282" 
+                              strokeWidth="1.66667" 
+                              strokeLinecap="round" 
+                              strokeLinejoin="round"
+                              className="group-hover:stroke-vs-purple transition-colors duration-200"
+                            />
+                            <path 
+                              d="M4.66675 11.3334L11.3334 4.66675" 
+                              stroke="#6A7282" 
+                              strokeWidth="1.66667" 
+                              strokeLinecap="round" 
+                              strokeLinejoin="round"
+                              className="group-hover:stroke-vs-purple transition-colors duration-200"
+                            />
+                          </svg>
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
-                {tab.ctaText && (
-                  <div className="flex justify-start">
-               <Button type="primary" link="/demo">
-                 <span className="text-sm font-medium">{`Book Free Demo`}</span>
-               </Button>
-               </div>
-                )}
-              </div>
+                  {tab.ctaText && (
+                    <div className="flex justify-start md:mt-12 mt-6">
+                      <Button type="primary" link="/demo">
+                        <span className="text-sm font-medium">{`Book Free Demo`}</span>
+                      </Button>
+                    </div>
+                  )}
+                </div>
 
-              {/* Right Video Player Section */}
-              <div className="flex-1 flex items-center justify-center">
-                {isActive && tab.video ? (
-                  <div className="w-full h-full md:h-[644px] rounded-2xl overflow-hidden bg-gray-100">
-                    <VideoPlayers
-                      video={tab?.video}
-                      thumbnail={tab?.thumbnail}
-                    />
-                  </div>
-                ) : (
-                  <div className="w-full h-full  md:h-[644px] rounded-2xl bg-gray-100 flex items-center justify-center">
-                    <p className="text-gray-400">Video will appear here</p>
-                  </div>
-                )}
+                {/* Right Video Player Section */}
+                <div className="flex-1 flex items-center justify-center">
+                  {isActive && tab.video ? (
+                    <div className="w-full h-full md:h-[644px] rounded-2xl overflow-hidden bg-gray-100">
+                      <VideoPlayers
+                        video={tab?.video}
+                        thumbnail={tab?.thumbnail}
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-full h-full md:h-[644px] rounded-2xl bg-gray-100 flex items-center justify-center">
+                      <p className="text-gray-400">Video will appear here</p>
+                    </div>
+                  )}
+                </div>
               </div>
+            </Container>
             </div>
-          );
-        })}
-      </div>
-    </div>
+          </section>
+        );
+      })}
+    </Container>
+    </Section>
   );
 }
