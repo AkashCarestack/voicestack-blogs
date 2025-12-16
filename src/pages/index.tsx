@@ -3,15 +3,14 @@ import { isEmpty } from 'lodash'
 import type { GetStaticProps } from 'next'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
 import SimpleHead from '~/components/common/SimpleHead'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import LogoListingSection from '~/components/LogoListingSection'
 import LogoSliderSection from '~/components/LogoSliderSection'
+import ContentVideoTabs from '~/components/ui/content-video-tabs'
 import CardListing from '~/components/revamp/components/cardListing'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
@@ -31,12 +30,10 @@ interface IndexPageProps {
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  console.log("locale", locale);
   try {
     const region = locale || 'en'
     const queries = new Queries('landing', region)
     const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
-    console.log("slug", slug);
 
     const pageData = await queries.getPageData('homePage', slug)
     const client = getClient()
@@ -145,8 +142,6 @@ console.log("featuresData", featuresData)
     <Track>
       <SimpleHead data={pageData?.seo} />
       <div className="">
-        {/* Hero Section - use section slug from Sanity e.g. 'home-hero' */}
-
         {pageData['home-hero']?.componentData && (
           <div className="px-4 xl:px-12 pt-2">
             <div
@@ -172,7 +167,11 @@ console.log("featuresData", featuresData)
             refer={refer}
           />
         )}
-        
+
+        {/* Content Video Tabs Section */}
+        {featuresData && featuresData.length > 0 && (
+          <ContentVideoTabs features={featuresData} />
+        )}
 
         {/* Vertical Testimonial Listing */}
         {pageData['testimonial-video-section']?.componentData?.refData
