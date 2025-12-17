@@ -1,33 +1,12 @@
-import Container from '~/components/structure/Container'
-import Section from '~/components/structure/Section'
-import SectionHeader from './sectionHeader'
 import Button from '~/components/common/Button'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
-import SectionHeaderV2 from './sectionHeaderV2'
-import ArrowIcon from '../../icons/arrowIcon'
+import Container from '~/components/structure/Container'
+import Section from '~/components/structure/Section'
 
-const partnersData = [
-  {
-    id: 1,
-    name: 'Louise Howlett',
-    logo: 'https://placehold.co/150x40/transparent/333333?text=Prime+Practice', // Replace with actual logo
-    image: 'https://placehold.co/200x200/e2e8f0/333333?text=Louise', // Replace with actual portrait
-  },
-  {
-    id: 2,
-    name: 'Dr Kinnar Shah',
-    logo: 'https://placehold.co/150x40/transparent/333333?text=Dr+Kinnar+Shah', // Replace with actual logo
-    image: 'https://placehold.co/200x200/e2e8f0/333333?text=Dr+Kinnar', // Replace with actual portrait
-  },
-  {
-    id: 3,
-    name: 'Nick Montagu',
-    logo: 'https://placehold.co/150x40/transparent/333333?text=alphawhale', // Replace with actual logo
-    image: 'https://placehold.co/200x200/e2e8f0/333333?text=Nick', // Replace with actual portrait
-  },
-]
+import ArrowIcon from '../../icons/arrowIcon'
+import SectionHeaderV2 from './sectionHeaderV2'
+
 export default function AboutCoachingPartners({ data }: { data: any }) {
-  console.log(data)
   return (
     <Section className="bg-[#ffffff]" border="y">
       <Container
