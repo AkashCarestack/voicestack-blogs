@@ -18,6 +18,7 @@ export default function AboutCoachingPartners({ data }: { data: any }) {
           <SectionHeaderV2
             heading={data?.heading}
             description={data?.description}
+            className="xl:px-12 md:px-6 px-4"
           />
           {/* Main Container Card */}
           <div className="w-full">
@@ -87,20 +88,21 @@ export default function AboutCoachingPartners({ data }: { data: any }) {
                   </div>
                  
                   {/* Heading - visible by default */}
-                  <div className="w-full bg-codgray-50 py-3 md:py-4 border-t border-gray-200">
-                    <h5 className="text-base font-medium text-black">
+                  <div className="w-full bg-codgray-50 border-t border-gray-200 sm:absolute bottom-0 left-0 right-0 bg-white sm:translate-y-[calc(100%-52px)] group-hover:translate-y-0 transition-transform duration-300 ease-out">
+                    <h5 className="text-base font-medium text-black py-4 ">
                       {item.heading}
                     </h5>
-                  </div>
-                  {/* Description - slides up from bottom on hover */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-white px-4 py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out border-t border-gray-200">
-                    <h5 className="text-base font-medium text-black mb-2">
-                      {item.heading}
-                    </h5>
-                    <p className="text-sm text-gray-700 leading-relaxed">
+                    <p className="text-sm text-gray-700 leading-relaxed pb-4">
                       {item.description}
                     </p>
                   </div>
+                  {/* Description - slides up from bottom on hover */}
+                  {/* <div className="absolute bottom-0 left-0 right-0 bg-white px-4 py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out border-t border-gray-200">
+                    <h5 className="text-base font-medium text-black mb-2">
+                      {item.heading}
+                    </h5>
+                    
+                  </div> */}
                 </div>
               ))}
             </div>
