@@ -2,6 +2,7 @@ import React from 'react'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import StatisticsSection from './StatisticsSection'
+import HeroAU from './common/HeroSection/HeroAu'
 
 export default function HomeAU({
   data,
@@ -16,9 +17,9 @@ export default function HomeAU({
   comparisonTableData: any
   comparisonSectionData: any
 }) {
-  console.log(data, 'data')
   return (
     <>
+    <HeroAU  image={data.heroImage} heading={data.heroheading} heroStrip={data.heroStrip} description={data.heroDescription} buttons={data.bookBtnContent} />
     {featuresData && <CategoryFeatureTabs features={featuresData || []} />}
 
     {comparisonLegendData && (
