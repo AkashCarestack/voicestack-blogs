@@ -1,21 +1,19 @@
-import Container from '../structure/Container'
-import Section from '../structure/Section'
-import Button from './Button'
-import FooterBottomBg from '../../../public/assets/Bg/image2.png'
+import Container from '../../../structure/Container'
+import Section from '../../../structure/Section'
+import Button from '../../../common/Button'
+import FooterBottomBg from '../../../../../public/assets/Bg/image2.png'
 
 export default function FooterBottom() {
   return (
     <Section id="footer" className={'bg-black text-white'}>
       <div className="flex flex-col gap-3 items-center px-6 md:px-12 w-full">
         <div
-          className="flex flex-col items-center self-stretch md:pt-24 pt-16 md:pb-16 pb-8 "
+          className="flex flex-col items-center self-stretch md:pt-24 pt-16 md:pb-16 pb-8 md:rounded-br-[24px]  md:rounded-bl-[24px] rounded-bl-[12px] rounded-br-[12px]"
           style={{
             backgroundImage: `url(${FooterBottomBg.src})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            borderBottomLeftRadius: '24px',
-            borderBottomRightRadius: '24px',
           }}
         >
           <div className="max-w-[722px] mx-auto text-center">
