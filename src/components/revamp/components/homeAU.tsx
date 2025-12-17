@@ -4,6 +4,7 @@ import SiteComparisonSection from '~/components/SiteComparisonSection'
 import StatisticsSection from './StatisticsSection'
 import HeroAU from './common/HeroSection/HeroAu'
 import FaqSection from '~/components/revamp/components/common/faqSection'
+import ContentVideoTabs from '~/components/ui/contentVideotabs'
 
 export default function HomeAU({
   data,
@@ -38,6 +39,7 @@ export default function HomeAU({
           legendData={comparisonLegendData}
         />
       )}
+      {pageData['voicestack-solution']?.componentData && <ContentVideoTabs data={pageData['voicestack-solution']?.componentData} />}
 
       {/* Statistics Section */}
       <StatisticsSection />
