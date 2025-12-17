@@ -1352,7 +1352,7 @@ class Queries {
                       }
                     },
                     
-                    // whoWeServeListing and costOfMissedCallsListing specific
+                    // whoWeServeListing and genericItemsListing specific
                     items[] {
                       _key,
                       heading,

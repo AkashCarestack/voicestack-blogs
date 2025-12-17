@@ -4,10 +4,16 @@ import showCountryFlag from '~/components/utils/common';
 import { listingItemSchema, ctaListItemSchema, sectionHeadingDynamicSchema } from '~/schemas/Common/commonSchema'
 
 export default defineType({
-  name: 'costOfMissedCallsListing',
-  title: 'Cost of Missed Calls',
+  name: 'genericItemsListing',
+  title: 'Generic Items Listing',
   type: 'document',
   fields: [
+    defineField({
+      name: 'heading',
+      title: 'Section Heading',
+      type: 'string',
+      description: 'Used as a display heading for the section',
+    }),
     sectionHeadingDynamicSchema,
     defineField({
       name: 'description',
@@ -43,7 +49,7 @@ export default defineType({
     prepare(selection) {
       const itemCount = selection.itemCount?.length || 0;
       return {
-        title: selection?.title || 'Cost of Missed Calls',
+        title: selection?.title || 'Generic Items Listing',
         subtitle: `${itemCount} items`,
         media: <img src={showCountryFlag(selection?.language)}/>
       };

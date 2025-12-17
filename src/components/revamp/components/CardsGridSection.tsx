@@ -35,6 +35,11 @@ interface CardsGridSectionProps {
       _id?: string
       [key: string]: any
     }
+    ctaListItems?: Array<{
+      ctaLink?: string
+      ctaText?: string
+      ctaType?: string
+    }>
   }
   customText?: string
 }
@@ -49,9 +54,10 @@ const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => 
   const heading = displayData?.heading || 'section header'
   const sectionHeadingDynamic = displayData?.sectionHeadingDynamic || 'section heading dynamic'
   const description = displayData?.description || 'section description'
+  const ctaListItems = displayData?.ctaListItems || []
   const items = displayData?.items || []
 
-  console.log('data noref', data);
+  console.log('data', displayData);
   console.log('type', type);
   
   if (!data) return null;
@@ -60,15 +66,67 @@ const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => 
 
     type === 'two-col' ? (
       <Section className='bg-[#ffffff]' border="b">
-        <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0" innerPadding>
+        <Container className='w-full pt-sm md:pt-md lg:pt-lg' type="V2" border="y-0">
           <div className="flex-col relative w-full flex gap-16">
+
             <SectionHeaderV2 className='xl:px-12 md:px-6 px-4'
               heading={sectionHeadingDynamic}
               description={description}
+              ctaListItems={ctaListItems}
             />
 
-            <div>
-              test content for col-2
+            <div className="relative z-10 w-full flex flex-col gap-12 flex-grow">
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                {items.map((item) => {
+                  const CardContent = (
+                    <div className="h-full col-span-2 p-12 flex flex-col gap-6 justify-between transition-all group">
+                      <div className="flex flex-col gap-8">
+
+                        {/* Icon/Image */}
+                        {item.dynamicSvg && (
+                          <div 
+                            className="flex items-center justify-center self-start w-8 h-8"
+                            dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
+                          />
+                        )}
+
+                        {/* Content */}
+                        <div className="flex flex-col gap-[6px]">
+                          {item.heading && (
+                            <h3 className="md:text-xl text-lg font-medium text-gray-950 leading-normal [&>span]:text-vs-blue"
+                            dangerouslySetInnerHTML={{__html:item.heading}}
+                            ></h3>
+                          )}
+                          {item.description && (
+                            <p className="text-base text-gray-500 leading-normal">
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Link Text */}
+                      {item.link?.url && item.link?.text && (
+                        <div className="learn-more">
+                          {item.link.text}
+                        </div>
+                      )}
+                    </div>
+                  )
+
+                  return (
+                    <div key={item._key || Math.random()} className="border-t md:border-r md:[&:nth-child(2n)]:border-r-0 ">
+                      {item.link?.url ? (
+                        <Link href={item.link.url} className="block h-full">
+                          {CardContent}
+                        </Link>
+                      ) : (
+                        CardContent
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </div>
         </Container>
@@ -80,6 +138,7 @@ const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => 
             <SectionHeaderV2 className='xl:px-12 md:px-6 px-4'
               heading={sectionHeadingDynamic}
               description={description}
+              ctaListItems={ctaListItems}
             />
 
             <div className="relative z-10 w-full flex flex-col gap-12 flex-grow">
