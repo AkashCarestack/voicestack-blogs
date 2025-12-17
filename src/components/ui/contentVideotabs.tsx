@@ -140,8 +140,8 @@ export default function ContentVideoTabs({
 
     const observerOptions = {
       root: null,
-      rootMargin: '-120px 0px -50% 0px',
-      threshold: [0.1, 0.3, 0.5, 0.7],
+      rootMargin: '-80px 0px -50% 0px',
+      threshold: [0.1, 0.3, 0.6, 0.7],
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -265,14 +265,14 @@ export default function ContentVideoTabs({
             {tabs?.map((tab) => (
               <section
                 key={tab.key}
-                className="min-h-screen py-12"
+                className="md:min-h-screen min-h-auto md:py-12 py-8"
               >
                 <div
                   ref={(el) => {
                     sectionRefs.current[tab.key] = el;
                   }}
                   data-tab-key={tab.key}
-                  className='h-[50vh] flex'
+                  className='md:h-[50vh] h-full flex flex-col md:flex-row'
                 >
                   <div className="flex flex-col justify-center">
                     {tab.category && (
@@ -292,7 +292,7 @@ export default function ContentVideoTabs({
                         {tab.features.map((feature, idx) => (
                           <div
                             key={idx}
-                            className="group flex items-center gap-2 text-gray-950 md:text-base text-sm font-geist font-medium leading-6 tracking-normal cursor-pointer transition-colors duration-200 hover:text-vs-purple"
+                            className="group flex items-center gap-1 text-gray-950 md:text-base text-sm font-geist font-medium leading-6 tracking-normal cursor-pointer transition-colors duration-200 hover:text-vs-purple"
                           >
                             <span className="transition-colors duration-200">{feature}</span>
                             <svg 
@@ -333,42 +333,58 @@ export default function ContentVideoTabs({
                       </div>
                     )}
                   </div>
+                  
+                  {/* Mobile: Image/Video below each content section */}
+                  <div className="lg:hidden w-full mt-8">
+                    <div className="w-full h-[300px] md:h-[400px] rounded-2xl overflow-hidden bg-gray-100">
+                      {('thumbnail' in tab && tab.thumbnail) ? (
+                        <div className="w-full h-full relative">
+                          <img 
+                            src={tab.thumbnail as string} 
+                            alt={tab.heading}
+                            className="w-full h-full object-cover rounded-2xl"
+                          />
+                        </div>
+                      ) : tab.video ? (
+                        <div className="w-full h-full">
+                          <VideoPlayers
+                            video={tab.video}
+                            thumbnail={undefined}
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center">
+                          <p className="text-gray-400">No media available</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </section>
             ))}
           </div>
 
-          {/* Right: Sticky Video Player - Changes based on activeTab */}
-          <div className="flex-1 lg:sticky lg:top-[200px] lg:self-start">
+          {/* Right: Sticky Video Player - Changes based on activeTab - Desktop Only */}
+          <div className="hidden lg:flex flex-1 lg:sticky lg:top-[200px] lg:self-start">
             <div className="w-full h-[400px] md:h-[644px] rounded-2xl overflow-hidden bg-gray-100 transition-all duration-500">
-              {currentTabData.video ? (
-                <div className="w-full h-full">
-                  <VideoPlayers
-                    video={currentTabData.video}
-                    thumbnail={'thumbnail' in currentTabData ? currentTabData.thumbnail : undefined}
-                  />
-                </div>
-              ) : ('thumbnail' in currentTabData && currentTabData.thumbnail) ? (
+              {('thumbnail' in currentTabData && currentTabData.thumbnail) ? (
                 <div className="w-full h-full relative">
                   <img 
                     src={currentTabData.thumbnail as string} 
                     alt={currentTabData.heading}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover rounded-2xl"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30">
-                    <div className="w-16 h-16 rounded-full bg-white flex items-center justify-center">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path d="M8 5v14l11-7z" fill="currentColor"/>
-                      </svg>
-                    </div>
-                  </div>
-                  <div className="absolute bottom-4 left-4 bg-white px-4 py-2 rounded-lg">
-                    <p className="text-sm font-medium">{currentTabData.title}</p>
-                  </div>
+                </div>
+              ) : currentTabData.video ? (
+                <div className="w-full h-full">
+                  <VideoPlayers
+                    video={currentTabData.video}
+                    thumbnail={undefined}
+                  />
                 </div>
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
-                  <p className="text-gray-400">Video: {currentTabData.title}</p>
+                  <p className="text-gray-400">No media available</p>
                 </div>
               )}
             </div>
