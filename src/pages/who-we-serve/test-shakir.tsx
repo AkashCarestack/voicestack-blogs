@@ -104,10 +104,16 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
         />
       )}
 
-      <Section className='bg-[#ffffff]' border="y">
+      {pageData['test-listing-2']?.componentData && (
+        <CardsGridSection type="three-col"
+          data={pageData['test-listing-2'].componentData}
+        />
+      )}
+
+      <Section className='bg-[#ffffff]' border="b">
         <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0" innerPadding>
           <div className="flex-col relative w-full flex gap-16">
-            <SectionHeaderV2
+            <SectionHeaderV2 className='xl:px-12 md:px-6 px-4'
               heading={pageData['how-voicestack-works2'].componentData.sectionHeadingDynamic}
               // heading={pageData['how-voicestack-works2'].componentData.heading}
               description={"lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."}
