@@ -83,34 +83,29 @@ const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => 
             />
 
             <div className="relative z-10 w-full flex flex-col gap-12 flex-grow">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {items.map((item) => {
                   const CardContent = (
                     <div className="h-full col-span-2 p-12 flex flex-col gap-6 justify-between transition-all group">
-                      <div className="flex flex-col gap-4">
+                      <div className="flex flex-col gap-8">
 
                         {/* Icon/Image */}
                         {item.dynamicSvg && (
                           <div 
-                            className="flex items-center justify-center self-start "
+                            className="flex items-center justify-center self-start w-8 h-8"
                             dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
                           />
                         )}
 
                         {/* Content */}
-                        <div className="flex flex-col gap-2">
+                        <div className="flex flex-col gap-[6px]">
                           {item.heading && (
-                            <h3 className="md:text-xl text-lg font-bold text-gray-950 font-manrope">
-                              {item.heading}
-                            </h3>
-                          )}
-                          {item.subheading && (
-                            <p className="text-sm font-medium text-gray-700">
-                              {item.subheading}
-                            </p>
+                            <h3 className="md:text-xl text-lg font-medium text-gray-950 leading-normal [&>span]:text-vs-blue"
+                            dangerouslySetInnerHTML={{__html:item.heading}}
+                            ></h3>
                           )}
                           {item.description && (
-                            <p className="text-sm text-gray-700 leading-relaxed">
+                            <p className="text-base text-gray-500 leading-normal">
                               {item.description}
                             </p>
                           )}
@@ -127,7 +122,7 @@ const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => 
                   )
 
                   return (
-                    <div key={item._key || Math.random()} className="border-t border-r border-b">
+                    <div key={item._key || Math.random()} className="border-t md:border-r lg:[&:nth-child(3n)]:border-r-0  md:[&:nth-child(2n)]:border-r-0 ">
                       {item.link?.url ? (
                         <Link href={item.link.url} className="block h-full">
                           {CardContent}
