@@ -16,6 +16,7 @@ import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
 import AboutCoachingPartners from '~/components/revamp/components/common/AboutCoachingPartners'
 import FooterBottom from '~/components/revamp/components/common/FooterBottom'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -54,38 +55,31 @@ interface PageData {
   [key: string]: any // For other page sections
 }
 
-interface TestShakirProps {
+interface TestPrincyProps {
   pageData: PageData
   region: string
   comparisonTableData: any
   comparisonLegendData: any[] | null
 }
 
-export default function TestShakir({ pageData, region, comparisonTableData, comparisonLegendData }: TestShakirProps) {
-
-  // console.log(pageData)
-  // Add error boundary and validation
-  // if (!pageData?.['inner-hero']?.componentData) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <div className="text-center">
-  //         <h1 className="text-2xl font-bold text-gray-800 mb-4">Page Not Found</h1>
-  //         <p className="text-gray-600">The requested page content is not available.</p>
-  //       </div>
-  //     </div>
-  //   )
-  // }
-
-  // Create comparison section data (same structure as homepage)
-  const comparisonSectionData = {
-    strip: 'The Best-in-Class Phone System. For the Best-in-Class Dental Practices.',
-    header: 'No other phone system can match VoiceStack\'s AI-driven features,outcome-driven workflows and integration capabilities, as shown in the comparison chart below. ',
-    columnDimensionName: 'Features',
-    table: comparisonTableData,
-  }
+export default function TestPrincy({ pageData, region, comparisonTableData, comparisonLegendData }: TestPrincyProps) {
+  // Debug: Check what sections are available in pageData
+  console.log('Available pageData keys:', pageData)
+  console.log('testimonial-video-section:', pageData['testimonial-video-section'])
+  console.log('about-coach-partners:', pageData['about-coach-partners'])
 
   return (
     <>
+    {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
+        <VerticalTestimonialListing
+          data={
+            pageData['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
+          refer={region}
+        />
+      )}
     {pageData['about-coach-partners']?.componentData && (
       <AboutCoachingPartners data={pageData['about-coach-partners']?.componentData} />
     )}
@@ -97,6 +91,7 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
+    console.log('region:', region)
     const queries = new Queries('test-princy', region)
     const slug = region === 'en' ? 'test-princy' : `test-princy-${region.toLowerCase()}`
     
