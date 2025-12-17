@@ -3,6 +3,8 @@ import Section from '~/components/structure/Section'
 import SectionHeader from './sectionHeader'
 import Button from '~/components/common/Button'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
+import SectionHeaderV2 from './sectionHeaderV2'
+import ArrowIcon from '../../icons/arrowIcon'
 
 const partnersData = [
   {
@@ -24,83 +26,102 @@ const partnersData = [
     image: 'https://placehold.co/200x200/e2e8f0/333333?text=Nick', // Replace with actual portrait
   },
 ]
-export default function AboutCoachingPartners() {
+export default function AboutCoachingPartners({ data }: { data: any }) {
+  console.log(data)
   return (
-    <Section className="md:pt-16 pt-12 bg-gray-50 ">
-      <Container className="flex flex-col items-center w-full gap-16">
-        <SectionHeader
-          heading="About Coaching Partners"
-          description="We are a team of experienced coaches who are dedicated to helping our clients achieve their goals."
-        />
-        <div className="p-8 flex justify-center items-center">
+    <Section className="bg-[#ffffff]" border="y">
+      <Container
+        className="w-full pt-sm md:pt-md lg:pt-lg"
+        type="V2"
+        border="y-0"
+      >
+        <div className="flex-col relative w-full flex gap-16">
+          <SectionHeaderV2
+            heading={data?.heading}
+            description={data?.description}
+          />
           {/* Main Container Card */}
           <div className="w-full">
-            <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-200 border-t border-gray-200">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  border-t border-gray-200">
               {/* Column 1: Text Content */}
-              <div className="flex flex-col justify-between py-6 px-12">
+              <div className="group/card flex flex-col justify-between border-r border-gray-200 py-6 px-6 md:px-12">
                 <div>
                   <h4 className="text-base md:text-lg font-medium text-gray-950 mb-2.5">
-                    Our Coaching Partners
+                    {data?.items[0]?.heading}
                   </h4>
                   <p className="text-sm md:text-base text-gray-700 leading-[150%] mb-8">
-                    Give you the how: proven communication scripts, objection
-                    handling, and conversion training that help your team turn
-                    every opportunity into bookings and revenue.
+                    {data?.items[0]?.description}
                   </p>
                 </div>
                 <div>
-                  <Button type="borderlessIcon" link="/about-coaching-partners">
-                    About Coaching Partners
+                  <Button
+                    type="borderlessIcon"
+                    link={data?.items[0]?.link?.url}
+                  >
+                    {data?.items[0]?.link?.text}
+                    <ArrowIcon className="size-4 text-codgray-950 transition-transform duration-300 group-hover/card:-translate-y-1 group-hover/card:translate-x-1" />
                   </Button>
                 </div>
               </div>
 
               {/* Columns 2, 3, 4: Partners (Mapped from data) */}
-              {partnersData.map((partner) => (
+              {data?.items?.slice(1).map((item: any) => (
                 <div
-                  key={partner.id}
-                  className="p-8 flex flex-col items-center text-center"
+                  key={item._key}
+                  className="group relative flex flex-col items-center text-center border-r border-gray-200 last:border-r-0 w-full h-full overflow-hidden"
                 >
-                  {/* Logo Area - fixed height for alignment */}
-                  {/* <div
-                                    className=""
-                                    style={{
-                                      height: `48px`,
-                                      width: `${
-                                        48 *
-                                        logo?.secondaryLogo?.metadata
-                                          ?.dimensions?.aspectRatio
-                                      }px`,
-                                    }}
-                                  >
-                                    <ImageLoader
-                                      image={logo?.secondaryLogo?.url}
-                                      className="w-full h-full object-cover"
-                                      alt="Company Logo"
-                                      imageClassName=" filter brightness-[132%] "
-                                    />
-                                  </div> */}
-                  <div className="h-12 mb-8 flex items-center justify-center">
-                    <img
-                      src={partner.logo}
-                      alt={`${partner.name}'s company logo`}
-                      className="max-h-full max-w-[160px] object-contain"
-                    />
-                  </div>
+                  <div
+                    className="flex flex-col items-center justify-center w-full overflow-hidden"
+                    style={{
+                      background:
+                        'linear-gradient(180deg, rgba(60, 137, 225, 0) 0%, rgba(60, 137, 225, 0.1) 100%), #F9FAFB',
+                    }}
+                  >
+                    <div
+                      className="pt-3 md:pt-6 pb-3"
+                      style={{
+                        height: `70px`,
+                        width: `${
+                          70 * item?.icon?.metadata?.dimensions?.aspectRatio
+                        }px`,
+                      }}
+                    >
+                      <ImageLoader
+                        image={item?.icon?.url}
+                        className="w-full h-full object-cover"
+                        alt="Company Logo"
+                      />
+                    </div>
 
-                  {/* Circular Image */}
-                  <div className="w-40 h-40 rounded-full overflow-hidden mb-6 bg-gray-200">
-                    <img
-                      src={partner.image}
-                      alt={partner.name}
-                      className="w-full h-full object-cover"
-                    />
+                    <div
+                      className="w-full h-full pt-3 md:pt-5"
+                      style={{
+                        height: `330px`,
+                      }}
+                    >
+                      <ImageLoader
+                        image={item?.image?.url}
+                        className="w-full h-full object-cover"
+                        alt="Company Logo"
+                      />
+                    </div>
                   </div>
-
-                  {/* Name */}
-                  <span className="text-base font-bold text-gray-900">
-                    {partner.name}
-                  </span>
+                 
+                  {/* Heading - visible by default */}
+                  <div className="w-full bg-codgray-50 py-3 md:py-4 border-t border-gray-200">
+                    <h5 className="text-base font-medium text-black">
+                      {item.heading}
+                    </h5>
+                  </div>
+                  {/* Description - slides up from bottom on hover */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-white px-4 py-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out border-t border-gray-200">
+                    <h5 className="text-base font-medium text-black mb-2">
+                      {item.heading}
+                    </h5>
+                    <p className="text-sm text-gray-700 leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>

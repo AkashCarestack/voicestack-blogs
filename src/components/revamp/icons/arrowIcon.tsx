@@ -6,17 +6,18 @@ export default function ArrowIcon({ className }: { className?: string }) {
       height="16"
       viewBox="0 0 16 16"
       fill="none"
+      className={className}
     >
       <path
         d="M4.66675 4.66699H11.3334V11.3337"
-        stroke="#6A7282"
+        stroke="currentColor"
         strokeWidth="1.66667"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
       <path
         d="M4.66675 11.3337L11.3334 4.66699"
-        stroke="#6A7282"
+        stroke="currentColor"
         strokeWidth="1.66667"
         strokeLinecap="round"
         strokeLinejoin="round"
