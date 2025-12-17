@@ -134,6 +134,7 @@ module.exports = {
       },
 	  boxShadow: {
         'custom-light': '0px 6px 20px 0px rgba(0, 0, 0, 0.05)',
+		glow: '-7px 0 10px 0 rgba(251,111,142,0.5), 7px 0 10px 0 rgba(74,60,225,0.5)',
       },
   	}
   },
