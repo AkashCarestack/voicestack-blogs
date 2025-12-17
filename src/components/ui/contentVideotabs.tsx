@@ -215,7 +215,7 @@ export default function ContentVideoTabs({
 
   return (
     <Section className={cn("w-full flex flex-col !bg-white", containerClassName)}>
-      <Container className='w-full py-sm md:py-md lg:py-lg px-12' type="V2" border="y-0">
+      <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
       <div className="flex-col relative w-full flex gap-16 mb-[60px]">
           <SectionHeaderV2
             heading={data?.sectionHeadingDynamic}
@@ -225,7 +225,7 @@ export default function ContentVideoTabs({
         </div>
         
         {uploadedVideoUrl && (
-          <div className="w-[calc(100%+96px)] -mx-12 mb-8 overflow-hidden bg-gray-100 h-[400px] md:h-[600px]">
+          <div className="w-full   mb-8 overflow-hidden bg-gray-100 h-[400px] md:h-[600px]">
             <div className="relative w-full h-full">
               <video
                 className="w-full h-full object-cover"
@@ -242,7 +242,7 @@ export default function ContentVideoTabs({
           </div>
         )}
 
-      <div className="sticky top-0 md:top-[30px] z-[100] w-fit   bg-transparent overflow-hidden justify-center items-center mx-auto">
+      <div className="sticky top-[80px] md:top-[30px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
         <SwitchableTabs
           data={tabs.map(tab => ({
             id: tab.key,
@@ -259,9 +259,9 @@ export default function ContentVideoTabs({
           shadow={false}
         />
       </div>
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 md:px-12 px-4 ">
           {/* Left: Scrollable Content Sections */}
-          <div className="flex-1">
+          <div className="flex-1 ">
             {tabs?.map((tab) => (
               <section
                 key={tab.key}
@@ -272,6 +272,7 @@ export default function ContentVideoTabs({
                     sectionRefs.current[tab.key] = el;
                   }}
                   data-tab-key={tab.key}
+                  className='h-[50vh] flex'
                 >
                   <div className="flex flex-col justify-center">
                     {tab.category && (
@@ -279,19 +280,19 @@ export default function ContentVideoTabs({
                         {tab.category}
                       </div>
                     )}
-                    <h2 className="my-3 text-gray-900 text-4xl font-manrope font-semibold leading-10 tracking-normal">
+                    <h2 className="my-3 text-gray-900 md:text-4xl text-2xl font-manrope font-semibold leading-10 tracking-normal">
                       {tab.heading}
                     </h2>
-                    <p className="text-gray-500 text-lg font-geist font-normal leading-[155.55%] tracking-normal">
+                    <p className="text-gray-500 md:text-lg text-base font-geist font-normal leading-[155.55%] tracking-normal">
                       {tab.description}
                     </p>
                     
                     {tab.features && tab.features.length > 0 && (
-                      <div className="flex flex-wrap gap-4 md:mt-6 mt-3">
+                      <div className="flex flex-wrap gap-2 md:gap-4 md:mt-6 mt-3">
                         {tab.features.map((feature, idx) => (
                           <div
                             key={idx}
-                            className="group flex items-center gap-2 text-gray-950 text-base font-geist font-medium leading-6 tracking-normal cursor-pointer transition-colors duration-200 hover:text-vs-purple"
+                            className="group flex items-center gap-2 text-gray-950 md:text-base text-sm font-geist font-medium leading-6 tracking-normal cursor-pointer transition-colors duration-200 hover:text-vs-purple"
                           >
                             <span className="transition-colors duration-200">{feature}</span>
                             <svg 

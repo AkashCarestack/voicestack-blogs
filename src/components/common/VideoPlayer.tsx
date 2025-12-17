@@ -12,11 +12,28 @@ export default function VideoPlayers({
   thumbnail: any
 }) {
 
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [showThumbnail, setShowThumbnail] = useState(true)
-
-  // Handle array case for video
   const videoData = Array.isArray(video) ? video[0] : video
+
+  // Check if video has a platform (youtube, vidyard, vimeo) - auto-play these
+  const hasVideoPlatform = videoData?.videoPlatform && videoData?.videoId && 
+    ['youtube', 'vidyard', 'vimeo'].includes(videoData.videoPlatform)
+
+  // Check if video is MP4 with direct URL
+  const hasMp4Video = videoData?.videoPlatform === 'mp4' && videoData?.videoUrl
+
+  const [isPlaying, setIsPlaying] = useState(hasVideoPlatform || hasMp4Video)
+  const [showThumbnail, setShowThumbnail] = useState(!hasVideoPlatform && !hasMp4Video)
+
+  // Auto-play when video changes
+  useEffect(() => {
+    if (hasVideoPlatform || hasMp4Video) {
+      setIsPlaying(true)
+      setShowThumbnail(false)
+    } else {
+      setIsPlaying(false)
+      setShowThumbnail(true)
+    }
+  }, [videoData?.videoPlatform, videoData?.videoId, videoData?.videoUrl])
 
   const getVideoEmbedUrl = () => {
     if (!videoData) return null
@@ -24,11 +41,14 @@ export default function VideoPlayers({
 
     switch (videoPlatform) {
       case 'youtube':
-        return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`
+        // Remove controls, enable autoplay, loop, mute, and minimal branding
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&playsinline=1`
       case 'vimeo':
-        return `https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0`
+        // Remove controls, enable autoplay and loop
+        return `https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0`
       case 'vidyard':
-        return `https://play.vidyard.com/${videoId}?autoplay=1`
+        // Enable autoplay and loop (Vidyard may have different parameters)
+        return `https://play.vidyard.com/${videoId}?autoplay=1&loop=1&muted=1`
       default:
         return null
     }
@@ -90,38 +110,35 @@ export default function VideoPlayers({
       className="relative w-full h-full group"
      
     >
-      {isPlaying ? (
-        <div className="relative w-full h-full cursor-pointer" onClick={handlePlay}>
-          <iframe
-            src={getVideoEmbedUrl()}
-            className="w-full h-full rounded-2xl"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowFullScreen
+      {hasVideoPlatform ? (
+        <iframe
+          src={getVideoEmbedUrl()}
+          className="w-full h-full rounded-2xl"
+          frameBorder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+        />
+      ) : hasMp4Video && (isPlaying || !thumbnail) ? (
+        <video
+          src={videoData.videoUrl}
+          muted
+          loop
+          playsInline
+          autoPlay
+          controls={false}
+          className="w-full h-full object-cover rounded-2xl"
+        />
+      ) : thumbnail ? (
+        <div className="relative w-full h-full">
+          <img 
+            src={thumbnail}
+            alt=""
+            className="w-full h-full object-cover rounded-2xl"
           />
-          
         </div>
       ) : (
-        <>
-          {thumbnail ? (
-            <video
-              muted
-              loop
-              playsInline
-              autoPlay
-              className="w-full h-full object-cover"
-            >
-              <source
-                src={urlForVideo(thumbnail)}
-                // type="video/mp4"
-              />
-              Your browser does not support HTML5 video.
-            </video>
-          ) : (
-            // Fallback when no thumbnail
-            null
-          )}
-        </>
+        // Fallback when no thumbnail and no video
+        null
       )}
     </div>
     </>

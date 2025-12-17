@@ -16,8 +16,8 @@ export const contentVideoTabsDummyData = [
     ctaText: 'Book Free Demo',
     ctaLink: '/demo',
     video: {
-      videoPlatform: 'youtube',
-      videoId: 'dQw4w9WgXcQ', // Replace with actual video ID
+      videoPlatform: 'mp4',
+      videoUrl: 'https://cdn.sanity.io/files/76tr0pyh/develop/8dcf31a3d9628f6a8f3c53d581225cb11bfb2d91.mp4',
     },
   },
   {
@@ -34,9 +34,10 @@ export const contentVideoTabsDummyData = [
     ],
     ctaText: 'Book Free Demo',
     ctaLink: '/demo',
+    thumbnail: 'https://cdn.sanity.io/images/76tr0pyh/develop/982a5e476cebb1f8a1cb181c7dd0328eb7f29c45-2400x1260.png',
     video: {
-      videoPlatform: 'youtube',
-      videoId: 'dQw4w9WgXcQ', // Replace with actual video ID
+      videoPlatform: 'mp4',
+      videoUrl: 'https://cdn.sanity.io/files/76tr0pyh/develop/8dcf31a3d9628f6a8f3c53d581225cb11bfb2d91.mp4',
     },
   },
   {
@@ -52,9 +53,10 @@ export const contentVideoTabsDummyData = [
     ],
     ctaText: 'Book Free Demo',
     ctaLink: '/demo',
+    thumbnail: 'https://cdn.sanity.io/images/76tr0pyh/develop/8eb0a5de69571bcf9a341342cc4581d1351cd8a8-1600x952.png',
     video: {
-      videoPlatform: 'youtube',
-      videoId: 'dQw4w9WgXcQ', // Replace with actual video ID
+      videoPlatform: 'mp4',
+      videoUrl: 'https://cdn.sanity.io/files/76tr0pyh/develop/8dcf31a3d9628f6a8f3c53d581225cb11bfb2d91.mp4',
     },
   },
   {
@@ -71,9 +73,10 @@ export const contentVideoTabsDummyData = [
     ],
     ctaText: 'Book Free Demo',
     ctaLink: '/demo',
+    thumbnail: 'https://cdn.sanity.io/images/76tr0pyh/develop/b73fcb7774bff0f805617d4293d9fabd10644da2-800x800.png',
     video: {
-      videoPlatform: 'youtube',
-      videoId: 'dQw4w9WgXcQ', // Replace with actual video ID
+      videoPlatform: 'mp4',
+      videoUrl: 'https://cdn.sanity.io/files/76tr0pyh/develop/8dcf31a3d9628f6a8f3c53d581225cb11bfb2d91.mp4',
     },
   },
   {
@@ -91,9 +94,10 @@ export const contentVideoTabsDummyData = [
     ],
     ctaText: 'Book Free Demo',
     ctaLink: '/demo',
+    thumbnail: 'https://cdn.sanity.io/images/76tr0pyh/develop/b73fcb7774bff0f805617d4293d9fabd10644da2-800x800.png',
     video: {
-      videoPlatform: 'youtube',
-      videoId: 'dQw4w9WgXcQ', // Replace with actual video ID
+      videoPlatform: 'mp4',
+      videoUrl: 'https://cdn.sanity.io/files/76tr0pyh/develop/8dcf31a3d9628f6a8f3c53d581225cb11bfb2d91.mp4',
     },
   },
   {
@@ -113,8 +117,8 @@ export const contentVideoTabsDummyData = [
     ctaText: 'Book Free Demo',
     ctaLink: '/demo',
     video: {
-      videoPlatform: 'youtube',
-      videoId: 'dQw4w9WgXcQ', // Replace with actual video ID
+      videoPlatform: 'mp4',
+      videoUrl: 'https://cdn.sanity.io/files/76tr0pyh/develop/8dcf31a3d9628f6a8f3c53d581225cb11bfb2d91.mp4',
     },
   },
 ];
