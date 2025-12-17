@@ -8,6 +8,7 @@ import Container from '../structure/Container';
 import SectionHeaderV2 from '../revamp/components/common/sectionHeaderV2';
 import SwitchableTabs from '../revamp/components/common/switchableTabs';
 import { IdataProps } from '../revamp/components/common/interface/common';
+import { contentVideoTabsDummyData } from './contentDummy';
 
 
 interface Feature {
@@ -63,55 +64,6 @@ interface ContentVideoTabsProps {
   containerClassName?: string;
   data: any;
 }
-
-// Dummy data for demonstration
-const contentVideoTabsDummyData: TabItem[] = [
-  {
-    key: 'automation',
-    title: 'Automation',
-    category: 'Smart Workflows',
-    heading: 'Automate Your Dental Practice',
-    description: 'Streamline your operations with intelligent automation that saves time and reduces manual work.',
-    features: ['Auto-scheduling', 'Smart reminders', 'Task automation'],
-    ctaText: 'Book Free Demo',
-    ctaLink: '/demo',
-    video: {
-      videoPlatform: 'youtube',
-      videoId: 'dQw4w9WgXcQ' // Replace with actual YouTube video ID
-    },
-    thumbnail: 'https://placehold.co/600x400/EEE/31343C?text=Automation'
-  },
-  {
-    key: 'analytics',
-    title: 'Analytics',
-    category: 'Data Insights',
-    heading: 'Powerful Practice Analytics',
-    description: 'Get deep insights into your practice performance with comprehensive analytics and reporting.',
-    features: ['Real-time dashboards', 'Custom reports', 'Performance metrics'],
-    ctaText: 'Book Free Demo',
-    ctaLink: '/demo',
-    video: {
-      videoPlatform: 'youtube',
-      videoId: 'dQw4w9WgXcQ' // Replace with actual YouTube video ID
-    },
-    thumbnail: 'https://placehold.co/600x400/EEE/31343C?text=Analytics'
-  },
-  {
-    key: 'communication',
-    title: 'Communication',
-    category: 'Patient Engagement',
-    heading: 'Seamless Patient Communication',
-    description: 'Connect with patients effortlessly through multiple channels and improve engagement.',
-    features: ['SMS & Email', 'Two-way messaging', 'Automated follow-ups'],
-    ctaText: 'Book Free Demo',
-    ctaLink: '/demo',
-    video: {
-      videoPlatform: 'youtube',
-      videoId: 'dQw4w9WgXcQ' // Replace with actual YouTube video ID
-    },
-    thumbnail: 'https://placehold.co/600x400/EEE/31343C?text=Communication'
-  }
-];
 
 export default function ContentVideoTabs({
   data,
@@ -238,7 +190,7 @@ export default function ContentVideoTabs({
     return null;
   }
 
-  const currentTabData = tabs.find(tab => tab.key === activeTab) || tabs[0];
+  const currentTabData = (tabs.find(tab => tab.key === activeTab) || tabs[0]) as TabItem;
   
   // Get uploaded MP4 video from data.video
   const getUploadedVideo = () => {
@@ -290,7 +242,7 @@ export default function ContentVideoTabs({
           </div>
         )}
 
-      <div className="sticky top-0 md:top-[20px] z-[100] w-fit md:py-16 bg-transparent overflow-hidden justify-center items-center mx-auto">
+      <div className="sticky top-0 md:top-[30px] z-[100] w-fit   bg-transparent overflow-hidden justify-center items-center mx-auto">
         <SwitchableTabs
           data={tabs.map(tab => ({
             id: tab.key,
@@ -304,6 +256,7 @@ export default function ContentVideoTabs({
           isSticky={true}
           className="md:py-16 bg-transparent !shadow-none !border-none"
           isShowImage={false}
+          shadow={false}
         />
       </div>
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
@@ -391,13 +344,13 @@ export default function ContentVideoTabs({
                 <div className="w-full h-full">
                   <VideoPlayers
                     video={currentTabData.video}
-                    thumbnail={currentTabData.thumbnail}
+                    thumbnail={'thumbnail' in currentTabData ? currentTabData.thumbnail : undefined}
                   />
                 </div>
-              ) : currentTabData.thumbnail ? (
+              ) : ('thumbnail' in currentTabData && currentTabData.thumbnail) ? (
                 <div className="w-full h-full relative">
                   <img 
-                    src={currentTabData.thumbnail} 
+                    src={currentTabData.thumbnail as string} 
                     alt={currentTabData.heading}
                     className="w-full h-full object-cover"
                   />

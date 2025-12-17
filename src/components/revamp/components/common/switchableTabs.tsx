@@ -10,6 +10,7 @@ export default function SwitchableTabs({
   activeTab,
   className,
   isShowImage = false,
+  shadow = true,
 }: {
   data: IdataProps[]
   setActiveTab: (key: string) => void
@@ -17,6 +18,7 @@ export default function SwitchableTabs({
   activeTab?: string
   className?: string
   isShowImage?: boolean
+  shadow?: boolean
 }) {
   const { scrollUp, scrollDown } = useScrollListen()
   const refElement = useRef<(HTMLButtonElement | null)[]>([])
@@ -57,13 +59,11 @@ export default function SwitchableTabs({
 
   return (
     <div
-        className={`${isSticky && 'sticky'} ${scrollUp ? 'md:top-[-5px] top-[28px] ' : 'md:top-[38px] top-[35px]'} flex gap-2.5 w-full justify-center items-center transition-all duration-300 ease-in-out ${className}`}
+      className={`${isSticky && 'sticky'} ${scrollUp ? 'md:top-[-5px] top-[28px] ' : 'md:top-[38px] top-[35px]'} flex gap-2.5 w-full justify-center items-center transition-all duration-300 ease-in-out ${className || ''}`}
+    >
+      <div
+        className={`lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] rounded-full p-1.5 flex flex-row gap-2.5 lg:w-fit lg:bg-white bg-white ${shadow ? 'lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]' : 'border border-gray-200 lg:shadow-none'} overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none transition-all duration-300 ease-in-out`}
       >
-        <div
-          className="lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] rounded-full p-1.5 flex flex-row 
-          gap-2.5  lg:w-fit lg:bg-white bg-white 
-           overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none transition-all duration-300 ease-in-out"
-        >
         {data.map((item, idx) => {
           const itemKey = item.key || item.id || idx.toString()
           const isActive = (activeTab || data[0]?.key || data[0]?.id || '0') === itemKey
@@ -111,7 +111,7 @@ export default function SwitchableTabs({
             </button>
           )
         })}
-        </div>
       </div>
+    </div>
   )
 }
