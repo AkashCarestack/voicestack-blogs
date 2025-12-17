@@ -6,6 +6,8 @@ import Button from '../common/Button';
 import Section from '../structure/Section';
 import Container from '../structure/Container';
 import SectionHeaderV2 from '../revamp/components/common/sectionHeaderV2';
+import SwitchableTabs from '../revamp/components/common/switchableTabs';
+import { IdataProps } from '../revamp/components/common/interface/common';
 
 
 interface Feature {
@@ -237,7 +239,27 @@ export default function ContentVideoTabs({
   }
 
   const currentTabData = tabs.find(tab => tab.key === activeTab) || tabs[0];
-  console.log(data?.video);
+  
+  // Get uploaded MP4 video from data.video
+  const getUploadedVideo = () => {
+    if (!data?.video || !Array.isArray(data.video) || data.video.length === 0) {
+      return null;
+    }
+    
+    const firstVideo = data.video[0];
+    if (!firstVideo?.uploadedVideos || !Array.isArray(firstVideo.uploadedVideos)) {
+      return null;
+    }
+    
+    // Find MP4 video
+    const mp4Video = firstVideo.uploadedVideos.find(
+      (uploadedVideo: any) => uploadedVideo.type === 'mp4'
+    );
+    
+    return mp4Video?.url || null;
+  };
+  
+  const uploadedVideoUrl = getUploadedVideo();
 
   return (
     <Section className={cn("w-full flex flex-col !bg-white", containerClassName)}>
@@ -249,40 +271,40 @@ export default function ContentVideoTabs({
             className='xl:px-12 md:px-6 px-4'
           />
         </div>
-
-        {/* {data?.video && Array.isArray(data.video) && data.video.length > 0 && (
-          <div className="w-full h-full">
-            <VideoPlayers
-              video={data.video[0]}
-              thumbnail={data.video[0].videoThumbnail?.url}
-            />
-          </div>
-        )} */}
-
-      <div className="sticky top-0 md:top-[80px] z-[100] w-fit  bg-transparent overflow-hidden justify-center items-center mx-auto">
-        <div className=''>
-          <div className="flex justify-center">
-            <div className="flex gap-2.5 overflow-x-auto scrollbar-hide p-1.5 rounded-full border border-gray-200 bg-white">
-              {tabs.map((tab) => {
-                const isActive = activeTab === tab.key;
-                return (
-                  <button
-                    key={tab.key}
-                    onClick={() => handleTabClick(tab.key)}
-                    className={cn(
-                      "px-5 py-2.5 rounded-full text-base font-geist transition-all duration-200 ease-in-out whitespace-nowrap",
-                      isActive
-                        ? "bg-gray-950 text-white border border-transparent"
-                        : "text-gray-950 bg-transparent hover:bg-tab-hover-gradient hover:shadow-[0_0_0_2px_#CAC5FF]"
-                    )}
-                  >
-                    {tab.title}
-                  </button>
-                );
-              })}
+        
+        {uploadedVideoUrl && (
+          <div className="w-[calc(100%+96px)] -mx-12 mb-8 overflow-hidden bg-gray-100 h-[400px] md:h-[600px]">
+            <div className="relative w-full h-full">
+              <video
+                className="w-full h-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="auto"
+              >
+                <source src={uploadedVideoUrl} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
-        </div>
+        )}
+
+      <div className="sticky top-0 md:top-[20px] z-[100] w-fit md:py-16 bg-transparent overflow-hidden justify-center items-center mx-auto">
+        <SwitchableTabs
+          data={tabs.map(tab => ({
+            id: tab.key,
+            key: tab.key,
+            title: tab.title,
+            testimonial: null,
+            setActiveTab: handleTabClick,
+          })) as IdataProps[]}
+          setActiveTab={handleTabClick}
+          activeTab={activeTab}
+          isSticky={true}
+          className="md:py-16 bg-transparent !shadow-none !border-none"
+          isShowImage={false}
+        />
       </div>
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
           {/* Left: Scrollable Content Sections */}
