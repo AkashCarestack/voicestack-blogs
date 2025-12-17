@@ -662,6 +662,22 @@ class Queries {
                         sectionHeadingDynamic,
                         description,
                         useReference,
+                        // Overview Video with thumbnails
+                        "video": video[] {
+                          ...,
+                          ${this.VIDEO_FIELDS},
+                          "videoThumbnail": videoThumbnail.asset-> {
+                            _id,
+                            url,
+                            originalFilename,
+                            size,
+                            mimeType
+                          },
+                          "uploadedVideos": uploadVideos[] {
+                            type,
+                            url
+                          }
+                        },
                         "blocksListingReference": blocksListingReference-> {
                           _type,
                           _id,
@@ -1211,6 +1227,22 @@ class Queries {
                   sectionHeadingDynamic,
                   description,
                   useReference,
+                  // Overview Video with thumbnails
+                  "video": video[] {
+                    ...,
+                    ${this.VIDEO_FIELDS},
+                    "videoThumbnail": videoThumbnail.asset-> {
+                      _id,
+                      url,
+                      originalFilename,
+                      size,
+                      mimeType
+                    },
+                    "uploadedVideos": uploadVideos[] {
+                      type,
+                      url
+                    }
+                  },
                   ctaListItems[] {
                     ${this.CTA_FIELDS}
                   },
@@ -1652,6 +1684,22 @@ class Queries {
               sectionHeadingDynamic,
               description,
               useReference,
+              // Overview Video with thumbnails
+              "video": video[] {
+                ...,
+                ${this.VIDEO_FIELDS},
+                "videoThumbnail": videoThumbnail.asset-> {
+                  _id,
+                  url,
+                  originalFilename,
+                  size,
+                  mimeType
+                },
+                "uploadedVideos": uploadVideos[] {
+                  type,
+                  url
+                }
+              },
               "blocksListingReference": blocksListingReference-> {
                 _type,
                 _id,

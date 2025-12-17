@@ -266,6 +266,89 @@ export const genericListingComponentFields = [
     ],
     hidden: ({ parent }: any) => !parent?.showRelatedFeatures,
   },
+  {
+    name: 'video',
+    title: 'Overview Video',
+    type: 'array',
+    of: [
+      {
+        type: 'object',
+        name: 'videoDetails',
+        title: 'Video Details',
+        fields: [
+          {
+            name: 'videoPlatform',
+            title: 'Video Platform',
+            type: 'string',
+            description: 'vimeo, vidyard and youtube',
+            options: {
+              list: [
+                { title: 'Vimeo', value: 'vimeo' },
+                { title: 'Vidyard', value: 'vidyard' },
+                { title: 'YouTube', value: 'youtube' },
+              ],
+              layout: 'dropdown',
+            },
+          },
+          {
+            name: 'videoId',
+            title: 'Video Id',
+            type: 'string',
+          },
+          {
+            name: 'videotitle',
+            title: 'Video Title',
+            type: 'string',
+          },
+          {
+            name: 'videoThumbnail',
+            title: 'Video Thumbnail',
+            type: 'file',
+          },
+          {
+            name: 'uploadVideos',
+            title: 'Upload Videos',
+            type: 'array',
+            of: [{
+              type: 'object',
+              name: 'uploadVideo',
+              title: 'Upload Video',
+              fields: [
+                {
+                  name: 'type',
+                  title: 'File Type',
+                  type: 'string',
+                  options: {
+                    list: [
+                      { title: 'Mov', value: 'mov' }, 
+                      { title: 'Mp4', value: 'mp4' },
+                      { title: 'Webm', value: 'webm' },
+                    ],
+                  },
+                },
+                {
+                  name: 'url',
+                  title: 'URL',
+                  type: 'string',
+                },
+              ],
+            }],
+          },
+        ],
+        preview: {
+          select: {
+            title: 'videotitle',
+          },
+          prepare(selection: any) {
+            const { title } = selection
+            return {
+              title: title || 'Untitled Video',
+            }
+          },
+        },
+      },
+    ],
+  },
 ];
 
 const GenericListingComponent = {
