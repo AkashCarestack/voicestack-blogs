@@ -155,7 +155,7 @@ export default function IndexPage({
         comparisonLegendData={comparisonLegendData}
         comparisonTableData={comparisonTableData}
         comparisonSectionData={comparisonSectionData}
-        data={pageData['hero-section']?.componentData} />
+        data={pageData} />
       )}
     </Track>
   )
