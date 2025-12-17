@@ -83,7 +83,7 @@ const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => 
             />
 
             <div className="relative z-10 w-full flex flex-col gap-12 flex-grow">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-l border-r border-b divide-x divide-y">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
                 {items.map((item) => {
                   const CardContent = (
                     <div className="h-full col-span-2 p-12 flex flex-col gap-6 justify-between transition-all group">
@@ -127,7 +127,7 @@ const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => 
                   )
 
                   return (
-                    <div key={item._key || Math.random()} className="">
+                    <div key={item._key || Math.random()} className="border-t border-r border-b">
                       {item.link?.url ? (
                         <Link href={item.link.url} className="block h-full">
                           {CardContent}
