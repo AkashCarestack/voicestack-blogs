@@ -225,7 +225,7 @@ export default function ContentVideoTabs({
         </div>
         
         {uploadedVideoUrl && (
-          <div className="w-full   mb-8 overflow-hidden bg-gray-100 h-[400px] md:h-[600px]">
+          <div className="w-full   mb-8 overflow-hidden bg-gray-100 h-[300px] md:h-[600px]">
             <div className="relative w-full h-full">
               <video
                 className="w-full h-full object-cover"
@@ -366,13 +366,13 @@ export default function ContentVideoTabs({
 
           {/* Right: Sticky Video Player - Changes based on activeTab - Desktop Only */}
           <div className="hidden lg:flex flex-1 lg:sticky lg:top-[200px] lg:self-start">
-            <div className="w-full h-[400px] md:h-[644px] rounded-2xl overflow-hidden bg-gray-100 transition-all duration-500">
+            <div className="w-full h-[400px] md:h-[644px] md:rounded-2xl rounded-none overflow-hidden bg-gray-100 transition-all duration-500">
               {('thumbnail' in currentTabData && currentTabData.thumbnail) ? (
                 <div className="w-full h-full relative">
                   <img 
                     src={currentTabData.thumbnail as string} 
                     alt={currentTabData.heading}
-                    className="w-full h-full object-cover rounded-2xl"
+                    className="w-full h-full object-cover md:rounded-2xl rounded-none"
                   />
                 </div>
               ) : currentTabData.video ? (
