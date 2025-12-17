@@ -81,9 +81,7 @@ export default function VideoPlayers({
       script.innerHTML = JSON.stringify(jsonLd)
       document.head.appendChild(script)
       
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Video JSON-LD added to head:', jsonLd)
-      }
+ 
       
       return () => {
         const scriptToRemove = document.getElementById(scriptId)

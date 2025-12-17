@@ -19,7 +19,6 @@ export default function HomeAU({
   comparisonSectionData: any
   pageData: any
 }) {
-  console.log(pageData, 'pageData in homeAU.tsx')
   return (
     <>
     {featuresData && <CategoryFeatureTabs features={featuresData || []} />}

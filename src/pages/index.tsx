@@ -75,7 +75,6 @@ export default function IndexPage({
   const { Track, trackEvent } = useTracking({ page: 'home-page' }, {})
   const searchParams = useSearchParams()
   const [refer, setRefer] = useState(null)
-  console.log(pageData, 'pageData in index.tsx')
 
   useEffect(() => {
     const sourceParam = searchParams.get('refer')

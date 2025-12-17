@@ -231,7 +231,6 @@ const Header = ({ data, refer = null }) => {
   };
 
   const shouldRenderPopupTop = () => {
-    // console.log(router.locale, getLocaleFromCountry(country), country, "shouldRenderPopupTop");
     return (
       !router.asPath.includes("/legal") &&
       router.locale !== getLocaleFromCountry(country) &&
