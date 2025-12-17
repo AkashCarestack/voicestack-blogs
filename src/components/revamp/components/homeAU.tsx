@@ -2,7 +2,8 @@ import React from 'react'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import StatisticsSection from './StatisticsSection'
-import ContentVideoTabs from '~/components/ui/contentVideotabs'
+import HeroAU from './common/HeroSection/HeroAu'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 
 export default function HomeAU({
   data,
@@ -19,20 +20,28 @@ export default function HomeAU({
   comparisonSectionData: any
   pageData: any
 }) {
+  const heroSectionData = data['hero-section']?.componentData
   return (
     <>
-    {featuresData && <CategoryFeatureTabs features={featuresData || []} />}
-
-    {comparisonLegendData && (
-      <SiteComparisonSection
-        data={comparisonSectionData}
-        legendData={comparisonLegendData}
+      <HeroAU
+        image={heroSectionData?.heroImage}
+        heading={heroSectionData?.heroheading}
+        heroStrip={heroSectionData?.heroStrip}
+        description={heroSectionData?.heroDescription}
+        buttons={heroSectionData?.bookBtnContent}
       />
-    )}
-    {pageData['voicestack-solution']?.componentData && <ContentVideoTabs data={pageData['voicestack-solution']?.componentData} />}
+      {featuresData && <CategoryFeatureTabs features={featuresData || []} />}
 
-    {/* Statistics Section */}
-    <StatisticsSection />
+      {comparisonLegendData && (
+        <SiteComparisonSection
+          data={comparisonSectionData}
+          legendData={comparisonLegendData}
+        />
+      )}
+
+      {/* Statistics Section */}
+      <StatisticsSection />
+      {data.faqData && <FaqSection faqItems={data.faqData[0]} />}
     </>
   )
 }

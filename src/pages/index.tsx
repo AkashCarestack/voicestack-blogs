@@ -150,12 +150,11 @@ export default function IndexPage({
    
       {region === 'en-AU' && (
         <HomeAU 
-        featuresData={featuresData}
-        comparisonLegendData={comparisonLegendData}
-        comparisonTableData={comparisonTableData}
-        comparisonSectionData={comparisonSectionData}
-        data={pageData['hero-section']?.componentData}
-        pageData={pageData} />
+          featuresData={featuresData}
+          comparisonLegendData={comparisonLegendData}
+          comparisonTableData={comparisonTableData}
+          comparisonSectionData={comparisonSectionData}
+          data={pageData} pageData={pageData} />
       )}
     </Track>
   )

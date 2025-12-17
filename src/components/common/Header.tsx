@@ -325,7 +325,7 @@ const Header = ({ data, refer = null }) => {
 
       <ProgressBar />
 
-      {regionSwitcher && (
+      {regionSwitcher && process.env.NEXT_PUBLIC_ENV  !='develop' && (
         <RegionPopup
           currentRegion={currentRegion}
           preferredLocale={preferredLocale}

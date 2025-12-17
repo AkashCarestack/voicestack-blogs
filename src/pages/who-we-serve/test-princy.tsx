@@ -14,6 +14,8 @@ import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
+import AboutCoachingPartners from '~/components/revamp/components/common/AboutCoachingPartners'
+import FooterBottom from '~/components/revamp/components/common/FooterBottom'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -84,65 +86,10 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
 
   return (
     <>
-      {pageData['inner-hero']?.componentData && (
-        <HeroSection 
-          page="inner" 
-          data={pageData['inner-hero'].componentData}
-        />
-      )}
-      
-      {pageData['how-voicestack-works']?.componentData && (
-        <CardsGridSection 
-          data={pageData['how-voicestack-works'].componentData}
-        />
-      )}
-
-
-      {pageData['how-voicestack-works2']?.componentData && (
-        <CardsGridSection 
-          data={pageData['how-voicestack-works2'].componentData}
-        />
-      )}
-
-      {pageData['test-listing-2']?.componentData && (
-        <CardsGridSection type="three-col"
-          data={pageData['test-listing-2'].componentData}
-        />
-      )}
-
-      <Section className='bg-[#ffffff]' border="b">
-        <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0" innerPadding>
-          <div className="flex-col relative w-full flex gap-16">
-            <SectionHeaderV2 className='xl:px-12 md:px-6 px-4'
-              heading={pageData['how-voicestack-works2'].componentData.sectionHeadingDynamic}
-              // heading={pageData['how-voicestack-works2'].componentData.heading}
-              description={"lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."}
-            />
-
-            <div>
-              test content
-            </div>
-          </div>
-        </Container>
-      </Section>
-
-      {pageData['integrations-listing']?.componentData && (
-        <div className="mt-12">
-          <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />
-        </div>
-      )}
-      
-      {/* VoiceStack Comparison Cards Section */}
-      <ComparisonCardsSection data={pageData['comparison-cards']?.componentData}/>
-      
-      {pageData['comparison-table']?.componentData && (
-        <SiteComparisonSection 
-          data={comparisonSectionData} 
-          legendData={comparisonLegendData || []}
-        />
-      )}
-
-      <StatisticsSection />
+    {pageData['about-coach-partners']?.componentData && (
+      <AboutCoachingPartners data={pageData['about-coach-partners']?.componentData} />
+    )}
+    <FooterBottom/>
     </>
   )
 }
@@ -150,8 +97,8 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
-    const queries = new Queries('test-shakir', region)
-    const slug = region === 'en' ? 'test-shakir' : `test-shakir-${region.toLowerCase()}`
+    const queries = new Queries('test-princy', region)
+    const slug = region === 'en' ? 'test-princy' : `test-princy-${region.toLowerCase()}`
     
     const pageData = await queries.getPageData('whoWeServe', slug)
     

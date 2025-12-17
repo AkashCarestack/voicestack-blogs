@@ -1321,6 +1321,7 @@ class Queries {
                     
                     // Common fields across most schemas
                     heading,
+                    sectionHeadingDynamic,
                     description,
                     
                     // logoListing specific
@@ -1383,7 +1384,7 @@ class Queries {
                       }
                     },
                     
-                    // whoWeServeListing specific
+                    // whoWeServeListing and costOfMissedCallsListing specific
                     items[] {
                       _key,
                       heading,

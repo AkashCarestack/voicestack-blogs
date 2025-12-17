@@ -1,3 +1,4 @@
+import React from 'react'
 import siteConfig from 'config/siteConfig'
 
 export const fetchAuthor = (post) => {
@@ -261,4 +262,32 @@ export const toCamelCase = (text: string | undefined): string => {
       return word.charAt(0).toUpperCase() + word.slice(1)
     })
     .join(' ')
+}
+
+
+/**Common Component for Custom block content hero section Use from Here only**/
+export const HeroHeadingComponents: any = {
+  block: {
+    normal: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'span',
+        {
+          className: 'text-gray-950  md:max-w-[607px] w-full font-manrope xl:text-7xl md:text-5xl text-center md:text-left text-3xl font-extrabold !leading-[111.11%] tracking-normal',
+        },
+        children
+      ),
+  },
+}
+
+export const descriptionComponents: any = {
+  block: {
+    normal: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'span',
+        {
+          className: 'text-gray-950 font-normal text-center md:text-left md:max-w-[607px] w-full font-geist md:text-lg text-base leading-[155.55%]',
+        },
+        children
+      ),
+  },
 }

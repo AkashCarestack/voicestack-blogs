@@ -5,6 +5,7 @@ import SectionHeader from './common/sectionHeader'
 import Image from 'next/image'
 import Link from 'next/link'
 import SectionHeaderV2 from './common/sectionHeaderV2'
+import Section from '~/components/structure/Section'
 
 interface CardItem {
   _key?: string
@@ -18,9 +19,11 @@ interface CardItem {
   }
   dynamicSvg?: string
   image?: any
+  icon?: any
 }
 
 interface CardsGridSectionProps {
+  type?: 'two-col' | 'three-col'
   data?: {
     heading?: string
     sectionHeadingDynamic?: string
@@ -36,7 +39,7 @@ interface CardsGridSectionProps {
   customText?: string
 }
 
-const CardsGridSection = ({ data, customText }: CardsGridSectionProps) => {
+const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => {
   
   // Handle referenced data if useReference is true
   const useReferenceData = data?.useReference && data?.blocksListingData
@@ -44,12 +47,98 @@ const CardsGridSection = ({ data, customText }: CardsGridSectionProps) => {
   
   // Use data from props or fallback to defaults
   const heading = displayData?.heading || 'section header'
+  const sectionHeadingDynamic = displayData?.sectionHeadingDynamic || 'section heading dynamic'
   const description = displayData?.description || 'section description'
   const items = displayData?.items || []
+
+  console.log('data noref', data);
+  console.log('type', type);
   
   if (!data) return null;
 
   return (
+
+    type === 'two-col' ? (
+      <Section className='bg-[#ffffff]' border="b">
+        <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0" innerPadding>
+          <div className="flex-col relative w-full flex gap-16">
+            <SectionHeaderV2 className='xl:px-12 md:px-6 px-4'
+              heading={sectionHeadingDynamic}
+              description={description}
+            />
+
+            <div>
+              test content for col-2
+            </div>
+          </div>
+        </Container>
+      </Section>
+    ) : type === 'three-col' ? (
+      <Section className='bg-[#ffffff]' border="y">
+        <Container className='w-full pt-sm md:pt-md lg:pt-lg' type="V2" border="y-0">
+          <div className="flex-col relative w-full flex gap-16">
+            <SectionHeaderV2 className='xl:px-12 md:px-6 px-4'
+              heading={sectionHeadingDynamic}
+              description={description}
+            />
+
+            <div className="relative z-10 w-full flex flex-col gap-12 flex-grow">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                {items.map((item) => {
+                  const CardContent = (
+                    <div className="h-full col-span-2 p-12 flex flex-col gap-6 justify-between transition-all group">
+                      <div className="flex flex-col gap-8">
+
+                        {/* Icon/Image */}
+                        {item.dynamicSvg && (
+                          <div 
+                            className="flex items-center justify-center self-start w-8 h-8"
+                            dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
+                          />
+                        )}
+
+                        {/* Content */}
+                        <div className="flex flex-col gap-[6px]">
+                          {item.heading && (
+                            <h3 className="md:text-xl text-lg font-medium text-gray-950 leading-normal [&>span]:text-vs-blue"
+                            dangerouslySetInnerHTML={{__html:item.heading}}
+                            ></h3>
+                          )}
+                          {item.description && (
+                            <p className="text-base text-gray-500 leading-normal">
+                              {item.description}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Link Text */}
+                      {item.link?.url && item.link?.text && (
+                        <div className="learn-more">
+                          {item.link.text}
+                        </div>
+                      )}
+                    </div>
+                  )
+
+                  return (
+                    <div key={item._key || Math.random()} className="border-t md:border-r lg:[&:nth-child(3n)]:border-r-0  md:[&:nth-child(2n)]:border-r-0 ">
+                      {item.link?.url ? (
+                        <Link href={item.link.url} className="block h-full">
+                          {CardContent}
+                        </Link>
+                      ) : (
+                        CardContent
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+    ) : (
     <div className='w-full bg-[#F9F9F9]'>
       <div className={`justify-center relative`}>
         <Container className='w-full lg:py-lg md:py-md py-sm'>
@@ -162,6 +251,7 @@ const CardsGridSection = ({ data, customText }: CardsGridSectionProps) => {
         
       </div>
     </div>
+    )
   )
 }
 

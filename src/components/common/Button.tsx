@@ -1,14 +1,16 @@
 import clsx from 'clsx'
 import Link from 'next/link'
 import React, { useMemo } from 'react'
-import Anchor from './anchor'
-import { usePricingModal } from './PricingModalContext'
+
 import MailIcon from '../icons/MailIcon'
 import PhoneIcon from '../icons/PhoneIcon'
 import { formatPhoneNumberWithCountryCode } from '../utils/helper'
+import Anchor from './anchor'
+import { usePricingModal } from './PricingModalContext'
+import ArrowIcon from '../revamp/icons/arrowIcon'
 
 interface ButtonProps {
-  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel'
+  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon'
   alter?: 'bgWhite' | 'borderWhite' | 'disabled' | 'default'
   children?: React.ReactNode
   link?: any
@@ -103,6 +105,8 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       type === 'secondaryMail',
     'border-2 md:h-[44px] bg:white/10 border-[rgba(74,60,225,0.15)] hover:border-[rgba(74,60,225,0.15)] hover:bg-black/5 py-2.5 px-6 items-center':
       type === 'secondaryTel',
+      'border-none text-base font-medium leading-[150%] tracking-normal flex text-codgray-950 hover:text-vs-blue':
+      type === 'borderlessIcon',
 
   }) 
 
