@@ -1,7 +1,6 @@
-import Container from '../../../structure/Container'
-import Section from '../../../structure/Section'
-import Button from '../../../common/Button'
 import FooterBottomBg from '../../../../../public/assets/Bg/image2.png'
+import Button from '../../../common/Button'
+import Section from '../../../structure/Section'
 
 export default function FooterBottom() {
   return (
