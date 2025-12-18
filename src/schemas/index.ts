@@ -55,7 +55,7 @@ import TestimonialHighlight from './TestimonialHighlight'
 import HtmlCode from './Utilis/HtmlCode'
 import VerticalTestimonialListing from './VerticalTestimonialListing'
 import WhoWeServeListing from './WhoWeServeListing'
-import CostOfMissedCallsListing from './CostOfMissedCallsListing'
+import GenericItemsListing from './GenericItemsListing'
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -110,7 +110,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     GlobalData,
     VerticalTestimonialListing,
     WhoWeServeListing,
-    CostOfMissedCallsListing,
+    GenericItemsListing,
     button,
     faqRevamp,
   ],

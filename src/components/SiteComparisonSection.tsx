@@ -6,8 +6,9 @@ import { useRouter } from 'next/router'
 import LegendSection from './common/LegendSection'
 import ComparisonTable from './ComparisonTable'
 import SectionHeader from './revamp/components/common/sectionHeader'
+import SectionHeaderV2 from './revamp/components/common/sectionHeaderV2'
 
-function SiteComparisonSection({ data, legendData, refer=null }) {
+function SiteComparisonSection({ data, legendData, refer=null, variant }) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -30,8 +31,39 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
   
   return (
     hideTable ? (
-      <></> 
+      <></>
     ):(
+      variant === 'V2' ? (
+        <Section className='bg-[#ffffff]' border="b">
+        <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
+          <div className="flex-col relative w-full flex gap-16">
+            <SectionHeaderV2 className='xl:px-12 md:px-6 px-4'
+              heading={"Best phone system.<br> For the best dental practices."}
+              description={"No other phone system can match VoiceStack’s AI-driven features,outcome-driven workflows and integration capabilities, as shown in the comparison chart below."}
+            />
+
+          <div className='flex flex-col items-center w-full mt-12'>
+            <div className='w-full flex flex-col gap-2 '>
+              <ComparisonTable
+                variant={variant}
+                data={{
+                  columnDimensionName: data.columnDimensionName,
+                  ...data.table,
+                }}
+                legendData={legendData}
+                demoLink={null}
+              />
+            </div>
+            {/* {isMobile ? <LegendSection/> :
+              <div className="flex justify-end pt-6 w-full">
+              <span className='text-[11px] md:text-sm text-gray-600'>*Data from 3rd Party Services.</span>
+              </div>
+            } */}
+          </div>
+          </div>
+        </Container>
+      </Section>
+      ) : (
       <Section id="comparison" className="py-sm md:py-md lg:py-lg scroll-m-16 bg-[#F9F9F9]">
         <Container className="flex flex-col items-center gap-16">
           <SectionHeader
@@ -40,49 +72,15 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
           />
           
           <div className='flex flex-col gap-12 items-center w-full'>
-            {/* <TableTabset
-              tabs={data?.table.rowCategories}
-              currentIndex={currentIndex}
-              setCurrentIndex={setCurrentIndex}
-            /> */}
-  
             <div className='w-full flex flex-col gap-2 '>
-              {/* {data.table.rowCategories.length && (
-                data.table.rowCategories.map((tableData:any, index:number) =>{
-                  return (
-                    <>
-                    
-                    <SiteComparisonTable 
-                      key={index+1}
-                      mainIndex={index}
-                      currentIndex={currentIndex}
-                      isMobile={isMobile}
-                      data={{
-                        columnDimensionName: data.columnDimensionName,
-                        headerLogos: data.table.columns,
-                        tableData,
-                      }}
-                    />
-
-                    
-                    </>
-                  )
-                })
-              )} */}
-              {/* <SiteComparisonTable
+              <ComparisonTable
                 data={{
                   columnDimensionName: data.columnDimensionName,
                   ...data.table,
                 }}
-              /> */}
-              <ComparisonTable
-              data={{
-                columnDimensionName: data.columnDimensionName,
-                ...data.table,
-              }}
-              legendData={legendData}
-              demoLink={null}
-            />
+                legendData={legendData}
+                demoLink={null}
+              />
             </div>
             {/* {isMobile ? <LegendSection/> :
               <div className="flex justify-end pt-6 w-full">
@@ -93,13 +91,13 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
          
           <div className='flex gap-4 items-center'>
               <Button type="primary" link="/demo">
-                {/* <ButtonArrow></ButtonArrow> */}
                 <span className="">{`Book Free Demo`}</span>
               </Button>
              
             </div>
         </Container>
       </Section>
+      )
     )
 
   )
