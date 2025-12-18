@@ -5,7 +5,7 @@ import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAna
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
-import FeatureHero from '~/components/revamp/components/common/HeroSection/featureHero'
+import FeatureHero from '~/components/revamp/components/common/HeroSection/FeatureHero'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
 import Queries from '~/components/revamp/queries'
