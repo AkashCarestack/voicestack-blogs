@@ -28,7 +28,7 @@ export const genericListingComponentFields = [
       { type: 'verticalTestimonialListing' },
       { type: 'csCardsListing' },
       { type: 'whoWeServeListing' },
-      { type: 'costOfMissedCallsListing' },
+      { type: 'genericItemsListing' },
       { type: 'partnerListing' },
     ],
     options: {

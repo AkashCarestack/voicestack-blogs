@@ -7,7 +7,7 @@ import LegendSection from './common/LegendSection'
 import ComparisonTable from './ComparisonTable'
 import SectionHeader from './revamp/components/common/sectionHeader'
 
-function SiteComparisonSection({ data, legendData, refer=null }) {
+function SiteComparisonSection({ data, legendData, refer=null, variant }) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -40,41 +40,10 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
           />
           
           <div className='flex flex-col gap-12 items-center w-full'>
-            {/* <TableTabset
-              tabs={data?.table.rowCategories}
-              currentIndex={currentIndex}
-              setCurrentIndex={setCurrentIndex}
-            /> */}
+           
   
             <div className='w-full flex flex-col gap-2 '>
-              {/* {data.table.rowCategories.length && (
-                data.table.rowCategories.map((tableData:any, index:number) =>{
-                  return (
-                    <>
-                    
-                    <SiteComparisonTable 
-                      key={index+1}
-                      mainIndex={index}
-                      currentIndex={currentIndex}
-                      isMobile={isMobile}
-                      data={{
-                        columnDimensionName: data.columnDimensionName,
-                        headerLogos: data.table.columns,
-                        tableData,
-                      }}
-                    />
-
-                    
-                    </>
-                  )
-                })
-              )} */}
-              {/* <SiteComparisonTable
-                data={{
-                  columnDimensionName: data.columnDimensionName,
-                  ...data.table,
-                }}
-              /> */}
+              
               <ComparisonTable
               data={{
                 columnDimensionName: data.columnDimensionName,
@@ -93,7 +62,6 @@ function SiteComparisonSection({ data, legendData, refer=null }) {
          
           <div className='flex gap-4 items-center'>
               <Button type="primary" link="/demo">
-                {/* <ButtonArrow></ButtonArrow> */}
                 <span className="">{`Book Free Demo`}</span>
               </Button>
              
