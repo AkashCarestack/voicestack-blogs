@@ -1,10 +1,13 @@
 import groq from 'groq'
 import { GetStaticPaths,GetStaticProps } from 'next'
 import React from 'react'
+import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAnalyticsSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
 import FeatureHero from '~/components/revamp/components/common/HeroSection/featureHero'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
+import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
 import Queries from '~/components/revamp/queries'
 import Section from '~/components/structure/Section'
 import { getClient } from '~/lib/sanity.client'
@@ -26,9 +29,17 @@ export default function FeaturePage({
     <>
        <Breadcrumb  className=' !max-w-[1372px] md:block hidden' />
       <FeatureHero data={pageData[slug]} />
+      {pageData['integrations-listing']?.componentData && (
+        <div className="mt-12">
+          <IntegrationsShowcaseSection
+            data={pageData['integrations-listing']?.componentData}
+          />
+        </div>
+      )}
       {pageData['feature-testimonials-section']?.componentData && (
         <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
       )}
+      <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
     </>
   )
 }

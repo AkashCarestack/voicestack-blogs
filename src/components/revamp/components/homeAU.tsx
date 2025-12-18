@@ -6,6 +6,8 @@ import HeroAU from './common/HeroSection/HeroAu'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import ContentVideoTabs from '~/components/ui/contentVideotabs'
 import CardsGridSection from './CardsGridSection'
+import VerticalTestimonialListing from './common/VerticalTestimonialListing/VerticalTestimonialListing'
+import AboutCoachingPartners from './common/AboutCoachingPartners'
 
 export default function HomeAU({
   data,
@@ -55,6 +57,19 @@ export default function HomeAU({
         />
       )}
       <StatisticsSection variant="V2" />
+      {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
+        <VerticalTestimonialListing
+          data={
+            pageData['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
+          refer="en-AU"
+        />
+      )}
+    {pageData['about-coach-partners']?.componentData && (
+      <AboutCoachingPartners data={pageData['about-coach-partners']?.componentData} />
+    )}
       {data.faqData && <FaqSection faqItems={data.faqData[0]} />}
     </>
   )

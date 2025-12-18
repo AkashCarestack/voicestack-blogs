@@ -4,10 +4,13 @@ import SectionHeaderV2 from './sectionHeaderV2'
 import Image from 'next/image'
 
 export default function FeatureTestimonialsSection({ data }: { data: any }) {
-  console.log('fee', data)
   return (
     <Section className="bg-[#ffffff]" border="t">
-      <Container className="w-full pt-sm md:pt-md lg:pt-lg" type="V2" border="b-0">
+      <Container
+        className="w-full pt-sm md:pt-md lg:pt-lg"
+        type="V2"
+        border="b-0"
+      >
         <div className="flex-col relative w-full flex gap-16">
           <SectionHeaderV2
             heading={data?.heading}
@@ -19,7 +22,10 @@ export default function FeatureTestimonialsSection({ data }: { data: any }) {
             {data?.items?.map((item: any) => (
               <div
                 key={item._key}
-                style={{backgroundColor: "linear-gradient(180deg, #FFF 0%, #F9FAFB 100%)"}}
+                style={{
+                  backgroundColor:
+                    'linear-gradient(180deg, #FFF 0%, #F9FAFB 100%)',
+                }}
                 className="flex h-full flex-col border-y border-r last:border-r-0 border-gray-200  md:p-12 p-6 text-center shadow-sm"
               >
                 {/* Logo */}

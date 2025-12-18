@@ -77,6 +77,7 @@ export default function ContentVideoTabs({
   const [isScrolling, setIsScrolling] = useState(false);
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const stickyTabsRef = useRef<HTMLDivElement | null>(null);
 
   // Transform featuresData into tabs structure
   const tabs = useMemo(() => {
@@ -102,12 +103,19 @@ export default function ContentVideoTabs({
   const scrollToSection = useCallback((tabKey: string) => {
     const section = sectionRefs.current[tabKey];
     if (section) {
-      const headerHeight = 300; 
+      // Calculate sticky header height dynamically
+      const stickyTabsHeight = stickyTabsRef.current?.offsetHeight || 0;
+      
+      // Mobile: top-[80px] + tabs height, Desktop: top-[30px] + tabs height
+      const isMobile = window.innerWidth < 1024; // lg breakpoint
+      const stickyTopOffset = isMobile ? 80 : 30;
+      const headerHeight = stickyTopOffset + stickyTabsHeight + 20; // 20px extra spacing
+      
       const elementPosition = section.offsetTop;
       const offsetPosition = elementPosition - headerHeight;
 
       window.scrollTo({
-        top: offsetPosition,
+        top: Math.max(0, offsetPosition),
         behavior: 'smooth',
       });
     }
@@ -124,12 +132,15 @@ export default function ContentVideoTabs({
       activeTabRef.current = tabKey;
       setActiveTab(tabKey);
 
-      requestAnimationFrame(() => {
-        scrollToSection(tabKey);
-        scrollTimeoutRef.current = setTimeout(() => {
-          setIsScrolling(false);
-        }, 1500);
-      });
+      // Small delay to ensure layout has settled, especially on mobile
+      setTimeout(() => {
+        requestAnimationFrame(() => {
+          scrollToSection(tabKey);
+          scrollTimeoutRef.current = setTimeout(() => {
+            setIsScrolling(false);
+          }, 1500);
+        });
+      }, 50);
     },
     [scrollToSection]
   );
@@ -242,7 +253,11 @@ export default function ContentVideoTabs({
           </div>
         )}
 
-      <div className="sticky top-[80px] md:top-[30px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+      <div 
+        ref={stickyTabsRef}
+        data-sticky-tabs
+        className="sticky top-[60px] md:top-[30px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0"
+      >
         <SwitchableTabs
           data={tabs.map(tab => ({
             id: tab.key,
@@ -259,7 +274,7 @@ export default function ContentVideoTabs({
           shadow={false}
         />
       </div>
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 md:px-12 px-4 ">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 lg:px-12 px-4 ">
           {/* Left: Scrollable Content Sections */}
           <div className="flex-1 ">
             {tabs?.map((tab) => (
@@ -272,7 +287,7 @@ export default function ContentVideoTabs({
                     sectionRefs.current[tab.key] = el;
                   }}
                   data-tab-key={tab.key}
-                  className='md:h-[50vh] h-full flex flex-col md:flex-row'
+                  className='md:h-[50vh] h-full flex flex-col lg:flex-row'
                 >
                   <div className="flex flex-col justify-center">
                     {tab.category && (
@@ -280,7 +295,7 @@ export default function ContentVideoTabs({
                         {tab.category}
                       </div>
                     )}
-                    <h2 className="my-3 text-gray-900 md:text-4xl text-2xl font-manrope font-semibold leading-10 tracking-normal">
+                    <h2 className="my-3 text-gray-900 md:text-4xl  text-2xl font-manrope font-semibold leading-10 tracking-normal">
                       {tab.heading}
                     </h2>
                     <p className="text-gray-500 md:text-lg text-base font-geist font-normal leading-[155.55%] tracking-normal">
