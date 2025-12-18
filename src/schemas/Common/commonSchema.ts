@@ -81,6 +81,23 @@ export const listingItemSchema = {
       title: 'Icon',
       type: 'image',
     }),
+    defineField({
+      name: 'testimonial',
+      title: 'testimonial (referenced region Based)',
+      type: 'reference',
+      to: [{ type: 'testimonialSection' }],
+      options: {
+        filter: ({ document }) => {
+          // Filter testimonials based on the current document's language
+          const currentLanguage = document?.language || 'en'
+  
+          return {
+            filter: `language == "${currentLanguage}"`,
+            params: { language: currentLanguage },
+          }
+        },
+      },
+    }),
   ],
 }
 

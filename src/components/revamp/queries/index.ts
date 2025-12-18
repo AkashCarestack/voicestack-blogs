@@ -738,6 +738,48 @@ class Queries {
                             url,
                             text,
                             buttonType
+                          },
+                          // Testimonial reference for each item
+                          testimonial-> {
+                            _id,
+                            name,
+                            designation,
+                            thumbnail,
+                            testimonialdescription,
+                            keyStatement,
+                            place,
+                            region,
+                            practiceName,
+                            mainStatement,
+                            subStatement,
+                            "imageThumbnail": imageThumbnail.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "logo": logo.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "secondaryLogo": secondaryLogo.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            video[] {
+                              ${this.VIDEO_FIELDS}
+                            },
+                            secondaryVideo[] {
+                              ${this.VIDEO_FIELDS}
+                            },
+                            "testimonialImage": testimonialImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            listItems[] {
+                              listHeading,
+                              before,
+                              after,
+                              description,
+                              isHighlighted,
+                            },
                           }
                         },
                         ctaListItems[] {
@@ -1240,6 +1282,48 @@ class Queries {
                     },
                     ctaListItems[] {
                       ${this.CTA_FIELDS}
+                    },
+                    // Testimonial reference for each item
+                    testimonial-> {
+                      _id,
+                      name,
+                      designation,
+                      thumbnail,
+                      testimonialdescription,
+                      keyStatement,
+                      place,
+                      region,
+                      practiceName,
+                      mainStatement,
+                      subStatement,
+                      "imageThumbnail": imageThumbnail.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      "logo": logo.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      "secondaryLogo": secondaryLogo.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      video[] {
+                        ${this.VIDEO_FIELDS}
+                      },
+                      secondaryVideo[] {
+                        ${this.VIDEO_FIELDS}
+                      },
+                      "testimonialImage": testimonialImage.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      listItems[] {
+                        listHeading,
+                        before,
+                        after,
+                        description,
+                        isHighlighted,
+                      },
                     }
                   },
                   testimonial-> {
@@ -1256,6 +1340,9 @@ class Queries {
                       subStatement,
                       keyStatement,
                       "imageThumbnail": imageThumbnail.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      "logo": logo.asset-> {
                         ${this.IMAGE_METADATA_FIELDS}
                       },
                     "secondaryLogo": secondaryLogo.asset-> {
@@ -1726,6 +1813,48 @@ class Queries {
                   url,
                   text,
                   buttonType
+                },
+                // Testimonial reference for each item
+                testimonial-> {
+                  _id,
+                  name,
+                  designation,
+                  thumbnail,
+                  testimonialdescription,
+                  keyStatement,
+                  place,
+                  region,
+                  practiceName,
+                  mainStatement,
+                  subStatement,
+                  "imageThumbnail": imageThumbnail.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  "logo": logo.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  "secondaryLogo": secondaryLogo.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  video[] {
+                    ${this.VIDEO_FIELDS}
+                  },
+                  secondaryVideo[] {
+                    ${this.VIDEO_FIELDS}
+                  },
+                  "testimonialImage": testimonialImage.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  listItems[] {
+                    listHeading,
+                    before,
+                    after,
+                    description,
+                    isHighlighted,
+                  },
                 }
               },
               ctaListItems[] {

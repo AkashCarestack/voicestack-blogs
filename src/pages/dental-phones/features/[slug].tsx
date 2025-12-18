@@ -8,6 +8,7 @@ import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import groq from 'groq'
 import { getComponentBySlug, FEATURE_SLUG_COMPONENTS } from '~/config/featureSlugComponents'
+import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
 
 interface FeaturePageProps {
   pageData: any
@@ -85,11 +86,13 @@ export default function FeaturePage({ pageData, faq, region }: FeaturePageProps)
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      
       {pageData?.breadCrumb && (
         <HeroWrapper>
           <Breadcrumb breadCrumb={pageData.breadCrumb} />
         </HeroWrapper>
+      )}
+      {pageData['feature-testimonials-section']?.componentData && (
+        <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
       )}
 
       {sectionSlugs.map((sectionSlug) => {
