@@ -87,6 +87,7 @@ export default function Home({
 
       {comparisonLegendData && (
         <SiteComparisonSection
+          variant="V2"
           data={comparisonSectionData}
           legendData={comparisonLegendData}
         />
