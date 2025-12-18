@@ -32,7 +32,7 @@ export default function HomeAU({
         description={heroSectionData?.heroDescription}
         buttons={heroSectionData?.bookBtnContent}
       />
-      {featuresData && <CategoryFeatureTabs features={featuresData || []} />}
+      {/* {featuresData && <CategoryFeatureTabs features={featuresData || []} />} */}
 
       {comparisonLegendData && (
         <SiteComparisonSection
