@@ -8,7 +8,14 @@ import ComparisonTable from './ComparisonTable'
 import SectionHeader from './revamp/components/common/sectionHeader'
 import SectionHeaderV2 from './revamp/components/common/sectionHeaderV2'
 
-function SiteComparisonSection({ data, legendData, refer=null, variant }) {
+interface SiteComparisonSectionProps {
+  data: any
+  legendData: any
+  refer?: any
+  variant?: 'V1' | 'V2'
+}
+
+function SiteComparisonSection({ data, legendData, refer=null, variant }: SiteComparisonSectionProps) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
