@@ -1,10 +1,12 @@
-import { GetStaticProps, GetStaticPaths } from 'next'
-import React from 'react'
-import Queries from '~/components/revamp/queries'
-import { getClient } from '~/lib/sanity.client'
 import groq from 'groq'
-import Section from '~/components/structure/Section'
+import { GetStaticPaths,GetStaticProps } from 'next'
+import React from 'react'
+
+import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
 import FeatureHero from '~/components/revamp/components/common/HeroSection/featureHero'
+import Queries from '~/components/revamp/queries'
+import Section from '~/components/structure/Section'
+import { getClient } from '~/lib/sanity.client'
 
 interface FeaturePageProps {
   pageData: any
@@ -20,9 +22,12 @@ export default function FeaturePage({
   slug,
 }: FeaturePageProps) {
   return (
-    <Section>
+    <>
       <FeatureHero data={pageData[slug]} />
-    </Section>
+      {pageData['feature-testimonials-section']?.componentData && (
+        <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
+      )}
+    </>
   )
 }
 
