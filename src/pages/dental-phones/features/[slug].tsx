@@ -1,6 +1,7 @@
 import groq from 'groq'
 import { GetStaticPaths,GetStaticProps } from 'next'
 import React from 'react'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
 import FeatureHero from '~/components/revamp/components/common/HeroSection/featureHero'
@@ -23,6 +24,7 @@ export default function FeaturePage({
 }: FeaturePageProps) {
   return (
     <>
+       <Breadcrumb  />
       <FeatureHero data={pageData[slug]} />
       {pageData['feature-testimonials-section']?.componentData && (
         <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
