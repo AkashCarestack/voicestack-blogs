@@ -5,6 +5,7 @@ import StatisticsSection from './StatisticsSection'
 import HeroAU from './common/HeroSection/HeroAu'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import ContentVideoTabs from '~/components/ui/contentVideotabs'
+import CallFlowAnalyticsSection from './callFlowAnalyticsSection'
 
 export default function HomeAU({
   data,
@@ -40,6 +41,8 @@ export default function HomeAU({
         />
       )}
       {pageData['voicestack-solution']?.componentData && <ContentVideoTabs data={pageData['voicestack-solution']?.componentData} />}
+
+      <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
 
       {/* Statistics Section */}
       <StatisticsSection />
