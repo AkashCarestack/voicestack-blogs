@@ -69,7 +69,7 @@ export default function HeroAU({
           </div>
           <div className='hidden md:block md:relative flex-1'>
 
-        <div className='flex-1 md:ml-auto md:absolute md:left-[100px] w-[697px] h-[550px]'>
+        <div className='flex-1 md:ml-auto md:absolute w-[1002px] h-[738px]'>
           {image?.url && <Image className='w-full h-full flex-1 object-contain' alt={heading} width={1000} height={1000} src={image.url} />}
           </div>
         </div>
