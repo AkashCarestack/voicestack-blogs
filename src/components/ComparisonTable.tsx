@@ -63,6 +63,7 @@ interface ComparisonTableProps {
   data: any
   legendData?: any[]
   demoLink?: string
+  variant?: string
 }
 
 function RowHeading({ heading, description, link }) {
@@ -117,7 +118,7 @@ function ComparisonRichIcon({ comparisonValue, showBoth = false }) {
   )
 }
 
-export default function ComparisonTable({ data, legendData = [], demoLink }: ComparisonTableProps) {
+export default function ComparisonTable({ data, legendData = [], demoLink, variant }: ComparisonTableProps) {
   // Initialize all categories as open by default
   const [expandedCategories, setExpandedCategories] = useState<Record<number, boolean>>(() => {
     const initial: Record<number, boolean> = {}
@@ -137,8 +138,8 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
   }
 
   return (
-    <div className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-      <Table className="w-full border-collapse">
+    <div className={`w-full overflow-hidden ${variant !== "V2" && "rounded-xl border border-gray-200"} bg-white shadow-sm`}>
+      <Table className={`w-full border-collapse`}>
         <TableCaption className="sr-only">
           Feature Comparison Table
         </TableCaption>
