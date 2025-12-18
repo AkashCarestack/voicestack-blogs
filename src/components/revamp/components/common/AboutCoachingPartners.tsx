@@ -5,6 +5,7 @@ import Section from '~/components/structure/Section'
 
 import ArrowIcon from '../../icons/arrowIcon'
 import SectionHeaderV2 from './sectionHeaderV2'
+import Image from 'next/image'
 
 export default function AboutCoachingPartners({ data }: { data: any }) {
   return (
@@ -51,7 +52,7 @@ export default function AboutCoachingPartners({ data }: { data: any }) {
                   className="group relative flex flex-col items-center text-center border-r border-gray-200 last:border-r-0 w-full h-full overflow-hidden"
                 >
                   <div
-                    className="flex flex-col items-center justify-center w-full overflow-hidden"
+                    className="flex flex-col items-center justify-center w-full overflow-hidden md:pb-[56px]"
                     style={{
                       background:
                         'linear-gradient(180deg, rgba(60, 137, 225, 0) 0%, rgba(60, 137, 225, 0.1) 100%), #F9FAFB',
@@ -79,9 +80,11 @@ export default function AboutCoachingPartners({ data }: { data: any }) {
                         height: `330px`,
                       }}
                     >
-                      <ImageLoader
-                        image={item?.image?.url}
-                        className="w-full h-full object-cover"
+                      <Image
+                        src={item?.image?.url}
+                        className="w-full h-full object-contain object-bottom"
+                        width={330}
+                        height={330}
                         alt="Company Logo"
                       />
                     </div>

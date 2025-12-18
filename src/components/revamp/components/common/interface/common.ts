@@ -26,6 +26,11 @@ export interface SectionHeaderPropsV2 {
     headingSm?: boolean
     className?: string
     showFullLength?: boolean
+    ctaListItems?: Array<{
+        ctaLink?: string
+        ctaText?: string
+        ctaType?: string
+    }>
 }
 
 import { ReactNode } from 'react';

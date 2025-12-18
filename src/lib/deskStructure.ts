@@ -185,7 +185,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     faqRevamp: ['faqRevamp'],
     
     // Blocks & Lists
-    blocks: ['logoListing', 'partnerListing', 'verticalTestimonialListing', 'csCardsListing', 'whoWeServeListing', 'costOfMissedCallsListing'],
+    blocks: ['logoListing', 'partnerListing', 'verticalTestimonialListing', 'csCardsListing', 'whoWeServeListing', 'genericItemsListing'],
     
     // Media & UI
     media: ['banner', 'footer', 'miscellaneous'],

@@ -90,6 +90,19 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
           data={pageData['inner-hero'].componentData}
         />
       )}
+
+      {pageData['test-listing-2']?.componentData && (
+        <CardsGridSection variant="V2" type="col-3"
+          data={pageData['test-listing-2'].componentData}
+        />
+      )}
+
+      {pageData['test-listing-3']?.componentData && (
+        <CardsGridSection variant="V2" type="col-2" bottomSpace={true}
+          data={pageData['test-listing-3'].componentData}
+        />
+      )}
+      <StatisticsSection variant="V2" />
       
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection 
@@ -98,15 +111,11 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
       )}
 
 
+      
+
       {pageData['how-voicestack-works2']?.componentData && (
         <CardsGridSection 
           data={pageData['how-voicestack-works2'].componentData}
-        />
-      )}
-
-      {pageData['test-listing-2']?.componentData && (
-        <CardsGridSection type="three-col"
-          data={pageData['test-listing-2'].componentData}
         />
       )}
 
