@@ -8,6 +8,7 @@ import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import groq from 'groq'
 import { getComponentBySlug, FEATURE_SLUG_COMPONENTS } from '~/config/featureSlugComponents'
+import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAnalyticsSection'
 
 interface FeaturePageProps {
   pageData: any
@@ -95,7 +96,6 @@ export default function FeaturePage({ pageData, faq, region }: FeaturePageProps)
       {sectionSlugs.map((sectionSlug) => {
         return renderComponentBySlug(sectionSlug, pageData)
       })}
-
       {faq && <FaqSection faqItems={faq} />}
     </>
   )

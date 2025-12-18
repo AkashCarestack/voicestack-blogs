@@ -41,9 +41,6 @@ export default function HomeAU({
         />
       )}
       {pageData['voicestack-solution']?.componentData && <ContentVideoTabs data={pageData['voicestack-solution']?.componentData} />}
-
-      <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
-
       {/* Statistics Section */}
       <StatisticsSection />
       {data.faqData && <FaqSection faqItems={data.faqData[0]} />}

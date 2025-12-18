@@ -20,7 +20,7 @@ export default function TabsList({
   onPauseToggle,
 }: TabsListProps) {
   return (
-    <div className="w-full lg:w-1/2 flex flex-col isolate">
+    <div className="w-full h-full flex flex-col isolate">
       {tabs.map((tab, index) => (
         <TabItem
           key={tab.key}

@@ -65,8 +65,8 @@ export default function CallFlowAnalyticsSection({
   className,
 }: CallFlowAnalyticsSectionProps) {
   return (
-    <Section className="w-full flex flex-col !bg-white">
-      <Container className="w-full pb-12" type="V2" border="t-0">
+    <Section className="w-full flex flex-col !bg-white pb-12">
+      <Container className="w-full " type="V2" border="t-0">
         {/* Header Section */}
         <div className="flex items-center justify-center md:py-32 py-16 md:px-12 px-4">
           <div className="flex flex-col md:gap-8 gap-6 items-start w-full lg:w-[712px]">

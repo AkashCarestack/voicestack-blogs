@@ -66,20 +66,22 @@ export default function AutoExpandTabs({
   return (
     <div 
       ref={sectionRef}
-      className={cn("w-full flex flex-col lg:flex-row ", className)}
+      className={cn("w-full  flex flex-col lg:flex-row gap-0", className)}
     >
       {/* Left: Accordion Steps */}
-      <TabsList
-        tabs={tabs}
-        activeTab={activeTab}
-        progress={progress}
-        isPaused={isPaused}
-        onTabClick={handleTabClick}
-        onPauseToggle={togglePause}
-      />
+      <div className="flex w-full ">
+        <TabsList
+          tabs={tabs}
+          activeTab={activeTab}
+          progress={progress}
+          isPaused={isPaused}
+          onTabClick={handleTabClick}
+          onPauseToggle={togglePause}
+        />
+      </div>
 
       {/* Right: Media Display */}
-      <div className="w-full lg:w-1/2 flex flex-col items-end">
+      <div className="w-full flex flex-col items-end lg:sticky lg:top-0 ">
         <MediaDisplay tabs={tabs} activeTab={activeTab} />
       </div>
     </div>
