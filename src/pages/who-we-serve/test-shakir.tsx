@@ -92,13 +92,13 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
       )}
 
       {pageData['test-listing-2']?.componentData && (
-        <CardsGridSection type="three-col"
+        <CardsGridSection variant="V2" type="col-3"
           data={pageData['test-listing-2'].componentData}
         />
       )}
 
       {pageData['test-listing-3']?.componentData && (
-        <CardsGridSection type="two-col"
+        <CardsGridSection variant="V2" type="col-2" bottomSpace={true}
           data={pageData['test-listing-3'].componentData}
         />
       )}
