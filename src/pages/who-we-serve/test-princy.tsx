@@ -17,6 +17,7 @@ import Container from '~/components/structure/Container'
 import AboutCoachingPartners from '~/components/revamp/components/common/AboutCoachingPartners'
 import FooterBottom from '~/components/revamp/components/common/FooterBottom'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -65,8 +66,6 @@ interface TestPrincyProps {
 export default function TestPrincy({ pageData, region, comparisonTableData, comparisonLegendData }: TestPrincyProps) {
   // Debug: Check what sections are available in pageData
   console.log('Available pageData keys:', pageData)
-  console.log('testimonial-video-section:', pageData['testimonial-video-section'])
-  console.log('about-coach-partners:', pageData['about-coach-partners'])
 
   return (
     <>
@@ -83,6 +82,9 @@ export default function TestPrincy({ pageData, region, comparisonTableData, comp
     {pageData['about-coach-partners']?.componentData && (
       <AboutCoachingPartners data={pageData['about-coach-partners']?.componentData} />
     )}
+    {pageData['feature-testimonials-section']?.componentData && (
+      <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
+    )}
     <FooterBottom/>
     </>
   )
@@ -91,7 +93,6 @@ export default function TestPrincy({ pageData, region, comparisonTableData, comp
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
-    console.log('region:', region)
     const queries = new Queries('test-princy', region)
     const slug = region === 'en' ? 'test-princy' : `test-princy-${region.toLowerCase()}`
     
