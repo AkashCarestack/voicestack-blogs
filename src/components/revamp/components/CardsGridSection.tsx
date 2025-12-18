@@ -79,19 +79,31 @@ const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => 
               <div className="grid grid-cols-1 md:grid-cols-2">
                 {items.map((item) => {
                   const CardContent = (
-                    <div className="h-full col-span-2 p-12 flex flex-col gap-6 justify-between transition-all group">
+                    <div className="h-full col-span-2 flex flex-col gap-6 justify-between transition-all group">
                       <div className="flex flex-col gap-8">
 
                         {/* Icon/Image */}
-                        {item.dynamicSvg && (
+                        {/* {item.dynamicSvg && (
                           <div 
                             className="flex items-center justify-center self-start w-8 h-8"
                             dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
                           />
+                        )} */}
+
+                        {item.image?.url && (
+                          <div className="w-full">
+                            <Image
+                              src={item.image.url}
+                              alt={item.heading || ''}
+                              width={item.image.metadata.dimensions.width}
+                              height={item.image.metadata.dimensions.height}
+                              className="object-cover w-full h-full"
+                            />
+                          </div>
                         )}
 
                         {/* Content */}
-                        <div className="flex flex-col gap-[6px]">
+                        <div className="flex flex-col gap-[6px] xl:p-12 p-6">
                           {item.heading && (
                             <h3 className="md:text-xl text-lg font-medium text-gray-950 leading-normal [&>span]:text-vs-blue"
                             dangerouslySetInnerHTML={{__html:item.heading}}
@@ -129,6 +141,7 @@ const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => 
               </div>
             </div>
           </div>
+          <div className="spacer h-16 border-t border-gray-200"></div>
         </Container>
       </Section>
     ) : type === 'three-col' ? (
@@ -145,7 +158,7 @@ const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {items.map((item) => {
                   const CardContent = (
-                    <div className="h-full col-span-2 p-12 flex flex-col gap-6 justify-between transition-all group">
+                    <div className="h-full col-span-2 xl:p-12 p-6 flex flex-col gap-6 justify-between transition-all group">
                       <div className="flex flex-col gap-8">
 
                         {/* Icon/Image */}
@@ -181,7 +194,7 @@ const CardsGridSection = ({ data, customText, type }: CardsGridSectionProps) => 
                   )
 
                   return (
-                    <div key={item._key || Math.random()} className="border-t md:border-r lg:[&:nth-child(3n)]:border-r-0  md:[&:nth-child(2n)]:border-r-0 ">
+                    <div key={item._key || Math.random()} className="border-t md:border-r md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0">
                       {item.link?.url ? (
                         <Link href={item.link.url} className="block h-full">
                           {CardContent}

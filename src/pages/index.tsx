@@ -3,7 +3,6 @@ import { isEmpty } from 'lodash'
 import type { GetStaticProps } from 'next'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
 import SimpleHead from '~/components/common/SimpleHead'
 import Home from '~/components/revamp/components/home'
 import HomeAU from '~/components/revamp/components/homeAU'
@@ -151,11 +150,11 @@ export default function IndexPage({
    
       {region === 'en-AU' && (
         <HomeAU 
-        featuresData={featuresData}
-        comparisonLegendData={comparisonLegendData}
-        comparisonTableData={comparisonTableData}
-        comparisonSectionData={comparisonSectionData}
-        data={pageData} />
+          featuresData={featuresData}
+          comparisonLegendData={comparisonLegendData}
+          comparisonTableData={comparisonTableData}
+          comparisonSectionData={comparisonSectionData}
+          data={pageData} pageData={pageData} />
       )}
     </Track>
   )

@@ -25,7 +25,7 @@ export default function AboutCoachingPartners({ data }: { data: any }) {
           <div className="w-full">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  border-t border-gray-200">
               {/* Column 1: Text Content */}
-              <div className="group/card flex flex-col justify-between border-r border-gray-200 py-6 px-6 md:px-12">
+              <div className="group/card flex flex-col justify-between border-r border-gray-200 py-6 px-6 xl:px-12">
                 <div>
                   <h4 className="text-base md:text-lg font-medium text-gray-950 mb-2.5">
                     {data?.items[0]?.heading}
@@ -91,11 +91,11 @@ export default function AboutCoachingPartners({ data }: { data: any }) {
                   </div>
                  
                   {/* Heading - visible by default */}
-                  <div className="w-full bg-codgray-50 border-t border-gray-200 sm:absolute bottom-0 left-0 right-0 bg-white sm:translate-y-[calc(100%-56px)] group-hover:translate-y-0 transition-transform duration-300 ease-out px-4">
+                  <div className="w-full bg-codgray-50 border-t border-gray-200 sm:absolute bottom-0 left-0 right-0 bg-white sm:translate-y-[calc(100%-54px)] group-hover:translate-y-0 transition-transform duration-300 ease-out">
                     <h5 className="text-base font-medium text-black py-4 ">
                       {item.heading}
                     </h5>
-                    <p className="text-sm text-gray-700 leading-relaxed pb-4">
+                    <p className="text-sm text-gray-700 leading-relaxed pb-6 px-3">
                       {item.description}
                     </p>
                   </div>

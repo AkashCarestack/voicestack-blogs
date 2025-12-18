@@ -10,6 +10,7 @@ export default function SwitchableTabs({
   activeTab,
   className,
   isShowImage = false,
+  shadow = true,
 }: {
   data: IdataProps[]
   setActiveTab: (key: string) => void
@@ -17,6 +18,7 @@ export default function SwitchableTabs({
   activeTab?: string
   className?: string
   isShowImage?: boolean
+  shadow?: boolean
 }) {
   const { scrollUp, scrollDown } = useScrollListen()
   const refElement = useRef<(HTMLButtonElement | null)[]>([])
@@ -35,7 +37,7 @@ export default function SwitchableTabs({
     }
   }
 
-  // Firefox-only border fix
+  // Firefox-only border fix and scrollbar hide
   useEffect(() => {
     const styleId = 'switchable-tabs-firefox-fix'
     if (!document.getElementById(styleId)) {
@@ -50,6 +52,13 @@ export default function SwitchableTabs({
             border-style: solid !important;
           }
         }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
       `
       document.head.appendChild(style)
     }
@@ -57,13 +66,19 @@ export default function SwitchableTabs({
 
   return (
     <div
-        className={`${isSticky && 'sticky'} ${scrollUp ? 'md:top-[-5px] top-[28px] ' : 'md:top-[38px] top-[35px]'} flex gap-2.5 w-full justify-center items-center transition-all duration-300 ease-in-out ${className}`}
+      className={`${isSticky && 'sticky'} ${scrollUp ? 'md:top-[-5px] top-0 ' : 'md:top-[38px] top-0'} flex gap-2.5 w-full justify-center items-center transition-all duration-300 ease-in-out ${className || ''}`}
+      style={{
+        position: isSticky ? 'sticky' : 'relative',
+      }}
+    >
+      <div
+        className={`lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] rounded-full p-1.5 flex flex-row gap-2.5 lg:w-fit w-full lg:bg-white bg-white ${shadow ? 'lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]' : 'border border-gray-200 lg:shadow-none'} overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide scrollbar-none transition-all duration-300 ease-in-out`}
+        style={{
+          WebkitOverflowScrolling: 'touch',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+        }}
       >
-        <div
-          className="lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] rounded-full p-1.5 flex flex-row 
-          gap-2.5  lg:w-fit lg:bg-white bg-white 
-           overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none transition-all duration-300 ease-in-out"
-        >
         {data.map((item, idx) => {
           const itemKey = item.key || item.id || idx.toString()
           const isActive = (activeTab || data[0]?.key || data[0]?.id || '0') === itemKey
@@ -78,7 +93,7 @@ export default function SwitchableTabs({
               key={itemKey}
               id={itemKey}
               onClick={() => handleTabClick(itemKey)}
-              className={`focus:outline-none text-left md:text-base text-xs lg:text-center cursor-pointer font-geist leading-normal tracking-normal md:px-5 px-3 md:pt-2.5 pt-1.5 md:pb-2.5 pb-1.5 rounded-3xl transition-all duration-200 ease-in-out ${
+              className={`focus:outline-none text-left md:text-base text-xs lg:text-center cursor-pointer font-geist leading-normal tracking-normal md:px-5 px-3 md:pt-2.5 pt-1.5 md:pb-2.5 pb-1.5 rounded-3xl transition-all duration-200 ease-in-out flex-shrink-0 ${
                 isActive
                   ? 'bg-gray-950 text-white border border-transparent'
                   : 'text-gray-950 border border-[rgba(255,255,255,0.60)] bg-tab-hover-gradient shadow-[0_0_0_2px_#CAC5FF] lg:border-transparent lg:bg-transparent lg:shadow-none hover:border-[rgba(255,255,255,0.60)] hover:bg-tab-hover-gradient hover:shadow-[0_0_0_2px_#CAC5FF]'
@@ -111,7 +126,7 @@ export default function SwitchableTabs({
             </button>
           )
         })}
-        </div>
       </div>
+    </div>
   )
 }
