@@ -91,8 +91,17 @@ export function useAutoAdvanceTimer({
     setIsPaused((prevIsPaused) => {
       if (prevIsPaused) {
         // Resume: continue from where we left off
-        const remainingTime = autoPlayDuration * (1 - pausedProgressRef.current / 100);
-        startTimeRef.current = Date.now() - (autoPlayDuration - remainingTime);
+        // Set resuming flag BEFORE updating state to prevent effect interference
+        isResumingRef.current = true;
+        const pausedProgress = pausedProgressRef.current;
+        
+        // Set progress state to the paused value first
+        setProgress(pausedProgress);
+        
+        // Calculate remaining time
+        const remainingTime = autoPlayDuration * (1 - pausedProgress / 100);
+        // Calculate the start time that would give us the current progress when resumed
+        startTimeRef.current = Date.now() - (autoPlayDuration * pausedProgress / 100);
         isPausedRef.current = false;
         
         // Restart progress animation
@@ -105,6 +114,13 @@ export function useAutoAdvanceTimer({
           onTabChangeRef.current(tabsRef.current[nextIndex].key);
         }, remainingTime);
         
+        // Clear resuming flag after animation starts
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            isResumingRef.current = false;
+          }, 50);
+        });
+        
         return false;
       } else {
         // Pause: stop animation and save current progress
@@ -116,27 +132,84 @@ export function useAutoAdvanceTimer({
     });
   }, [activeTab, autoPlayDuration, progress, clearTimers, animateProgress]);
 
-  // Reset pause state when tab changes
-  useEffect(() => {
-    setIsPaused(false);
-    isPausedRef.current = false;
-    pausedProgressRef.current = 0;
-  }, [activeTab]);
+  // Track if we're resuming (to prevent effect from restarting timer)
+  const isResumingRef = useRef(false);
+  const activeTabRef = useRef(activeTab);
+  const hasStartedRef = useRef(false);
 
-  // Auto advance effect - only start when visible
+  // Reset pause state and progress when tab changes, then start timer
   useEffect(() => {
-    isPausedRef.current = isPaused;
+    const tabChanged = activeTabRef.current !== activeTab;
     
-    if (!isPaused && tabs.length > 0 && isVisible) {
-      startTimer();
-    } else {
+    // Only reset if tab actually changed
+    if (tabChanged) {
+      activeTabRef.current = activeTab;
+      
+      // Reset everything when tab changes
       clearTimers();
+      setIsPaused(false);
+      isPausedRef.current = false;
+      pausedProgressRef.current = 0;
+      setProgress(0);
+      isResumingRef.current = false; // Reset resuming flag on tab change
+      hasStartedRef.current = false; // Reset started flag on tab change
+    }
+    
+    // Start fresh timer for current tab if:
+    // 1. Tab changed (fresh start)
+    // 2. Visible
+    // 3. Not paused
+    // 4. Not resuming (togglePause handles resume)
+    if (tabs.length > 0 && isVisible && !isPaused && !isResumingRef.current) {
+      // Only start if tab changed or hasn't started yet
+      if (tabChanged || !hasStartedRef.current) {
+        // Clear any existing timers first
+        clearTimers();
+        
+        // Reset progress and start timer
+        setProgress(0);
+        pausedProgressRef.current = 0;
+        startTimeRef.current = Date.now();
+        isPausedRef.current = false;
+        hasStartedRef.current = true;
+        animateProgress();
+        
+        // Auto advance to next tab
+        timerRef.current = setTimeout(() => {
+          const currentIndex = tabsRef.current.findIndex((tab) => tab.key === activeTab);
+          const nextIndex = (currentIndex + 1) % tabsRef.current.length;
+          onTabChangeRef.current(tabsRef.current[nextIndex].key);
+        }, autoPlayDuration);
+      }
+    } else if (!isVisible || (isPaused && !isResumingRef.current)) {
+      // Only clear if not resuming
+      if (!isResumingRef.current) {
+        clearTimers();
+      }
     }
 
     return () => {
-      clearTimers();
+      // Don't clear if we're resuming
+      if (!isResumingRef.current) {
+        clearTimers();
+      }
     };
-  }, [activeTab, isPaused, tabs.length, isVisible, startTimer, clearTimers]);
+  }, [activeTab, tabs.length, isVisible, isPaused, clearTimers, animateProgress, autoPlayDuration]);
+
+  // Auto advance effect - handle pause state changes
+  useEffect(() => {
+    isPausedRef.current = isPaused;
+    
+    // If we're resuming, don't interfere (togglePause handles it)
+    if (isResumingRef.current) {
+      return;
+    }
+    
+    // If paused or not visible, clear timers
+    if (isPaused || !isVisible) {
+      clearTimers();
+    }
+  }, [isPaused, isVisible, clearTimers]);
 
   return {
     progress,
