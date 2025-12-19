@@ -32,6 +32,8 @@ export default function TabsList({
           isPaused={isPaused}
           onTabClick={onTabClick}
           onPauseToggle={onPauseToggle}
+          tabs={tabs}
+          activeTab={activeTab}
         />
       ))}
     </div>
