@@ -11,6 +11,7 @@ import FeatureTestimonialsSection from '~/components/revamp/components/common/Fe
 import FeatureHero from '~/components/revamp/components/common/HeroSection/FeatureHero'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
+import GroupedCardsGridSection from '~/components/revamp/components/GroupedCardsGridSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 
@@ -37,6 +38,10 @@ export default function FeaturePage({
 
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
+      )}
+
+      {pageData['the-missing-visibility']?.componentData && (
+        <GroupedCardsGridSection data={pageData['the-missing-visibility']?.componentData} />
       )}
 
       {pageData['integrations-listing']?.componentData && (

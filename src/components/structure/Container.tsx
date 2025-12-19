@@ -6,11 +6,13 @@ interface ContainerProps {
   type?: "V1" | "V2"
   border?: "all" | "t-0" | "b-0" | "y-0" | "l"
   innerPadding?: boolean
+  darkTheme?: boolean
 }
 
 export default function Container(props:ContainerProps) {
-  const { children, className, type = "V1", border = "none", innerPadding = false } = props
-  const borderClass = border === "all" ? "border border-gray-200" : border === "l" ? "border-l border-gray-200" : border === "t-0" ? "border border-gray-200 border-t-0" : border === "b-0" ? "border border-gray-200 border-b-0" : border === "y-0" ? "border border-gray-200 border-y-0" : ""
+  const { children, className, type = "V1", border = "none", innerPadding = false, darkTheme = false } = props
+  const borderColor = darkTheme ? "border-gray-800" : "border-gray-200"
+  const borderClass = border === "all" ? `border ${borderColor}` : border === "l" ? `border-l ${borderColor}` : border === "t-0" ? `border ${borderColor} border-t-0` : border === "b-0" ? `border ${borderColor} border-b-0` : border === "y-0" ? `border ${borderColor} border-y-0` : ""
   if (type === "V2") {
     return (
       <div className={`flex w-full max-w-[1372px] m-auto px-4`}>
