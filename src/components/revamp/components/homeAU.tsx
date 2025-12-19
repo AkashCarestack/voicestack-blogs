@@ -8,6 +8,7 @@ import ContentVideoTabs from '~/components/ui/contentVideotabs'
 import CardsGridSection from './CardsGridSection'
 import VerticalTestimonialListing from './common/VerticalTestimonialListing/VerticalTestimonialListing'
 import AboutCoachingPartners from './common/AboutCoachingPartners'
+import LogoListingV2 from '~/components/LogoListingV2'
 
 export default function HomeAU({
   data,
@@ -25,6 +26,8 @@ export default function HomeAU({
   pageData: any
 }) {
   const heroSectionData = data['hero-section']?.componentData
+  const logosListingData = data['logos-listing']?.componentData.blocksListingData
+  console.log(logosListingData)
   return (
     <>
       <HeroAU
@@ -35,6 +38,10 @@ export default function HomeAU({
         buttons={heroSectionData?.bookBtnContent}
       />
       {/* {featuresData && <CategoryFeatureTabs features={featuresData || []} />} */}
+
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
+      )}
 
       {comparisonLegendData && (
         <SiteComparisonSection
