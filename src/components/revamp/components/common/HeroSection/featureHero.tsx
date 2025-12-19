@@ -33,6 +33,8 @@ export default function FeatureHero({ data }: { data: any }) {
               </Button>
             ))}
         </div>
+
+        {/*  */}
         
         {/* <div className='hidden md:block absolute top-[-130px] w-[1002px] h-[738px] pointer-events-none z-0'>
         <Image className='w-full h-full object-contain' alt="bgStyle" width={1002} height={738} src={bgStyle.src} />
