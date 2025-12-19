@@ -1,6 +1,7 @@
 import groq from 'groq'
 import { GetStaticPaths,GetStaticProps } from 'next'
 import React from 'react'
+import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAnalyticsSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
@@ -38,6 +39,7 @@ export default function FeaturePage({
       {pageData['feature-testimonials-section']?.componentData && (
         <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
       )}
+      <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
     </>
   )
 }

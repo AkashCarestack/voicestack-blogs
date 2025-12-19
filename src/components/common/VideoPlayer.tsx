@@ -124,14 +124,14 @@ export default function VideoPlayers({
           playsInline
           autoPlay
           controls={false}
-          className="w-full h-full object-cover rounded-2xl"
+          className="w-full h-full object-cover display-block"
         />
       ) : thumbnail ? (
         <div className="relative w-full h-full">
           <img 
             src={thumbnail}
             alt=""
-            className="w-full h-full object-cover rounded-2xl"
+            className="w-full h-full object-cover display-block"
           />
         </div>
       ) : (
