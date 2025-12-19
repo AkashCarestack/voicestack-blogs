@@ -250,6 +250,15 @@ export const genericListingComponentFields = [
       },
     ],
   },
+  {
+    name: 'referenceGlobalSchema',
+    title: 'Reference Global Schema',
+    type: 'reference',
+    to: [
+      { type: 'globalData' }
+    ],
+    description: 'Reference data from global common schemas - data flows automatically!',
+  },
 ];
 
 const GenericListingComponent = {
