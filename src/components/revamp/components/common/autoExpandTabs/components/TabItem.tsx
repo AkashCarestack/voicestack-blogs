@@ -40,10 +40,9 @@ export default function TabItem({
       }}
       transition={{
         duration: 0.2,
-        ease: [0.4, 0, 0.2, 1], // Custom cubic-bezier for smoothness
+        ease: [0.4, 0, 0.2, 1],
       }}
     >
-      {/* Collapsed state */}
       {!isActive && (
         <div
           onClick={() => onTabClick(tab.key)}
