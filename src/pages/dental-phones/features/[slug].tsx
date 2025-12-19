@@ -3,13 +3,13 @@ import { GetStaticPaths,GetStaticProps } from 'next'
 import React from 'react'
 import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAnalyticsSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
 
 import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
 import FeatureHero from '~/components/revamp/components/common/HeroSection/FeatureHero'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
 import Queries from '~/components/revamp/queries'
-import Section from '~/components/structure/Section'
 import { getClient } from '~/lib/sanity.client'
 
 interface FeaturePageProps {
@@ -25,6 +25,7 @@ export default function FeaturePage({
   region,
   slug,
 }: FeaturePageProps) {
+  console.log(pageData,'pageData')
   return (
     <>
        <Breadcrumb  className=' !max-w-[1372px] md:block hidden' />
@@ -40,6 +41,7 @@ export default function FeaturePage({
         <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
       )}
       <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
+      <CardWIthGraph data={pageData['feature-testimonials-section']?.genericListingComponent} />
     </>
   )
 }
@@ -88,42 +90,13 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   }
 
   try {
-    const client = getClient()
-    const featureQuery = groq`
-      *[_type == "features" && basicInfo.slug.current == $slug && !(_id in path("drafts.**"))] | order(language asc) [0] {
-        language
-      }
-    `
-    const feature = await client.fetch(featureQuery, { slug })
-    const featureLanguage = feature?.language || region || 'en'
-    const queries = new Queries('features', featureLanguage)
+    const queries = new Queries('features', region)
     const pageData = await queries.getPageData('features', slug)
-    if (!pageData || Object.keys(pageData).length === 0) {
+    if (!pageData) {
+      console.error(`pageData not found for ${slug}`)
       return {
         notFound: true,
       }
-    }
-
-    const rawQuery = groq`
-      *[_type == "features" && basicInfo.slug.current == $slug && language == $language][0] {
-        content {
-          sections[] {
-            "slug": slug.current
-          }
-        }
-      }
-    `
-    const rawData = await client.fetch(rawQuery, {
-      slug,
-      language: featureLanguage,
-    })
-
-    const sectionsOrder =
-      rawData?.content?.sections?.map((section: any) => section.slug) || []
-
-    const pageDataWithOrder = {
-      ...pageData,
-      sectionsOrder,
     }
 
     const faqData =
@@ -131,13 +104,14 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     return {
       props: {
-        pageData: pageDataWithOrder || null,
-        region: featureLanguage,
+        pageData: pageData || null,
+        region: region,
         faq: faqData,
         slug: slug,
       }
     }
   } catch (error) {
+    console.error('Error fetching Feature page:', error)
     return {
       notFound: true,
     }
