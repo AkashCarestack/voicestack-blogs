@@ -26,10 +26,13 @@ export default function FeaturePage({
   slug,
 }: FeaturePageProps) {
   console.log(pageData,'pageData')
+  console.log('multi listing data', pageData['the-missing-visibility']);
+  
   return (
     <>
        <Breadcrumb  className=' !max-w-[1372px] md:block hidden' />
       <FeatureHero data={pageData[slug]} />
+
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
           <IntegrationsShowcaseSection
