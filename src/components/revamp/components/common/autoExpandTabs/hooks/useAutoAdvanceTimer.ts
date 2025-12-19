@@ -95,26 +95,20 @@ export function useAutoAdvanceTimer({
         isResumingRef.current = true;
         const pausedProgress = pausedProgressRef.current;
         
-        // Set progress state to the paused value first
         setProgress(pausedProgress);
         
-        // Calculate remaining time
         const remainingTime = autoPlayDuration * (1 - pausedProgress / 100);
-        // Calculate the start time that would give us the current progress when resumed
         startTimeRef.current = Date.now() - (autoPlayDuration * pausedProgress / 100);
         isPausedRef.current = false;
         
-        // Restart progress animation
         animateProgress();
         
-        // Restart tab advancement timer
         timerRef.current = setTimeout(() => {
           const currentIndex = tabsRef.current.findIndex((tab) => tab.key === activeTab);
           const nextIndex = (currentIndex + 1) % tabsRef.current.length;
           onTabChangeRef.current(tabsRef.current[nextIndex].key);
         }, remainingTime);
         
-        // Clear resuming flag after animation starts
         requestAnimationFrame(() => {
           setTimeout(() => {
             isResumingRef.current = false;
@@ -123,7 +117,6 @@ export function useAutoAdvanceTimer({
         
         return false;
       } else {
-        // Pause: stop animation and save current progress
         pausedProgressRef.current = progress;
         isPausedRef.current = true;
         clearTimers();
@@ -196,16 +189,13 @@ export function useAutoAdvanceTimer({
     };
   }, [activeTab, tabs.length, isVisible, isPaused, clearTimers, animateProgress, autoPlayDuration]);
 
-  // Auto advance effect - handle pause state changes
   useEffect(() => {
     isPausedRef.current = isPaused;
     
-    // If we're resuming, don't interfere (togglePause handles it)
     if (isResumingRef.current) {
       return;
     }
     
-    // If paused or not visible, clear timers
     if (isPaused || !isVisible) {
       clearTimers();
     }
