@@ -4,9 +4,10 @@ import React from 'react'
 import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAnalyticsSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 
 import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
-import FeatureHero from '~/components/revamp/components/common/HeroSection/featureHero'
+import FeatureHero from '~/components/revamp/components/common/HeroSection/FeatureHero'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
 import Queries from '~/components/revamp/queries'
@@ -44,7 +45,8 @@ export default function FeaturePage({
         <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
       )}
       <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
-      <CardWIthGraph data={pageData['feature-testimonials-section']?.genericListingComponent} />
+      <CardWIthGraph data={pageData['better-decisions']?.genericListingComponent} />
+      {faq && <FaqSection faqItems={faq} />}
     </>
   )
 }

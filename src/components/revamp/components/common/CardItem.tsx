@@ -24,7 +24,7 @@ const CardItemComponent = ({ item }: CardItemComponentProps) => {
   const hasImage = item.image?.url
   
   return (
-    <div className={`h-full col-span-2 flex flex-col gap-6 justify-between transition-all group`}>
+    <div className={` flex flex-col gap-6 justify-between transition-all group`}>
       <div className="flex flex-col">
         {/* Image - renders at top level without padding wrapper */}
         {hasImage && (
