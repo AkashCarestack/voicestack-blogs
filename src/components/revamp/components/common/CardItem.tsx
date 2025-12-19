@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import { urlForImage } from '~/lib/sanity.image'
 
 export interface CardItemProps {
   _key?: string
@@ -21,46 +22,50 @@ interface CardItemComponentProps {
 }
 
 const CardItemComponent = ({ item }: CardItemComponentProps) => {
-  const hasImage = item.image?.url
+  // Handle both resolved images (with url) and Sanity asset references (with asset._ref)
+  const imageUrl = item.image?.url || urlForImage(item.image)
+  const hasImage = !!imageUrl
   
   return (
     <div className={` flex flex-col gap-6 justify-between transition-all group`}>
-      <div className="flex flex-col">
+      <div className="flex">
         {/* Image - renders at top level without padding wrapper */}
-        {hasImage && (
+        {hasImage && imageUrl && (
           <div className="w-full">
             <Image
-              src={item.image.url}
+              src={imageUrl}
               alt={item.heading || ''}
-              width={item.image.metadata.dimensions.width}
-              height={item.image.metadata.dimensions.height}
+              width={item.image?.metadata?.dimensions?.width || 800}
+              height={item.image?.metadata?.dimensions?.height || 600}
               className="object-cover w-full h-full"
             />
           </div>
         )}
-        <div className="xl:p-12 p-6 flex flex-col gap-8">
-          {/* Dynamic SVG */}
-          {item.dynamicSvg && (
-            <div 
-              className="flex items-center justify-center self-start w-8 h-8"
-              dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
-            />
-          )}
+        {item.heading || item.description ? (
+          <div className="xl:p-12 p-6 flex flex-col gap-8">
+            {/* Dynamic SVG */}
+            {item.dynamicSvg && (
+              <div 
+                className="flex items-center justify-center self-start w-8 h-8"
+                dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
+              />
+            )}
 
-          {/* Content */}
-          <div className="flex flex-col gap-[6px]">
-            {item.heading && (
-              <h3 className="md:text-xl text-lg font-medium text-gray-950 leading-normal [&>span]:text-vs-blue"
-                dangerouslySetInnerHTML={{__html:item.heading}}
-              ></h3>
-            )}
-            {item.description && (
-              <p className="text-base text-gray-500 leading-normal">
-                {item.description}
-              </p>
-            )}
+            {/* Content */}
+            <div className="flex flex-col gap-[6px]">
+              {item.heading && (
+                <h3 className="md:text-xl text-lg font-medium text-gray-950 leading-normal [&>span]:text-vs-blue"
+                  dangerouslySetInnerHTML={{__html:item.heading}}
+                ></h3>
+              )}
+              {item.description && (
+                <p className="text-base text-gray-500 leading-normal">
+                  {item.description}
+                </p>
+              )}
+            </div>
           </div>
-        </div>
+        ) : null}
 
       </div>
 

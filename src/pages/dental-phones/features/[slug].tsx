@@ -1,6 +1,7 @@
 import groq from 'groq'
 import { GetStaticPaths,GetStaticProps } from 'next'
 import React from 'react'
+import LogoListingV2 from '~/components/LogoListingV2'
 import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAnalyticsSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
@@ -33,6 +34,10 @@ export default function FeaturePage({
     <>
        <Breadcrumb  className=' !max-w-[1372px] md:block hidden' />
       <FeatureHero data={pageData[slug]} />
+
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
+      )}
 
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">

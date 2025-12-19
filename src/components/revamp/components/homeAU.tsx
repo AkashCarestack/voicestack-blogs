@@ -28,6 +28,8 @@ export default function HomeAU({
   const heroSectionData = data['hero-section']?.componentData
   const logosListingData = data['logos-listing']?.componentData.blocksListingData
   console.log(logosListingData)
+  console.log(pageData['test-listing-3']?.componentData);
+  
   return (
     <>
       <HeroAU
