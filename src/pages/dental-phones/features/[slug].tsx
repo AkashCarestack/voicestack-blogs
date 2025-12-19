@@ -25,6 +25,7 @@ export default function FeaturePage({
   region,
   slug,
 }: FeaturePageProps) {
+  console.log(pageData)
   return (
     <>
        <Breadcrumb  className=' !max-w-[1372px] md:block hidden' />
