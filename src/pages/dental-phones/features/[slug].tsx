@@ -44,30 +44,32 @@ export default function FeaturePage({
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const client = getClient()
-
-  const query = groq`
-    *[_type == "features" && defined(basicInfo.slug.current) && !(_id in path("drafts.**"))] {
-      "slug": basicInfo.slug.current,
-      language
-    }
-  `
-
+export const getStaticPaths: GetStaticPaths = async ({ locales, defaultLocale }) => {
   try {
-    const features = await client.fetch(query)
-    const paths = features.map((feature: any) => {
-      const slug = feature.slug
-      return {
-        params: { slug },
+    const client = getClient()
+    
+    // Get all unique feature slugs (without drafts)
+    const featuresQuery = groq`
+      *[_type == "features" && !(_id in path("drafts.**"))] {
+        "slug": basicInfo.slug.current
       }
-    })
+    `
+    const features = await client.fetch(featuresQuery)
+    
+    // Get unique slugs (in case there are duplicates across languages)
+    const uniqueSlugs = [...new Set(features.map((feature: any) => feature.slug).filter(Boolean))]
+    
+    // Format paths for Next.js
+    const paths = uniqueSlugs.map((slug: string) => ({
+      params: { slug },
+    }))
 
     return {
       paths,
       fallback: 'blocking',
     }
   } catch (error) {
+    console.error('Error fetching feature paths:', error)
     return {
       paths: [],
       fallback: 'blocking',
@@ -133,8 +135,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         region: featureLanguage,
         faq: faqData,
         slug: slug,
-      },
-      revalidate: 60,
+      }
     }
   } catch (error) {
     return {
