@@ -20,7 +20,11 @@ interface GroupsAndDSOProps {
 }
 
 export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
-  const tabsListingData = pageData["mobile-practices"].componentData.refData.tabsListingComponent
+  if (!pageData) {
+    return null
+  }
+
+  const tabsListingData = pageData["mobile-practices"]?.componentData?.refData?.tabsListingComponent
   const tabsListingComponentData =
     pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
   return (
