@@ -1,7 +1,7 @@
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
-import SectionHeaderV2 from './sectionHeaderV2'
 import Image from 'next/image'
+import SectionHeader from './sectionHeader'
 
 export default function FeatureTestimonialsSection({ data }: { data: any }) {
   return (
@@ -12,7 +12,7 @@ export default function FeatureTestimonialsSection({ data }: { data: any }) {
         border="b-0"
       >
         <div className="flex-col relative w-full flex gap-16">
-          <SectionHeaderV2
+          <SectionHeader
             heading={data?.heading}
             description={data?.description}
             className="xl:px-12 md:px-6 px-4"
