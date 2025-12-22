@@ -9,6 +9,7 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 
 import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
 import FeatureHero from '~/components/revamp/components/common/HeroSection/FeatureHero'
+import IntegrationCloudSection from '~/components/revamp/components/common/integrationCloud'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
 import GroupedCardsGridSection from '~/components/revamp/components/GroupedCardsGridSection'
@@ -51,9 +52,7 @@ export default function FeaturePage({
           />
         </div>
       )}
-      {pageData['feature-testimonials-section']?.componentData && (
-        <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
-      )}
+   
       <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
       <CardWIthGraph data={pageData['better-decisions']?.genericListingComponent} />
       {faq && <FaqSection faqItems={faq} />}
