@@ -11,8 +11,10 @@ import AboutCoachingPartners from './common/AboutCoachingPartners'
 import IntegrationsShowcaseSection from './common/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/components/LogoListingV2'
 import IntegrationCloudSection from './common/integrationCloud'
+import FooterBottom from './common/FooterBottom'
 
-export default function HomeAU({
+export default function 
+HomeAU({
   data,
   featuresData,
   comparisonLegendData,
@@ -85,6 +87,7 @@ export default function HomeAU({
       <AboutCoachingPartners data={pageData['about-coach-partners']?.componentData} />
     )}
       {data.faqData && <FaqSection faqItems={data.faqData[0]} />}
+      <FooterBottom/>
     </>
   )
 }
