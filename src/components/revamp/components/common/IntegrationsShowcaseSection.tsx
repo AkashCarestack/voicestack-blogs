@@ -3,6 +3,10 @@ import React from 'react'
 
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
+import { urlForImage } from '~/lib/sanity.image'
+import Button from '~/components/common/Button'
+import { cn } from '~/lib/utils'
+import ImageLoader from '~/components/common/imageLoader/imageLoader'
 
 import SectionHeader from './sectionHeader'
 import { GridPattern } from '~/components/ui/grid-pattern'
@@ -37,18 +41,15 @@ interface Integration {
   }
 }
 
-interface IntegrationsGridProps {
-  className?: string
-  data: any
+interface IntegrationsGridProps {   
+className?: string
+  data:any
 }
 
 const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   className = '',
   data,
 }) => {
-  console.log(data)
-  // Sort integrations by order field (ascending), with items without order at the end
-  // Hook must be called before any early returns
   const sortedIntegrations = React.useMemo(() => {
     const integrations =
       data?.refData?.integrationListing?.integrationList || []

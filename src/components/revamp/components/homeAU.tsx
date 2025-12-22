@@ -8,7 +8,9 @@ import ContentVideoTabs from '~/components/ui/contentVideotabs'
 import CardsGridSection from './CardsGridSection'
 import VerticalTestimonialListing from './common/VerticalTestimonialListing/VerticalTestimonialListing'
 import AboutCoachingPartners from './common/AboutCoachingPartners'
+import IntegrationsShowcaseSection from './common/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/components/LogoListingV2'
+import IntegrationCloudSection from './common/integrationCloud'
 
 export default function HomeAU({
   data,
@@ -53,7 +55,9 @@ export default function HomeAU({
         />
       )}
       {pageData['voicestack-solution']?.componentData && <ContentVideoTabs data={pageData['voicestack-solution']?.componentData} />}
-
+      {pageData['integrations-showcase']?.customComponent && (
+        <IntegrationCloudSection data={pageData['integrations-showcase']?.customComponent} />
+      )}
       {pageData['test-listing-2']?.componentData && (
         <CardsGridSection variant="V2" type="col-3"
           data={pageData['test-listing-2'].componentData}
@@ -65,6 +69,7 @@ export default function HomeAU({
           data={pageData['test-listing-3'].componentData}
         />
       )}
+
       <StatisticsSection variant="V2" />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
