@@ -29,7 +29,7 @@ export default function GroupedCardsGridSection({ data }: GroupedCardsGridSectio
   const numberedCardComponents: Partial<PortableTextReactComponents> = {
     block: {
       normal: ({ children }) => (
-        <p className="font-geist font-medium text-lg leading-[28px] text-gray-950 tracking-normal">
+        <p className="font-geist font-medium md:text-lg text-base leading-[155%] text-gray-950 tracking-normal">
           {children}
         </p>
       ),
@@ -62,7 +62,7 @@ export default function GroupedCardsGridSection({ data }: GroupedCardsGridSectio
               <path d="M6 4L10 8L6 12" stroke="#6A7282" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <div className="flex-1 font-geist font-normal text-base leading-[24px] text-gray-700 tracking-normal">
+          <div className="flex-1 font-geist font-normal text-base leading-[150%] text-gray-700 tracking-normal">
             {children}
           </div>
         </li>
@@ -98,14 +98,14 @@ export default function GroupedCardsGridSection({ data }: GroupedCardsGridSectio
               <div key={group._key || groupIndex} className="flex flex-col w-full">
                 {/* Group Header */}
                 <div className="bg-gray-50 border-t border-l border-r border-gray-200 flex items-center justify-center px-12 py-8">
-                  <h3 className="font-geist font-medium text-xl leading-[28px] text-gray-950 tracking-normal whitespace-nowrap">
+                  <h3 className="font-geist font-medium md:text-xl text-lg leading-[140%] text-gray-950 tracking-normal text-wrap whitespace-nowrap">
                     {group.heading}
                   </h3>
                 </div>
 
                 {/* Cards Grid */}
                 <div
-                  className={`bg-gray-200 grid gap-px p-px ${
+                  className={`bg-gray-200 grid gap-px  ${
                     isNumberedCards
                       ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
                       : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'
@@ -128,13 +128,13 @@ export default function GroupedCardsGridSection({ data }: GroupedCardsGridSectio
                         <div className="flex flex-col gap-1.5 items-start justify-end w-full">
                           {/* Item Heading */}
                           {isNumberedCards ? (
-                            <p className="font-geist font-medium text-lg leading-[28px] text-gray-500 tracking-normal w-full whitespace-pre-wrap">
+                            <p className="font-geist font-medium text-lg leading-[155%] text-gray-500 tracking-normal w-full whitespace-pre-wrap">
                               {item.itemHeading}.
                             </p>
                           ) : (
                             <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
                               <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
-                                <p className="font-geist font-medium text-xl leading-[28px] text-gray-950 tracking-normal w-full whitespace-pre-wrap">
+                                <p className="font-geist font-medium text-xl leading-[140%] text-gray-950 tracking-normal w-full whitespace-pre-wrap">
                                   {item.itemHeading}
                                 </p>
                               </div>
@@ -177,7 +177,7 @@ export default function GroupedCardsGridSection({ data }: GroupedCardsGridSectio
                                                 />
                                               </svg>
                                             </div> */}
-                                            <div className="flex-1 font-geist font-normal text-base leading-[24px] text-gray-700 tracking-normal">
+                                            <div className="flex-1 font-geist font-normal md:text-base text-sm leading-[150.5%] text-gray-700 tracking-normal">
                                               <PortableText
                                                 value={[block]}
                                                 components={specialtyCardComponents}
@@ -210,11 +210,11 @@ export default function GroupedCardsGridSection({ data }: GroupedCardsGridSectio
           })}
 
           {/* Footer Section - Hard Coded */}
-          <div className="border-b border-l border-r border-t-0 border-gray-200 flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full">
+          <div className="border-t border-gray-200 flex md:flex-row flex-col gap-3 items-start justify-center leading-[140%] p-6 text-base tracking-normal w-full">
             <div className="flex flex-col font-geist font-medium justify-center relative shrink-0 text-[#4a3ce1]">
               <p className="leading-[24px] whitespace-nowrap">The Outcome</p>
             </div>
-            <div className="flex flex-col font-geist font-normal justify-center relative shrink-0 text-gray-950">
+            <div className="flex flex-col font-geist font-normal justify-center relative md:shrink-0 text-gray-950">
               <p className="leading-[24px]">
                 Blind spots lead to lost revenue, missed follow-up, and a compromised experience for patients
               </p>

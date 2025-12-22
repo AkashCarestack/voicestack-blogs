@@ -42,7 +42,7 @@ const CardItemComponent = ({ item }: CardItemComponentProps) => {
           </div>
         )}
         {item.heading || item.description ? (
-          <div className="xl:p-12 p-6 flex flex-col gap-8">
+          <div className="xl:p-12 md:p-6 p-4 flex flex-col md:gap-8 gap-6">
             {/* Dynamic SVG */}
             {item.dynamicSvg && (
               <div 
@@ -59,7 +59,7 @@ const CardItemComponent = ({ item }: CardItemComponentProps) => {
                 ></h3>
               )}
               {item.description && (
-                <p className="text-base text-gray-500 leading-normal">
+                <p className="md:text-base text-sm text-gray-500 leading-normal">
                   {item.description}
                 </p>
               )}
