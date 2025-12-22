@@ -2012,11 +2012,19 @@ class Queries {
                 language,
                 // Common fields across most schemas
                 heading,
+                sectionHeadingDynamic,
                 description,
                 // logoListing specific
                 logoSectionHeader,
                 logoSectionHeaderDescptn,
                 'image': logo[]->image.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                // partnerListing specific
+                'partnerImage': logo[]->image.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                'partnerSecondaryImage': logo[]->secondaryImage.asset-> {
                   ${this.IMAGE_METADATA_FIELDS}
                 },
                 // verticalTestimonialListing specific
@@ -2050,16 +2058,75 @@ class Queries {
                     ${this.IMAGE_METADATA_FIELDS}
                   }
                 },
-                // whoWeServeListing specific
+                // whoWeServeListing and genericItemsListing specific
                 items[] {
                   _key,
                   heading,
                   subheading,
                   description,
+                  // Item link
+                  link {
+                    url,
+                    text,
+                    buttonType
+                  },
+                  dynamicSvg,
+                  // Item image with metadata
                   "image": image.asset-> {
                     ${this.IMAGE_METADATA_FIELDS}
                   },
-                  link
+                  "icon": icon.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  ctaListItems[] {
+                    ${this.CTA_FIELDS}
+                  },
+                  // Testimonial reference for each item
+                  testimonial-> {
+                    _id,
+                    name,
+                    designation,
+                    thumbnail,
+                    testimonialdescription,
+                    keyStatement,
+                    place,
+                    region,
+                    practiceName,
+                    mainStatement,
+                    subStatement,
+                    "imageThumbnail": imageThumbnail.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    "logo": logo.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    "secondaryLogo": secondaryLogo.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    video[] {
+                      ${this.VIDEO_FIELDS}
+                    },
+                    secondaryVideo[] {
+                      ${this.VIDEO_FIELDS}
+                    },
+                    "testimonialImage": testimonialImage.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    listItems[] {
+                      listHeading,
+                      before,
+                      after,
+                      description,
+                      isHighlighted,
+                    },
+                  }
+                },
+                // CTA list items from reference
+                ctaListItems[] {
+                  ${this.CTA_FIELDS}
                 }
               },
               items[] {
