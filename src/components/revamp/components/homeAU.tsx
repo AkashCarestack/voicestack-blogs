@@ -9,8 +9,10 @@ import CardsGridSection from './CardsGridSection'
 import VerticalTestimonialListing from './common/VerticalTestimonialListing/VerticalTestimonialListing'
 import AboutCoachingPartners from './common/AboutCoachingPartners'
 import LogoListingV2 from '~/components/LogoListingV2'
+import FooterBottom from './common/FooterBottom'
 
-export default function HomeAU({
+export default function 
+HomeAU({
   data,
   featuresData,
   comparisonLegendData,
@@ -80,6 +82,7 @@ export default function HomeAU({
       <AboutCoachingPartners data={pageData['about-coach-partners']?.componentData} />
     )}
       {data.faqData && <FaqSection faqItems={data.faqData[0]} />}
+      <FooterBottom/>
     </>
   )
 }
