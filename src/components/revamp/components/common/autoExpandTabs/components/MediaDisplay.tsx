@@ -21,7 +21,7 @@ export default function MediaDisplay({ tabs, activeTab }: MediaDisplayProps) {
   }, [tabs]);
 
   return (
-    <div className="w-full h-[300px] md:h-[570px] overflow-hidden relative flex items-center justify-center">
+    <div className="w-full h-[300px] md:h-[400px] lg:h-[570px] overflow-hidden relative flex items-center justify-center">
       {tabs.map((tab) => {
         const isActive = tab.key === activeTab;
         
