@@ -1,14 +1,10 @@
-import React from 'react'
 import Image from 'next/image'
+import React from 'react'
+
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
-import { urlForImage } from '~/lib/sanity.image'
-import Button from '~/components/common/Button'
+
 import SectionHeader from './sectionHeader'
-import { GridPattern } from '~/components/ui/grid-pattern'
-import TickIcon from '~/components/icons/TickIcon'
-import Tick from '~/components/icons/Tick'
-import TickSolidIcon from '~/components/icons/TickSolidIcon'
 
 interface Integration {
   _id: string
@@ -64,20 +60,22 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
     return null
   }
 
-  // Grid configuration - matching the design
+  // Grid configuration - dynamically sized based on integration count
   const leftEmptyCols = 3 // Empty columns on left side
   const rightEmptyCols = 3 // Empty columns on right side
-  const centerCols = 8 // Columns for integrations
-  const totalCols = leftEmptyCols + centerCols + rightEmptyCols // 14 total
   const emptyRowsTop = 1 // Empty row at top
   const integrationRows = 2 // Rows with icons
   const emptyRowsBottom = 1 // Empty row at bottom
   const totalRows = emptyRowsTop + integrationRows + emptyRowsBottom // 4 total
 
-  // Calculate how many integrations per row
+  // Calculate how many integrations per row based on total integrations
   const integrationsPerRow = Math.ceil(
     sortedIntegrations.length / integrationRows,
   )
+
+  // Center columns = number of integrations per row (dynamic based on logos)
+  const centerCols = integrationsPerRow
+  const totalCols = leftEmptyCols + centerCols + rightEmptyCols
 
   // Build the grid structure
   const getGridCells = () => {
@@ -88,21 +86,6 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
       // Check if this is an integration row
       const isIntegrationRow =
         row >= emptyRowsTop && row < emptyRowsTop + integrationRows
-      const integrationRowIndex = row - emptyRowsTop
-
-      // Get integrations for this row
-      const startIdx = integrationRowIndex * integrationsPerRow
-      const endIdx = Math.min(
-        startIdx + integrationsPerRow,
-        sortedIntegrations.length,
-      )
-      const integrationsInThisRow = isIntegrationRow ? endIdx - startIdx : 0
-
-      // Center integrations within the center columns area
-      const centerStartCol = leftEmptyCols
-      const centerEndCol = leftEmptyCols + centerCols
-      const integrationStartCol = centerStartCol + Math.floor((centerCols - integrationsInThisRow) / 2)
-      const integrationEndCol = integrationStartCol + integrationsInThisRow
 
       for (let col = 0; col < totalCols; col++) {
         const cellKey = `cell-${row}-${col}`
@@ -125,12 +108,8 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
           continue
         }
 
-        // Integration rows - place icons centered in middle area
-        if (
-          col >= integrationStartCol &&
-          col < integrationEndCol &&
-          integrationIndex < sortedIntegrations.length
-        ) {
+        // Center columns - place integration icons
+        if (isIntegrationRow && integrationIndex < sortedIntegrations.length) {
           cells.push({
             type: 'integration',
             data: sortedIntegrations[integrationIndex],
@@ -172,11 +151,18 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
               }}
             />
 
-            {/* Blur vignette */}
+            {/* Blur vignette - radial for sides */}
             <div
               className="pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
-  [mask-image:radial-gradient(65%_55%_at_50%_50%,transparent_0%,transparent_85%,black_90%,black_100%)]
+  [mask-image:radial-gradient(75%_55%_at_50%_50%,transparent_0%,transparent_85%,black_90%,black_100%)]
   [-webkit-mask-image:radial-gradient(65%_55%_at_50%_50%,transparent_0%,transparent_85%,black_90%,black_100%)]"
+            />
+
+            {/* Bottom blur vignette */}
+            <div
+              className="pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
+  [mask-image:linear-gradient(to_top,black_10%,black_40%,transparent_60%,transparent_70%)]
+  [-webkit-mask-image:linear-gradient(to_top,black_0%,black_35%,transparent_60%,transparent_70%)]"
             />
 
             {/* Mobile Grid - Vertical layout (below md) */}
@@ -210,7 +196,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
             <div
               className="relative mx-auto hidden md:grid"
               style={{
-                gridTemplateColumns: 'repeat(14, 70px)',
+                gridTemplateColumns: `repeat(${totalCols}, 70px)`,
                 gap: '8px',
                 justifyContent: 'center',
               }}
@@ -232,20 +218,22 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                   }}
                 >
                   {cell.type === 'integration' && cell.data?.image?.url && (
-                    <Image
-                      src={cell.data.image.url}
-                      alt={cell.data.title}
-                      width={70}
-                      height={70}
-                      className="w-10 h-10 object-contain"
-                    />
+                    <>
+                      <Image
+                        src={cell.data.image.url}
+                        alt={cell.data.title}
+                        width={70}
+                        height={70}
+                        className="w-10 h-10 object-contain"
+                      />
+                      {/* Tooltip - only for integration cells */}
+                      <div className="absolute bg-[#efeeea] bottom-[-20px] px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
+                        <p className="font-['Geist',_sans-serif] font-normal text-xs text-[#52525c]">
+                          {cell.data.title}
+                        </p>
+                      </div>
+                    </>
                   )}
-                                  {/* Tooltip */}
-                <div className="absolute bg-[#efeeea] bottom-[-20px] px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
-                  <p className="font-['Geist',_sans-serif] font-normal text-xs text-[#52525c]">
-                    {cell.data?.title}
-                  </p>
-                </div>
                 </div>
               ))}
             </div>
