@@ -25,9 +25,7 @@ export default function TabItem({
       key={tab.key}
       className={cn(
         " border-gray-200 relative overflow-hidden",
-        // index === 0 && "border-t",
         isActive ? "bg-gray-50 border-b" : "bg-white cursor-pointer hover:bg-gray-50/50 border-b",
-        // index === totalTabs - 1 && "border-b"
         index === 0 && "border-t ",
         index === totalTabs - 1 && "border-b-0 ",
       )}

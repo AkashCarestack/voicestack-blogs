@@ -551,6 +551,14 @@ class Queries {
                         title,
                         description,
                         showAllIntegrations,
+                        link,
+                        // Optional hero image from custom component
+                        "optionalImage": optionalImage.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
+                        "heroImage": heroImage.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
                         "integrationList": select(
                           showAllIntegrations == true => 
                             *[_type == "integrationList" && language == $language] | order(order asc, title asc) {
@@ -1061,6 +1069,28 @@ class Queries {
                         title,
                         description,
                         showAllIntegrations,
+                        link,
+                        // Optional hero image from custom component
+                        "optionalImage": optionalImage.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
+                        "heroImage": heroImage.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
+                      },
+                      // Also fetch customComponent data if it exists
+                      customComponent {
+                        title,
+                        subtitle,
+                        content,
+                        backgroundColor,
+                        image {
+                          asset {
+                            _ref,
+                            _type
+                          },
+                          _type
+                        },
                         
                         // Integration List References with full data
                         // Use conditional logic: if showAllIntegrations is true, fetch all integrations for the language
@@ -1147,6 +1177,16 @@ class Queries {
                             }
                           }
                         )
+                      },
+                      // Also fetch customComponent data if it exists
+                      customComponent {
+                        title,
+                        subtitle,
+                        content,
+                        backgroundColor,
+                        "image": image.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
                       }
                     },
                     dataType == "testimonialListing" => {
@@ -1660,6 +1700,14 @@ class Queries {
               title,
               description,
               showAllIntegrations,
+              link,
+              // Optional hero image from custom component
+              "optionalImage": optionalImage.asset-> {
+                ${this.IMAGE_METADATA_FIELDS}
+              },
+              "heroImage": heroImage.asset-> {
+                ${this.IMAGE_METADATA_FIELDS}
+              },
               "integrationList": select(
                 showAllIntegrations == true => 
                   *[_type == "integrationList" && language == $region] | order(order asc, title asc) {

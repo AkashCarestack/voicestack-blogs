@@ -4,7 +4,8 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import { urlForImage } from '~/lib/sanity.image'
 import Button from '~/components/common/Button'
-import SectionHeader from './sectionHeader'
+import { cn } from '~/lib/utils'
+import ImageLoader from '~/components/common/imageLoader/imageLoader'
 
 interface Integration {
   _id: string
@@ -34,7 +35,7 @@ interface Integration {
 }
 
 interface IntegrationsGridProps {   
-  className?: string
+className?: string
   data:any
 }
 
@@ -43,30 +44,64 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   data
 }) => {
 
-  // Sort integrations by order field (ascending), with items without order at the end
-  // Hook must be called before any early returns
-  const sortedIntegrations = React.useMemo(() => {
-    const integrations = data?.refData?.integrationListing?.integrationList || []
-    return [...integrations].sort((a: any, b: any) => {
-      const orderA = a.order ?? Number.MAX_SAFE_INTEGER
-      const orderB = b.order ?? Number.MAX_SAFE_INTEGER
-      return orderA - orderB
-    })
-  }, [data])
 
-  // Don't render if no integrations
-  if (!data || !sortedIntegrations || sortedIntegrations.length === 0) {
+  // Don't render if no data
+  if (!data) {
     return null;
   }
 
+  const integrationListing = data?.refData?.integrationListing
+  const customComponent = data
+  
+  // Get data from customComponent first, fallback to integrationListing
+  const title = customComponent?.title || integrationListing?.title || "Integrations"
+  const subtitle = customComponent?.subtitle || integrationListing?.subtitle || "Connect with your existing Software"
+  const content = customComponent?.content || integrationListing?.description || "Seamless Integrations Syncs appointments and treatment scheduling seamlessly with your existing software. Complete the patient journey from click to booking."
+  const link = integrationListing?.link || '/dental-phones/integrations'
+  
+  const heroImage = customComponent.image
+  const heroImageUrl = urlForImage(heroImage)
+  const heroImageAlt = heroImage?.altText || title
+
+
   return (
     <Section 
-      className={`py-16 md:py-20 lg:py-24 relative overflow-hidden bg-gray-950 ${className}`}
-    
+      className={cn("md:py-6 py-4 relative overflow-hidden bg-gray-50", className)}
     >
-      <Container className="flex-col relative z-10">
-        <div className="flex flex-col gap-8 md:gap-12 lg:gap-16 items-center relative w-full">
-           <SectionHeader showFullLength={true} heading={data.refData.integrationListing.title} description={data.refData.integrationListing.description} />                       
+      <Container className="relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Column - Text Content */}
+          <div className="flex flex-col gap-6 lg:gap-8">
+            {/* Purple Header */}
+            <div className="font-geist font-normal text-base text-vs-purple leading-5 tracking-normal uppercase">
+            {title}
+            </div>
+            <h2 className="font-geist font-medium text-3xl md:text-4xl lg:text-5xl text-gray-950 leading-tight tracking-tight">
+              {subtitle}
+            </h2>
+            <p className="font-geist font-normal text-base md:text-lg text-gray-700 leading-6 md:leading-7">
+              {content}
+            </p>
+            <Button
+              type="secondary"
+              link={link}
+              className=" text-white bg-vs-purple px-6 py-3 rounded-lg"
+            >
+              <span>Explore Integrations</span>
+            </Button>
+
+
+          </div>
+
+          {heroImageUrl && (
+            <div className="relative w-full h-full rounded-lg overflow-hidden">
+              <ImageLoader
+                image={heroImageUrl}
+                alt={heroImageAlt}
+                className="w-full h-full  object-cover"
+              />
+            </div>
+          )}
         </div>
       </Container>
     </Section>

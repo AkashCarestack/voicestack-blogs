@@ -8,6 +8,7 @@ import ContentVideoTabs from '~/components/ui/contentVideotabs'
 import CardsGridSection from './CardsGridSection'
 import VerticalTestimonialListing from './common/VerticalTestimonialListing/VerticalTestimonialListing'
 import AboutCoachingPartners from './common/AboutCoachingPartners'
+import IntegrationsShowcaseSection from './common/IntegrationsShowcaseSection'
 
 export default function HomeAU({
   data,
@@ -25,6 +26,8 @@ export default function HomeAU({
   pageData: any
 }) {
   const heroSectionData = data['hero-section']?.componentData
+
+  console.log(pageData['integrations-showcase']?.customComponent,'pageData');
   return (
     <>
       <HeroAU
@@ -55,6 +58,9 @@ export default function HomeAU({
         <CardsGridSection variant="V2" type="col-2" bottomSpace={true}
           data={pageData['test-listing-3'].componentData}
         />
+      )}
+      {pageData['integrations-showcase']?.customComponent && (
+        <IntegrationsShowcaseSection data={pageData['integrations-showcase']?.customComponent} />
       )}
       <StatisticsSection variant="V2" />
       {pageData['testimonial-video-section']?.componentData?.refData

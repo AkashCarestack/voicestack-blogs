@@ -164,22 +164,8 @@ export function faqJsonLd(faqItems: any) {
       return null;
     }
 
-    // Handle array case (video might be an array)
     const videoData = Array.isArray(video) ? video[0] : video;
     
-    // Check for videoId - required field for external videos (YouTube, Vimeo, Vidyard)
-    // If videoId is missing, it's likely a local video file, so skip JSON-LD
-    if (!videoData || !videoData.videoId) {
-      // Only log in development if it looks like it should have videoId (has videoPlatform)
-      if (process.env.NODE_ENV === 'development' && videoData?.videoPlatform) {
-        console.warn('videoJsonLd: Missing videoId for external video', { 
-          videoData, 
-          availableFields: videoData ? Object.keys(videoData) : [] 
-        });
-      }
-      return null;
-    }
-
     const { 
       videoPlatform, 
       videoId, 
