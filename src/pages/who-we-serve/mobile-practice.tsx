@@ -19,8 +19,12 @@ interface MobilePracticesProps {
 }
 
 export default function MobilePractices({ pageData, faq }: MobilePracticesProps) {
+  if (!pageData) {
+    return null
+  }
+
   // tabsListingData["mobile-practices"]
-  const tabsListingData = pageData?.['mobile-practices'].componentData?.refData?.tabsListingComponent
+  const tabsListingData = pageData?.['mobile-practices']?.componentData?.refData?.tabsListingComponent
   return (
     <>
       <SimpleHead data={pageData?.seo} />
@@ -29,19 +33,19 @@ export default function MobilePractices({ pageData, faq }: MobilePracticesProps)
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         <HeroSection
           page=""
-          data={pageData['dental-phones-hero']?.componentData}
+          data={pageData?.['dental-phones-hero']?.componentData}
         />
       </HeroWrapper>
       {pageData?.['trusted-business-communications']?.componentData?.refData?.tabsListingComponent &&
         <SingleTabCardListing data={pageData?.['trusted-business-communications']?.componentData?.refData?.tabsListingComponent}/>
       }
-      {pageData['testimonial-video-section']?.componentData && (
+      {pageData?.['testimonial-video-section']?.componentData && (
         <VerticalTestimonialListing
           data={pageData['testimonial-video-section']?.componentData?.refData?.testimonialListing}
         />
       )}
           <StatisticsSection />
-          {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+          {pageData?.['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
             pageData['stack-card-tab-testimonial']?.componentData?.refData
@@ -50,10 +54,10 @@ export default function MobilePractices({ pageData, faq }: MobilePracticesProps)
         />
       ) : (
         <StackCardTestimonial
-          data={pageData['stack-card-tab-testimonial']?.componentData}
+          data={pageData?.['stack-card-tab-testimonial']?.componentData}
         />
       )}
-       {pageData['integrations-listing']?.componentData && (
+       {pageData?.['integrations-listing']?.componentData && (
         <div className="mt-12">
           <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />
         </div>

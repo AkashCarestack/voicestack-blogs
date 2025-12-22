@@ -60,19 +60,9 @@ interface TestShakirProps {
 }
 
 export default function TestShakir({ pageData, region, comparisonTableData, comparisonLegendData }: TestShakirProps) {
-
-  // console.log(pageData)
-  // Add error boundary and validation
-  // if (!pageData?.['inner-hero']?.componentData) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <div className="text-center">
-  //         <h1 className="text-2xl font-bold text-gray-800 mb-4">Page Not Found</h1>
-  //         <p className="text-gray-600">The requested page content is not available.</p>
-  //       </div>
-  //     </div>
-  //   )
-  // }
+  if (!pageData) {
+    return null
+  }
 
   // Create comparison section data (same structure as homepage)
   const comparisonSectionData = {
@@ -123,8 +113,8 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
         <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0" innerPadding>
           <div className="flex-col relative w-full flex gap-16">
             <SectionHeaderV2 className='xl:px-12 md:px-6 px-4'
-              heading={pageData['how-voicestack-works2'].componentData.sectionHeadingDynamic}
-              // heading={pageData['how-voicestack-works2'].componentData.heading}
+              heading={pageData['how-voicestack-works2']?.componentData?.sectionHeadingDynamic || ''}
+              // heading={pageData['how-voicestack-works2']?.componentData?.heading}
               description={"lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."}
             />
 
@@ -142,7 +132,9 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
       )}
       
       {/* VoiceStack Comparison Cards Section */}
-      <ComparisonCardsSection data={pageData['comparison-cards']?.componentData}/>
+      {pageData['comparison-cards']?.componentData && (
+        <ComparisonCardsSection data={pageData['comparison-cards'].componentData}/>
+      )}
       
       {pageData['comparison-table']?.componentData && (
         <SiteComparisonSection 

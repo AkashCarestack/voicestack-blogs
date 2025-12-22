@@ -1,11 +1,18 @@
-import React from 'react'
 import Image from 'next/image'
+import React from 'react'
+
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import { urlForImage } from '~/lib/sanity.image'
 import Button from '~/components/common/Button'
 import { cn } from '~/lib/utils'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
+
+import SectionHeader from './sectionHeader'
+import { GridPattern } from '~/components/ui/grid-pattern'
+import TickIcon from '~/components/icons/TickIcon'
+import Tick from '~/components/icons/Tick'
+import TickSolidIcon from '~/components/icons/TickSolidIcon'
 
 interface Integration {
   _id: string
@@ -40,8 +47,8 @@ className?: string
 }
 
 const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
-  className = "",
-  data
+  className = '',
+  data,
 }) => {
 
 
@@ -70,9 +77,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
     >
       <Container className="relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Column - Text Content */}
           <div className="flex flex-col gap-6 lg:gap-8">
-            {/* Purple Header */}
             <div className="font-geist font-normal text-base text-vs-purple leading-5 tracking-normal uppercase">
             {title}
             </div>

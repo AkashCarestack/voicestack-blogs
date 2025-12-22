@@ -9,6 +9,7 @@ import CardsGridSection from './CardsGridSection'
 import VerticalTestimonialListing from './common/VerticalTestimonialListing/VerticalTestimonialListing'
 import AboutCoachingPartners from './common/AboutCoachingPartners'
 import IntegrationsShowcaseSection from './common/IntegrationsShowcaseSection'
+import LogoListingV2 from '~/components/LogoListingV2'
 
 export default function HomeAU({
   data,
@@ -26,8 +27,10 @@ export default function HomeAU({
   pageData: any
 }) {
   const heroSectionData = data['hero-section']?.componentData
-
-  console.log(pageData['integrations-showcase']?.customComponent,'pageData');
+  const logosListingData = data['logos-listing']?.componentData.blocksListingData
+  console.log(logosListingData)
+  console.log(pageData['test-listing-3']?.componentData);
+  
   return (
     <>
       <HeroAU
@@ -38,6 +41,10 @@ export default function HomeAU({
         buttons={heroSectionData?.bookBtnContent}
       />
       {/* {featuresData && <CategoryFeatureTabs features={featuresData || []} />} */}
+
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
+      )}
 
       {comparisonLegendData && (
         <SiteComparisonSection
