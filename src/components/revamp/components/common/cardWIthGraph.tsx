@@ -21,7 +21,7 @@ export default function cardWIthGraph({ data }: { data: any }) {
           <div>
             <div className='w-full'>
             {/* <Image src="/assets/events/graph.png" width={646} height={247} alt="graph" /> */}
-            <div className='grid grid-cols-3'>
+            <div className='grid md:grid-cols-3'>
               {data?.items?.map((ele:any)=>{
                 return (
                   <div key={ele._key || Math.random()} className={`first:col-span-2 ${borderClasses}`}>
