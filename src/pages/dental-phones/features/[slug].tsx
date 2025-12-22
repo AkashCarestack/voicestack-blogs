@@ -1,14 +1,17 @@
 import groq from 'groq'
 import { GetStaticPaths,GetStaticProps } from 'next'
 import React from 'react'
+import LogoListingV2 from '~/components/LogoListingV2'
 import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAnalyticsSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 
 import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
-import FeatureHero from '~/components/revamp/components/common/HeroSection/featureHero'
+import FeatureHero from '~/components/revamp/components/common/HeroSection/FeatureHero'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
+import GroupedCardsGridSection from '~/components/revamp/components/GroupedCardsGridSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 
@@ -26,10 +29,21 @@ export default function FeaturePage({
   slug,
 }: FeaturePageProps) {
   console.log(pageData,'pageData')
+  console.log('multi listing data', pageData['the-missing-visibility']);
+  
   return (
     <>
        <Breadcrumb  className=' !max-w-[1372px] md:block hidden' />
       <FeatureHero data={pageData[slug]} />
+
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
+      )}
+
+      {pageData['the-missing-visibility']?.componentData && (
+        <GroupedCardsGridSection data={pageData['the-missing-visibility']?.componentData} />
+      )}
+
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
           <IntegrationsShowcaseSection
@@ -41,7 +55,8 @@ export default function FeaturePage({
         <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
       )}
       <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
-      <CardWIthGraph data={pageData['feature-testimonials-section']?.genericListingComponent} />
+      <CardWIthGraph data={pageData['better-decisions']?.genericListingComponent} />
+      {faq && <FaqSection faqItems={faq} />}
     </>
   )
 }

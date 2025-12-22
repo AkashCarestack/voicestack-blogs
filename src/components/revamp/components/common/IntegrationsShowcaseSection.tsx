@@ -5,6 +5,10 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 
 import SectionHeader from './sectionHeader'
+import { GridPattern } from '~/components/ui/grid-pattern'
+import TickIcon from '~/components/icons/TickIcon'
+import Tick from '~/components/icons/Tick'
+import TickSolidIcon from '~/components/icons/TickSolidIcon'
 
 interface Integration {
   _id: string
@@ -151,10 +155,28 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
               }}
             />
 
+            {/* Left dark gradient */}
+            <div
+              className="pointer-events-none absolute inset-y-0 left-0 w-[30%] z-[1]"
+              style={{
+                background:
+                  'linear-gradient(to right, #030712 0%, rgba(3, 7, 18, 0) 100%)',
+              }}
+            />
+
+            {/* Right dark gradient */}
+            <div
+              className="pointer-events-none absolute inset-y-0 right-0 w-[30%] z-[1]"
+              style={{
+                background:
+                  'linear-gradient(to left, #030712 0%, rgba(3, 7, 18, 0) 100%)',
+              }}
+            />
+
             {/* Blur vignette - radial for sides */}
             <div
               className="pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
-  [mask-image:radial-gradient(75%_55%_at_50%_50%,transparent_0%,transparent_85%,black_90%,black_100%)]
+  [mask-image:radial-gradient(55%_55%_at_50%_50%,transparent_0%,transparent_85%,black_90%,black_100%)]
   [-webkit-mask-image:radial-gradient(65%_55%_at_50%_50%,transparent_0%,transparent_85%,black_90%,black_100%)]"
             />
 
@@ -162,7 +184,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
             <div
               className="pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
   [mask-image:linear-gradient(to_top,black_10%,black_40%,transparent_60%,transparent_70%)]
-  [-webkit-mask-image:linear-gradient(to_top,black_0%,black_35%,transparent_60%,transparent_70%)]"
+  [-webkit-mask-image:linear-gradient(to_top,black_10%,black_40%,transparent_60%,transparent_70%)]"
             />
 
             {/* Mobile Grid - Vertical layout (below md) */}

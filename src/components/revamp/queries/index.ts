@@ -1401,6 +1401,16 @@ class Queries {
                       
                     },
                   },
+                  customListingItems[] {
+                    _key,
+                    heading,
+                    listItems[] {
+                      _key,
+                      itemHeading,
+                      dynamicSvgCode,
+                      content
+                    }
+                  },
                   // Blocks & Lists Reference (all types)
                   "blocksListingData": blocksListingReference-> {
                     _type,
