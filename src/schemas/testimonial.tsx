@@ -22,6 +22,11 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'practiceName',
+      title: 'Practice Name',
+      type: 'string',
+    }),
+    defineField({
       name: 'place',
       title: 'Place',
       type: 'string',
@@ -46,11 +51,7 @@ export default defineType({
       title: 'Secondary Logo(white logo)',
       type: 'image',
     }),
-    defineField({
-      name: 'practiceName',
-      title: 'Practice Name',
-      type: 'string',
-    }),
+   
     defineField({
       name: 'imageThumbnail',
       title: 'Image Thumbnail',

@@ -34,10 +34,11 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
   const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const textColor = isDark ? 'text-white' : 'text-gray-950'
   const descriptionColor = isDark ? 'text-gray-400' : 'text-gray-500'
-  const gridBgColor = isDark ? 'bg-gray-950' : 'bg-gray-200'
+  const gridBgColor = isDark ? 'bg-gray-800' : 'bg-gray-200'
   const cardBgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const headerBgColor = isDark ? 'bg-gray-950' : 'bg-gray-50'
   const contentTextColor = isDark ? 'text-gray-300' : 'text-gray-700'
+  const svgStrokeColor = isDark ? '#D1D5DB' : '#6A7282' // gray-300 for dark, original for light
 
   // Portable text components for numbered cards (simple text)
   const numberedCardComponents: Partial<PortableTextReactComponents> = {
@@ -65,7 +66,7 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
     },
     list: {
       bullet: ({ children }) => (
-        <ul className="flex flex-col gap-1 ml-[-20px]">{children}</ul>
+        <ul className="flex flex-col gap-1 ml-[-24px]">{children}</ul>
       ),
     },
     listItem: {
@@ -85,10 +86,24 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
     marks: {
       strong: ({ children }) => <strong>{children}</strong>,
       em: ({ children }) => <em>{children}</em>,
+      highlight: ({ children }) => <span className={` ${contentTextColor} font-medium flex flex-col gap-[6px] pt-3 md:pt-6 [&>strong]:text-vs-lemon-green [&>strong]:font-medium  `}>{children}</span>,
     },
   }
 
   const customListingItems = data.customListingItems || []
+
+  // Function to process SVG code and update stroke colors for dark theme
+  const processSvgCode = (svgCode: string): string => {
+    if (!isDark || !svgCode) return svgCode
+    // Replace common stroke colors with gray-300 (#D1D5DB) for dark theme
+    return svgCode
+      .replace(/stroke="#030712"/gi, 'stroke="#FFFFFF"') // Original gray to gray-300 (case insensitive)
+      .replace(/stroke="#6A7282"/gi, 'stroke="#D1D5DB"') // Original gray to gray-300 (case insensitive)
+      .replace(/stroke="rgb\(106,\s*114,\s*130\)"/gi, 'stroke="#D1D5DB"') // RGB variant with optional spaces
+      .replace(/stroke="rgba\(106,\s*114,\s*130[^)]*\)"/gi, 'stroke="#D1D5DB"') // RGBA variant
+      .replace(/stroke='#6A7282'/gi, "stroke='#D1D5DB'") // Single quotes (case insensitive)
+      .replace(/stroke=#6A7282/gi, 'stroke="#D1D5DB"') // No quotes variant
+  }
 
   return (
     <Section className={bgColor} border="b">
@@ -144,7 +159,7 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
                         {!isNumberedCards && item.dynamicSvgCode && (
                           <div
                             className="overflow-clip relative shrink-0 w-8 h-8"
-                            dangerouslySetInnerHTML={{ __html: item.dynamicSvgCode }}
+                            dangerouslySetInnerHTML={{ __html: processSvgCode(item.dynamicSvgCode) }}
                           />
                         )}
 
@@ -183,23 +198,7 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
                                             key={block._key || blockIndex}
                                             className="flex gap-2 items-start px-0 py-1 w-full"
                                           >
-                                            {/* <div className="flex items-center py-1 shrink-0">
-                                              <svg
-                                                width="16"
-                                                height="16"
-                                                viewBox="0 0 16 16"
-                                                fill="none"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                              >
-                                                <path
-                                                  d="M6 4L10 8L6 12"
-                                                  stroke="#6A7282"
-                                                  strokeWidth="2"
-                                                  strokeLinecap="round"
-                                                  strokeLinejoin="round"
-                                                />
-                                              </svg>
-                                            </div> */}
+                                           
                                             <div className={`flex-1 font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
                                               <PortableText
                                                 value={[block]}
@@ -235,10 +234,10 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
           {/* Footer Section */}
           {(() => {
             // Get customText from data level
-            const customText = data.customText || 
-              'Blind spots lead to lost revenue, missed follow-up, and a compromised experience for '
+            const customText = data.customText
             
             return (
+              customText && (
               <div className={`border-t ${borderColor} flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full`}>
                 
                 <div className={`flex flex-col font-geist font-normal justify-center relative shrink-0 ${textColor}`}>
@@ -246,7 +245,7 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
                   </p>
                 </div>
               </div>
-            )
+            ))
           })()}
         </div>
       </Container>

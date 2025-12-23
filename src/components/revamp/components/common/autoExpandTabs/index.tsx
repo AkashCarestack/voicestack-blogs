@@ -49,7 +49,7 @@ export default function AutoExpandTabs({
     activeTab,
     autoPlayDuration,
     onTabChange: setActiveTab,
-    isVisible, // Pass visibility state to hook
+    isVisible, 
   });
 
   // Handle tab click
@@ -80,8 +80,8 @@ export default function AutoExpandTabs({
         />
       </div>
 
-      {/* Right: Media Display */}
-      <div className="w-full flex flex-col items-end lg:sticky lg:top-0 ">
+      {/* Right: Media Display - Desktop Only */}
+      <div className="hidden lg:flex w-full flex-col items-end lg:sticky lg:top-0">
         <MediaDisplay tabs={tabs} activeTab={activeTab} />
       </div>
     </div>

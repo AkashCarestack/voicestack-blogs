@@ -4,11 +4,6 @@ import React from 'react'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 
-import SectionHeader from './sectionHeader'
-import { GridPattern } from '~/components/ui/grid-pattern'
-import TickIcon from '~/components/icons/TickIcon'
-import Tick from '~/components/icons/Tick'
-import TickSolidIcon from '~/components/icons/TickSolidIcon'
 import SectionHeaderV2 from './sectionHeaderV2'
 
 interface Integration {
@@ -38,18 +33,15 @@ interface Integration {
   }
 }
 
-interface IntegrationsGridProps {
-  className?: string
-  data: any
+interface IntegrationsGridProps {   
+className?: string
+  data:any
 }
 
 const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   className = '',
   data,
 }) => {
-  console.log(data)
-  // Sort integrations by order field (ascending), with items without order at the end
-  // Hook must be called before any early returns
   const sortedIntegrations = React.useMemo(() => {
     const integrations =
       data?.refData?.integrationListing?.integrationList || []
@@ -137,19 +129,20 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
         className="flex-col relative pt-16 md:pt-20 lg:pt-24 "
         type="V2"
         border="y-0"
+        darkTheme={true}
       >
         <div className="flex flex-col gap-8 md:gap-12 lg:gap-16 items-center relative w-full">
           <SectionHeaderV2
-            heading={data.refData.integrationListing.title}
-            description={data.refData.integrationListing.description}
+            heading={data?.heading}
+            description={data?.description}
             isWhite={true}
-            className="px-12"
+            className="md:px-6 xl:px-12 px-4"
           />
 
           <div className="relative w-full overflow-hidden">
             {/* Dark vignette */}
             <div
-              className="pointer-events-none absolute inset-0 z-[1]"
+              className="hidden md:block pointer-events-none absolute inset-0 z-[1]"
               style={{
                 background:
                   'radial-gradient(49.02% 50% at 50% 50%, rgba(3, 7, 18, 0.00) 15%, #030712 100%)',
@@ -158,7 +151,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
 
             {/* Left dark gradient */}
             <div
-              className="pointer-events-none absolute inset-y-0 left-0 w-[30%] z-[1]"
+              className="hidden md:block pointer-events-none absolute inset-y-0 left-0 w-[30%] z-[1]"
               style={{
                 background:
                   'linear-gradient(to right, #030712 0%, rgba(3, 7, 18, 0) 100%)',
@@ -167,7 +160,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
 
             {/* Right dark gradient */}
             <div
-              className="pointer-events-none absolute inset-y-0 right-0 w-[30%] z-[1]"
+              className="hidden md:block pointer-events-none absolute inset-y-0 right-0 w-[30%] z-[1]"
               style={{
                 background:
                   'linear-gradient(to left, #030712 0%, rgba(3, 7, 18, 0) 100%)',
@@ -176,14 +169,14 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
 
             {/* Blur vignette - radial for sides */}
             <div
-              className="pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
+              className="hidden md:block pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
   [mask-image:radial-gradient(55%_55%_at_50%_50%,transparent_0%,transparent_85%,black_90%,black_100%)]
   [-webkit-mask-image:radial-gradient(65%_55%_at_50%_50%,transparent_0%,transparent_85%,black_90%,black_100%)]"
             />
 
             {/* Bottom blur vignette */}
             <div
-              className="pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
+              className="hidden md:block pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
   [mask-image:linear-gradient(to_top,black_10%,black_40%,transparent_60%,transparent_70%)]
   [-webkit-mask-image:linear-gradient(to_top,black_10%,black_40%,transparent_60%,transparent_70%)]"
             />
@@ -206,9 +199,9 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                     <Image
                       src={integration.image.url}
                       alt={integration.title}
-                      width={32}
-                      height={32}
-                      className="w-8 h-8 object-contain"
+                      width={60}
+                      height={60}
+                      className="w-full h-full object-contain"
                     />
                   )}
                 </div>
@@ -247,7 +240,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                         alt={cell.data.title}
                         width={70}
                         height={70}
-                        className="w-10 h-10 object-contain"
+                        className="w-full h-full object-contain"
                       />
                       {/* Tooltip - only for integration cells */}
                       <div className="absolute bg-[#efeeea] bottom-[-20px] px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
@@ -262,7 +255,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
             </div>
             
             {data?.items && data.items.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-4 lg:pt-0">
                 {data.items.map((item: any) => (
                   <div
                     key={item._key || item._id}

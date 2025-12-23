@@ -2,6 +2,7 @@ export interface AutoExpandTab {
   key: string;
   step: string;
   title: string;
+  subheading?: string;
   description: string;
   video?: any;
   thumbnail?: string;
@@ -32,6 +33,8 @@ export interface TabItemProps {
   isPaused: boolean;
   onTabClick: (tabKey: string) => void;
   onPauseToggle: () => void;
+  tabs?: AutoExpandTab[];
+  activeTab?: string;
 }
 
 export interface MediaDisplayProps {

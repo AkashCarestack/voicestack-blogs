@@ -82,6 +82,41 @@ export const listingItemSchema = {
       type: 'image',
     }),
     defineField({
+      name: 'genericVideo',
+      title: 'Generic Video',
+      type: 'object',
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+      fields: [
+        defineField({
+          name: 'videoId',
+          title: 'Video ID',
+          type: 'string',
+          description: 'The ID of the video (e.g., YouTube video ID)',
+        }),
+        defineField({
+          name: 'videoUrl',
+          title: 'Video URL',
+          type: 'url',
+          description: 'The full URL of the video',
+        }),
+        defineField({
+          name: 'videoPlatform',
+          title: 'Video Platform',
+          type: 'string',
+          options: {
+            list: [
+              { title: 'YouTube', value: 'youtube' },
+              { title: 'Vimeo', value: 'vimeo' },
+              { title: 'Other', value: 'other' },
+            ],
+          },
+        }),
+      ],
+    }),
+    defineField({
       name: 'testimonial',
       title: 'testimonial (referenced region Based)',
       type: 'reference',
@@ -136,4 +171,52 @@ export const sectionHeadingDynamicSchema = defineField({
   type: 'customBlockContent',
   description: 'Rich text heading with formatting options ',
 })
+
+/**
+ * Generic Video Schema
+ * Reusable schema for video assets
+ */
+export const genericVideoSchema = {
+  type: 'object',
+  name: 'genericVideo',
+  title: 'Generic Video',
+  fields: [
+    defineField({
+      name: 'videoId',
+      title: 'Video ID',
+      type: 'string',
+      description: 'The ID of the video (e.g., YouTube video ID)',
+    }),
+    defineField({
+      name: 'videoUrl',
+      title: 'Video URL',
+      type: 'url',
+      description: 'The full URL of the video',
+    }),
+    defineField({
+      name: 'videoPlatform',
+      title: 'Video Platform',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'YouTube', value: 'youtube' },
+          { title: 'Vimeo', value: 'vimeo' },
+          { title: 'Other', value: 'other' },
+        ],
+      },
+    }),
+  ],
+  preview: {
+    select: {
+      videoUrl: 'videoUrl',
+      videoPlatform: 'videoPlatform',
+    },
+    prepare({ videoUrl, videoPlatform }) {
+      return {
+        title: `Video (${videoPlatform || 'Unknown Platform'})`,
+        subtitle: videoUrl || 'No URL',
+      }
+    },
+  },
+}
 

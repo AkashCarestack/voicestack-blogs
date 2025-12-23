@@ -238,7 +238,7 @@ export default function HoverTestimonial({ data }: any) {
                 </p>
                 {tab.testimonial.designation && (
                   <p className="text-sm text-gray-600">
-                    {tab.testimonial.designation}
+                    {tab.testimonial.designation} , {tab.testimonial.practiceName}
                   </p>
                 )}
               </div>
