@@ -14,19 +14,23 @@ export default function VideoPlayers({
 
   const videoData = Array.isArray(video) ? video[0] : video
 
-  // Check if video has a platform (youtube, vidyard, vimeo) - auto-play these
-  const hasVideoPlatform = videoData?.videoPlatform && videoData?.videoId && 
+  // Priority 1: Check if videoUrl exists (direct video URL - play directly)
+  // If videoUrl exists, always play it directly regardless of platform
+  const hasDirectVideoUrl = !!videoData?.videoUrl
+
+  // Priority 2: Check if video has a platform (youtube, vidyard, vimeo) with videoId - use embedded iframe
+  // Only use platform-based if no direct videoUrl exists
+  const hasVideoPlatform = !hasDirectVideoUrl && 
+    videoData?.videoPlatform && 
+    videoData?.videoId && 
     ['youtube', 'vidyard', 'vimeo'].includes(videoData.videoPlatform)
 
-  // Check if video is MP4 with direct URL
-  const hasMp4Video = videoData?.videoPlatform === 'mp4' && videoData?.videoUrl
-
-  const [isPlaying, setIsPlaying] = useState(hasVideoPlatform || hasMp4Video)
-  const [showThumbnail, setShowThumbnail] = useState(!hasVideoPlatform && !hasMp4Video)
+  const [isPlaying, setIsPlaying] = useState(hasVideoPlatform || hasDirectVideoUrl)
+  const [showThumbnail, setShowThumbnail] = useState(!hasVideoPlatform && !hasDirectVideoUrl)
 
   // Auto-play when video changes
   useEffect(() => {
-    if (hasVideoPlatform || hasMp4Video) {
+    if (hasVideoPlatform || hasDirectVideoUrl) {
       setIsPlaying(true)
       setShowThumbnail(false)
     } else {
@@ -108,15 +112,8 @@ export default function VideoPlayers({
       className="relative w-full h-full group"
      
     >
-      {hasVideoPlatform ? (
-        <iframe
-          src={getVideoEmbedUrl()}
-          className="w-full h-full rounded-2xl"
-          frameBorder="0"
-          allow="autoplay; fullscreen; picture-in-picture"
-          allowFullScreen
-        />
-      ) : hasMp4Video && (isPlaying || !thumbnail) ? (
+      {hasDirectVideoUrl && (isPlaying || !thumbnail) ? (
+        // Direct video URL playback (MP4, WebM, or any direct video URL)
         <video
           src={videoData.videoUrl}
           muted
@@ -125,6 +122,15 @@ export default function VideoPlayers({
           autoPlay
           controls={false}
           className="w-full h-full object-cover display-block"
+        />
+      ) : hasVideoPlatform ? (
+        // Platform-based embedded video (YouTube, Vimeo, Vidyard)
+        <iframe
+          src={getVideoEmbedUrl()}
+          className="w-full h-full rounded-2xl"
+          frameBorder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
         />
       ) : thumbnail ? (
         <div className="relative w-full h-full">
