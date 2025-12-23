@@ -129,6 +129,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
         className="flex-col relative pt-16 md:pt-20 lg:pt-24 "
         type="V2"
         border="y-0"
+        darkTheme={true}
       >
         <div className="flex flex-col gap-8 md:gap-12 lg:gap-16 items-center relative w-full">
           <SectionHeaderV2
