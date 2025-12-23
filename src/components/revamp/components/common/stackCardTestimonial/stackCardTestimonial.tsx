@@ -386,7 +386,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                           {currentTestimonial?.testimonial?.name}
                         </p>
                         <p className="text-white/60 text-sm">
-                          {currentTestimonial?.testimonial?.designation}
+                          {currentTestimonial?.testimonial?.designation} , {currentTestimonial?.testimonial?.practiceName}
                         </p>
                       </div>
                     </div>
@@ -527,7 +527,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                       {currentTestimonial?.testimonial?.name}
                     </p>
                     <p className="text-gray-600 text-left">
-                      {currentTestimonial?.testimonial?.designation}
+                      {currentTestimonial?.testimonial?.designation} , {currentTestimonial?.testimonial?.practiceName}
                     </p>
                   </div>
                 </div>
