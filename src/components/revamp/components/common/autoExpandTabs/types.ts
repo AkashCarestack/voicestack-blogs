@@ -2,6 +2,7 @@ export interface AutoExpandTab {
   key: string;
   step: string;
   title: string;
+  subheading?: string;
   description: string;
   video?: any;
   thumbnail?: string;
