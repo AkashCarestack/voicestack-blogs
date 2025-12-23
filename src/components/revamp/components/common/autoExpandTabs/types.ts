@@ -32,6 +32,8 @@ export interface TabItemProps {
   isPaused: boolean;
   onTabClick: (tabKey: string) => void;
   onPauseToggle: () => void;
+  tabs?: AutoExpandTab[];
+  activeTab?: string;
 }
 
 export interface MediaDisplayProps {

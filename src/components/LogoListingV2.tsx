@@ -131,8 +131,8 @@ const LogoListingV2 = ({ data }: LogoListingV2Props) => {
               </svg> */}
               <Image src={'/assets/overlapping-stars.png'} alt="Overlapping Stars" width={30} height={24} />
             </div>
-            <div className="flex flex-col font-medium text-lg leading-[28px] text-zinc-950">
-              <p className="leading-[28px] whitespace-pre-wrap">
+            <div className="flex flex-col font-medium md:text-lg text-base leading-[155%] text-zinc-950">
+              <p className="whitespace-pre-wrap">
                 {`Trusted by `}
                 <br aria-hidden="true" />
                 {`3000+ Dental Practices `}

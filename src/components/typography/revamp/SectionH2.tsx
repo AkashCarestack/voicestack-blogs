@@ -44,7 +44,7 @@ const SectionH2: React.FC<SectionH2Props> = ({
 
   // Base classes matching sectionHeaderV2 h2 styling
   // Note: width constraint removed from h2 as parent div handles it
-  const baseClasses = `[&_br]:hidden md:[&_br]:block !leading-[116%] mb-3 tracking-[-0.8px] font-manrope font-semibold `
+  const baseClasses = `[&_br]:hidden md:[&_br]:block !leading-[116%] mb-3 tracking-tight font-manrope font-semibold `
   
   const sizeClasses = headingSm 
     ? 'text-xl lg:text-2xl font-medium' 

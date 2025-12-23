@@ -4,11 +4,6 @@ import React from 'react'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 
-import SectionHeader from './sectionHeader'
-import { GridPattern } from '~/components/ui/grid-pattern'
-import TickIcon from '~/components/icons/TickIcon'
-import Tick from '~/components/icons/Tick'
-import TickSolidIcon from '~/components/icons/TickSolidIcon'
 import SectionHeaderV2 from './sectionHeaderV2'
 
 interface Integration {
@@ -38,18 +33,15 @@ interface Integration {
   }
 }
 
-interface IntegrationsGridProps {
-  className?: string
-  data: any
+interface IntegrationsGridProps {   
+className?: string
+  data:any
 }
 
 const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   className = '',
   data,
 }) => {
-  console.log(data)
-  // Sort integrations by order field (ascending), with items without order at the end
-  // Hook must be called before any early returns
   const sortedIntegrations = React.useMemo(() => {
     const integrations =
       data?.refData?.integrationListing?.integrationList || []
@@ -137,7 +129,6 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
         className="flex-col relative pt-16 md:pt-20 lg:pt-24 "
         type="V2"
         border="y-0"
-        darkTheme={true}
       >
         <div className="flex flex-col gap-8 md:gap-12 lg:gap-16 items-center relative w-full">
           <SectionHeaderV2
