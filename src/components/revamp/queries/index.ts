@@ -1268,6 +1268,7 @@ class Queries {
                   heading,
                   sectionHeadingDynamic,
                   description,
+                  customText,
                   useReference,
                   // Overview Video with thumbnails
                   "video": video[] {
@@ -1404,6 +1405,8 @@ class Queries {
                   customListingItems[] {
                     _key,
                     heading,
+                    cardType,
+                    columnCount,
                     listItems[] {
                       _key,
                       itemHeading,

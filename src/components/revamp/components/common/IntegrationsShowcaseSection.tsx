@@ -9,6 +9,7 @@ import { GridPattern } from '~/components/ui/grid-pattern'
 import TickIcon from '~/components/icons/TickIcon'
 import Tick from '~/components/icons/Tick'
 import TickSolidIcon from '~/components/icons/TickSolidIcon'
+import SectionHeaderV2 from './sectionHeaderV2'
 
 interface Integration {
   _id: string
@@ -138,7 +139,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
         border="y-0"
       >
         <div className="flex flex-col gap-8 md:gap-12 lg:gap-16 items-center relative w-full">
-          <SectionHeader
+          <SectionHeaderV2
             heading={data.refData.integrationListing.title}
             description={data.refData.integrationListing.description}
             isWhite={true}
