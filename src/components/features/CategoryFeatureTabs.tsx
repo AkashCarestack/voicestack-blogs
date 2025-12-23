@@ -688,7 +688,7 @@ export default function CategoryFeatureTabs({
                               {testimonial.name}
                             </p>
                             <p className="text-black/60 font-geist text-base font-normal leading-6 tracking-normal">
-                              {testimonial.designation}
+                              {testimonial.designation} , {testimonial.practiceName}
                             </p>
                           </div>
                         </div>
@@ -1065,8 +1065,8 @@ export default function CategoryFeatureTabs({
                                     {testimonial.name}
                                   </p>
                                   <p className="text-black/60 font-geist md:text-base text-sm font-normal leading-6 tracking-normal">
-                                    {testimonial.designation}
-                                  </p>
+                                    {testimonial.designation} , {testimonial.practiceName}
+                                  </p>  
                                 </div>
                               </div>
                             </div>
