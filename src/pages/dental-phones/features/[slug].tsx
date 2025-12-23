@@ -53,6 +53,7 @@ export default function FeaturePage({
         data={pageData['call-flow-analytics']?.componentData}
       />
 
+
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
           <IntegrationsShowcaseSection
@@ -60,6 +61,17 @@ export default function FeaturePage({
           />
         </div>
       )}
+
+
+      {pageData['feature-testimonials-section']?.componentData && (
+        <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
+      )}
+      
+      {pageData['benefits-of-healthcare']?.componentData && (
+        <GroupedCardsGridSection data={pageData['benefits-of-healthcare']?.componentData} theme="dark"/>
+      )}
+
+      <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
       <CardWIthGraph
         data={pageData['better-decisions']?.genericListingComponent}
       />

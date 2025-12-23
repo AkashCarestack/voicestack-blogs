@@ -48,15 +48,15 @@ const CardsGridSection = ({ data, customText, type, variant, bottomSpace }: Card
 
   
   if (!data) return null;
-
+  const sectionBorderColor = 'bg-gray-200'
   // Determine grid and border classes based on type for V2 variant
   const gridClasses = type === 'col-2' 
     ? 'grid-cols-1 md:grid-cols-2'
     : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
   
-  const borderClasses = type === 'col-2'
-    ? 'border-t md:border-r md:[&:nth-child(2n)]:border-r-0'
-    : 'border-t md:border-r md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0'
+  // const borderClasses = type === 'col-2'
+  //   ? 'border-t md:border-r md:[&:nth-child(2n)]:border-r-0'
+  //   : 'border-t md:border-r md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0'
 
   return (
     variant === 'V2' && (type === 'col-2' || type === 'col-3') ? (
@@ -70,10 +70,10 @@ const CardsGridSection = ({ data, customText, type, variant, bottomSpace }: Card
             />
 
             <div className="relative z-10 w-full flex flex-col gap-12 flex-grow">
-              <div className={`grid ${gridClasses}`}>
+              <div className={`grid ${sectionBorderColor} gap-px pt-px ${gridClasses}`}>
                 {items.map((item) => {
                   return (
-                    <div key={item._key || Math.random()} className={borderClasses}>
+                    <div key={item._key || Math.random()} className="bg-white">
                       {item.link?.url ? (
                         <Link href={item.link.url} className="block h-full">
                           <CardItemComponent item={item} />
