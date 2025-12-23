@@ -1352,6 +1352,12 @@ class Queries {
                     "icon": icon.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
                     },
+                    // Generic video for items
+                    genericVideo {
+                      videoId,
+                      videoUrl,
+                      videoPlatform
+                    },
                     ctaListItems[] {
                       ${this.CTA_FIELDS}
                     },

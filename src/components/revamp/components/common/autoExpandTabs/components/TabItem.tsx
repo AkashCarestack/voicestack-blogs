@@ -93,7 +93,7 @@ export default function TabItem({
               <p className="whitespace-pre-wrap leading-[155.55%]">{tab.title}</p>
             </div>
             <div className="flex flex-col justify-center w-full font-geist font-normal text-base text-gray-700 leading-[150%]">
-              <p className="whitespace-pre-wrap leading-[150%]">{tab.description}</p>
+              <p className="whitespace-pre-wrap leading-[150%]">{tab.subheading}</p>
             </div>
           </div>
 
