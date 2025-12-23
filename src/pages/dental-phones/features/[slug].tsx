@@ -1,5 +1,5 @@
 import groq from 'groq'
-import { GetStaticPaths,GetStaticProps } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
 import LogoListingV2 from '~/components/LogoListingV2'
 import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAnalyticsSection'
@@ -12,6 +12,7 @@ import FeatureHero from '~/components/revamp/components/common/HeroSection/Featu
 import IntegrationCloudSection from '~/components/revamp/components/common/integrationCloud'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import GroupedCardsGridSection from '~/components/revamp/components/GroupedCardsGridSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
@@ -29,21 +30,28 @@ export default function FeaturePage({
   region,
   slug,
 }: FeaturePageProps) {
-  console.log(pageData,'pageData')
-  console.log('multi listing data', pageData['the-missing-visibility']);
-  
+  console.log(pageData, 'pageData')
+  console.log('multi listing data', pageData['the-missing-visibility'])
+
   return (
     <>
-       <Breadcrumb  className=' !max-w-[1372px] md:block hidden' />
+      <Breadcrumb className=" !max-w-[1372px] md:block hidden" />
       <FeatureHero data={pageData[slug]} />
 
       {pageData['logos-listing']?.componentData && (
-        <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
+        <LogoListingV2
+          data={pageData['logos-listing']?.componentData.blocksListingData}
+        />
       )}
 
       {pageData['the-missing-visibility']?.componentData && (
-        <GroupedCardsGridSection data={pageData['the-missing-visibility']?.componentData} />
+        <GroupedCardsGridSection
+          data={pageData['the-missing-visibility']?.componentData}
+        />
       )}
+      <CallFlowAnalyticsSection
+        data={pageData['call-flow-analytics']?.componentData}
+      />
 
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
@@ -52,18 +60,24 @@ export default function FeaturePage({
           />
         </div>
       )}
-   
-      <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
-      <CardWIthGraph data={pageData['better-decisions']?.genericListingComponent} />
+      <CardWIthGraph
+        data={pageData['better-decisions']?.genericListingComponent}
+      />
+        {pageData['feature-testimonials-section']?.componentData && (
+      <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
+    )}
       {faq && <FaqSection faqItems={faq} />}
     </>
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async ({ locales, defaultLocale }) => {
+export const getStaticPaths: GetStaticPaths = async ({
+  locales,
+  defaultLocale,
+}) => {
   try {
     const client = getClient()
-    
+
     // Get all unique feature slugs (without drafts)
     const featuresQuery = groq`
       *[_type == "features" && !(_id in path("drafts.**"))] {
@@ -71,10 +85,12 @@ export const getStaticPaths: GetStaticPaths = async ({ locales, defaultLocale })
       }
     `
     const features = await client.fetch(featuresQuery)
-    
+
     // Get unique slugs (in case there are duplicates across languages)
-    const uniqueSlugs = [...new Set(features.map((feature: any) => feature.slug).filter(Boolean))]
-    
+    const uniqueSlugs = [
+      ...new Set(features.map((feature: any) => feature.slug).filter(Boolean)),
+    ]
+
     // Format paths for Next.js
     const paths = uniqueSlugs.map((slug: string) => ({
       params: { slug },
@@ -122,7 +138,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         region: region,
         faq: faqData,
         slug: slug,
-      }
+      },
     }
   } catch (error) {
     console.error('Error fetching Feature page:', error)
