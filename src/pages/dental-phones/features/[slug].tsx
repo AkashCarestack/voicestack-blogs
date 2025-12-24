@@ -13,7 +13,7 @@ import IntegrationCloudSection from '~/components/revamp/components/common/integ
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import GroupedCardsGridSection from '~/components/revamp/components/GroupedCardsGridSection'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 

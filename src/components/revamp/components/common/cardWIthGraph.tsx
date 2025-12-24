@@ -1,7 +1,7 @@
 import React from 'react'
 import Container from '~/components/structure/Container'
 import Image from 'next/image'
-import CardItemComponent from './CardItem'
+import CardItemComponent from '../../../../v2/components/common/CardItem'
 import Section from '~/components/structure/Section'
 import SectionHeaderV2 from './sectionHeaderV2'
 

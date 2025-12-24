@@ -1,8 +1,8 @@
 import React from 'react'
 import Container from '~/components/structure/Container'
-import SectionHeaderV2 from './common/sectionHeaderV2'
+import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
 import Section from '~/components/structure/Section'
-import GroupedCardsGrid from './common/GroupedCardsGrid'
+import GroupedCardsGrid from '../components/GroupedCardsGrid'
 
 interface GroupedCardsGridSectionProps {
   data?: {
