@@ -1453,6 +1453,7 @@ class Queries {
                     heading,
                     cardType,
                     columnCount,
+                    listIconSvgCode,
                     listItems[] {
                       _key,
                       itemHeading,

@@ -95,6 +95,12 @@ export const genericListingComponentFields = [
             description: 'Select the number of columns for the grid layout',
           },
           {
+            name: 'listIconSvgCode',
+            title: 'List Icon SVG Code',
+            type: 'text',
+            description: 'Paste your SVG code here for list item icons',
+          },
+          {
             name: 'listItems',
             title: 'List Items',
             type: 'array',
