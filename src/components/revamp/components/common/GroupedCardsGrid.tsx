@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { PortableText } from '@portabletext/react'
 import { PortableTextReactComponents } from '@portabletext/react'
 
@@ -13,6 +14,9 @@ export interface CustomListingItem {
     itemHeading?: string
     content?: any
     dynamicSvgCode?: string
+    link?: {
+      url?: string
+    }
   }>
 }
 
@@ -127,84 +131,93 @@ export default function GroupedCardsGrid({ customListingItems = [], theme }: Gro
                 }
                 const flexBasis = flexBasisClasses[columns]
                 
-                return (
-                  <div
-                    key={item._key || itemIndex}
-                    className={`${cardBgColor} ${flexBasis} flex flex-grow flex-col items-start pb-6 pt-0 px-0 min-h-0 min-w-0`}
-                  >
-                    <div className="flex flex-col gap-8 items-start pb-3 pt-9 px-12 w-full">
-                      {/* Icon (for specialty cards) */}
-                      {!isNumberedCards && item.dynamicSvgCode && (
-                        <div
-                          className="overflow-clip relative shrink-0 w-8 h-8"
-                          dangerouslySetInnerHTML={{ __html: processSvgCode(item.dynamicSvgCode) }}
-                        />
+                const cardContent = (
+                  <div className="flex flex-col gap-8 items-start pb-3 pt-9 px-12 w-full">
+                    {/* Icon (for specialty cards) */}
+                    {!isNumberedCards && item.dynamicSvgCode && (
+                      <div
+                        className="overflow-clip relative shrink-0 w-8 h-8"
+                        dangerouslySetInnerHTML={{ __html: processSvgCode(item.dynamicSvgCode) }}
+                      />
+                    )}
+
+                    <div className="flex flex-col gap-1.5 items-start justify-end w-full">
+                      {/* Item Heading */}
+                      {isNumberedCards ? (
+                        <p className={`font-geist font-medium text-lg leading-[1.4] ${descriptionColor} tracking-normal w-full whitespace-pre-wrap`}>
+                          {item.itemHeading}.
+                        </p>
+                      ) : (
+                        <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
+                          <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
+                            <p className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
+                              {item.itemHeading}
+                            </p>
+                          </div>
+                        </div>
                       )}
 
-                      <div className="flex flex-col gap-1.5 items-start justify-end w-full">
-                        {/* Item Heading */}
-                        {isNumberedCards ? (
-                          <p className={`font-geist font-medium text-lg leading-[1.4] ${descriptionColor} tracking-normal w-full whitespace-pre-wrap`}>
-                            {item.itemHeading}.
-                          </p>
-                        ) : (
-                          <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
-                            <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
-                              <p className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
-                                {item.itemHeading}
-                              </p>
-                            </div>
+                      {/* Content */}
+                      <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
+                        {item.content && (
+                          <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
+                            {isNumberedCards ? (
+                              <PortableText
+                                value={item.content}
+                                components={numberedCardComponents}
+                              />
+                            ) : (
+                              <div className="flex flex-col items-start pb-3 pt-0 w-full">
+                                {item.content.map((block: any, blockIndex: number) => {
+                                  // Create components with the group's listIconSvgCode
+                                  const components = createSpecialtyCardComponents(group.listIconSvgCode)
+                                  
+                                  // Check if this is a bullet list item
+                                  if (block.listItem === 'bullet') {
+                                    return (
+                                      <div
+                                        key={block._key || blockIndex}
+                                        className="flex gap-2 items-start px-0 py-1 w-full"
+                                      >
+                                        <div className={`flex-1 font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
+                                          <PortableText
+                                            value={[block]}
+                                            components={components}
+                                          />
+                                        </div>
+                                      </div>
+                                    )
+                                  }
+                                  // Regular block
+                                  return (
+                                    <PortableText
+                                      key={block._key || blockIndex}
+                                      value={[block]}
+                                      components={components}
+                                    />
+                                  )
+                                })}
+                              </div>
+                            )}
                           </div>
                         )}
-
-                        {/* Content */}
-                        <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
-                          {item.content && (
-                            <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
-                              {isNumberedCards ? (
-                                <PortableText
-                                  value={item.content}
-                                  components={numberedCardComponents}
-                                />
-                              ) : (
-                                <div className="flex flex-col items-start pb-3 pt-0 w-full">
-                                  {item.content.map((block: any, blockIndex: number) => {
-                                    // Create components with the group's listIconSvgCode
-                                    const components = createSpecialtyCardComponents(group.listIconSvgCode)
-                                    
-                                    // Check if this is a bullet list item
-                                    if (block.listItem === 'bullet') {
-                                      return (
-                                        <div
-                                          key={block._key || blockIndex}
-                                          className="flex gap-2 items-start px-0 py-1 w-full"
-                                        >
-                                          <div className={`flex-1 font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
-                                            <PortableText
-                                              value={[block]}
-                                              components={components}
-                                            />
-                                          </div>
-                                        </div>
-                                      )
-                                    }
-                                    // Regular block
-                                    return (
-                                      <PortableText
-                                        key={block._key || blockIndex}
-                                        value={[block]}
-                                        components={components}
-                                      />
-                                    )
-                                  })}
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </div>
                       </div>
                     </div>
                   </div>
+                )
+
+                return (
+                  <div  key={item._key || itemIndex} 
+                  className={`${cardBgColor} ${flexBasis} flex flex-grow flex-col items-start pb-6 pt-0 px-0 min-h-0 min-w-0`}
+                  >
+                    {item.link?.url ? (
+                    <Link href={item.link.url} className="block h-full">
+                      {cardContent}
+                    </Link>
+                    ):(
+                      cardContent
+                    )}
+                    </div>
                 )
               })}
             </div>

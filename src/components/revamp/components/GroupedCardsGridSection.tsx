@@ -20,6 +20,9 @@ interface GroupedCardsGridSectionProps {
         itemHeading?: string
         content?: any
         dynamicSvgCode?: string
+        link?: {
+          url?: string
+        }
       }>
     }>
   }

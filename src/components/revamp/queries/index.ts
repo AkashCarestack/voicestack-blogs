@@ -1458,7 +1458,10 @@ class Queries {
                       _key,
                       itemHeading,
                       dynamicSvgCode,
-                      content
+                      content,
+                      link {
+                        url
+                      }
                     }
                   },
                   // Blocks & Lists Reference (all types)

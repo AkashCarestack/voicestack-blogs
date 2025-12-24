@@ -125,6 +125,23 @@ export const genericListingComponentFields = [
                     type: 'customListingContent',
                     description: 'Rich text content with h4 headings, subheadings, lists, and highlights',
                   },
+                  {
+                    name: 'link',
+                    title: 'Link',
+                    type: 'object',
+                    options: {
+                      collapsible: true,
+                      collapsed: true,
+                    },
+                    fields: [
+                      {
+                        name: 'url',
+                        title: 'URL',
+                        type: 'string',
+                        description: 'The URL to link to. The entire card will be clickable.',
+                      },
+                    ],
+                  },
                 ],
               },
             ],
