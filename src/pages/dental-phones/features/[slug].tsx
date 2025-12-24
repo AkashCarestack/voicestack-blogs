@@ -6,13 +6,9 @@ import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAna
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-
 import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
 import FeatureHero from '~/components/revamp/components/common/HeroSection/FeatureHero'
-import IntegrationCloudSection from '~/components/revamp/components/common/integrationCloud'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import GroupedCardsGridSection from '~/components/revamp/components/GroupedCardsGridSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
@@ -33,8 +29,10 @@ export default function FeaturePage({
 
   return (
     <>
-      <Breadcrumb className=" !max-w-[1372px] md:block hidden" />
-      <FeatureHero data={pageData['feature-hero']} />
+    {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
+      <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+    {/* </div> */}
+      <FeatureHero data={pageData['feature-hero']} type="feature" />
 
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
