@@ -5,7 +5,7 @@ import Section from '../../../structure/Section'
 export default function FooterBottom() {
   return (
     <Section id="footer" className={'bg-black text-white'}>
-      <div className="flex flex-col gap-3 items-center px-6 md:px-12 w-full">
+      <div className="flex flex-col gap-3 items-center w-full">
         <div
           className="flex flex-col items-center self-stretch md:pt-24 pt-16 md:pb-16 pb-8 md:rounded-br-[24px]  md:rounded-bl-[24px] rounded-bl-[12px] rounded-br-[12px]"
           style={{
@@ -15,7 +15,7 @@ export default function FooterBottom() {
             backgroundRepeat: 'no-repeat',
           }}
         >
-          <div className="max-w-[722px] mx-auto text-center">
+          <div className="max-w-[690px] mx-auto text-center px-4">
             <h3 className="font-manrope font-semibold lg:text-6xl text-3xl !leading-[113%]">
               Grow your practice with Voicestack
             </h3>

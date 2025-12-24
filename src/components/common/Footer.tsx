@@ -11,6 +11,7 @@ import Anchor from './anchor'
 import Button from './Button'
 import Container from '../structure/Container'
 import Section from '../structure/Section'
+import FooterBottom from '../revamp/components/common/FooterBottom'
 
 const Footer = ({ data }) => {
   const CopyrightYear = new Date().getFullYear()
@@ -44,7 +45,7 @@ const Footer = ({ data }) => {
       target="_blank"
       rel="noreferrer"
       title={title}
-      className={`md:h-[78px] md:w-[79px] p-3 md:p-0 group inline-flex items-center justify-center transition-colors duration-300 ${className}`}
+      className={`md:h-[54px] md:w-[54px] p-3 md:p-0 group inline-flex items-center justify-center transition-colors duration-300 ${className}`}
       style={{
         borderRadius: 'var(--radius-lg, 8px)',
         border: '0 solid rgba(255, 255, 255, 0.40)',
@@ -58,10 +59,10 @@ const Footer = ({ data }) => {
 
   return (
     <Section id="footer" className={'bg-black'}>
-      <Container className="flex pt justify-center md:pt-24 pt-12">
+      <div className="flex justify-center w-full px-4 md:px-12">
         <div className="w-full">
           {/* CTA Banner Section */}
-          {showBanner && data?.ctaBanner?.showBanner && data?.ctaBanner?.title && (
+          {/* {showBanner && data?.ctaBanner?.showBanner && data?.ctaBanner?.title && (
             <div className="  rounded-xl bg-[#4A3CE1] flex flex-col items-center gap-6 md:px-8 px-4 md:py-16 py-12 self-stretch">
               <h3 className="text-center md:max-w-[900px] text-white font-manrope font-bold lg:text-4xl text-2xl" dangerouslySetInnerHTML={{ __html: data.ctaBanner.title }}>
                
@@ -72,18 +73,20 @@ const Footer = ({ data }) => {
                 </Button>
               )}
             </div>
-          )}
+          )} */}
+          <FooterBottom/>
 
           {/* Main Footer Content */}
-          <div className="pt-8 md:pt-3">
+          <div className="pt-8 md:pt-3 bg-zinc-900 md:rounded-tr-[24px]  md:rounded-tl-[24px] rounded-tl-[12px] rounded-tr-[12px]">
+            <Container className='flex flex-col gap-3 w-full max-w-[1144px]'>
             {/* Footer Columns */}
             {safeData?.footerColumns && safeData.footerColumns.length > 0 && (
               <div
-                className="grid grid-cols-2 md:grid-cols-4 md:p-8 p-4 rounded-xl lg:grid-cols-4 gap-6"
+                className="grid grid-cols-2 md:grid-cols-4 pt-8 pb-8 rounded-xl lg:grid-cols-4 gap-6"
                 style={{
                   borderRadius: 'var(--radius-lg, 8px)',
                   border: '0 solid rgba(255, 255, 255, 0.40)',
-                  background: 'rgba(255, 255, 255, 0.10)',
+                  // background: 'rgba(255, 255, 255, 0.10)',
                   backdropFilter: 'blur(8px)',
                 }}
               >
@@ -126,7 +129,7 @@ const Footer = ({ data }) => {
 
             {/* Bottom Footer Section */}
             <div className="py-3 border-gray-800 ">
-              <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
+              <div className="flex flex-col md:flex-row gap-2 items-center justify-between border-y border-dashed border-white/10 py-6">
                 {/* Logo and Copyright */}
                 <div className="flex md:gap-0 gap-6 flex-col md:flex-row md:h-[84px] items-center justify-between rounded-xl bg-zinc-900 flex-1 py-3 px-3 md:pl-8">
                   <div className="flex flex-col md:flex-row items-center gap-4">
@@ -163,7 +166,7 @@ const Footer = ({ data }) => {
                             href={data.appStoreLinks.googlePlay}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-3 px-4 py-3 text-white transition-colors duration-300"
+                            className="inline-flex items-center gap-3 p-3 text-white transition-colors duration-300"
                             style={{
                               borderRadius: 'var(--radius-lg, 8px)',
                               border: '0 solid rgba(255, 255, 255, 0.40)',
@@ -187,7 +190,7 @@ const Footer = ({ data }) => {
                             href={data.appStoreLinks.appStore}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center gap-3 px-4 py-3 text-white transition-colors duration-300"
+                            className="inline-flex items-center gap-3 p-3 text-white transition-colors duration-300"
                             style={{
                               borderRadius: 'var(--radius-lg, 8px)',
                               border: '0 solid rgba(255, 255, 255, 0.40)',
@@ -400,9 +403,11 @@ const Footer = ({ data }) => {
                 </Anchor>
               </div>
             </div>
+
+            </Container>
           </div>
         </div>
-      </Container>
+      </div>
     </Section>
   )
 }
