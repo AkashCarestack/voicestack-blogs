@@ -30,13 +30,11 @@ export default function FeaturePage({
   region,
   slug,
 }: FeaturePageProps) {
-  console.log(pageData, 'pageData')
-  console.log('multi listing data', pageData['the-missing-visibility'])
 
   return (
     <>
       <Breadcrumb className=" !max-w-[1372px] md:block hidden" />
-      <FeatureHero data={pageData[slug]} />
+      <FeatureHero data={pageData['feature-hero']} />
 
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
