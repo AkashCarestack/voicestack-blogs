@@ -23,3 +23,4 @@ export default function ProgressBar({ progress, activeTab }: ProgressBarProps) {
     </div>
   );
 }
+

@@ -41,3 +41,4 @@ export interface MediaDisplayProps {
   tabs: AutoExpandTab[];
   activeTab: string;
 }
+

@@ -2,12 +2,12 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { cn } from "~/lib/utils";
 import VideoPlayers from '~/components/common/VideoPlayer';
-import Button from '../common/Button';
-import Section from '../structure/Section';
-import Container from '../structure/Container';
-import SectionHeaderV2 from '../revamp/components/common/sectionHeaderV2';
-import SwitchableTabs from '../revamp/components/common/switchableTabs';
-import { IdataProps } from '../revamp/components/common/interface/common';
+import Button from '~/components/common/Button';
+import Section from '~/components/structure/Section';
+import Container from '~/components/structure/Container';
+import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2';
+import SwitchableTabs from '~/components/revamp/components/common/switchableTabs';
+import { IdataProps } from '~/components/revamp/components/common/interface/common';
 import { contentVideoTabsDummyData } from './contentDummy';
 
 
@@ -65,7 +65,7 @@ interface ContentVideoTabsProps {
   data: any;
 }
 
-export default function ContentVideoTabs({
+export default function ContentVideoTabsSection({
   data,
   features,
   tabs: manualTabs,
@@ -409,3 +409,4 @@ export default function ContentVideoTabs({
     </Section>
   );
 }
+

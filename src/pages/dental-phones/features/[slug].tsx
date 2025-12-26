@@ -2,7 +2,7 @@ import groq from 'groq'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
 import LogoListingV2 from '~/components/LogoListingV2'
-import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAnalyticsSection'
+import CallFlowAnalyticsSection from '~/v2/components/CallFlowAnalyticsSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
 import FaqSection from '~/components/revamp/components/common/faqSection'
@@ -50,7 +50,6 @@ export default function FeaturePage({
         data={pageData['call-flow-analytics']?.componentData}
       />
 
-
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
           <IntegrationsShowcaseSection
@@ -68,7 +67,6 @@ export default function FeaturePage({
         <GroupedCardsGridSection data={pageData['benefits-of-healthcare']?.componentData} theme="dark"/>
       )}
 
-      <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
       <CardWIthGraph
         data={pageData['better-decisions']?.genericListingComponent}
       />

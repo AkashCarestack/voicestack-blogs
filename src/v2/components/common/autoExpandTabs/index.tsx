@@ -13,6 +13,7 @@ export default function AutoExpandTabs({
 }: AutoExpandTabsProps) {
   const [activeTab, setActiveTab] = useState<string>(tabs[0]?.key || '');
   const [isVisible, setIsVisible] = useState(false);
+  const wasVisibleRef = useRef(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
   // Intersection Observer to detect when section is visible
@@ -21,9 +22,13 @@ export default function AutoExpandTabs({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            // Section becomes visible - keep the current tab, just update visibility state
             setIsVisible(true);
+            wasVisibleRef.current = true;
           } else {
+            // Section goes out of view - keep the tab state, just update visibility
             setIsVisible(false);
+            wasVisibleRef.current = false;
           }
         });
       },
@@ -87,3 +92,4 @@ export default function AutoExpandTabs({
     </div>
   );
 }
+
