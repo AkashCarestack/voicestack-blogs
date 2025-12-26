@@ -2,7 +2,8 @@ import React from 'react'
 import Container from '~/components/structure/Container'
 import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
 import Section from '~/components/structure/Section'
-import GroupedCardsGrid from '../components/GroupedCardsGrid'
+import GroupedCardsGrid from '~/v2/components/GroupedCardsGrid'
+import cardsData from '~/v2/data/cardsData.json'
 
 interface GroupedCardsGridSectionProps {
   data?: {
@@ -55,6 +56,14 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
           <GroupedCardsGrid
             customListingItems={data.customListingItems}
             theme={theme}
+          />
+
+          {/* JSON Schema Cards */}
+          <GroupedCardsGrid
+            customListingItems={cardsData}
+            theme={theme}
+            simpleListingData={true}
+            columnCount={3}
           />
 
           {/* Footer Section */}
