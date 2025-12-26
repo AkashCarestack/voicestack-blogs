@@ -1453,11 +1453,15 @@ class Queries {
                     heading,
                     cardType,
                     columnCount,
+                    listIconSvgCode,
                     listItems[] {
                       _key,
                       itemHeading,
                       dynamicSvgCode,
-                      content
+                      content,
+                      link {
+                        url
+                      }
                     }
                   },
                   // Blocks & Lists Reference (all types)

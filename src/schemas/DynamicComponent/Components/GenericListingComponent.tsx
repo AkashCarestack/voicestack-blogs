@@ -95,6 +95,12 @@ export const genericListingComponentFields = [
             description: 'Select the number of columns for the grid layout',
           },
           {
+            name: 'listIconSvgCode',
+            title: 'List Icon SVG Code',
+            type: 'text',
+            description: 'Paste your SVG code here for list item icons',
+          },
+          {
             name: 'listItems',
             title: 'List Items',
             type: 'array',
@@ -118,6 +124,23 @@ export const genericListingComponentFields = [
                     title: 'Content',
                     type: 'customListingContent',
                     description: 'Rich text content with h4 headings, subheadings, lists, and highlights',
+                  },
+                  {
+                    name: 'link',
+                    title: 'Link',
+                    type: 'object',
+                    options: {
+                      collapsible: true,
+                      collapsed: true,
+                    },
+                    fields: [
+                      {
+                        name: 'url',
+                        title: 'URL',
+                        type: 'string',
+                        description: 'The URL to link to. The entire card will be clickable.',
+                      },
+                    ],
                   },
                 ],
               },

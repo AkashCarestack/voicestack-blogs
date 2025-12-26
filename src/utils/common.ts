@@ -290,6 +290,18 @@ export const HeroFeatureHeadingComponents: any = {
       ),
   },
 }
+export const HeroFeatureComponents: any = {
+  block: {
+    normal: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'span',
+        {
+          className: 'text-gray-950 text-center md:text-left font-manrope md:text-6xl text-3xl font-bold leading-[111.111%] tracking-normal',
+        },
+        children
+      ),
+  },
+}
 
 export const descriptionComponents: any = {
   block: {
