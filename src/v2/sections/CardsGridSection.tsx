@@ -43,6 +43,8 @@ const CardsGridSection = ({ data, customText, type, variant, bottomSpace }: Card
   const ctaListItems = displayData?.ctaListItems || []
   const items = displayData?.items || []
 
+  console.log(items,'items CardsGridSection');
+
   
   if (!data) return null;
   const sectionBorderColor = 'bg-gray-200'
