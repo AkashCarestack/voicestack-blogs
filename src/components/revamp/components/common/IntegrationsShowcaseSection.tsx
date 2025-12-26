@@ -137,8 +137,8 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
       >
         <div className="flex flex-col gap-8 md:gap-12 lg:gap-16 items-center relative w-full">
           <SectionHeaderV2
-            heading={data.refData.integrationListing.title}
-            description={data.refData.integrationListing.description}
+            heading={data?.heading}
+            description={data?.description}
             isWhite={true}
             className="md:px-6 xl:px-12 px-4"
           />
@@ -203,9 +203,9 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                     <Image
                       src={integration.image.url}
                       alt={integration.title}
-                      width={32}
-                      height={32}
-                      className="w-8 h-8 object-contain"
+                      width={60}
+                      height={60}
+                      className="w-full h-full object-contain"
                     />
                   )}
                 </div>
@@ -244,7 +244,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                         alt={cell.data.title}
                         width={70}
                         height={70}
-                        className="w-10 h-10 object-contain"
+                        className="w-full h-full object-contain"
                       />
                       {/* Tooltip - only for integration cells */}
                       <div className="absolute bg-[#efeeea] bottom-[-20px] px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">

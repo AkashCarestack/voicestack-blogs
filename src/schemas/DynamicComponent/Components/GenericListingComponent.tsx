@@ -66,6 +66,41 @@ export const genericListingComponentFields = [
             // description: 'Industry name (e.g., "Dental", "Physical Therapy")',
           },
           {
+            name: 'cardType',
+            title: 'Card Type',
+            type: 'string',
+            options: {
+              list: [
+                { title: 'Numbered Cards', value: 'numbered' },
+                { title: 'Specialty Cards', value: 'specialty' },
+              ],
+              layout: 'dropdown',
+            },
+            initialValue: 'specialty',
+            description: 'Select whether cards should be numbered or specialty cards with icons',
+          },
+          {
+            name: 'columnCount',
+            title: 'Number of Columns',
+            type: 'number',
+            options: {
+              list: [
+                { title: '2 Columns', value: 2 },
+                { title: '3 Columns', value: 3 },
+                { title: '4 Columns', value: 4 },
+              ],
+              layout: 'dropdown',
+            },
+            initialValue: 3,
+            description: 'Select the number of columns for the grid layout',
+          },
+          {
+            name: 'listIconSvgCode',
+            title: 'List Icon SVG Code',
+            type: 'text',
+            description: 'Paste your SVG code here for list item icons',
+          },
+          {
             name: 'listItems',
             title: 'List Items',
             type: 'array',
@@ -90,6 +125,23 @@ export const genericListingComponentFields = [
                     type: 'customListingContent',
                     description: 'Rich text content with h4 headings, subheadings, lists, and highlights',
                   },
+                  {
+                    name: 'link',
+                    title: 'Link',
+                    type: 'object',
+                    options: {
+                      collapsible: true,
+                      collapsed: true,
+                    },
+                    fields: [
+                      {
+                        name: 'url',
+                        title: 'URL',
+                        type: 'string',
+                        description: 'The URL to link to. The entire card will be clickable.',
+                      },
+                    ],
+                  },
                 ],
               },
             ],
@@ -109,6 +161,12 @@ export const genericListingComponentFields = [
         },
       },
     ],
+  },
+  {
+    name: 'customText',
+    title: 'Custom Text',
+    type: 'string',
+    description: 'Custom text to display in the footer section',
   },
   {
     name: 'ctaListItems',

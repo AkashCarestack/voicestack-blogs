@@ -1308,6 +1308,7 @@ class Queries {
                   heading,
                   sectionHeadingDynamic,
                   description,
+                  customText,
                   useReference,
                   // Overview Video with thumbnails
                   "video": video[] {
@@ -1450,11 +1451,17 @@ class Queries {
                   customListingItems[] {
                     _key,
                     heading,
+                    cardType,
+                    columnCount,
+                    listIconSvgCode,
                     listItems[] {
                       _key,
                       itemHeading,
                       dynamicSvgCode,
-                      content
+                      content,
+                      link {
+                        url
+                      }
                     }
                   },
                   // Blocks & Lists Reference (all types)

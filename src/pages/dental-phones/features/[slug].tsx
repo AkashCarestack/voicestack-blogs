@@ -6,14 +6,11 @@ import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAna
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-
 import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
 import FeatureHero from '~/components/revamp/components/common/HeroSection/FeatureHero'
-import IntegrationCloudSection from '~/components/revamp/components/common/integrationCloud'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import GroupedCardsGridSection from '~/components/revamp/components/GroupedCardsGridSection'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 
@@ -30,13 +27,13 @@ export default function FeaturePage({
   region,
   slug,
 }: FeaturePageProps) {
-  console.log(pageData, 'pageData')
-  console.log('multi listing data', pageData['the-missing-visibility'])
 
   return (
     <>
-      <Breadcrumb className=" !max-w-[1372px] md:block hidden" />
-      <FeatureHero data={pageData[slug]} />
+    {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
+      <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+    {/* </div> */}
+      <FeatureHero data={pageData['feature-hero']} type="feature" />
 
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
@@ -53,6 +50,7 @@ export default function FeaturePage({
         data={pageData['call-flow-analytics']?.componentData}
       />
 
+
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
           <IntegrationsShowcaseSection
@@ -60,6 +58,17 @@ export default function FeaturePage({
           />
         </div>
       )}
+
+
+      {pageData['feature-testimonials-section']?.componentData && (
+        <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
+      )}
+      
+      {pageData['benefits-of-healthcare']?.componentData && (
+        <GroupedCardsGridSection data={pageData['benefits-of-healthcare']?.componentData} theme="dark"/>
+      )}
+
+      <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
       <CardWIthGraph
         data={pageData['better-decisions']?.genericListingComponent}
       />
