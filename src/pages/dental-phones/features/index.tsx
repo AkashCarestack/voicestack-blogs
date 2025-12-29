@@ -11,6 +11,7 @@ import Section from '~/components/structure/Section'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 
 interface Feature {
   _id: string
@@ -71,6 +72,12 @@ export default function FeaturesPage({
           data={data['stack-card-tab-testimonial']?.componentData}
         />
       )} */}
+
+
+        <CategoryFeatureTabsSection 
+          features={features} 
+          sectionHeading={data['category-feature-tabs']?.componentData?.sectionHeading}
+        />
       {data?.faqData && <FaqSection faqItems={data?.faqData[0]} />}
     </>
   )
