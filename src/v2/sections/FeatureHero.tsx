@@ -3,7 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 import Button from '~/components/common/Button'
 import Container from '~/components/structure/Container'
-import bgStyle from '../../../../../../public/assets/Bg/image 682.png'
+// import bgStyle from './assets/Bg/image 682.png'
 import { descriptionComponents, HeroFeatureComponents, HeroFeatureHeadingComponents, HeroHeadingComponents } from '~/utils/common'
 import { urlForImage } from '~/lib/sanity.image'
 
@@ -50,7 +50,7 @@ export default function FeatureHero({ data ,type}: { data: any, type?: string })
             <Image className='md:w-[481px] md:h-[444px] w-full h-full object-cover' src={image} alt={heading} width={1000} height={1000} />
           </div>}
         </div>
-        <div className="hidden z-0 md:block absolute right-0 bottom-0 w-[1000px] h-[738px] pointer-events-none">
+        {/* <div className="hidden z-0 md:block absolute right-0 bottom-0 w-[1000px] h-[738px] pointer-events-none">
           <Image
             className="w-full h-full object-cover"
             alt="bgStyle"
@@ -58,7 +58,7 @@ export default function FeatureHero({ data ,type}: { data: any, type?: string })
             height={738}
             src={bgStyle.src}
           />
-        </div>
+        </div> */}
       </Container>
     </div>
   )
