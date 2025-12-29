@@ -6,13 +6,13 @@ import CallFlowAnalyticsSection from '~/components/revamp/components/callFlowAna
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-import FeatureTestimonialsSection from '~/components/revamp/components/common/FeatureTestimonialsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
-import IntegrationsShowcaseSection from '~/components/revamp/components/common/IntegrationsShowcaseSection'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 
 
 interface FeaturePageProps {

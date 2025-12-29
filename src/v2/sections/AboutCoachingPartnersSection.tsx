@@ -2,10 +2,9 @@ import Button from '~/components/common/Button'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
-
-import ArrowIcon from '../../icons/arrowIcon'
-import SectionHeaderV2 from './sectionHeaderV2'
 import Image from 'next/image'
+import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
+import ArrowIcon from '~/components/revamp/icons/arrowIcon'
 
 export default function AboutCoachingPartners({ data }: { data: any }) {
   return (

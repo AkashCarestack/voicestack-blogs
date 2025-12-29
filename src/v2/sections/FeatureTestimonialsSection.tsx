@@ -1,8 +1,6 @@
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import Image from 'next/image'
-import SectionHeader from './sectionHeader'
-import SectionHeaderV2 from './sectionHeaderV2'
 
 export default function FeatureTestimonialsSection({ data }: { data: any }) {
   const itemsLength = data?.items?.length || 0
