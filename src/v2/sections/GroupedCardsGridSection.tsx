@@ -59,12 +59,12 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
           />
 
           {/* JSON Schema Cards */}
-          <GroupedCardsGrid
+          {/* <GroupedCardsGrid
             customListingItems={cardsData}
             theme={theme}
             simpleListingData={true}
             columnCount={3}
-          />
+          /> */}
 
           {/* Footer Section */}
           {(() => {

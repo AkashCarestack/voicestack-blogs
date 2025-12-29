@@ -7,11 +7,12 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import ContentVideoTabs from '~/components/ui/contentVideotabs'
 import CardsGridSection from '~/v2/sections/CardsGridSection'
 import VerticalTestimonialListing from './common/VerticalTestimonialListing/VerticalTestimonialListing'
-import AboutCoachingPartners from './common/AboutCoachingPartners'
-import IntegrationsShowcaseSection from './common/IntegrationsShowcaseSection'
+// import AboutCoachingPartners from './common/AboutCoachingPartners'
+// import IntegrationsShowcaseSection from './common/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/components/LogoListingV2'
 import IntegrationCloudSection from './common/integrationCloud'
 import FooterBottom from './common/FooterBottom'
+import AboutCoachingPartners from '~/v2/sections/AboutCoachingPartnersSection'
 
 export default function 
 HomeAU({
@@ -61,13 +62,13 @@ HomeAU({
         <IntegrationCloudSection data={pageData['integrations-showcase']?.customComponent} />
       )}
       {pageData['test-listing-2']?.componentData && (
-        <CardsGridSection variant="V2" type="col-3"
+        <CardsGridSection variant="V2" colCount={3}
           data={pageData['test-listing-2'].componentData}
         />
       )}
 
       {pageData['test-listing-3']?.componentData && (
-        <CardsGridSection variant="V2" type="col-2" bottomSpace={true}
+        <CardsGridSection variant="V2" colCount={2} bottomSpace={true}
           data={pageData['test-listing-3'].componentData}
         />
       )}

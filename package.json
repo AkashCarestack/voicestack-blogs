@@ -10,6 +10,7 @@
     "start": "next start",
     "type-check": "tsc --noEmit",
     "find-unused-exports": "find-unused-exports",
+    "find-unused-components": "node scripts/find-unused-components.js",
     "populate-footer": "node scripts/populate-footer-data.js"
   },
   "prettier": {
