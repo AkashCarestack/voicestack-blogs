@@ -10,6 +10,8 @@ import { GridPattern } from '~/components/ui/grid-pattern';
 import Image from 'next/image';
 import ImageLoader from '~/components/common/imageLoader/imageLoader';
 import Button from '~/components/common/Button';
+import GroupedCardsGrid from '../components/GroupedCardsGrid';
+import SectionDivider from '../components/SectionDivider';
 
 interface Feature {
   _id: string;
@@ -251,34 +253,24 @@ export default function CategoryFeatureTabsSection({
   return (
     <Section
       id="features"
-      className={cn("py-sm md:py-md lg:py-lg scroll-m-16 bg-gray-50 relative", className)}
+      className={cn("w-full flex flex-col bg-gray-50 relative scroll-m-16", className)}
     >
-      {/* Grid Pattern Background */}
-      <div className="md:block hidden absolute top-0 right-0 w-[43rem] h-full z-0 overflow-hidden">
-        <GridPattern
-          width={50}
-          height={50}
-          x={-1}
-          y={-1}
-          className={cn(
-            "[mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"
-          )}
-        />
-      </div>
-
-      <Container className="flex flex-col items-center gap-16 relative z-10">
-        <SectionHeader
-          heading={
-            sectionHeading?.headline
-              ? sectionHeading?.headline
-              : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
-          }
-          description={
-            sectionHeading?.subheadline
-              ? sectionHeading?.subheadline
-              : 'Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
-          }
-        />
+      <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
+        <div className="flex-col relative w-full flex gap-16 mb-[60px]">
+          <SectionHeader
+            heading={
+              sectionHeading?.headline
+                ? sectionHeading?.headline
+                : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+            }
+            description={
+              sectionHeading?.subheadline
+                ? sectionHeading?.subheadline
+                : 'Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
+            }
+            className='xl:px-12 md:px-6 px-4'
+          />
+        </div>
 
         {/* Switchable Tabs - Sticky */}
         <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
@@ -299,125 +291,126 @@ export default function CategoryFeatureTabsSection({
           />
         </div>
 
-        {/* Category Sections with 130px gap */}
-        <div className="flex flex-col w-full gap-[130px]">
+        {/* Category Sections with line dividers */}
+        <div className="flex flex-col w-full">
           {allCategories.map((category, index) => {
             return (
-              <article
-                key={category.name}
-                ref={(el) => {
-                  sectionRefs.current[category.name] = el;
-                }}
-                data-category={category.name}
-                id={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                className="bg-white rounded-3xl overflow-hidden scroll-mt-[200px]"
-                style={{ scrollMarginTop: '200px' }}
-              >
-                <div className="p-3 space-y-8">
-                  {/* Header Section - Title and Description with Image */}
-                  <header
-                    className="relative flex flex-col justify-end items-start gap-2 flex-1 self-stretch"
-                    style={{
-                      borderRadius: '12px',
-                      background:
-                        'linear-gradient(277deg, rgba(202, 197, 255, 0.20) 0%, rgba(202, 197, 255, 0.50) 49.61%, rgba(202, 197, 255, 0.10) 100.18%)',
-                    }}
-                  >
-                    <div className="flex flex-col lg:flex-row gap-4">
-                      <div className="w-full flex flex-col justify-end items-start gap-2 flex-1 self-stretch lg:w-1/2 px-8 p-12">
-                        <h3
-                          className="text-2xl font-bold text-gray-900 tracking-normal font-manrope leading-8"
-                          style={{
-                            color: 'var(--Default-gray-900, #111827)',
-                          }}
-                        >
-                          {category.name}
-                        </h3>
-                        <p
-                          className="text-base font-normal text-gray-700 mt-2 md:mt-0 font-geist leading-6 tracking-normal"
-                          style={{
-                            color: 'var(--color-gray-700, #364153)',
-                            textWrap: 'balance',
-                          }}
-                        >
-                          {category.description}
-                        </p>
-                      </div>
-
-                      <div className="w-full inline-flex lg:w-1/2">
-                        {category?.mainImage && (
-                          <figure className="relative">
-                            <Image
-                              src={category?.mainImage?.asset?.url}
-                              alt={`${category.name} feature illustration`}
-                              title={`${category.name || category?.mainImage?.asset?.title}`}
-                              width={800}
-                              height={400}
-                              className="rounded-lg object-cover w-full h-full"
-                            />
-                          </figure>
-                        )}
+              <React.Fragment key={category.name}>
+                {index > 0 && <SectionDivider height="130px" />}
+                <article
+                  ref={(el) => {
+                    sectionRefs.current[category.name] = el;
+                  }}
+                  data-category={category.name}
+                  id={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="bg-white overflow-hidden scroll-mt-[200px]"
+                  style={{ scrollMarginTop: '200px' }}
+                >
+                <div className="w-full">
+                  {/* Hero Section - Based on Figma Design */}
+                  <div className={cn("flex flex-col lg:flex-row gap-px bg-gray-200 w-full", index === 0 && "border-t")} style={index === 0 ? { borderTopColor: 'var(--color-gray-200, #E5E7EB)' } : {}}>
+                    {/* Left: Content Section */}
+                    <div className="bg-white flex flex-1 flex-col gap-16 items-start justify-center min-h-[202px] p-12">
+                      <div className="flex flex-col gap-8 items-start w-full">
+                        <div className="flex flex-col gap-1.5 items-start tracking-normal w-full">
+                          <div className="flex flex-col gap-1.5 items-start leading-0 w-full">
+                            {/* Category Label */}
+                            {category.name && (
+                              <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                                <p className="leading-6 whitespace-pre-wrap">{category.name}</p>
+                              </div>
+                            )}
+                            {/* Main Heading */}
+                            <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
+                              <p className="leading-[48px] whitespace-pre-wrap">{category.subheading}</p>
+                            </div>
+                          </div>
+                          {/* Description */}
+                          <p className="font-geist font-normal leading-6 relative text-gray-700 text-base w-full whitespace-pre-wrap">
+                            {category.description}
+                          </p>
+                        </div>
+                        {/* CTA Button */}
+                        <div className="flex items-start">
+                          <Button type="primary" link="/demo">
+                            <span className="text-base font-medium">Book Free Demo</span>
+                          </Button>
+                        </div>
                       </div>
                     </div>
-                  </header>
 
-                  {/* Features List Section */}
-                  {/* <section
-                    className="flex flex-col justify-end items-start self-stretch !mt-0 pt-6 px-6 pb-2.5"
-                    aria-label={`${category.name} features`}
-                  >
-                    <h3 className="sr-only">
-                      Features included in {category.name}
-                    </h3>
-                    <ul
-                      className="grid grid-cols-1 md:grid-cols-2 gap-x-8 w-full"
-                      role="list"
-                    >
-                      {category.features.map((feature, featureIndex) => {
-                        const featuresLength = category.features.length;
-                        const isOdd = featuresLength % 2 !== 0;
-                        const isLastItem = featureIndex === featuresLength - 1;
-                        const isSecondLastItem = featureIndex === featuresLength - 2;
-                        const shouldShowBorder = isOdd
-                          ? !isLastItem
-                          : !isLastItem && !isSecondLastItem;
-                        return (
-                          <li
-                            key={feature._id}
-                            className={`flex gap-2 py-[14px] ${shouldShowBorder ? 'border-b border-gray-200' : ''}`}
-                            role="listitem"
-                          >
-                            <div
-                              className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
-                              aria-hidden="true"
-                            >
-                              <svg
-                                width="16"
-                                height="25"
-                                viewBox="0 0 16 25"
-                                fill="black"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  clipRule="evenodd"
-                                  d="M13.3633 7.52243C13.4261 7.57013 13.4789 7.62975 13.5187 7.69789C13.5584 7.76602 13.5844 7.84133 13.595 7.9195C13.6056 7.99767 13.6007 8.07717 13.5806 8.15345C13.5605 8.22973 13.5255 8.30128 13.4777 8.36403L7.07767 16.764C7.02576 16.8321 6.95989 16.8882 6.88449 16.9287C6.80908 16.9692 6.72589 16.9931 6.6405 16.9988C6.5551 17.0044 6.46948 16.9918 6.38937 16.9617C6.30927 16.9315 6.23654 16.8846 6.17607 16.824L2.57607 13.224C2.47009 13.1103 2.41239 12.9598 2.41513 12.8044C2.41788 12.649 2.48084 12.5007 2.59078 12.3907C2.70071 12.2808 2.84901 12.2178 3.00445 12.2151C3.1599 12.2123 3.31033 12.27 3.42407 12.376L6.53927 15.4904L12.5233 7.63683C12.6196 7.51039 12.7621 7.42733 12.9196 7.40588C13.0771 7.38443 13.2367 7.42635 13.3633 7.52243Z"
-                                  fill="#030712"
-                                />
-                              </svg>
-                            </div>
-                            <span className="text-gray-950 font-geist text-base font-normal leading-6 tracking-normal transition-colors">
-                              {feature.basicInfo?.title || feature.title}
-                            </span>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </section> */}
-
+                    {/* Right: Category Image */}
+                    <div className="bg-gray-50 flex flex-1 flex-col items-center justify-end min-h-[572px] px-px py-0 overflow-hidden relative">
+                      {/* Grid Pattern Background */}
+                      <div className="absolute inset-0 z-0">
+                        <GridPattern
+                          width={50}
+                          height={50}
+                          x={-1}
+                          y={-1}
+                          className={cn(
+                            "[mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"
+                          )}
+                        />
+                      </div>
+                      {category?.mainImage && (
+                        <div className="flex-1 min-h-0 min-w-0 overflow-hidden w-full relative z-10 flex items-center justify-center">
+                          <figure className="relative h-full w-full flex items-end justify-center">
+                            <ImageLoader
+                              image={category?.mainImage?.asset?.url}
+                              alt={`${category.name} feature illustration`}
+                              title={`${category.name || category?.mainImage?.asset?.title}`}
+                              width={400}
+                              height={400}
+                              className="rounded-lg object-cover max-w-[400px] md:max-h-[400px]"
+                            />
+                          </figure>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                   
+                  {/* GroupedCardsGrid Component */}
+                  {category.features && category.features.length > 0 && (
+                    <div className="w-full">
+                      <GroupedCardsGrid
+                        customListingItems={category.features.map((feature) => {
+                          // Get SVG code from feature - check multiple possible locations
+                          const iconSvg = 
+                            (feature.basicInfo?.icon as any)?.iconSvgCode || 
+                            (feature.basicInfo?.icon as any)?.icon ||
+                            feature.featureCategory?.iconSvgCode || 
+                            category.iconSvgCode ||
+                            // Default SVG if none provided
+                            '<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 8V16L21.3333 18.6667" stroke="#6A7282" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.3334 16.0002C29.3334 13.4199 28.5847 10.8951 27.1781 8.73199C25.7716 6.56885 23.7676 4.86028 21.4093 3.81351C19.0509 2.76674 16.4395 2.42674 13.8917 2.83475C11.3439 3.24276 8.96929 4.38124 7.05575 6.11212C5.14221 7.84301 3.772 10.0919 3.11129 12.5861C2.45058 15.0803 2.52777 17.7127 3.33348 20.1639C4.1392 22.6151 5.63883 24.7798 7.6505 26.3956C9.66217 28.0114 12.0995 29.0088 14.6667 29.2668" stroke="#6A7282" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.3334 21.3335L22.0001 28.6668L18.6667 25.3335" stroke="#030712" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                          
+                          // Get slug from basicInfo or direct slug
+                          const featureSlug = feature.basicInfo?.slug?.current || feature.slug?.current;
+                          
+                          return {
+                            heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
+                            description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
+                            dynamicSvg: iconSvg,
+                            link: featureSlug ? {
+                              buttonType: "text",
+                              text: null,
+                              url: `/${featureSlug}`
+                            } : {
+                              buttonType: "text",
+                              text: null,
+                              url: null
+                            }
+                          };
+                        })}
+                        theme="light"
+                        simpleListingData={true}
+                        columnCount={3}
+                      />
+                    </div>
+                  )}
                 </div>
               </article>
+              </React.Fragment>
             );
           })}
         </div>
