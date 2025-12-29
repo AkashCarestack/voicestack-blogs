@@ -18,7 +18,7 @@ export default function SectionHeaderV2({ showFullLength = false, ...data }: Sec
           <p className={`lg:w-[712px] lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue ${data.isWhite ? 'text-white' : 'text-gray-500'}`} dangerouslySetInnerHTML={{ __html: data.description }}></p>
 
           {data.ctaListItems && data.ctaListItems.length > 0 && (
-            <div className='flex justify-center gap-4 items-center mt-8'>
+            <div className='flex flex-col md:flex-row justify-center gap-4 items-center mt-8'>
               {data.ctaListItems?.map((btn: any, key: number) => {
                 return (
                   <Button link={btn.ctaLink} key={`${btn.ctaText}-${key}`} type={btn?.ctaType || 'primary'}>

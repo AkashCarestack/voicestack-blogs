@@ -122,6 +122,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
 
   const gridCells = getGridCells()
 
+  console.log(data, 'integrations showcase section data')
   return (
     <Section className={`relative overflow-hidden bg-[#030712] ${className}`}>
       <Container
@@ -130,11 +131,12 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
         border="y-0"
         darkTheme={true}
       >
-        <div className="flex flex-col gap-8 md:gap-12 lg:gap-16 items-center relative w-full">
+        <div className="flex flex-col gap-8 items-center relative w-full">
           <SectionHeaderV2
             heading={data?.heading}
             description={data?.description}
             isWhite={true}
+            ctaListItems={data?.ctaListItems}
             className="md:px-6 xl:px-12 px-4"
           />
 
