@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import LpHeader from '~/components/common/LpHeader'
 import SimpleHead from '~/components/common/SimpleHead'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
@@ -7,6 +8,7 @@ import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import PartnerPageTestimonial from '~/components/revamp/components/common/PartnerPageTestimonial/PartnerPageTestimonial'
 import ReviewTestimonial from '~/components/revamp/components/common/ReviewTestimonial/ReviewTestimonial'
 import Queries from '~/components/revamp/queries'
+import VoicestackLogo from 'public/assets/lp/voicestack-empoweremr.png'
 
 interface EmpowerEMRProps {
   pageData: any
@@ -17,6 +19,7 @@ export default function EmpowerEMR({ pageData, faq }: EmpowerEMRProps) {
  
   return (
     <>
+      <LpHeader logo={VoicestackLogo} logoAlt="VoiceStack Empower EMR"/>
       <SimpleHead data={pageData?.seo} noindex={true} />
       <HeroWrapper>
         {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
@@ -34,7 +37,7 @@ export default function EmpowerEMR({ pageData, faq }: EmpowerEMRProps) {
       )} */}
 
       {pageData['review-testimonial']?.componentData && (
-        <ReviewTestimonial data={pageData['review-testimonial']?.componentData} buttonDemo={false}/>
+        <ReviewTestimonial data={pageData['review-testimonial']?.componentData} buttonDemo={true}/>
       )}
 
       

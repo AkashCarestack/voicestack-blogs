@@ -137,8 +137,8 @@ export default function IndexPage({
   }
 
 
-console.log("hoem",pageData)
-console.log("featuresData", featuresData)
+// console.log("hoem",pageData)
+// console.log("featuresData", featuresData)
   return (
     <Track>
       <SimpleHead data={pageData?.seo} />
