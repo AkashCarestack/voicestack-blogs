@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image, { StaticImageData } from 'next/image'
 import { useRouter } from 'next/router'
 import VoicestackLogo from 'public/assets/voicestack-logo.svg'
 import Anchor from './anchor'
@@ -7,7 +7,7 @@ import Container from '../structure/Container'
 
 interface LpHeaderProps {
   data?: any 
-  logo?: string
+  logo?: string | StaticImageData
   logoAlt?: string
 }
 
