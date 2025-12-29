@@ -22,6 +22,7 @@ interface Feature {
     };
     description?: string;
     icon?: any;
+    dynamicSvg?: string;
   };
   title?: string;
   slug?: {
@@ -310,7 +311,7 @@ export default function CategoryFeatureTabsSection({
                   {/* Hero Section - Based on Figma Design */}
                   <div className={cn("flex flex-col lg:flex-row gap-px bg-gray-200 w-full", index === 0 && "border-t")} style={index === 0 ? { borderTopColor: 'var(--color-gray-200, #E5E7EB)' } : {}}>
                     {/* Left: Content Section */}
-                    <div className="bg-white flex flex-1 flex-col gap-16 items-start justify-center min-h-[202px] p-12">
+                    <div className="bg-white flex flex-1 flex-col gap-16 items-start justify-center  md:p-12 p-4">
                       <div className="flex flex-col gap-8 items-start w-full">
                         <div className="flex flex-col gap-1.5 items-start tracking-normal w-full">
                           <div className="flex flex-col gap-1.5 items-start leading-0 w-full">
@@ -340,7 +341,7 @@ export default function CategoryFeatureTabsSection({
                     </div>
 
                     {/* Right: Category Image */}
-                    <div className="bg-gray-50 flex flex-1 flex-col items-center justify-end min-h-[572px] px-px py-0 overflow-hidden relative">
+                    <div className="bg-gray-50 flex flex-1 flex-col items-center justify-end min-h-[300px] md:min-h-[572px] px-4 md:px-px py-4 md:py-0 overflow-hidden relative">
                       {/* Grid Pattern Background */}
                       <div className="absolute inset-0 z-0">
                         <GridPattern
@@ -362,7 +363,7 @@ export default function CategoryFeatureTabsSection({
                               title={`${category.name || category?.mainImage?.asset?.title}`}
                               width={400}
                               height={400}
-                              className="rounded-lg object-cover max-w-[400px] md:max-h-[400px]"
+                              className="rounded-lg object-cover w-full max-w-[300px] md:max-w-[400px] !h-[300px] md:max-h-[400px]"
                             />
                           </figure>
                         </div>
@@ -377,6 +378,7 @@ export default function CategoryFeatureTabsSection({
                         customListingItems={category.features.map((feature) => {
                           // Get SVG code from feature - check multiple possible locations
                           const iconSvg = 
+                            feature.basicInfo?.dynamicSvg ||
                             (feature.basicInfo?.icon as any)?.iconSvgCode || 
                             (feature.basicInfo?.icon as any)?.icon ||
                             feature.featureCategory?.iconSvgCode || 

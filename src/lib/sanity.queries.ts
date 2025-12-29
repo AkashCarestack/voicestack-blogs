@@ -1838,6 +1838,7 @@ export const getFeaturesListQuery = groq`
       title,
       slug,
       description,
+      dynamicSvg,
       icon {
         asset-> {
           _id,
@@ -1876,6 +1877,7 @@ export const getFeatureBySlugQuery = groq`
       title,
       slug,
       description,
+      dynamicSvg,
       icon {
         asset-> {
           _id,
@@ -2078,6 +2080,7 @@ export const getAllFeaturesQuery = groq`
       title,
       slug,
       description,
+      dynamicSvg,
       icon {
         asset-> {
           _id,
@@ -2116,6 +2119,7 @@ export const getFeaturesByCategoryQuery = groq`
       title,
       slug,
       description,
+      dynamicSvg,
       icon {
         asset-> {
           _id,
