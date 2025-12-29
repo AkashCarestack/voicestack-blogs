@@ -14,7 +14,6 @@ import { getClient } from '~/lib/sanity.client'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 
-
 interface FeaturePageProps {
   pageData: any
   faq: any
@@ -28,12 +27,11 @@ export default function FeaturePage({
   region,
   slug,
 }: FeaturePageProps) {
-
   return (
     <>
-    {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
+      {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-    {/* </div> */}
+      {/* </div> */}
       <FeatureHero data={pageData['feature-hero']} type="feature" />
 
       {pageData['logos-listing']?.componentData && (
@@ -47,35 +45,34 @@ export default function FeaturePage({
           data={pageData['the-missing-visibility']?.componentData}
         />
       )}
+      {pageData['feature-testimonials-section1']?.componentData && (
+        <FeatureTestimonialsSection
+          data={pageData['feature-testimonials-section1']?.componentData}
+        />
+      )}
       <CallFlowAnalyticsSection
         data={pageData['call-flow-analytics']?.componentData}
       />
-
+      {pageData['benefits-of-healthcare']?.componentData && (
+        <GroupedCardsGridSection
+          data={pageData['benefits-of-healthcare']?.componentData}
+          theme="dark"
+        />
+      )}
 
       {pageData['integrations-listing']?.componentData && (
-        <div className="mt-12">
           <IntegrationsShowcaseSection
             data={pageData['integrations-listing']?.componentData}
           />
-        </div>
       )}
-
-
       {pageData['feature-testimonials-section']?.componentData && (
-        <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
+        <FeatureTestimonialsSection
+          data={pageData['feature-testimonials-section']?.componentData}
+        />
       )}
-      
-      {pageData['benefits-of-healthcare']?.componentData && (
-        <GroupedCardsGridSection data={pageData['benefits-of-healthcare']?.componentData} theme="dark"/>
-      )}
-
-      <CallFlowAnalyticsSection data={pageData['call-flow-analytics']?.componentData} />
       <CardWIthGraph
         data={pageData['better-decisions']?.genericListingComponent}
       />
-        {pageData['feature-testimonials-section']?.componentData && (
-      <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
-    )}
       {faq && <FaqSection faqItems={faq} />}
     </>
   )

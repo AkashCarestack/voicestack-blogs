@@ -10,7 +10,7 @@ import { usePricingModal } from './PricingModalContext'
 import ArrowIcon from '../revamp/icons/arrowIcon'
 
 interface ButtonProps {
-  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon'
+  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
   alter?: 'bgWhite' | 'borderWhite' | 'disabled' | 'default'
   children?: React.ReactNode
   link?: any
@@ -107,6 +107,8 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       type === 'secondaryTel',
       'border-none text-base font-medium leading-[150%] tracking-normal flex text-codgray-950 hover:text-vs-blue':
       type === 'borderlessIcon',
+      'border-2 md:h-[44px] bg:white/10 border-white/40 hover:border-white/50 hover:bg-white/5 py-2.5 px-6 text-white':
+      type === 'secondaryWhite',
 
   }) 
 
