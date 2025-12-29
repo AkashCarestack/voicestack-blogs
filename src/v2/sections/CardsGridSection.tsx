@@ -5,9 +5,10 @@ import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeader
 import Section from '~/components/structure/Section'
 import CardItemComponent from '~/v2/components/common/CardItem'
 import { CardItemProps as CardItem } from '~/v2/components/common/CardItem'
+import GroupedCardsGrid from '../components/GroupedCardsGrid'
 
 interface CardsGridSectionProps {
-  type?: 'col-2' | 'col-3'
+  colCount?: 2 | 3 | 4
   data?: {
     heading?: string
     sectionHeadingDynamic?: string
@@ -30,7 +31,7 @@ interface CardsGridSectionProps {
   bottomSpace?: boolean
 }
 
-const CardsGridSection = ({ data, customText, type, variant, bottomSpace }: CardsGridSectionProps) => {
+const CardsGridSection = ({ data, customText, variant, bottomSpace, colCount }: CardsGridSectionProps) => {
   
   // Handle referenced data if useReference is true
   const useReferenceData = data?.useReference && data?.blocksListingData
@@ -49,9 +50,9 @@ const CardsGridSection = ({ data, customText, type, variant, bottomSpace }: Card
   if (!data) return null;
   const sectionBorderColor = 'bg-gray-200'
   // Determine grid and border classes based on type for V2 variant
-  const gridClasses = type === 'col-2' 
-    ? 'grid-cols-1 md:grid-cols-2'
-    : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+  // const gridClasses = type === 'col-2' 
+  //   ? 'grid-cols-1 md:grid-cols-2'
+  //   : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
   
   // const borderClasses = type === 'col-2'
   //   ? 'border-t md:border-r md:[&:nth-child(2n)]:border-r-0'
@@ -68,7 +69,7 @@ const CardsGridSection = ({ data, customText, type, variant, bottomSpace }: Card
               ctaListItems={ctaListItems}
             />
 
-            <div className="relative z-10 w-full flex flex-col gap-12 flex-grow">
+            {/* <div className="relative z-10 w-full flex flex-col gap-12 flex-grow">
               <div className={`grid ${sectionBorderColor} gap-px pt-px ${gridClasses}`}>
                 {items.map((item) => {
                   return (
@@ -84,7 +85,16 @@ const CardsGridSection = ({ data, customText, type, variant, bottomSpace }: Card
                   )
                 })}
               </div>
-            </div>
+            </div> */}
+
+            <GroupedCardsGrid
+            customListingItems={items}
+            theme={'light'}
+            simpleListingData={true}
+            columnCount={colCount}
+
+          />
+
           </div>
           {bottomSpace && <div className="spacer h-16 border-t border-gray-200"></div>}
         </Container>

@@ -2,6 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import { PortableText } from '@portabletext/react'
 import { PortableTextReactComponents } from '@portabletext/react'
+import { urlForImage } from '~/lib/sanity.image'
+import Image from 'next/image'
 
 // Card content component for rendering card items
 interface CardItemMainProps {
@@ -29,6 +31,8 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
   numberedCardComponents,
   createSpecialtyCardComponents,
 }) => {
+  const imageUrl = item.image?.url || urlForImage(item.image)
+  const hasImage = !!imageUrl
   // Simple listing data mode
   if (isSimpleListing) {
     return (
@@ -39,6 +43,17 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
             className="overflow-clip relative shrink-0 w-8 h-8"
             dangerouslySetInnerHTML={{ __html: processSvgCode(item.dynamicSvg) }}
           />
+        )}
+        {hasImage && imageUrl && (
+          <div className="w-full">
+            <Image
+              src={imageUrl}
+              alt={item.heading || ''}
+              width={item.image?.metadata?.dimensions?.width || 800}
+              height={item.image?.metadata?.dimensions?.height || 600}
+              className="object-cover w-full h-full"
+            />
+          </div>
         )}
 
         <div className="flex flex-col gap-1.5 items-start justify-end w-full">
