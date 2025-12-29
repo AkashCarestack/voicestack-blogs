@@ -28,7 +28,7 @@ const LpHeader = ({ data, logo, logoAlt }: LpHeaderProps) => {
             className="max-h-[45px] w-auto"
           />
         </Anchor>
-        <Button type="primary" link="#demo">
+        <Button type="primary" link="#demo" className="md:block hidden">
           <span className="text-sm font-medium">{safeData?.ctabutton || 'Book Free Demo'}</span>
         </Button>
       </Container>
