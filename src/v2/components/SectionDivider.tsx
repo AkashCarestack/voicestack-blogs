@@ -5,12 +5,14 @@ interface SectionDividerProps {
   className?: string;
   height?: string;
   color?: string;
+  width?: string;
 }
 
 export default function SectionDivider({ 
   className, 
-  height = '130px',
-  color 
+  height = '',
+  color,
+  width = '',
 }: SectionDividerProps) {
   const borderColor = color || '#E5E7EB';
   
@@ -19,8 +21,9 @@ export default function SectionDivider({
       className={cn("w-full relative bg-white", className)}
       style={{ 
         height: height,
-        borderTop: '1px solid var(--color-gray-200, #E5E7EB)',
-        borderBottom: '1px solid var(--color-gray-200, #E5E7EB)',
+        // borderTop: '1px solid var(--color-gray-200, #E5E7EB)',
+        // borderBottom: '1px solid var(--color-gray-200, #E5E7EB)',
+        width: width,
         backgroundImage: `repeating-linear-gradient(
           -45deg,
           ${borderColor},
