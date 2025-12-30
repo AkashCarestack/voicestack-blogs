@@ -89,9 +89,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   try {
     // Get all pages
-    const queries = new Queries('landing', region)
-    const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
+    const queries = new Queries('landing-v2', region)
+    const slug = region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
+    console.log(JSON.stringify(pageData),'pageData Who We Serve');
     // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
