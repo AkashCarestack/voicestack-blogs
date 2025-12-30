@@ -4,6 +4,7 @@ import { cn } from "~/lib/utils";
 import Section from '~/components/structure/Section';
 import Container from '~/components/structure/Container';
 import SectionHeader from '~/components/revamp/components/common/sectionHeader';
+import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2';
 import SwitchableTabs from '~/components/revamp/components/common/switchableTabs';
 import { IdataProps } from '~/components/revamp/components/common/interface/common';
 import { GridPattern } from '~/components/ui/grid-pattern';
@@ -234,11 +235,13 @@ export default function CategoryFeatureTabsSection({
           />
         </div>
         <Container className="flex flex-col items-center gap-16 relative z-10">
-          <SectionHeader
+          <SectionHeaderV2
             heading={
-              sectionHeading?.headline
-                ? sectionHeading?.headline
-                : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+              sectionHeading?.sectionHeadingDynamic
+                ? sectionHeading?.sectionHeadingDynamic
+                : sectionHeading?.headline
+                  ? sectionHeading?.headline
+                  : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
             }
             description={
               sectionHeading?.subheadline
@@ -258,11 +261,13 @@ export default function CategoryFeatureTabsSection({
     >
       <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
         <div className="flex-col relative w-full flex gap-16 mb-[60px]">
-          <SectionHeader
+          <SectionHeaderV2
             heading={
-              sectionHeading?.headline
-                ? sectionHeading?.headline
-                : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+              sectionHeading?.sectionHeadingDynamic
+                ? sectionHeading?.sectionHeadingDynamic
+                : sectionHeading?.headline
+                  ? sectionHeading?.headline
+                  : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
             }
             description={
               sectionHeading?.subheadline
