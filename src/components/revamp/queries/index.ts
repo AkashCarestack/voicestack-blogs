@@ -221,19 +221,26 @@ class Queries {
           },
           
           // Individual tabs with complete data
-          tabs[] {
-            _key,
-            tabHeading,
-            tabSubHeading,
-            description,
-            
-            // Tab image with metadata
-            "image": image.asset-> {
-              ${this.IMAGE_METADATA_FIELDS}
-            },
-            
-            // List items within the tab
-            listItems[] {
+            tabs[] {
+              _key,
+              tabHeading,
+              tabSubHeading,
+              description,
+              
+              // Tab image with metadata
+              "image": image.asset-> {
+                ${this.IMAGE_METADATA_FIELDS}
+              },
+              
+              // Generic Video
+              genericVideo {
+                videoId,
+                videoUrl,
+                videoPlatform
+              },
+              
+              // List items within the tab
+              listItems[] {
               _key,
               subfeatureHeading,
               subfeatureSubheading,
@@ -423,6 +430,23 @@ class Queries {
                   },
                   subheadline,
                   subDescription,
+                  sectionHeadingDynamic,
+                  // Overview Video with thumbnails
+                  "overviewVideo": overviewVideo[] {
+                    ...,
+                    ${this.VIDEO_FIELDS},
+                    "videoThumbnail": videoThumbnail.asset-> {
+                      _id,
+                      url,
+                      originalFilename,
+                      size,
+                      mimeType
+                    },
+                    "uploadedVideos": uploadVideos[] {
+                      type,
+                      url
+                    }
+                  },
                   "refData": globalData-> {
                     _id,
                     name,
@@ -435,7 +459,24 @@ class Queries {
                         headline,
                         subheadline,
                         subDescription,
+                        sectionHeadingDynamic,
                         showCTA,
+                        // Overview Video with thumbnails
+                        "overviewVideo": overviewVideo[] {
+                          ...,
+                          ${this.VIDEO_FIELDS},
+                          "videoThumbnail": videoThumbnail.asset-> {
+                            _id,
+                            url,
+                            originalFilename,
+                            size,
+                            mimeType
+                          },
+                          "uploadedVideos": uploadVideos[] {
+                            type,
+                            url
+                          }
+                        },
                         tabs[] {
                           _key,
                           tabHeading,
@@ -443,6 +484,11 @@ class Queries {
                           description,
                           "image": image.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          genericVideo {
+                            videoId,
+                            videoUrl,
+                            videoPlatform
                           },
                           listItems[] {
                             _key,
@@ -568,6 +614,14 @@ class Queries {
                         title,
                         description,
                         showAllIntegrations,
+                        link,
+                        // Optional hero image from custom component
+                        "optionalImage": optionalImage.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
+                        "heroImage": heroImage.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
                         "integrationList": select(
                           showAllIntegrations == true => 
                             *[_type == "integrationList" && language == $language] | order(order asc, title asc) {
@@ -861,6 +915,12 @@ class Queries {
                     "image": image.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
                     },
+                    // Generic Video
+                    genericVideo {
+                      videoId,
+                      videoUrl,
+                      videoPlatform
+                    },
                     
                     // Tab list items
                     listItems[] {
@@ -990,7 +1050,24 @@ class Queries {
                         headline,
                         subheadline,
                         subDescription,
+                        sectionHeadingDynamic,
                         showCTA,
+                        // Overview Video with thumbnails
+                        "overviewVideo": overviewVideo[] {
+                          ...,
+                          ${this.VIDEO_FIELDS},
+                          "videoThumbnail": videoThumbnail.asset-> {
+                            _id,
+                            url,
+                            originalFilename,
+                            size,
+                            mimeType
+                          },
+                          "uploadedVideos": uploadVideos[] {
+                            type,
+                            url
+                          }
+                        },
                         tabs[] {
                           _key,
                           tabHeading,
@@ -998,6 +1075,11 @@ class Queries {
                           description,
                           "image": image.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          genericVideo {
+                            videoId,
+                            videoUrl,
+                            videoPlatform
                           },
                           listItems[] {
                             _key,
@@ -1078,6 +1160,28 @@ class Queries {
                         title,
                         description,
                         showAllIntegrations,
+                        link,
+                        // Optional hero image from custom component
+                        "optionalImage": optionalImage.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
+                        "heroImage": heroImage.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
+                      },
+                      // Also fetch customComponent data if it exists
+                      customComponent {
+                        title,
+                        subtitle,
+                        content,
+                        backgroundColor,
+                        image {
+                          asset {
+                            _ref,
+                            _type
+                          },
+                          _type
+                        },
                         
                         // Integration List References with full data
                         // Use conditional logic: if showAllIntegrations is true, fetch all integrations for the language
@@ -1164,6 +1268,16 @@ class Queries {
                             }
                           }
                         )
+                      },
+                      // Also fetch customComponent data if it exists
+                      customComponent {
+                        title,
+                        subtitle,
+                        content,
+                        backgroundColor,
+                        "image": image.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
                       }
                     },
                     dataType == "testimonialListing" => {
@@ -1285,6 +1399,7 @@ class Queries {
                   heading,
                   sectionHeadingDynamic,
                   description,
+                  customText,
                   useReference,
                   // Overview Video with thumbnails
                   "video": video[] {
@@ -1328,6 +1443,12 @@ class Queries {
                     },
                     "icon": icon.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    // Generic video for items
+                    genericVideo {
+                      videoId,
+                      videoUrl,
+                      videoPlatform
                     },
                     ctaListItems[] {
                       ${this.CTA_FIELDS}
@@ -1417,6 +1538,22 @@ class Queries {
                       isHighlighted,
                       
                     },
+                  },
+                  customListingItems[] {
+                    _key,
+                    heading,
+                    cardType,
+                    columnCount,
+                    listIconSvgCode,
+                    listItems[] {
+                      _key,
+                      itemHeading,
+                      dynamicSvgCode,
+                      content,
+                      link {
+                        url
+                      }
+                    }
                   },
                   // Blocks & Lists Reference (all types)
                   "blocksListingData": blocksListingReference-> {
@@ -1520,6 +1657,235 @@ class Queries {
                     ctaListItems[] {
                       ${this.CTA_FIELDS}
                     }
+                  },
+                  
+                  // Reference Global Schema
+                  "refData": referenceGlobalSchema->{
+                    _id,
+                    name,
+                    dataType,
+                    dataSlug,
+                    // TabsListing specific data
+                    "tabsListingComponent": select(
+                      dataType == "tabsListingComponent" => tabsListingComponent {
+                        headline,
+                        subheadline,
+                        subDescription,
+                        sectionHeadingDynamic,
+                        showCTA,
+                        // Overview Video with thumbnails
+                        "overviewVideo": overviewVideo[] {
+                          ...,
+                          ${this.VIDEO_FIELDS},
+                          "videoThumbnail": videoThumbnail.asset-> {
+                            _id,
+                            url,
+                            originalFilename,
+                            size,
+                            mimeType
+                          },
+                          "uploadedVideos": uploadVideos[] {
+                            type,
+                            url
+                          }
+                        },
+                        tabs[] {
+                          _key,
+                          tabHeading,
+                          tabSubHeading,
+                          description,
+                          "image": image.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          genericVideo {
+                            videoId,
+                            videoUrl,
+                            videoPlatform
+                          },
+                          listItems[] {
+                            _key,
+                            subfeatureHeading,
+                            subfeatureSubheading,
+                            subfeatureDescription,
+                            svgCode,
+                            "subfeatureImage": subfeatureImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            }
+                          },
+                          icon,
+                          ctaListItems[] {
+                            _key,
+                            ctaLink,
+                            ctaText,
+                            ctaType
+                          },
+                          Link,
+                          LinkText,
+                          testimonial-> {
+                            _id,
+                            name,
+                            designation,
+                            place,
+                            region,
+                            locations,
+                            practiceName,
+                            thumbnail,
+                            "imageThumbnail": imageThumbnail.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "logo": logo.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "secondaryLogo": secondaryLogo.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            video[] {
+                              ${this.VIDEO_FIELDS}
+                            },
+                            secondaryVideo[] {
+                              ${this.VIDEO_FIELDS}
+                            },
+                            "testimonialImage": testimonialImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            listItems[] {
+                              listHeading,
+                              before,
+                              after,
+                              description,
+                              isHighlighted
+                            },
+                            testimonialheading,
+                            testimonialdescription,
+                            keyNoteHeading,
+                            keyNoteStatement,
+                            keyFeatures,
+                            language,
+                            mainStatement,
+                            subStatement,
+                            keyStatement,
+                            isHighlighted
+                          }
+                        }
+                      }
+                    ),
+                    
+                    // Integration Listing specific data
+                    dataType == "integrationListing" => {
+                      integrationListing {
+                        title,
+                        description,
+                        showAllIntegrations,
+                        
+                        "integrationList": select(
+                          showAllIntegrations == true => 
+                            *[_type == "integrationList" && language == $language] | order(order asc, title asc) {
+                              _id,
+                              title,
+                              headline,
+                              description,
+                              shortDescription,
+                              slug,
+                              order,
+                              language,
+                              "image": image.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
+                              link,
+                              "integrationCategory": integrationCategory-> {
+                                _id,
+                                name,
+                                subheading,
+                                description,
+                                "mainImage": mainImage.asset-> {
+                                  ${this.IMAGE_METADATA_FIELDS}
+                                },
+                                "icon": icon.asset-> {
+                                  ${this.IMAGE_METADATA_FIELDS}
+                                },
+                                iconSvgCode,
+                                language
+                              }
+                            },
+                          integrationListReferences[]->{
+                            _id,
+                            title,
+                            headline,
+                            description,
+                            shortDescription,
+                            slug,
+                            order,
+                            language,
+                            "image": image.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            link,
+                            "integrationCategory": integrationCategory-> {
+                              _id,
+                              name,
+                              subheading,
+                              description,
+                              "mainImage": mainImage.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
+                              "icon": icon.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
+                              iconSvgCode,
+                              language
+                            }
+                          }
+                        )
+                      }
+                    },
+                    
+                    // Testimonial Listing specific data
+                    dataType == "testimonialListing" => {
+                      testimonialListing {
+                        title,
+                        description,
+                        "testimonial": testimonialListReferences[]->{
+                          _id,
+                          name,
+                          designation,
+                          "imageThumbnail": imageThumbnail.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          "logo": logo.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          "secondaryLogo": secondaryLogo.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          "testimonialImage": testimonialImage.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                            ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          video[] {
+                            videoPlatform,
+                            videoId,
+                            videotitle
+                          },
+                          secondaryVideo[] {
+                            videoPlatform,
+                            videoId,
+                            videotitle
+                          },
+                          thumbnail,
+                          testimonialdescription,
+                          keyNoteHeading,
+                          keyNoteStatement,
+                          keyStatement,
+                          keyFeatures,
+                          practiceName
+                        }
+                      }
+                    }
                   }
                 },
                 
@@ -1556,7 +1922,24 @@ class Queries {
               headline,
               subheadline,
               subDescription,
+              sectionHeadingDynamic,
               showCTA,
+              // Overview Video with thumbnails
+              "overviewVideo": overviewVideo[] {
+                ...,
+                ${this.VIDEO_FIELDS},
+                "videoThumbnail": videoThumbnail.asset-> {
+                  _id,
+                  url,
+                  originalFilename,
+                  size,
+                  mimeType
+                },
+                "uploadedVideos": uploadVideos[] {
+                  type,
+                  url
+                }
+              },
               tabs[] {
                 _key,
                 tabHeading,
@@ -1677,6 +2060,14 @@ class Queries {
               title,
               description,
               showAllIntegrations,
+              link,
+              // Optional hero image from custom component
+              "optionalImage": optionalImage.asset-> {
+                ${this.IMAGE_METADATA_FIELDS}
+              },
+              "heroImage": heroImage.asset-> {
+                ${this.IMAGE_METADATA_FIELDS}
+              },
               "integrationList": select(
                 showAllIntegrations == true => 
                   *[_type == "integrationList" && language == $region] | order(order asc, title asc) {
@@ -1812,11 +2203,19 @@ class Queries {
                 language,
                 // Common fields across most schemas
                 heading,
+                sectionHeadingDynamic,
                 description,
                 // logoListing specific
                 logoSectionHeader,
                 logoSectionHeaderDescptn,
                 'image': logo[]->image.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                // partnerListing specific
+                'partnerImage': logo[]->image.asset-> {
+                  ${this.IMAGE_METADATA_FIELDS}
+                },
+                'partnerSecondaryImage': logo[]->secondaryImage.asset-> {
                   ${this.IMAGE_METADATA_FIELDS}
                 },
                 // verticalTestimonialListing specific
@@ -1850,16 +2249,75 @@ class Queries {
                     ${this.IMAGE_METADATA_FIELDS}
                   }
                 },
-                // whoWeServeListing specific
+                // whoWeServeListing and genericItemsListing specific
                 items[] {
                   _key,
                   heading,
                   subheading,
                   description,
+                  // Item link
+                  link {
+                    url,
+                    text,
+                    buttonType
+                  },
+                  dynamicSvg,
+                  // Item image with metadata
                   "image": image.asset-> {
                     ${this.IMAGE_METADATA_FIELDS}
                   },
-                  link
+                  "icon": icon.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  ctaListItems[] {
+                    ${this.CTA_FIELDS}
+                  },
+                  // Testimonial reference for each item
+                  testimonial-> {
+                    _id,
+                    name,
+                    designation,
+                    thumbnail,
+                    testimonialdescription,
+                    keyStatement,
+                    place,
+                    region,
+                    practiceName,
+                    mainStatement,
+                    subStatement,
+                    "imageThumbnail": imageThumbnail.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    "logo": logo.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    "secondaryLogo": secondaryLogo.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    video[] {
+                      ${this.VIDEO_FIELDS}
+                    },
+                    secondaryVideo[] {
+                      ${this.VIDEO_FIELDS}
+                    },
+                    "testimonialImage": testimonialImage.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    "secondaryTestimonialImage": secondaryTestimonialImage.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
+                    listItems[] {
+                      listHeading,
+                      before,
+                      after,
+                      description,
+                      isHighlighted,
+                    },
+                  }
+                },
+                // CTA list items from reference
+                ctaListItems[] {
+                  ${this.CTA_FIELDS}
                 }
               },
               items[] {
@@ -2054,7 +2512,7 @@ class Queries {
         if (section.slug?.current) {
           acc[section.slug.current] = section.component
         }
-        return acc || []
+        return acc || {}
       },
       {},
     )
@@ -2062,20 +2520,20 @@ class Queries {
     // Include FAQ data and other page-level data
     return {
       ...transformedSections,
-      ...(result?.faqData ? {faqData: result.faqData} : {}),
-      ...(result?.faqReferenced ? {faqReferenced: result.faqReferenced} : {}),
-      ...(result?.title ? {title: result.title} : {}),
-      ...(result?.description ? {description: result.description} : {}),
-      ...(result?.breadCrumb ? {breadCrumb: result.breadCrumb} : {}),
-      ...(result?.seo || result?.metaTitle || result?.metaDescription || result?.keyWords || result?.canonical ? {
-        seo: {
-          ...(result?.metaTitle ? {metaTitle: result.metaTitle} : {}),
-          ...(result?.metaDescription ? {metaDescription: result.metaDescription} : {}),
-          ...(result?.keyWords ? {keyWords: result.keyWords} : {}),
-          ...(result?.canonical ? {canonical: result.canonical} : {}),
-        }
-      } : {}),
-      ...(result?.icon ? {icon: result.icon} : {}),
+      faqData: result?.faqData || null,
+      faqReferenced: result?.faqReferenced || null,
+      title: result?.title || null,
+      description: result?.description || null,
+      breadCrumb: result?.breadCrumb || null,
+      seo: {
+        metaTitle: result?.metaTitle || null,
+        metaDescription: result?.metaDescription || null,
+        keyWords: result?.keyWords || null,
+        canonical: result?.canonical || null,
+      },
+      // metaTitle: result?.metaTitle || null,
+      // metaDescription: result?.metaDescription || null,
+      icon: result?.icon || null,
     }
   }
 
