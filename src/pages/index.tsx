@@ -129,6 +129,9 @@ export default function IndexPage({
     table: comparisonTableData,
   }
 
+
+// console.log("hoem",pageData)
+// console.log("featuresData", featuresData)
   return (
     <Track>
       <SimpleHead data={pageData?.seo} />
