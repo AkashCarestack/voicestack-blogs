@@ -55,6 +55,11 @@ interface TabItem {
   features?: string[];
   ctaText?: string;
   ctaLink?: string;
+  ctaListItems?: Array<{
+    ctaText?: string;
+    ctaLink?: string;
+    ctaType?: string;
+  }>;
   video?: any;
   thumbnail?: any;
   image?: any;
@@ -136,6 +141,7 @@ export default function ContentVideoTabsSection({
           features: tab.listItems?.map((item: any) => item.subfeatureHeading).filter(Boolean) || [],
           ctaText: tab.LinkText || undefined,
           ctaLink: tab.Link?.url || tab.Link || undefined,
+          ctaListItems: tab.ctaListItems || undefined,
           video: video,
           thumbnail: imageUrl,
           image: tab.image,
@@ -356,7 +362,7 @@ export default function ContentVideoTabsSection({
             {tabs?.map((tab,i) => (
               <section
                 key={tab.key}
-                className={`md:min-h-screen min-h-auto md:pt-[160px] py-8 ${i === 0 ? 'md:pt-[200px]' : ''}`}
+                className={`md:min-h-screen min-h-auto md:pt-[160px] py-8`}
               >
                 <div
                   ref={(el) => {
@@ -412,13 +418,25 @@ export default function ContentVideoTabsSection({
                       </div>
                     )}
 
-                    {tab.ctaText && (
+                    {tab.ctaListItems && tab.ctaListItems.length > 0 ? (
+                      <div className="flex flex-col md:flex-row justify-start gap-4 md:mt-12 mt-6">
+                        {tab.ctaListItems.map((btn: any, key: number) => (
+                          <Button 
+                            key={`${btn.ctaText}-${key}`} 
+                            type={btn?.ctaType || 'primary'} 
+                            link={btn.ctaLink || '/demo'}
+                          >
+                            <span className="text-sm font-medium">{btn.ctaText}</span>
+                          </Button>
+                        ))}
+                      </div>
+                    ) : tab.ctaText ? (
                       <div className="flex justify-start md:mt-12 mt-6">
                         <Button type="primary" link={tab.ctaLink || '/demo'}>
                           <span className="text-sm font-medium">{tab.ctaText}</span>
                         </Button>
                       </div>
-                    )}
+                    ) : null}
                   </div>
                   
                   {/* Mobile: Image/Video below each content section */}

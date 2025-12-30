@@ -31,7 +31,6 @@ HomeAU({
 }) {
   const heroSectionData = data['hero-section']?.componentData
   const logosListingData = data['logos-listing']?.componentData.blocksListingData
-  console.log(pageData['voicestack-solution']?.componentData);
 
   
   return (
