@@ -11,6 +11,7 @@ import HoverTestimonial from '~/components/revamp/components/common/HoverTestimo
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
+import FeatureHero from '~/v2/sections/FeatureHero'
 
 interface WhoWeServeIndexProps {
   pageData: any
@@ -27,12 +28,20 @@ export default function WhoWeServeIndex({
   comparisonLegendData,
   faq,
 }: WhoWeServeIndexProps) {
+  console.log(pageData, 'pageData Who We Serve')
 
-  return (
-    pageData?.slug?.includes('v2') ? (<></>) : (
+  return pageData?.slug?.includes('v2') ? (
+    <>    
+        <FeatureHero
+          data={pageData['dental-phones-hero']?.componentData}
+          type="feature"
+        /> 
+        
+    </>
+  ) : (
     <>
       <SimpleHead data={pageData?.seo} />
-      
+
       <HeroWrapper>
         <HeroSection
           page=""
@@ -75,13 +84,7 @@ export default function WhoWeServeIndex({
         />
       )}
 
-      {/* FAQ Section */}
-      {/* {faq && (
-        <div>
-          <FaqSection faqItems={faq} />
-        </div>
-      )} */}
-    </>)
+    </>
   )
 }
 
@@ -91,9 +94,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     // Get all pages
     const queries = new Queries('landing-v2', region)
-    const slug = region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
+    const slug =
+      region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
-    console.log(JSON.stringify(pageData),'pageData Who We Serve');
+    pageData.slug = slug
     // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
