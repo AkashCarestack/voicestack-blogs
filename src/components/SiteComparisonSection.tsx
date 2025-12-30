@@ -24,7 +24,7 @@ function SiteComparisonSection({ data, refer=null }) {
   const router = useRouter();
 
   useEffect(()=>{
-    setHideTable(router.locale == "en-GB" || router.locale == "en-AU");
+    setHideTable(router.locale == "en-GB");
   },[router.locale])
 
   useEffect(() => {

@@ -102,7 +102,7 @@ export default function SiteComparisonTable({ data, mainIndex, currentIndex, isM
                   >
                     {/* {column.name} */}
                     {/* {column.logo  && column.logo.url && !isMobile && ( */}
-                    {column.logo  && column.logo.url && (
+                    {column.logo  && column.logo.url ? (
 
                       <Image
                         className="justify-center items-center md:w-[115px] lg:w-[135px] w-[115px]"
@@ -111,7 +111,7 @@ export default function SiteComparisonTable({ data, mainIndex, currentIndex, isM
                         height={40}
                         alt="Logo"
                       />
-                    )}
+                    ): <span className=" text-gray-900 md:text-base text-xs font-medium leading-[145%] block text-center">{column.name}</span>}
 
                     {/* {column.logoMobile  && column.logoMobile.url && isMobile && (
                       <Image
