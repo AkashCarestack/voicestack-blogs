@@ -12,7 +12,6 @@ export default function SectionDivider({
   height = '130px',
   color 
 }: SectionDividerProps) {
-  // Use the same border color as Container V2 (border-gray-200 = #E5E7EB)
   const borderColor = color || '#E5E7EB';
   
   return (
