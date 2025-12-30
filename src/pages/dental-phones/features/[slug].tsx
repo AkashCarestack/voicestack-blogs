@@ -28,6 +28,7 @@ export default function FeaturePage({
   region,
   slug,
 }: FeaturePageProps) {
+  console.log(pageData['card-with-image'],'pageData FeaturePage')
   return (
     <>
       {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
@@ -51,6 +52,10 @@ export default function FeaturePage({
           data={pageData['feature-testimonials-section1']?.componentData}
         />
       )}
+      {pageData['card-with-image'] && (
+                <GroupedCardsGridSection data={pageData['card-with-image']?.genericListingComponent} />
+              )}
+
       <CallFlowAnalyticsSection
         data={pageData['call-flow-analytics']?.componentData}
       />

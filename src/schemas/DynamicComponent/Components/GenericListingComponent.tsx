@@ -66,6 +66,19 @@ export const genericListingComponentFields = [
             // description: 'Industry name (e.g., "Dental", "Physical Therapy")',
           },
           {
+            name: 'description',
+            title: 'Description',
+            type: 'text',
+          },
+          {
+            name: 'image',
+            title: 'Image',
+            type: 'image',
+            options: {
+              hotspot: true,
+            },
+          },
+          {
             name: 'cardType',
             title: 'Card Type',
             type: 'string',
@@ -118,6 +131,14 @@ export const genericListingComponentFields = [
                     title: 'Dynamic SVG Code',
                     type: 'text',
                     description: 'Paste your SVG code here',
+                  },
+                  {
+                    name: 'image',
+                    title: 'Image',
+                    type: 'image',
+                    options: {
+                      hotspot: true,
+                    }
                   },
                   {
                     name: 'content',
