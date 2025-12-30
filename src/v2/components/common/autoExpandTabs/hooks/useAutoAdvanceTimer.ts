@@ -129,10 +129,29 @@ export function useAutoAdvanceTimer({
   const isResumingRef = useRef(false);
   const activeTabRef = useRef(activeTab);
   const hasStartedRef = useRef(false);
+  const wasVisibleRef = useRef(isVisible);
 
   // Reset pause state and progress when tab changes, then start timer
   useEffect(() => {
     const tabChanged = activeTabRef.current !== activeTab;
+    const visibilityChanged = wasVisibleRef.current !== isVisible;
+    
+    // If section becomes visible again after being hidden, reset progress but keep the tab
+    if (visibilityChanged && isVisible && !wasVisibleRef.current) {
+      // Section just came back into view - reset progress and pause state, but keep the active tab
+      clearTimers();
+      setIsPaused(false);
+      isPausedRef.current = false;
+      pausedProgressRef.current = 0;
+      setProgress(0);
+      isResumingRef.current = false;
+      hasStartedRef.current = false;
+      // Update activeTabRef to match current activeTab (preserving the tab user was on)
+      activeTabRef.current = activeTab;
+      wasVisibleRef.current = isVisible;
+    } else {
+      wasVisibleRef.current = isVisible;
+    }
     
     // Only reset if tab actually changed
     if (tabChanged) {
@@ -153,9 +172,10 @@ export function useAutoAdvanceTimer({
     // 2. Visible
     // 3. Not paused
     // 4. Not resuming (togglePause handles resume)
+    // 5. Section just became visible (fresh start)
     if (tabs.length > 0 && isVisible && !isPaused && !isResumingRef.current) {
-      // Only start if tab changed or hasn't started yet
-      if (tabChanged || !hasStartedRef.current) {
+      // Only start if tab changed, hasn't started yet, or section just became visible
+      if (tabChanged || !hasStartedRef.current || (visibilityChanged && isVisible)) {
         // Clear any existing timers first
         clearTimers();
         
@@ -207,3 +227,4 @@ export function useAutoAdvanceTimer({
     togglePause,
   };
 }
+

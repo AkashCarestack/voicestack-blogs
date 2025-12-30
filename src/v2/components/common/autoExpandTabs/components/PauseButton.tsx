@@ -38,3 +38,4 @@ export default function PauseButton({ isPaused, onToggle }: PauseButtonProps) {
     </button>
   );
 }
+
