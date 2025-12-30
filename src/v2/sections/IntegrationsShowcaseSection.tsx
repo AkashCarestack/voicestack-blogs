@@ -134,7 +134,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
 
   console.log(data, 'integrations showcase section data')
   return (
-    <Section className={`relative overflow-hidden bg-[#030712] ${className}`}>
+    <Section className={`relative overflow-hidden bg-[#030712] ${className}`} border="t" isDark={isDark}>
       <Container
         className="flex-col relative pt-16 md:pt-20 lg:pt-24 "
         type="V2"
