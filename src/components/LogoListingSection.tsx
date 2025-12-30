@@ -101,6 +101,7 @@ const LogoListingSection = ({ data, refer = null }) => {
       />
     ),
   }
+  if (!data?.testimonial) return null;
 
   return (
     <Section className="py-sm md:py-md md:pb-16">
