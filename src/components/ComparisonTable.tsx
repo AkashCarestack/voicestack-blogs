@@ -162,6 +162,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
             {(data.columns || [])
               .filter((_, idx) => idx != 0)
               .map((column, index) => (
+                index < 3 && // limit to 3 columns
                 <TableHead
                   key={index}
                   className="h-16 text-gray-900 text-center text-sm font-semibold  bg-white"
@@ -209,6 +210,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
                     link={category.link}
                   />
                   {row.comparisons.map((comparisonValue, idx) => (
+                    idx < 4 && // limit to 4 comparisons
                     <TableCell
                       key={idx}
                       className={`text-center border-0 ${
