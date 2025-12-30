@@ -201,7 +201,24 @@ class Queries {
           headline,
           subheadline,
           subDescription,
+          sectionHeadingDynamic,
           showCTA,
+          // Overview Video with thumbnails
+          "overviewVideo": overviewVideo[] {
+            ...,
+            ${this.VIDEO_FIELDS},
+            "videoThumbnail": videoThumbnail.asset-> {
+              _id,
+              url,
+              originalFilename,
+              size,
+              mimeType
+            },
+            "uploadedVideos": uploadVideos[] {
+              type,
+              url
+            }
+          },
           
           // Individual tabs with complete data
           tabs[] {
@@ -406,6 +423,23 @@ class Queries {
                   },
                   subheadline,
                   subDescription,
+                  sectionHeadingDynamic,
+                  // Overview Video with thumbnails
+                  "overviewVideo": overviewVideo[] {
+                    ...,
+                    ${this.VIDEO_FIELDS},
+                    "videoThumbnail": videoThumbnail.asset-> {
+                      _id,
+                      url,
+                      originalFilename,
+                      size,
+                      mimeType
+                    },
+                    "uploadedVideos": uploadVideos[] {
+                      type,
+                      url
+                    }
+                  },
                   "refData": globalData-> {
                     _id,
                     name,
@@ -418,7 +452,24 @@ class Queries {
                         headline,
                         subheadline,
                         subDescription,
+                        sectionHeadingDynamic,
                         showCTA,
+                        // Overview Video with thumbnails
+                        "overviewVideo": overviewVideo[] {
+                          ...,
+                          ${this.VIDEO_FIELDS},
+                          "videoThumbnail": videoThumbnail.asset-> {
+                            _id,
+                            url,
+                            originalFilename,
+                            size,
+                            mimeType
+                          },
+                          "uploadedVideos": uploadVideos[] {
+                            type,
+                            url
+                          }
+                        },
                         tabs[] {
                           _key,
                           tabHeading,
@@ -981,7 +1032,24 @@ class Queries {
                         headline,
                         subheadline,
                         subDescription,
+                        sectionHeadingDynamic,
                         showCTA,
+                        // Overview Video with thumbnails
+                        "overviewVideo": overviewVideo[] {
+                          ...,
+                          ${this.VIDEO_FIELDS},
+                          "videoThumbnail": videoThumbnail.asset-> {
+                            _id,
+                            url,
+                            originalFilename,
+                            size,
+                            mimeType
+                          },
+                          "uploadedVideos": uploadVideos[] {
+                            type,
+                            url
+                          }
+                        },
                         tabs[] {
                           _key,
                           tabHeading,
@@ -1580,7 +1648,24 @@ class Queries {
                         headline,
                         subheadline,
                         subDescription,
+                        sectionHeadingDynamic,
                         showCTA,
+                        // Overview Video with thumbnails
+                        "overviewVideo": overviewVideo[] {
+                          ...,
+                          ${this.VIDEO_FIELDS},
+                          "videoThumbnail": videoThumbnail.asset-> {
+                            _id,
+                            url,
+                            originalFilename,
+                            size,
+                            mimeType
+                          },
+                          "uploadedVideos": uploadVideos[] {
+                            type,
+                            url
+                          }
+                        },
                         tabs[] {
                           _key,
                           tabHeading,
@@ -1809,7 +1894,24 @@ class Queries {
               headline,
               subheadline,
               subDescription,
+              sectionHeadingDynamic,
               showCTA,
+              // Overview Video with thumbnails
+              "overviewVideo": overviewVideo[] {
+                ...,
+                ${this.VIDEO_FIELDS},
+                "videoThumbnail": videoThumbnail.asset-> {
+                  _id,
+                  url,
+                  originalFilename,
+                  size,
+                  mimeType
+                },
+                "uploadedVideos": uploadVideos[] {
+                  type,
+                  url
+                }
+              },
               tabs[] {
                 _key,
                 tabHeading,
