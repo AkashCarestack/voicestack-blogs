@@ -29,6 +29,7 @@ export default function WhoWeServeIndex({
 }: WhoWeServeIndexProps) {
 
   return (
+    pageData?.slug?.includes('v2') ? (<></>) : (
     <>
       <SimpleHead data={pageData?.seo} />
       
@@ -80,7 +81,7 @@ export default function WhoWeServeIndex({
           <FaqSection faqItems={faq} />
         </div>
       )} */}
-    </>
+    </>)
   )
 }
 
