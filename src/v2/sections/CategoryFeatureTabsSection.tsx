@@ -302,7 +302,7 @@ export default function CategoryFeatureTabsSection({
           {allCategories.map((category, index) => {
             return (
               <React.Fragment key={category.name}>
-                {index > 0 && <SectionDivider height="130px" />}
+                {index > 0 && <div className="border-y border-gray-200"><SectionDivider height="130px" /></div>}
                 <article
                   ref={(el) => {
                     sectionRefs.current[category.name] = el;
