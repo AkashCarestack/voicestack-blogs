@@ -39,7 +39,7 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
   const textColor = isDark ? 'text-white' : 'text-gray-950'
 
   return (
-    <Section className={bgColor} border="b">
+    <Section className={bgColor}>
       <Container type="V2" border="t-0" darkTheme={isDark}>
         <div className="flex flex-col w-full">
           {/* Header Section */}
