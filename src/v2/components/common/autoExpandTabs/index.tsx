@@ -13,8 +13,21 @@ export default function AutoExpandTabs({
 }: AutoExpandTabsProps) {
   const [activeTab, setActiveTab] = useState<string>(tabs[0]?.key || '');
   const [isVisible, setIsVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const wasVisibleRef = useRef(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  // Detect mobile viewport
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Intersection Observer to detect when section is visible
   useEffect(() => {
@@ -54,7 +67,7 @@ export default function AutoExpandTabs({
     activeTab,
     autoPlayDuration,
     onTabChange: setActiveTab,
-    isVisible, 
+    isVisible: isVisible && !isMobile, // Disable timer on mobile
   });
 
   // Handle tab click
