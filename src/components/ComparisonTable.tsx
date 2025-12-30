@@ -136,6 +136,8 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
     }))
   }
 
+  const numberOfComparisons = data?.columns?.length || 0
+
   return (
     <div className="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
       <Table className="w-full border-collapse">
@@ -147,7 +149,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
             <TableHead className="sticky left-0 w-48 h-16 text-gray-950 text-left text-base font-medium px-6  border-gray-200 bg-white">
               {data.columnDimensionName}
             </TableHead>
-            <TableHead className="w-32 h-16 rounded-t-[12px]  text-center  bg-[#F6F5FD] sticky left-[120px]">
+            <TableHead className=" h-16 rounded-t-[12px]  text-center  bg-[#F6F5FD] sticky left-[120px]">
               <div className="flex-col items-center justify-center gap-2 lg:w-[122px] w-[100px] lg:block hidden m-auto">
                 <Image
                   src={Logo}
@@ -162,7 +164,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
               .map((column, index) => (
                 <TableHead
                   key={index}
-                  className="w-32 h-16 text-gray-900 text-center text-sm font-semibold  bg-white"
+                  className="h-16 text-gray-900 text-center text-sm font-semibold  bg-white"
                 >
                   <div className="flex flex-col items-center justify-center gap-2 ">
                     {/* {column.logo && (
@@ -174,7 +176,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
                         height={24}
                       />
                     )} */}
-                    <span className="text-[#111827] lg:text-base text-xs font-medium leading-[175%] tracking-normal lg:w-[160px]">
+                    <span className="text-[#111827] lg:text-base text-xs font-medium leading-[175%] tracking-normal">
                       {column.name}
                     </span>     
                   </div>
@@ -186,7 +188,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
           {(data.rowCategories || []).map((category, categoryIndex) => (
             <React.Fragment key={categoryIndex}>
               <TableRow className="border-t-[1px] border-b-[1px] border-gray-200 ">
-                <TableCell className="sticky left-0 lg:text-base font-medium text-gray-950 text-sm border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={5}>
+                <TableCell className="sticky left-0 lg:text-base font-medium text-gray-950 text-sm border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={numberOfComparisons + 1}>
                   <button
                     onClick={() => toggleCategory(categoryIndex)}
                     className="flex items-center gap-2 justify-between hover:opacity-80 transition-opacity cursor-pointer w-full text-left py-[18px]"
