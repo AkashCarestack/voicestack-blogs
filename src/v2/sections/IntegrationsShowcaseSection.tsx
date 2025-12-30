@@ -39,11 +39,13 @@ interface Integration {
 interface IntegrationsGridProps {   
 className?: string
   data:any
+  theme?: 'light' | 'dark'
 }
 
 const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   className = '',
   data,
+  theme,
 }) => {
   const sortedIntegrations = React.useMemo(() => {
     const integrations =
@@ -125,6 +127,10 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   }
 
   const gridCells = getGridCells()
+  const isDark = theme === 'dark'
+  const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
+  const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
+  const textColor = isDark ? 'text-white' : 'text-gray-950'
 
   console.log(data, 'integrations showcase section data')
   return (
@@ -133,7 +139,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
         className="flex-col relative pt-16 md:pt-20 lg:pt-24 "
         type="V2"
         border="y-0"
-        darkTheme={true}
+        darkTheme={isDark}
       >
         <div className="flex flex-col gap-8 items-center relative w-full">
           <SectionHeaderV2

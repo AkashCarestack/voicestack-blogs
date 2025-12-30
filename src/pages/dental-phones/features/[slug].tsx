@@ -1,18 +1,19 @@
 import groq from 'groq'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
+
 import LogoListingV2 from '~/components/LogoListingV2'
 import CallFlowAnalyticsSection from '~/v2/components/CallFlowAnalyticsSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-import FeatureHero from '~/v2/sections/FeatureHero'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
-import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 
 interface FeaturePageProps {
   pageData: any
@@ -63,6 +64,7 @@ export default function FeaturePage({
       {pageData['integrations-listing']?.componentData && (
           <IntegrationsShowcaseSection
             data={pageData['integrations-listing']?.componentData}
+              theme="dark"
           />
       )}
       {pageData['feature-testimonials-section']?.componentData && (
