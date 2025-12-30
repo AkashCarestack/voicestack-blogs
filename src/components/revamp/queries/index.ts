@@ -221,19 +221,26 @@ class Queries {
           },
           
           // Individual tabs with complete data
-          tabs[] {
-            _key,
-            tabHeading,
-            tabSubHeading,
-            description,
-            
-            // Tab image with metadata
-            "image": image.asset-> {
-              ${this.IMAGE_METADATA_FIELDS}
-            },
-            
-            // List items within the tab
-            listItems[] {
+            tabs[] {
+              _key,
+              tabHeading,
+              tabSubHeading,
+              description,
+              
+              // Tab image with metadata
+              "image": image.asset-> {
+                ${this.IMAGE_METADATA_FIELDS}
+              },
+              
+              // Generic Video
+              genericVideo {
+                videoId,
+                videoUrl,
+                videoPlatform
+              },
+              
+              // List items within the tab
+              listItems[] {
               _key,
               subfeatureHeading,
               subfeatureSubheading,
@@ -477,6 +484,11 @@ class Queries {
                           description,
                           "image": image.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          genericVideo {
+                            videoId,
+                            videoUrl,
+                            videoPlatform
                           },
                           listItems[] {
                             _key,
@@ -903,6 +915,12 @@ class Queries {
                     "image": image.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
                     },
+                    // Generic Video
+                    genericVideo {
+                      videoId,
+                      videoUrl,
+                      videoPlatform
+                    },
                     
                     // Tab list items
                     listItems[] {
@@ -1057,6 +1075,11 @@ class Queries {
                           description,
                           "image": image.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          genericVideo {
+                            videoId,
+                            videoUrl,
+                            videoPlatform
                           },
                           listItems[] {
                             _key,
@@ -1673,6 +1696,11 @@ class Queries {
                           description,
                           "image": image.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
+                          },
+                          genericVideo {
+                            videoId,
+                            videoUrl,
+                            videoPlatform
                           },
                           listItems[] {
                             _key,

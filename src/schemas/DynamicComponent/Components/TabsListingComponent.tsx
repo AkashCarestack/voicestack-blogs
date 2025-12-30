@@ -165,6 +165,41 @@ const TabsListingComponent = {
               type: 'image',
             },
             {
+              name: 'genericVideo',
+              title: 'Generic Video',
+              type: 'object',
+              options: {
+                collapsible: true,
+                collapsed: true,
+              },
+              fields: [
+                {
+                  name: 'videoId',
+                  title: 'Video ID',
+                  type: 'string',
+                  description: 'The ID of the video (e.g., YouTube video ID)',
+                },
+                {
+                  name: 'videoUrl',
+                  title: 'Video URL',
+                  type: 'url',
+                  description: 'The full URL of the video',
+                },
+                {
+                  name: 'videoPlatform',
+                  title: 'Video Platform',
+                  type: 'string',
+                  options: {
+                    list: [
+                      { title: 'YouTube', value: 'youtube' },
+                      { title: 'Vimeo', value: 'vimeo' },
+                      { title: 'Other', value: 'other' },
+                    ],
+                  },
+                },
+              ],
+            },
+            {
               name: 'listItems',
               title: 'Feature List Items',
               type: 'array',
