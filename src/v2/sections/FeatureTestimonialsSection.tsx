@@ -1,8 +1,6 @@
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import Image from 'next/image'
-import SectionHeader from './sectionHeader'
-import SectionHeaderV2 from './sectionHeaderV2'
 
 export default function FeatureTestimonialsSection({ data }: { data: any }) {
   const itemsLength = data?.items?.length || 0
@@ -12,12 +10,12 @@ export default function FeatureTestimonialsSection({ data }: { data: any }) {
   
   // Conditional grid columns based on items count
   const gridCols = 
-    itemsLength === 1 ? 'lg:grid-cols-1' : 
+    itemsLength === 1 ? 'lg:grid-cols-1 border-x border-gray-200' : 
     itemsLength === 2 ? 'lg:grid-cols-2' : 
     'lg:grid-cols-3'
 
   return (
-    <Section className="bg-[#ffffff]" border="t">
+    <Section className="bg-[#ffffff]" border="b">
       <Container
         className="w-full"
         type="V2"
@@ -40,7 +38,7 @@ export default function FeatureTestimonialsSection({ data }: { data: any }) {
               height: '100%',
             }}
           >
-            <div className={`grid bg-white border-x border-gray-200 ${gridCols}`}>
+            <div className={`grid bg-white ${gridCols}`}>
               {data?.items?.map((item: any) => (
                 <div
                   key={item._key}

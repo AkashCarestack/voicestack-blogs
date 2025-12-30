@@ -40,6 +40,11 @@ const config = {
     if (isServer) {
       config.optimization.splitChunks = false;
     }
+    // Add alias resolution for ~/assets
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '~/assets': path.resolve(__dirname, 'public/assets'),
+    };
     return config;
   },
   // Disable static optimization for problematic pages

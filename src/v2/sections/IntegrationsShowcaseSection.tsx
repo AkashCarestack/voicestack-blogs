@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
+import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
 
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
@@ -7,8 +8,6 @@ import { urlForImage } from '~/lib/sanity.image'
 import Button from '~/components/common/Button'
 import { cn } from '~/lib/utils'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
-
-import SectionHeaderV2 from './sectionHeaderV2'
 
 interface Integration {
   _id: string
@@ -127,6 +126,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
 
   const gridCells = getGridCells()
 
+  console.log(data, 'integrations showcase section data')
   return (
     <Section className={`relative overflow-hidden bg-[#030712] ${className}`}>
       <Container
@@ -135,11 +135,12 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
         border="y-0"
         darkTheme={true}
       >
-        <div className="flex flex-col gap-8 md:gap-12 lg:gap-16 items-center relative w-full">
+        <div className="flex flex-col gap-8 items-center relative w-full">
           <SectionHeaderV2
             heading={data?.heading}
             description={data?.description}
             isWhite={true}
+            ctaListItems={data?.ctaListItems}
             className="md:px-6 xl:px-12 px-4"
           />
 
@@ -170,7 +171,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                   'linear-gradient(to left, #030712 0%, rgba(3, 7, 18, 0) 100%)',
               }}
             />
-
+ 
             {/* Blur vignette - radial for sides */}
             <div
               className="hidden md:block pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
@@ -213,49 +214,67 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
             </div>
 
             {/* Desktop Grid - Full layout (md and above) */}
-            <div
-              className="relative mx-auto hidden md:grid"
-              style={{
-                gridTemplateColumns: `repeat(${totalCols}, 70px)`,
-                gap: '8px',
-                justifyContent: 'center',
-              }}
-            >
-              {gridCells.map((cell) => (
-                <div
-                  key={cell.key}
-                  className={`flex items-center justify-center ${
-                    cell.type === 'integration'
-                      ? 'group relative transition-all duration-300'
-                      : ''
-                  }`}
-                  style={{
-                    borderRadius: '8px',
-                    border: '1px solid rgba(255,255,255,0.20)',
-                    background: 'rgba(255,255,255,0.10)',
-                    width: '70px',
-                    height: '70px',
-                  }}
-                >
-                  {cell.type === 'integration' && cell.data?.image?.url && (
-                    <>
-                      <Image
-                        src={cell.data.image.url}
-                        alt={cell.data.title}
-                        width={70}
-                        height={70}
-                        className="w-full h-full object-contain"
-                      />
-                      {/* Tooltip - only for integration cells */}
-                      <div className="absolute bg-[#efeeea] bottom-[-20px] px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
-                        <p className="font-['Geist',_sans-serif] font-normal text-xs text-[#52525c]">
-                          {cell.data.title}
-                        </p>
-                      </div>
-                    </>
-                  )}
-                </div>
-              ))}
+            <div className="relative mx-auto hidden md:block">
+              {/* Top gradient overlay */}
+              <div
+                className="pointer-events-none absolute inset-x-0 top-0 h-[80px] z-[3]"
+                style={{
+                  background:
+                    'linear-gradient(to bottom, #030712 0%, rgba(3, 7, 18, 0) 100%)',
+                }}
+              />
+              {/* Bottom gradient overlay */}
+              <div
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-[80px] z-[3]"
+                style={{
+                  background:
+                    'linear-gradient(to top, #030712 0%, rgba(3, 7, 18, 0) 100%)',
+                }}
+              />
+              <div
+                className="grid"
+                style={{
+                  gridTemplateColumns: `repeat(${totalCols}, 70px)`,
+                  gap: '8px',
+                  justifyContent: 'center',
+                }}
+              >
+                {gridCells.map((cell) => (
+                  <div
+                    key={cell.key}
+                    className={`flex items-center justify-center ${
+                      cell.type === 'integration'
+                        ? 'group relative transition-all duration-300'
+                        : ''
+                    }`}
+                    style={{
+                      borderRadius: '8px',
+                      border: '1px solid rgba(255,255,255,0.20)',
+                      background: 'rgba(255,255,255,0.10)',
+                      width: '70px',
+                      height: '70px',
+                    }}
+                  >
+                    {cell.type === 'integration' && cell.data?.image?.url && (
+                      <>
+                        <Image
+                          src={cell.data.image.url}
+                          alt={cell.data.title}
+                          width={70}
+                          height={70}
+                          className="w-full h-full object-contain"
+                        />
+                        {/* Tooltip - only for integration cells */}
+                        <div className="absolute bg-[#efeeea] bottom-[-20px] px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
+                          <p className="font-['Geist',_sans-serif] font-normal text-xs text-[#52525c]">
+                            {cell.data.title}
+                          </p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
             
             {data?.items && data.items.length > 0 && (
