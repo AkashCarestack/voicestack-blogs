@@ -441,7 +441,7 @@ export default function ContentVideoTabsSection({
                   
                   {/* Mobile: Image/Video below each content section */}
                   <div className="lg:hidden w-full mt-8">
-                    <div className="w-full h-[300px] md:h-[400px] rounded-2xl overflow-hidden bg-gray-100">
+                    <div className="w-full h-full md:h-[400px] rounded-2xl overflow-hidden bg-gray-100">
                       {tab.video ? (
                         <div className="w-full h-full">
                           <VideoPlayers

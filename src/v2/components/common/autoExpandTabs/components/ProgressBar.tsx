@@ -4,7 +4,7 @@ import { ProgressBarProps } from '../types';
 
 export default function ProgressBar({ progress, activeTab }: ProgressBarProps) {
   return (
-    <div className="absolute bottom-0 left-0 right-0 h-[2px] overflow-hidden bg-transparent">
+    <div className="hidden md:block absolute bottom-0 left-0 right-0 h-[2px] overflow-hidden bg-transparent">
       <motion.div
         className="h-full bg-vs-purple"
         initial={{ scaleX: 0 }}
