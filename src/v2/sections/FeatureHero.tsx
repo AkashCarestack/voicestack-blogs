@@ -8,12 +8,12 @@ import { descriptionComponents, HeroFeatureComponents, HeroFeatureHeadingCompone
 import { urlForImage } from '~/lib/sanity.image'
 
 export default function FeatureHero({ data ,type}: { data: any, type?: string }) {
-  const value = data?.heroComponent
-  const buttons = value?.bookBtnContent
-  const heading = value?.heroheading
-  const description = value?.heroDescription
-  const title = value?.heroStrip
-  const image = urlForImage(value?.heroImage)
+  const value = data?.heroComponent 
+  const buttons = value?.bookBtnContent || data?.bookBtnContent
+  const heading = value?.heroheading || data?.heroheading
+  const description = value?.heroDescription || data?.heroDescription
+  const title = value?.heroStrip || data?.heroStrip?.toUpperCase()
+  const image = urlForImage(value?.heroImage) || data?.heroImage?.url
   return (
     <div className="relative overflow-hidden">
       <Container type="V2" className="md:py-24 py-16 overflow-hidden justify-center flex">
