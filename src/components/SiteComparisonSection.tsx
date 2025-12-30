@@ -42,6 +42,11 @@ function SiteComparisonSection({ data, refer=null }) {
     return () => window.removeEventListener('resize', checkWidth);
   }, []);
   
+  // Early return if table data is missing
+  if (!data?.table || !data.table.rowCategories) {
+    return null;
+  }
+  
   return (
     hideTable ? (
       <></> 
@@ -57,13 +62,13 @@ function SiteComparisonSection({ data, refer=null }) {
           </div>
           <div className='flex flex-col gap-12 items-center w-full'>
             <TableTabset
-              tabs={data?.table.rowCategories}
+              tabs={data?.table?.rowCategories || []}
               currentIndex={currentIndex}
               setCurrentIndex={setCurrentIndex}
             />
   
             <div className='w-full flex flex-col gap-2 '>
-              {data.table.rowCategories.length && (
+              {data?.table?.rowCategories && data.table.rowCategories.length > 0 && (
                 data.table.rowCategories.map((tableData:any, index:number) =>{
                   return (
                     <SiteComparisonTable 
@@ -73,7 +78,7 @@ function SiteComparisonSection({ data, refer=null }) {
                       isMobile={isMobile}
                       data={{
                         columnDimensionName: data.columnDimensionName,
-                        headerLogos: data.table.columns,
+                        headerLogos: data.table?.columns || [],
                         tableData,
                       }}
                     />
