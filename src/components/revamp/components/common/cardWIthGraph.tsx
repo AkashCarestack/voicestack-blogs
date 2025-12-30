@@ -6,7 +6,6 @@ import Section from '~/components/structure/Section'
 import SectionHeaderV2 from './sectionHeaderV2'
 
 export default function cardWIthGraph({ data }: { data: any }) {
-  console.log(data,'data cardWIthGraph')
   const borderClasses = 'border-t md:border-r md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0'
 
   return (
