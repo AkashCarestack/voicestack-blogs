@@ -398,15 +398,15 @@ export default function CategoryFeatureTabsSection({
                             heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
                             description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
                             dynamicSvg: iconSvg,
-                            link: featureSlug ? {
-                              buttonType: "text",
-                              text: null,
-                              url: `/${featureSlug}`
-                            } : {
-                              buttonType: "text",
-                              text: null,
-                              url: null
-                            }
+                            // link: featureSlug ? {
+                            //   buttonType: "text",
+                            //   text: null,
+                            //   url: `/${featureSlug}`
+                            // } : {
+                            //   buttonType: "text",
+                            //   text: null,
+                            //   url: null
+                            // }
                           };
                         })}
                         theme="light"

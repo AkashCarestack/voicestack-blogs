@@ -79,13 +79,15 @@ export default function TabItem({
               ease: [0.4, 0, 0.2, 1],
             },
           }}
-          className="flex flex-col md:gap-12 gap-6 items-start justify-center md:p-12 p-6"
+          className="flex flex-col md:gap-12 gap-6 items-start justify-center md:p-12 p-4"
         >
           <div className="flex items-center justify-between w-full">
             <div className="flex flex-col justify-center font-geist font-normal text-base text-vs-purple leading-[125%] tracking-normal uppercase whitespace-nowrap">
               <p className="leading-[125%]">{tab.step}</p>
             </div>
-            <PauseButton isPaused={isPaused} onToggle={onPauseToggle} />
+            <div className="hidden md:block">
+              <PauseButton isPaused={isPaused} onToggle={onPauseToggle} />
+            </div>
           </div>
 
           <div className="flex flex-col gap-1.5 items-start w-full tracking-normal">
@@ -97,12 +99,12 @@ export default function TabItem({
             </div>
           </div>
 
-          {/* Progress bar */}
+          {/* Progress bar - Desktop Only */}
           <ProgressBar progress={progress} activeTab={tab.key} />
 
           {/* Media Display - Mobile Only */}
           {tabs && activeTab && (
-            <div className="w-full lg:hidden mt-6">
+            <div className="w-full lg:hidden mt-6 h-[300px] md:h-[400px] rounded-2xl overflow-hidden bg-gray-100">
               <MediaDisplay tabs={tabs} activeTab={activeTab} />
             </div>
           )}

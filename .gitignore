@@ -53,3 +53,4 @@ studio/.env.development
 
 backup/production.tar.gz
 /src/migrations
+/backups/
