@@ -10,6 +10,25 @@ const Features = {
   fields: [
     {
       ...baseSchema.fields[0], // basicInfo
+      fields: [
+        ...baseSchema.fields[0].fields,
+        defineField({
+          name: 'dynamicSvg',
+          title: 'Dynamic SVG',
+          type: 'text',
+          rows: 8,
+          description: 'Paste SVG code here to override the image icon. This will be used in feature listings and cards.',
+          placeholder: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">\n  <path d="..."/>\n</svg>',
+          validation: (Rule: any) => Rule.custom((value: string) => {
+            if (!value) return true; // SVG code is optional
+            // Basic validation to check if it looks like SVG
+            if (!value.includes('<svg') || !value.includes('</svg>')) {
+              return 'Please provide valid SVG code with opening and closing <svg> tags';
+            }
+            return true;
+          }),
+        }),
+      ],
       group: 'basicInfo',
     },
     defineField({

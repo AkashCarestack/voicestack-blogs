@@ -8,7 +8,7 @@ import Button from '~/components/common/Button'
 import { cn } from '~/lib/utils'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 
-import SectionHeader from './sectionHeader'
+import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import { GridPattern } from '~/components/ui/grid-pattern'
 import TickIcon from '~/components/icons/TickIcon'
 import Tick from '~/components/icons/Tick'
@@ -130,3 +130,4 @@ const IntegrationCloudSection: React.FC<IntegrationsGridProps> = ({
 }
 
 export default IntegrationCloudSection
+

@@ -4,6 +4,10 @@ import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeader
 
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
+import { urlForImage } from '~/lib/sanity.image'
+import Button from '~/components/common/Button'
+import { cn } from '~/lib/utils'
+import ImageLoader from '~/components/common/imageLoader/imageLoader'
 
 interface Integration {
   _id: string

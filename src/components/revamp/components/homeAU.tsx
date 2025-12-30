@@ -1,16 +1,15 @@
 import React from 'react'
-import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import StatisticsSection from './StatisticsSection'
 import HeroAU from './common/HeroSection/HeroAu'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-import ContentVideoTabs from '~/components/ui/contentVideotabs'
+import ContentVideoTabsSection from '~/v2/sections/ContentVideoTabsSection'
 import CardsGridSection from '~/v2/sections/CardsGridSection'
 import VerticalTestimonialListing from './common/VerticalTestimonialListing/VerticalTestimonialListing'
 // import AboutCoachingPartners from './common/AboutCoachingPartners'
 // import IntegrationsShowcaseSection from './common/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/components/LogoListingV2'
-import IntegrationCloudSection from './common/integrationCloud'
+import IntegrationCloudSection from '~/v2/sections/IntegrationCloudSection'
 import FooterBottom from './common/FooterBottom'
 import AboutCoachingPartners from '~/v2/sections/AboutCoachingPartnersSection'
 
@@ -57,7 +56,7 @@ HomeAU({
           legendData={comparisonLegendData}
         />
       )}
-      {pageData['voicestack-solution']?.componentData && <ContentVideoTabs data={pageData['voicestack-solution']?.componentData} />}
+      {pageData['voicestack-solution']?.componentData && <ContentVideoTabsSection data={pageData['voicestack-solution']?.componentData} />}
       {pageData['integrations-showcase']?.customComponent && (
         <IntegrationCloudSection data={pageData['integrations-showcase']?.customComponent} />
       )}
