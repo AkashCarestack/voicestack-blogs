@@ -7,6 +7,7 @@ import cardsData from '~/v2/data/cardsData.json'
 
 interface GroupedCardsGridSectionProps {
   data?: {
+    ctaListItems: { ctaLink?: string; ctaText?: string; ctaType?: string }[]
     sectionHeadingDynamic?: any
     description?: string
     customText?: string
@@ -32,6 +33,7 @@ interface GroupedCardsGridSectionProps {
 
 export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGridSectionProps) {
   if (!data) return null
+  console.log(data,'data')
 
   const isDark = theme === 'dark'
   const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
@@ -49,6 +51,7 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
               description={data.description || ''}
               className="xl:px-12 md:px-6 px-4"
               isWhite={isDark}
+              ctaListItems={data.ctaListItems}
             />
           </div>
 

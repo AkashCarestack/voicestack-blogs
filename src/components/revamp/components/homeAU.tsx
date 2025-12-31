@@ -86,7 +86,6 @@ HomeAU({
       <AboutCoachingPartners data={pageData['about-coach-partners']?.componentData} />
     )}
       {data.faqData && <FaqSection faqItems={data.faqData[0]} />}
-      <FooterBottom/>
     </>
   )
 }
