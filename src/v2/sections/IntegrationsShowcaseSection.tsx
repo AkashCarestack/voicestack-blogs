@@ -186,11 +186,13 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
             />
 
             {/* Bottom blur vignette */}
+            {data?.items && data?.items?.length > 0 && (
             <div
               className="hidden md:block pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
   [mask-image:linear-gradient(to_top,black_10%,black_40%,transparent_60%,transparent_70%)]
   [-webkit-mask-image:linear-gradient(to_top,black_10%,black_40%,transparent_60%,transparent_70%)]"
             />
+           ) }
 
             {/* Mobile Grid - Vertical layout (below md) */}
             <div className="relative mx-auto flex flex-wrap justify-center gap-2 md:hidden px-4">

@@ -1,17 +1,16 @@
 import { GetStaticProps } from 'next'
+
+import LogoListingV2 from '~/components/LogoListingV2'
+import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
+import FaqSection from '~/components/revamp/components/common/faqSection'
+import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
-import Layout from '~/components/Layout'
-import SimpleHead from '~/components/common/SimpleHead'
-import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import Queries from '~/components/revamp/queries'
-import Container from '~/components/structure/Container'
-import Section from '~/components/structure/Section'
-import FaqSection from '~/components/revamp/components/common/faqSection'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
-import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import CallFlowAnalyticsSection from '~/v2/components/CallFlowAnalyticsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 
 interface Feature {
   _id: string
@@ -38,47 +37,39 @@ interface FeaturesPageProps {
   currentLanguage: string
   landingPage?: Feature | null
   data: any
+  faq: any
 }
 
 export default function FeaturesPage({
   features,
   data,
   landingPage,
-}: FeaturesPageProps) {  
+  faq,
+}: FeaturesPageProps) {
   const heroData = data['feature-landing']?.heroComponent
 
   return (
     <>
-      <SimpleHead data={data?.seo} />
+      <FeatureHero data={data['feature-hero']} type="feature" />
 
-      <HeroWrapper>
-        <HeroSection data={heroData} refer={data} page="feature-landing"  showFullDescription={true}/>
-      </HeroWrapper>
-
-      {/* <CategoryFeatureTabs
-        features={features.filter(
-          (feature) => feature.slug?.current !== 'landing',
-        )}
-      />
-       {data['stack-card-tab-testimonial']?.componentData?.refData ? (
-        <StackCardTestimonial
-          data={
-            data['stack-card-tab-testimonial']?.componentData?.refData
-              ?.tabsListingComponent
-          }
+      {data['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={data['logos-listing']?.componentData.blocksListingData}
         />
-      ) : (
-        <StackCardTestimonial
-          data={data['stack-card-tab-testimonial']?.componentData}
+      )}
+      {data['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={data['integrations-listing']?.componentData}
+          theme="dark"
         />
-      )} */}
-
-
-        <CategoryFeatureTabsSection 
-          features={features} 
-          sectionHeading={data['category-feature-tabs']?.componentData?.sectionHeading}
+      )}
+      {data['feature-testimonials-section-single']?.componentData && (
+        <FeatureTestimonialsSection
+          data={data['feature-testimonials-section-single']?.componentData}
         />
-      {data?.faqData && <FaqSection faqItems={data?.faqData[0]} />}
+      )}
+
+      {faq && <FaqSection faqItems={faq} />}
     </>
   )
 }
@@ -93,13 +84,17 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const queries = new Queries('feature-landing', region)
     const landingPageData = await queries.getPageData('featurePage', slug)
     const features = await getFeaturesList(getClient(), region)
-
+    const faqData =
+      landingPageData?.faqData?.[0] ||
+      landingPageData?.faqReferenced?.[0] ||
+      null
     return {
       props: {
         features: features || [],
         currentLanguage: region,
         landingPage: landingPageData || null,
         data: landingPageData || null,
+        faq: faqData,
       },
     }
   } catch (error) {
