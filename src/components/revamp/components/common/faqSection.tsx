@@ -286,7 +286,7 @@ export default function FaqSection({ faqItems }: any) {
         {/* Questions and Answers */}
         {/* <div className='flex-1'> */}
           {activeQuestions.length > 0 ? (
-            <div className="gap-6 flex flex-col flex-1 lg:max-w-[712px]">
+            <div className={`gap-6 flex flex-col flex-1 ${hideCategory ? '' : 'lg:max-w-[712px]'}`}>
               {activeQuestions.map((question: any, index: number) => {
                 const questionKey = question._key || index
                 const isQuestionOpen = isOpen[questionKey] || false

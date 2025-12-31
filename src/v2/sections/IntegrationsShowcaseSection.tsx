@@ -134,7 +134,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
 
   console.log(data, 'integrations showcase section data')
   return (
-    <Section className={`relative overflow-hidden bg-[#030712] ${className}`}>
+    <Section className={`relative overflow-hidden bg-[#030712] ${className}`} border="t" isDark={isDark}>
       <Container
         className="flex-col relative pt-16 md:pt-20 lg:pt-24 "
         type="V2"
@@ -156,7 +156,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
               className="hidden md:block pointer-events-none absolute inset-0 z-[1]"
               style={{
                 background:
-                  'radial-gradient(49.02% 50% at 50% 50%, rgba(3, 7, 18, 0.00) 15%, #030712 100%)',
+                  'radial-gradient(69.02% 70% at 50% 50%, rgba(3, 7, 18, 0.00) 15%, #030712 100%)',
               }}
             />
 
@@ -206,9 +206,9 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                     height: '60px',
                   }}
                 >
-                  {integration.image?.url && (
+                  {integration.colorImage?.url && (
                     <Image
-                      src={integration.image.url}
+                      src={integration.colorImage.url}
                       alt={integration.title}
                       width={60}
                       height={60}
@@ -261,10 +261,10 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                       height: '70px',
                     }}
                   >
-                    {cell.type === 'integration' && cell.data?.image?.url && (
+                    {cell.type === 'integration' && cell.data?.colorImage?.url && (
                       <>
                         <Image
-                          src={cell.data.image.url}
+                          src={cell.data.colorImage.url}
                           alt={cell.data.title}
                           width={70}
                           height={70}

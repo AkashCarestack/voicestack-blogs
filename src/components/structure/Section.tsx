@@ -18,13 +18,15 @@ interface SectionProps {
   border?: "y" | "t" | "b"
   id?: string
   style?: React.CSSProperties
+  isDark?: boolean
 }
 
 export default function Section(props:SectionProps) {
-  const { children, className, border = "none" } = props
+  const { children, className, border = "none", isDark = false } = props
   const borderClass = border === "y" ? "border-y border-gray-200" : border === "b" ? "border-b border-gray-200" : border === "t" ? "border-t border-gray-200" : ""
+  const borderColor = isDark ? "border-gray-800" : "border-gray-200"
   return (
-    <section id={props.id} className={`${className} w-full flex justify-center ${borderClass}`} style={props.style}>
+    <section id={props.id} className={`${className} w-full flex justify-center ${borderClass} ${borderColor}`} style={props.style}>
         {children}
     </section>
   )

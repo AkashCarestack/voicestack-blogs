@@ -636,6 +636,9 @@ class Queries {
                               "image": image.asset-> {
                                 ${this.IMAGE_METADATA_FIELDS}
                               },
+                              "colorImage": colorImage.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
                               link,
                               "integrationCategory": integrationCategory-> {
                                 _id,
@@ -662,6 +665,9 @@ class Queries {
                             order,
                             language,
                             "image": image.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "colorImage": colorImage.asset-> {
                               ${this.IMAGE_METADATA_FIELDS}
                             },
                             link,
@@ -1203,6 +1209,11 @@ class Queries {
                                 ${this.IMAGE_METADATA_FIELDS}
                               },
                               
+                              // Integration color image
+                              "colorImage": colorImage.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
+                              
                               // Integration link
                               link,
                               
@@ -1240,6 +1251,11 @@ class Queries {
                             
                             // Integration image
                             "image": image.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            
+                            // Integration color image
+                            "colorImage": colorImage.asset-> {
                               ${this.IMAGE_METADATA_FIELDS}
                             },
                             
@@ -1794,6 +1810,9 @@ class Queries {
                               "image": image.asset-> {
                                 ${this.IMAGE_METADATA_FIELDS}
                               },
+                              "colorImage": colorImage.asset-> {
+                                ${this.IMAGE_METADATA_FIELDS}
+                              },
                               link,
                               "integrationCategory": integrationCategory-> {
                                 _id,
@@ -1820,6 +1839,9 @@ class Queries {
                             order,
                             language,
                             "image": image.asset-> {
+                              ${this.IMAGE_METADATA_FIELDS}
+                            },
+                            "colorImage": colorImage.asset-> {
                               ${this.IMAGE_METADATA_FIELDS}
                             },
                             link,
@@ -2082,6 +2104,9 @@ class Queries {
                     "image": image.asset-> {
                       ${this.IMAGE_METADATA_FIELDS}
                     },
+                    "colorImage": colorImage.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
                     link,
                     "integrationCategory": integrationCategory-> {
                       _id,
@@ -2108,6 +2133,9 @@ class Queries {
                   order,
                   language,
                   "image": image.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
+                  "colorImage": colorImage.asset-> {
                     ${this.IMAGE_METADATA_FIELDS}
                   },
                   link,
@@ -2594,6 +2622,13 @@ class Queries {
             altText
           }
         },
+        colorImage {
+          asset-> {
+            _id,
+            url,
+            altText
+          }
+        },
         link,
         shortDescription,
         order,
@@ -2612,6 +2647,13 @@ class Queries {
         description,
         shortDescription,
         image {
+          asset-> {
+            _id,
+            url,
+            altText
+          }
+        },
+        colorImage {
           asset-> {
             _id,
             url,
@@ -2693,6 +2735,13 @@ class Queries {
           description,
           shortDescription,
           image {
+            asset-> {
+              _id,
+              url,
+              altText
+            }
+          },
+          colorImage {
             asset-> {
               _id,
               url,
