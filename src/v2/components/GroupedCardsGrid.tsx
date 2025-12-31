@@ -83,6 +83,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
     )
   }
 
+
   // Portable text mode
   return (
     <div className="flex flex-col gap-8 items-start pb-3 pt-9 px-12 w-full">
@@ -297,19 +298,54 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
     )
 
     const linkUrl = item.link?.url
+    
+  const TickIcon = () => {
+    return (
+      <span className="p-[18px] border-b border-l border-gray-200 absolute right-0">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M5.83301 14.1666L14.1663 5.83329"
+            stroke="#030712"
+            stroke-width="1.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M14.1663 14.1666V5.83329H5.83301"
+            stroke="#030712"
+            stroke-width="1.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
+    )
+  }
+  
 
     return (
       <div
         key={item._key || itemIndex}
-        className={`${cardBgColor} ${flexBasis} flex flex-grow flex-col items-start pb-6 pt-0 px-0 min-h-0 min-w-0`}
+        className={`${cardBgColor} ${flexBasis} relative flex flex-grow flex-col items-start pb-6 pt-0 px-0 min-h-0 min-w-0`}
       >
-        {linkUrl ? (
-          <Link href={linkUrl} className="block h-full">
-            {cardContent}
-          </Link>
-        ) : (
-          cardContent
-        )}
+        <>
+          {linkUrl && <TickIcon />}
+          {linkUrl ? (
+            <>
+              <Link href={linkUrl} className="block h-full">
+                {cardContent}
+              </Link>
+            </>
+          ) : (
+            cardContent
+          )}
+        </>
       </div>
     )
   }
