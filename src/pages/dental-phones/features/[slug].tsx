@@ -28,7 +28,7 @@ export default function FeaturePage({
   region,
   slug,
 }: FeaturePageProps) {
-  console.log(pageData['card-with-image'],'pageData FeaturePage')
+
   return (
     <>
       {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
@@ -47,9 +47,9 @@ export default function FeaturePage({
           data={pageData['the-missing-visibility']?.componentData}
         />
       )}
-      {pageData['feature-testimonials-section1']?.componentData && (
+      {pageData['feature-testimonials-section-single']?.componentData && (
         <FeatureTestimonialsSection
-          data={pageData['feature-testimonials-section1']?.componentData}
+          data={pageData['feature-testimonials-section-single']?.componentData}
         />
       )}
       {pageData['card-with-image'] && (
