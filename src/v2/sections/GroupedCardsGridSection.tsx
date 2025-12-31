@@ -40,7 +40,7 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
 
   return (
     <Section className={bgColor}>
-      <Container type="V2" border="t-0" darkTheme={isDark}>
+      <Container type="V2" border="t-0" darkTheme={isDark} className="md:py-16 py-8">
         <div className="flex flex-col w-full">
           {/* Header Section */}
           <div className="flex flex-col gap-8 items-center justify-center py-16 px-0">
