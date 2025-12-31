@@ -43,17 +43,17 @@ export default function FeaturePage({
 
       {pageData['the-missing-visibility']?.componentData && (
         <GroupedCardsGridSection
-          data={pageData['the-missing-visibility']?.componentData}
-        />
-      )}
-      {pageData['feature-testimonials-section1']?.componentData && (
-        <FeatureTestimonialsSection
-          data={pageData['feature-testimonials-section1']?.componentData}
+        data={pageData['the-missing-visibility']?.componentData}
         />
       )}
       {pageData['card-with-image'] && (
-                <GroupedCardsGridSection data={pageData['card-with-image']?.genericListingComponent} />
-              )}
+        <GroupedCardsGridSection data={pageData['card-with-image']?.genericListingComponent} />
+      )}
+      {pageData['feature-testimonials-section-single']?.componentData && (
+        <FeatureTestimonialsSection
+          data={pageData['feature-testimonials-section-single']?.componentData}
+        />
+      )}
 
       <CallFlowAnalyticsSection
         data={pageData['call-flow-analytics']?.componentData}
