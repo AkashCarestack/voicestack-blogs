@@ -79,9 +79,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const region = locale || 'en'
     const slug =
       region === 'en'
-        ? 'feature-landing-page'
-        : `feature-landing-page-${region.toLowerCase()}`
-    const queries = new Queries('feature-landing', region)
+        ? 'feature-landing-page-v2'
+        : `feature-landing-page-v2-${region.toLowerCase()}`
+    const queries = new Queries('feature-landing-page-v2', region)
     const landingPageData = await queries.getPageData('featurePage', slug)
     const features = await getFeaturesList(getClient(), region)
     const faqData =
