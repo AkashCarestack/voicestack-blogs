@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "voicestack-sanity",
   "scripts": {
     "build": "npm run lint && next build",
     "dev": "next dev -p 3003 --turbopack",
