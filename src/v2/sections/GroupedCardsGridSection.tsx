@@ -11,6 +11,15 @@ interface GroupedCardsGridSectionProps {
     sectionHeadingDynamic?: any
     description?: string
     customText?: string
+    items?: Array<{
+      _key?: string
+      itemHeading?: string
+      content?: any
+      dynamicSvgCode?: string
+      link?: {
+        url?: string
+      }
+    }>
     customListingItems?: Array<{
       _key?: string
       heading?: string
@@ -33,7 +42,7 @@ interface GroupedCardsGridSectionProps {
 
 export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGridSectionProps) {
   if (!data) return null
-  console.log(data,'data')
+  // console.log(data,'data GroupedCardsGridSection')
 
   const isDark = theme === 'dark'
   const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
@@ -42,10 +51,10 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
 
   return (
     <Section className={bgColor}>
-      <Container type="V2" border="t-0" darkTheme={isDark} className="md:py-16 py-8">
+      <Container type="V2" border="t-0" darkTheme={isDark} className="pt-sm md:pt-md lg:pt-lg">
         <div className="flex flex-col w-full">
           {/* Header Section */}
-          <div className="flex flex-col gap-8 items-center justify-center py-16 px-0">
+          <div className="flex-col relative w-full flex gap-16">
             <SectionHeaderV2
               heading={data.sectionHeadingDynamic}
               description={data.description || ''}
@@ -53,38 +62,43 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
               isWhite={isDark}
               ctaListItems={data.ctaListItems}
             />
+            <div>
+
+              <GroupedCardsGrid
+                customListingItems={data.customListingItems}
+                theme={theme}
+              />
+
+              {/* To show data from listItems or for feature child card */}
+              {data.items && data.items.length > 0 && (
+                <GroupedCardsGrid
+                customListingItems={data.items}
+                theme={theme}
+                simpleListingData={true}
+                  columnCount={4}
+                />
+              )}
+            </div>
+            {/* Card Groups */}
+
+            {/* Footer Section */}
+            {(() => {
+              // Get customText from data level
+              const customText = data.customText
+              
+              return (
+                customText && (
+                <div className={`border-t ${borderColor} flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full`}>
+                  
+                  <div className={`flex flex-col font-geist font-normal justify-center relative ${textColor}`}>
+                    <p className="leading-[24px] [&>span]:text-vs-blue [&>span]:font-medium [&>span]:mr-3" dangerouslySetInnerHTML={{ __html: customText }}  >
+                    </p>
+                  </div>
+                </div>
+              ))
+            })()}
           </div>
 
-          {/* Card Groups */}
-          <GroupedCardsGrid
-            customListingItems={data.customListingItems}
-            theme={theme}
-          />
-
-          {/* JSON Schema Cards */}
-          {/* <GroupedCardsGrid
-            customListingItems={cardsData}
-            theme={theme}
-            simpleListingData={true}
-            columnCount={3}
-          /> */}
-
-          {/* Footer Section */}
-          {(() => {
-            // Get customText from data level
-            const customText = data.customText
-            
-            return (
-              customText && (
-              <div className={`border-t ${borderColor} flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full`}>
-                
-                <div className={`flex flex-col font-geist font-normal justify-center relative ${textColor}`}>
-                  <p className="leading-[24px] [&>span]:text-vs-blue [&>span]:font-medium [&>span]:mr-3" dangerouslySetInnerHTML={{ __html: customText }}  >
-                  </p>
-                </div>
-              </div>
-            ))
-          })()}
         </div>
       </Container>
     </Section>
