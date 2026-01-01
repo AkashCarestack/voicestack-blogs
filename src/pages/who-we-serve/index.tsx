@@ -49,6 +49,11 @@ export default function WhoWeServeIndex({
           data={pageData['card-with-image']?.genericListingComponent}
         />
       )}
+      {pageData['power-of-ai'] && (
+        <GroupedCardsGridSection
+          data={pageData['power-of-ai']?.componentData}
+        />
+      )}
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
