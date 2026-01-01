@@ -49,6 +49,9 @@ export default function FeaturePage({
       {pageData['card-with-image'] && (
         <GroupedCardsGridSection data={pageData['card-with-image']?.genericListingComponent} />
       )}
+      {pageData['card-with-image2'] && (
+        <GroupedCardsGridSection data={pageData['card-with-image2']?.genericListingComponent} />
+      )}
       {pageData['feature-testimonials-section-single']?.componentData && (
         <FeatureTestimonialsSection
           data={pageData['feature-testimonials-section-single']?.componentData}
