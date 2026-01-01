@@ -1,7 +1,7 @@
 
 import { defineField, defineType } from 'sanity'
 import showCountryFlag from '~/components/utils/common';
-import { listingItemSchema, ctaListItemSchema, sectionHeadingDynamicSchema } from '~/schemas/Common/commonSchema'
+import { listingItemSchema, ctaListItemSchema, sectionHeadingDynamicSchema, customListingItemSchema } from '~/schemas/Common/commonSchema'
 
 export default defineType({
   name: 'genericItemsListing',
@@ -25,6 +25,12 @@ export default defineType({
       title: 'Listing Items',
       type: 'array',
       of: [listingItemSchema],
+    }),
+    defineField({
+      name: 'customListingItems',
+      title: 'Custom Listing Items',
+      type: 'array',
+      of: [customListingItemSchema],
     }),
     defineField({
       name: 'ctaListItems',

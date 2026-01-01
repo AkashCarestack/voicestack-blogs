@@ -258,6 +258,16 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
     
     return {
       block: {
+        h3: ({ children }) => (
+          <h3 className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap [&>strong]:text-vs-blue [&>strong]:font-medium mb-2`}>
+            {children}
+          </h3>
+        ),
+        h4: ({ children }) => (
+          <h4 className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap [&>strong]:text-vs-blue [&>strong]:font-medium mb-2`}>
+            {children}
+          </h4>
+        ),
         normal: ({ children }) => (
           <p className={`font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
             {children}

@@ -1558,14 +1558,21 @@ class Queries {
                   customListingItems[] {
                     _key,
                     heading,
+                    description,
                     cardType,
                     columnCount,
                     listIconSvgCode,
+                    "image": image.asset-> {
+                      ${this.IMAGE_METADATA_FIELDS}
+                    },
                     listItems[] {
                       _key,
                       itemHeading,
                       dynamicSvgCode,
                       content,
+                      "image": image.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
                       link {
                         url
                       }
@@ -1672,8 +1679,35 @@ class Queries {
                     // CTA list items from reference
                     ctaListItems[] {
                       ${this.CTA_FIELDS}
+                    },
+                    
+                    // genericItemsListing specific - Custom Listing Items
+                    customListingItems[] {
+                      _key,
+                      heading,
+                      description,
+                      cardType,
+                      columnCount,
+                      listIconSvgCode,
+                      "image": image.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      listItems[] {
+                        _key,
+                        itemHeading,
+                        dynamicSvgCode,
+                        content,
+                        "image": image.asset-> {
+                          ${this.IMAGE_METADATA_FIELDS}
+                        },
+                        link {
+                          url
+                        }
+                      }
                     }
                   },
+                  // Alias for blocksListingData to match component expectations
+                  
                   
                   // Reference Global Schema
                   "refData": referenceGlobalSchema->{

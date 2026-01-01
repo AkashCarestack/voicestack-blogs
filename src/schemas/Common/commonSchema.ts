@@ -220,3 +220,133 @@ export const genericVideoSchema = {
   },
 }
 
+/**
+ * Custom Listing Item Schema
+ * Reusable schema for custom listing items with nested list items
+ */
+export const customListingItemSchema = {
+  type: 'object',
+  fields: [
+    defineField({
+      name: 'heading',
+      title: 'Heading',
+      type: 'string',
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+    }),
+    
+    defineField({
+      name: 'listItems',
+      title: 'List Items',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'itemHeading',
+              title: 'Item Heading',
+              type: 'string',
+            }),
+            defineField({
+              name: 'dynamicSvgCode',
+              title: 'Dynamic SVG Code',
+              type: 'text',
+              description: 'Paste your SVG code here',
+            }),
+            defineField({
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              }
+            }),
+            defineField({
+              name: 'content',
+              title: 'Content',
+              type: 'customListingContent',
+              description: 'Rich text content with h4 headings, subheadings, lists, and highlights',
+            }),
+            defineField({
+              name: 'link',
+              title: 'Link',
+              type: 'object',
+              options: {
+                collapsible: true,
+                collapsed: true,
+              },
+              fields: [
+                defineField({
+                  name: 'url',
+                  title: 'URL',
+                  type: 'string',
+                  description: 'The URL to link to. The entire card will be clickable.',
+                }),
+              ],
+            }),
+          ],
+        },
+      ],
+    }),
+    defineField({
+      name: 'image',
+      title: 'Image',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
+      name: 'cardType',
+      title: 'Card Type',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'Numbered Cards', value: 'numbered' },
+          { title: 'Specialty Cards', value: 'specialty' },
+        ],
+        layout: 'dropdown',
+      },
+      initialValue: 'specialty',
+      description: 'Select whether cards should be numbered or specialty cards with icons',
+    }),
+    defineField({
+      name: 'columnCount',
+      title: 'Number of Columns',
+      type: 'number',
+      options: {
+        list: [
+          { title: '2 Columns', value: 2 },
+          { title: '3 Columns', value: 3 },
+          { title: '4 Columns', value: 4 },
+        ],
+        layout: 'dropdown',
+      },
+      initialValue: 3,
+      description: 'Select the number of columns for the grid layout',
+    }),
+    defineField({
+      name: 'listIconSvgCode',
+      title: 'List Icon SVG Code',
+      type: 'text',
+      description: 'Paste your SVG code here for list item icons',
+    }),
+  ],
+  preview: {
+    select: {
+      title: 'heading',
+      itemCount: 'listItems',
+    },
+    prepare({ title, itemCount }: any) {
+      return {
+        title: title || 'Untitled Industry',
+        subtitle: itemCount ? `${itemCount.length} list item${itemCount.length !== 1 ? 's' : ''}` : 'No items',
+      };
+    },
+  },
+}
+

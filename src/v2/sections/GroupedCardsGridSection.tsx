@@ -11,43 +11,60 @@ interface GroupedCardsGridSectionProps {
     sectionHeadingDynamic?: any
     description?: string
     customText?: string
+    useReference?: boolean
+    blocksListingDataCustom?: any
+    blocksListingData?: any
     items?: Array<{
       _key?: string
-      itemHeading?: string
-      content?: any
-      dynamicSvgCode?: string
+      heading?: string
+      subheading?: string
+      description?: string
       link?: {
         url?: string
+        text?: string
+        buttonType?: string
       }
+      dynamicSvg?: string
+      image?: any
+      icon?: any
     }>
-    customListingItems?: Array<{
-      _key?: string
-      heading?: string
-      cardType?: 'numbered' | 'specialty'
-      columnCount?: 2 | 3 | 4
-      listIconSvgCode?: string
-      listItems?: Array<{
-        _key?: string
-        itemHeading?: string
-        content?: any
-        dynamicSvgCode?: string
-        link?: {
-          url?: string
-        }
-      }>
-    }>
+    // customListingItems?: Array<{
+    //   _key?: string
+    //   heading?: string
+    //   cardType?: 'numbered' | 'specialty'
+    //   columnCount?: 2 | 3 | 4
+    //   listIconSvgCode?: string
+    //   listItems?: Array<{
+    //     _key?: string
+    //     itemHeading?: string
+    //     content?: any
+    //     dynamicSvgCode?: string
+    //     link?: {
+    //       url?: string
+    //     }
+    //   }>
+    // }>
+    customListingItems?: any[]
   }
   theme?: 'light' | 'dark'
 }
 
 export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGridSectionProps) {
+
+  console.log('data GroupedCardsGridSection', data)
   if (!data) return null
   // console.log(data,'data GroupedCardsGridSection')
+  // Check for blocksListingData or blocksListingDataA1 (for backward compatibility)
+  const blocksListingData = data?.blocksListingData 
+  const useReferenceData = data?.useReference && blocksListingData
+  const displayData = useReferenceData ? blocksListingData : data
 
   const isDark = theme === 'dark'
   const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
   const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const textColor = isDark ? 'text-white' : 'text-gray-950'
+  console.log('displayData GroupedCardsGridSection',displayData);
+  
 
   return (
     <Section className={bgColor}>
@@ -56,23 +73,23 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
           {/* Header Section */}
           <div className="flex-col relative w-full flex gap-16">
             <SectionHeaderV2
-              heading={data.sectionHeadingDynamic}
-              description={data.description || ''}
+              heading={displayData.sectionHeadingDynamic}
+              description={displayData.description || ''}
               className="xl:px-12 md:px-6 px-4"
               isWhite={isDark}
-              ctaListItems={data.ctaListItems}
+              ctaListItems={displayData.ctaListItems}
             />
             <div>
 
               <GroupedCardsGrid
-                customListingItems={data.customListingItems}
+                customListingItems={displayData.customListingItems}
                 theme={theme}
               />
 
               {/* To show data from listItems or for feature child card */}
-              {data.items && data.items.length > 0 && (
+              {displayData.items && displayData.items.length > 0 && (
                 <GroupedCardsGrid
-                customListingItems={data.items}
+                customListingItems={displayData.items}
                 theme={theme}
                 simpleListingData={true}
                   columnCount={4}
@@ -84,7 +101,7 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
             {/* Footer Section */}
             {(() => {
               // Get customText from data level
-              const customText = data.customText
+              const customText = displayData.customText
               
               return (
                 customText && (
