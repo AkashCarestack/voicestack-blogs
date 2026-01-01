@@ -94,7 +94,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
 
   // Portable text mode
   return (
-    <div>
+    <div className={`w-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
       {hasImage && imageUrl && (
         <div className="w-full">
           <Image
