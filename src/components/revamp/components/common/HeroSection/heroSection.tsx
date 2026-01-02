@@ -177,7 +177,7 @@ const HeroSection = ({
           <div
             className={`${showFullDescription ? 'max-w-[808px]' : 'max-w-[606px]'} flex flex-col items-center text-center  gap-3 py-12  lg:pt-md lg:pb-md`}
           >
-            {data.heroStrip && data.heroheading ? (
+            {data?.heroStrip && data?.heroheading ? (
               <>
                 <h1 className="text-base font-medium text-gray-950 uppercase">
                   {toCamelCase(data?.heroStrip)}
@@ -186,9 +186,9 @@ const HeroSection = ({
                   <PortableText value={data?.heroheading} components={components} />
                 </h2>
               </>
-            ): data.heroStrip ?(
+            ): data?.heroStrip ?(
               <h1 className="text-4xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
-                {data.heroStrip}
+                {data?.heroStrip}
               </h1>
             ): null}
 
