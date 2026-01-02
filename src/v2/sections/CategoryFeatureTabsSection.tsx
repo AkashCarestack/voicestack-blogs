@@ -641,7 +641,7 @@ export default function CategoryFeatureTabsSection({
                           </figure>
                         </div>
                       )}
-                    </div>
+                  </div>
                   </div>
                   
                   {/* GroupedCardsGrid Component */}
