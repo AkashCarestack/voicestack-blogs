@@ -20,7 +20,7 @@ interface MobilePracticesProps {
 
 export default function MobilePractices({ pageData, faq }: MobilePracticesProps) {
   // tabsListingData["mobile-practices"]
-  const tabsListingData = pageData?.['mobile-practices'].componentData?.refData?.tabsListingComponent
+  const tabsListingData = pageData?.['mobile-practices']?.componentData?.refData?.tabsListingComponent
   return (
     <>
       <SimpleHead data={pageData?.seo} />
