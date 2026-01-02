@@ -4,6 +4,8 @@ import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeader
 import Section from '~/components/structure/Section'
 import GroupedCardsGrid from '~/v2/components/GroupedCardsGrid'
 import cardsData from '~/v2/data/cardsData.json'
+import AiSectionGraphic from 'public/assets/ai-section-graphic.png'
+import Image from 'next/image'
 
 interface GroupedCardsGridSectionProps {
   data?: {
@@ -47,10 +49,12 @@ interface GroupedCardsGridSectionProps {
     customListingItems?: any[]
   }
   theme?: 'light' | 'dark'
+  aiSection?: boolean
 }
 
-export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGridSectionProps) {
+export default function GroupedCardsGridSection({ data, theme, aiSection=false }: GroupedCardsGridSectionProps) {
 
+  // console.log('data GroupedCardsGridSection', data)
   if (!data) return null
 
   const blocksListingData = data?.blocksListingData 
@@ -62,22 +66,38 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
   const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const textColor = isDark ? 'text-white' : 'text-gray-950'
   const headingSplitColor = isDark ? 'text-vs-blue' : 'text-gray-400'
-  console.log('displayData GroupedCardsGridSection',displayData);
+  // console.log('displayData GroupedCardsGridSection',displayData);
   
 
   return (
-    <Section className={bgColor}>
-      <Container type="V2" border="t-0" darkTheme={isDark} className="pt-sm md:pt-md lg:pt-lg">
-        <div className="flex flex-col w-full">
+    <Section className={bgColor} border='t'>
+      <Container type="V2" border="t-0" darkTheme={isDark} className="pt-sm md:pt-md lg:pt-lg pb-sm">
+        <div className="flex flex-col w-full border-b border-gray-200">
           {/* Header Section */}
           <div className="flex-col relative w-full flex gap-16">
-            <SectionHeaderV2
-              heading={displayData.sectionHeadingDynamic}
-              description={displayData.description || ''}
-              className="xl:px-12 md:px-6 px-4"
-              isWhite={isDark}
-              ctaListItems={displayData.ctaListItems}
-            />
+            <div>
+              {aiSection ? (
+                <>
+                  <div className="h-[290px] mb-12">
+                    <Image src={AiSectionGraphic} alt="AI Section Graphic"
+                    className="w-full h-full object-cover"
+                    width={1332} height={400} />
+                  </div>
+                  <div className="flex justify-center">
+                    <span className="font-semibold lg:text-3xl text-xl leading-[1.5] text-white mb-1 tracking-normal font-manrope">VoiceStack AI</span>
+                  </div>
+                </>
+              ) : (
+                <></>
+              )}
+              <SectionHeaderV2
+                heading={displayData.sectionHeadingDynamic}
+                description={displayData.description || ''}
+                className="xl:px-12 md:px-6 px-4"
+                isWhite={isDark}
+                ctaListItems={displayData.ctaListItems}
+              />
+            </div>
             <div>
 
               <GroupedCardsGrid

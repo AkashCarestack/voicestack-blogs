@@ -62,6 +62,9 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({
       const imageWidthFromCdn = image?.metadata?.dimensions?.width
       const imageRatio = image?.metadata?.dimensions?.aspectRatio
 
+      // If image has direct URL, use it as fallback
+      const directUrl = image?.url || image?.asset?.url
+
       if (imageWidthFromCdn && imageRatio) {
         let newProposedWidth = maxWidth
         switch (deviceObtained) {
@@ -89,10 +92,18 @@ const ImageLoader: React.FC<ImageLoaderProps> = ({
           quality: 90,
         })
         setImageData({
-          url: url || '',
+          url: url || directUrl || '',
           width: newProposedWidth,
           height: newHeight,
           ratio: imageRatio,
+        })
+      } else if (directUrl) {
+        // Fallback: use direct URL if metadata is not available
+        setImageData({
+          url: directUrl,
+          width: clientWidth,
+          height: clientHeight,
+          ratio: clientWidth / clientHeight,
         })
       }
     }

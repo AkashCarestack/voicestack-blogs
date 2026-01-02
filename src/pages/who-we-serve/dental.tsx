@@ -14,6 +14,9 @@ import TabCardsListing from '~/components/revamp/components/common/TabListing/ta
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
+import { getClient } from '~/lib/sanity.client'
+import { getFeaturesList } from '~/lib/sanity.queries'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
@@ -22,9 +25,10 @@ import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSecti
 interface DentalProps {
   pageData: any
   faq: any
+  features: any[]
 }
 
-export default function Dental({ pageData, faq }: DentalProps) {
+export default function Dental({ pageData, faq, features }: DentalProps) {
   if (!pageData) {
     return null
   }
@@ -47,6 +51,7 @@ export default function Dental({ pageData, faq }: DentalProps) {
           data={pageData['card-with-image']?.genericListingComponent}
         />
       )}
+
       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
@@ -59,6 +64,11 @@ export default function Dental({ pageData, faq }: DentalProps) {
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
+      <CategoryFeatureTabsSection
+          features={features} 
+          variant="carousel"
+          sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
+      />
       {pageData['card-with-image2'] && (
         <GroupedCardsGridSection
           data={pageData['card-with-image2']?.genericListingComponent}
@@ -84,6 +94,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const queries = new Queries('whoWeServe', region)
     const slug = region === 'en' ? 'dental' : `dental-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
+    const features = await getFeaturesList(getClient(), region)
 
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
@@ -96,6 +107,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         pageData: pageData || null,
         region: region,
         faq: faqData,
+        features: features || [],
       },
     }
   } catch (error) {
@@ -105,6 +117,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         pageData: null,
         region: region,
         faq: null,
+        features: [],
       },
     }
   }

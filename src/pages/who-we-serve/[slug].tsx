@@ -1,18 +1,22 @@
-import { GetStaticProps } from 'next'
+import groq from 'groq'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
 
 import LogoListingV2 from '~/components/LogoListingV2'
+import CallFlowAnalyticsSection from '~/v2/components/CallFlowAnalyticsSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
+import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
-import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 
 interface Feature {
   _id: string
@@ -34,13 +38,21 @@ interface Feature {
   }
 }
 
-interface OptometryProps {
+interface WhoWeServePageProps {
   pageData: any
   faq: any
+  region: string
+  slug: string
   features: Feature[]
 }
 
-export default function Optometry({ pageData, faq, features }: OptometryProps) {
+export default function WhoWeServePage({
+  pageData,
+  faq,
+  region,
+  slug,
+  features,
+}: WhoWeServePageProps) {
   if (!pageData) {
     return null
   }
@@ -48,7 +60,8 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
   return (
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['optometry-hero']} type="feature" />
+      <FeatureHero data={pageData['veterinary-hero'] || pageData['feature-hero']} type="feature" />
+
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
@@ -60,6 +73,7 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
           data={pageData['card-with-image']?.genericListingComponent}
         />
       )}
+
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
         <VerticalTestimonialListing
@@ -67,50 +81,81 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
             pageData['testimonial-video-section']?.componentData?.refData
               ?.testimonialListing
           }
-         
         />
       )}
-      <CategoryFeatureTabsSection
-          features={features} 
-          variant="carousel"
+
+      {(
+        <CategoryFeatureTabsSection
+          features={pageData['message-solution']?.componentData}
+          variant="scrollcarousel"
           sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
-      />
-      {/* {pageData['card-with-image2'] && (
-        <GroupedCardsGridSection
-          data={pageData['card-with-image2']?.genericListingComponent}
-        />
-      )} */}
-        {pageData['card-with-image3'] && (
-        <GroupedCardsGridSection
-          data={pageData['card-with-image3']?.genericListingComponent}
         />
       )}
-      <StatisticsSection variant="V2" />
-      {pageData['integrations-listing']?.componentData && (
-        <IntegrationsShowcaseSection
-          data={pageData['integrations-listing']?.componentData}
-          theme="dark"
-        />
-      )}
-
-
       {faq && <FaqSection faqItems={faq} />}
     </>
   )
 }
 
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
+export const getStaticPaths: GetStaticPaths = async ({
+  locales,
+  defaultLocale,
+}) => {
+  try {
+    const client = getClient()
+
+    // Get all unique whoWeServe slugs (without drafts)
+    const whoWeServeQuery = groq`
+      *[_type == "whoWeServe" && !(_id in path("drafts.**")) && defined(basicInfo.slug.current)] {
+        "slug": basicInfo.slug.current
+      }
+    `
+    const whoWeServePages = await client.fetch(whoWeServeQuery)
+
+    // Get unique slugs (in case there are duplicates across languages)
+    const uniqueSlugs = [
+      ...new Set(whoWeServePages.map((page: any) => page.slug).filter(Boolean)),
+    ]
+
+    // Format paths for Next.js
+    const paths = uniqueSlugs.map((slug: string) => ({
+      params: { slug },
+    }))
+
+    return {
+      paths,
+      fallback: 'blocking',
+    }
+  } catch (error) {
+    console.error('Error fetching whoWeServe paths:', error)
+    return {
+      paths: [],
+      fallback: 'blocking',
+    }
+  }
+}
+
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const region = locale || 'en'
+  const slug = params?.slug as string
+
+  if (!slug) {
+    return {
+      notFound: true,
+    }
+  }
 
   try {
     const queries = new Queries('whoWeServe', region)
-    const slug = region === 'en' ? 'optometry' : `optometry-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
     const features = await getFeaturesList(getClient(), region)
 
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true,
+      }
     }
+
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
@@ -119,18 +164,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         pageData: pageData || null,
         region: region,
         faq: faqData,
+        slug: slug,
         features: features || [],
       },
     }
   } catch (error) {
-    console.error('Error fetching optometry page:', error)
+    console.error('Error fetching Who We Serve page:', error)
     return {
-      props: {
-        pageData: null,
-        region: region,
-        faq: null,
-        features: [],
-      },
+      notFound: true,
     }
   }
 }

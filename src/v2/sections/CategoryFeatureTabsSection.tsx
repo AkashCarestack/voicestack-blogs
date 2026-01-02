@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 import { cn } from "~/lib/utils";
 import Section from '~/components/structure/Section';
 import Container from '~/components/structure/Container';
@@ -47,15 +49,17 @@ interface Feature {
 }
 
 interface CategoryFeatureTabsSectionProps {
-  features: Feature[];
+  features: Feature[] | any; // Allow tabsListingComponent structure
   sectionHeading?: any;
   className?: string;
+  variant?: 'default' | 'carousel' | 'scrollcarousel';
 }
 
 export default function CategoryFeatureTabsSection({
   features,
   sectionHeading,
   className,
+  variant = 'default',
 }: CategoryFeatureTabsSectionProps) {
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isScrolling, setIsScrolling] = useState(false);
@@ -63,9 +67,93 @@ export default function CategoryFeatureTabsSection({
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
 
-  // Process features into categories
+  // Helper function to extract plain text from blockContent/portable text
+  const extractTextFromBlocks = (blocks: any): string => {
+    if (!blocks) return '';
+    if (typeof blocks === 'string') return blocks;
+    if (!Array.isArray(blocks)) return '';
+    
+    return blocks
+      .map((block: any) => {
+        if (block._type === 'block' && block.children) {
+          return block.children
+            .map((child: any) => child.text || '')
+            .join(' ');
+        }
+        return '';
+      })
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+  };
+
+  // Process features into categories - handle both Feature[] and tabsListingComponent
   const allCategories = useMemo(() => {
-    if (!features || !Array.isArray(features)) {
+    if (!features) {
+      return [];
+    }
+
+    // Check if it's a tabsListingComponent structure
+    // Handle both direct tabs and tabs from refData
+    let tabs: any[] = [];
+    if (features._type === 'tabsListingComponent' || features.tabs) {
+      tabs = features.tabs || [];
+    } else if (features.refData?.tabsListingComponent?.tabs) {
+      tabs = features.refData.tabsListingComponent.tabs || [];
+    } else if (features.refData?.tabsListingComponent) {
+      // If refData.tabsListingComponent exists but no tabs, try to get tabs from it
+      tabs = (features.refData.tabsListingComponent as any).tabs || [];
+    }
+
+    if (tabs.length > 0) {
+      
+      return tabs.map((tab: any) => {
+        // Extract description text (handle both string and rich text)
+        const descriptionText = extractTextFromBlocks(tab.description);
+        
+        // Transform listItems to features format
+        const transformedFeatures: Feature[] = (tab.listItems || []).map((item: any) => {
+          const itemDescription = typeof item.subfeatureDescription === 'string' 
+            ? item.subfeatureDescription 
+            : extractTextFromBlocks(item.subfeatureDescription);
+          
+          return {
+            _id: item._key || `feature-${Math.random()}`,
+            language: 'en',
+            basicInfo: {
+              title: item.subfeatureHeading || '',
+              description: itemDescription,
+              icon: item.svgCode ? { iconSvgCode: item.svgCode } : null,
+              dynamicSvg: item.svgCode || '',
+            },
+            title: item.subfeatureHeading || '',
+            shortDescription: itemDescription,
+            heroSubtitle: item.subfeatureSubheading || '',
+            mainImage: item.subfeatureImage || null,
+            featureCategory: {
+              name: tab.tabHeading || '',
+              subheading: tab.tabSubHeading || '',
+              description: descriptionText,
+              mainImage: tab.image || null,
+              iconSvgCode: tab.icon || '',
+            },
+          };
+        });
+
+        return {
+          name: tab.tabHeading || '',
+          subheading: tab.tabSubHeading || '',
+          description: descriptionText,
+          mainImage: tab.image || null,
+          icon: tab.icon || null,
+          iconSvgCode: tab.icon || '',
+          features: transformedFeatures,
+        };
+      });
+    }
+
+    // Original logic for Feature[] array
+    if (!Array.isArray(features)) {
       return [];
     }
 
@@ -148,21 +236,24 @@ export default function CategoryFeatureTabsSection({
         clearTimeout(scrollTimeoutRef.current);
       }
 
-      setIsScrolling(true);
       activeCategoryRef.current = categoryName;
       setActiveCategory(categoryName);
 
-      // Use a small delay to ensure DOM is ready
-      setTimeout(() => {
-        requestAnimationFrame(() => {
-          scrollToSection(categoryName);
-          scrollTimeoutRef.current = setTimeout(() => {
-            setIsScrolling(false);
-          }, 1500);
-        });
-      }, 100);
+      // Scroll for default and scrollcarousel variants
+      if (variant === 'default' || variant === 'scrollcarousel') {
+        setIsScrolling(true);
+        // Use a small delay to ensure DOM is ready
+        setTimeout(() => {
+          requestAnimationFrame(() => {
+            scrollToSection(categoryName);
+            scrollTimeoutRef.current = setTimeout(() => {
+              setIsScrolling(false);
+            }, 1500);
+          });
+        }, 100);
+      }
     },
-    [scrollToSection]
+    [scrollToSection, variant]
   );
 
   // Intersection Observer to detect active section
@@ -249,6 +340,182 @@ export default function CategoryFeatureTabsSection({
                 : 'Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
             }
           />
+        </Container>
+      </Section>
+    );
+  }
+
+  // Carousel variant with pill items - Based on Figma design
+  if (variant === 'carousel') {
+    // Convert features to pill items data
+    const getPillItems = (category: typeof allCategories[0]) => {
+      // Default SVG icon for all pill items
+      const defaultPillIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5.83398 5.8335H14.1673V14.1668" stroke="#030712" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.83398 14.1668L14.1673 5.8335" stroke="#030712" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      
+      return category.features.map((feature) => {
+        const featureSlug = feature.basicInfo?.slug?.current || feature.slug?.current;
+        const href = featureSlug ? `/dental-phones/features/${featureSlug}` : '#';
+        
+        return {
+          heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
+          description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
+          dynamicSvg: defaultPillIcon,
+          href,
+        };
+      });
+    };
+
+    const activeCategoryData = allCategories.find(cat => cat.name === activeCategory) || allCategories[0];
+    const activePillItems = activeCategoryData ? getPillItems(activeCategoryData) : [];
+
+    return (
+      <Section
+        id="features"
+        className={cn("w-full flex flex-col bg-gray-50 relative scroll-m-16", className)}
+      >
+        <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
+          {/* Header Section */}
+          <div className="flex-col relative w-full flex gap-8 items-center justify-center mb-16 px-4 md:px-12">
+            <div className="flex flex-col gap-3 items-center text-center max-w-[712px]">
+              <SectionHeaderV2
+                heading={
+                  sectionHeading?.sectionHeadingDynamic
+                    ? sectionHeading?.sectionHeadingDynamic
+                    : sectionHeading?.headline
+                      ? sectionHeading?.headline
+                      : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+                }
+                description={
+                  sectionHeading?.subheadline
+                    ? sectionHeading?.subheadline
+                    : 'Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
+                }
+                className='px-0'
+              />
+            </div>
+            <Button type="primary" link="/demo">
+              <span className="text-base font-medium">Book Free Demo</span>
+            </Button>
+          </div>
+
+          {/* Switchable Tabs - Sticky */}
+          <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12">
+            <SwitchableTabs
+              data={allCategories.map(category => ({
+                id: category.name,
+                key: category.name,
+                title: category.name,
+                testimonial: null,
+                setActiveTab: handleCategoryClick,
+              })) as IdataProps[]}
+              setActiveTab={handleCategoryClick}
+              activeTab={activeCategory}
+              isSticky={true}
+              className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
+              isShowImage={false}
+              shadow={false}
+            />
+          </div>
+
+          {/* Carousel Content with Fade Animation - Two Column Layout */}
+          <div className="relative w-full">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full"
+              >
+                <div  className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200" >
+                  {/* Left Column: Content and Pill Items */}
+                  <div className="bg-white flex flex-col gap-6 items-start justify-start p-12 min-h-[400px]">
+                    <div className="flex flex-col gap-6 items-start w-full">
+                      {/* Category Label */}
+                      {activeCategoryData.name && (
+                        <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                          <p className="leading-6 whitespace-pre-wrap">{activeCategoryData.name}</p>
+                        </div>
+                      )}
+                      {/* Main Heading */}
+                      {activeCategoryData.subheading && (
+                        <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
+                          <p className="leading-[48px] whitespace-pre-wrap">{activeCategoryData.subheading}</p>
+                        </div>
+                      )}
+                      {/* Description */}
+                      {activeCategoryData.description && (
+                        <p className="font-geist font-normal leading-6 text-gray-700 text-base whitespace-pre-wrap">
+                          {activeCategoryData.description}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Pill Items Grid */}
+                    <div className="flex flex-wrap gap-3 items-start w-full">
+                      {activePillItems.map((item, index) => (
+                        <motion.div
+                          key={`${activeCategory}-${index}`}
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{ 
+                            duration: 0.3, 
+                            delay: index * 0.05,
+                            ease: [0.16, 1, 0.3, 1] 
+                          }}
+                        >
+                          <Link
+                            href={item.href}
+                            className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white hover:border-[rgba(255,255,255,0.60)] hover:bg-[#E5E7EB] transition-all duration-200 shadow-sm cursor-pointer"
+                          >
+                            <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
+                              {item.heading}
+                            </span>
+                            {item.dynamicSvg && (
+                              <div
+                                className="flex items-center justify-center w-5 h-5 flex-shrink-0 [&_svg]:w-5 [&_svg]:h-5"
+                                dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
+                              />
+                            )}
+                          </Link>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Right Column: Category Image */}
+                  <div className="bg-gray-50 flex flex-col items-center justify-center h-[400px] lg:h-auto px-4 py-4 overflow-hidden relative">
+                    {/* Grid Pattern Background */}
+                    <div className="absolute inset-0 z-0">
+                      <GridPattern
+                        width={50}
+                        height={50}
+                        x={-1}
+                        y={-1}
+                        className={cn(
+                          "[mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"
+                        )}
+                      />
+                    </div>
+                    {activeCategoryData?.mainImage && (
+                      <div className="w-full h-full relative z-10 flex items-center justify-center">
+                        <ImageLoader
+                          image={activeCategoryData.mainImage}
+                          alt={`${activeCategoryData.name} feature illustration`}
+                          title={`${activeCategoryData.name || activeCategoryData?.mainImage?.title || activeCategoryData?.mainImage?.altText || ''}`}
+                          width={400}
+                          height={400}
+                          fixed={false}
+                          className="rounded-lg object-contain w-full max-w-[400px] h-auto max-h-[500px]"
+                        />
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </Container>
       </Section>
     );
@@ -363,11 +630,12 @@ export default function CategoryFeatureTabsSection({
                         <div className="w-full h-full relative z-10 flex items-end justify-center">
                           <figure className="relative w-full flex items-end justify-center h-auto">
                             <ImageLoader
-                              image={category?.mainImage?.asset?.url}
+                              image={category.mainImage}
                               alt={`${category.name} feature illustration`}
-                              title={`${category.name || category?.mainImage?.asset?.title}`}
+                              title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
                               width={400}
                               height={400}
+                              fixed={false}
                               className="rounded-lg object-contain w-full max-w-[300px] md:max-w-[400px] h-auto max-h-[350px] lg:max-h-[520px]"
                             />
                           </figure>
@@ -377,7 +645,7 @@ export default function CategoryFeatureTabsSection({
                   </div>
                   
                   {/* GroupedCardsGrid Component */}
-                  {category.features && category.features.length > 0 && (
+                  {category.features && category.features.length > 0 && variant !== 'scrollcarousel' && (
                     <div className="w-full">
                       <GroupedCardsGrid
                         customListingItems={category.features.map((feature) => {
@@ -398,6 +666,7 @@ export default function CategoryFeatureTabsSection({
                             heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
                             description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
                             dynamicSvg: iconSvg,
+                            image: feature.mainImage || null,
                             // link: featureSlug ? {
                             //   buttonType: "text",
                             //   text: null,
