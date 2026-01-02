@@ -73,7 +73,6 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
     table: comparisonTableData,
   }
   const tabListingData = pageData['mobile-practice-v2-generic']?.componentData
-  console.log({tabListingData})
   return (
     <>
       {pageData['inner-hero']?.componentData && (
