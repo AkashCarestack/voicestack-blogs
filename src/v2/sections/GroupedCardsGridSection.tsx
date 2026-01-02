@@ -68,9 +68,9 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
   
 
   return (
-    <Section className={bgColor}>
-      <Container type="V2" border="t-0" darkTheme={isDark} className="pt-sm md:pt-md lg:pt-lg">
-        <div className="flex flex-col w-full">
+    <Section className={bgColor} border='t'>
+      <Container type="V2" border="t-0" darkTheme={isDark} className="pt-sm md:pt-md lg:pt-lg pb-sm">
+        <div className="flex flex-col w-full border-b border-gray-200">
           {/* Header Section */}
           <div className="flex-col relative w-full flex gap-16">
             <SectionHeaderV2
