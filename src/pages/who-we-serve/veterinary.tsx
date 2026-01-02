@@ -54,6 +54,11 @@ export default function Veterinary({ pageData, faq }: VeterinaryProps) {
           data={pageData['card-with-image2']?.genericListingComponent}
         />
       )}
+        {pageData['card-with-image3'] && (
+        <GroupedCardsGridSection
+          data={pageData['card-with-image3']?.genericListingComponent}
+        />
+      )}
       <StatisticsSection variant="V2" />
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
