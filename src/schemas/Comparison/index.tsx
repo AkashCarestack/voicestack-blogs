@@ -1,4 +1,6 @@
 import { defineField, defineType } from 'sanity'
+import { allowDuplicateSlugs } from '~/lib/sanity'
+import showCountryFlag from '~/components/utils/common'
 
 export default defineType({
   name: 'comparisonTable',
@@ -9,6 +11,15 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Comparison Table Slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        isUnique: allowDuplicateSlugs,
+      },
     }),
     defineField({
       name: 'columns',
@@ -134,4 +145,17 @@ export default defineType({
       hidden: true,
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      language: 'language'
+    },
+    prepare(selection) {
+      return {
+        title: ` ${selection?.title || 'Comparison Table'}`,
+        media: <img src={showCountryFlag(selection?.language)}/>
+      };
+    },
+  },
 })
+

@@ -34,6 +34,7 @@ const schemaIconMap: Record<string, any> = {
     dentalPhones: DocumentIcon,
     company: DocumentIcon,
     partner: DocumentIcon,
+    comparison: DocumentIcon,
     globalData: FolderIcon,
     features: BoltIcon,
     whyVoicestack: DocumentIcon,
@@ -60,7 +61,6 @@ const schemaIconMap: Record<string, any> = {
   faq: HelpCircleIcon,
   
   // Comparisons & Analysis
-  comparison: StackIcon,
   comparisonTable: StackIcon,
   comparisonValue: TagIcon,
   
@@ -100,9 +100,10 @@ const customTitleMap: Record<string, string> = {
   dentalSoftware: 'Dental Software',
   dentalPhones: 'Dental Phones',
   whyVoicestack: 'Why Voicestack',
-  company: 'Company Page',
-  partner: 'Partner Page',
-  globalData: 'Global Data',
+    company: 'Company Page',
+    partner: 'Partner Page',
+    comparison: 'Comparison Page',
+    globalData: 'Global Data',
   testimonial: 'Feature Main',
   testimonialSection: 'Testimonial Section',
   testimonialHighlightSection: 'Testimonial Highlight Section',
@@ -159,7 +160,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     settings: ['siteSettings', 'homeSettings', 'layout'],
     
     // Pages & Content Management - NEW PROMINENT SECTION
-    pages: ['page', 'homePage','whoWeServe', 'whyVoicestack', 'dentalSoftware', 'dentalPhones', 'aiReceptionist', 'featurePage', 'company', 'partner', 'globalData', 'features', 'featureCategory'],
+    pages: ['page', 'homePage','whoWeServe', 'whyVoicestack', 'dentalSoftware', 'dentalPhones', 'aiReceptionist', 'featurePage', 'company', 'partner', 'comparison', 'globalData', 'features', 'featureCategory'],
     
     // Content Management - Centralized Data
     contentManagement: ['author', 'centralizedTestimonial', 'featureItem'],
@@ -177,7 +178,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     legal: ['legal', 'faq'],
     
     // Comparisons & Analysis
-    comparisons: ['comparison', 'comparisonTable', 'comparisonValue'],
+    comparisons: ['comparisonTable', 'comparisonValue'],
     
     // Platforms & Integrations
     platforms: ['Platforms', 'platform', 'platformList', 'integrationCategory', 'integrationList'],

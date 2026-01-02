@@ -132,7 +132,8 @@ export default defineConfig({
         'aiReceptionist',
         'homePage',
         'company',
-        'partner'
+        'partner',
+        'comparison'
       ],
     }),
 

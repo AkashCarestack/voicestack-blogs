@@ -1384,6 +1384,89 @@ class Queries {
                   }
                 },
                 
+                // ComparisonSchema Component
+                componentType == "comparisonSchema" => comparisonSchema {
+                  _type,
+                  title,
+                  description,
+                  items[] {
+                    _key,
+                    description,
+                    deviceType,
+                    yealinkList,
+                    polycomList
+                  },
+                  // Fetch the referenced comparisonTable
+                  "comparisonTable": comparisonTable-> {
+                    _id,
+                    _type,
+                    title,
+                    language,
+                    "columns": columns[] {
+                      name,
+                      "logo": logo.asset-> {
+                        _id,
+                        url,
+                        metadata {
+                          dimensions {
+                            width,
+                            height,
+                            aspectRatio
+                          }
+                        }
+                      },
+                      "logoMobile": logoMobile.asset-> {
+                        _id,
+                        url,
+                        metadata {
+                          dimensions {
+                            width,
+                            height,
+                            aspectRatio
+                          }
+                        }
+                      }
+                    },
+                    "rowCategories": rowCategories[] {
+                      name,
+                      iconSvgCode,
+                      "icon": icon.asset-> {
+                        _id,
+                        url,
+                        metadata {
+                          dimensions {
+                            width,
+                            height,
+                            aspectRatio
+                          }
+                        }
+                      },
+                      "rows": rows[] {
+                        heading,
+                        description,
+                        "comparisons": comparisons[]-> {
+                          _id,
+                          text,
+                          "icon": icon.asset-> {
+                            _id,
+                            url,
+                            metadata {
+                              dimensions {
+                                width,
+                                height,
+                                aspectRatio
+                              }
+                            }
+                          }
+                        }
+                      },
+                      link {
+                        url
+                      }
+                    }
+                  }
+                },
+                
                
               )
             }
