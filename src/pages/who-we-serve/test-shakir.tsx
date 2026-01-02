@@ -14,6 +14,7 @@ import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
+import SwitchableTabsV2 from '~/v2/components/SwitchableTabsV2'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -71,7 +72,7 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
-
+  const tabListingData = pageData['mobile-practice-v2-generic']?.componentData
   return (
     <>
       {pageData['inner-hero']?.componentData && (
@@ -86,6 +87,11 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
           data={pageData['test-listing-2'].componentData}
         />
       )}
+      { <SwitchableTabsV2 data={tabListingData} />}
+      {/* {
+       
+        tabListingData && (<TabCardsListing data={tabListingData} />)
+      } */}
 
       {pageData['test-listing-3']?.componentData && (
         <CardsGridSection variant="V2" type="col-2" bottomSpace={true}
