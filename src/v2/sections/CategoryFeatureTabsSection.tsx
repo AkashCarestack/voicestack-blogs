@@ -49,10 +49,10 @@ interface Feature {
 }
 
 interface CategoryFeatureTabsSectionProps {
-  features: Feature[];
+  features: Feature[] | any; // Allow tabsListingComponent structure
   sectionHeading?: any;
   className?: string;
-  variant?: 'default' | 'carousel';
+  variant?: 'default' | 'carousel' | 'scrollcarousel';
 }
 
 export default function CategoryFeatureTabsSection({
@@ -67,9 +67,93 @@ export default function CategoryFeatureTabsSection({
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
 
-  // Process features into categories
+  // Helper function to extract plain text from blockContent/portable text
+  const extractTextFromBlocks = (blocks: any): string => {
+    if (!blocks) return '';
+    if (typeof blocks === 'string') return blocks;
+    if (!Array.isArray(blocks)) return '';
+    
+    return blocks
+      .map((block: any) => {
+        if (block._type === 'block' && block.children) {
+          return block.children
+            .map((child: any) => child.text || '')
+            .join(' ');
+        }
+        return '';
+      })
+      .filter(Boolean)
+      .join(' ')
+      .trim();
+  };
+
+  // Process features into categories - handle both Feature[] and tabsListingComponent
   const allCategories = useMemo(() => {
-    if (!features || !Array.isArray(features)) {
+    if (!features) {
+      return [];
+    }
+
+    // Check if it's a tabsListingComponent structure
+    // Handle both direct tabs and tabs from refData
+    let tabs: any[] = [];
+    if (features._type === 'tabsListingComponent' || features.tabs) {
+      tabs = features.tabs || [];
+    } else if (features.refData?.tabsListingComponent?.tabs) {
+      tabs = features.refData.tabsListingComponent.tabs || [];
+    } else if (features.refData?.tabsListingComponent) {
+      // If refData.tabsListingComponent exists but no tabs, try to get tabs from it
+      tabs = (features.refData.tabsListingComponent as any).tabs || [];
+    }
+
+    if (tabs.length > 0) {
+      
+      return tabs.map((tab: any) => {
+        // Extract description text (handle both string and rich text)
+        const descriptionText = extractTextFromBlocks(tab.description);
+        
+        // Transform listItems to features format
+        const transformedFeatures: Feature[] = (tab.listItems || []).map((item: any) => {
+          const itemDescription = typeof item.subfeatureDescription === 'string' 
+            ? item.subfeatureDescription 
+            : extractTextFromBlocks(item.subfeatureDescription);
+          
+          return {
+            _id: item._key || `feature-${Math.random()}`,
+            language: 'en',
+            basicInfo: {
+              title: item.subfeatureHeading || '',
+              description: itemDescription,
+              icon: item.svgCode ? { iconSvgCode: item.svgCode } : null,
+              dynamicSvg: item.svgCode || '',
+            },
+            title: item.subfeatureHeading || '',
+            shortDescription: itemDescription,
+            heroSubtitle: item.subfeatureSubheading || '',
+            mainImage: item.subfeatureImage || null,
+            featureCategory: {
+              name: tab.tabHeading || '',
+              subheading: tab.tabSubHeading || '',
+              description: descriptionText,
+              mainImage: tab.image || null,
+              iconSvgCode: tab.icon || '',
+            },
+          };
+        });
+
+        return {
+          name: tab.tabHeading || '',
+          subheading: tab.tabSubHeading || '',
+          description: descriptionText,
+          mainImage: tab.image || null,
+          icon: tab.icon || null,
+          iconSvgCode: tab.icon || '',
+          features: transformedFeatures,
+        };
+      });
+    }
+
+    // Original logic for Feature[] array
+    if (!Array.isArray(features)) {
       return [];
     }
 
@@ -155,8 +239,8 @@ export default function CategoryFeatureTabsSection({
       activeCategoryRef.current = categoryName;
       setActiveCategory(categoryName);
 
-      // Only scroll for default variant
-      if (variant === 'default') {
+      // Scroll for default and scrollcarousel variants
+      if (variant === 'default' || variant === 'scrollcarousel') {
         setIsScrolling(true);
         // Use a small delay to ensure DOM is ready
         setTimeout(() => {
@@ -417,11 +501,12 @@ export default function CategoryFeatureTabsSection({
                     {activeCategoryData?.mainImage && (
                       <div className="w-full h-full relative z-10 flex items-center justify-center">
                         <ImageLoader
-                          image={activeCategoryData?.mainImage?.asset?.url}
+                          image={activeCategoryData.mainImage}
                           alt={`${activeCategoryData.name} feature illustration`}
-                          title={`${activeCategoryData.name || activeCategoryData?.mainImage?.asset?.title}`}
+                          title={`${activeCategoryData.name || activeCategoryData?.mainImage?.title || activeCategoryData?.mainImage?.altText || ''}`}
                           width={400}
                           height={400}
+                          fixed={false}
                           className="rounded-lg object-contain w-full max-w-[400px] h-auto max-h-[500px]"
                         />
                       </div>
@@ -545,11 +630,12 @@ export default function CategoryFeatureTabsSection({
                         <div className="w-full h-full relative z-10 flex items-end justify-center">
                           <figure className="relative w-full flex items-end justify-center h-auto">
                             <ImageLoader
-                              image={category?.mainImage?.asset?.url}
+                              image={category.mainImage}
                               alt={`${category.name} feature illustration`}
-                              title={`${category.name || category?.mainImage?.asset?.title}`}
+                              title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
                               width={400}
                               height={400}
+                              fixed={false}
                               className="rounded-lg object-contain w-full max-w-[300px] md:max-w-[400px] h-auto max-h-[350px] lg:max-h-[520px]"
                             />
                           </figure>
@@ -559,7 +645,7 @@ export default function CategoryFeatureTabsSection({
                   </div>
                   
                   {/* GroupedCardsGrid Component */}
-                  {category.features && category.features.length > 0 && (
+                  {category.features && category.features.length > 0 && variant !== 'scrollcarousel' && (
                     <div className="w-full">
                       <GroupedCardsGrid
                         customListingItems={category.features.map((feature) => {
@@ -580,6 +666,7 @@ export default function CategoryFeatureTabsSection({
                             heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
                             description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
                             dynamicSvg: iconSvg,
+                            image: feature.mainImage || null,
                             // link: featureSlug ? {
                             //   buttonType: "text",
                             //   text: null,

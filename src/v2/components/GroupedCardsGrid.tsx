@@ -39,7 +39,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
   // Simple listing data mode
   if (isSimpleListing) {
     return (
-      <div className={`w-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
+      <div className={`w-full flex flex-col h-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
          {hasImage && imageUrl && (
           <div className="w-full">
             <Image
@@ -52,7 +52,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
           </div>
         )}
         {onlyImage ? (null): (
-          <div className="flex flex-col gap-8 items-start pb-3 pt-9 px-12 w-full">
+          <div className="flex flex-col gap-8 items-start pb-3 pt-9 lg:px-12 px-6 w-full mt-auto">
             {/* Icon */}
             {item.dynamicSvg && (
               <div
@@ -67,7 +67,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
               {item.heading && (
                 <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
                   <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
-                    <h4 className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap [&>span]:text-vs-blue`}
+                    <h3 className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap [&>span]:text-vs-blue`}
                       dangerouslySetInnerHTML={{ __html: item.heading }}
                     />
                   </div>
@@ -94,7 +94,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
 
   // Portable text mode
   return (
-    <div className={`w-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
+    <div className={`w-full flex flex-col h-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
       {hasImage && imageUrl && (
         <div className="w-full">
           <Image
@@ -107,7 +107,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
         </div>
       )}
       {onlyImage ? (null) :(
-        <div className="flex flex-col gap-8 items-start pb-3 pt-9 px-12 w-full">
+        <div className="flex flex-col gap-8 items-start pb-3 pt-9 lg:px-12 px-6 w-full mt-auto">
           {/* Icon (for specialty cards) */}
           {!isNumberedCards && item.dynamicSvgCode && (
             <div
@@ -119,13 +119,13 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
           <div className="flex flex-col gap-1.5 items-start justify-end w-full">
             {/* Item Heading */}
             {isNumberedCards ? (
-              <p className={`font-geist font-medium text-lg leading-[1.4] ${descriptionColor} tracking-normal w-full whitespace-pre-wrap`}>
+              <p className={`font-geist font-medium lg:text-lg text-base leading-[1.4] ${descriptionColor} tracking-normal w-full whitespace-pre-wrap`}>
                 {item.itemHeading}.
               </p>
             ) : (
               <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
                 <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
-                  <p className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
+                  <p className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
                     {item.itemHeading}
                   </p>
                 </div>
@@ -221,7 +221,9 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
   const gridBgColor = isDark ? 'bg-gray-800' : 'bg-gray-200'
   const cardBgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const headerBgColor = isDark ? 'bg-gray-950' : 'bg-gray-50'
-  const contentTextColor = isDark ? 'text-gray-300' : 'text-gray-700'
+  const contentTextColor = isDark ? 'text-gray-500' : 'text-gray-700'
+  const labelColor = isDark ? 'text-vs-lemon-green' : 'text-vs-blue'
+  const headingSplitColor = isDark ? '[&>strong]:text-gray-400' : '[&>strong]:text-vs-blue'
 
   // Function to process SVG code and update stroke colors for dark theme
   const processSvgCode = (svgCode: string): string => {
@@ -240,7 +242,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
   const numberedCardComponents: Partial<PortableTextReactComponents> = {
     block: {
       normal: ({ children }) => (
-        <p className={`font-geist font-medium text-lg leading-[1.55] ${textColor} tracking-normal`}>
+        <p className={`font-geist font-medium lg:text-lg text-base leading-[1.55] ${textColor} tracking-normal`}>
           {children}
         </p>
       ),
@@ -259,17 +261,17 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
     return {
       block: {
         h3: ({ children }) => (
-          <h3 className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap [&>strong]:text-vs-blue [&>strong]:font-medium mb-2`}>
+          <h3 className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap ${headingSplitColor} [&>strong]:font-medium mb-2`}>
             {children}
           </h3>
         ),
         h4: ({ children }) => (
-          <h4 className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap [&>strong]:text-vs-blue [&>strong]:font-medium mb-2`}>
+          <h4 className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap ${headingSplitColor} [&>strong]:font-medium mb-2`}>
             {children}
           </h4>
         ),
         h5: ({ children }) => (
-          <span className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap [&>strong]:text-vs-blue [&>strong]:font-medium mb-2`}>
+          <span className={`font-geist font-medium text-base leading-[1.5] ${labelColor} mb-1 tracking-normal w-full whitespace-pre-wrap ${headingSplitColor} [&>strong]:font-medium mb-2`}>
             {children}
           </span>
         ),
