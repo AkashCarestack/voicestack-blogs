@@ -2,8 +2,9 @@ import { GetStaticProps } from 'next'
 
 import SimpleHead from '~/components/common/SimpleHead'
 import LogoListingSection from '~/components/LogoListingSection'
+import LogoListingV2 from '~/components/LogoListingV2'
 import CardListing from '~/components/revamp/components/cardListing'
-import CardsGridSection from '~/components/revamp/components/CardsGridSection'
+import CardsGridSection from '~/v2/sections/CardsGridSection'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
@@ -12,6 +13,8 @@ import IntegrationsGrid from '~/components/revamp/components/common/Integrations
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import FeatureHero from '~/v2/sections/FeatureHero'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 
 interface WhoWeServeIndexProps {
   pageData: any
@@ -28,15 +31,36 @@ export default function WhoWeServeIndex({
   comparisonLegendData,
   faq,
 }: WhoWeServeIndexProps) {
-  console.log(pageData, 'pageData Who We Serve')
+  console.log(pageData['test-listing-3']?.componentData, 'fffffffff')
 
   return pageData?.slug?.includes('v2') ? (
-    <>    
-        <FeatureHero
-          data={pageData['dental-phones-hero']?.componentData}
-          type="feature"
-        /> 
-        
+    <>
+      <FeatureHero
+        data={pageData['dental-phones-hero']?.componentData}
+        type="feature"
+      />
+      {pageData['logo-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logo-listing']?.componentData.blocksListingData}
+        />
+      )}
+      {pageData['card-with-image'] && (
+        <GroupedCardsGridSection
+          data={pageData['card-with-image']?.genericListingComponent}
+        />
+      )}
+      {pageData['power-of-ai'] && (
+        <GroupedCardsGridSection
+          data={pageData['power-of-ai']?.componentData}
+        />
+      )}
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
+      <StatisticsSection variant="V2" />
     </>
   ) : (
     <>
@@ -68,6 +92,18 @@ export default function WhoWeServeIndex({
           data={pageData['hover-card-change-testimonial']?.componentData}
         />
       )}
+       {pageData['test-listing-3']?.componentData && (
+        <CardsGridSection variant="V2" colCount={3}
+          data={pageData['test-listing-3'].componentData}
+        />
+      )}
+      
+      {pageData['test-listing-3']?.componentData && (
+        <GroupedCardsGridSection
+          data={pageData['test-listing-3']?.componentData}
+          theme="dark"
+        />
+      )}
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
           <IntegrationsGrid
@@ -83,7 +119,6 @@ export default function WhoWeServeIndex({
           header={true}
         />
       )}
-
     </>
   )
 }

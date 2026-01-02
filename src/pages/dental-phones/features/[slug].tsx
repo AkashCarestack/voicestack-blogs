@@ -28,7 +28,6 @@ export default function FeaturePage({
   region,
   slug,
 }: FeaturePageProps) {
-
   return (
     <>
       {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
@@ -44,17 +43,18 @@ export default function FeaturePage({
 
       {pageData['the-missing-visibility']?.componentData && (
         <GroupedCardsGridSection
-          data={pageData['the-missing-visibility']?.componentData}
+        data={pageData['the-missing-visibility']?.componentData}
         />
       )}
+      {pageData['card-with-image'] && (
+        <GroupedCardsGridSection data={pageData['card-with-image']?.genericListingComponent} />
+      )}
+     
       {pageData['feature-testimonials-section-single']?.componentData && (
         <FeatureTestimonialsSection
           data={pageData['feature-testimonials-section-single']?.componentData}
         />
       )}
-      {pageData['card-with-image'] && (
-                <GroupedCardsGridSection data={pageData['card-with-image']?.genericListingComponent} />
-              )}
 
       <CallFlowAnalyticsSection
         data={pageData['call-flow-analytics']?.componentData}

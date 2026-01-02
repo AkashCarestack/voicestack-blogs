@@ -32,7 +32,7 @@ interface CardsGridSectionProps {
 }
 
 const CardsGridSection = ({ data, customText, variant, bottomSpace, colCount }: CardsGridSectionProps) => {
-  
+  console.log('data CardsGridSection', data)
   // Handle referenced data if useReference is true
   const useReferenceData = data?.useReference && data?.blocksListingData
   const displayData = useReferenceData ? data.blocksListingData : data

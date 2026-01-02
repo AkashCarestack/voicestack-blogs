@@ -17,6 +17,7 @@ interface CardItemMainProps {
   contentTextColor: string
   numberedCardComponents: Partial<PortableTextReactComponents>
   createSpecialtyCardComponents: (listIconSvgCode?: string) => Partial<PortableTextReactComponents>
+  onlyImage: boolean
 }
 
 const CardItemMain: React.FC<CardItemMainProps> = ({
@@ -30,21 +31,16 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
   contentTextColor,
   numberedCardComponents,
   createSpecialtyCardComponents,
+  onlyImage,
 }) => {
   const imageUrl = item.image?.url || urlForImage(item.image)
   const hasImage = !!imageUrl
+  // console.log('item GroupedCardsGrid',imageUrl,hasImage,item)
   // Simple listing data mode
   if (isSimpleListing) {
     return (
-      <div className="flex flex-col gap-8 items-start pb-3 pt-9 px-12 w-full">
-        {/* Icon */}
-        {item.dynamicSvg && (
-          <div
-            className="overflow-clip relative shrink-0 w-8 h-8"
-            dangerouslySetInnerHTML={{ __html: processSvgCode(item.dynamicSvg) }}
-          />
-        )}
-        {hasImage && imageUrl && (
+      <div className={`w-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
+         {hasImage && imageUrl && (
           <div className="w-full">
             <Image
               src={imageUrl}
@@ -55,107 +51,135 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
             />
           </div>
         )}
+        {onlyImage ? (null): (
+          <div className="flex flex-col gap-8 items-start pb-3 pt-9 px-12 w-full">
+            {/* Icon */}
+            {item.dynamicSvg && (
+              <div
+                className="overflow-clip relative shrink-0 w-8 h-8"
+                dangerouslySetInnerHTML={{ __html: processSvgCode(item.dynamicSvg) }}
+              />
+            )}
+          
 
-        <div className="flex flex-col gap-1.5 items-start justify-end w-full">
-          {/* Heading */}
-          {item.heading && (
-            <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
-              <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
-                <h4 className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap [&>span]:text-vs-blue`}
-                  dangerouslySetInnerHTML={{ __html: item.heading }}
-                />
-              </div>
-            </div>
-          )}
+            <div className="flex flex-col gap-1.5 items-start justify-end w-full">
+              {/* Heading */}
+              {item.heading && (
+                <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
+                  <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
+                    <h4 className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap [&>span]:text-vs-blue`}
+                      dangerouslySetInnerHTML={{ __html: item.heading }}
+                    />
+                  </div>
+                </div>
+              )}
 
-          {/* Description */}
-          {item.description && (
-            <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
-              <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
-                <p className={`font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal w-full`}>
-                  {item.description}
-                </p>
-              </div>
+              {/* Description */}
+              {item.description && (
+                <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
+                  <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
+                    <p className={`font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal w-full`}>
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     )
   }
 
+
   // Portable text mode
   return (
-    <div className="flex flex-col gap-8 items-start pb-3 pt-9 px-12 w-full">
-      {/* Icon (for specialty cards) */}
-      {!isNumberedCards && item.dynamicSvgCode && (
-        <div
-          className="overflow-clip relative shrink-0 w-8 h-8"
-          dangerouslySetInnerHTML={{ __html: processSvgCode(item.dynamicSvgCode) }}
-        />
+    <div className={`w-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
+      {hasImage && imageUrl && (
+        <div className="w-full">
+          <Image
+            src={imageUrl}
+            alt={item.heading || ''}
+            width={item.image?.metadata?.dimensions?.width || 800}
+            height={item.image?.metadata?.dimensions?.height || 600}
+            className="object-cover w-full h-full"
+          />
+        </div>
       )}
-
-      <div className="flex flex-col gap-1.5 items-start justify-end w-full">
-        {/* Item Heading */}
-        {isNumberedCards ? (
-          <p className={`font-geist font-medium text-lg leading-[1.4] ${descriptionColor} tracking-normal w-full whitespace-pre-wrap`}>
-            {item.itemHeading}.
-          </p>
-        ) : (
-          <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
-            <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
-              <p className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
-                {item.itemHeading}
+      {onlyImage ? (null) :(
+        <div className="flex flex-col gap-8 items-start pb-3 pt-9 px-12 w-full">
+          {/* Icon (for specialty cards) */}
+          {!isNumberedCards && item.dynamicSvgCode && (
+            <div
+              className="overflow-clip relative shrink-0 w-8 h-8"
+              dangerouslySetInnerHTML={{ __html: processSvgCode(item.dynamicSvgCode) }}
+            />
+          )}
+        
+          <div className="flex flex-col gap-1.5 items-start justify-end w-full">
+            {/* Item Heading */}
+            {isNumberedCards ? (
+              <p className={`font-geist font-medium text-lg leading-[1.4] ${descriptionColor} tracking-normal w-full whitespace-pre-wrap`}>
+                {item.itemHeading}.
               </p>
-            </div>
-          </div>
-        )}
+            ) : (
+              <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
+                <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
+                  <p className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
+                    {item.itemHeading}
+                  </p>
+                </div>
+              </div>
+            )}
 
-        {/* Content */}
-        <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
-          {item.content && (
-            <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
-              {isNumberedCards ? (
-                <PortableText
-                  value={item.content}
-                  components={numberedCardComponents}
-                />
-              ) : (
-                <div className="flex flex-col items-start pb-3 pt-0 w-full">
-                  {item.content.map((block: any, blockIndex: number) => {
-                    // Create components with the group's listIconSvgCode
-                    const components = createSpecialtyCardComponents(listIconSvgCode)
-                    
-                    // Check if this is a bullet list item
-                    if (block.listItem === 'bullet') {
-                      return (
-                        <div
-                          key={block._key || blockIndex}
-                          className="flex gap-2 items-start px-0 py-1 w-full"
-                        >
-                          <div className={`flex-1 font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
-                            <PortableText
-                              value={[block]}
-                              components={components}
-                            />
-                          </div>
-                        </div>
-                      )
-                    }
-                    // Regular block
-                    return (
-                      <PortableText
-                        key={block._key || blockIndex}
-                        value={[block]}
-                        components={components}
-                      />
-                    )
-                  })}
+            {/* Content */}
+            <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
+              {item.content && (
+                <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
+                  {isNumberedCards ? (
+                    <PortableText
+                      value={item.content}
+                      components={numberedCardComponents}
+                    />
+                  ) : (
+                    <div className="flex flex-col items-start pb-3 pt-0 w-full">
+                      {item.content.map((block: any, blockIndex: number) => {
+                        // Create components with the group's listIconSvgCode
+                        const components = createSpecialtyCardComponents(listIconSvgCode)
+                        
+                        // Check if this is a bullet list item
+                        if (block.listItem === 'bullet') {
+                          return (
+                            <div
+                              key={block._key || blockIndex}
+                              className="flex gap-2 items-start px-0 py-1 w-full"
+                            >
+                              <div className={`flex-1 font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
+                                <PortableText
+                                  value={[block]}
+                                  components={components}
+                                />
+                              </div>
+                            </div>
+                          )
+                        }
+                        // Regular block
+                        return (
+                          <PortableText
+                            key={block._key || blockIndex}
+                            value={[block]}
+                            components={components}
+                          />
+                        )
+                      })}
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-          )}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }
@@ -234,6 +258,16 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
     
     return {
       block: {
+        h3: ({ children }) => (
+          <h3 className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap [&>strong]:text-vs-blue [&>strong]:font-medium mb-2`}>
+            {children}
+          </h3>
+        ),
+        h4: ({ children }) => (
+          <h4 className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap [&>strong]:text-vs-blue [&>strong]:font-medium mb-2`}>
+            {children}
+          </h4>
+        ),
         normal: ({ children }) => (
           <p className={`font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
             {children}
@@ -265,6 +299,28 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
     }
   }
 
+  // Helper function to check if item has only an image (no content, no heading)
+  const hasOnlyImage = (item: any, isSimpleListing: boolean): boolean => {
+    const imageUrl = item.image?.url || urlForImage(item.image)
+    const hasImage = !!imageUrl
+    
+    if (!hasImage) return false
+    
+    if (isSimpleListing) {
+      // For simple listing: check if no heading, no description, no dynamicSvg
+      const hasHeading = !!item.heading
+      const hasDescription = !!item.description
+      const hasSvg = !!item.dynamicSvg
+      return !hasHeading && !hasDescription && !hasSvg
+    } else {
+      // For other listing: check if no itemHeading, no content, no dynamicSvgCode
+      const hasItemHeading = !!item.itemHeading
+      const hasContent = !!item.content && (Array.isArray(item.content) ? item.content.length > 0 : !!item.content)
+      const hasSvg = !!item.dynamicSvgCode
+      return !hasItemHeading && !hasContent && !hasSvg
+    }
+  }
+
   // Helper function to render a card with link wrapper
   const renderCard = (
     item: any,
@@ -274,12 +330,21 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
     isNumberedCards: boolean = false,
     listIconSvgCode?: string
   ) => {
+    const onlyImage = hasOnlyImage(item, isSimpleListing)
+    
     const flexBasisClasses: Record<number, string> = {
       2: 'w-full md:w-[calc(50%-0.5px)]',
       3: 'w-full md:w-[calc(50%-0.5px)] lg:w-[calc(33.333%-0.667px)]',
       4: 'w-full md:w-[calc(50%-0.5px)] lg:w-[calc(25%-0.75px)]',
     }
-    const flexBasis = flexBasisClasses[columns]
+    
+    const flexBasisSpan2Classes: Record<number, string> = {
+      2: 'w-full md:w-[calc(100%-0.5px)]',
+      3: 'w-full md:w-[calc(100%-0.5px)] lg:w-[calc(66.666%-0.667px)]',
+      4: 'w-full md:w-[calc(100%-0.5px)] lg:w-[calc(50%-0.75px)]',
+    }
+    
+    const flexBasis = onlyImage ? flexBasisSpan2Classes[columns] : flexBasisClasses[columns]
 
     const cardContent = (
       <CardItemMain
@@ -293,23 +358,59 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
         contentTextColor={contentTextColor}
         numberedCardComponents={numberedCardComponents}
         createSpecialtyCardComponents={createSpecialtyCardComponents}
+        onlyImage={onlyImage}
       />
     )
 
     const linkUrl = item.link?.url
+    
+  const TickIcon = () => {
+    return (
+      <span className="p-[18px] border-b border-l border-gray-200 absolute right-0">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M5.83301 14.1666L14.1663 5.83329"
+            stroke="#030712"
+            stroke-width="1.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M14.1663 14.1666V5.83329H5.83301"
+            stroke="#030712"
+            stroke-width="1.25"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
+    )
+  }
+  
 
     return (
       <div
         key={item._key || itemIndex}
-        className={`${cardBgColor} ${flexBasis} flex flex-grow flex-col items-start pb-6 pt-0 px-0 min-h-0 min-w-0`}
+        className={`${cardBgColor} ${flexBasis} relative flex flex-grow flex-col items-start pt-0 px-0 min-h-0 min-w-0`}
       >
-        {linkUrl ? (
-          <Link href={linkUrl} className="block h-full">
-            {cardContent}
-          </Link>
-        ) : (
-          cardContent
-        )}
+        <>
+          {linkUrl && <TickIcon />}
+          {linkUrl ? (
+            <>
+              <Link href={linkUrl} className="block h-full">
+                {cardContent}
+              </Link>
+            </>
+          ) : (
+            cardContent
+          )}
+        </>
       </div>
     )
   }

@@ -7,81 +7,115 @@ import cardsData from '~/v2/data/cardsData.json'
 
 interface GroupedCardsGridSectionProps {
   data?: {
+    ctaListItems: { ctaLink?: string; ctaText?: string; ctaType?: string }[]
     sectionHeadingDynamic?: any
     description?: string
     customText?: string
-    customListingItems?: Array<{
+    useReference?: boolean
+    blocksListingDataCustom?: any
+    blocksListingData?: any
+    items?: Array<{
       _key?: string
       heading?: string
-      cardType?: 'numbered' | 'specialty'
-      columnCount?: 2 | 3 | 4
-      listIconSvgCode?: string
-      listItems?: Array<{
-        _key?: string
-        itemHeading?: string
-        content?: any
-        dynamicSvgCode?: string
-        link?: {
-          url?: string
-        }
-      }>
+      subheading?: string
+      description?: string
+      link?: {
+        url?: string
+        text?: string
+        buttonType?: string
+      }
+      dynamicSvg?: string
+      image?: any
+      icon?: any
     }>
+    // customListingItems?: Array<{
+    //   _key?: string
+    //   heading?: string
+    //   cardType?: 'numbered' | 'specialty'
+    //   columnCount?: 2 | 3 | 4
+    //   listIconSvgCode?: string
+    //   listItems?: Array<{
+    //     _key?: string
+    //     itemHeading?: string
+    //     content?: any
+    //     dynamicSvgCode?: string
+    //     link?: {
+    //       url?: string
+    //     }
+    //   }>
+    // }>
+    customListingItems?: any[]
   }
   theme?: 'light' | 'dark'
 }
 
 export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGridSectionProps) {
+
+  console.log('data GroupedCardsGridSection', data)
   if (!data) return null
+  // console.log(data,'data GroupedCardsGridSection')
+  // Check for blocksListingData or blocksListingDataA1 (for backward compatibility)
+  const blocksListingData = data?.blocksListingData 
+  const useReferenceData = data?.useReference && blocksListingData
+  const displayData = useReferenceData ? blocksListingData : data
 
   const isDark = theme === 'dark'
   const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
   const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const textColor = isDark ? 'text-white' : 'text-gray-950'
+  console.log('displayData GroupedCardsGridSection',displayData);
+  
 
   return (
     <Section className={bgColor}>
-      <Container type="V2" border="t-0" darkTheme={isDark}>
+      <Container type="V2" border="t-0" darkTheme={isDark} className="pt-sm md:pt-md lg:pt-lg">
         <div className="flex flex-col w-full">
           {/* Header Section */}
-          <div className="flex flex-col gap-8 items-center justify-center py-16 px-0">
+          <div className="flex-col relative w-full flex gap-16">
             <SectionHeaderV2
-              heading={data.sectionHeadingDynamic}
-              description={data.description || ''}
+              heading={displayData.sectionHeadingDynamic}
+              description={displayData.description || ''}
               className="xl:px-12 md:px-6 px-4"
               isWhite={isDark}
+              ctaListItems={displayData.ctaListItems}
             />
+            <div>
+
+              <GroupedCardsGrid
+                customListingItems={displayData.customListingItems}
+                theme={theme}
+              />
+
+              {/* To show data from listItems or for feature child card */}
+              {displayData.items && displayData.items.length > 0 && (
+                <GroupedCardsGrid
+                customListingItems={displayData.items}
+                theme={theme}
+                simpleListingData={true}
+                  columnCount={4}
+                />
+              )}
+            </div>
+            {/* Card Groups */}
+
+            {/* Footer Section */}
+            {(() => {
+              // Get customText from data level
+              const customText = displayData.customText
+              
+              return (
+                customText && (
+                <div className={`border-t ${borderColor} flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full`}>
+                  
+                  <div className={`flex flex-col font-geist font-normal justify-center relative ${textColor}`}>
+                    <p className="leading-[24px] [&>span]:text-vs-blue [&>span]:font-medium [&>span]:mr-3" dangerouslySetInnerHTML={{ __html: customText }}  >
+                    </p>
+                  </div>
+                </div>
+              ))
+            })()}
           </div>
 
-          {/* Card Groups */}
-          <GroupedCardsGrid
-            customListingItems={data.customListingItems}
-            theme={theme}
-          />
-
-          {/* JSON Schema Cards */}
-          {/* <GroupedCardsGrid
-            customListingItems={cardsData}
-            theme={theme}
-            simpleListingData={true}
-            columnCount={3}
-          /> */}
-
-          {/* Footer Section */}
-          {(() => {
-            // Get customText from data level
-            const customText = data.customText
-            
-            return (
-              customText && (
-              <div className={`border-t ${borderColor} flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full`}>
-                
-                <div className={`flex flex-col font-geist font-normal justify-center relative ${textColor}`}>
-                  <p className="leading-[24px] [&>span]:text-vs-blue [&>span]:font-medium [&>span]:mr-3" dangerouslySetInnerHTML={{ __html: customText }}  >
-                  </p>
-                </div>
-              </div>
-            ))
-          })()}
         </div>
       </Container>
     </Section>
