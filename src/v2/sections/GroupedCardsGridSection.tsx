@@ -51,10 +51,8 @@ interface GroupedCardsGridSectionProps {
 
 export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGridSectionProps) {
 
-  console.log('data GroupedCardsGridSection', data)
   if (!data) return null
-  // console.log(data,'data GroupedCardsGridSection')
-  // Check for blocksListingData or blocksListingDataA1 (for backward compatibility)
+
   const blocksListingData = data?.blocksListingData 
   const useReferenceData = data?.useReference && blocksListingData
   const displayData = useReferenceData ? blocksListingData : data
