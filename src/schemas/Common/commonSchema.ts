@@ -114,6 +114,15 @@ export const listingItemSchema = {
             ],
           },
         }),
+        defineField({
+          name: 'uploadedVideo',
+          title: 'Upload Video',
+          type: 'file',
+          description: 'Upload a video file directly (MP4, MOV, WebM)',
+          options: {
+            accept: 'video/*',
+          },
+        }),
       ],
     }),
     defineField({
@@ -205,16 +214,31 @@ export const genericVideoSchema = {
         ],
       },
     }),
+    defineField({
+      name: 'uploadedVideo',
+      title: 'Upload Video',
+      type: 'file',
+      description: 'Upload a video file directly (MP4, MOV, WebM)',
+      options: {
+        accept: 'video/*',
+      },
+    }),
   ],
   preview: {
     select: {
       videoUrl: 'videoUrl',
       videoPlatform: 'videoPlatform',
+      uploadedVideo: 'uploadedVideo',
     },
-    prepare({ videoUrl, videoPlatform }) {
+    prepare({ videoUrl, videoPlatform, uploadedVideo }) {
+      const source = uploadedVideo?.asset?._ref 
+        ? 'Uploaded Video' 
+        : videoUrl 
+          ? `Video (${videoPlatform || 'Unknown Platform'})` 
+          : 'No Video'
       return {
-        title: `Video (${videoPlatform || 'Unknown Platform'})`,
-        subtitle: videoUrl || 'No URL',
+        title: source,
+        subtitle: videoUrl || uploadedVideo?.asset?._ref || 'No URL',
       }
     },
   },

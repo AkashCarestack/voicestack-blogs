@@ -197,6 +197,15 @@ const TabsListingComponent = {
                     ],
                   },
                 },
+                {
+                  name: 'uploadedVideo',
+                  title: 'Upload Video',
+                  type: 'file',
+                  description: 'Upload a video file directly (MP4, MOV, WebM)',
+                  options: {
+                    accept: 'video/*',
+                  },
+                },
               ],
             },
             {

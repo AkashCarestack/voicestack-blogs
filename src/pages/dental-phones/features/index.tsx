@@ -54,7 +54,6 @@ export default function FeaturesPage({
       <HeroWrapper>
         <HeroSection data={heroData} refer={data} page="feature-landing"  showFullDescription={true}/>
       </HeroWrapper>
-
       {/* <CategoryFeatureTabs
         features={features.filter(
           (feature) => feature.slug?.current !== 'landing',
@@ -72,8 +71,6 @@ export default function FeaturesPage({
           data={data['stack-card-tab-testimonial']?.componentData}
         />
       )} */}
-
-
         <CategoryFeatureTabsSection 
           features={features} 
           sectionHeading={data['category-feature-tabs']?.componentData?.sectionHeading}
