@@ -52,7 +52,7 @@ interface CategoryFeatureTabsSectionProps {
   features: Feature[];
   sectionHeading?: any;
   className?: string;
-  variant?: 'default' | 'carousel';
+  variant?: 'default' | 'carousel' | 'scrollcarousel';
 }
 
 export default function CategoryFeatureTabsSection({
@@ -155,8 +155,8 @@ export default function CategoryFeatureTabsSection({
       activeCategoryRef.current = categoryName;
       setActiveCategory(categoryName);
 
-      // Only scroll for default variant
-      if (variant === 'default') {
+      // Scroll for default and scrollcarousel variants
+      if (variant === 'default' || variant === 'scrollcarousel') {
         setIsScrolling(true);
         // Use a small delay to ensure DOM is ready
         setTimeout(() => {
@@ -559,7 +559,7 @@ export default function CategoryFeatureTabsSection({
                   </div>
                   
                   {/* GroupedCardsGrid Component */}
-                  {category.features && category.features.length > 0 && (
+                  {category.features && category.features.length > 0 && variant !== 'scrollcarousel' && (
                     <div className="w-full">
                       <GroupedCardsGrid
                         customListingItems={category.features.map((feature) => {

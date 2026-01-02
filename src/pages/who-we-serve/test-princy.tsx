@@ -9,13 +9,12 @@ import { getClient } from '~/lib/sanity.client'
 import { getAllComparisonValues,getComparisonTableData } from '~/lib/sanity.queries'
 import AboutCoachingPartnersSection from '~/v2/sections/AboutCoachingPartnersSection'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
-// Define proper TypeScript interfaces
 interface HeroComponentData {
   title?: string
   subtitle?: string
   description?: string
   backgroundImage?: string
-  [key: string]: any // For flexibility with dynamic data
+  [key: string]: any 
 }
 
 interface GenericListingData {
