@@ -9,28 +9,25 @@ import Image from 'next/image'
 import { urlForImage } from '~/lib/sanity.image'
 
 export default function SwitchableTabsV2({ data }: { data: any }) {
-
-  if (!data) {
-    console.warn('SwitchableTabsV2: No data provided')
-    return null
-  }
-
-  const [activeTabValue, setActiveTabValue] = useState<string | undefined>(
-    undefined,
-  )
-
   // Get initial tab data - check both tabs array and customListingItems
   const initialTab = data?.tabs?.[0]
   const initialCustomItem = data?.customListingItems?.[0]
 
   // Get initial items - prioritize customListingItem if it exists
-  const initialItems =
-    data?.customListingItems?.[0]?.listItems ||
-    data?.customListingItems?.[0]?.items ||
-    initialTab?.items ||
-    initialTab?.listItems ||
-    data?.items ||
-    []
+  const initialItems = useMemo(
+    () =>
+      data?.customListingItems?.[0]?.listItems ||
+      data?.customListingItems?.[0]?.items ||
+      initialTab?.items ||
+      initialTab?.listItems ||
+      data?.items ||
+      [],
+    [data, initialTab],
+  )
+
+  const [activeTabValue, setActiveTabValue] = useState<string | undefined>(
+    undefined,
+  )
 
   // Helper function to extract text from PortableText content
   const extractTextFromContent = useCallback(
@@ -216,6 +213,12 @@ export default function SwitchableTabsV2({ data }: { data: any }) {
     })
     return unique
   }, [cardData, mapItemsToCardData])
+
+  // Early return checks - must be after all hooks
+  if (!data) {
+    console.warn('SwitchableTabsV2: No data provided')
+    return null
+  }
 
   // Check if we have tabs data
   const hasTabs = data?.tabs && data.tabs.length > 0
