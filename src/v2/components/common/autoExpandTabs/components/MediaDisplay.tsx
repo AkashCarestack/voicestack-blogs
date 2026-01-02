@@ -21,10 +21,10 @@ export default function MediaDisplay({ tabs, activeTab }: MediaDisplayProps) {
   }, [tabs]);
 
   return (
-    <div className="w-full h-full overflow-hidden relative flex items-center justify-center min-h-[300px] md:min-h-[400px]">
+    <div className="w-full h-full  overflow-hidden relative flex items-center justify-center  ">
       {tabs.map((tab) => {
         const isActive = tab.key === activeTab;
-        
+
         return (
           <motion.div
             key={tab.key}
@@ -42,7 +42,18 @@ export default function MediaDisplay({ tabs, activeTab }: MediaDisplayProps) {
             {tab.video ? (
               <div className="w-full h-full">
                 <VideoPlayers
-                  video={tab.video}
+                  video={
+                    Array.isArray(tab.video)
+                      ? tab.video.map((v: any) => ({
+                        ...v,
+                        uploadedVideo: v.uploadVideo || v.uploadedVideo,
+                      }))
+                      : {
+                        ...tab.video,
+                        uploadedVideo:
+                          tab.video.uploadVideo || tab.video.uploadedVideo,
+                      }
+                  }
                   thumbnail={tab.thumbnail}
                 />
               </div>

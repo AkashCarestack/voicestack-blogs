@@ -4,7 +4,13 @@ export interface AutoExpandTab {
   title: string;
   subheading?: string;
   description: string;
-  video?: any;
+  video?: {
+    uploadedVideo?: any;
+    videoUrl?: string;
+    videoPlatform?: string;
+    videoId?: string;
+    [key: string]: any;
+  };
   thumbnail?: string;
 }
 
