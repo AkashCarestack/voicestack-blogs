@@ -95,7 +95,7 @@ export default function WhoWeServePage({
       {/* //pass the prop singleCard for single card layout */}
       {(
         <CategoryFeatureTabsSection
-          features={pageData['message-solution']?.componentData}
+          features={pageData['single-card']?.componentData}
           variant="singlecard"
           sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
           singleCard={true}
