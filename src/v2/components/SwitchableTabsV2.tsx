@@ -9,7 +9,6 @@ import Image from 'next/image'
 import { urlForImage } from '~/lib/sanity.image'
 
 export default function SwitchableTabsV2({ data }: { data: any }) {
-  console.log('data SwitchableTabsV2',data);
 
   if (!data) {
     console.warn('SwitchableTabsV2: No data provided')
