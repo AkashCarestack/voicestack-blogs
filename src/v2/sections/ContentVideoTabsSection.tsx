@@ -356,9 +356,9 @@ export default function ContentVideoTabsSection({
           shadow={false}
         />
       </div>
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 lg:px-12 px-4 ">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:px-12 px-4 ">
           {/* Left: Scrollable Content Sections */}
-          <div className="flex-1 ">
+          <div className="w-full">
             {tabs?.map((tab,i) => (
               <section
                 key={tab.key}
@@ -470,8 +470,15 @@ export default function ContentVideoTabsSection({
           </div>
 
           {/* Right: Sticky Video Player - Changes based on activeTab - Desktop Only */}
-          <div className="hidden lg:flex flex-1 lg:sticky lg:top-[200px] lg:self-start">
-            <div className="w-full h-[400px] md:h-[644px] md:rounded-2xl rounded-none overflow-hidden bg-gray-100 transition-all duration-500">
+          <div 
+            className="hidden lg:flex w-full lg:sticky lg:top-[200px] lg:self-start"
+            style={{
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden',
+              transform: 'translateZ(0)',
+            }}
+          >
+            <div className="w-full h-[644px] md:rounded-2xl rounded-none overflow-hidden bg-gray-100">
               {currentTabData.video ? (
                 <div className="w-full h-full">
                   <VideoPlayers

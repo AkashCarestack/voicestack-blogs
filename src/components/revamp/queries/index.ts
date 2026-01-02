@@ -236,7 +236,14 @@ class Queries {
               genericVideo {
                 videoId,
                 videoUrl,
-                videoPlatform
+                videoPlatform,
+                "uploadedVideo": uploadedVideo.asset-> {
+                  _id,
+                  url,
+                  originalFilename,
+                  size,
+                  mimeType
+                }
               },
               
               // List items within the tab
@@ -488,7 +495,14 @@ class Queries {
                           genericVideo {
                             videoId,
                             videoUrl,
-                            videoPlatform
+                            videoPlatform,
+                            "uploadedVideo": uploadedVideo.asset-> {
+                              _id,
+                              url,
+                              originalFilename,
+                              size,
+                              mimeType
+                            }
                           },
                           listItems[] {
                             _key,
@@ -925,7 +939,14 @@ class Queries {
                     genericVideo {
                       videoId,
                       videoUrl,
-                      videoPlatform
+                      videoPlatform,
+                      "uploadedVideo": uploadedVideo.asset-> {
+                        _id,
+                        url,
+                        originalFilename,
+                        size,
+                        mimeType
+                      }
                     },
                     
                     // Tab list items
@@ -1085,7 +1106,14 @@ class Queries {
                           genericVideo {
                             videoId,
                             videoUrl,
-                            videoPlatform
+                            videoPlatform,
+                            "uploadedVideo": uploadedVideo.asset-> {
+                              _id,
+                              url,
+                              originalFilename,
+                              size,
+                              mimeType
+                            }
                           },
                           listItems[] {
                             _key,
@@ -1464,7 +1492,14 @@ class Queries {
                     genericVideo {
                       videoId,
                       videoUrl,
-                      videoPlatform
+                      videoPlatform,
+                      "uploadedVideo": uploadedVideo.asset-> {
+                        _id,
+                        url,
+                        originalFilename,
+                        size,
+                        mimeType
+                      }
                     },
                     ctaListItems[] {
                       ${this.CTA_FIELDS}
@@ -1750,7 +1785,14 @@ class Queries {
                           genericVideo {
                             videoId,
                             videoUrl,
-                            videoPlatform
+                            videoPlatform,
+                            "uploadedVideo": uploadedVideo.asset-> {
+                              _id,
+                              url,
+                              originalFilename,
+                              size,
+                              mimeType
+                            }
                           },
                           listItems[] {
                             _key,
