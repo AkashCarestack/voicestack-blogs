@@ -32,13 +32,18 @@ export default function Pricing({
   pricingPageData,
   region,
 }: PricingProps & { region?: string }) {
-  const testimonialData = pricingPageData["groups-and-dso"].componentData.refData.tabsListingComponent;
- testimonialData.headline = "Pricing That Covers Every Touch Point";
- testimonialData.subDescription ="VoiceStack is committed to give you more value than you pay for. We provide onboarding, training, account management and customer support services as part of our pricing plans, so that all your teams are fully supported for continuous success.";
- testimonialData.tabs.map((e:any)=>{
-  e.ctaListItems[0].ctaLink = "/pricing";
-  e.ctaListItems[0].ctaText = "Get Pricing";
- })
+  const testimonialData = pricingPageData?.["groups-and-dso"]?.componentData?.refData?.tabsListingComponent;
+  
+  if (testimonialData) {
+    testimonialData.headline = "Pricing That Covers Every Touch Point";
+    testimonialData.subDescription ="VoiceStack is committed to give you more value than you pay for. We provide onboarding, training, account management and customer support services as part of our pricing plans, so that all your teams are fully supported for continuous success.";
+    testimonialData.tabs?.map((e:any)=>{
+      if (e?.ctaListItems?.[0]) {
+        e.ctaListItems[0].ctaLink = "/pricing";
+        e.ctaListItems[0].ctaText = "Get Pricing";
+      }
+    })
+  }
  
   const getPricingFormId = () => {
     const usFormId = 'a28e5858-ce77-4b10-9c4b-4099cc6f1cef'    
