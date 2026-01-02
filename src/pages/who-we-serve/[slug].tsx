@@ -57,8 +57,6 @@ export default function WhoWeServePage({
     return null
   }
 
-  console.log(pageData['message-solution']?.componentData, 'fffffffff')
-
   return (
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
