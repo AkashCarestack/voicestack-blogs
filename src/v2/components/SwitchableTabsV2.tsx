@@ -242,7 +242,7 @@ export default function SwitchableTabsV2({ data }: { data: any }) {
   const hasImage = !!imageUrl
 
   return (
-    <Container type="V2" border="all">
+    <Container type="V2" border="t-0">
       <SectionHeaderV2  heading={data?.heading} description={data?.description} />
       {hasCustomListingItems && (
         <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
