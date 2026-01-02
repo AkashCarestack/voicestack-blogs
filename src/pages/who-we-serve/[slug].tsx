@@ -83,12 +83,22 @@ export default function WhoWeServePage({
           }
         />
       )}
-
+      {/* //pass the prop scrollcarousel for sscrollcarousel layout */}
       {(
         <CategoryFeatureTabsSection
           features={pageData['message-solution']?.componentData}
           variant="scrollcarousel"
           sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
+          singleCard={true}
+        />
+      )}
+      {/* //pass the prop singleCard for single card layout */}
+      {(
+        <CategoryFeatureTabsSection
+          features={pageData['single-card']?.componentData}
+          variant="singlecard"
+          sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
+          singleCard={true}
         />
       )}
       {faq && <FaqSection faqItems={faq} />}
