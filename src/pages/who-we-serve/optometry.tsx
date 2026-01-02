@@ -6,28 +6,49 @@ import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
+import { getClient } from '~/lib/sanity.client'
+import { getFeaturesList } from '~/lib/sanity.queries'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
+interface Feature {
+  _id: string
+  title: string
+  slug: {
+    current: string
+  }
+  language: string
+  order?: number
+  heroTitle?: string
+  heroSubtitle?: string
+  heroImage?: any
+  mainImage?: any
+  shortDescription?: any
+  featureCategory?: {
+    name: string
+    description?: string
+    icon?: any
+  }
+}
+
 interface OptometryProps {
   pageData: any
   faq: any
+  features: Feature[]
 }
 
-export default function Optometry({ pageData, faq }: OptometryProps) {
+export default function Optometry({ pageData, faq, features }: OptometryProps) {
   if (!pageData) {
     return null
   }
 
   return (
     <>
-      {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      {/* </div> */}
       <FeatureHero data={pageData['optometry-hero']} type="feature" />
-
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
@@ -49,9 +70,19 @@ export default function Optometry({ pageData, faq }: OptometryProps) {
          
         />
       )}
-      {pageData['card-with-image2'] && (
+      <CategoryFeatureTabsSection
+          features={features} 
+          variant="carousel"
+          sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
+      />
+      {/* {pageData['card-with-image2'] && (
         <GroupedCardsGridSection
           data={pageData['card-with-image2']?.genericListingComponent}
+        />
+      )} */}
+        {pageData['card-with-image3'] && (
+        <GroupedCardsGridSection
+          data={pageData['card-with-image3']?.genericListingComponent}
         />
       )}
       <StatisticsSection variant="V2" />
@@ -61,6 +92,7 @@ export default function Optometry({ pageData, faq }: OptometryProps) {
           theme="dark"
         />
       )}
+
 
       {faq && <FaqSection faqItems={faq} />}
     </>
@@ -74,6 +106,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const queries = new Queries('whoWeServe', region)
     const slug = region === 'en' ? 'optometry' : `optometry-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
+    const features = await getFeaturesList(getClient(), region)
 
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
@@ -86,6 +119,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         pageData: pageData || null,
         region: region,
         faq: faqData,
+        features: features || [],
       },
     }
   } catch (error) {
@@ -95,6 +129,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         pageData: null,
         region: region,
         faq: null,
+        features: [],
       },
     }
   }

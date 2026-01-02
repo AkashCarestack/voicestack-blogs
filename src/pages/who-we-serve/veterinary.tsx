@@ -75,9 +75,14 @@ export default function Veterinary({ pageData, faq, features }: VeterinaryProps)
           variant="carousel"
           sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
       />
-      {pageData['card-with-image2'] && (
+      {/* {pageData['card-with-image2'] && (
         <GroupedCardsGridSection
           data={pageData['card-with-image2']?.genericListingComponent}
+        />
+      )} */}
+        {pageData['card-with-image3'] && (
+        <GroupedCardsGridSection
+          data={pageData['card-with-image3']?.genericListingComponent}
         />
       )}
       <StatisticsSection variant="V2" />

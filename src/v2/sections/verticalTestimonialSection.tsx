@@ -503,7 +503,7 @@ const VerticalTestimonialListing = ({
   }
 
   return (
-    <Section className="bg-[#ffffff]" border="t">
+    <Section className="bg-gray-50" border="y">
       <Container
         className="w-full pt-sm md:pt-md lg:pt-lg"
         type="V2"
