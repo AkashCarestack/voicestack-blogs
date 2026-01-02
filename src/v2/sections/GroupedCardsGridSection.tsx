@@ -63,6 +63,7 @@ export default function GroupedCardsGridSection({ data, theme }: GroupedCardsGri
   const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
   const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const textColor = isDark ? 'text-white' : 'text-gray-950'
+  const headingSplitColor = isDark ? 'text-vs-blue' : 'text-gray-400'
   console.log('displayData GroupedCardsGridSection',displayData);
   
 

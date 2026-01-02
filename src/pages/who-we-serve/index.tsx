@@ -52,6 +52,7 @@ export default function WhoWeServeIndex({
       {pageData['power-of-ai'] && (
         <GroupedCardsGridSection
           data={pageData['power-of-ai']?.componentData}
+          theme="dark"
         />
       )}
       {pageData['integrations-listing']?.componentData && (
