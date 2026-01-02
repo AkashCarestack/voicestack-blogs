@@ -24,6 +24,7 @@ interface CallFlowAnalyticsSectionProps {
         videoId?: string;
         videoUrl?: string;
         videoPlatform?: string;
+        uploadedVideo?: any;
       };
     }>;
     ctaListItems?: Array<{
@@ -56,11 +57,12 @@ export default function CallFlowAnalyticsSection({
       };
 
       // Add video if genericVideo exists
-      if (item.genericVideo?.videoUrl) {
+      if (item.genericVideo) {
         tab.video = {
           videoPlatform: item.genericVideo.videoPlatform || 'youtube',
           videoUrl: item.genericVideo.videoUrl,
           videoId: item.genericVideo.videoId,
+          uploadedVideo: (item.genericVideo as any).uploadedVideo,
         };
       }
 
@@ -92,8 +94,8 @@ export default function CallFlowAnalyticsSection({
           <div className="flex flex-col md:gap-8 gap-6 items-start w-full lg:w-[712px]">
             <div className="flex flex-col md:gap-3 gap-2 items-start w-full text-center">
               <div className="flex flex-col font-manrope font-semibold justify-center w-full md:text-[48px] text-[32px] text-gray-950 md:tracking-[-0.8px] tracking-[-0.5px] md:leading-[56px] leading-[40px]">
-                <SectionH2 
-                  content={data.sectionHeadingDynamic? data.sectionHeadingDynamic : data.heading}
+                <SectionH2
+                  content={data.sectionHeadingDynamic ? data.sectionHeadingDynamic : data.heading}
                 />
               </div>
               <p className="font-geist font-normal md:leading-7 leading-6 w-full text-gray-700 md:text-lg text-base tracking-normal whitespace-pre-wrap">

@@ -14,30 +14,36 @@ export default function VideoPlayers({
 
   const videoData = Array.isArray(video) ? video[0] : video
 
-  // Priority 1: Check if videoUrl exists (direct video URL - play directly)
+  // Priority 1: Check if uploadedVideo exists (uploaded file - play directly)
+  const hasUploadedVideo = !!videoData?.uploadedVideo
+
+  // Priority 2: Check if videoUrl exists (direct video URL - play directly)
   // If videoUrl exists, always play it directly regardless of platform
   const hasDirectVideoUrl = !!videoData?.videoUrl
 
-  // Priority 2: Check if video has a platform (youtube, vidyard, vimeo) with videoId - use embedded iframe
-  // Only use platform-based if no direct videoUrl exists
-  const hasVideoPlatform = !hasDirectVideoUrl && 
+  // Priority 3: Check if video has a platform (youtube, vidyard, vimeo) with videoId - use embedded iframe
+  // Only use platform-based if no direct videoUrl or uploaded video exists
+  const hasVideoPlatform = !hasUploadedVideo && !hasDirectVideoUrl && 
     videoData?.videoPlatform && 
     videoData?.videoId && 
     ['youtube', 'vidyard', 'vimeo'].includes(videoData.videoPlatform)
 
-  const [isPlaying, setIsPlaying] = useState(hasVideoPlatform || hasDirectVideoUrl)
-  const [showThumbnail, setShowThumbnail] = useState(!hasVideoPlatform && !hasDirectVideoUrl)
+  // Get uploaded video URL if available
+  const uploadedVideoUrl = hasUploadedVideo ? urlForVideo(videoData.uploadedVideo) : null
+
+  const [isPlaying, setIsPlaying] = useState(hasVideoPlatform || hasDirectVideoUrl || hasUploadedVideo)
+  const [showThumbnail, setShowThumbnail] = useState(!hasVideoPlatform && !hasDirectVideoUrl && !hasUploadedVideo)
 
   // Auto-play when video changes
   useEffect(() => {
-    if (hasVideoPlatform || hasDirectVideoUrl) {
+    if (hasVideoPlatform || hasDirectVideoUrl || hasUploadedVideo) {
       setIsPlaying(true)
       setShowThumbnail(false)
     } else {
       setIsPlaying(false)
       setShowThumbnail(true)
     }
-  }, [videoData?.videoPlatform, videoData?.videoId, videoData?.videoUrl])
+  }, [videoData?.videoPlatform, videoData?.videoId, videoData?.videoUrl, videoData?.uploadedVideo])
 
   const getVideoEmbedUrl = () => {
     if (!videoData) return null
@@ -112,7 +118,18 @@ export default function VideoPlayers({
       className="relative w-full h-full group"
      
     >
-      {hasDirectVideoUrl && (isPlaying || !thumbnail) ? (
+      {hasUploadedVideo && uploadedVideoUrl && (isPlaying || !thumbnail) ? (
+        // Uploaded video file playback (MP4, MOV, WebM from Sanity)
+        <video
+          src={uploadedVideoUrl}
+          muted
+          loop
+          playsInline
+          autoPlay
+          controls={false}
+          className="w-full h-full object-cover display-block"
+        />
+      ) : hasDirectVideoUrl && (isPlaying || !thumbnail) ? (
         // Direct video URL playback (MP4, WebM, or any direct video URL)
         <video
           src={videoData.videoUrl}

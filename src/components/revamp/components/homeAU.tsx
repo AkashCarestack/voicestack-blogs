@@ -5,13 +5,13 @@ import HeroAU from './common/HeroSection/HeroAu'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import ContentVideoTabsSection from '~/v2/sections/ContentVideoTabsSection'
 import CardsGridSection from '~/v2/sections/CardsGridSection'
-import VerticalTestimonialListing from './common/VerticalTestimonialListing/VerticalTestimonialListing'
 // import AboutCoachingPartners from './common/AboutCoachingPartners'
 // import IntegrationsShowcaseSection from './common/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/components/LogoListingV2'
 import IntegrationCloudSection from '~/v2/sections/IntegrationCloudSection'
 import FooterBottom from './common/FooterBottom'
 import AboutCoachingPartners from '~/v2/sections/AboutCoachingPartnersSection'
+import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
 export default function 
 HomeAU({
@@ -79,7 +79,7 @@ HomeAU({
             pageData['testimonial-video-section']?.componentData?.refData
               ?.testimonialListing
           }
-          refer="en-AU"
+        
         />
       )}
     {pageData['about-coach-partners']?.componentData && (

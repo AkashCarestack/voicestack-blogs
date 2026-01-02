@@ -7,6 +7,7 @@ import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
 import CallFlowAnalyticsSection from '~/v2/components/CallFlowAnalyticsSection'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
@@ -68,7 +69,10 @@ export default function FeaturesPage({
           data={data['feature-testimonials-section-single']?.componentData}
         />
       )}
-
+       <CategoryFeatureTabsSection 
+          features={features} 
+          sectionHeading={data['category-feature-tabs']?.componentData?.sectionHeading}
+      />
       {faq && <FaqSection faqItems={faq} />}
     </>
   )
