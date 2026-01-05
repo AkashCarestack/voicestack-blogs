@@ -3,7 +3,6 @@ import React from 'react'
 import SimpleHead from '~/components/common/SimpleHead'
 import LogoListingV2 from '~/components/LogoListingV2'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
-
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
