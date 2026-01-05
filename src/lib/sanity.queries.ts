@@ -785,7 +785,7 @@ export const getALLSiteSettings = (region) =>
   groq`*[_type == "siteSettings"] | order(_createdAt desc)[0]`
 
 export async function getComparisonTableData(client: SanityClient, region: string) {
-  const query = groq`*[_type == "comparisonTable" && language == $region] {
+  const query = groq`*[_type == "comparisonTable" && language == $region && slug.current == "global-comparison"] {
     ..., 
     "columns": columns[] {
         ..., "logo": logo.asset-> {
@@ -824,9 +824,12 @@ export async function getComparisonTableData(client: SanityClient, region: strin
     },
     
     "rowCategories": rowCategories[] { 
-      ..., "rows": rows[] {
-        ..., "comparisons": comparisons[] -> {
-          ..., "icon": icon.asset-> {
+      ..., 
+      "rows": rows[] {
+        ...,
+        "comparisons": comparisons[] -> {
+          ..., 
+          "icon": icon.asset-> {
             _id,
             url,
             metadata {
@@ -837,6 +840,11 @@ export async function getComparisonTableData(client: SanityClient, region: strin
               }
             }
           }
+        },
+        "comparisonsCustom": comparisonsCustom[] {
+          text,
+          language,
+          icon
         }
       }
     }

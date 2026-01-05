@@ -62,3 +62,8 @@ export async function isUniqueOtherThanLanguage(slug: string, context: SlugValid
   const result = await client.fetch(query, params)
   return result
 }
+
+// Allows the same slug across all locales (non-unique)
+export async function allowDuplicateSlugs(slug: string, context: SlugValidationContext): Promise<boolean> {
+  return true
+}
