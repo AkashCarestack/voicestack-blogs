@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useEffect, useCallback } from 'react'
 import { IdataProps } from '~/components/revamp/components/common/interface/common'
 import SwitchableTabs from '~/components/revamp/components/common/switchableTabs'
-import GroupedCardsGridSection from '../sections/GroupedCardsGridSection'
-import GroupedCardsGrid from './GroupedCardsGrid'
+import GroupedCardsGridSection from './GroupedCardsGridSection'
+import GroupedCardsGrid from '../components/GroupedCardsGrid'
 import Container from '~/components/structure/Container'
 import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
 import Image from 'next/image'
@@ -248,7 +248,7 @@ export default function SwitchableTabsV2({ data, showTabs = true }: { data: any,
   const hasImage = !!imageUrl
 
   return (
-    <Container type="V2" border="t-0" className='py-sm md:py-md lg:py-lg'>
+    <Container type="V2" border="b-0" className='pt-sm md:pt-md lg:pt-lg pb-sm md:pb-md'>
       <SectionHeaderV2  heading={data?.heading || data?.headline} description={data?.description || data?.subDescription} />
       
         <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
@@ -288,15 +288,15 @@ export default function SwitchableTabsV2({ data, showTabs = true }: { data: any,
           />
         }
       
-      <div>
+      
         {hasImage && imageUrl && (
-          <div className="w-full max-[1334px] max-h-[500px]">
+          <div className="w-auto h-auto ">
             <Image
               src={imageUrl}
               alt={selectedCustomItem?.heading || selectedTab?.tabHeading || data?.heading || 'Tab image'}
-              width={selectedTabImage?.metadata?.dimensions?.width || 1200}
-              height={selectedTabImage?.metadata?.dimensions?.height || 600}
-              className="object-contain w-full h-auto rounded-lg"
+              width={1300}
+              height={500}
+              className=" md:max-w-[1334px] md:max-h-[500px] object-cover rounded-lg"
             />
           </div>
         )}
@@ -306,6 +306,7 @@ export default function SwitchableTabsV2({ data, showTabs = true }: { data: any,
             theme={'light'}
             simpleListingData={true}
             columnCount={4}
+            showBorderBottom={true}
             key={activeTabValue || data?.tabs?.[0]?._key || 'default'}
           />
         )}
@@ -314,7 +315,7 @@ export default function SwitchableTabsV2({ data, showTabs = true }: { data: any,
             No items to display
           </div>
         )}
-      </div>
+    
     </Container>
   )
 }
