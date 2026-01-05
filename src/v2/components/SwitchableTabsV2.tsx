@@ -8,7 +8,7 @@ import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeader
 import Image from 'next/image'
 import { urlForImage } from '~/lib/sanity.image'
 
-export default function SwitchableTabsV2({ data }: { data: any }) {
+export default function SwitchableTabsV2({ data, showTabs = true }: { data: any, showTabs?: boolean }) {
   // Get initial tab data - check both tabs array and customListingItems
   const initialTab = data?.tabs?.[0]
   const initialCustomItem = data?.customListingItems?.[0]
@@ -96,6 +96,7 @@ export default function SwitchableTabsV2({ data }: { data: any }) {
 
       return items.map((item) => {
         // If item already has the correct structure (heading, description, dynamicSvg), return as-is
+        // Note: Items with subfeatureHeading/subfeatureDescription will be processed to normalize field names
         if (
           item.heading &&
           (item.description !== undefined || item.dynamicSvg)
@@ -132,6 +133,7 @@ export default function SwitchableTabsV2({ data }: { data: any }) {
         return {
           heading:
             heading ||
+            item.subfeatureHeading ||
             item.basicInfo?.title ||
             item.title ||
             item.heading ||
@@ -139,6 +141,7 @@ export default function SwitchableTabsV2({ data }: { data: any }) {
             'Untitled Item',
           description:
             description ||
+            item.subfeatureDescription ||
             item.basicInfo?.description ||
             item.shortDescription ||
             item.heroSubtitle ||
@@ -247,10 +250,10 @@ export default function SwitchableTabsV2({ data }: { data: any }) {
   return (
     <Container type="V2" border="t-0">
       <SectionHeaderV2  heading={data?.heading} description={data?.description} />
-      {hasCustomListingItems && (
+      
         <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
-          <SwitchableTabs
-            data={data.customListingItems.map(
+          {data?.customListingItems && data?.customListingItems?.length > 0 && <SwitchableTabs
+            data={data?.customListingItems?.map(
               (category: any, index: number) => ({
                 id: category?._key || String(index),
                 key: category?._key || String(index),
@@ -265,18 +268,35 @@ export default function SwitchableTabsV2({ data }: { data: any }) {
             className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
             isShowImage={false}
             shadow={false}
-          />
+          />}
         </div>
-      )}
+        {
+          data?.tabs && data?.tabs?.length > 0 && <SwitchableTabs
+            data={data?.tabs?.map(
+              (tab: any, index: number) => ({
+                id: tab?._key || String(index),
+                key: tab?._key || String(index),
+                title: tab?.tabHeading || `Tab ${index + 1}`,
+              }),
+            )}
+            setActiveTab={handleCategoryClick}
+            activeTab={activeTabValue}
+            isSticky={true}
+            className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
+            isShowImage={false}
+            shadow={false}
+          />
+        }
+      
       <div>
         {hasImage && imageUrl && (
-          <div className="w-full mb-8">
+          <div className="w-full max-[1334px] max-h-[500px]">
             <Image
               src={imageUrl}
               alt={selectedCustomItem?.heading || selectedTab?.tabHeading || data?.heading || 'Tab image'}
               width={selectedTabImage?.metadata?.dimensions?.width || 1200}
               height={selectedTabImage?.metadata?.dimensions?.height || 600}
-              className="object-cover w-full h-auto rounded-lg"
+              className="object-contain w-full h-auto rounded-lg"
             />
           </div>
         )}
