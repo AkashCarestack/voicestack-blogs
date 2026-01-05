@@ -25,12 +25,41 @@ interface DentalProps {
   pageData: any
   faq: any
   features: any[]
+  articles: any[]
 }
 
-export default function Dental({ pageData, faq, features }: DentalProps) {
+export default function Dental({ pageData, faq, features, articles }: DentalProps) {
   if (!pageData) {
     return null
   }
+
+  // Transform API articles data to match GroupedCardsGrid format
+  // Limit to only 3 articles
+  const transformedArticles = articles.slice(0, 3).map((article) => {
+    // Use contentType and capitalize it (e.g., "article" -> "Article")
+    const contentTypeLabel = article.contentType 
+      ? article.contentType.charAt(0).toUpperCase() + article.contentType.slice(1)
+      : 'Article'
+    const articleUrl = article.url || (article.slug ? `https://resources.voicestack.com/article/${article.slug}` : '#')
+    
+    // Combine contentType label and title in heading to match Figma design (label above title)
+    const headingWithCategory = `<div class="flex flex-col gap-1"><p class="font-geist font-normal text-base leading-[24px] text-vs-green">${contentTypeLabel}</p><p class="font-geist font-medium text-xl leading-[28px] text-white">${article.title || ''}</p></div>`
+    
+    return {
+      _key: article._id,
+      heading: headingWithCategory,
+      image: article.mainImage?.url
+        ? {
+            url: article.mainImage.url,
+            altText: article.mainImage.altText || article.title || '',
+            metadata: article.mainImage.metadata || {},
+          }
+        : null,
+      link: {
+        url: articleUrl,
+      },
+    }
+  })
 
   return (
     <>
@@ -81,6 +110,17 @@ export default function Dental({ pageData, faq, features }: DentalProps) {
         />
       )}
 
+      {transformedArticles && transformedArticles.length > 0 && (
+        <GroupedCardsGridSection
+          data={{
+            items: transformedArticles,
+            ctaListItems: [],
+            columnCount: 3,
+          }}
+          theme="dark"
+        />
+      )}
+
       {faq && <FaqSection faqItems={faq} />}
     </>
   )
@@ -101,12 +141,29 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
+    // Fetch articles from API
+    let articles: any[] = []
+    try {
+      const apiUrl = 'https://resources.voicestack.com/api/content'
+      const response = await fetch(apiUrl)
+      if (response.ok) {
+        const apiData = await response.json()
+        if (apiData.success && apiData.data) {
+          articles = apiData.data
+        }
+      }
+    } catch (apiError) {
+      console.error('Error fetching articles from API:', apiError)
+      // Continue without articles if API fails
+    }
+
     return {
       props: {
         pageData: pageData || null,
         region: region,
         faq: faqData,
         features: features || [],
+        articles: articles || [],
       },
     }
   } catch (error) {
@@ -117,6 +174,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         region: region,
         faq: null,
         features: [],
+        articles: [],
       },
     }
   }

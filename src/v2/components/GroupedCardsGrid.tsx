@@ -41,13 +41,13 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
     return (
       <div className={`w-full flex flex-col h-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
          {hasImage && imageUrl && (
-          <div className="w-full">
+          <div className="w-full h-[222px]">
             <Image
               src={imageUrl}
               alt={item.heading || ''}
               width={item.image?.metadata?.dimensions?.width || 800}
-              height={item.image?.metadata?.dimensions?.height || 600}
-              className="object-cover w-full h-full"
+              height={222}
+              className="object-cover w-full h-[222px]"
             />
           </div>
         )}
