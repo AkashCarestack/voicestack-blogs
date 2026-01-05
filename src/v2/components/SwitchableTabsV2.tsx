@@ -248,7 +248,7 @@ export default function SwitchableTabsV2({ data, showTabs = true }: { data: any,
   const hasImage = !!imageUrl
 
   return (
-    <Container type="V2" border="t-0">
+    <Container type="V2" border="t-0" className='py-sm md:py-md lg:py-lg'>
       <SectionHeaderV2  heading={data?.heading || data?.headline} description={data?.description || data?.subDescription} />
       
         <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
