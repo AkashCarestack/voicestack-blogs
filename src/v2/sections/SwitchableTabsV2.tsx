@@ -7,6 +7,7 @@ import Container from '~/components/structure/Container'
 import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
 import Image from 'next/image'
 import { urlForImage } from '~/lib/sanity.image'
+import Section from '~/components/structure/Section'
 
 export default function SwitchableTabsV2({ data, showTabs = true }: { data: any, showTabs?: boolean }) {
   // Get initial tab data - check both tabs array and customListingItems
@@ -248,10 +249,12 @@ export default function SwitchableTabsV2({ data, showTabs = true }: { data: any,
   const hasImage = !!imageUrl
 
   return (
+    <Section className='bg-[#ffffff]'>
     <Container type="V2" border="b-0" className='pt-sm md:pt-md lg:pt-lg pb-sm md:pb-md'>
+    <div className="flex-col relative w-full flex gap-16">
       <SectionHeaderV2  heading={data?.heading || data?.headline} description={data?.description || data?.subDescription} />
       
-        <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+        {/* <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0"> */}
           {data?.customListingItems && data?.customListingItems?.length > 0 && <SwitchableTabs
             data={data?.customListingItems?.map(
               (category: any, index: number) => ({
@@ -269,7 +272,11 @@ export default function SwitchableTabsV2({ data, showTabs = true }: { data: any,
             isShowImage={false}
             shadow={false}
           />}
-        </div>
+        {/* </div> */}
+
+         {/* ****************
+         if referenced from any section else bottom 
+         *****************/}
         {
           data?.tabs && data?.tabs?.length > 0 && <SwitchableTabs
             data={data?.tabs?.map(
@@ -282,7 +289,7 @@ export default function SwitchableTabsV2({ data, showTabs = true }: { data: any,
             setActiveTab={handleCategoryClick}
             activeTab={activeTabValue}
             isSticky={true}
-            className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
+            className="bg-transparent !shadow-none !border-none"
             isShowImage={false}
             shadow={false}
           />
@@ -315,7 +322,8 @@ export default function SwitchableTabsV2({ data, showTabs = true }: { data: any,
             No items to display
           </div>
         )}
-    
+    </div>
     </Container>
+    </Section>
   )
 }
