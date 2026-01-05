@@ -87,7 +87,7 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
           data={pageData['test-listing-2'].componentData}
         />
       )}
-      { <SwitchableTabsV2 data={tabListingData} />}
+      { <SwitchableTabsV2 data={tabListingData} showTabs={false} />}
       {/* {
        
         tabListingData && (<TabCardsListing data={tabListingData} />)
