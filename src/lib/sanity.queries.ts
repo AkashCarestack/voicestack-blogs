@@ -824,9 +824,12 @@ export async function getComparisonTableData(client: SanityClient, region: strin
     },
     
     "rowCategories": rowCategories[] { 
-      ..., "rows": rows[] {
-        ..., "comparisons": comparisons[] -> {
-          ..., "icon": icon.asset-> {
+      ..., 
+      "rows": rows[] {
+        ...,
+        "comparisons": comparisons[] -> {
+          ..., 
+          "icon": icon.asset-> {
             _id,
             url,
             metadata {
@@ -837,6 +840,11 @@ export async function getComparisonTableData(client: SanityClient, region: strin
               }
             }
           }
+        },
+        "comparisonsCustom": comparisonsCustom[] {
+          text,
+          language,
+          icon
         }
       }
     }

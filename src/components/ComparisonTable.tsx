@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Logo from 'public/assets/voicestack-logo-black.png'
 import LogoSm from 'public/assets/voicestack-logo-sm.svg'
 import React, { useState } from 'react'
+import { getLegendIcon } from '~/schemas/Comparison/LegendIcons'
 
 import {
   Table,
@@ -99,15 +100,28 @@ function RowHeading({ heading, description, link }) {
 
 function ComparisonRichIcon({ comparisonValue, showBoth = false }) {
   const { icon, text } = comparisonValue
+  
+  // Check if icon is a string (from comparisonsCustom) or an object with url (from comparisons)
+  const isStringIcon = typeof icon === 'string'
+  const legendIcon = isStringIcon ? getLegendIcon(icon) : null
+  
   return (
     <div className="flex items-center justify-center gap-2 py-4">
-      <Image
-        className="w-5 h-5 object-contain"
-        src={icon.url}
-        alt={`${text} icon`}
-        width={20}
-        height={20}
-      />
+      {isStringIcon && legendIcon ? (
+        <div 
+          className="w-5 h-5 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full"
+          dangerouslySetInnerHTML={{ __html: legendIcon.svg }}
+          title={text}
+        />
+      ) : icon?.url ? (
+        <Image
+          className="w-5 h-5 object-contain"
+          src={icon.url}
+          alt={`${text} icon`}
+          width={20}
+          height={20}
+        />
+      ) : null}
       {showBoth && (
         <span className="text-sm text-gray-500 font-medium text-center leading-tight lg:block hidden">
           {text}
@@ -119,6 +133,9 @@ function ComparisonRichIcon({ comparisonValue, showBoth = false }) {
 
 export default function ComparisonTable({ data, legendData = [], demoLink }: ComparisonTableProps) {
   // Initialize all categories as open by default
+
+  console.log('data comparison table', data);
+  
   const [expandedCategories, setExpandedCategories] = useState<Record<number, boolean>>(() => {
     const initial: Record<number, boolean> = {}
     if (data?.rowCategories) {
@@ -188,17 +205,19 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
         <TableBody className="divide-y divide-gray-100">
           {(data.rowCategories || []).map((category, categoryIndex) => (
             <React.Fragment key={categoryIndex}>
-              <TableRow className="border-t-[1px] border-b-[1px] border-gray-200 ">
-                <TableCell className="sticky left-0 lg:text-base font-medium text-gray-950 text-sm border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={numberOfComparisons + 1}>
-                  <button
-                    onClick={() => toggleCategory(categoryIndex)}
-                    className="flex items-center gap-2 justify-between hover:opacity-80 transition-opacity cursor-pointer w-full text-left py-[18px]"
-                  >
-                    {category.name}
-                    <ChevronIcon isOpen={expandedCategories[categoryIndex]} />
-                  </button>
-                </TableCell>
-              </TableRow>
+              {data.rowCategories && data.rowCategories.length > 1 && (
+                <TableRow className="border-t-[1px] border-b-[1px] border-gray-200 ">
+                  <TableCell className="sticky left-0 lg:text-base font-medium text-gray-950 text-sm border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={numberOfComparisons + 1}>
+                    <button
+                      onClick={() => toggleCategory(categoryIndex)}
+                      className="flex items-center gap-2 justify-between hover:opacity-80 transition-opacity cursor-pointer w-full text-left py-[18px]"
+                    >
+                      {category.name}
+                      <ChevronIcon isOpen={expandedCategories[categoryIndex]} />
+                    </button>
+                  </TableCell>
+                </TableRow>
+              )}
               {expandedCategories[categoryIndex] && category.rows.map((row, rowIndex) => (
                 <TableRow
                   key={rowIndex}
@@ -209,22 +228,25 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
                     description={row.description}
                     link={category.link}
                   />
-                  {row.comparisons.map((comparisonValue, idx) => (
-                    idx < 4 && // limit to 4 comparisons
-                    <TableCell
-                      key={idx}
-                      className={`text-center border-0 ${
-                        idx == 0 
-                          ? 'bg-[#F6F5FD] sticky left-[120px]'
-                          : 'bg-white '
-                      }`}
-                    >
-                      <ComparisonRichIcon 
-                        comparisonValue={comparisonValue} 
-                        showBoth={idx === 0}
-                      />
-                    </TableCell>
-                  ))}
+                
+                  {(() => {
+                    const comparisons = [...(row.comparisons || []), ...(row.comparisonsCustom || [])];
+                    return comparisons.length > 0 && comparisons.slice(0, 4).map((comparisonValue, idx) => (
+                      <TableCell
+                        key={idx}
+                        className={`text-center border-0 ${
+                          idx === 0 
+                            ? 'bg-[#F6F5FD] sticky left-[120px]'
+                            : 'bg-white '
+                        }`}
+                      >
+                        <ComparisonRichIcon 
+                          comparisonValue={comparisonValue} 
+                          showBoth={row.comparisonsCustom ? true : idx === 0}
+                        />
+                      </TableCell>
+                    ));
+                  })()}
                 </TableRow>
               ))}
             </React.Fragment>

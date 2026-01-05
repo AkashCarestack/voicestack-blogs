@@ -1458,6 +1458,11 @@ class Queries {
                               }
                             }
                           }
+                        },
+                        "comparisonsCustom": comparisonsCustom[] {
+                          text,
+                          language,
+                          icon
                         }
                       },
                       link {

@@ -56,14 +56,15 @@ export default function ComparisonSlugPage({
       {comparisonSectionData && (
         <SiteComparisonSection
           data={comparisonSectionData}
-          legendData={pageData?.comparisonLegendData || []}
+          // legendData={pageData?.comparisonLegendData || []}
         />
       )}
 
-      {pageData['stack-card-tab-testimonial']?.componentData?.refData && (
+
+      {pageData['stack-card-tab-testimonial']?.componentData.refData && (
         <StackCardTestimonial
           data={
-            pageData['stack-card-tab-testimonial']?.componentData?.refData?.tabsListingComponent
+            pageData['stack-card-tab-testimonial']?.componentData.refData.tabsListingComponent
           }
         />
       )}
