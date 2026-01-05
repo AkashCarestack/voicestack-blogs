@@ -44,7 +44,7 @@ export default function IndependentPractices({
 
   return pageData?.slug?.includes('v2') ? (
     <>
-      {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
+      <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       <FeatureHero data={pageData['single-locations-hero']} type="feature" />
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
@@ -70,22 +70,16 @@ export default function IndependentPractices({
           theme="dark"
         />
       )}
-      <CategoryFeatureTabsSection
+       <CategoryFeatureTabsSection
         features={
           pageData['manage-every-calls']?.componentData?.refData
             ?.tabsListingComponent
         }
         variant="scrollcarousel"
         sectionHeading={
-          pageData['manage-every-calls']?.componentData?.refData?.sectionHeading
+          pageData['manage-every-calls']?.componentData?.refData?.tabsListingComponent
         }
       />
-      {pageData['card-with-image3'] && (
-        <GroupedCardsGridSection
-          data={pageData['card-with-image3']?.genericListingComponent}
-        />
-      )}
-
     </>
   ) : (
     <>
