@@ -8,7 +8,7 @@ import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeader
 import Image from 'next/image'
 import { urlForImage } from '~/lib/sanity.image'
 
-export default function SwitchableTabsV2({ data }: { data: any }) {
+export default function SwitchableTabsV2({ data, showTabs = true }: { data: any, showTabs?: boolean }) {
   // Get initial tab data - check both tabs array and customListingItems
   const initialTab = data?.tabs?.[0]
   const initialCustomItem = data?.customListingItems?.[0]
@@ -247,9 +247,9 @@ export default function SwitchableTabsV2({ data }: { data: any }) {
   return (
     <Container type="V2" border="t-0">
       <SectionHeaderV2  heading={data?.heading} description={data?.description} />
-      {hasCustomListingItems && (
+      {hasCustomListingItems && showTabs && (
         <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
-          <SwitchableTabs
+           <SwitchableTabs
             data={data.customListingItems.map(
               (category: any, index: number) => ({
                 id: category?._key || String(index),
@@ -270,7 +270,7 @@ export default function SwitchableTabsV2({ data }: { data: any }) {
       )}
       <div>
         {hasImage && imageUrl && (
-          <div className="w-full mb-8">
+          <div className="w-full">
             <Image
               src={imageUrl}
               alt={selectedCustomItem?.heading || selectedTab?.tabHeading || data?.heading || 'Tab image'}
