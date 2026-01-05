@@ -14,7 +14,7 @@ import TabCardsListing from '~/components/revamp/components/common/TabListing/ta
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
-import SwitchableTabsV2 from '~/v2/components/SwitchableTabsV2'
+import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'

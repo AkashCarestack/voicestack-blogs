@@ -14,7 +14,7 @@ import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
-import SwitchableTabsV2 from '~/v2/components/SwitchableTabsV2'
+import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
