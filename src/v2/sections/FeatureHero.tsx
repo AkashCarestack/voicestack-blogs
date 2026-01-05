@@ -14,8 +14,12 @@ export default function FeatureHero({ data ,type}: { data: any, type?: string })
   const description = value?.heroDescription || data?.heroDescription
   const title = value?.heroStrip || data?.heroStrip?.toUpperCase()
   const image = urlForImage(value?.heroImage) || data?.heroImage?.url
+  const videoUrl = value?.video && value?.video?.length > 0 ? value?.video[0]?.uploadVideos[0]?.url : null
+  const movFileUrl = value?.video && value?.video?.length > 0 ? value?.video[0]?.uploadVideos[0]?.url : null
+  const webpFileUrl = value?.video && value?.video?.length > 0 ? value?.video[0]?.uploadVideos[0]?.url : null
+  const mp4FileUrl = value?.video && value?.video?.length > 0 ? value?.video[0]?.uploadVideos[0]?.url : null
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden" id="FeatureHero">
       <Container type="V2" className="md:py-24 py-16 overflow-hidden justify-center flex">
         <div className='flex md:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10'>
           <div className="flex flex-col gap-3 relative z-10 flex-1">
@@ -47,8 +51,43 @@ export default function FeatureHero({ data ,type}: { data: any, type?: string })
             {/*  */}
           </div>
           {image && <div className='flex-1  w-full h-full max-w-[481px] max-h-[444px]'>
-            <Image className='md:w-[481px] md:h-[444px] w-full h-full object-cover' src={image} alt={heading} width={1000} height={1000} />
-          </div>}
+              <Image className='md:w-[481px] md:h-[444px] w-full h-full object-cover' src={image} alt={heading} width={1000} height={1000} />
+            </div>}
+            { videoUrl && <div className='flex-1  w-full h-full max-w-[481px] max-h-[444px] bg-transparent'>
+              <video 
+                className='md:w-[481px] md:h-[444px] w-full h-full object-cover' 
+                src={videoUrl}  
+                width={1000} 
+                height={1000}
+                autoPlay
+                loop
+                muted
+                playsInline
+              >
+                {movFileUrl && (
+                <source
+                  key={movFileUrl}
+                  src={movFileUrl}
+                  type='video/mp4; codecs="hvc1"'
+                />
+              )}
+              {webpFileUrl && (
+                <source
+                  key={webpFileUrl}
+                  src={webpFileUrl}
+                  type="video/webm"
+                />
+              )}
+              {mp4FileUrl && (
+                <source
+                  key={mp4FileUrl}
+                  src={mp4FileUrl}
+                  type="video/mp4"
+                />
+              )}
+              Your browser does not support HTML5 video.
+              </video>
+            </div>}
         </div>
         <div className="hidden z-0 md:block absolute right-0 bottom-0 w-[1000px] h-[738px] pointer-events-none">
           <Image
