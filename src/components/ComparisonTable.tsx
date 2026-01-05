@@ -207,7 +207,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink, varia
                     description={row.description}
                     link={category.link}
                   />
-                  {(row.comparisons && Array.isArray(row.comparisons) ? row.comparisons : []).map((comparisonValue, idx) => (
+                  {row?.comparisons?.map((comparisonValue, idx) => (
                     <TableCell
                       key={idx}
                       className={`text-center border-0 ${
