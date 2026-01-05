@@ -109,7 +109,7 @@ export default function Dental({ pageData, faq, features, articles }: DentalProp
           theme="dark"
         />
       )}
-
+{/* 
       {transformedArticles && transformedArticles.length > 0 && (
         <GroupedCardsGridSection
           data={{
@@ -119,7 +119,7 @@ export default function Dental({ pageData, faq, features, articles }: DentalProp
           }}
           theme="dark"
         />
-      )}
+      )} */}
 
       {faq && <FaqSection faqItems={faq} />}
     </>
