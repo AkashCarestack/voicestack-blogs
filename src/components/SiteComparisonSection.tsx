@@ -15,7 +15,7 @@ interface SiteComparisonSectionProps {
   variant?: 'V1' | 'V2'
 }
 
-function SiteComparisonSection({ data, legendData, refer=null, variant }: SiteComparisonSectionProps) {
+function SiteComparisonSection({ data, legendData=null, refer=null, variant }: SiteComparisonSectionProps) {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);

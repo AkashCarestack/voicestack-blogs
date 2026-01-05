@@ -17,7 +17,7 @@ import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import LogoListingSection from '~/components/LogoListingSection'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+// import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -42,23 +42,28 @@ export default function ComparisonPage({
   pageData,
   region,
   faq,
-  comparisonTableData,
+  // comparisonTableData,
   comparisonLegendData,
 }) {
-  const comparisonTableTitle = pageData['comparison-table']?.componentData
+
+  const comparisonTableComponent = pageData['comparison-table']?.componentData
+  const comparisonTableData = comparisonTableComponent?.comparisonTable
+  
+  // const comparisonTableTitle = pageData['comparison-table']?.componentData
   const comparisonSectionData = {
-    strip: comparisonTableTitle?.heading,
-    header: comparisonTableTitle?.description,
+    strip: comparisonTableComponent?.title,
+    header: comparisonTableComponent?.description,
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
 
   // Extract integration data from pageData instead of separate query
+// console.log('pageData cchild', pageData);
 
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <HeroWrapper>
+      {/* <HeroWrapper> */}
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         {pageData['comparison-hero']?.componentData && (
           <HeroSection
@@ -67,7 +72,7 @@ export default function ComparisonPage({
             showFullDescription={true}
           />
         )}
-      </HeroWrapper>
+      {/* </HeroWrapper> */}
 
       {comparisonTableData && (
         <SiteComparisonSection
@@ -96,7 +101,10 @@ export default function ComparisonPage({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-      <IntegrationsGrid data={pageData['integrations-listing']?.componentData}/>
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsGrid data={pageData['integrations-listing']?.componentData}/>
+      )}
+
       <StatisticsSection/>
       {pageData['logo-listing']?.componentData && (
           <LogoListingSection
@@ -132,8 +140,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
 
     // Fetch comparison table data
-    const client = getClient()
-    const comparisonTableData = await getComparisonTableData(client, region)
+    // const client = getClient()
+    // const comparisonTableData = await getComparisonTableData(client, region)
     const comparisonLegendData = (await getAllComparisonValues()) || []
 
     // Ensure FAQ data is serializable
@@ -144,7 +152,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData,
         region,
-        comparisonTableData,
+        // comparisonTableData,
         comparisonLegendData,
         faq: faqData,
       },

@@ -192,7 +192,7 @@ const HeroSection = ({
               </>
             ): data?.heroStrip ?(
               <h1 className="text-4xl lg:text-5xl font-bold !leading-[120%] tracking-[-0.8px] font-manrope">
-                {data.heroStrip}
+                {data?.heroStrip}
               </h1>
             ): null}
 

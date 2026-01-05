@@ -134,7 +134,8 @@ export default defineConfig({
         'homePage',
         'company',
         'partner',
-        'featurePage'
+        'featurePage',
+        'comparison'
       ],
     }),
 

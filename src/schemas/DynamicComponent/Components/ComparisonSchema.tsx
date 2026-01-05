@@ -86,6 +86,24 @@ const ComparisonSchema = defineType({
       type: 'text',
     }),
     defineField({
+      name: 'comparisonTable',
+      title: 'Comparison Table Reference',
+      type: 'reference',
+      to: [{ type: 'comparisonTable' }],
+      description: 'Reference to a comparison table from Comparisons & Analysis (only shows tables matching the current document language)',
+      options: {
+        filter: ({ document }: any) => {
+          // Get the current document's language
+          const currentLanguage = document?.language || 'en'
+          
+          return {
+            filter: 'language == $language',
+            params: { language: currentLanguage }
+          }
+        }
+      },
+    }),
+    defineField({
       name: 'items',
       title: 'Comparison Items',
       type: 'array',

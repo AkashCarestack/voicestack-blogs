@@ -1,4 +1,7 @@
 import { defineField, defineType } from 'sanity'
+import { allowDuplicateSlugs } from '~/lib/sanity'
+import showCountryFlag from '~/components/utils/common'
+import { getLegendIcon, getLegendIconList } from './LegendIcons'
 
 export default defineType({
   name: 'comparisonTable',
@@ -9,6 +12,15 @@ export default defineType({
       name: 'title',
       title: 'Title',
       type: 'string',
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Comparison Table Slug',
+      type: 'slug',
+      options: {
+        source: 'title',
+        isUnique: allowDuplicateSlugs,
+      },
     }),
     defineField({
       name: 'columns',
@@ -102,6 +114,54 @@ export default defineType({
                         }
                       ],
                     }),
+                    defineField({
+                      name: 'comparisonsCustom',
+                      title: 'Comparisons Custom',
+                      type: 'array',
+                      of: [
+                        defineField({
+                          name: 'comparisonCustom',
+                          type: 'object',
+                          fields: [
+                            defineField({
+                              name: 'icon',
+                              title: 'Icon',
+                              type: 'string',
+                              options: {
+                                list: getLegendIconList(),
+                              },
+                              validation: (Rule) => Rule.required(),
+                            }),
+                            defineField({
+                              name: 'text',
+                              title: 'Text',
+                              type: 'string',
+                              // validation: (Rule) => Rule.required(),
+                            }),
+                            
+                            // defineField({
+                            //   name: 'language',
+                            //   type: 'string',
+                            //   readOnly: true,
+                            //   hidden: true,
+                            // }),
+                          ],
+                          preview: {
+                            select: {
+                              title: 'text',
+                              icon: 'icon',
+                            },
+                            prepare(selection) {
+                              return {
+                                title: selection?.title,
+                                media: <div dangerouslySetInnerHTML={{ __html: getLegendIcon(selection?.icon)?.svg }} />,
+                                // subtitle: selection?.icon,
+                              };
+                            },
+                          },
+                        } as any),
+                      ],
+                    }),
                    
                   ],
                 } as any),
@@ -134,4 +194,17 @@ export default defineType({
       hidden: true,
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+      language: 'language'
+    },
+    prepare(selection) {
+      return {
+        title: ` ${selection?.title || 'Comparison Table'}`,
+        media: <img src={showCountryFlag(selection?.language)}/>
+      };
+    },
+  },
 })
+
