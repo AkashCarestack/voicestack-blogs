@@ -10,7 +10,7 @@ import SectionHeaderV2 from './revamp/components/common/sectionHeaderV2'
 
 interface SiteComparisonSectionProps {
   data: any
-  legendData: any
+  legendData?: any
   refer?: any
   variant?: 'V1' | 'V2'
 }
