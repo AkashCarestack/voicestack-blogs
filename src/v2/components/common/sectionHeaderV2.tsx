@@ -1,5 +1,5 @@
 import React from 'react'
-import { SectionHeaderPropsV2 } from './interface/common'
+import { SectionHeaderPropsV2 } from '../../../components/revamp/components/common/interface/common'
 import SectionH2 from '~/components/typography/revamp/SectionH2'
 import Button from '~/components/common/Button'
 
@@ -15,7 +15,7 @@ export default function SectionHeaderV2({ showFullLength = false, ...data }: Sec
             isWhite={data.isWhite}
             headingSm={data.headingSm}
           />
-          <p className={`lg:w-[712px] lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue ${data.isWhite ? 'text-white' : 'text-gray-500'}`} dangerouslySetInnerHTML={{ __html: data.description }}></p>
+          <p className={`lg:max-w-[712px] lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue ${data.isWhite ? 'text-white' : 'text-gray-500'}`} dangerouslySetInnerHTML={{ __html: data.description }}></p>
 
           {data.ctaListItems && data.ctaListItems.length > 0 && (
             <div className='flex flex-col md:flex-row justify-center gap-4 items-center mt-8'>

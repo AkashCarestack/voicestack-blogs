@@ -6,7 +6,7 @@ import VideoPlayers from '~/components/common/VideoPlayer';
 import Button from '~/components/common/Button';
 import Section from '~/components/structure/Section';
 import Container from '~/components/structure/Container';
-import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2';
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2';
 import SwitchableTabs from '~/components/revamp/components/common/switchableTabs';
 import { IdataProps } from '~/components/revamp/components/common/interface/common';
 import { urlForImage } from '~/lib/sanity.image';

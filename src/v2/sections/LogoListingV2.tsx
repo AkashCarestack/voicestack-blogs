@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React, { useMemo } from 'react'
-import Container from './structure/Container'
-import Section from './structure/Section'
+import Container from '../../components/structure/Container'
+import Section from '../../components/structure/Section'
 // import OverlappingStars from '../assets/overlapping-stars.png'
 
 interface LogoListingV2Props {

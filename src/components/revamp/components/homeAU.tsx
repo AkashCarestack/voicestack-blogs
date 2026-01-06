@@ -1,13 +1,13 @@
 import React from 'react'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
-import StatisticsSection from './StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import HeroAU from './common/HeroSection/HeroAu'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import ContentVideoTabsSection from '~/v2/sections/ContentVideoTabsSection'
 import CardsGridSection from '~/v2/sections/CardsGridSection'
 // import AboutCoachingPartners from './common/AboutCoachingPartners'
 // import IntegrationsShowcaseSection from './common/IntegrationsShowcaseSection'
-import LogoListingV2 from '~/components/LogoListingV2'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import IntegrationCloudSection from '~/v2/sections/IntegrationCloudSection'
 import FooterBottom from './common/FooterBottom'
 import AboutCoachingPartners from '~/v2/sections/AboutCoachingPartnersSection'
@@ -71,7 +71,7 @@ HomeAU({
         />
       )}
 
-      <StatisticsSection variant="V2" />
+      <StatisticsSection />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
         <VerticalTestimonialListing

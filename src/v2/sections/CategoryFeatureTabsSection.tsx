@@ -6,7 +6,7 @@ import { cn } from "~/lib/utils";
 import Section from '~/components/structure/Section';
 import Container from '~/components/structure/Container';
 import SectionHeader from '~/components/revamp/components/common/sectionHeader';
-import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2';
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2';
 import SwitchableTabs from '~/components/revamp/components/common/switchableTabs';
 import { IdataProps } from '~/components/revamp/components/common/interface/common';
 import { GridPattern } from '~/components/ui/grid-pattern';
