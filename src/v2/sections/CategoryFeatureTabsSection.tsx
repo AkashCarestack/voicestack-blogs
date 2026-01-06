@@ -53,7 +53,6 @@ interface CategoryFeatureTabsSectionProps {
   sectionHeading?: any;
   className?: string;
   variant?: 'default' | 'carousel' | 'scrollcarousel' | 'singlecard';
-  singleCard?: boolean; // Single card layout without tabs
 }
 
 export default function CategoryFeatureTabsSection({
@@ -61,7 +60,6 @@ export default function CategoryFeatureTabsSection({
   sectionHeading,
   className,
   variant = 'default',
-  singleCard = false,
 }: CategoryFeatureTabsSectionProps) {
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isScrolling, setIsScrolling] = useState(false);
@@ -348,10 +346,12 @@ export default function CategoryFeatureTabsSection({
   }
 
   // Single Card Layout - Based on Figma design
-  // Only render if both singleCard prop is true AND variant is 'singlecard'
-  if (singleCard && variant === 'singlecard' && allCategories.length > 0) {
+  // Render if variant is 'singlecard'
+  if (variant === 'singlecard' && allCategories.length > 0) {
     const firstCategory = allCategories[0];
     const pillItems = firstCategory.features || [];
+    console.log(firstCategory,'firstCategory');
+    
 
     return (
       <Section
@@ -364,9 +364,9 @@ export default function CategoryFeatureTabsSection({
             <div className="bg-white flex flex-col gap-6 items-start justify-center p-12 min-h-[202px]">
               <div className="flex flex-col gap-6 items-start w-full">
                 {/* Main Heading */}
-                {firstCategory.subheading && (
+                {firstCategory.name && (
                   <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
-                    <p className="leading-[48px] whitespace-pre-wrap">{firstCategory.subheading}</p>
+                    <p className="leading-[48px] whitespace-pre-wrap">{firstCategory.name}</p>
                   </div>
                 )}
                 {/* Description */}
@@ -381,24 +381,15 @@ export default function CategoryFeatureTabsSection({
               {pillItems.length > 0 && (
                 <div className="flex flex-wrap gap-3 items-start w-full">
                   {pillItems.map((item: any, index: number) => {
-                    const featureSlug = item.basicInfo?.slug?.current || item.slug?.current;
-                    const href = featureSlug ? `/dental-phones/features/${featureSlug}` : '#';
-                    const defaultPillIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5.83398 5.8335H14.1673V14.1668" stroke="#030712" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.83398 14.1668L14.1673 5.8335" stroke="#030712" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-                    
                     return (
-                      <Link
+                      <div
                         key={item._id || index}
-                        href={href}
-                        className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white hover:border-[rgba(255,255,255,0.60)] hover:bg-[#E5E7EB] transition-all duration-200 shadow-sm cursor-pointer"
+                        className="flex items-center border border-gray-200 px-4 py-2 rounded-[500px] bg-white shadow-sm"
                       >
                         <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
                           {item.basicInfo?.title || item.title || 'Untitled Feature'}
                         </span>
-                        <div
-                          className="flex items-center justify-center w-5 h-5 flex-shrink-0 [&_svg]:w-5 [&_svg]:h-5"
-                          dangerouslySetInnerHTML={{ __html: item.basicInfo?.dynamicSvg || defaultPillIcon }}
-                        />
-                      </Link>
+                      </div>
                     );
                   })}
                 </div>
@@ -406,7 +397,7 @@ export default function CategoryFeatureTabsSection({
             </div>
 
             {/* Right: Category Image */}
-            <div className="bg-gray-50 flex flex-col items-center justify-center min-h-[500px] px-4 py-4 overflow-hidden relative">
+            <div className="bg-gray-50 flex flex-col items-center justify-center  overflow-hidden relative">
               {/* Grid Pattern Background */}
               <div className="absolute inset-0 z-0">
                 <GridPattern
@@ -579,7 +570,7 @@ export default function CategoryFeatureTabsSection({
                   </div>
 
                   {/* Right Column: Category Image */}
-                  <div className="bg-gray-50 flex flex-col items-center justify-center h-[400px] lg:h-auto px-4 py-4 overflow-hidden relative">
+                  <div className="bg-gray-50 flex flex-col items-center justify-center h-[400px] lg:h-auto  overflow-hidden relative">
                     {/* Grid Pattern Background */}
                     <div className="absolute inset-0 z-0">
                       <GridPattern
@@ -593,7 +584,7 @@ export default function CategoryFeatureTabsSection({
                       />
                     </div>
                     {activeCategoryData?.mainImage && (
-                      <div className="w-full h-full relative z-10 flex items-center justify-center">
+                      <div className="w-full h-full relative z-10 flex items-end justify-center">
                         <ImageLoader
                           image={activeCategoryData.mainImage}
                           alt={`${activeCategoryData.name} feature illustration`}
@@ -677,7 +668,7 @@ export default function CategoryFeatureTabsSection({
                   {/* Hero Section - Based on Figma Design */}
                   <div className={cn("grid lg:grid-cols-2 grid-cols-1 gap-px bg-gray-200 w-full", index === 0 && "border-t")} style={index === 0 ? { borderTopColor: 'var(--color-gray-200, #E5E7EB)' } : {}}>
                     {/* Left: Content Section */}
-                    <div className="bg-white flex flex-col gap-16 items-start justify-center md:p-12 p-4 min-h-[400px] lg:min-h-[572px]">
+                    <div className="bg-white flex flex-col gap-16 items-start justify-center md:p-12 p-4 h-full">
                       <div className="flex flex-col gap-8 items-start w-full">
                         <div className="flex flex-col gap-1.5 items-start tracking-normal w-full">
                           <div className="flex flex-col gap-1.5 items-start leading-0 w-full">
@@ -707,7 +698,7 @@ export default function CategoryFeatureTabsSection({
                     </div>
 
                     {/* Right: Category Image */}
-                    <div className="bg-gray-50 flex flex-col items-center justify-end h-[400px] lg:h-[572px] px-4 md:px-px py-4 md:py-0 overflow-hidden relative">
+                    <div className="bg-gray-50 flex flex-col items-center justify-end  px-4 md:px-px py-4 md:py-0 overflow-hidden relative">
                       {/* Grid Pattern Background */}
                       <div className="absolute inset-0 z-0">
                         <GridPattern
@@ -730,7 +721,7 @@ export default function CategoryFeatureTabsSection({
                               width={400}
                               height={400}
                               fixed={false}
-                              className="rounded-lg object-contain w-full max-w-[300px] md:max-w-[400px] h-auto max-h-[350px] lg:max-h-[520px]"
+                              className="rounded-lg object-contain w-full h-full"
                             />
                           </figure>
                         </div>

@@ -201,7 +201,7 @@ const TestimonialSlider = ({
           return (
             <div
               key={i}
-              className={`group  h-[550px] `}
+              className={`group h-[550px] px-[0.5px]`}
             >
               <div
                 className={`h-[550px] flex flex-col justify-center cursor-pointer w-full aspect-[9/16] overflow-hidden relative`}

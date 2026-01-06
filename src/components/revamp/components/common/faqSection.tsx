@@ -199,7 +199,7 @@ export default function FaqSection({ faqItems }: any) {
       </Head>
     )}
     <Section className="py-sm md:py-md lg:py-lg">
-    <Container className='py-16 flex-col gap-16'>
+    <Container className='flex-col gap-16'>
       <div className='flex flex-col md:gap-[45px] gap-6 font-manrope font-bold leading-[120%]'>
       <div className='flex lg:flex-row flex-col gap-8 md:justify-between justify-start items-center md:items-start'>
        <div className='flex-1 lg:max-w-[380px]'> <SectionH2 content='Frequently Asked Questions' /> </div>

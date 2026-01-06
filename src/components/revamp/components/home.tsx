@@ -1,14 +1,24 @@
 import React from 'react'
-import LogoSliderSection from '~/components/LogoSliderSection'
-import HeroSection from './common/HeroSection/heroSection'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
-import CardListing from './cardListing'
-import StatisticsSection from './StatisticsSection'
-import LogoListingSection from '~/components/LogoListingSection'
-import FaqSection from '~/components/revamp/components/common/faqSection'
+
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
+import LogoListingSection from '~/components/LogoListingSection'
+import LogoListingV2 from '~/components/LogoListingV2'
+import LogoSliderSection from '~/components/LogoSliderSection'
+import FaqSection from '~/components/revamp/components/common/faqSection'
+import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
+import AboutCoachingPartners from '~/v2/sections/AboutCoachingPartnersSection'
+import CardsGridSection from '~/v2/sections/CardsGridSection'
+import ContentVideoTabsSection from '~/v2/sections/ContentVideoTabsSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
+import CardListing from './cardListing'
+import HeroAU from './common/HeroSection/HeroAu'
+import HeroSection from './common/HeroSection/heroSection'
+import StatisticsSection from './StatisticsSection'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 
 export default function Home({
   data,
@@ -23,7 +33,70 @@ export default function Home({
   comparisonTableData: any
   comparisonSectionData: any
 }) {
-  return (
+  const heroSectionData = data['hero-section']?.componentData
+  const logosListingData =
+    data['logos-listing']?.componentData.blocksListingData
+
+  return data?.slug?.includes('v2') ? (
+    <div className="">
+      <HeroAU
+        image={heroSectionData?.heroImage}
+        heading={heroSectionData?.heroheading}
+        heroStrip={heroSectionData?.heroStrip}
+        description={heroSectionData?.heroDescription}
+        buttons={heroSectionData?.bookBtnContent}
+      />
+      {/* {featuresData && <CategoryFeatureTabs features={featuresData || []} />} */}
+
+      {data['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={data['logos-listing']?.componentData.blocksListingData}
+        />
+      )}
+      {data['voicestack-solution']?.componentData && (
+        <ContentVideoTabsSection data={data['voicestack-solution']?.componentData} />
+      )}
+
+      {data['power-of-ai'] && (
+        <GroupedCardsGridSection
+          data={data['power-of-ai']?.componentData}
+          theme="dark"
+          aiSection={true}
+        />
+      )}
+      {data['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={data['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
+      <CategoryFeatureTabsSection
+        features={featuresData}
+        variant="carousel"
+        sectionHeading={
+          data['category-feature-tabs']?.componentData?.sectionHeading
+        }
+      />
+      {data['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
+        <VerticalTestimonialListingv2
+          data={
+            data['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
+        />
+      )}
+      <StatisticsSection variant="V2" />
+      {comparisonLegendData && (
+        <SiteComparisonSection
+          variant="V2"
+          data={comparisonSectionData}
+          legendData={comparisonLegendData}
+        />
+      )}
+      {data.faqData && <FaqSection faqItems={data.faqData[0]} />}
+    </div>
+  ) : (
     <div className="">
       {data && (
         <div className="px-4 xl:px-12 pt-2">
@@ -34,10 +107,7 @@ export default function Home({
                 ' linear-gradient(270deg, #F0EFFA 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
             }}
           >
-            <HeroSection
-              data={data['home-hero']?.componentData}
-              page="home"
-            />
+            <HeroSection data={data['home-hero']?.componentData} page="home" />
           </div>
         </div>
       )}
