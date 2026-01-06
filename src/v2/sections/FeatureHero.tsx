@@ -157,21 +157,22 @@ export default function FeatureHero({ data, type }: { data: any, type?: string }
 
             {/*  */}
           </div>
-
-          <div id="demo" className="scroll-m-14 min-h-[610px] scroll-mt-28 sticky top-20 p-8 rounded-[12px] md:rounded-[24px] bg-white w-full max-w-[537px] md:p-12">
-            <h3 className="md:text-3xl text-2xl font-semibold mb-4 font-geist text-[#030712]">
-              Book a Demo
-            </h3>
-            <div className="mt-4 vs-button">
-              <HubspotGenericForm
-                formId={data?.hubspotFormId || 'f2fbfea3-a1e5-4e17-a506-a9d341a45458'}
-                // formId={'f2fbfea3-a1e5-4e17-a506-a9d341a45458'}
-                portalId="4832409"
-                onFormSubmit={() => {}}
-                onFormReady={() => {}}
-              />
+          {data.hubspotFormId && (
+            <div id="demo" className="scroll-m-14 min-h-[610px] scroll-mt-28 sticky top-20 p-8 rounded-[12px] md:rounded-[24px] bg-white w-full max-w-[537px] md:p-12">
+              <h3 className="md:text-3xl text-2xl font-semibold mb-4 font-geist text-[#030712]">
+                Book a Demo
+              </h3>
+              <div className="mt-4 vs-button">
+                <HubspotGenericForm
+                  formId={data?.hubspotFormId || 'f2fbfea3-a1e5-4e17-a506-a9d341a45458'}
+                  // formId={'f2fbfea3-a1e5-4e17-a506-a9d341a45458'}
+                  portalId="4832409"
+                  onFormSubmit={() => {}}
+                  onFormReady={() => {}}
+                />
+              </div>
             </div>
-          </div>
+          )}
           {image && (
             <div className='flex-1  w-full h-full max-w-[481px] max-h-[444px]'>
               <Image className='md:w-[481px] md:h-[444px] w-full h-full object-cover' src={image} alt={heading} width={1000} height={1000} />
