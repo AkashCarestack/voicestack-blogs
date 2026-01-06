@@ -1,0 +1,131 @@
+import groq from 'groq'
+import { GetStaticPaths, GetStaticProps } from 'next'
+import React from 'react'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import Queries from '~/components/revamp/queries'
+import { getClient } from '~/lib/sanity.client'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import SimpleHead from '~/components/common/SimpleHead'
+import LpHeader from '~/components/common/LpHeader'
+import FeatureHero from '~/v2/sections/FeatureHero'
+
+interface PartnerSlugPageProps {
+  pageData: any
+  region: string
+  slug: string
+}
+
+export default function PartnerSlugPage({
+  pageData,
+  region,
+  slug,
+}: PartnerSlugPageProps) {
+ 
+  const heroData = pageData['partner-hero']?.componentData;
+
+  return (
+    <>
+      <SimpleHead data={pageData?.seo} />
+      <LpHeader/>
+      <HeroWrapper>
+        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+        {heroData && (
+          <>
+            {/* <HeroSection
+              page=""
+              data={heroData}
+              showFullDescription={true}
+            /> */}
+            <FeatureHero
+              data={heroData}
+              type="feature"
+            />
+          </>
+        )}
+      </HeroWrapper>
+    </>
+  )
+}
+
+export const getStaticPaths: GetStaticPaths = async ({
+  locales,
+  defaultLocale,
+}) => {
+  try {
+    const client = getClient()
+    
+    // Get all unique partner slugs (without drafts)
+    const partnersQuery = groq`
+      *[_type == "partner" && !(_id in path("drafts.**"))] {
+        "slug": basicInfo.slug.current
+      }
+    `
+    
+    const partners = await client.fetch(partnersQuery)
+    
+    // Get unique slugs (in case there are duplicates across languages)
+    const uniqueSlugs = [
+      ...new Set(partners.map((partner: any) => partner.slug).filter(Boolean)),
+    ]
+    
+    // Format paths for Next.js
+    const paths = uniqueSlugs.map((slug: string) => ({
+      params: { slug },
+    }))
+    
+    return {
+      paths,
+      fallback: 'blocking',
+    }
+  } catch (error) {
+    console.error('Error fetching partner paths:', error)
+    return {
+      paths: [],
+      fallback: 'blocking',
+    }
+  }
+}
+
+export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
+  const region = locale || 'en'
+  const slug = params?.slug as string
+
+  if (!slug) {
+    return {
+      notFound: true,
+    }
+  }
+  
+  try {
+    const queries = new Queries('partner', region)
+    const pageData = await queries.getPageData('partner', slug)
+
+    // Check if pageData has any content sections (excluding metadata)
+    const metadataKeys = ['faqData', 'faqReferenced', 'title', 'description', 'breadCrumb', 'seo', 'icon']
+    const hasContent = Object.keys(pageData).some(key => 
+      !metadataKeys.includes(key) && pageData[key] !== null && pageData[key] !== undefined
+    )
+
+    if (!pageData || !hasContent) {
+      console.error(`pageData is empty (all null) for ${slug}`)
+      return {
+        notFound: true,
+      }
+    }
+
+    return {
+      props: {
+        pageData,
+        region: region,
+        slug: slug,
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching Partner page:', error)
+    return {
+      notFound: true,
+    }
+  }
+}
+

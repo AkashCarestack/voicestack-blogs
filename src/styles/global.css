@@ -264,6 +264,9 @@ html {
 #hubspotForm .form-columns-1, #hubspotForm .form-columns-2 {
   @apply w-full;
 }
+#hubspotForm .form-columns-2 {
+  @apply flex;
+}
 
 
 #hubspotForm .actions input[type='submit'] {
