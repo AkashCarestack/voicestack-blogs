@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { PortableText } from '@portabletext/react'
 import { Minus, Plus, ChevronDown } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
 import Head from 'next/head'
@@ -164,18 +165,73 @@ export default function FaqSection({ faqItems }: any) {
         <path
           d="M5.83325 5.83301H14.1666V14.1663"
           stroke="black"
-          stroke-width="1.25"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.25"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
         <path
           d="M5.83325 14.1663L14.1666 5.83301"
           stroke="black"
-          stroke-width="1.25"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="1.25"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         />
       </svg>
+    )
+  }
+
+  const CategoryIndicatorIcon = ({ isActive, isHovered }: { isActive: boolean; isHovered: boolean }) => {
+    const shouldShow = isActive || isHovered
+
+    return (
+      <motion.span 
+        className="w-5 h-5 flex items-center justify-center flex-shrink-0"
+        initial={false}
+        animate={{ 
+          opacity: shouldShow ? 1 : 0,
+          scale: shouldShow ? 1 : 0.8,
+          x: shouldShow ? 0 : -4
+        }}
+        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+      >
+        <IndicatorIcon />
+      </motion.span>
+    )
+  }
+
+  const CategoryButton = ({ category, isActive, onClick }: { category: any; isActive: boolean; onClick: () => void }) => {
+    const [isHovered, setIsHovered] = useState(false)
+
+    return (
+      <motion.button 
+        onClick={onClick} 
+        onHoverStart={() => setIsHovered(true)}
+        onHoverEnd={() => setIsHovered(false)}
+        whileHover={{ x: 4 }}
+        transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+        className={`font-geist text-base leading-[150%] border-b border-b-gray-200 tracking-normal p-3 text-left ${
+          isActive
+            ? 'text-gray-950 font-medium' 
+            : 'text-gray-500 font-normal'
+        }`}
+      >
+       <div className='flex flex-row gap-2 items-center'>
+         <CategoryIndicatorIcon isActive={isActive} isHovered={isHovered} />
+         <span className='relative inline-block'>
+           <span className='font-medium invisible' aria-hidden="true" style={{ display: 'inline-block' }}>{category.categoryName}</span>
+           <motion.span 
+             className='absolute top-0 left-0'
+             animate={{
+               fontWeight: isActive || isHovered ? 500 : 400,
+               color: isActive || isHovered ? '#030712' : '#6B7280'
+             }}
+             transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+           >
+             {category.categoryName}
+           </motion.span>
+         </span>
+       </div>
+      </motion.button>
     )
   }
 
@@ -230,30 +286,43 @@ export default function FaqSection({ faqItems }: any) {
               className="w-full flex items-center justify-between bg-white border border-gray-200 rounded-[12px] px-4 py-3 text-left font-medium leading-[155%] md:text-lg text-sm text-gray-950"
             >
               <span>{activeCategoryData?.categoryName || 'Select Category'}</span>
-              <ChevronDown className={`w-5 h-5 text-gray-600 ${
-                isDropdownOpen ? 'rotate-180' : ''
-              }`} />
+              <motion.div
+                animate={{ rotate: isDropdownOpen ? 180 : 0 }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <ChevronDown className="w-5 h-5 text-gray-600" />
+              </motion.div>
             </button>
-            {isDropdownOpen && (
-              <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-[12px] shadow-lg z-10 max-h-60 overflow-y-auto">
-                {categories.map((category: any) => (
-                  <button
-                    key={category._key}
-                    onClick={() => {
-                      showActiveCategory(category._key)
-                      setIsDropdownOpen(false)
-                    }}
-                    className={`w-full text-left px-3 py-2 font-medium leading-[155%] md:text-lg text-sm first:rounded-t-[12px] last:rounded-b-[12px] hover:bg-gray-50 ${
-                      activeCategory === category._key 
-                        ? 'bg-gray-100 text-gray-950' 
-                        : 'text-gray-500'
-                    }`}
-                  >
-                     {category.categoryName}
-                  </button>
-                ))}
-              </div>
-            )}
+            <AnimatePresence>
+              {isDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                  className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-[12px] shadow-lg z-10 max-h-60 overflow-y-auto"
+                >
+                  {categories.map((category: any) => (
+                    <motion.button
+                      key={category._key}
+                      onClick={() => {
+                        showActiveCategory(category._key)
+                        setIsDropdownOpen(false)
+                      }}
+                      whileHover={{ backgroundColor: '#F9FAFB' }}
+                      whileTap={{ scale: 0.98 }}
+                      className={`w-full text-left px-3 py-2 font-medium leading-[155%] md:text-lg text-sm first:rounded-t-[12px] last:rounded-b-[12px] ${
+                        activeCategory === category._key 
+                          ? 'bg-gray-100 text-gray-950' 
+                          : 'text-gray-500'
+                      }`}
+                    >
+                       {category.categoryName}
+                    </motion.button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>}
 
@@ -261,80 +330,106 @@ export default function FaqSection({ faqItems }: any) {
         { !hideCategory && (
         <div className="hidden lg:flex flex-col gap-1.5 flex-1 max-w-[369px]">
           {categories.map((category: any) => (
-            <button 
+            <CategoryButton
               key={category._key}
-              onClick={() => showActiveCategory(category._key)} 
-              className={`group font-geist text-base leading-[150%] border-b border-b-gray-200 tracking-normal p-3 text-left transition-colors ${
-                activeCategory === category._key 
-                  ? 'text-gray-950 font-medium' 
-                  : 'text-gray-500 hover:text-gray-950 hover:font-medium font-normal'
-              }`}
-            >
-             <div className='flex flex-row gap-2 items-center'>
-               <span className={`w-5 h-5 flex items-center justify-center flex-shrink-0 transition-opacity ${activeCategory === category._key ? 'block' : 'hidden group-hover:block'}`}>
-                 <IndicatorIcon />
-               </span>
-               <span className='relative inline-block'>
-                 <span className='font-medium invisible' aria-hidden="true" style={{ display: 'inline-block' }}>{category.categoryName}</span>
-                 <span className='absolute top-0 left-0'>{category.categoryName}</span>
-               </span>
-             </div>
-            </button>
+              category={category}
+              isActive={activeCategory === category._key}
+              onClick={() => showActiveCategory(category._key)}
+            />
           ))}
         </div>)}
 
         {/* Questions and Answers */}
         {/* <div className='flex-1'> */}
-          {activeQuestions.length > 0 ? (
-            <div className={`gap-6 flex flex-col flex-1 ${hideCategory ? '' : 'lg:max-w-[712px]'}`}>
-              {activeQuestions.map((question: any, index: number) => {
-                const questionKey = question._key || index
-                const isQuestionOpen = isOpen[questionKey] || false
-                
-                return (
-                  <div 
-                  onClick={() => toggleQuestion(questionKey)}
-                    key={questionKey} 
-                    className={`cursor-pointer border md:rounded-[16px] rounded-[8px] md:p-6 p-4 border-gray-200`}
-                  >
-                    <button
-                      
-                      className="w-full text-left flex items-center justify-between rounded-[16px]"
+          <AnimatePresence mode="wait">
+            {activeQuestions.length > 0 && (
+              <motion.div 
+                key={activeCategory}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                className={`gap-6 flex flex-col flex-1 ${hideCategory ? '' : 'lg:max-w-[712px]'}`}
+              >
+                {activeQuestions.map((question: any, index: number) => {
+                  const questionKey = question._key || index
+                  const isQuestionOpen = isOpen[questionKey] || false
+                  
+                  return (
+                    <motion.div 
+                      onClick={() => toggleQuestion(questionKey)}
+                      key={questionKey} 
+                      className="cursor-pointer border md:rounded-[16px] rounded-[8px] md:p-6 p-4 border-gray-200"
+                      whileHover={{ borderColor: '#D1D5DB' }}
+                      transition={{ duration: 0.2 }}
                     >
-                      <dt className="font-medium font-geist tracking-normal leading-[155%] md:text-lg text-base text-gray-950 pr-4">
-                        {question.question}
-                      </dt>
-                      <div className="flex-shrink-0">
-                        {isQuestionOpen ? (
-                          <Minus className="w-5 h-5 text-gray-950 rotate-0" />
-                        ) : (
-                          <Plus className="w-5 h-5 text-gray-950 rotate-0" />
+                      <button
+                        className="w-full text-left flex items-center justify-between rounded-[16px]"
+                      >
+                        <dt className="font-medium font-geist tracking-normal leading-[155%] md:text-lg text-base text-gray-950 pr-4">
+                          {question.question}
+                        </dt>
+                        <div className="flex-shrink-0">
+                          <motion.div
+                            animate={{ rotate: isQuestionOpen ? 0 : 0 }}
+                            transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                          >
+                            <AnimatePresence mode="wait">
+                              {isQuestionOpen ? (
+                                <motion.div
+                                  key="minus"
+                                  initial={{ opacity: 0, rotate: -90 }}
+                                  animate={{ opacity: 1, rotate: 0 }}
+                                  exit={{ opacity: 0, rotate: 90 }}
+                                  transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                                >
+                                  <Minus className="w-5 h-5 text-gray-950" />
+                                </motion.div>
+                              ) : (
+                                <motion.div
+                                  key="plus"
+                                  initial={{ opacity: 0, rotate: 90 }}
+                                  animate={{ opacity: 1, rotate: 0 }}
+                                  exit={{ opacity: 0, rotate: -90 }}
+                                  transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
+                                >
+                                  <Plus className="w-5 h-5 text-gray-950" />
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </motion.div>
+                        </div>
+                      </button>
+                      <AnimatePresence initial={false}>
+                        {isQuestionOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ 
+                              duration: 0.3, 
+                              ease: [0.4, 0, 0.2, 1],
+                              opacity: { duration: 0.2 }
+                            }}
+                            className="font-geist overflow-hidden"
+                          >
+                            {question.answer && Array.isArray(question.answer) ? (
+                              <PortableText 
+                                value={question.answer.filter((block: any) => !isBlockEmpty(block))} 
+                                components={components}
+                              />
+                            ) : (
+                             null
+                            )}
+                          </motion.div>
                         )}
-                      </div>
-                    </button>
-                    <div 
-                      className={`font-geist overflow-hidden ${
-                        isQuestionOpen 
-                          ? 'max-h-96 opacity-100' 
-                          : 'max-h-0 opacity-0'
-                      }`}
-                    >
-                      {/* <div className="text-gray-600"> */}
-                        {question.answer && Array.isArray(question.answer) ? (
-                          <PortableText 
-                            value={question.answer.filter((block: any) => !isBlockEmpty(block))} 
-                            components={components}
-                          />
-                        ) : (
-                         null
-                        )}
-                      </div>
-                    </div>
-                  // </div>
-                )
-              })}
-            </div>
-          ) : <></>}
+                      </AnimatePresence>
+                    </motion.div>
+                  )
+                })}
+              </motion.div>
+            )}
+          </AnimatePresence>
         {/* </div> */}
       </div>
       </div>
