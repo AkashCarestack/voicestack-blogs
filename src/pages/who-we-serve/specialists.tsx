@@ -29,9 +29,6 @@ export default function SpecialityPractices({
   pageData,
   faq,
 }: SpecialityPracticesProps) {
-  const tabsListingComponentData = pageData?.['smarter-system']?.componentData?.refData?.tabsListingComponent;
-  const tablistingData = pageData?.['single-card']?.componentData;
-
   return pageData?.slug?.includes('v2') ? 
   <>
      <Breadcrumb breadCrumb={pageData?.breadCrumb} />
@@ -41,11 +38,10 @@ export default function SpecialityPractices({
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
-   <CategoryFeatureTabsSection
-          features={pageData['single-card']?.componentData}
-          variant="scrollcarousel"
-          sectionHeading={pageData['single-card']?.componentData?.sectionHeading}
-          singleCard={true}
+       <CategoryFeatureTabsSection
+          features={pageData['single-item']?.componentData}
+          variant="singlecard"
+          sectionHeading={pageData['single-item']?.componentData}
         />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
