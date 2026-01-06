@@ -16,7 +16,7 @@ import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
-import SwitchableTabsV2 from '~/v2/components/SwitchableTabsV2'
+import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
@@ -44,7 +44,7 @@ export default function IndependentPractices({
 
   return pageData?.slug?.includes('v2') ? (
     <>
-      {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
+      <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       <FeatureHero data={pageData['single-locations-hero']} type="feature" />
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
@@ -70,22 +70,16 @@ export default function IndependentPractices({
           theme="dark"
         />
       )}
-      <CategoryFeatureTabsSection
+       <CategoryFeatureTabsSection
         features={
           pageData['manage-every-calls']?.componentData?.refData
             ?.tabsListingComponent
         }
         variant="scrollcarousel"
         sectionHeading={
-          pageData['manage-every-calls']?.componentData?.refData?.sectionHeading
+          pageData['manage-every-calls']?.componentData?.refData?.tabsListingComponent
         }
       />
-      {pageData['card-with-image3'] && (
-        <GroupedCardsGridSection
-          data={pageData['card-with-image3']?.genericListingComponent}
-        />
-      )}
-
     </>
   ) : (
     <>

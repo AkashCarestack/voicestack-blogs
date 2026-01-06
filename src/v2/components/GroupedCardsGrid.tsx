@@ -31,7 +31,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
   contentTextColor,
   numberedCardComponents,
   createSpecialtyCardComponents,
-  onlyImage,
+  onlyImage
 }) => {
   const imageUrl = item.image?.url || urlForImage(item.image)
   const hasImage = !!imageUrl
@@ -41,13 +41,13 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
     return (
       <div className={`w-full flex flex-col h-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
          {hasImage && imageUrl && (
-          <div className="w-full">
+          <div className="w-full h-[222px]">
             <Image
               src={imageUrl}
               alt={item.heading || ''}
               width={item.image?.metadata?.dimensions?.width || 800}
-              height={item.image?.metadata?.dimensions?.height || 600}
-              className="object-cover w-full h-full"
+              height={222}
+              className="object-cover w-full h-[222px]"
             />
           </div>
         )}
@@ -209,9 +209,10 @@ export interface GroupedCardsGridProps {
   theme?: 'light' | 'dark'
   simpleListingData?: boolean
   columnCount?: 2 | 3 | 4
+  showBorderBottom?: boolean
 }
 
-export default function GroupedCardsGrid({ customListingItems = [], theme, simpleListingData = false, columnCount }: GroupedCardsGridProps) {
+export default function GroupedCardsGrid({ customListingItems = [], theme, showBorderBottom = false, simpleListingData = false, columnCount }: GroupedCardsGridProps) {
   if (!customListingItems || customListingItems.length === 0) return null
 
   const isDark = theme === 'dark'
@@ -372,8 +373,9 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
     const linkUrl = item.link?.url
     
   const TickIcon = () => {
+    const strokeColor = isDark ? '#FFFFFF' : '#030712'
     return (
-      <span className="p-[18px] border-b border-l border-gray-200 absolute right-0">
+      <span className={`p-[18px] border-b ${isDark ? 'border-gray-800' : 'border-gray-200'} border-l absolute right-0 cursor-pointer`}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -383,17 +385,17 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
         >
           <path
             d="M5.83301 14.1666L14.1663 5.83329"
-            stroke="#030712"
-            stroke-width="1.25"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            stroke={strokeColor}
+            strokeWidth="1.25"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
           <path
             d="M14.1663 14.1666V5.83329H5.83301"
-            stroke="#030712"
-            stroke-width="1.25"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            stroke={strokeColor}
+            strokeWidth="1.25"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       </span>
@@ -428,7 +430,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, simpl
     const columns = columnCount || 3
 
     return (
-      <div className={`flex flex-col w-full border-t ${borderColor}`}>
+      <div className={`flex flex-col w-full border-t ${borderColor} ${showBorderBottom ? `border-b ${borderColor}` : ''}`}>
         {/* Cards Grid */}
         <div className={`${gridBgColor} flex flex-wrap gap-px`}>
           {listingItems.map((item, itemIndex) =>

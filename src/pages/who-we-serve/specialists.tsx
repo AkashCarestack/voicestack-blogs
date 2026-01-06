@@ -1,19 +1,24 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
-import SimpleHead from '~/components/common/SimpleHead'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
+import SimpleHead from '~/components/common/SimpleHead'
+import LogoListingV2 from '~/components/LogoListingV2'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleCardWithList from '~/components/revamp/components/common/TabListing/singleCardWithList'
-import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
+import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 
 interface SpecialityPracticesProps {
   pageData: any
@@ -24,8 +29,48 @@ export default function SpecialityPractices({
   pageData,
   faq,
 }: SpecialityPracticesProps) {
-  const tabsListingComponentData = pageData?.['smarter-system']?.componentData?.refData?.tabsListingComponent;
-  return (
+  return pageData?.slug?.includes('v2') ? 
+  <>
+     <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+      <FeatureHero data={pageData['specialists-hero']} type="feature" />
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logos-listing']?.componentData.blocksListingData}
+        />
+      )}
+       <CategoryFeatureTabsSection
+          features={pageData['single-item']?.componentData}
+          variant="singlecard"
+          sectionHeading={pageData['single-item']?.componentData}
+        />
+      {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
+        <VerticalTestimonialListingv2
+          data={
+            pageData['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
+        />
+      )}
+      <StatisticsSection variant="V2" />
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
+       <CategoryFeatureTabsSection
+        features={
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        variant="scrollcarousel"
+        sectionHeading={
+          pageData['manage-every-calls']?.componentData
+        }
+      />
+  </>
+  :(
     <>
       <SimpleHead data={pageData?.seo} />
 
@@ -42,11 +87,6 @@ export default function SpecialityPractices({
           data={pageData?.['effortlessly-handle-calls']?.componentData}
         />
       )}
-      {/* {tabsListingComponentData && (
-        <SingleTabCardListing
-          data={tabsListingComponentData}
-        />
-      )} */}
       {pageData['testimonial-video-section']?.componentData && (
         <VerticalTestimonialListing
           data={
@@ -104,9 +144,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     const slug =
       region === 'en'
-        ? 'specialists'
-        : `specialists-${region.toLowerCase()}`
+        ? 'specialists-v2'
+        : `specialists-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
+    pageData.slug = slug
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
     }

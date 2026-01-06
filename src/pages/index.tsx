@@ -18,6 +18,7 @@ import {
 
 interface IndexPageProps {
   pageData: any
+  pageData1: any
   region: string
   faq: any
   featuresData: any[]
@@ -31,8 +32,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const region = locale || 'en'
     const queries = new Queries('landing', region)
     const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
+     const queries1 = new Queries('landing-v2', region)
+    const slug1 = region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('homePage', slug)
+    const pageData1 = await queries1.getPageData('homePage', slug1)
     const client = getClient()
+    pageData.slug = slug
+    pageData1.slug = slug1
     if (!pageData || Object.keys(pageData).length === 0) {
       return {
         notFound: true,
@@ -48,6 +54,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
       props: {
         pageData,
+        pageData1,
         region,
         faq: faqData,
         featuresData: featuresData || [],
@@ -67,6 +74,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 export default function IndexPage({
   pageData,
   region,
+  pageData1,
   faq,
   featuresData,
   comparisonLegendData,
@@ -137,7 +145,7 @@ export default function IndexPage({
       <SimpleHead data={pageData?.seo} />
       {region === 'en' && (
         <Home
-          data={pageData}
+          data={pageData1}
           featuresData={featuresData}
           comparisonLegendData={comparisonLegendData}
           comparisonTableData={comparisonTableData}

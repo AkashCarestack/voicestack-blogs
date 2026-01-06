@@ -1,17 +1,24 @@
-import React from 'react'
 import { GetStaticProps } from 'next'
-import Queries from '~/components/revamp/queries'
-import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
+import React from 'react'
+
+import SimpleHead from '~/components/common/SimpleHead'
+import LogoListingV2 from '~/components/LogoListingV2'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
-import FaqSection from '~/components/revamp/components/common/faqSection'
+import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
-import SimpleHead from '~/components/common/SimpleHead'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import Queries from '~/components/revamp/queries'
+import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 
 interface MobilePracticesProps {
   pageData: any
@@ -25,7 +32,51 @@ export default function MobilePractices({ pageData, faq }: MobilePracticesProps)
 
   // tabsListingData["mobile-practices"]
   const tabsListingData = pageData?.['mobile-practices']?.componentData?.refData?.tabsListingComponent
+  const tabsListingComponentData =
+  pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
+  
   return (
+    pageData?.slug?.includes('v2') ? (
+      <>
+      <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+      <FeatureHero data={pageData['mobile-practices-hero']} type="feature" />
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logos-listing']?.componentData.blocksListingData}
+        />
+      )}
+      {tabsListingComponentData && (
+        <SwitchableTabsV2 data={tabsListingComponentData} />
+      )}
+      {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
+        <VerticalTestimonialListingv2
+          data={
+            pageData['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
+        />
+      )}
+      <StatisticsSection variant="V2" />
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
+       <CategoryFeatureTabsSection
+        features={
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        variant="scrollcarousel"
+        sectionHeading={
+          pageData['manage-every-calls']?.componentData?.refData?.tabsListingComponent
+        }
+      />
+      </>
+    )
+    : (
     <>
       <SimpleHead data={pageData?.seo} />
        
@@ -73,7 +124,7 @@ export default function MobilePractices({ pageData, faq }: MobilePracticesProps)
            <FaqSection faqItems={faq} />
          </div>
        )}
-    </>
+    </>)
   )
 }
 
@@ -85,9 +136,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     const slug =
       region === 'en'
-        ? 'mobile-practices'
-        : `mobile-practices-${region.toLowerCase()}`
+        ? 'mobile-practices-v2'
+        : `mobile-practices-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
+    pageData.slug = slug
     if(!pageData){
       console.error(`pageData not found for ${slug}`)
     }
