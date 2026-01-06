@@ -306,13 +306,14 @@ export default function ContentVideoTabsSection({
     },
   };
 
+  console.log(data);
   return (
     <Section className={cn("w-full flex flex-col !bg-white", containerClassName)}>
       <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
-      <div className="flex-col relative w-full flex gap-16 mb-[60px]">
+      <div className="flex-col relative w-full flex gap-16">
           <SectionHeaderV2
             heading={data?.sectionHeadingDynamic}
-            description={data?.description}
+            description={data?.description || data?.subDescription}
             className='xl:px-12 md:px-6 px-4'
           />
         </div>
