@@ -53,7 +53,6 @@ interface CategoryFeatureTabsSectionProps {
   sectionHeading?: any;
   className?: string;
   variant?: 'default' | 'carousel' | 'scrollcarousel' | 'singlecard';
-  singleCard?: boolean; // Single card layout without tabs
 }
 
 export default function CategoryFeatureTabsSection({
@@ -61,7 +60,6 @@ export default function CategoryFeatureTabsSection({
   sectionHeading,
   className,
   variant = 'default',
-  singleCard = false,
 }: CategoryFeatureTabsSectionProps) {
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isScrolling, setIsScrolling] = useState(false);
@@ -348,8 +346,8 @@ export default function CategoryFeatureTabsSection({
   }
 
   // Single Card Layout - Based on Figma design
-  // Render if singleCard prop is true OR variant is 'singlecard'
-  if ((singleCard || variant === 'singlecard') && allCategories.length > 0) {
+  // Render if variant is 'singlecard'
+  if (variant === 'singlecard' && allCategories.length > 0) {
     const firstCategory = allCategories[0];
     const pillItems = firstCategory.features || [];
     console.log(firstCategory,'firstCategory');
@@ -383,20 +381,14 @@ export default function CategoryFeatureTabsSection({
               {pillItems.length > 0 && (
                 <div className="flex flex-wrap gap-3 items-start w-full">
                   {pillItems.map((item: any, index: number) => {
-                    const defaultPillIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5.83398 5.8335H14.1673V14.1668" stroke="#030712" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.83398 14.1668L14.1673 5.8335" stroke="#030712" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-                    
                     return (
                       <div
                         key={item._id || index}
-                        className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white shadow-sm"
+                        className="flex items-center border border-gray-200 px-4 py-2 rounded-[500px] bg-white shadow-sm"
                       >
                         <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
                           {item.basicInfo?.title || item.title || 'Untitled Feature'}
                         </span>
-                        <div
-                          className="flex items-center justify-center w-5 h-5 flex-shrink-0 [&_svg]:w-5 [&_svg]:h-5"
-                          dangerouslySetInnerHTML={{ __html: item.basicInfo?.dynamicSvg || defaultPillIcon }}
-                        />
                       </div>
                     );
                   })}
