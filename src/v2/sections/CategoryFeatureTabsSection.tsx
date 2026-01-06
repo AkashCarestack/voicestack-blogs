@@ -356,7 +356,7 @@ export default function CategoryFeatureTabsSection({
     return (
       <Section
         id="features"
-        className={cn("w-full flex flex-col bg-gray-50 relative", className)}
+        className={cn("w-full flex flex-col bg-white relative", className)}
       >
         <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-px bg-gray-200 w-full">
@@ -456,7 +456,7 @@ export default function CategoryFeatureTabsSection({
     return (
       <Section
         id="features"
-        className={cn("w-full flex flex-col bg-gray-50 relative scroll-m-16", className)}
+        className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
       >
         <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
           {/* Header Section */}
@@ -609,7 +609,7 @@ export default function CategoryFeatureTabsSection({
   return (
     <Section
       id="features"
-      className={cn("w-full flex flex-col bg-gray-50 relative scroll-m-16", className)}
+      className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
     >
       <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
         <div className="flex-col relative w-full flex gap-16 mb-[60px]">
