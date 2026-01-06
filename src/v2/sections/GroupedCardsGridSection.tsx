@@ -47,6 +47,7 @@ interface GroupedCardsGridSectionProps {
     //   }>
     // }>
     customListingItems?: any[]
+    columnCount?: 2 | 3 | 4
   }
   theme?: 'light' | 'dark'
   aiSection?: boolean
@@ -111,7 +112,7 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false }
                 customListingItems={displayData.items}
                 theme={theme}
                 simpleListingData={true}
-                  columnCount={4}
+                  columnCount={displayData.columnCount || 4}
                 />
               )}
             </div>
