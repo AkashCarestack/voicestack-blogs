@@ -6,7 +6,7 @@ import Slider from 'react-slick'
 import Button from '~/components/common/Button'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import { VideoItem, VideoModal } from '~/components/common/VideoModal'
-import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 

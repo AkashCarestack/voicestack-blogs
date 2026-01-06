@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next'
 
 import SimpleHead from '~/components/common/SimpleHead'
 import LogoListingSection from '~/components/LogoListingSection'
-import LogoListingV2 from '~/components/LogoListingV2'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import CardListing from '~/components/revamp/components/cardListing'
 import CardsGridSection from '~/v2/sections/CardsGridSection'
 import FaqSection from '~/components/revamp/components/common/faqSection'
@@ -10,7 +10,7 @@ import HeroSection from '~/components/revamp/components/common/HeroSection/heroS
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import HoverTestimonial from '~/components/revamp/components/common/HoverTestimonial/HoverTestimonial'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
@@ -62,7 +62,7 @@ export default function WhoWeServeIndex({
           theme="dark"
         />
       )}
-      <StatisticsSection variant="V2" />
+      <StatisticsSection />
     </>
   ) : (
     <>

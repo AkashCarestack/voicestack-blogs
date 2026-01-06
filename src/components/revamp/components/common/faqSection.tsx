@@ -7,7 +7,7 @@ import Container from '~/components/structure/Container'
 import Head from 'next/head'
 import { faqJsonLd } from '~/components/utils/jsonld'
 import { useLayoutData } from '~/providers/LayoutDataProvider'
-import SectionHeaderV2 from './sectionHeaderV2'
+import SectionHeaderV2 from '../../../../v2/components/common/sectionHeaderV2'
 import SectionH2 from '~/components/typography/revamp/SectionH2'
 export default function FaqSection({ faqItems }: any) {
   const { contactData } = useLayoutData()

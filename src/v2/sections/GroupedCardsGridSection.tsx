@@ -1,6 +1,6 @@
 import React from 'react'
 import Container from '~/components/structure/Container'
-import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import Section from '~/components/structure/Section'
 import GroupedCardsGrid from '~/v2/components/GroupedCardsGrid'
 import cardsData from '~/v2/data/cardsData.json'

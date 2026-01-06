@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
 import SimpleHead from '~/components/common/SimpleHead'
-import LogoListingV2 from '~/components/LogoListingV2'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
@@ -11,7 +11,7 @@ import StackCardTestimonial from '~/components/revamp/components/common/stackCar
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
@@ -102,7 +102,7 @@ export default function Dental({ pageData, faq, features, articles }: DentalProp
           data={pageData['card-with-image2']?.genericListingComponent}
         />
       )}
-      <StatisticsSection variant="V2" />
+      <StatisticsSection />
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}

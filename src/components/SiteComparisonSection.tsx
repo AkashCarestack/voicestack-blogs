@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 import LegendSection from './common/LegendSection'
 import ComparisonTable from './ComparisonTable'
 import SectionHeader from './revamp/components/common/sectionHeader'
-import SectionHeaderV2 from './revamp/components/common/sectionHeaderV2'
+import SectionHeaderV2 from '../v2/components/common/sectionHeaderV2'
 
 interface SiteComparisonSectionProps {
   data: any

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
