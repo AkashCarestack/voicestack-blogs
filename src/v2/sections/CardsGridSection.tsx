@@ -1,7 +1,7 @@
 import React from 'react'
 import Container from '~/components/structure/Container'
 import Link from 'next/link'
-import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import Section from '~/components/structure/Section'
 import CardItemComponent from '~/v2/components/common/CardItem'
 import { CardItemProps as CardItem } from '~/v2/components/common/CardItem'

@@ -1,14 +1,15 @@
 import groq from 'groq'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import React from 'react'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import SimpleHead from '~/components/common/SimpleHead'
 import LpHeader from '~/components/common/LpHeader'
 import FeatureHero from '~/v2/sections/FeatureHero'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
+import OfferSection from '~/v2/sections/OfferSection'
 
 interface PartnerSlugPageProps {
   pageData: any
@@ -23,27 +24,40 @@ export default function PartnerSlugPage({
 }: PartnerSlugPageProps) {
  
   const heroData = pageData['partner-hero']?.componentData;
-
+  console.log(pageData['offer']?.componentData);
   return (
     <>
       <SimpleHead data={pageData?.seo} />
       <LpHeader/>
-      <HeroWrapper>
-        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+        {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
         {heroData && (
           <>
-            {/* <HeroSection
-              page=""
-              data={heroData}
-              showFullDescription={true}
-            /> */}
             <FeatureHero
               data={heroData}
-              type="feature"
+              type="partner"
+              
             />
           </>
         )}
-      </HeroWrapper>
+      {pageData['logo-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logo-listing']?.componentData.blocksListingData}
+        />
+      )}
+      {pageData['offer']?.componentData && (
+        <OfferSection
+          data={pageData['offer']?.componentData}
+        />
+      )}
+      {pageData['power-of-ai'] && (
+        <GroupedCardsGridSection
+          data={pageData['power-of-ai']?.componentData}
+          theme="dark"
+          aiSection={true}
+        />
+      )}
+
+      <StatisticsSection />
     </>
   )
 }

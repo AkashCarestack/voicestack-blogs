@@ -1,10 +1,10 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
 
-import LogoListingV2 from '~/components/LogoListingV2'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
@@ -85,7 +85,7 @@ export default function PhysicalTheraphy({ pageData, faq, features }: PhysicalTh
           data={pageData['card-with-image3']?.genericListingComponent}
         />
       )}
-      <StatisticsSection variant="V2" />
+      <StatisticsSection />
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}

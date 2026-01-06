@@ -2,7 +2,7 @@ import React from 'react'
 
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import LogoListingSection from '~/components/LogoListingSection'
-import LogoListingV2 from '~/components/LogoListingV2'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import LogoSliderSection from '~/components/LogoSliderSection'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
@@ -16,7 +16,7 @@ import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSecti
 import CardListing from './cardListing'
 import HeroAU from './common/HeroSection/HeroAu'
 import HeroSection from './common/HeroSection/heroSection'
-import StatisticsSection from './StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 
@@ -86,7 +86,7 @@ export default function Home({
           }
         />
       )}
-      <StatisticsSection variant="V2" />
+      <StatisticsSection />
       {comparisonLegendData && (
         <SiteComparisonSection
           variant="V2"

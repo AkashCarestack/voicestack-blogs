@@ -7,6 +7,7 @@ import bgStyle from '~/assets/Bg/image 682.png'
 import { descriptionComponents, HeroFeatureComponents, HeroFeatureHeadingComponents, HeroHeadingComponents } from '~/utils/common'
 import { urlForImage } from '~/lib/sanity.image'
 import HubspotGenericForm from '~/components/revamp/components/common/hubspotGeneric'
+import LightningIcon from '../icons/LightningIcon'
 
 export default function FeatureHero({ data ,type}: { data: any, type?: string }) {
   const value = data?.heroComponent 
@@ -22,14 +23,23 @@ export default function FeatureHero({ data ,type}: { data: any, type?: string })
   return (
     <div className="relative overflow-hidden" id="FeatureHero">
       <Container type="V2" className="md:py-24 py-16 overflow-hidden justify-center flex">
-        <div className='flex md:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10'>
+        <div className='flex md:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10 items-center'>
           <div className="flex flex-col gap-3 relative z-10 flex-1">
-            <h2 className="text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase">
-              {title?.toUpperCase()}
-            </h2>
+            {type === 'partner' ? (
+              <div className="flex items-center gap-2 py-[9px] pr-4 pl-[14px] rounded-full border border-[#AEA0FF] self-start bg-white/20 shadow-[-7px_0_10px_0_rgba(251,111,142,0.5),7px_0_10px_0_rgba(74,60,225,0.5)]">
+                <LightningIcon className="w-4 h-4" />
+                <h2 className="text-center md:text-left text-sm font-geist font-normal leading-[115%] text-gray-950">
+                  {title?.toUpperCase()}
+                </h2>
+              </div>
+            ):(
+              <h2 className="text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase">
+                {title?.toUpperCase()}
+              </h2>
+            )}
             <PortableText
               value={heading}
-              components={type === 'feature' ? HeroFeatureComponents : HeroFeatureHeadingComponents}
+              components={type === 'feature' || type === 'partner' ? HeroFeatureComponents : HeroFeatureHeadingComponents}
             />
             <PortableText
               value={description}
@@ -52,14 +62,14 @@ export default function FeatureHero({ data ,type}: { data: any, type?: string })
             {/*  */}
           </div>
 
-          <div id="demo" className="scroll-m-14 min-h-[760px] scroll-mt-28 sticky top-20 p-8 rounded-[12px] md:rounded-[24px] bg-white w-full max-w-[537px] md:p-12">
+          <div id="demo" className="scroll-m-14 min-h-[610px] scroll-mt-28 sticky top-20 p-8 rounded-[12px] md:rounded-[24px] bg-white w-full max-w-[537px] md:p-12">
             <h3 className="md:text-3xl text-2xl font-semibold mb-4 font-geist text-[#030712]">
               Book a Demo
             </h3>
             <div className="mt-4 vs-button">
               <HubspotGenericForm
-                // formId={data?.hubspotFormId || 'f2fbfea3-a1e5-4e17-a506-a9d341a45458'}
-                formId={'f2fbfea3-a1e5-4e17-a506-a9d341a45458'}
+                formId={data?.hubspotFormId || 'f2fbfea3-a1e5-4e17-a506-a9d341a45458'}
+                // formId={'f2fbfea3-a1e5-4e17-a506-a9d341a45458'}
                 portalId="4832409"
                 onFormSubmit={() => {}}
                 onFormReady={() => {}}

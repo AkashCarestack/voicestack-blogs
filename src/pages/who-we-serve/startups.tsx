@@ -8,13 +8,13 @@ import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSecti
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import FeatureHero from '~/v2/sections/FeatureHero'
-import LogoListingV2 from '~/components/LogoListingV2'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
@@ -52,7 +52,7 @@ console.log(pageData, 'pageDat----')
           }
         />
       )}
-      <StatisticsSection variant="V2" />
+      <StatisticsSection />
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
