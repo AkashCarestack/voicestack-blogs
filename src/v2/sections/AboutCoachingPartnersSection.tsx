@@ -3,7 +3,7 @@ import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import Image from 'next/image'
-import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import ArrowIcon from '~/components/revamp/icons/arrowIcon'
 
 export default function AboutCoachingPartners({ data }: { data: any }) {

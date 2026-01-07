@@ -3,7 +3,7 @@ import Container from '~/components/structure/Container'
 import Image from 'next/image'
 import CardItemComponent from '../../../../v2/components/common/CardItem'
 import Section from '~/components/structure/Section'
-import SectionHeaderV2 from './sectionHeaderV2'
+import SectionHeaderV2 from '../../../../v2/components/common/sectionHeaderV2'
 import GroupedCardsGrid from '~/v2/components/GroupedCardsGrid'
 
 export default function cardWIthGraph({ data }: { data: any }) {

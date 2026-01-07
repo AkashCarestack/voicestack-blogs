@@ -10,8 +10,8 @@ import { readToken } from '~/lib/sanity.api'
 import { getComparisonTableData, getAllComparisonValues } from '~/lib/sanity.queries'
 import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
-import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
 import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
@@ -98,7 +98,7 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
           data={pageData['test-listing-3'].componentData}
         />
       )}
-      <StatisticsSection variant="V2" />
+      <StatisticsSection />
       
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection 

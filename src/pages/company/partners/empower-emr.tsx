@@ -19,7 +19,7 @@ export default function EmpowerEMR({ pageData, faq }: EmpowerEMRProps) {
  
   return (
     <>
-      <LpHeader logo={VoicestackLogo} logoAlt="VoiceStack Empower EMR"/>
+      <LpHeader/>
       <SimpleHead data={pageData?.seo} noindex={true} />
       <HeroWrapper>
         {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}

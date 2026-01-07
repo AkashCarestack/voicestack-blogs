@@ -6,7 +6,7 @@ import Image from 'next/image'
 import WorldMap from 'public/assets/world-map.png'
 import WorldMapV2 from 'public/assets/world-map-v2.png'
 import Section from '~/components/structure/Section'
-import SectionHeaderV2 from './common/sectionHeaderV2'
+import SectionHeaderV2 from '../../../v2/components/common/sectionHeaderV2'
 
 interface StatisticsSectionProps {
   bgColor?: string

@@ -4,7 +4,7 @@ import SwitchableTabs from '~/components/revamp/components/common/switchableTabs
 import GroupedCardsGridSection from './GroupedCardsGridSection'
 import GroupedCardsGrid from '../components/GroupedCardsGrid'
 import Container from '~/components/structure/Container'
-import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import Image from 'next/image'
 import { urlForImage } from '~/lib/sanity.image'
 import Section from '~/components/structure/Section'
