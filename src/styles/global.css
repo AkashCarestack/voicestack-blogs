@@ -265,7 +265,7 @@ html {
   @apply w-full;
 }
 #hubspotForm .form-columns-2 {
-  @apply flex;
+  @apply lg:flex;
 }
 
 

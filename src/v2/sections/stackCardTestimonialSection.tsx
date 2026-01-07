@@ -434,12 +434,18 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     className="flex items-center justify-center relative w-full h-full"
                     style={{
                       backgroundImage: `repeating-linear-gradient(
-                  -45deg,
-                  #E5E7EB,
-                  #E5E7EB 1px,
-                  transparent 1px,
-                  transparent 10px
-                )`,
+                        -45deg,
+                        #E5E7EB,
+                        #E5E7EB 1px,
+                        transparent 1px,
+                        transparent 10px
+                      )`,
+                      // backgroundSize: 'cover',
+                      // backgroundPosition: 'center',
+                      // backgroundRepeat: 'no-repeat',
+                      width: '100%',
+                      height: '100%',
+                      backgroundSize: '14.14px 14.14px',
                       padding: '48px',
                     }}
                   >
