@@ -47,7 +47,7 @@ const OfferSection = ({ data }: OfferSectionProps) => {
               />
             </div>
           </div>
-          <Image src={PillsBg} alt='Pills Background' className="absolute bottom-0 right-0 h-full w-auto"
+          <Image src={PillsBg} alt='Pills Background' className="absolute bottom-0 right-0 h-full w-auto hidden md:block"
             width={727}
             height={727}
           />

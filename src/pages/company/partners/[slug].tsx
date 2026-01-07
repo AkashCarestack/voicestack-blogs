@@ -12,6 +12,8 @@ import StatisticsSection from '~/v2/sections/StatisticsSection'
 import OfferSection from '~/v2/sections/OfferSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import { getFeaturesList } from '~/lib/sanity.queries'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
 interface PartnerSlugPageProps {
   pageData: any
@@ -43,16 +45,19 @@ export default function PartnerSlugPage({
             />
           </>
         )}
+        
       {pageData['logo-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logo-listing']?.componentData.blocksListingData}
         />
       )}
+
       {pageData['offer']?.componentData && (
         <OfferSection
           data={pageData['offer']?.componentData}
         />
       )}
+
       <CategoryFeatureTabsSection
         features={features}
         variant="carousel"
@@ -60,11 +65,30 @@ export default function PartnerSlugPage({
           pageData['category-feature-tabs']?.componentData?.sectionHeading
         }
       />
+
       {pageData['power-of-ai'] && (
         <GroupedCardsGridSection
           data={pageData['power-of-ai']?.componentData}
           theme="dark"
           aiSection={true}
+        />
+      )}
+      
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+          sectionBorder="b"
+        />
+      )}
+
+      {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
+        <VerticalTestimonialListing
+          data={
+            pageData['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
         />
       )}
 
