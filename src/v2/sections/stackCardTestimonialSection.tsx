@@ -3,9 +3,10 @@ import React, { useRef, useState } from 'react'
 
 import Button from '~/components/common/Button'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
-import SectionHeaderV2 from '~/components/revamp/components/common/sectionHeaderV2'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
+
+import SectionHeaderV2 from '../components/common/sectionHeaderV2'
 
 interface TestimonialData {
   id: string

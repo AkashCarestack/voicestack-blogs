@@ -1,14 +1,7 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
 
-import SimpleHead from '~/components/common/SimpleHead'
-import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
-import LogoListingV2 from '~/components/LogoListingV2'
-import CardsGridSection from '~/components/revamp/components/CardsGridSection'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
@@ -17,6 +10,7 @@ import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
