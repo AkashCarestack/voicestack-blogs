@@ -62,7 +62,7 @@ export default function FeatureHero({ data ,type}: { data: any, type?: string })
 
             {/*  */}
           </div>
-          {data.hubspotFormId &&      
+          {data?.hubspotFormId &&      
             <div id="demo" className="scroll-m-14 min-h-[610px] scroll-mt-28 sticky top-20 p-8 rounded-[12px] md:rounded-[24px] bg-white w-full max-w-[537px] md:p-12">
               <h3 className="md:text-3xl text-2xl font-semibold mb-4 font-geist text-[#030712]">
                 Book a Demo
