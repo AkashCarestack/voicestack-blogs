@@ -37,7 +37,7 @@ const StatisticsSection = ({ bgColor }: StatisticsSectionProps = {}) => {
   ]
 
   return (
-    <Section className='bg-gray-50 relative overflow-hidden' border="y">
+    <Section className='bg-gray-50 relative overflow-hidden' border="b">
       <Container className='border-l border-r lg:border-r-0 border-gray-200' type="V2" innerPadding>
         <div className="flex">
           <div className="max-w-[850px] md:py-24 py-16">
