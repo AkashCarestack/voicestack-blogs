@@ -41,18 +41,18 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
     return (
       <div className={`w-full flex flex-col h-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
          {hasImage && imageUrl && (
-          <div className="w-full h-[222px]">
+          <div className="w-full h-[250px]">
             <Image
               src={imageUrl}
               alt={item.heading || ''}
               width={item.image?.metadata?.dimensions?.width || 800}
               height={222}
-              className="object-cover w-full h-[222px]"
+              className="object-cover w-full h-full"
             />
           </div>
         )}
         {onlyImage ? (null): (
-          <div className="flex flex-col gap-8 items-start pb-3 pt-9 lg:px-12 px-6 w-full mt-auto">
+          <div className="flex flex-col gap-8 items-start pb-3 pt-9 lg:px-12 px-6 w-full">
             {/* Icon */}
             {item.dynamicSvg && (
               <div
@@ -107,7 +107,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
         </div>
       )}
       {onlyImage ? (null) :(
-        <div className="flex flex-col gap-8 items-start pb-3 pt-9 lg:px-12 px-6 w-full mt-auto">
+        <div className="flex flex-col gap-8 items-start pb-3 pt-9 lg:px-12 px-6 w-full">
           {/* Icon (for specialty cards) */}
           {!isNumberedCards && item.dynamicSvgCode && (
             <div
@@ -116,7 +116,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
             />
           )}
         
-          <div className="flex flex-col gap-1.5 items-start justify-end w-full">
+          <div className="flex flex-col gap-3 items-start justify-end w-full">
             {/* Item Heading */}
             {isNumberedCards ? (
               <p className={`font-geist font-medium lg:text-lg text-base leading-[1.4] ${descriptionColor} tracking-normal w-full whitespace-pre-wrap`}>
@@ -128,6 +128,11 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
                   <p className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
                     {item.itemHeading}
                   </p>
+                  {item.subTitle && (
+                    <p className={`font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal w-full whitespace-pre-wrap`}>
+                      {item.subTitle}
+                    </p>
+                  )}
                 </div>
               </div>
             )}
@@ -222,7 +227,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
   const gridBgColor = isDark ? 'bg-gray-800' : 'bg-gray-200'
   const cardBgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const headerBgColor = isDark ? 'bg-gray-950' : 'bg-gray-50'
-  const contentTextColor = isDark ? 'text-gray-500' : 'text-gray-700'
+  const contentTextColor = isDark ? 'text-gray-400' : 'text-gray-700'
   const labelColor = isDark ? 'text-vs-lemon-green' : 'text-vs-blue'
   const headingSplitColor = isDark ? '[&>strong]:text-gray-400' : '[&>strong]:text-vs-blue'
 

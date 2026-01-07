@@ -1603,6 +1603,7 @@ class Queries {
                     listItems[] {
                       _key,
                       itemHeading,
+                      subTitle,
                       dynamicSvgCode,
                       content,
                       "image": image.asset-> {
@@ -1730,6 +1731,7 @@ class Queries {
                       listItems[] {
                         _key,
                         itemHeading,
+                        subTitle,
                         dynamicSvgCode,
                         content,
                         "image": image.asset-> {

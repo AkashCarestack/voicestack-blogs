@@ -276,6 +276,11 @@ export const customListingItemSchema = {
               type: 'string',
             }),
             defineField({
+              name: 'subTitle',
+              title: 'Sub Title',
+              type: 'string',
+            }),
+            defineField({
               name: 'dynamicSvgCode',
               title: 'Dynamic SVG Code',
               type: 'text',
