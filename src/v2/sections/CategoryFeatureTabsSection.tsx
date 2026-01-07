@@ -49,7 +49,7 @@ interface Feature {
 }
 
 interface CategoryFeatureTabsSectionProps {
-  features: Feature[] | any; // Allow tabsListingComponent structure
+  features: Feature[] | any; 
   sectionHeading?: any;
   className?: string;
   variant?: 'default' | 'carousel' | 'scrollcarousel' | 'singlecard';
@@ -497,7 +497,6 @@ export default function CategoryFeatureTabsSection({
               className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
               isShowImage={false}
               shadow={false}
-              isSkip={true}
             />
           </div>
 

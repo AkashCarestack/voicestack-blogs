@@ -164,14 +164,10 @@ export default function SwitchableTabs({
         })}
       </div>
       {isSkip && (
-        <div className="bg-white border border-gray-200 rounded-[500px] px-5 py-[6px] flex gap-[6px] items-center justify-center shrink-0 sticky top-0">
+        <div className="bg-white border border-gray-200 rounded-[500px] px-5 py-[6px] flex gap-[6px] items-center justify-center shrink-0 sticky top-0 transition-all duration-200 ease-in-out hover:border-[rgba(255,255,255,0.60)] hover:bg-tab-hover-gradient hover:shadow-[0_0_0_2px_#CAC5FF]">
           <button
             onClick={handleSkip}
-            className="border border-[rgba(255,255,255,0.60)] rounded-[500px] pb-3 pt-2.5 px-0 flex items-center gap-[4px] transition-all duration-200 ease-in-out hover:border-[rgba(255,255,255,0.60)] hover:bg-tab-hover-gradient hover:shadow-[0_0_0_2px_#CAC5FF]"
-            style={{
-              backgroundImage: 'linear-gradient(90deg, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 1) 100%), linear-gradient(90deg, rgba(47, 20, 201, 1) 0%, rgba(74, 60, 225, 1) 100%)',
-              boxShadow: '0px 0px 0px 2px white',
-            }}
+            className="text-gray-950 border border-[rgba(255,255,255,0.60)] rounded-[500px] pb-3 pt-2.5 px-0 flex items-center gap-[4px] transition-all duration-200 ease-in-out bg-white shadow-[0_0_0_2px_white]"
           >
             <span className="font-geist font-normal text-base text-gray-950 leading-6 whitespace-nowrap">Skip</span>
             <div className="relative shrink-0 w-5 h-5">
