@@ -4,13 +4,21 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Button from '~/components/common/Button'
 import Container from '~/components/structure/Container'
 import bgStyle from '~/assets/Bg/image 682.png'
-import { descriptionComponents, HeroFeatureComponents, HeroFeatureHeadingComponents, HeroHeadingComponents } from '~/utils/common'
+import { ComparisonHeroH1, descriptionComponents, HeroFeatureComponents, HeroFeatureHeadingComponents, HeroHeadingComponents } from '~/utils/common'
 import { urlForImage } from '~/lib/sanity.image'
 import Section from '~/components/structure/Section'
 import HubspotGenericForm from '~/components/revamp/components/common/hubspotGeneric'
 import LightningIcon from '../icons/LightningIcon'
 
-export default function FeatureHero({ data, type }: { data: any, type?: string }) {
+interface FeatureHeroProps {
+  data: any
+  type?:string | 'form' | 'feature'
+  hideBg?: boolean
+}
+
+export default function FeatureHero({ data, type , hideBg = false}: { data: any, type?: string, hideBg?: boolean }) {
+  console.log(data, 'data');
+  const hubspotFormId = data?.componentData?.hubspotFormId || data?.hubspotFormId
   const value = data?.heroComponent 
   const buttons = value?.bookBtnContent || data?.bookBtnContent
   const heading = value?.heroheading || data?.heroheading
@@ -121,9 +129,9 @@ export default function FeatureHero({ data, type }: { data: any, type?: string }
     <Section className="relative overflow-hidden" id="FeatureHero" border="b">
       <Container type="V2" className="md:py-24 py-16 overflow-hidden justify-center flex">
         <div className='flex lg:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10 items-center'>
-          <div className="flex flex-col gap-3 relative z-10 flex-1">
-            {type === 'partner' ? (
-              <div className="flex items-center gap-2 py-[9px] pr-4 pl-[14px] rounded-full border border-[#AEA0FF] self-center md:self-start bg-white/20 shadow-[-7px_0_10px_0_rgba(251,111,142,0.5),7px_0_10px_0_rgba(74,60,225,0.5)]">
+          <div className={`flex flex-col gap-3 relative z-10 flex-1  ${type === 'form' ? 'max-w-[606px]' : ''}`}>
+            {(type === 'form' || type === 'comparison') ? (
+              <div className="flex items-center gap-2 py-[9px] pr-4 pl-[14px] rounded-full border border-[#AEA0FF] lg:self-start self-center bg-white/20 shadow-[-7px_0_10px_0_rgba(251,111,142,0.5),7px_0_10px_0_rgba(74,60,225,0.5)]">
                 <LightningIcon className="w-4 h-4" />
                 <h2 className="text-center md:text-left text-sm font-geist font-normal leading-[115%] text-gray-950">
                   {title?.toUpperCase()}
@@ -136,7 +144,7 @@ export default function FeatureHero({ data, type }: { data: any, type?: string }
             )}
             <PortableText
               value={heading}
-              components={type === 'feature' || type === 'partner' ? HeroFeatureComponents : HeroFeatureHeadingComponents}
+              components={type === 'feature' ? HeroFeatureComponents : type === 'form' ? ComparisonHeroH1 : HeroFeatureHeadingComponents}
             />
             <PortableText
               value={description}
@@ -158,7 +166,7 @@ export default function FeatureHero({ data, type }: { data: any, type?: string }
 
             {/*  */}
           </div>
-          {data?.hubspotFormId &&       
+          {hubspotFormId && 
             <div id="demo" className="scroll-m-14 min-h-[610px] scroll-mt-28 sticky top-20 p-8 rounded-[12px] md:rounded-[24px] bg-white w-full max-w-[537px] md:p-12">
               <h3 className="md:text-3xl text-2xl font-semibold mb-4 font-geist text-[#030712]">
                 Book a Demo
@@ -392,6 +400,7 @@ export default function FeatureHero({ data, type }: { data: any, type?: string }
             </div>
           )}
         </div>
+        {!hideBg &&
         <div className="hidden z-0 md:block absolute right-0 bottom-0 w-[1000px] h-[738px] pointer-events-none">
           <Image
             className="w-full h-full object-cover"
@@ -401,6 +410,7 @@ export default function FeatureHero({ data, type }: { data: any, type?: string }
             src={bgStyle.src}
           />
         </div>
+    }
       </Container>
     </Section>
   )

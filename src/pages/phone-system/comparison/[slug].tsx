@@ -5,19 +5,22 @@ import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
-import { getAllComparisonValues } from '~/lib/sanity.queries'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import { getAllComparisonValues, getFeaturesList } from '~/lib/sanity.queries'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import SimpleHead from '~/components/common/SimpleHead'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import OfferSection from '~/v2/sections/OfferSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 
 interface ComparisonPageProps {
   pageData: any
   faq: any
   region: string
   slug: string
+  features: any[]
 }
 
 export default function ComparisonSlugPage({
@@ -25,7 +28,9 @@ export default function ComparisonSlugPage({
   faq,
   region,
   slug,
+  features,
 }: ComparisonPageProps) {
+
 
   // Extract comparison table data from componentData
   const comparisonTableComponent = pageData['comparison-table']?.componentData
@@ -42,35 +47,41 @@ export default function ComparisonSlugPage({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <HeroWrapper>
-        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        {pageData['comparison-hero']?.componentData && (
-          <HeroSection
-            page=""
-            data={pageData['comparison-hero']?.componentData}
-            showFullDescription={true}
-          />
-        )}
-      </HeroWrapper>
+        {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
+        <FeatureHero data={pageData['comparison-hero']} type="form" hideBg={true} />
 
       {comparisonSectionData && (
         <SiteComparisonSection
+          variant="V2"
           data={comparisonSectionData}
           // legendData={pageData?.comparisonLegendData || []}
         />
       )}
+        {pageData['offer']?.componentData && (
+        <OfferSection
+          data={pageData['offer']?.componentData}
+        />
+      )}
 
 
-      {pageData['stack-card-tab-testimonial']?.componentData.refData && (
+      <CategoryFeatureTabsSection
+          features={features} 
+          variant="carousel"
+          sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
+      />
+
+    {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
+       {pageData['stack-card-tab-testimonial']?.componentData.refData && (
         <StackCardTestimonial
           data={
             pageData['stack-card-tab-testimonial']?.componentData.refData.tabsListingComponent
           }
         />
-      )}
-
-      {pageData['integrations-listing']?.componentData && (
-        <IntegrationsGrid data={pageData['integrations-listing']?.componentData}/>
       )}
 
       {faq && <FaqSection faqItems={faq} />}
@@ -140,7 +151,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   try {
     const queries = new Queries('comparison', region)
     const pageData = await queries.getPageData('comparison', slug)
-    // console.log('cp pagedata', pageData);
 
 
     // Check if pageData has any content sections (excluding metadata)
@@ -161,6 +171,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
 
     // Fetch comparison legend data (comparisonValue documents)
     const comparisonLegendData = (await getAllComparisonValues()) || []
+    const features = await getFeaturesList(getClient(), region)
 
     return {
       props: {
@@ -168,6 +179,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
           ...pageData,
           comparisonLegendData,
         },
+        features: features || [],
         region: region,
         faq: faqData,
         slug: slug,
