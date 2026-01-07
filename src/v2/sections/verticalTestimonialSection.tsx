@@ -517,12 +517,19 @@ const VerticalTestimonialListing = ({
           <div
             className="lg:px-12 px-6 lg:pb-12 pb-6"
             style={{
-              backgroundImage: `url('/assets/Bg/pattern.png')`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              backgroundRepeat: 'no-repeat',
+              backgroundImage: `repeating-linear-gradient(
+                -45deg,
+                #E5E7EB,
+                #E5E7EB 1px,
+                transparent 1px,
+                transparent 10px
+              )`,
+              // backgroundSize: 'cover',
+              // backgroundPosition: 'center',
+              // backgroundRepeat: 'no-repeat',
               width: '100%',
               height: '100%',
+              backgroundSize: '14.14px 14.14px',
             }}
           >
             <TestimonialSlider data={data} settings={settings2}/>
