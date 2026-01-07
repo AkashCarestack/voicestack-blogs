@@ -6,12 +6,11 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getAllComparisonValues } from '~/lib/sanity.queries'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import SiteComparisonSection from '~/components/SiteComparisonSection'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import SimpleHead from '~/components/common/SimpleHead'
+import FeatureHero from '~/v2/sections/FeatureHero'
 
 interface ComparisonPageProps {
   pageData: any
@@ -42,16 +41,8 @@ export default function ComparisonSlugPage({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <HeroWrapper>
-        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        {pageData['comparison-hero']?.componentData && (
-          <HeroSection
-            page=""
-            data={pageData['comparison-hero']?.componentData}
-            showFullDescription={true}
-          />
-        )}
-      </HeroWrapper>
+        {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
+        <FeatureHero data={pageData['comparison-hero']} type="comparison" />
 
       {comparisonSectionData && (
         <SiteComparisonSection

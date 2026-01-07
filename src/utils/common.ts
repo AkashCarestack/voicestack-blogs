@@ -379,3 +379,38 @@ export const descriptionComponents: any = {
       ),
   },
 }
+
+export const ComparisonHeroH1: any = {
+  block: {
+    normal: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'span',
+        {
+          className:'max-w-[606px] text-[#030712] font-[Manrope] text-center md:text-left md:text-6xl text-4xl font-extrabold leading-[115%] tracking-[-0.8px]',
+        },
+        children
+      ),
+  },
+  list: {
+    bullet: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'ul',
+        {
+          className: 'text-base text-gray-950 leading-[24px] self-stretch list-inside font-normal text-left',
+        },
+        children
+      ),
+  },
+  listItem: {
+    bullet: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'li',
+        {
+          className: 'flex justify-start gap-3  py-[10px] md:py-[14px] text-base text-gray-950 leading-[150%] border-b',
+          style: { borderColor: '#0307121A' },
+        },
+        React.createElement('span', null, children)
+      ),
+  },  
+}
+
