@@ -356,7 +356,7 @@ export default function CategoryFeatureTabsSection({
     return (
       <Section
         id="features"
-        className={cn("w-full flex flex-col bg-gray-50 relative", className)}
+        className={cn("w-full flex flex-col bg-white relative", className)}
       >
         <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-px bg-gray-200 w-full">
@@ -450,13 +450,10 @@ export default function CategoryFeatureTabsSection({
       });
     };
 
-    const activeCategoryData = allCategories.find(cat => cat.name === activeCategory) || allCategories[0];
-    const activePillItems = activeCategoryData ? getPillItems(activeCategoryData) : [];
-
     return (
       <Section
         id="features"
-        className={cn("w-full flex flex-col bg-gray-50 relative scroll-m-16", className)}
+        className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
       >
         <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
           {/* Header Section */}
@@ -502,104 +499,120 @@ export default function CategoryFeatureTabsSection({
             />
           </div>
 
-          {/* Carousel Content with Fade Animation - Two Column Layout */}
+          {/* Carousel Content - Two Column Layout with Smooth Animation */}
           <div className="relative w-full">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeCategory}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full"
-              >
-                <div  className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200" >
-                  {/* Left Column: Content and Pill Items */}
-                  <div className="bg-white flex flex-col gap-6 items-start justify-start p-12 min-h-[400px]">
-                    <div className="flex flex-col gap-6 items-start w-full">
-                      {/* Category Label */}
-                      {activeCategoryData.name && (
-                        <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
-                          <p className="leading-6 whitespace-pre-wrap">{activeCategoryData.name}</p>
+            {/* Single container box that stays */}
+            <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
+              {/* Left Column: Content and Pill Items with Smooth Animation */}
+              <div className="bg-white flex flex-col gap-6 items-start justify-start p-12 min-h-[400px] relative overflow-hidden">
+                <AnimatePresence mode="wait">
+                  {allCategories.map((category) => {
+                    const pillItems = getPillItems(category);
+                    const isActive = category.name === activeCategory;
+                    
+                    if (!isActive) return null;
+                    
+                    return (
+                      <motion.div
+                        key={category.name}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex flex-col gap-6 items-start w-full"
+                      >
+                        <div className="flex flex-col gap-6 items-start w-full">
+                          {/* Category Label */}
+                          {category.name && (
+                            <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                              <p className="leading-6 whitespace-pre-wrap">{category.name}</p>
+                            </div>
+                          )}
+                          {/* Main Heading */}
+                          {category.subheading && (
+                            <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
+                              <p className="leading-[48px] whitespace-pre-wrap">{category.subheading}</p>
+                            </div>
+                          )}
+                          {/* Description */}
+                          {category.description && (
+                            <p className="font-geist font-normal leading-6 text-gray-700 text-base whitespace-pre-wrap">
+                              {category.description}
+                            </p>
+                          )}
                         </div>
-                      )}
-                      {/* Main Heading */}
-                      {activeCategoryData.subheading && (
-                        <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
-                          <p className="leading-[48px] whitespace-pre-wrap">{activeCategoryData.subheading}</p>
+
+                        {/* Pill Items Grid */}
+                        <div className="flex flex-wrap gap-3 items-start w-full">
+                          {pillItems.map((item, index) => (
+                            <Link
+                              key={`${category.name}-${index}`}
+                              href={item.href}
+                              className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white hover:border-[rgba(255,255,255,0.60)] hover:bg-[#E5E7EB] transition-all duration-200 shadow-sm cursor-pointer"
+                            >
+                              <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
+                                {item.heading}
+                              </span>
+                              {item.dynamicSvg && (
+                                <div
+                                  className="flex items-center justify-center w-5 h-5 flex-shrink-0 [&_svg]:w-5 [&_svg]:h-5"
+                                  dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
+                                />
+                              )}
+                            </Link>
+                          ))}
                         </div>
-                      )}
-                      {/* Description */}
-                      {activeCategoryData.description && (
-                        <p className="font-geist font-normal leading-6 text-gray-700 text-base whitespace-pre-wrap">
-                          {activeCategoryData.description}
-                        </p>
-                      )}
-                    </div>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+              </div>
 
-                    {/* Pill Items Grid */}
-                    <div className="flex flex-wrap gap-3 items-start w-full">
-                      {activePillItems.map((item, index) => (
-                        <motion.div
-                          key={`${activeCategory}-${index}`}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ 
-                            duration: 0.3, 
-                            delay: index * 0.05,
-                            ease: [0.16, 1, 0.3, 1] 
-                          }}
-                        >
-                          <Link
-                            href={item.href}
-                            className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white hover:border-[rgba(255,255,255,0.60)] hover:bg-[#E5E7EB] transition-all duration-200 shadow-sm cursor-pointer"
-                          >
-                            <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
-                              {item.heading}
-                            </span>
-                            {item.dynamicSvg && (
-                              <div
-                                className="flex items-center justify-center w-5 h-5 flex-shrink-0 [&_svg]:w-5 [&_svg]:h-5"
-                                dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
-                              />
-                            )}
-                          </Link>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Right Column: Category Image */}
-                  <div className="bg-gray-50 flex flex-col items-center justify-center h-[400px] lg:h-auto  overflow-hidden relative">
-                    {/* Grid Pattern Background */}
-                    <div className="absolute inset-0 z-0">
-                      <GridPattern
-                        width={50}
-                        height={50}
-                        x={-1}
-                        y={-1}
-                        className={cn(
-                          "[mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"
-                        )}
-                      />
-                    </div>
-                    {activeCategoryData?.mainImage && (
-                      <div className="w-full h-full relative z-10 flex items-end justify-center">
+              {/* Right Column: Category Image with Fixed Grid Pattern */}
+              <div className="bg-gray-50 flex flex-col items-center justify-center h-[400px] lg:h-auto overflow-hidden relative">
+                {/* Grid Pattern Background - Fixed, doesn't move */}
+                <div className="absolute inset-0 z-0">
+                  <GridPattern
+                    width={50}
+                    height={50}
+                    x={-1}
+                    y={-1}
+                    className={cn(
+                      "[mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"
+                    )}
+                  />
+                </div>
+                {/* Images - Smooth fade animation */}
+                <AnimatePresence mode="wait">
+                  {allCategories.map((category) => {
+                    const isActive = category.name === activeCategory;
+                    
+                    if (!isActive || !category?.mainImage) return null;
+                    
+                    return (
+                      <motion.div
+                        key={category.name}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="w-full h-full relative z-10 flex items-end justify-center"
+                      >
                         <ImageLoader
-                          image={activeCategoryData.mainImage}
-                          alt={`${activeCategoryData.name} feature illustration`}
-                          title={`${activeCategoryData.name || activeCategoryData?.mainImage?.title || activeCategoryData?.mainImage?.altText || ''}`}
+                          image={category.mainImage}
+                          alt={`${category.name} feature illustration`}
+                          title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
                           width={400}
                           height={400}
                           fixed={false}
                           className="rounded-lg object-contain w-full max-w-[400px] h-auto max-h-[500px]"
                         />
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
+              </div>
+            </div>
           </div>
         </Container>
       </Section>
@@ -609,7 +622,7 @@ export default function CategoryFeatureTabsSection({
   return (
     <Section
       id="features"
-      className={cn("w-full flex flex-col bg-gray-50 relative scroll-m-16", className)}
+      className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
     >
       <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
         <div className="flex-col relative w-full flex gap-16 mb-[60px]">

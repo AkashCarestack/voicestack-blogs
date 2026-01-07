@@ -1,25 +1,18 @@
-import React from 'react'
 import { GetStaticProps } from 'next'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import CardsGridSection from '~/components/revamp/components/CardsGridSection'
-import SiteComparisonSection from '~/components/SiteComparisonSection'
-import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
+import React from 'react'
+
+import FaqSection from '~/components/revamp/components/common/faqSection'
+import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
-import { readToken } from '~/lib/sanity.api'
-import {
-  getComparisonTableData,
-  getAllComparisonValues,
-  getFeaturesList,
-} from '~/lib/sanity.queries'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import FaqSection from '~/components/revamp/components/common/faqSection'
-import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
-import SimpleHead from '~/components/common/SimpleHead'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import { getFeaturesList } from '~/lib/sanity.queries'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
+import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -75,18 +68,16 @@ export default function DentalPhonesIndex({
   faq,
   features,
 }: DentalPhonesIndexProps) {
-
+  console.log("ppp",pageData)
   return (
     <>
-      <SimpleHead data={pageData?.seo} />
+      <FeatureHero data={pageData['dental-phones-hero']} type="feature" />
 
-      <HeroWrapper>
-        <HeroSection
-          page=""
-          data={pageData['dental-phones-hero']?.componentData}
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logos-listing']?.componentData.blocksListingData}
         />
-      </HeroWrapper>
-     
+      )}
       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
@@ -99,36 +90,42 @@ export default function DentalPhonesIndex({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-      <CategoryFeatureTabs features={features} />
-      {pageData['how-voicestack-works']?.componentData && (
-        <CardsGridSection
-          data={pageData['how-voicestack-works'].componentData}
-          customText="Does VoiceStack fit your practice?"
+        <CategoryFeatureTabsSection
+        features={features}
+        variant="carousel"
+        sectionHeading={
+          pageData['category-feature-tabs']?.componentData?.sectionHeading
+        }
+      />
+      {pageData['card-with-image'] && (
+        <GroupedCardsGridSection
+          data={pageData['card-with-image']?.componentData}
         />
       )}
-      {pageData['testimonial-video-section']?.componentData && (
+
+      {pageData['how-voicestack-works'] && (
+        <GroupedCardsGridSection
+          data={pageData['how-voicestack-works']?.componentData}
+        />
+      )}
+      {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
         <VerticalTestimonialListing
-          data={pageData['testimonial-video-section']?.componentData?.refData?.testimonialListing}
+          data={
+            pageData['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
         />
       )}
-
-      {pageData['custom']?.componentData && (
-        <div className="mt-12">
-          <IntegrationsGrid data={pageData['custom']?.componentData} />
-        </div>
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
       )}
-      <StatisticsSection />
-      
-      {/* FAQ Section */}
-      {faq && (
-        <div>
-          <FaqSection faqItems={faq} />
-        </div>
-      )}
+      <StatisticsSection variant="V2" />
 
-      {/* {pageData['comparison-cards']?.componentData && (
-        <ComparisonCardsSection data={pageData['comparison-cards']?.componentData} />
-      )} */}
+      {faq && <FaqSection faqItems={faq} />}
     </>
   )
 }
@@ -136,8 +133,9 @@ export default function DentalPhonesIndex({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
-    const queries = new Queries('landing', region)
-    const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
+    const queries = new Queries('landing-v2', region)
+    const slug =
+      region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
 
     const pageData = await queries.getPageData('dentalPhones', slug)
     const client = getClient()
@@ -149,7 +147,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
 
     // Ensure FAQ data is serializable
-    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+    const faqData =
+      pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
     // Fetch features data for CategoryFeatureTabs
     const features = await getFeaturesList(client, region)
 

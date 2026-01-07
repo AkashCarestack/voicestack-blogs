@@ -54,6 +54,7 @@ export default function WhoWeServeIndex({
           data={pageData['power-of-ai']?.componentData}
           theme="dark"
           aiSection={true}
+          sectionBorder="b"
         />
       )}
       {pageData['integrations-listing']?.componentData && (

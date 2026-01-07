@@ -1,14 +1,18 @@
-import React from 'react'
 import { GetStaticProps } from 'next'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
-import FaqSection from '~/components/revamp/components/common/faqSection'
-import Queries from '~/components/revamp/queries'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import React from 'react'
+
 import SimpleHead from '~/components/common/SimpleHead'
+import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import FaqSection from '~/components/revamp/components/common/faqSection'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
+import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
+import Queries from '~/components/revamp/queries'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -122,7 +126,33 @@ export default function DentalPhonesIntegrations({
       integrations: sortedIntegrations,
     }
   }, [pageData])
-  return (
+  console.log(pageData, 'integrationData')
+  return pageData?.slug?.includes('v2') ? (
+    <>
+      <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+      <FeatureHero data={pageData['integrations-hero']} type="feature" />
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logos-listing']?.componentData.blocksListingData}
+        />
+      )}
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
+      {integrationData && (
+        <div>
+          <FeaturesSectionWithNavigation
+            categories={integrationData.categories}
+            integrations={integrationData.integrations}
+          />
+        </div>
+      )}
+         {faq && <FaqSection faqItems={faq} />}
+    </>
+  ) : (
     <>
       <SimpleHead data={pageData?.seo} />
 
@@ -133,10 +163,13 @@ export default function DentalPhonesIntegrations({
           data={pageData['dental-phones-hero']?.componentData}
         />
       </HeroWrapper>
-      
+
       {pageData['custom']?.componentData && (
         <div className="">
-          <IntegrationsGrid showIntegrationBtn={false} data={pageData['custom']?.componentData} />
+          <IntegrationsGrid
+            showIntegrationBtn={false}
+            data={pageData['custom']?.componentData}
+          />
         </div>
       )}
       {integrationData && (
@@ -159,7 +192,7 @@ export default function DentalPhonesIntegrations({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-      
+
       {/* FAQ Section */}
       {faq && (
         <div>
@@ -173,12 +206,15 @@ export default function DentalPhonesIntegrations({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
-    const queries = new Queries('integrations', region)
+    const queries = new Queries('integrations-v2', region)
     const slug =
-      region === 'en' ? 'integrations' : `integrations-${region.toLowerCase()}`
+      region === 'en'
+        ? 'integrations-v2'
+        : `integrations-v2-${region.toLowerCase()}`
 
     // Fetch page data for integrations
     const pageData = await queries.getPageData('dentalPhones', slug)
+    pageData.slug = slug
 
     const noPageData = Object.values(pageData).every(
       (value) => value === null || value === undefined,
