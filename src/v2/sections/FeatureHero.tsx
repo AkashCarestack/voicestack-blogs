@@ -6,6 +6,7 @@ import Container from '~/components/structure/Container'
 import bgStyle from '~/assets/Bg/image 682.png'
 import { descriptionComponents, HeroFeatureComponents, HeroFeatureHeadingComponents, HeroHeadingComponents } from '~/utils/common'
 import { urlForImage } from '~/lib/sanity.image'
+import Section from '~/components/structure/Section'
 import HubspotGenericForm from '~/components/revamp/components/common/hubspotGeneric'
 import LightningIcon from '../icons/LightningIcon'
 
@@ -21,7 +22,7 @@ export default function FeatureHero({ data ,type}: { data: any, type?: string })
   const webpFileUrl = value?.video && value?.video?.length > 0 ? value?.video[0]?.uploadVideos[0]?.url : null
   const mp4FileUrl = value?.video && value?.video?.length > 0 ? value?.video[0]?.uploadVideos[0]?.url : null
   return (
-    <div className="relative overflow-hidden" id="FeatureHero">
+    <Section className="relative overflow-hidden" id="FeatureHero" border="b">
       <Container type="V2" className="md:py-24 py-16 overflow-hidden justify-center flex">
         <div className='flex md:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10 items-center'>
           <div className="flex flex-col gap-3 relative z-10 flex-1">
@@ -126,6 +127,6 @@ export default function FeatureHero({ data ,type}: { data: any, type?: string })
           />
         </div>
       </Container>
-    </div>
+    </Section>
   )
 }

@@ -9,7 +9,7 @@ import Image from 'next/image'
 
 interface GroupedCardsGridSectionProps {
   data?: {
-    ctaListItems: { ctaLink?: string; ctaText?: string; ctaType?: string }[]
+    ctaListItems?: { ctaLink?: string; ctaText?: string; ctaType?: string }[]
     sectionHeadingDynamic?: any
     description?: string
     customText?: string
@@ -71,7 +71,7 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false }
   
 
   return (
-    <Section className={bgColor} border='t'>
+    <Section className={bgColor} border='b'>
       <Container type="V2" border="t-0" darkTheme={isDark} className="pt-sm md:pt-md lg:pt-lg pb-sm">
         <div className={`flex flex-col w-full border-b ${isDark ? 'border-gray-800' : 'border-gray-200'}`}>
           {/* Header Section */}
@@ -92,7 +92,7 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false }
                 <></>
               )}
               <SectionHeaderV2
-                heading={displayData.sectionHeadingDynamic}
+                heading={displayData.sectionHeadingDynamic || displayData.heading}
                 description={displayData.description || ''}
                 className="xl:px-12 md:px-6 px-4"
                 isWhite={isDark}

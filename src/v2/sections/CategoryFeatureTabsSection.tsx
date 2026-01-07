@@ -356,6 +356,7 @@ export default function CategoryFeatureTabsSection({
     return (
       <Section
         id="features"
+        border="b"
         className={cn("w-full flex flex-col bg-gray-50 relative", className)}
       >
         <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
