@@ -503,11 +503,11 @@ const VerticalTestimonialListing = ({
   }
 
   return (
-    <Section className="bg-gray-50" border="y">
+    <Section className="bg-white" border="b">
       <Container
         className="w-full pt-sm md:pt-md lg:pt-lg"
         type="V2"
-        border="b-0"
+        border="y-0"
       >
         <div className="flex flex-col items-center w-full gap-16">
           <SectionHeaderV2
