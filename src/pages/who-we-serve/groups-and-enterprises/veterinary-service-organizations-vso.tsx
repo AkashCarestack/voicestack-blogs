@@ -10,18 +10,18 @@ import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSecti
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
-interface DentalServiceOrganizationsDSOProps {
+interface VeterinaryServiceOrganizationVSOProps {
   pageData: any
   faq: any
   region: string
 }
 
-export default function DentalServiceOrganizationsDSO({
+export default function VeterinaryServiceOrganizationVSO({
   pageData,
   faq,
   region,
-}: DentalServiceOrganizationsDSOProps) {
-
+}: VeterinaryServiceOrganizationVSOProps) {
+ 
   return (
     <>
       <FeatureHero data={pageData['dso-hero']?.componentData} type="feature" />
@@ -31,7 +31,7 @@ export default function DentalServiceOrganizationsDSO({
             data={pageData['logo-listing']?.componentData.blocksListingData}
           />
         )}
-        {/* {pageData['testimonial-video-section']?.componentData?.refData
+        {pageData['testimonial-video-section']?.componentData?.refData
           ?.testimonialListing && (
           <VerticalTestimonialListing
             data={
@@ -39,8 +39,8 @@ export default function DentalServiceOrganizationsDSO({
                 ?.testimonialListing
             }
           />
-        )} */}
-        {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        )}
+        {/* {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
           <StackCardTestimonial
             data={
               pageData['stack-card-tab-testimonial']?.componentData?.refData
@@ -51,7 +51,7 @@ export default function DentalServiceOrganizationsDSO({
           <StackCardTestimonial
             data={pageData['stack-card-tab-testimonial']?.componentData}
           />
-        )}
+        )} */}
         {pageData['card-with-image'] && (
         <GroupedCardsGridSection
           data={pageData['card-with-image']?.genericListingComponent}
@@ -88,8 +88,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const queries = new Queries('whoWeServe', region)
     const slug =
       region === 'en'
-        ? 'dental-service-organizations-dso'
-        : `dental-service-organizations-dso-${region.toLowerCase()}`
+        ? 'veterinary-service-organization-vso'
+        : `veterinary-service-organization-vso-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
 
     if (!pageData) {

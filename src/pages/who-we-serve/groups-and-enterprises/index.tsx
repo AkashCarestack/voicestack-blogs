@@ -18,7 +18,7 @@ export default function GroupsAndEnterprises({
   faq,
   region,
 }: DentalServiceOrganizationsDSOProps) {
-    console.log({pageData}, 'pageData')
+
   return (
     <>
     <FeatureHero
