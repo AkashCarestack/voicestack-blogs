@@ -10,6 +10,7 @@ import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Queries from '~/components/revamp/queries'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
@@ -75,12 +76,18 @@ export default function DentalPhonesIntegrations({
 }: DentalPhonesIntegrationsProps) {
   // Extract integration data from pageData instead of separate query
   const integrationData = React.useMemo(() => {
+    // Check both paths: v2 pages use 'integrations-listing', non-v2 use 'custom'
+    const v2Data = pageData['integrations-listing']?.componentData
     const customData = pageData['custom']?.componentData
-    if (!customData?.refData?.integrationListing?.integrationList) {
+    
+    // Try v2 path first, then fallback to custom path
+    const integrationListing = v2Data?.refData?.integrationListing || customData?.refData?.integrationListing
+    
+    if (!integrationListing?.integrationList) {
       return null
     }
 
-    const integrations = customData.refData.integrationListing.integrationList
+    const integrations = integrationListing.integrationList
 
     // Sort integrations by order field (ascending), with items without order at the end
     const sortedIntegrations = [...integrations].sort((a: any, b: any) => {
@@ -126,7 +133,7 @@ export default function DentalPhonesIntegrations({
       integrations: sortedIntegrations,
     }
   }, [pageData])
-  console.log(pageData, 'integrationData')
+
   return pageData?.slug?.includes('v2') ? (
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
