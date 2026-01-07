@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { cn } from "~/lib/utils";
 import Section from '~/components/structure/Section';
 import Container from '~/components/structure/Container';
@@ -15,6 +16,7 @@ import ImageLoader from '~/components/common/imageLoader/imageLoader';
 import Button from '~/components/common/Button';
 import GroupedCardsGrid from '../components/GroupedCardsGrid';
 import SectionDivider from '../components/SectionDivider';
+import { tr } from 'date-fns/locale';
 
 interface Feature {
   _id: string;
@@ -49,7 +51,7 @@ interface Feature {
 }
 
 interface CategoryFeatureTabsSectionProps {
-  features: Feature[] | any; // Allow tabsListingComponent structure
+  features: Feature[] | any; 
   sectionHeading?: any;
   className?: string;
   variant?: 'default' | 'carousel' | 'scrollcarousel' | 'singlecard';
@@ -61,11 +63,22 @@ export default function CategoryFeatureTabsSection({
   className,
   variant = 'default',
 }: CategoryFeatureTabsSectionProps) {
+  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isScrolling, setIsScrolling] = useState(false);
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
+
+  // Get base path dynamically from current route
+  const getBasePath = useCallback(() => {
+    const pathname = router.pathname || router.asPath;
+    const pathSegments = pathname.split('/').filter(Boolean);
+    if (pathSegments.length >= 2) {
+      return `/${pathSegments[0]}/${pathSegments[1]}`;
+    }
+    return '/phone-system/features';
+  }, [router.pathname, router.asPath]);
 
   // Helper function to extract plain text from blockContent/portable text
   const extractTextFromBlocks = (blocks: any): string => {
@@ -228,6 +241,7 @@ export default function CategoryFeatureTabsSection({
       });
     }
   }, []);
+
 
   // Handle category click - override SwitchableTabs default behavior
   const handleCategoryClick = useCallback(
@@ -602,10 +616,8 @@ export default function CategoryFeatureTabsSection({
                           image={category.mainImage}
                           alt={`${category.name} feature illustration`}
                           title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
-                          width={400}
-                          height={400}
-                          fixed={false}
-                          className="rounded-lg object-contain w-full max-w-[400px] h-auto max-h-[500px]"
+                          fixed={true}
+                          className="rounded-lg object-contain w-full h-full"
                         />
                       </motion.div>
                     );
@@ -659,6 +671,7 @@ export default function CategoryFeatureTabsSection({
             className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
             isShowImage={false}
             shadow={false}
+            isSkip={true}
           />
         </div>
 
@@ -759,21 +772,22 @@ export default function CategoryFeatureTabsSection({
                           
                           // Get slug from basicInfo or direct slug
                           const featureSlug = feature.basicInfo?.slug?.current || feature.slug?.current;
+                          const basePath = getBasePath();
                           
                           return {
                             heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
                             description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
                             dynamicSvg: iconSvg,
                             image: feature.mainImage || null,
-                            // link: featureSlug ? {
-                            //   buttonType: "text",
-                            //   text: null,
-                            //   url: `/${featureSlug}`
-                            // } : {
-                            //   buttonType: "text",
-                            //   text: null,
-                            //   url: null
-                            // }
+                            link: featureSlug ? {
+                              buttonType: "text",
+                              text: null,
+                              url: `${basePath}/${featureSlug}`
+                            } : {
+                              buttonType: "text",
+                              text: null,
+                              url: null
+                            }
                           };
                         })}
                         theme="light"
