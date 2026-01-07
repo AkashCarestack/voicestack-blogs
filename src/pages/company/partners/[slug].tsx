@@ -10,17 +10,21 @@ import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import OfferSection from '~/v2/sections/OfferSection'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import { getFeaturesList } from '~/lib/sanity.queries'
 
 interface PartnerSlugPageProps {
   pageData: any
   region: string
   slug: string
+  features: any[]
 }
 
 export default function PartnerSlugPage({
   pageData,
   region,
   slug,
+  features,
 }: PartnerSlugPageProps) {
  
   const heroData = pageData['partner-hero']?.componentData;
@@ -49,6 +53,13 @@ export default function PartnerSlugPage({
           data={pageData['offer']?.componentData}
         />
       )}
+      <CategoryFeatureTabsSection
+        features={features}
+        variant="carousel"
+        sectionHeading={
+          pageData['category-feature-tabs']?.componentData?.sectionHeading
+        }
+      />
       {pageData['power-of-ai'] && (
         <GroupedCardsGridSection
           data={pageData['power-of-ai']?.componentData}
@@ -127,12 +138,13 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         notFound: true,
       }
     }
-
+    const features = await getFeaturesList(getClient(), region)
     return {
       props: {
         pageData,
         region: region,
         slug: slug,
+        features: features || [],
       },
     }
   } catch (error) {
