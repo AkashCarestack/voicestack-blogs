@@ -355,6 +355,7 @@ export default function ContentVideoTabsSection({
           className="md:py-16 bg-transparent !shadow-none !border-none"
           isShowImage={false}
           shadow={false}
+          isSkip={true}
         />
       </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:px-12 px-4 ">
