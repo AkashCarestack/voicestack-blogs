@@ -40,12 +40,14 @@ interface IntegrationsGridProps {
 className?: string
   data:any
   theme?: 'light' | 'dark'
+  sectionBorder?: 't' | 'b' | 'y' 
 }
 
 const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   className = '',
   data,
   theme,
+  sectionBorder = 'b',
 }) => {
   const sortedIntegrations = React.useMemo(() => {
     const integrations =
@@ -133,7 +135,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   const textColor = isDark ? 'text-white' : 'text-gray-950'
 
   return (
-    <Section className={`relative overflow-hidden bg-[#030712] ${className}`} border="t" isDark={isDark}>
+    <Section className={`relative overflow-hidden bg-[#030712] ${className}`} border={sectionBorder} isDark={isDark}>
       <Container
         className="flex-col relative pt-16 md:pt-20 lg:pt-24 "
         type="V2"

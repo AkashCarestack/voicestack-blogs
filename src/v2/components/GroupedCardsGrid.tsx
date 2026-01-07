@@ -289,7 +289,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
       },
       list: {
         bullet: ({ children }) => (
-          <ul className="flex flex-col gap-1 ml-[-24px]">{children}</ul>
+          <ul className="flex flex-col gap-1 lg:ml-[-24px]">{children}</ul>
         ),
       },
       listItem: {
@@ -457,8 +457,8 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
           <div key={group._key || groupIndex} className={`flex flex-col w-full ${!group.heading ? `border-t ${borderColor}` : ""}`}>
             {/* Group Header */}
             {group.heading && (
-              <div className={`${headerBgColor} border-t border-b ${borderColor} flex items-center justify-center px-12 py-8`}>
-                <h3 className={`font-geist font-medium text-xl leading-[1.4] ${textColor} tracking-normal whitespace-nowrap`}>
+              <div className={`${headerBgColor} border-t border-b ${borderColor} flex items-center justify-center md:px-12 px-4 md:py-8 py-6`}>
+                <h3 className={`font-geist font-medium md:text-xl text-base leading-[1.4] ${textColor} tracking-normal`}>
                   {group.heading}
                 </h3>
               </div>
