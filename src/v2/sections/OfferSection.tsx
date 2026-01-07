@@ -16,8 +16,8 @@ const OfferSection = ({ data }: OfferSectionProps) => {
     <Section className='bg-gray-50 relative overflow-hidden' border="b">
       <Container className='py-16' type="V2" border='y-0'>
         <div className="flex relative" style={{ background: 'linear-gradient(258deg, #D3C6FB 0%, #393CC0 100%)' }}>
-          <div className="flex relative z-10">
-            <div className="max-w-[702px] md:p-16 p-12 flex-1">
+          <div className="flex md:flex-row flex-col relative z-10">
+            <div className="max-w-[702px] md:p-16 py-8 px-8 flex-1">
               <div className="flex-col relative w-full flex gap-8">
 
                 <SectionHeaderV2 isLeftAlign={true} className='' isWhite={true}
