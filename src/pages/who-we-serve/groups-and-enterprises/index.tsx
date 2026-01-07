@@ -1,11 +1,11 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
-import LogoListingV2 from '~/components/LogoListingV2'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'   
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 
 interface DentalServiceOrganizationsDSOProps {
   pageData: any
@@ -18,7 +18,7 @@ export default function GroupsAndEnterprises({
   faq,
   region,
 }: DentalServiceOrganizationsDSOProps) {
-    console.log({pageData}, 'pageData')
+
   return (
     <>
     <FeatureHero
@@ -55,8 +55,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const queries = new Queries('whoWeServe', region)
     const slug =
       region === 'en'
-        ? 'dental-service-organizations-dso'
-        : `dental-service-organizations-dso-${region.toLowerCase()}`
+        ? 'groups-and-enterprise'
+        : `groups-and-enterprise-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
 
     if (!pageData) {
