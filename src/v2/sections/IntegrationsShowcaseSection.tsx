@@ -196,7 +196,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
            ) }
 
             {/* Mobile Grid - Vertical layout (below md) */}
-            <div className="relative mx-auto flex flex-wrap justify-center gap-2 md:hidden px-4">
+            <div className="relative mx-auto flex flex-wrap justify-center gap-2 md:hidden px-4 pb-6">
               {sortedIntegrations.map((integration: any) => (
                 <div
                   key={integration._id}
@@ -287,11 +287,11 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
             </div>
             
             {data?.items && data.items.length > 0 && (
-              <div className="flex flex-row w-full pt-4 lg:pt-0">
+              <div className="flex flex-col md:flex-row w-full pt-4 lg:pt-0">
                 {data.items.map((item: any) => (
                   <div
                     key={item._key || item._id}
-                    className="flex flex-col flex-1 gap-2 relative z-10 p-6 md:p-12 border-t border-r border-gray-800 last:border-r-0"
+                    className="flex flex-col flex-1 gap-2 relative z-10 p-6 md:p-12 border-t md:border-r border-gray-800 md:last:border-r-0"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
