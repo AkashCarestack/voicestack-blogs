@@ -1,6 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
-import LogoListingV2 from '~/components/LogoListingV2'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import Section from '~/components/structure/Section'
