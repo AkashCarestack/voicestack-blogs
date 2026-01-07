@@ -5,6 +5,7 @@ import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
@@ -30,7 +31,7 @@ export default function DentalServiceOrganizationsDSO({
             data={pageData['logo-listing']?.componentData.blocksListingData}
           />
         )}
-        {pageData['testimonial-video-section']?.componentData?.refData
+        {/* {pageData['testimonial-video-section']?.componentData?.refData
           ?.testimonialListing && (
           <VerticalTestimonialListing
             data={
@@ -38,7 +39,7 @@ export default function DentalServiceOrganizationsDSO({
                 ?.testimonialListing
             }
           />
-        )}
+        )} */}
         {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
           <StackCardTestimonial
             data={
@@ -51,11 +52,11 @@ export default function DentalServiceOrganizationsDSO({
             data={pageData['stack-card-tab-testimonial']?.componentData}
           />
         )}
-        {/* {pageData['card-with-image'] && (
+        {pageData['card-with-image'] && (
         <GroupedCardsGridSection
           data={pageData['card-with-image']?.genericListingComponent}
         />
-      )} */}
+      )}
         <StatisticsSection variant="V2" />
         {pageData['integrations-listing']?.componentData && (
           <IntegrationsShowcaseSection
