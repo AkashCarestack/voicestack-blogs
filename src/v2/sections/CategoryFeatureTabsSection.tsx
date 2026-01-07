@@ -229,6 +229,7 @@ export default function CategoryFeatureTabsSection({
     }
   }, []);
 
+
   // Handle category click - override SwitchableTabs default behavior
   const handleCategoryClick = useCallback(
     (categoryName: string) => {
@@ -496,6 +497,7 @@ export default function CategoryFeatureTabsSection({
               className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
               isShowImage={false}
               shadow={false}
+              isSkip={true}
             />
           </div>
 
@@ -659,6 +661,7 @@ export default function CategoryFeatureTabsSection({
             className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
             isShowImage={false}
             shadow={false}
+            isSkip={true}
           />
         </div>
 
