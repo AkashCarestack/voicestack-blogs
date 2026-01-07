@@ -616,7 +616,6 @@ export default function CategoryFeatureTabsSection({
                           image={category.mainImage}
                           alt={`${category.name} feature illustration`}
                           title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
-                      
                           fixed={true}
                           className="rounded-lg object-contain w-full h-full"
                         />
