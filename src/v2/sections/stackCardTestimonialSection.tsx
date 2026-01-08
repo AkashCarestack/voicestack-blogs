@@ -460,14 +460,14 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     }}
                   >
                     <div 
-                      className="flex relative max-w-[570px]"
+                      className="flex relative max-w-[570px] w-full h-full"
                       style={{
-                        height: `548px`,
-                        width: `${
-                          548 *
-                            (currentTestimonial?.image?.metadata?.dimensions
-                              ?.aspectRatio || 2)
-                        }px`,
+                        // height: `548px`,
+                        // width: `${
+                        //   548 *
+                        //     (currentTestimonial?.image?.metadata?.dimensions
+                        //       ?.aspectRatio || 2)
+                        // }px`,
                       }}
                     >
                       <ImageLoader
