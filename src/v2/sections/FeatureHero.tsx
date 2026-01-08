@@ -9,6 +9,7 @@ import { urlForImage } from '~/lib/sanity.image'
 import Section from '~/components/structure/Section'
 import HubspotGenericForm from '~/components/revamp/components/common/hubspotGeneric'
 import LightningIcon from '../icons/LightningIcon'
+import ImageLoader from '~/components/common/imageLoader/imageLoader'
 
 interface FeatureHeroProps {
   data: any
@@ -17,7 +18,6 @@ interface FeatureHeroProps {
 }
 
 export default function FeatureHero({ data, type , hideBg = false}: { data: any, type?: string, hideBg?: boolean }) {
-  console.log(data, 'data');
   const hubspotFormId = data?.componentData?.hubspotFormId || data?.hubspotFormId
   const value = data?.heroComponent 
   const buttons = value?.bookBtnContent || data?.bookBtnContent
@@ -25,6 +25,9 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
   const description = value?.heroDescription || data?.heroDescription
   const title = value?.heroStrip || data?.heroStrip?.toUpperCase()
   const image = urlForImage(value?.heroImage) || data?.heroImage?.url
+  
+  // Extract testimonial data
+  const testimonial = value?.testimonial || data?.testimonial
   
   // Extract video data
   const videoData = value?.video && value?.video?.length > 0 ? value?.video[0] : null
@@ -64,6 +67,27 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const [playingYoutube, setPlayingYoutube] = useState<boolean>(false)
   
+  // Testimonial description components for PortableText
+  const testimonialDescriptionComponents: any = {
+    block: {
+      normal: ({ children }: { children: React.ReactNode }) => (
+        <p className="text-base xl:text-lg font-medium">
+          &ldquo;{children}&rdquo;
+        </p>
+      ),
+      blockquote: ({ children }: { children: React.ReactNode }) => (
+        <blockquote className="text-base xl:text-lg font-medium">
+          &ldquo;{children}&rdquo;
+        </blockquote>
+      ),
+    },
+    marks: {
+      highlight: ({ children }: { children: React.ReactNode }) => (
+        <span className="text-[#B5EB92]">{children}</span>
+      ),
+    },
+  }
+  
   const handleVideoClick = () => {
     if (videoId) {
       // For YouTube videos - stop any playing thumbnail video first
@@ -86,14 +110,29 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
     }
   }
   
+  // Handle testimonial YouTube video click
+  const handleTestimonialVideoClick = () => {
+    const testimonialVideoId = testimonial?.video?.[0]?.videoId
+    if (testimonialVideoId) {
+      // Stop any playing thumbnail video first
+      const video = videoRef.current
+      if (video) {
+        video.pause()
+        video.currentTime = 0
+      }
+      setPlayingYoutube(true)
+    }
+  }
+  
   useEffect(() => {
     const handleTouchOutside = (event: TouchEvent | MouseEvent) => {
       const target = event.target as HTMLElement
 
       const clickedInside = iframeRef.current?.contains?.(target)
       const insideVideoContainer = target.closest('.video-container')
+      const insideTestimonialCard = target.closest('.testimonial-card')
 
-      if (!insideVideoContainer && !clickedInside && playingYoutube) {
+      if (!insideVideoContainer && !insideTestimonialCard && !clickedInside && playingYoutube) {
         const iframe = iframeRef.current
         if (iframe) {
           iframe.contentWindow?.postMessage(
@@ -125,6 +164,9 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
   
   // Check if we have any video content
   const hasVideo = videoId || externalUrl || movFileUrl || webpFileUrl || mp4FileUrl
+  
+  // Check if we have testimonial with video
+  const hasTestimonial = testimonial && testimonial?.video?.[0]?.videoId
   return (
     <Section className="relative overflow-hidden" id="FeatureHero" border="b">
       <Container type="V2" className="md:py-24 py-16 overflow-hidden justify-center flex">
@@ -182,12 +224,161 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
               </div>
             </div>
           }
-          {image && (
+          {image && !hasVideo && !hasTestimonial && (
             <div className='flex-1  w-full h-full max-w-[481px] max-h-[444px]'>
               <Image className='md:w-[481px] md:h-[444px] w-full h-full object-cover' src={image} alt={heading} width={1000} height={1000} />
             </div>
           )}
-          {hasVideo && (
+          {/* Testimonial Section with YouTube Video */}
+          {hasTestimonial && !hasVideo && !image && (
+            <div className="lg:max-w-[481px] leading-none flex-1 flex justify-center lg:justify-end items-start relative testimonial-card">
+              <div className="absolute right-auto left-1/2 lg:left-auto lg:right-0 top-[0] bg-[#4A3CE1] opacity-10 rounded-[12px] md:rounded-[22px] -translate-x-1/2 lg:translate-x-0 rotate-[-7.7deg] scale-90 aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] shrink-0 origin-bottom-left"></div>
+              <div className="relative rounded-[8px] md:rounded-[16px] aspect-[9/16] lg:aspect-[380/550] w-[320px] lg:w-[380px] overflow-hidden shrink-0">
+                <div
+                  className="group flex flex-col justify-center rounded-2xl h-[550px] shadow-md cursor-pointer w-full aspect-[9/16] overflow-hidden relative"
+                  onClick={handleTestimonialVideoClick}
+                >
+                  {playingYoutube && testimonial?.video?.[0]?.videoId ? (
+                    <div className="absolute inset-0 w-full h-full rounded-2xl overflow-hidden">
+                      <iframe
+                        ref={(el) => {
+                          if (el) iframeRef.current = el
+                        }}
+                        src={`https://www.youtube-nocookie.com/embed/${testimonial?.video?.[0]?.videoId}?playlist=${testimonial?.video?.[0]?.videoId}&loop=1&autoplay=1&modestbranding=1&rel=0&disablekb=1&fs=0&controls=0&enablejsapi=1`}
+                        className="w-full h-full animate-fadeIn transition-opacity duration-300"
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100% !important',
+                          height: '100%',
+                          border: 'none',
+                          borderRadius: '12px',
+                          objectFit: 'cover',
+                          transform: 'scale(1.25)',
+                        }}
+                        allow="autoplay; encrypted-media"
+                        allowFullScreen
+                        title="YouTube video"
+                      />
+                    </div>
+                  ) : (
+                    <div className="relative w-full h-full rounded-2xl overflow-hidden">
+                      {/* Thumbnail Video - plays on hover */}
+                      {testimonial?.thumbnail && (
+                        <video
+                          ref={(el) => {
+                            if (el) videoRef.current = el
+                          }}
+                          style={{
+                            backgroundColor: 'transparent',
+                            backgroundImage: 'none',
+                            backgroundSize: 0,
+                            backgroundPosition: 0,
+                            backgroundRepeat: 'no-repeat',
+                            objectFit: 'cover',
+                          }}
+                          className="absolute h-full w-full object-cover"
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          preload="auto"
+                        >
+                          <source
+                            src={testimonial?.thumbnail}
+                            type="video/mp4"
+                          />
+                          Your browser does not support the video tag.
+                        </video>
+                      )}
+
+                      {/* Play button that shows on hover - Top right of card */}
+                      <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transform !z-10 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                        <div
+                          className="rounded-full flex items-center cursor-pointer justify-center w-24 h-10 border border-white/20 bg-black/15 text-white hover:bg-black/25 transition-colors duration-200"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleTestimonialVideoClick()
+                          }}
+                        >
+                          <span className="flex items-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="17"
+                              height="16"
+                              viewBox="0 0 17 16"
+                              fill="none"
+                              className="mr-2"
+                            >
+                              <path
+                                d="M3.5 3.73c0-.27.07-.53.21-.76.13-.23.33-.42.57-.55.24-.13.5-.2.77-.19.27.01.53.09.77.23l6.7 4.27c.21.13.39.32.51.54.12.23.19.48.19.74 0 .26-.07.52-.19.74-.12.22-.3.41-.51.54l-6.7 4.27c-.23.15-.49.23-.76.24-.27.01-.53-.06-.77-.19-.24-.13-.44-.32-.57-.55-.14-.23-.21-.49-.21-.76V3.73Z"
+                                fill="currentColor"
+                              />
+                            </svg>
+                            Play
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Content that shows by default and stays visible on hover */}
+                      <div className="absolute bottom-0 w-full h-2/3 z-10 flex flex-col justify-end bg-[linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(255,255,255,0.1)_100%),linear-gradient(180deg,rgba(0,0,0,0)_0%,rgba(0,0,0,0.85)_100%)] rounded-b-2xl overflow-hidden">
+                        <div className="flex flex-col justify-end w-full pb-6 text-white">
+                          <div className="px-6">
+                            {testimonial?.secondaryLogo?.url && (
+                              <div
+                                className="mb-4"
+                                style={{
+                                  height: `48px`,
+                                  width: `${
+                                    48 *
+                                      (testimonial?.secondaryLogo?.metadata?.dimensions?.aspectRatio || 2)
+                                  }px`,
+                                }}
+                              >
+                                <ImageLoader
+                                  image={testimonial?.secondaryLogo?.url}
+                                  alt={testimonial?.secondaryLogo?.alt || 'Company Logo'}
+                                  title={testimonial?.secondaryLogo?.title || 'Company Logo'}
+                                  className="w-full h-full object-contain filter brightness-[132%] contrast-[202%]"
+                                />
+                              </div>
+                            )}
+
+                            {testimonial?.keyStatement && (
+                              <h3 className="text-base xl:text-lg font-medium">
+                                {Array.isArray(testimonial.keyStatement) &&
+                                testimonial.keyStatement.length > 0 ? (
+                                  <PortableText
+                                    value={testimonial.keyStatement}
+                                    components={testimonialDescriptionComponents}
+                                  />
+                                ) : typeof testimonial.keyStatement === 'string' &&
+                                  testimonial.keyStatement.trim() ? (
+                                  <span>
+                                    &ldquo;{testimonial.keyStatement}&rdquo;
+                                  </span>
+                                ) : null}
+                              </h3>
+                            )}
+                            <div className="h-[1px] w-full bg-white/20 my-3"></div>
+                            <p className="text-sm xl:text-base font-medium">
+                              {testimonial?.name}
+                            </p>
+                            <p className="text-sm text-white/60">
+                              {testimonial?.designation}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {hasVideo && !hasTestimonial && (
             <div className='flex-1 w-full h-full max-w-[481px] max-h-[444px] bg-transparent video-container'>
               {videoId ? (
                 // YouTube video handling
