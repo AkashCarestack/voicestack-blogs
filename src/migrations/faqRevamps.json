@@ -1,0 +1,2687 @@
+[
+  {
+    "_id": "faq-revamp-cloud-fax",
+    "_type": "faqRevamp",
+    "sectionName": "Manage Every Fax with Cloud Fax",
+    "slug": {
+      "_type": "slug",
+      "current": "manage-every-fax-with-cloud-fax"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-cloud-fax",
+        "categoryName": "Cloud Fax",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is Cloud Fax for healthcare clinics?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Cloud Fax is a secure, digital fax solution for healthcare practices, enabling clinics to send, receive, and manage patient documents without paper, fax machines, or manual workflows."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does Cloud Fax improve clinic workflow efficiency?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "By centralizing fax management and automating document routing, Cloud Fax reduces processing time, eliminates manual errors, and streamlines healthcare workflows for faster patient care."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Can Cloud Fax integrate with patient records and appointment systems?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Cloud Fax links all incoming and outgoing faxes to patient records and appointment workflows, ensuring accurate tracking, seamless follow-ups, and complete documentation."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "Is Cloud Fax secure and HIPAA compliant?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack Cloud Fax uses end-to-end encryption, secure storage, and role-based access controls to ensure all patient documents remain HIPAA-compliant and protected."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Can multiple team members access and manage faxes across locations?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Cloud Fax provides a centralized inbox with shared access and staff-level controls, allowing multi-location clinics and DSOs to manage faxes efficiently and consistently."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "How does Cloud Fax handle urgent or high-priority documents?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "High-priority faxes are automatically flagged and routed to the right team member or department for immediate action, reducing delays in critical patient care."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "Can Cloud Fax replace traditional fax machines completely?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. By eliminating physical fax machines, paper, and manual workflows, Cloud Fax modernizes healthcare communication while maintaining compliance and operational efficiency."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-call-flow-management",
+    "_type": "faqRevamp",
+    "sectionName": "Call Flow Management",
+    "slug": {
+      "_type": "slug",
+      "current": "call-flow-management"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-call-flow",
+        "categoryName": "Call Flow Management",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is call flow management for healthcare clinics?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Call flow management is a system that routes incoming patient calls based on time, location, patient status, and urgency, helping clinics reduce missed calls and improve the patient experience."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does call flow management reduce missed calls and wait times?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "By using dynamic routing and intelligent rules, VoiceStack ensures calls reach the right team quickly, even during peak hours, reducing call abandonment and delays."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Can clinics change call flows in real time without IT support?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack offers a call flow management system that allows clinics to update routing logic instantly without technical expertise or downtime."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "Does call flow management work for multi-location clinics and DSOs?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack supports centralized call flow control with location-level customization, making it ideal for multi-location clinics and DSOs."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "How are emergency calls prioritized in call flow management?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Emergency calls can be routed through specially configured call paths to reach the appropriate team without the delays associated with standard routing."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Can call routing be personalized using patient history and visit data?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack routes calls based on patient status, visit history, and appointment context for more accurate and efficient call handling."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "What analytics are available for call flow performance?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack provides insights into call flow drop-offs, routing efficiency, and call outcomes to help clinics optimize operations and improve patient experience."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-custom-phone-trees",
+    "_type": "faqRevamp",
+    "sectionName": "Custom Phone Trees",
+    "slug": {
+      "_type": "slug",
+      "current": "custom-phone-trees"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-phone-trees",
+        "categoryName": "Custom Phone Trees",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What are Custom Phone Trees in VoiceStack?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Custom Phone Trees let clinics design IVR menus that reflect real workflows, guiding callers to the correct department, role, or location without confusion."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How easy is it to update a phone tree?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Phone trees can be updated instantly using a visual builder. No IT support or downtime is required."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Can phone trees be different for each location?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Clinics can standardize a core phone tree while customizing location-specific menus."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "How are urgent or emergency calls handled?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Emergency options can be prioritized within the phone tree to ensure urgent calls are routed quickly to the right team."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Can phone trees route calls by time or intent?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Routing rules can be applied based on caller selections, business hours, or clinic-specific logic."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Do phone trees provide performance insights?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Menu selections, drop-off points, and routing accuracy are tracked to help optimize call handling."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "Will phone trees improve patient experience?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Clear menus and accurate routing reduce frustration, shorten wait times, and create a more professional first impression."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-after-hours-call-transfers",
+    "_type": "faqRevamp",
+    "sectionName": "After-Hours Call Transfers",
+    "slug": {
+      "_type": "slug",
+      "current": "after-hours-call-transfers"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-after-hours",
+        "categoryName": "After-Hours Call Transfers",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What are After-Hours Call Transfers?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "After-hours call transfers allow clinics to route calls automatically when the office is closed, ensuring urgent patient needs are addressed without delay."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does VoiceStack handle emergency calls after hours?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack prioritizes emergency calls and routes them directly to the on-call team, bypassing standard call flows to ensure a fast response."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Can after-hours calls be routed differently for each location?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack supports location-specific after-hours routing, so each clinic or branch can maintain its unique escalation rules and team member coverage."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "How are missed after-hours calls managed?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Missed calls trigger follow-up workflows, including voicemail capture, text notifications, and logging in patient records for timely action."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Does VoiceStack integrate after-hours interactions with patient records?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Absolutely. All after-hours calls are logged into the patient management system, providing complete visibility and maintaining continuity of care."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "What are the benefits of After-Hours Call Transfers for clinics?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Clinics gain operational efficiency, faster emergency response, reduced team member stress, and a consistent, professional patient experience even after hours."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "Can after-hours call performance be tracked?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack provides analytics on call volume, emergency trends, and response times to help optimize after-hours workflows."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-monitoring-reporting",
+    "_type": "faqRevamp",
+    "sectionName": "Monitoring & Reporting",
+    "slug": {
+      "_type": "slug",
+      "current": "monitoring-reporting"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-monitoring",
+        "categoryName": "Monitoring & Reporting",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is VoiceStack Monitoring & Reporting?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack Monitoring & Reporting provides real-time visibility into every call and patient interaction, helping offices track performance, optimize workflows, and improve patient care."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How can I track missed calls and follow-ups?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack tracks all missed calls and logs them alongside patient records, enabling team members to follow up efficiently and ensuring no patient inquiries are overlooked."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Can I monitor team performance across multiple office locations?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack offers location-level reporting and team member responsiveness metrics, enabling leaders to compare performance, identify gaps, and maintain consistent standards across all offices."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "How does VoiceStack help with operational efficiency?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "By providing dashboards, call volume trends, and abandonment tracking, VoiceStack identifies bottlenecks, reduces blind spots, and empowers practices to make faster, data-driven decisions."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Can I see call trends by specialty or appointment type?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Absolutely. VoiceStack organizes call data using call intent, routing context, and available appointment or patient information, enabling specialty-level insights."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Does Monitoring & Reporting integrate with my PMS?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack seamlessly aligns call data with appointments and patient records, ensuring all interactions are captured for accurate reporting and follow-up."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "How can I use these insights to improve patient experience?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "By analyzing call volume, peak hours, abandonment rates, and conversion trends, offices can optimize routing, reduce wait times, and ensure patients receive timely, consistent care."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-time-zone-management",
+    "_type": "faqRevamp",
+    "sectionName": "Time Zone Management",
+    "slug": {
+      "_type": "slug",
+      "current": "time-zone-management"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-time-zone",
+        "categoryName": "Time Zone Management",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is VoiceStack Time Zone Management?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack Time Zone Management ensures calls are routed accurately across multiple practice locations, accounting for local time zones to provide consistent patient experiences."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does Time Zone Management help multi-location practices?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "It automatically detects each caller's time zone, applies location-specific rules, and ensures calls reach the right team member, preventing missed calls and scheduling errors."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Can after-hours calls be handled differently for each location?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack allows practices to set unique after-hours rules per location, ensuring urgent calls are prioritized and patients are never left waiting."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "How does Time Zone Management impact patient experience?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "By routing calls accurately and delivering appropriate greetings, the office ensures patients receive clear instructions and consistent care regardless of location or time zone."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Does Time Zone Management integrate with my appointment system?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Time-based routing aligns with appointment schedules, ensuring calls are routed appropriately based on office hours and patient visits."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Will this feature reduce team confusion and errors?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Absolutely. After-hour call logic and location-aware call routing minimize misrouted calls, reduce team workload, and improve operational efficiency."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-ai-receptionist",
+    "_type": "faqRevamp",
+    "sectionName": "AI Receptionist",
+    "slug": {
+      "_type": "slug",
+      "current": "ai-receptionist"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-ai-receptionist",
+        "categoryName": "AI Receptionist",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is an AI receptionist for healthcare clinics?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "An AI receptionist is a virtual front desk assistant that answers clinic phone calls using conversational AI. It greets callers, understands their requests, schedules appointments, answers common questions, and routes calls just like a human receptionist, but operates 24/7 without breaks."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "Can an AI receptionist handle real patient requests?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. The AI is trained on your clinic's services, hours, and policies, and connects with scheduling and EHR systems. It can book or reschedule appointments, answer insurance or billing questions, and handle most routine patient requests end-to-end."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "How does the AI know when to involve a human?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "The AI is designed to recognize complexity and risk. If a caller describes symptoms, sounds distressed, asks for a person, or raises a topic outside the scope, the caller is transferred, or a callback task is created with full context for team members."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "Does the AI receptionist work after hours and on weekends?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. The AI receptionist answers calls nights, weekends, and holidays. It can book future appointments, capture messages, provide instructions, and ensure no call goes unanswered when your clinic is closed."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Can the AI receptionist help capture new patients?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Absolutely. New patient calls are answered immediately, services are explained, and appointments can be scheduled on the spot. This prevents lost leads and turns after-hours calls into booked visits."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Is VoiceStack's AI receptionist suitable for different clinic types?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. It is built specifically for healthcare and tailored for dental, physical therapy, optometry, and veterinary clinics. It understands specialty-specific workflows, terminology, and emergency protocols to respond accurately in each setting."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "Will patients be comfortable talking to an AI?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Most patients appreciate the instant response and fast resolution. As long as the experience is clear, helpful, and professional, clinics often see higher satisfaction compared to long holds or unanswered calls."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-ai-call-transcripts",
+    "_type": "faqRevamp",
+    "sectionName": "AI Call Transcripts",
+    "slug": {
+      "_type": "slug",
+      "current": "ai-call-transcripts"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-ai-transcripts",
+        "categoryName": "AI Call Transcripts",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What are AI call transcripts in healthcare?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "AI call transcripts are automatically generated, real-time records of patient phone conversations. They give clinics a complete, searchable record of every call without requiring team members to take manual notes."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How accurate are AI call transcripts for medical conversations?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "AI call transcripts are highly accurate, even with medical and insurance terminology, thanks to healthcare-trained speech recognition. While no system is perfect, accuracy is more than sufficient for reviewing details and rarely requires correction."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "How do call transcripts help clinics day to day?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Transcripts save time, reduce errors, and improve communication. Team members can focus on patients during calls, quickly reference prior conversations, and coordinate care more easily with a shared written record."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "Are AI call transcripts HIPAA-compliant and secure?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Call transcripts are encrypted, stored securely, and access is restricted to authorized users. Sensitive information can also be automatically redacted to comply with HIPAA and other healthcare privacy requirements."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Can AI call transcripts integrate with EHR or PMS systems?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Transcripts or summaries can sync directly into practice management or EHR systems, appearing in patient charts so teams can access call details alongside clinical records."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Do clinics need to edit or manage transcripts manually?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "No. Transcripts are generated and stored automatically. Clinics can review, search, and share them as needed without additional administrative work."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-ai-call-scoring",
+    "_type": "faqRevamp",
+    "sectionName": "AI Call Scoring",
+    "slug": {
+      "_type": "slug",
+      "current": "ai-call-scoring"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-ai-scoring",
+        "categoryName": "AI Call Scoring",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is AI call scoring in a healthcare clinic?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "AI call scoring automatically evaluates patient phone calls against quality criteria, including greetings, empathy, issue resolution, and script compliance. It provides objective scores and feedback, helping clinics monitor and improve call handling without manual review."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does automated call scoring improve patient experience?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "By scoring all calls, AI ensures that team members consistently follow best practices. Patients receive clear, helpful responses and feel heard, while the team benefits from continuous AI-driven feedback and coaching."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Does AI call scoring replace human quality assurance?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "No. AI handles the initial monitoring and flags issues, while managers or trainers review flagged calls and provide targeted coaching. This creates a more efficient, focused quality assurance process."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "Is AI call scoring suitable for small clinics or only large practices?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "It works for clinics of all sizes. Small practices gain a \"tireless quality assistant\" that surfaces missed opportunities, while large multi-location groups benefit from standardized metrics and actionable insights across hundreds of calls."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Can AI call scoring be tailored to different healthcare specialties?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Scoring criteria and AI models are customized for dental, physical therapy, optometry, and veterinary practices, aligning with specialty-specific scenarios and priorities."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "What kind of insights does AI call scoring provide?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "It delivers objective call scores, highlights strengths and weaknesses, flags missed opportunities, and helps managers coach team members effectively to improve patient service and operational outcomes."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-missed-call-automations",
+    "_type": "faqRevamp",
+    "sectionName": "Missed Call Automations",
+    "slug": {
+      "_type": "slug",
+      "current": "missed-call-automations"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-missed-call",
+        "categoryName": "Missed Call Automations",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is missed call automation in a healthcare clinic?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Missed call automation detects when a patient's call goes unanswered and automatically responds on your behalf. With VoiceStack, missed calls trigger an instant text message or an AI-driven conversation, ensuring patients receive immediate assistance rather than voicemail."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does AI handle missed calls via text?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "As soon as a call goes unanswered, VoiceStack sends a friendly, customized SMS. If the patient replies, the AI interprets their request and responds with relevant guidance, such as offering appointment times or sending booking links. It acts as a virtual receptionist over text."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Will patients accept automated text responses?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes, most patients appreciate the quick reply. Immediate digital interaction prevents frustration from waiting on hold or unanswered calls. Complex requests or patients who prefer a call are seamlessly handed off to your team members."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "Can missed call automation handle after-hours and weekends?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Absolutely. You can customize after-hours messages to fit your clinic. Patients calling nights or weekends still receive timely assistance, and all interactions are logged for team members to follow up during business hours."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Can new patients schedule appointments via missed call texts?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack can guide new patient inquiries through a scheduling flow. The AI can collect details, check available slots in your integrated schedule, and automatically book or tentatively reserve appointments."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "How does missed call automation benefit clinic operations?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "It keeps your schedule full, reduces phone tag, and lightens team member workload. Missed calls become actionable opportunities that improve patient satisfaction and increase appointment conversions."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "Does the system integrate with my scheduling software?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack works with your PMS or EHR, allowing AI to check availability in real time and log interactions directly in patient records, ensuring smooth workflows and accurate follow-ups."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-opportunity-detection",
+    "_type": "faqRevamp",
+    "sectionName": "Opportunity Detection",
+    "slug": {
+      "_type": "slug",
+      "current": "opportunity-detection"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-opportunity",
+        "categoryName": "Opportunity Detection",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is opportunity detection in patient phone calls?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Opportunity detection uses technology to analyze calls and identify potential leads or conversion probability, ensuring no opportunity is missed."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does AI identify sales or growth opportunities on a call?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "AI scans call transcripts for keywords, context, and sentiment. It flags new patient leads and analyzes patient sentiment that team members might overlook."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Isn't manual booking and upselling enough?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Even skilled team members can miss follow-ups. Opportunity tracking ensures that potential conversions aren't forgotten, providing a systematic safety net for growth."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "How are identified opportunities followed up on?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Opportunities are logged with details and can be acted on manually or via automated workflows. Team members can call, email, or send targeted promotions based on tracked interests."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Can this really increase revenue for my practice?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. By capturing leads, upsells, and retention risks, offices see more appointments booked, higher service acceptance, and fewer lost patients across dental, physio, optometry, and veterinary practices."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Does opportunity detection replace my team members?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "No. It complements your team by ensuring no patient interest slips through the cracks, allowing your team to focus on high-value interactions while AI tracks opportunities in the background."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-opportunity-tracking",
+    "_type": "faqRevamp",
+    "sectionName": "Opportunity Tracking",
+    "slug": {
+      "_type": "slug",
+      "current": "opportunity-tracking"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-opportunity-tracking",
+        "categoryName": "Opportunity Tracking",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is opportunity tracking in patient calls?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Opportunity tracking monitors identified leads and patient interest from calls, records their status, and ensures every potential conversion is acted upon."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does AI track opportunities throughout the patient journey?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "AI updates opportunity status based on call outcomes, appointment bookings, follow-ups, or patient engagement. It provides visibility into what converts, stalls, or requires intervention."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "How do I know which opportunities to prioritize?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Opportunities are tagged with urgency and patient intent, allowing team members to focus on high-value leads first."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "How are tracked opportunities managed?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Opportunities are logged with details including patient information and intent. Team members can follow up manually, or automated workflows can prompt calls, emails, or reminders."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Can opportunity tracking really improve practice revenue?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. By monitoring the progress of every lead and upsell, practices increase bookings, treatment acceptance, and patient retention across dental, physical therapy, optometry, and veterinary practices."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Can I measure the effectiveness of my follow-ups and campaigns?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Opportunity tracking provides detailed analytics on conversions and missed follow-ups, helping you optimize team member performance and marketing efforts."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-post-call-task-detection",
+    "_type": "faqRevamp",
+    "sectionName": "Post-Call Task Detection",
+    "slug": {
+      "_type": "slug",
+      "current": "post-call-task-detection"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-post-call-task",
+        "categoryName": "Post-Call Task Detection",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is automated post-call task detection in healthcare?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "It's a system that listens to phone calls, identifies any promised actions or requests, and automatically creates follow-up tasks for team members so nothing gets forgotten."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does VoiceStack know what follow-up tasks to create?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack uses AI to analyze call transcripts and detect language patterns such as \"I will send\" or \"Can you email me?\" It extracts task details, including what needs to be done, for whom, and any specified timing."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Does this add more work for team members?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "No, it actually reduces workload. Team members no longer need to track tasks manually or rely on memory. Tasks are organized in one place, preventing missed follow-ups and reducing stress."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "Can VoiceStack integrate with our existing EHR or task system?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes, it integrates with most practice management or EHR systems that support task and reminder functionality. It can also integrate with external tools such as ticketing systems or spreadsheets, so follow-ups appear where your team already manages work."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Is this useful for all types of healthcare clinics?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Dental, physical therapy, optometry, and veterinary clinics all generate follow-up work from calls. VoiceStack captures specialty-specific tasks such as dental pain follow-ups, physio scheduling, eyewear orders, and vet lab callbacks."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "How accurate is the AI at detecting tasks?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack is trained to recognize subtle promises and requests, ensuring even small but essential follow-ups are captured reliably."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "What are the benefits for clinics?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "It prevents missed follow-ups, reduces back-and-forth, organizes tasks in one place, and ensures patient care commitments are consistently met across all specialties."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-call-source-tracking",
+    "_type": "faqRevamp",
+    "sectionName": "Call Source Tracking",
+    "slug": {
+      "_type": "slug",
+      "current": "call-source-tracking"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-call-source",
+        "categoryName": "Call Source Tracking",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is call source tracking for clinics?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Call source tracking identifies the marketing channel behind every patient call, such as digital ads, social media, referrals, or offline campaigns, so clinics can measure campaign effectiveness and optimize marketing spend."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does VoiceStack track the source of every call?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack automatically links calls to their origin by analyzing call metadata, marketing tags, and CRM or PMS data, providing a clear view of which campaigns generate new patients and revenue."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Can call source tracking improve marketing ROI?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. By knowing which channels drive calls and conversions, clinics can allocate budgets effectively, reduce wasted ad spend, and focus on campaigns that deliver the best results."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "Does call source tracking work across multiple locations?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Absolutely. VoiceStack tracks call sources consistently across all clinic locations, allowing leadership to compare performance, identify trends, and standardize marketing attribution."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "How are missed calls or unconverted leads handled?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Missed or unconverted calls are logged and linked to their source, helping clinics follow up promptly and prevent lost opportunities."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Can call source tracking integrate with CRM and PMS systems?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack connects call source data with your CRM or PMS, aligning calls with patient records, triggering follow-up workflows, and tracking conversions for complete marketing visibility."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "What metrics can I track with call source tracking?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Clinics can monitor call volume by source, conversion rates, campaign ROI, missed-call trends, and peak calling times to make data-driven marketing decisions."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-dynamic-number-insertion",
+    "_type": "faqRevamp",
+    "sectionName": "Dynamic Number Insertion",
+    "slug": {
+      "_type": "slug",
+      "current": "dynamic-number-insertion"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-dynamic-number",
+        "categoryName": "Dynamic Number Insertion",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is Dynamic Number Insertion in healthcare call tracking?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Dynamic Number Insertion shows different phone numbers to website visitors based on their source, campaign, or location. This allows clinics to accurately track which marketing efforts generate patient calls and appointments."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does Dynamic Number Insertion help track marketing ROI?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "By linking each call to a specific campaign or traffic source, Dynamic Number Insertion enables measurement of call volume, conversions, and revenue generated from PPC ads, social media, SEO, and offline campaigns."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Does Dynamic Number Insertion work for multi-location clinics?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Dynamic Number Insertion supports location-based number display, ensuring calls are attributed to the correct clinic while providing centralized reporting across all locations."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "Can Dynamic Number Insertion track both online and offline campaigns?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Dynamic Number Insertion tracks calls from online sources such as Google Ads and social media, as well as offline channels such as print ads, billboards, and direct mail, using dedicated numbers."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Will Dynamic Number Insertion affect my website performance or SEO?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "No. Dynamic Number Insertion uses lightweight scripts that do not impact page load speed or search engine visibility. Your primary business number remains consistent for search engines."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "How are calls linked to patient records with Dynamic Number Insertion?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack connects call data to your PMS or CRM, aligning each call with patient records, appointments, and outcomes for accurate conversion tracking and reporting."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "Is Dynamic Number Insertion compliant with healthcare data standards?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack is designed for healthcare workflows and ensures call tracking and attribution are handled securely, supporting privacy and compliance requirements."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-campaign-keyword-tracking",
+    "_type": "faqRevamp",
+    "sectionName": "Campaign and Keyword Tracking",
+    "slug": {
+      "_type": "slug",
+      "current": "campaign-and-keyword-tracking"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-campaign-keyword",
+        "categoryName": "Campaign and Keyword Tracking",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is Campaign and Keyword Tracking in VoiceStack?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack Campaign and Keyword Tracking links every patient call to its originating marketing campaign and keyword. This helps practices measure ROI and optimize marketing strategies effectively."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does VoiceStack track calls from multiple campaigns?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Each campaign and keyword is assigned a unique tracking number or code. Incoming calls are automatically linked to the correct source, giving practices clear visibility into which campaigns drive patient inquiries."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Can I measure marketing performance across multiple office locations?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack provides multi-location campaign attribution, allowing practices to compare performance across locations and understand which campaigns are most effective in driving patient calls."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "How does Campaign and Keyword Tracking improve patient acquisition?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "By connecting calls to campaigns and keywords, practices can identify which marketing efforts generate the most inquiries and conversions. This ensures marketing spend is directed toward high-performing channels."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Does Campaign and Keyword Tracking integrate with my PMS or CRM?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack integrates with your PMS and CRM, linking call sources to patient records, appointments, and outcomes, enabling accurate reporting and marketing analytics."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Can I analyze missed calls and conversion trends by campaign?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Absolutely. VoiceStack tracks missed calls, call duration, and conversions for each campaign and keyword, providing actionable insights to optimize marketing strategies and improve patient engagement."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "How can I use Campaign and Keyword Tracking data to improve ROI?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Practices can review performance dashboards to see which campaigns generate the most calls and conversions. Insights from this data help optimize marketing spend, reduce wasted budget, and increase patient acquisition."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-marketing-spend-optimization",
+    "_type": "faqRevamp",
+    "sectionName": "Marketing Spend Optimization",
+    "slug": {
+      "_type": "slug",
+      "current": "marketing-spend-optimization"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-marketing-spend",
+        "categoryName": "Marketing Spend Optimization",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is marketing spend optimization for healthcare practices?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Marketing spend optimization helps offices track which campaigns and ads generate patient calls and appointments, ensuring every marketing dollar delivers measurable ROI."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does VoiceStack optimize marketing budgets?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack monitors campaign performance in real time, identifies high-performing campaigns, flags underperforming ads, and provides actionable insights to reallocate marketing spend effectively."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Can I track ROI for multiple locations?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack supports multi-location attribution, enabling practices to compare campaign performance across locations and optimize budgets for maximum efficiency."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "How do I determine which campaigns drive new patients?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Every call is automatically linked to its campaign and keyword source, providing clear visibility into which marketing efforts drive patient appointments."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "Does VoiceStack integrate with my PMS or CRM?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Campaign performance data integrates with your patient management and CRM systems, tying call outcomes and conversions to appointments and revenue."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "How quickly can I adjust underperforming campaigns?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "With real-time dashboards and automated insights, practices can make informed budget adjustments to optimize marketing performance."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "What types of campaigns can I track with VoiceStack?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack tracks PPC, social ads, referral campaigns, seasonal promotions, and any campaign generating calls, helping practices measure effectiveness and maximize ROI."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-google-analytics-integration",
+    "_type": "faqRevamp",
+    "sectionName": "Google Analytics Integration",
+    "slug": {
+      "_type": "slug",
+      "current": "google-analytics-integration"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-google-analytics",
+        "categoryName": "Google Analytics Integration",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is Google Analytics Integration in VoiceStack?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack integrates with Google Analytics to link website activity to patient calls, providing practices with a comprehensive view of campaign performance."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does VoiceStack link website visits to patient calls?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Every website click or landing page visit is tracked and automatically linked to the resulting patient call, enabling accurate conversion tracking."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Can I track which marketing campaigns generate the most appointments?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack maps calls to specific campaigns, keywords, and ad sources, allowing practices to measure campaign effectiveness and optimize spend."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "Does this integration work across multiple locations?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Absolutely. VoiceStack tracks marketing performance by office, compares results across locations, and centralizes data for multi-location insights."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "How does this help improve marketing ROI?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "By linking web activity to real patient calls and outcomes, practices can identify high-performing campaigns, reduce wasted spend, and make data-driven marketing decisions."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Are appointments, follow-ups, and conversions tracked automatically?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. All patient interactions, from the initial website visit through calls and appointments, are captured and logged for complete visibility."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "Can I view this data in real time?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack provides real-time dashboards that enable practices to monitor campaign performance, missed calls, and conversions in real time."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  },
+  {
+    "_id": "faq-revamp-google-ads-integration",
+    "_type": "faqRevamp",
+    "sectionName": "Google Ads Integration",
+    "slug": {
+      "_type": "slug",
+      "current": "google-ads-integration"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-google-ads",
+        "categoryName": "Google Ads Integration",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "What is Google Ads Integration in VoiceStack?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Google Ads Integration connects your Google ad clicks directly to patient calls and appointments, helping practices see which ads drive real patient inquiries and revenue."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "How does VoiceStack track calls from Google Ads?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack automatically links each incoming call to the specific Google Ads campaign, ad group, and keyword that triggered it, with minimal manual setup."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Can I see which Google Ads generate booked appointments?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack ties calls to appointments and conversions, allowing practices to measure ROI based on actual patient bookings, not just clicks."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "Does Google Ads Integration work for multi-location practices?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. VoiceStack tracks ad performance by location, enabling teams to compare results across offices and optimize spend by region."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "How does this help reduce wasted ad spend?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "By identifying underperforming ads and high-converting campaigns, practices can reallocate budget to ads that drive patient calls and appointments."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Is Google Ads call tracking available in real time?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes. Call activity and conversion data are updated in real time, allowing faster optimization and smarter budget decisions."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "Do I need technical expertise to set up Google Ads integration?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "No. VoiceStack handles the setup and configuration, making it easy for practices to start tracking ad performance without technical complexity."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  }
+]
+

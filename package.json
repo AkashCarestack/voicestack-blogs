@@ -12,7 +12,8 @@
     "type-check": "tsc --noEmit",
     "find-unused-exports": "find-unused-exports",
     "find-unused-components": "node scripts/find-unused-components.js",
-    "populate-footer": "node scripts/populate-footer-data.js"
+    "populate-footer": "node scripts/populate-footer-data.js",
+    "upload-data": "node src/migrations/upload-pages-and-faqs.js"
   },
   "prettier": {
     "semi": false,

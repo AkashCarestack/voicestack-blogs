@@ -1,0 +1,59 @@
+[
+  {
+    "_id": "faq-cloud-fax-1",
+    "_type": "faq",
+    "question": "What is Cloud Fax for healthcare clinics?",
+    "answer": "Cloud Fax is a secure, digital fax solution for healthcare practices, enabling clinics to send, receive, and manage patient documents without paper, fax machines, or manual workflows.",
+    "order": 1,
+    "language": "en"
+  },
+  {
+    "_id": "faq-cloud-fax-2",
+    "_type": "faq",
+    "question": "How does Cloud Fax improve clinic workflow efficiency?",
+    "answer": "By centralizing fax management and automating document routing, Cloud Fax reduces processing time, eliminates manual errors, and streamlines healthcare workflows for faster patient care.",
+    "order": 2,
+    "language": "en"
+  },
+  {
+    "_id": "faq-cloud-fax-3",
+    "_type": "faq",
+    "question": "Can Cloud Fax integrate with patient records and appointment systems?",
+    "answer": "Yes. Cloud Fax links all incoming and outgoing faxes to patient records and appointment workflows, ensuring accurate tracking, seamless follow-ups, and complete documentation.",
+    "order": 3,
+    "language": "en"
+  },
+  {
+    "_id": "faq-cloud-fax-4",
+    "_type": "faq",
+    "question": "Is Cloud Fax secure and HIPAA compliant?",
+    "answer": "VoiceStack Cloud Fax uses end-to-end encryption, secure storage, and role-based access controls to ensure all patient documents remain HIPAA-compliant and protected.",
+    "order": 4,
+    "language": "en"
+  },
+  {
+    "_id": "faq-cloud-fax-5",
+    "_type": "faq",
+    "question": "Can multiple team members access and manage faxes across locations?",
+    "answer": "Yes. Cloud Fax provides a centralized inbox with shared access and staff-level controls, allowing multi-location clinics and DSOs to manage faxes efficiently and consistently.",
+    "order": 5,
+    "language": "en"
+  },
+  {
+    "_id": "faq-cloud-fax-6",
+    "_type": "faq",
+    "question": "How does Cloud Fax handle urgent or high-priority documents?",
+    "answer": "High-priority faxes are automatically flagged and routed to the right team member or department for immediate action, reducing delays in critical patient care.",
+    "order": 6,
+    "language": "en"
+  },
+  {
+    "_id": "faq-cloud-fax-7",
+    "_type": "faq",
+    "question": "Can Cloud Fax replace traditional fax machines completely?",
+    "answer": "Yes. By eliminating physical fax machines, paper, and manual workflows, Cloud Fax modernizes healthcare communication while maintaining compliance and operational efficiency.",
+    "order": 7,
+    "language": "en"
+  }
+]
+
