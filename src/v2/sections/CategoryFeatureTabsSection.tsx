@@ -610,7 +610,7 @@ export default function CategoryFeatureTabsSection({
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="w-full h-full relative z-10 flex items-end justify-center"
+                        className="w-full h-full relative flex items-end justify-center"
                       >
                         <ImageLoader
                           image={category.mainImage}
@@ -739,7 +739,7 @@ export default function CategoryFeatureTabsSection({
                         />
                       </div>
                       {category?.mainImage && (
-                        <div className="w-full h-full relative z-10 flex items-end justify-center">
+                        <div className="w-full h-full relative flex items-end justify-center">
                           <figure className="relative w-full flex items-end justify-center h-auto">
                             <ImageLoader
                               image={category.mainImage}

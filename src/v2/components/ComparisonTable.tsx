@@ -154,7 +154,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
   const numberOfComparisons = data?.columns?.length || 0
 
   return (
-    <div className={`w-full overflow-hidden  rounded-xl border border-gray-200 bg-white shadow-sm`}>
+    <div className={`w-full overflow-hidden border-t border-b border-gray-200 bg-white shadow-sm`}>
       <Table className={`w-full border-collapse`}>
         <TableCaption className="sr-only">
           Feature Comparison Table
@@ -164,7 +164,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
             <TableHead className="sticky left-0 w-48 h-16 text-gray-950 text-left text-base font-medium px-6  border-gray-200 bg-white">
               {data.columnDimensionName}
             </TableHead>
-            <TableHead className=" h-16 rounded-t-[12px]  text-center  bg-[#F6F5FD] sticky left-[120px]">
+            <TableHead className=" h-16 text-center  bg-[#F6F5FD] sticky left-[120px]">
               <div className="flex-col items-center justify-center gap-2 lg:w-[122px] w-[100px] lg:block hidden m-auto">
                 <Image
                   src={Logo}
