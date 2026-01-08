@@ -181,11 +181,11 @@ export default defineType({
       title: 'Testimonial Heading',
       type: 'string',
     }),
-    defineField({
-      name: 'testimonialdescription',
-      title: 'Testimonial Description(for case studies)',
-      type: 'text',
-    }),
+    // defineField({
+    //   name: 'testimonialdescription',
+    //   title: 'Testimonial Description(for case studies)',
+    //   type: 'text',
+    // }),
     defineField({
       name: 'keyStatement',
       title: 'Key Statement',

@@ -339,9 +339,22 @@ export async function getFooterData(client: SanityClient, region: string) {
     title,
     ctaBanner {
       title,
+      description,
       buttonText,
       buttonLink,
-      showBanner
+      showBanner,
+      "backgroundImage": backgroundImage.asset-> {
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          },
+          lqip
+        }
+      }
     },
     footerColumns[] {
       title,
