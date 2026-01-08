@@ -434,7 +434,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
           {linkUrl && <TickIcon />}
           {linkUrl ? (
             <>
-              <Anchor href={linkUrl} className="block h-full group">
+              <Anchor href={linkUrl} className="block h-full w-full group">
                 <div className={`${cardHoverColor} transition-all duration-200 h-full`}>
                   {cardContent}
                 </div>
