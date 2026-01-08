@@ -1,6 +1,5 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
-
 import Queries from '~/components/revamp/queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
@@ -9,6 +8,7 @@ import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSecti
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
+import SimpleHead from '~/components/common/SimpleHead'
 
 interface PhysicalTherapyGroupsMSOProps {
   pageData: any
@@ -23,6 +23,7 @@ export default function PhysicalTherapyGroupsMSO({
 }: PhysicalTherapyGroupsMSOProps) {
   return (
     <>
+    <SimpleHead data={pageData?.seo} />
       <FeatureHero data={pageData['dso-hero']?.componentData} type="feature" />
       <div>
         {pageData['logo-listing']?.componentData && (
