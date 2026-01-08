@@ -167,27 +167,57 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
   
   // Check if we have testimonial with video
   const hasTestimonial = testimonial && testimonial?.video?.[0]?.videoId
+  
+  // Determine heading level based on title presence
+  const headingLevel = title ? 'h2' : 'h1'
+  
+  // Create dynamic component configuration
+  const dynamicHeroFeatureComponents = {
+    ...HeroFeatureComponents,
+    block: {
+      ...HeroFeatureComponents.block,
+      normal: ({ children }: { children: React.ReactNode }) =>
+        React.createElement(
+          headingLevel,
+          {
+            className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%]',
+          },
+          children
+        ),
+      h2: ({ children }: { children: React.ReactNode }) =>
+        React.createElement(
+          headingLevel,
+          {
+            className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%]',
+          },
+          children
+        ),
+    },
+  }
+  
   return (
     <Section className="relative overflow-hidden" id="FeatureHero" border="b">
       <Container type="V2" className="md:py-24 py-16 overflow-hidden justify-center flex">
         <div className='flex lg:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10 items-center'>
           <div className={`flex flex-col gap-3 relative z-10 flex-1  ${type === 'form' ? 'max-w-[606px]' : ''}`}>
-            {(type === 'form' || type === 'comparison') ? (
-              <div className="flex items-center gap-2 py-[9px] pr-4 pl-[14px] rounded-full border border-[#AEA0FF] lg:self-start self-center bg-white/20 shadow-[-7px_0_10px_0_rgba(251,111,142,0.5),7px_0_10px_0_rgba(74,60,225,0.5)]">
-                <LightningIcon className="w-4 h-4" />
-                <h1 className="text-center md:text-left text-sm font-geist font-normal leading-[115%] text-gray-950">
+            {title && (
+              (type === 'form' || type === 'comparison') ? (
+                <div className="flex items-center gap-2 py-[9px] pr-4 pl-[14px] rounded-full border border-[#AEA0FF] lg:self-start self-center bg-white/20 shadow-[-7px_0_10px_0_rgba(251,111,142,0.5),7px_0_10px_0_rgba(74,60,225,0.5)]">
+                  <LightningIcon className="w-4 h-4" />
+                  <h1 className="text-center md:text-left text-sm font-geist font-normal leading-[115%] text-gray-950">
+                    {title?.toUpperCase()}
+                  </h1>
+                </div>
+              ):(
+                <h1 className="text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase">
                   {title?.toUpperCase()}
                 </h1>
-              </div>
-            ):(
-              <h2 className="text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase">
-                {title?.toUpperCase()}
-              </h2>
+              )
             )}
             <PortableText
               value={heading}
               // components={type === 'feature' ? HeroFeatureComponents : type === 'form' ? ComparisonHeroH1 : HeroFeatureHeadingComponents}
-              components={ HeroFeatureComponents}
+              components={dynamicHeroFeatureComponents}
             />
             <PortableText
               value={description}

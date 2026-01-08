@@ -14,6 +14,7 @@ import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import SimpleHead from '~/components/common/SimpleHead'
 
 interface FeaturePageProps {
   pageData: any
@@ -31,6 +32,9 @@ export default function FeaturePage({
 console.log(pageData, 'pageData')
   return (
     <>
+      <SimpleHead
+        data={pageData?.seo}
+      />
       {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {/* </div> */}
