@@ -338,7 +338,7 @@ export default function IntegrationsSectionWithNavigation({
         </div>
 
         {/* Switchable Tabs - Sticky */}
-        <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-12 mb-[-64px] pb-[130px] pt-[72px] shrink-0">
+        <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-12 mb-[-64px] pb-[130px] pt-[72px] shrink-0">
           <SwitchableTabs
             data={switchableTabsData}
             setActiveTab={handleCategoryClick}
