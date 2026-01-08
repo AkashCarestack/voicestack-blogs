@@ -74,7 +74,7 @@ export default function TestPrincy({ pageData, region, comparisonTableData, comp
     {pageData['feature-testimonials-section']?.componentData && (
       <FeatureTestimonialsSection data={pageData['feature-testimonials-section']?.componentData} />
     )}
-    <FooterBottom/>
+    {/* <FooterBottom/> */}
     </>
   )
 }
