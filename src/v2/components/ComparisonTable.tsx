@@ -12,9 +12,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from './ui/table'  
-import CursorTooltip from './common/CustomTooltip'
-import Anchor from './common/anchor'
+} from '../../components/ui/table'  
+import CursorTooltip from '../../components/common/CustomTooltip'
+import Anchor from '../../components/common/anchor'
 
 // SVG Icon Component
 const InfoIcon = ({className}:{className?:string}) => (

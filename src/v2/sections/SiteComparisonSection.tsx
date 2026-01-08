@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import Section from './structure/Section'
-import Container from './structure/Container'
-import Button from './common/Button'
+import Section from '../../components/structure/Section'
+import Container from '../../components/structure/Container'
+import Button from '../../components/common/Button'
 import { useRouter } from 'next/router'
-import LegendSection from './common/LegendSection'
-import ComparisonTable from './ComparisonTable'
-import SectionHeader from './revamp/components/common/sectionHeader'
-import SectionHeaderV2 from '../v2/components/common/sectionHeaderV2'
+import LegendSection from '../../components/common/LegendSection'
+import ComparisonTable from '../components/ComparisonTable'
+import SectionHeader from '../../components/revamp/components/common/sectionHeader'
+import SectionHeaderV2 from '../components/common/sectionHeaderV2'
 
 interface SiteComparisonSectionProps {
   data: any
