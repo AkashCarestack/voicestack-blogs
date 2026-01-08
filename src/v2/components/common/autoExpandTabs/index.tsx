@@ -8,7 +8,7 @@ import MediaDisplay from './components/MediaDisplay';
 
 export default function AutoExpandTabs({
   tabs,
-  autoPlayDuration = 10000,
+  autoPlayDuration = 15000,
   className,
 }: AutoExpandTabsProps) {
   const [activeTab, setActiveTab] = useState<string>(tabs[0]?.key || '');
