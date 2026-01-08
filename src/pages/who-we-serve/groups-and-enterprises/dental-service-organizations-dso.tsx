@@ -9,6 +9,7 @@ import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSecti
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
+import SimpleHead from '~/components/common/SimpleHead'
 
 interface DentalServiceOrganizationsDSOProps {
   pageData: any
@@ -24,6 +25,7 @@ export default function DentalServiceOrganizationsDSO({
 
   return (
     <>
+    <SimpleHead data={pageData?.seo} />
       <FeatureHero data={pageData['dso-hero']?.componentData} type="feature" />
       <div>
         {pageData['logo-listing']?.componentData && (
