@@ -7,7 +7,7 @@ import LogoSliderSection from '~/components/LogoSliderSection'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import SiteComparisonSection from '~/components/SiteComparisonSection'
+import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
 import AboutCoachingPartners from '~/v2/sections/AboutCoachingPartnersSection'
 import CardsGridSection from '~/v2/sections/CardsGridSection'
 import ContentVideoTabsSection from '~/v2/sections/ContentVideoTabsSection'
@@ -89,7 +89,6 @@ export default function Home({
       <StatisticsSection />
       {comparisonLegendData && (
         <SiteComparisonSection
-          variant="V2"
           data={comparisonSectionData}
           legendData={comparisonLegendData}
         />
@@ -157,7 +156,6 @@ export default function Home({
 
       {comparisonLegendData && (
         <SiteComparisonSection
-          variant="V2"
           data={comparisonSectionData}
           legendData={comparisonLegendData}
         />

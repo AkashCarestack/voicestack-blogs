@@ -1,5 +1,5 @@
 import React from 'react'
-import SiteComparisonSection from '~/components/SiteComparisonSection'
+import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import HeroAU from './common/HeroSection/HeroAu'
 import FaqSection from '~/components/revamp/components/common/faqSection'
@@ -50,7 +50,6 @@ HomeAU({
 
       {comparisonLegendData && (
         <SiteComparisonSection
-          variant="V2"
           data={comparisonSectionData}
           legendData={comparisonLegendData}
         />
