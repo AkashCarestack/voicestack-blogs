@@ -52,5 +52,5 @@ studio/.env.development
 .github
 
 backup/production.tar.gz
-/src/migrations
+# /src/migrations
 /backups/
