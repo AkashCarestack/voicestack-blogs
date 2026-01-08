@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
@@ -21,9 +22,9 @@ export default function VisionGroupsMSO({
   faq,
   region,
 }: VisionGroupsMSOProps) {
-  console.log({ pageData }, 'pageData')
   return (
     <>
+    <SimpleHead data={pageData?.seo} />
       <FeatureHero data={pageData['dso-hero']?.componentData} type="feature" />
       <div>
         {pageData['logo-listing']?.componentData && (
