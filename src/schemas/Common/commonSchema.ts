@@ -304,7 +304,7 @@ export const customListingItemSchema = {
               name: 'content',
               title: 'Content',
               type: 'customListingContent',
-              description: 'Rich text content with h4 headings, subheadings, lists, and highlights',
+              description: ' Normal Underline - Tag, H3 - Heading, H4 - Subheading, Normal - Paragraph, Bullet - List, Highlight - Bottom Desc',
             }),
             defineField({
               name: 'link',

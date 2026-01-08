@@ -495,7 +495,7 @@ export default function CategoryFeatureTabsSection({
           </div>
 
           {/* Switchable Tabs - Sticky */}
-          <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12">
+          <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12">
             <SwitchableTabs
               data={allCategories.map(category => ({
                 id: category.name,
@@ -657,7 +657,7 @@ export default function CategoryFeatureTabsSection({
         </div>
 
         {/* Switchable Tabs - Sticky */}
-        <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+        <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
           <SwitchableTabs
             data={allCategories.map(category => ({
               id: category.name,
