@@ -1,6 +1,7 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
 
+import SimpleHead from '~/components/common/SimpleHead'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
@@ -47,6 +48,9 @@ export default function Veterinary({ pageData, faq, features }: VeterinaryProps)
 
   return (
     <>
+      <SimpleHead
+        data={pageData?.seo}
+      />
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       <FeatureHero data={pageData['veterinary-hero']} type="feature" />
       {pageData['logos-listing']?.componentData && (

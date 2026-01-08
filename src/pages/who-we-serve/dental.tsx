@@ -63,6 +63,9 @@ export default function Dental({ pageData, faq, features, articles }: DentalProp
 
   return (
     <>
+      <SimpleHead
+        data={pageData?.seo}
+      />
       {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {/* </div> */}
