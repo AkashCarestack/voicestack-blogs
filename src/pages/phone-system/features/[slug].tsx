@@ -79,9 +79,11 @@ console.log(pageData, 'pageData')
           data={pageData['feature-testimonials-section']?.componentData}
         />
       )}
-      <CardWIthGraph
-        data={pageData['better-decisions']?.genericListingComponent}
-      />
+      {pageData['better-decisions']?.genericListingComponent && (
+        <CardWIthGraph
+          data={pageData['better-decisions']?.genericListingComponent}
+        />
+      )}
       {faq && <FaqSection faqItems={faq} />}
     </>
   )

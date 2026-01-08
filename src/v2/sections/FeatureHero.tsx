@@ -175,9 +175,9 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
             {(type === 'form' || type === 'comparison') ? (
               <div className="flex items-center gap-2 py-[9px] pr-4 pl-[14px] rounded-full border border-[#AEA0FF] lg:self-start self-center bg-white/20 shadow-[-7px_0_10px_0_rgba(251,111,142,0.5),7px_0_10px_0_rgba(74,60,225,0.5)]">
                 <LightningIcon className="w-4 h-4" />
-                <h2 className="text-center md:text-left text-sm font-geist font-normal leading-[115%] text-gray-950">
+                <h1 className="text-center md:text-left text-sm font-geist font-normal leading-[115%] text-gray-950">
                   {title?.toUpperCase()}
-                </h2>
+                </h1>
               </div>
             ):(
               <h2 className="text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase">
@@ -186,7 +186,8 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
             )}
             <PortableText
               value={heading}
-              components={type === 'feature' ? HeroFeatureComponents : type === 'form' ? ComparisonHeroH1 : HeroFeatureHeadingComponents}
+              // components={type === 'feature' ? HeroFeatureComponents : type === 'form' ? ComparisonHeroH1 : HeroFeatureHeadingComponents}
+              components={ HeroFeatureComponents}
             />
             <PortableText
               value={description}
