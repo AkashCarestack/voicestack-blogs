@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
 import Queries from '~/components/revamp/queries'   
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
@@ -21,6 +22,7 @@ export default function GroupsAndEnterprises({
 
   return (
     <>
+    <SimpleHead data={pageData?.seo} />
     <FeatureHero
       data={pageData['dso-hero']?.componentData}
       type="feature"
