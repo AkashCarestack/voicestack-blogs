@@ -11,7 +11,7 @@ import Anchor from './anchor'
 import Button from './Button'
 import Container from '../structure/Container'
 import Section from '../structure/Section'
-import FooterBottom from '../revamp/components/common/FooterBottom'
+import FooterBottom from '~/v2/components/FooterBottom'
 
 const Footer = ({ data }) => {
   const CopyrightYear = new Date().getFullYear()
