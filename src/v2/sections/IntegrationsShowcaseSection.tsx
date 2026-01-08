@@ -291,7 +291,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                 {data.items.map((item: any) => (
                   <div
                     key={item._key || item._id}
-                    className="flex flex-col flex-1 gap-2 relative z-10 p-6 md:p-12 border-t md:border-r border-gray-800 md:last:border-r-0"
+                    className="flex flex-col flex-1 gap-3 relative z-10 p-6 md:p-12 border-t md:border-r border-gray-800 md:last:border-r-0"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

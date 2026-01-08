@@ -100,6 +100,7 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
               />
             </div>
             <div>
+            <div>
 
               <GroupedCardsGrid
                 customListingItems={displayData.customListingItems}
@@ -134,6 +135,8 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
                 </div>
               ))
             })()}
+
+            </div>
           </div>
 
         </div>

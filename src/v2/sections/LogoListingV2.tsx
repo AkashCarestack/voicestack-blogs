@@ -119,6 +119,7 @@ const LogoListingV2 = ({ data }: LogoListingV2Props) => {
     )
   }
 
+  console.log(data, 'logoColumns')
   return (
     <Section className="bg-white" border="b">
       <Container type="V2" border="y-0" className="w-full">
@@ -132,11 +133,13 @@ const LogoListingV2 = ({ data }: LogoListingV2Props) => {
               <Image src={'/assets/overlapping-stars.png'} alt="Overlapping Stars" width={30} height={24} />
             </div>
             <div className="flex flex-col font-medium md:text-lg text-base leading-[155%] text-zinc-950">
-              <p className="whitespace-pre-wrap">
-                {`Trusted by `}
+              <p 
+                className="whitespace-pre-wrap"
+                dangerouslySetInnerHTML={{ __html: data?.logoSectionHeader || '' }}
+              />
+                {/* {`Trusted by `}
                 <br aria-hidden="true" />
-                {`3000+ Dental Practices `}
-              </p>
+                {`3000+ Dental Practices `} */}
             </div>
           </div>
 
