@@ -226,6 +226,7 @@ class Queries {
               tabHeading,
               tabSubHeading,
               description,
+              content,
               
               // Tab image with metadata
               "image": image.asset-> {
@@ -489,6 +490,7 @@ class Queries {
                           tabHeading,
                           tabSubHeading,
                           description,
+                          content,
                           "image": image.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
                           },
@@ -930,6 +932,7 @@ class Queries {
                     _key,
                     tabHeading,
                     description,
+                    content,
                     tabSubHeading,
                     // Tab image with metadata
                     "image": image.asset-> {
@@ -1100,6 +1103,7 @@ class Queries {
                           tabHeading,
                           tabSubHeading,
                           description,
+                          content,
                           "image": image.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
                           },
@@ -1781,6 +1785,7 @@ class Queries {
                           tabHeading,
                           tabSubHeading,
                           description,
+                          content,
                           "image": image.asset-> {
                             ${this.IMAGE_METADATA_FIELDS}
                           },
@@ -2133,6 +2138,7 @@ class Queries {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 "image": image.asset-> {
                   ${this.IMAGE_METADATA_FIELDS}
                 },

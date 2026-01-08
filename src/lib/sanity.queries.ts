@@ -1055,6 +1055,7 @@ export const whoWeServeQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1199,6 +1200,7 @@ export const dentalPhonesQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1346,6 +1348,7 @@ export const dentalSoftwareQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1436,6 +1439,7 @@ export const dentalSoftwareQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1542,6 +1546,7 @@ export const whyVoicestackQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1632,6 +1637,7 @@ export const whyVoicestackQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
