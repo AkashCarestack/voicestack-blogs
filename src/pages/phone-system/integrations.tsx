@@ -2,7 +2,7 @@ import { GetStaticProps } from 'next'
 import React from 'react'
 
 import SimpleHead from '~/components/common/SimpleHead'
-import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
+import IntegrationsSectionWithNavigation from '~/v2/sections/IntegrationsSectionWithNavigation'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
@@ -151,7 +151,7 @@ export default function DentalPhonesIntegrations({
       )}
       {integrationData && (
         <div>
-          <FeaturesSectionWithNavigation
+          <IntegrationsSectionWithNavigation
             categories={integrationData.categories}
             integrations={integrationData.integrations}
           />
@@ -181,7 +181,7 @@ export default function DentalPhonesIntegrations({
       )}
       {integrationData && (
         <div>
-          <FeaturesSectionWithNavigation
+          <IntegrationsSectionWithNavigation
             categories={integrationData.categories}
             integrations={integrationData.integrations}
           />
