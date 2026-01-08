@@ -24,8 +24,8 @@ export default function TabItem({
     <motion.div
       key={tab.key}
       className={cn(
-        " border-gray-200 relative overflow-hidden",
-        isActive ? "bg-gray-50 border-b" : "bg-white cursor-pointer hover:bg-gray-50/50 border-b",
+        " border-gray-200 relative overflow-hidden transition-colors duration-200",
+        isActive ? "bg-gray-50 border-b" : "bg-white cursor-pointer border-b",
         index === 0 && "border-t ",
         index === totalTabs - 1 && "border-b-0 ",
       )}
@@ -44,13 +44,13 @@ export default function TabItem({
       {!isActive && (
         <div
           onClick={() => onTabClick(tab.key)}
-          className="flex gap-6 items-center md:px-12 px-6 md:py-6 py-4 w-full"
+          className="flex gap-6 items-center md:px-12 px-6 md:py-6 py-4 w-full transition-all duration-200 ease-in-out hover:bg-gray-50/80 group"
         >
-          <div className="flex flex-col justify-center font-geist font-normal text-base text-gray-500 leading-6 tracking-normal whitespace-nowrap">
+          <div className="flex flex-col justify-center font-geist font-normal text-base text-gray-500 leading-6 tracking-normal whitespace-nowrap transition-colors duration-200 group-hover:text-gray-700">
             <p>{tab.step.replace('STEP ', '')}</p>
           </div>
           <div className="flex flex-col flex-1 gap-0.5 items-start">
-            <div className="flex flex-col justify-center w-full font-geist font-normal text-base text-gray-500 leading-[150%] tracking-normal">
+            <div className="flex flex-col justify-center w-full font-geist font-normal text-base text-gray-500 leading-[150%] tracking-normal transition-colors duration-200 group-hover:text-gray-700">
               <p className="whitespace-pre-wrap leading-[150%]">{tab.title}</p>
             </div>
           </div>
