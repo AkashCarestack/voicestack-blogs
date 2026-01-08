@@ -12,7 +12,7 @@ import LeadershipList from '~/components/revamp/components/common/LeadershipList
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
 import Queries from '~/components/revamp/queries'
-import SiteComparisonSection from '~/components/SiteComparisonSection'
+import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
 import { getClient } from '~/lib/sanity.client'
 
 // Define proper TypeScript interfaces

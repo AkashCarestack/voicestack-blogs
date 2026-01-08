@@ -12,9 +12,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from './ui/table'  
-import CursorTooltip from './common/CustomTooltip'
-import Anchor from './common/anchor'
+} from '../../components/ui/table'  
+import CursorTooltip from '../../components/common/CustomTooltip'
+import Anchor from '../../components/common/anchor'
 
 // SVG Icon Component
 const InfoIcon = ({className}:{className?:string}) => (
@@ -64,7 +64,6 @@ interface ComparisonTableProps {
   data: any
   legendData?: any[]
   demoLink?: string
-  variant?: string
 }
 
 function RowHeading({ heading, description, link }) {
@@ -132,10 +131,8 @@ function ComparisonRichIcon({ comparisonValue, showBoth = false }) {
   )
 }
 
-export default function ComparisonTable({ data, legendData = [], demoLink, variant }: ComparisonTableProps) {
-  // Initialize all categories as open by default
+export default function ComparisonTable({ data, legendData = [], demoLink }: ComparisonTableProps) {
 
-  console.log('data comparison table', data);
   
   const [expandedCategories, setExpandedCategories] = useState<Record<number, boolean>>(() => {
     const initial: Record<number, boolean> = {}
@@ -157,7 +154,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink, varia
   const numberOfComparisons = data?.columns?.length || 0
 
   return (
-    <div className={`w-full overflow-hidden ${variant !== "V2" && "rounded-xl border border-gray-200"} bg-white shadow-sm`}>
+    <div className={`w-full overflow-hidden  rounded-xl border border-gray-200 bg-white shadow-sm`}>
       <Table className={`w-full border-collapse`}>
         <TableCaption className="sr-only">
           Feature Comparison Table

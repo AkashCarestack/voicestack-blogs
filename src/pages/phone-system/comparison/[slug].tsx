@@ -6,7 +6,7 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getAllComparisonValues, getFeaturesList } from '~/lib/sanity.queries'
-import SiteComparisonSection from '~/components/SiteComparisonSection'
+import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import SimpleHead from '~/components/common/SimpleHead'
@@ -52,7 +52,6 @@ export default function ComparisonSlugPage({
 
       {comparisonSectionData && (
         <SiteComparisonSection
-          variant="V2"
           data={comparisonSectionData}
           // legendData={pageData?.comparisonLegendData || []}
         />

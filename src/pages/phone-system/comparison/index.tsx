@@ -7,7 +7,7 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
-import SiteComparisonSection from '~/components/SiteComparisonSection'
+import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
 import {
   getAllComparisonValues,
   getComparisonTableData,
