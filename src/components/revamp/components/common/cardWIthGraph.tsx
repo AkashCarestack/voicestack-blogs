@@ -5,6 +5,19 @@ import CardItemComponent from '../../../../v2/components/common/CardItem'
 import Section from '~/components/structure/Section'
 import SectionHeaderV2 from '../../../../v2/components/common/sectionHeaderV2'
 import GroupedCardsGrid from '~/v2/components/GroupedCardsGrid'
+import {
+  PhoneOutgoingIcon,
+  LockIcon,
+  PhoneMissedIcon,
+  Globe2Icon,
+  GlobeIcon,
+  LayoutDashboardIcon,
+  LogOutIcon,
+  Settings,
+  Grip,
+} from 'lucide-react'
+import VoicestackLogoSm from 'public/assets/voicestack-logo-sm.svg'
+import DashIconWrap from './dashIconWrap'
 
 export default function cardWIthGraph({ data }: { data: any }) {
   const borderClasses =
@@ -36,13 +49,65 @@ export default function cardWIthGraph({ data }: { data: any }) {
                 )
               })}
             </div> */}
-              <div className='max-w-[1027px] w-full m-auto border-x border-gray-200'>
-                <GroupedCardsGrid
-                  customListingItems={data?.items}
-                  theme={'light'}
-                  simpleListingData={true}
-                  columnCount={3}
-                />
+              <div className="max-w-[1027px] w-full m-auto border-x border-gray-200 rounded-t-xl">
+                <div className="border-t border-gray-200 rounded-t-xl bg-gray-50 ">
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-2 px-4 py-4">
+                      <span className="size-3 rounded-full  bg-red-500"></span>
+                      <span className="size-3 rounded-full  bg-yellow-500"></span>
+                      <span className="size-3 rounded-full  bg-green-500"></span>
+                    </div>
+                    <div className="w-full justify-center flex">
+                      <div className="flex items-center gap-2 bg-white border border-gray-200 text-sm font-medium text-gray-600 rounded-full w-full max-w-sm leading-none py-2 px-3">
+                        <LockIcon className="size-3" />
+                        <p>id.voicestack.com</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="w-full flex">
+                    <div className="flex flex-col gap-2 border-r border-gray-200 bg-gray-50  justify-between">
+                      <div className="flex flex-col ">
+                        <div className="flex items-center justify-center px-2 py-3 border-b border-t border-gray-200 ">
+                          <Image
+                            src={VoicestackLogoSm}
+                            alt="search-bar"
+                            width={32}
+                            height={32}
+                          />
+                        </div>
+                        <div className="flex items-center justify-center px-2 py-3 text-vs-blue/60">
+                          <div className="border rounded-full border-vs-blue/40 p-1">
+                            <Grip className="size-4" />
+                          </div>
+                        </div>
+                        <DashIconWrap>
+                          <PhoneOutgoingIcon className="size-5" />
+                        </DashIconWrap>
+                        <DashIconWrap>
+                          <PhoneMissedIcon className="size-5" />
+                        </DashIconWrap>
+                        <DashIconWrap>
+                          <GlobeIcon className="size-5" />
+                        </DashIconWrap>
+                      </div>
+
+                      <div>
+                        <DashIconWrap>
+                          <Settings className="size-5" />
+                        </DashIconWrap>
+                        <DashIconWrap>
+                          <LogOutIcon className="size-5" />
+                        </DashIconWrap>
+                      </div>
+                    </div>
+                    <GroupedCardsGrid
+                      customListingItems={data?.items}
+                      theme={'light'}
+                      simpleListingData={true}
+                      columnCount={3}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

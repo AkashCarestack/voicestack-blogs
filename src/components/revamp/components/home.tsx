@@ -89,7 +89,6 @@ export default function Home({
       <StatisticsSection />
       {comparisonLegendData && (
         <SiteComparisonSection
-          variant="V2"
           data={comparisonSectionData}
           legendData={comparisonLegendData}
         />
@@ -157,7 +156,6 @@ export default function Home({
 
       {comparisonLegendData && (
         <SiteComparisonSection
-          variant="V2"
           data={comparisonSectionData}
           legendData={comparisonLegendData}
         />

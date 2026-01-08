@@ -52,7 +52,6 @@ export default function ComparisonSlugPage({
 
       {comparisonSectionData && (
         <SiteComparisonSection
-          variant="V2"
           data={comparisonSectionData}
           // legendData={pageData?.comparisonLegendData || []}
         />
