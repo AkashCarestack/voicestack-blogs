@@ -119,7 +119,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
           <div className="flex flex-col gap-3 items-start justify-end w-full">
             {/* Item Heading */}
             {isNumberedCards ? (
-              <p className={`font-geist font-medium lg:text-lg text-base leading-[1.4] ${descriptionColor} tracking-normal w-full whitespace-pre-wrap`}>
+              <p className={`font-geist font-medium lg:text-lg text-base leading-[1.4] ${contentTextColor} tracking-normal w-full whitespace-pre-wrap`}>
                 {item.itemHeading}.
               </p>
             ) : (
@@ -233,7 +233,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
   const gridBgColor = isDark ? 'bg-gray-800' : 'bg-gray-200'
   const cardBgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const headerBgColor = isDark ? 'bg-gray-950' : 'bg-gray-50'
-  const contentTextColor = isDark ? 'text-gray-500' : 'text-gray-500'
+  const contentTextColor = isDark ? 'text-gray-400' : 'text-gray-500'
   const labelColor = isDark ? 'text-vs-lemon-green' : 'text-vs-blue'
   const headingSplitColor = isDark ? '[&>strong]:text-gray-400' : '[&>strong]:text-vs-blue'
 
