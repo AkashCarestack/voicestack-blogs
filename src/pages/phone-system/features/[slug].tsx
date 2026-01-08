@@ -66,6 +66,12 @@ console.log(pageData, 'pageData')
           theme="dark"
         />
       )}
+      {pageData['benefits-of-healthcare']?.componentData && (
+        <GroupedCardsGridSection
+          data={pageData['benefits-of-healthcare']?.componentData}
+          // theme="dark"
+        />
+      )}
 
       {pageData['integrations-listing']?.componentData && (
           <IntegrationsShowcaseSection

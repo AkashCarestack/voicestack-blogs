@@ -123,6 +123,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
                 {item.itemHeading}.
               </p>
             ) : (
+              (item.itemHeading || item.subTitle) && (
               <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
                 <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
                   <p className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
@@ -133,8 +134,9 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
                       {item.subTitle}
                     </p>
                   )}
+                  </div>
                 </div>
-              </div>
+              )
             )}
 
             {/* Content */}
@@ -155,17 +157,21 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
                         // Check if this is a bullet list item
                         if (block.listItem === 'bullet') {
                           return (
-                            <div
-                              key={block._key || blockIndex}
-                              className="flex gap-2 items-start px-0 py-1 w-full"
-                            >
-                              <div className={`flex-1 font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
-                                <PortableText
-                                  value={[block]}
-                                  components={components}
-                                />
+                            <>
+                              
+                              <div
+                                key={block._key || blockIndex}
+                                className={`flex gap-2 items-start px-0 py-1 w-full`}
+                              >
+                                <div className={`flex-1 font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
+                                  
+                                  <PortableText
+                                    value={[block]}
+                                    components={components}
+                                  />
+                                </div>
                               </div>
-                            </div>
+                            </>
                           )
                         }
                         // Regular block
@@ -227,7 +233,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
   const gridBgColor = isDark ? 'bg-gray-800' : 'bg-gray-200'
   const cardBgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const headerBgColor = isDark ? 'bg-gray-950' : 'bg-gray-50'
-  const contentTextColor = isDark ? 'text-gray-400' : 'text-gray-700'
+  const contentTextColor = isDark ? 'text-gray-500' : 'text-gray-500'
   const labelColor = isDark ? 'text-vs-lemon-green' : 'text-vs-blue'
   const headingSplitColor = isDark ? '[&>strong]:text-gray-400' : '[&>strong]:text-vs-blue'
 
@@ -267,25 +273,33 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
     return {
       block: {
         h3: ({ children }) => (
-          <h3 className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap ${headingSplitColor} [&>strong]:font-medium mb-2`}>
+          <h3 className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap ${headingSplitColor} [&>strong]:font-medium my-1`}>
             {children}
           </h3>
         ),
         h4: ({ children }) => (
-          <h4 className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap ${headingSplitColor} [&>strong]:font-medium mb-2`}>
+          <h4 className={`font-geist font-medium lg:text-lg text-base leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap ${headingSplitColor} [&>strong]:font-medium my1`}>
             {children}
           </h4>
         ),
         h5: ({ children }) => (
-          <span className={`font-geist font-medium text-base leading-[1.5] ${labelColor} mb-1 tracking-normal w-full whitespace-pre-wrap ${headingSplitColor} [&>strong]:font-medium mb-2`}>
+          <span className={`font-geist font-medium text-lg leading-[1.5] ${contentTextColor} tracking-normal w-full`}>
             {children}
           </span>
         ),
-        normal: ({ children }) => (
-          <p className={`font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
-            {children}
-          </p>
-        ),
+        normal: ({ children, value }) => {
+          // Check if any child in the block has an underline mark
+          const hasUnderline = value?.children?.some((child: any) => 
+            child.marks?.includes('underline')
+          )
+          const textColorClass = hasUnderline ? labelColor : contentTextColor
+          
+          return (
+            <p className={`font-geist font-normal text-base leading-[1.5] ${textColorClass} tracking-normal no-underline [&>span]:!no-underline`}>
+              {children}
+            </p>
+          )
+        },
       },
       list: {
         bullet: ({ children }) => (
