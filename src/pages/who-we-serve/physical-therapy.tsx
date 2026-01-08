@@ -34,13 +34,13 @@ interface Feature {
   }
 }
 
-interface PhysicalTheraphyProps {
+interface PhysicalTherapyProps {
   pageData: any
   faq: any
   features: Feature[]
 }
 
-export default function PhysicalTheraphy({ pageData, faq, features }: PhysicalTheraphyProps) {
+export default function PhysicalTherapy({ pageData, faq, features }: PhysicalTherapyProps) {
   if (!pageData) {
     return null
   }
@@ -48,7 +48,7 @@ export default function PhysicalTheraphy({ pageData, faq, features }: PhysicalTh
   return (
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['physical-theraphy-hero']} type="feature" />
+      <FeatureHero data={pageData['physical-therapy-hero']} type="feature" />
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
@@ -104,7 +104,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   try {
     const queries = new Queries('whoWeServe', region)
-    const slug = region === 'en' ? 'physical-theraphy' : `physical-theraphy-${region.toLowerCase()}`
+    const slug = region === 'en' ? 'physical-therapy' : `physical-therapy-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
     const features = await getFeaturesList(getClient(), region)
 
@@ -123,7 +123,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       },
     }
   } catch (error) {
-    console.error('Error fetching physical theraphy page:', error)
+    console.error('Error fetching physical therapy page:', error)
     return {
       props: {
         pageData: null,
