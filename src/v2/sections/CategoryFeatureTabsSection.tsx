@@ -160,6 +160,7 @@ export default function CategoryFeatureTabsSection({
           mainImage: tab.image || null,
           icon: tab.icon || null,
           iconSvgCode: tab.icon || '',
+          featureOrder: tab.featureOrder || tab.order,
           features: transformedFeatures,
         };
       });
@@ -196,14 +197,15 @@ export default function CategoryFeatureTabsSection({
         mainImage: categoryData.category.mainImage,
         icon: categoryData.category.icon,
         iconSvgCode: categoryData.category.iconSvgCode,
+        featureOrder: categoryData.category.featureOrder,
         features: categoryData.features,
       };
     });
 
     // Sort categories by featureOrder if available
     return categories.sort((a, b) => {
-      const orderA = (a as any).featureOrder ?? 9999;
-      const orderB = (b as any).featureOrder ?? 9999;
+      const orderA = a.featureOrder != null ? Number(a.featureOrder) : 9999;
+      const orderB = b.featureOrder != null ? Number(b.featureOrder) : 9999;
       if (orderA !== orderB) {
         return orderA - orderB;
       }
