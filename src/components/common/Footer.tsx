@@ -74,7 +74,7 @@ const Footer = ({ data }) => {
               )}
             </div>
           )} */}
-          <FooterBottom/>
+          <FooterBottom data={data}/>
 
           {/* Main Footer Content */}
           <div className="pt-8 md:pt-3 bg-zinc-900 md:rounded-tr-[24px]  md:rounded-tl-[24px] rounded-tl-[12px] rounded-tr-[12px]">
