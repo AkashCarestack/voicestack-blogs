@@ -2,6 +2,7 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import Image from 'next/image'
 import SectionDivider from '../components/SectionDivider'
+import { PortableText } from '@portabletext/react'
 
 export default function FeatureTestimonialsSection({ data }: { data: any }) {
   const itemsLength = data?.items?.length || 0
@@ -85,12 +86,26 @@ export default function FeatureTestimonialsSection({ data }: { data: any }) {
                       </div>
                     </div>
                     {/* Quote */}
-                    <div
+                    {/* <div
                       className="mt-6 text-sm md:text-xl leading-relaxed text-gray-500 font-medium [&_span]:text-gray-950 max-w-[800px] mx-auto"
                       dangerouslySetInnerHTML={{
-                        __html: `&ldquo;${item.description}&rdquo;`,
+                        __html: `&ldquo;${item.subStatement}&rdquo;`,
                       }}
-                    />
+                    /> */}
+                    <PortableText value={item.testimonial?.subStatement} components={{
+                      block: {
+                        normal: ({ children }: any) => (
+                          <p className="mt-6 text-sm md:text-xl leading-relaxed text-gray-500 font-medium [&_span]:text-gray-950 max-w-[800px] mx-auto">
+                            &ldquo;{children}&rdquo;
+                          </p>
+                        ),
+                        blockquote: ({ children }: any) => (
+                          <blockquote className="text-sm md:text-xl leading-relaxed text-gray-500 font-medium [&_span]:text-gray-950 max-w-[800px] mx-auto">
+                            &ldquo;{children}&rdquo;
+                          </blockquote>
+                        ),
+                      },
+                    }}/>
                   </div>
                 ))}
               </div>

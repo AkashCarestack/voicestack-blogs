@@ -343,13 +343,23 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     <div className="flex flex-col gap-6">
                       {/* Description - testimonialdescription is a text field, not blockContent */}
                       {currentTestimonial?.testimonial
-                        ?.testimonialdescription && (
+                        ?.keyNoteStatement && (
                         <div className="text-base md:text-lg text-white leading-relaxed">
                           <p className="text-base md:text-lg text-white leading-relaxed">
-                            {
-                              currentTestimonial.testimonial
-                                .testimonialdescription
-                            }
+                            <PortableText value={currentTestimonial?.testimonial?.keyNoteStatement} components={{
+                              block: {
+                                normal: ({ children }: any) => (
+                                  <p className="text-base md:text-lg text-white leading-relaxed">
+                                    {children}
+                                  </p>
+                                ),
+                                blockquote: ({ children }: any) => (
+                                  <blockquote className="text-base md:text-lg text-white leading-relaxed">
+                                    &ldquo;{children}&rdquo;
+                                  </blockquote>
+                                ),
+                              },
+                            }}/>
                           </p>
                         </div>
                       )}
@@ -450,14 +460,14 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     }}
                   >
                     <div 
-                      className="flex relative max-w-[570px]"
+                      className="flex relative max-w-[570px] w-full h-full"
                       style={{
-                        height: `548px`,
-                        width: `${
-                          548 *
-                            (currentTestimonial?.image?.metadata?.dimensions
-                              ?.aspectRatio || 2)
-                        }px`,
+                        // height: `548px`,
+                        // width: `${
+                        //   548 *
+                        //     (currentTestimonial?.image?.metadata?.dimensions
+                        //       ?.aspectRatio || 2)
+                        // }px`,
                       }}
                     >
                       <ImageLoader
@@ -480,10 +490,10 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                 {/* Right Column - Testimonial Details */}
                 <div className="xl:w-1/2 w-full flex flex-col md:gap-8 gap-4 p-6 md:py-12 md:px-16">
                   {/* Quote */}
-                  {currentTestimonial?.description && (
+                  {currentTestimonial?.testimonial?.keyNoteStatement && (
                     <blockquote className="text-lg lg:text-2xl font-medium text-left md:min-h-[259px]">
                       <PortableText
-                        value={currentTestimonial?.description}
+                        value={currentTestimonial?.testimonial?.keyNoteStatement}
                         components={components}
                       />
                     </blockquote>

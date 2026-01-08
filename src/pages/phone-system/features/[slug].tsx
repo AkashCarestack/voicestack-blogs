@@ -35,7 +35,7 @@ console.log(pageData, 'pageData')
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {/* </div> */}
       <FeatureHero data={pageData['feature-hero']} type="feature" />
-
+      {console.log(pageData['logos-listing']?.componentData, 'LogoListing component Dtaat')}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}

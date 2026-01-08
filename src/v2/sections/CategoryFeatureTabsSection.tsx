@@ -634,9 +634,10 @@ export default function CategoryFeatureTabsSection({
   return (
     <Section
       id="features"
+      border='b'
       className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
     >
-      <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
+      <Container className='w-full py-sm md:py-sm lg:py-lg ' type="V2" border="y-0">
         <div className="flex-col relative w-full flex gap-16 mb-[60px]">
           <SectionHeaderV2
             heading={
@@ -680,7 +681,7 @@ export default function CategoryFeatureTabsSection({
           {allCategories.map((category, index) => {
             return (
               <React.Fragment key={category.name}>
-                {index > 0 && <div className="border-y border-gray-200"><SectionDivider height="130px" /></div>}
+                {index > 0 && <div className="border-b border-gray-200"><SectionDivider height="130px" /></div>}
                 <article
                   ref={(el) => {
                     sectionRefs.current[category.name] = el;
@@ -793,6 +794,7 @@ export default function CategoryFeatureTabsSection({
                         theme="light"
                         simpleListingData={true}
                         columnCount={3}
+                        showBorderBottom={true}
                       />
                     </div>
                   )}

@@ -7,7 +7,6 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
@@ -20,6 +19,7 @@ import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 
 interface DentalProps {
   pageData: any

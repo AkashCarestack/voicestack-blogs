@@ -635,7 +635,7 @@ export default function CategoryFeatureTabs({
                                   block: {
                                     normal: ({ children }: any) => (
                                       <p className="text-[#5F6368] font-geist text-lg font-medium leading-[28px] tracking-normal mb-4">
-                                        {children}
+                                        &ldquo;{children}&rdquo;
                                       </p>
                                     ),
                                   },
@@ -643,7 +643,7 @@ export default function CategoryFeatureTabs({
                               />
                             ) : (
                               <p className="text-[#5F6368] font-geist text-lg font-medium leading-[28px] tracking-normal">
-                                {testimonial.keyNoteStatement}
+                                &ldquo;{testimonial.keyNoteStatement}&rdquo;
                               </p>
                             )}
                           </div>
