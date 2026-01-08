@@ -1,11 +1,11 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'   
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 
 interface DentalServiceOrganizationsDSOProps {
   pageData: any
@@ -42,7 +42,7 @@ export default function GroupsAndEnterprises({
           theme="dark"
         />
       )}
-       <StatisticsSection variant="V2" />
+       <StatisticsSection />
     </div>
     </>
   )

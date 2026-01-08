@@ -86,6 +86,11 @@ export default function Home({
           }
         />
       )}
+      {data['how-voicestack-works'] && (
+        <GroupedCardsGridSection
+          data={data['how-voicestack-works']?.componentData?.blocksListingData}
+        />
+      )}
       <StatisticsSection />
       {comparisonLegendData && (
         <SiteComparisonSection
