@@ -380,7 +380,7 @@ export default function CategoryFeatureTabsSection({
                 {/* Main Heading */}
                 {firstCategory.name && (
                   <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
-                    <p className="leading-[48px] whitespace-pre-wrap">{firstCategory.name}</p>
+                    <p className="leading-[133.33%] whitespace-pre-wrap">{firstCategory.name}</p>
                   </div>
                 )}
                 {/* Description */}
@@ -535,7 +535,7 @@ export default function CategoryFeatureTabsSection({
                         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                         className="flex flex-col gap-6 items-start w-full"
                       >
-                        <div className="flex flex-col gap-6 items-start w-full">
+                        <div className="flex flex-col gap-[6px] items-start w-full">
                           {/* Category Label */}
                           {category.name && (
                             <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
@@ -544,13 +544,13 @@ export default function CategoryFeatureTabsSection({
                           )}
                           {/* Main Heading */}
                           {category.subheading && (
-                            <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
-                              <p className="leading-[48px] whitespace-pre-wrap">{category.subheading}</p>
+                            <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900  w-full">
+                              <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl">{category.subheading}</p>
                             </div>
                           )}
                           {/* Description */}
                           {category.description && (
-                            <p className="font-geist font-normal leading-6 text-gray-700 text-base whitespace-pre-wrap">
+                            <p className="font-geist leading-[150%] font-normal text-gray-700 text-base whitespace-pre-wrap">
                               {category.description}
                             </p>
                           )}
@@ -707,7 +707,7 @@ export default function CategoryFeatureTabsSection({
                             )}
                             {/* Main Heading */}
                             <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
-                              <p className="leading-[48px] whitespace-pre-wrap">{category.subheading}</p>
+                              <p className="leading-[133.33%] whitespace-pre-wrap">{category.subheading}</p>
                             </div>
                           </div>
                           {/* Description */}
