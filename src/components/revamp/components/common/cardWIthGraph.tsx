@@ -122,14 +122,16 @@ export default function cardWIthGraph({ data }: { data: any }) {
         
         return (
           customText && (
-            <Container>
-              <div className={` border-gray-200 flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full`}>
-                <div className={`flex flex-col font-geist font-normal justify-center relative text-gray-950`}>
-                  <p className="leading-[24px] [&>span]:text-vs-blue [&>span]:font-medium [&>span]:mr-3" dangerouslySetInnerHTML={{ __html: customText }}  >
-                  </p>
+            <Section isDark={false} border="b">
+              <Container>
+                <div className={` border-gray-200 flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full`}>
+                  <div className={`flex flex-col font-geist font-normal justify-center relative text-gray-950`}>
+                    <p className="leading-[24px] [&>span]:text-vs-blue [&>span]:font-medium [&>span]:mr-3" dangerouslySetInnerHTML={{ __html: customText }}  >
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </Container>
+              </Container>
+            </Section>
         ))
       })()}
     </>

@@ -4,6 +4,7 @@ import { PortableText } from '@portabletext/react'
 import { PortableTextReactComponents } from '@portabletext/react'
 import { urlForImage } from '~/lib/sanity.image'
 import Image from 'next/image'
+import Anchor from '~/components/common/anchor'
 
 // Card content component for rendering card items
 interface CardItemMainProps {
@@ -126,9 +127,9 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
               (item.itemHeading || item.subTitle) && (
               <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
                 <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
-                  <p className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
+                  <h3 className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
                     {item.itemHeading}
-                  </p>
+                  </h3>
                   {item.subTitle && (
                     <p className={`font-geist font-normal text-lg leading-[24px] ${contentTextColor} tracking-normal w-full whitespace-pre-wrap`}>
                       {item.subTitle}
@@ -234,8 +235,10 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
   const cardBgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const headerBgColor = isDark ? 'bg-gray-950' : 'bg-gray-50'
   const contentTextColor = isDark ? 'text-gray-400' : 'text-gray-500'
+  const cardHoverColor = isDark ? 'group-hover:bg-gray-900' : 'group-hover:bg-gray-100'
   const labelColor = isDark ? 'text-vs-lemon-green' : 'text-vs-blue'
   const headingSplitColor = isDark ? '[&>strong]:text-gray-400' : '[&>strong]:text-vs-blue'
+  const labelColorStrong = isDark ? '[&>strong]:text-vs-lemon-green' : '[&>strong]:text-vs-blue'
 
   // Function to process SVG code and update stroke colors for dark theme
   const processSvgCode = (svgCode: string): string => {
@@ -321,7 +324,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
       marks: {
         strong: ({ children }) => <strong>{children}</strong>,
         em: ({ children }) => <em>{children}</em>,
-        highlight: ({ children }) => <span className={` ${contentTextColor} font-medium flex flex-col gap-[6px] pt-3 md:pt-6 [&>strong]:text-vs-lemon-green [&>strong]:font-medium  `}>{children}</span>,
+        highlight: ({ children }) => <span className={` ${contentTextColor} font-medium flex flex-col gap-[6px] pt-3 md:pt-6 ${labelColorStrong} [&>strong]:font-medium  `}>{children}</span>,
       },
     }
   }
@@ -394,7 +397,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
   const TickIcon = () => {
     const strokeColor = isDark ? '#FFFFFF' : '#030712'
     return (
-      <span className={`p-[18px] border-b ${isDark ? 'border-gray-800' : 'border-gray-200'} border-l absolute right-0 cursor-pointer`}>
+      <span className={`p-[18px] border-b ${isDark ? 'border-gray-800' : 'border-gray-200'} ${isDark ? 'bg-gray-950' : 'bg-white'} border-l absolute right-0 cursor-pointer`}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -431,9 +434,11 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
           {linkUrl && <TickIcon />}
           {linkUrl ? (
             <>
-              <Link href={linkUrl} className="block h-full">
-                {cardContent}
-              </Link>
+              <Anchor href={linkUrl} className="block h-full group">
+                <div className={`${cardHoverColor} transition-all duration-200 h-full`}>
+                  {cardContent}
+                </div>
+              </Anchor>
             </>
           ) : (
             cardContent

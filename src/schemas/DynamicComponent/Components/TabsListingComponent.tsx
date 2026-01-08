@@ -160,6 +160,11 @@ const TabsListingComponent = {
               type: 'customBlockContent',
             },
             {
+              name: 'content',
+              title: 'Content',
+              type: 'customBlockContent',
+            },
+            {
               name: 'image',
               title: 'Image',
               type: 'image',

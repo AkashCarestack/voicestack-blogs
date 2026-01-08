@@ -160,6 +160,7 @@ export default function CategoryFeatureTabsSection({
           mainImage: tab.image || null,
           icon: tab.icon || null,
           iconSvgCode: tab.icon || '',
+          featureOrder: tab.featureOrder || tab.order,
           features: transformedFeatures,
         };
       });
@@ -196,14 +197,15 @@ export default function CategoryFeatureTabsSection({
         mainImage: categoryData.category.mainImage,
         icon: categoryData.category.icon,
         iconSvgCode: categoryData.category.iconSvgCode,
+        featureOrder: categoryData.category.featureOrder,
         features: categoryData.features,
       };
     });
 
     // Sort categories by featureOrder if available
     return categories.sort((a, b) => {
-      const orderA = (a as any).featureOrder ?? 9999;
-      const orderB = (b as any).featureOrder ?? 9999;
+      const orderA = a.featureOrder != null ? Number(a.featureOrder) : 9999;
+      const orderB = b.featureOrder != null ? Number(b.featureOrder) : 9999;
       if (orderA !== orderB) {
         return orderA - orderB;
       }
@@ -495,7 +497,7 @@ export default function CategoryFeatureTabsSection({
           </div>
 
           {/* Switchable Tabs - Sticky */}
-          <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12">
+          <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12">
             <SwitchableTabs
               data={allCategories.map(category => ({
                 id: category.name,
@@ -610,7 +612,7 @@ export default function CategoryFeatureTabsSection({
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="w-full h-full relative z-10 flex items-end justify-center"
+                        className="w-full h-full relative flex items-end justify-center"
                       >
                         <ImageLoader
                           image={category.mainImage}
@@ -657,7 +659,7 @@ export default function CategoryFeatureTabsSection({
         </div>
 
         {/* Switchable Tabs - Sticky */}
-        <div className="sticky top-[60px] md:top-[50px] z-[100] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+        <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
           <SwitchableTabs
             data={allCategories.map(category => ({
               id: category.name,
@@ -739,7 +741,7 @@ export default function CategoryFeatureTabsSection({
                         />
                       </div>
                       {category?.mainImage && (
-                        <div className="w-full h-full relative z-10 flex items-end justify-center">
+                        <div className="w-full h-full relative flex items-end justify-center">
                           <figure className="relative w-full flex items-end justify-center h-auto">
                             <ImageLoader
                               image={category.mainImage}

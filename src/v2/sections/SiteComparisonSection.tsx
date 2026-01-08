@@ -39,7 +39,7 @@ function SiteComparisonSection({
     return () => window.removeEventListener('resize', checkWidth)
   }, [])
 
-  console.log('data comparison section', data);
+  // console.log('data comparison section', data);
   return hideTable ? (
     <></>
   ) : (

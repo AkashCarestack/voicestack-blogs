@@ -66,6 +66,7 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
   const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
   const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const textColor = isDark ? 'text-white' : 'text-gray-950'
+  const labelColor = isDark ? '[&>span]:text-vs-lemon-green' : '[&>span]:text-vs-blue'
   const headingSplitColor = isDark ? 'text-vs-blue' : 'text-gray-400'
   // console.log('displayData GroupedCardsGridSection',displayData);
   
@@ -129,7 +130,7 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
                 <div className={`border-t ${borderColor} flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full`}>
                   
                   <div className={`flex flex-col font-geist font-normal justify-center relative ${textColor}`}>
-                    <p className="leading-[24px] [&>span]:text-vs-blue [&>span]:font-medium [&>span]:mr-3" dangerouslySetInnerHTML={{ __html: customText }}  >
+                    <p className={`leading-[24px] ${labelColor} [&>span]:font-medium [&>span]:mr-3`} dangerouslySetInnerHTML={{ __html: customText }}  >
                     </p>
                   </div>
                 </div>

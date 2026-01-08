@@ -53,7 +53,7 @@ export default function FooterBottom({ data }: FooterBottomProps) {
             <p className="pt-3 pb-6 text-base md:text-lg !leading-[160%]">
               {description}
             </p>
-            <Button type="primary" link={buttonLink} className="w-fit mx-auto">
+            <Button type="primary" link="/demo" className="w-fit mx-auto">
               <span>{buttonText}</span>
             </Button>
           </div>
