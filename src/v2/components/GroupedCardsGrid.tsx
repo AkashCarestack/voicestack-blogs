@@ -62,7 +62,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
             )}
           
 
-            <div className="flex flex-col gap-1.5 items-start justify-end w-full">
+            <div className="flex flex-col gap-3 items-start justify-end w-full">
               {/* Heading */}
               {item.heading && (
                 <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
@@ -129,7 +129,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
                     {item.itemHeading}
                   </p>
                   {item.subTitle && (
-                    <p className={`font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal w-full whitespace-pre-wrap`}>
+                    <p className={`font-geist font-normal text-lg leading-[24px] ${contentTextColor} tracking-normal w-full whitespace-pre-wrap`}>
                       {item.subTitle}
                     </p>
                   )}
