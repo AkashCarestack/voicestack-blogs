@@ -271,6 +271,12 @@ export const customListingItemSchema = {
           type: 'object',
           fields: [
             defineField({
+              name: 'previewHeading',
+              title: 'Preview Heading',
+              type: 'string',
+              description: 'This is used for previewing the item in the listing',
+            }),
+            defineField({
               name: 'itemHeading',
               title: 'Item Heading',
               type: 'string',
@@ -317,7 +323,19 @@ export const customListingItemSchema = {
                 }),
               ],
             }),
+            
           ],
+          preview: {
+            select: {
+              previewHeading: 'previewHeading',
+              title: 'itemHeading',
+            },
+            prepare({ previewHeading, title }: any) {
+              return {
+                title: previewHeading || title || 'Untitled',
+              };
+            },
+          },
         },
       ],
     }),

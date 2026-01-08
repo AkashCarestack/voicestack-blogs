@@ -24,6 +24,7 @@ export default function cardWIthGraph({ data }: { data: any }) {
     'border-t md:border-r md:[&:nth-child(2n)]:border-r-0 lg:[&:nth-child(2n)]:border-r lg:[&:nth-child(3n)]:border-r-0'
 
   return (
+    <>
     <Section className="bg-[#ffffff]" border="b">
       <Container
         className="w-full pt-sm md:pt-md lg:pt-lg"
@@ -113,6 +114,24 @@ export default function cardWIthGraph({ data }: { data: any }) {
           </div>
         </div>
       </Container>
+      {/* Footer Section */}
     </Section>
+      {(() => {
+        // Get customText from data level
+        const customText = data?.customText
+        
+        return (
+          customText && (
+            <Container>
+              <div className={` border-gray-200 flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full`}>
+                <div className={`flex flex-col font-geist font-normal justify-center relative text-gray-950`}>
+                  <p className="leading-[24px] [&>span]:text-vs-blue [&>span]:font-medium [&>span]:mr-3" dangerouslySetInnerHTML={{ __html: customText }}  >
+                  </p>
+                </div>
+              </div>
+            </Container>
+        ))
+      })()}
+    </>
   )
 }
