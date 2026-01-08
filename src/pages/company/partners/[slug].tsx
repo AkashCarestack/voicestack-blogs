@@ -30,7 +30,6 @@ export default function PartnerSlugPage({
 }: PartnerSlugPageProps) {
  
   const heroData = pageData['partner-hero']?.componentData;
-  console.log(pageData['offer']?.componentData);
   return (
     <>
       <SimpleHead data={pageData?.seo} />
