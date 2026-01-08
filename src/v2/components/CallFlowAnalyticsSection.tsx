@@ -114,7 +114,7 @@ export default function CallFlowAnalyticsSection({
 
         {/* Auto Expand Tabs */}
         {tabsData.length > 0 && (
-          <AutoExpandTabs tabs={tabsData} autoPlayDuration={10000} />
+          <AutoExpandTabs tabs={tabsData} autoPlayDuration={15000} />
         )}
       </Container>
     </Section>

@@ -44,9 +44,9 @@ const StatisticsSection = ({ bgColor }: StatisticsSectionProps = {}) => {
             <div className="flex-col relative w-full flex gap-8">
 
               <SectionHeaderV2 isLeftAlign={true} className=''
-                heading={"Advanced AI phone system for dentists globally."}
+                heading={"The Most Advanced AI Phone System for Dentists Globally."}
                 // heading={pageData['how-voicestack-works2'].componentData.heading}
-                description={"From single offices to DSOs with hundreds of offices, brands rely upon VoiceStack’s superior AI models, guaranteed reliability and ease of use to create delightful patient experiences and sustained growth."}
+                description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused dental practices across the US, UK, and Australia. From single offices to DSOs with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
               />
 
               <div className="flex justify-start">

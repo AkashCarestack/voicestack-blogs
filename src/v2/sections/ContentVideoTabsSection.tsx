@@ -11,6 +11,7 @@ import SwitchableTabs from '~/components/revamp/components/common/switchableTabs
 import { IdataProps } from '~/components/revamp/components/common/interface/common';
 import { urlForImage } from '~/lib/sanity.image';
 import ImageLoader from '~/components/common/imageLoader/imageLoader';
+import ListingBlock from '~/components/blockEditor/ListingBlock';
 
 
 interface Feature {
@@ -52,6 +53,7 @@ interface TabItem {
   category?: string;
   heading: string;
   description: any; // Block content array
+  content?: any; // Block content array
   features?: string[];
   ctaText?: string;
   ctaLink?: string;
@@ -132,12 +134,13 @@ export default function ContentVideoTabsSection({
         
         const video = tab.genericVideo && hasValidVideo(tab.genericVideo) ? tab.genericVideo : null;
         
-        return {
+        const tabData = {
           key: tabKey,
           title: tab.tabSubHeading || tab.tabHeading || `Tab ${index + 1}`,
           category: tab.tabHeading || undefined,
           heading: tab.tabSubHeading || tab.tabHeading || '',
           description: tab.description || [],
+          content: tab.content || [],
           features: tab.listItems?.map((item: any) => item.subfeatureHeading).filter(Boolean) || [],
           ctaText: tab.LinkText || undefined,
           ctaLink: tab.Link?.url || tab.Link || undefined,
@@ -146,6 +149,13 @@ export default function ContentVideoTabsSection({
           thumbnail: imageUrl,
           image: tab.image,
         };
+        
+        // Debug log to check content
+        if (tab.content) {
+          console.log(`Tab ${index + 1} content:`, tab.content);
+        }
+        
+        return tabData;
       });
     }
     
@@ -286,14 +296,90 @@ export default function ContentVideoTabsSection({
   
   const uploadedVideoUrl = getUploadedVideo();
   
-  // Portable text components for description
+  // Portable text components for description and content
   const portableTextComponents = {
     block: {
-      normal: ({ children }: any) => <p className="text-gray-500 md:text-lg text-base font-geist font-normal leading-[155.55%] tracking-normal">{children}</p>,
+      normal: ({ children }: any) => <p className="text-[#364153] text-base font-geist font-normal leading-6 tracking-normal">{children}</p>,
+      h2: ({ children }: any) => <h2 className="text-gray-900 md:text-3xl text-2xl font-manrope font-semibold leading-tight tracking-normal mt-6 mb-4">{children}</h2>,
+      h3: ({ children }: any) => <h3 className="text-gray-900 md:text-2xl text-xl font-manrope font-semibold leading-tight tracking-normal mt-5 mb-3">{children}</h3>,
+      h4: ({ children }: any) => <h4 className="text-gray-900 md:text-xl text-lg font-manrope font-semibold leading-tight tracking-normal mt-4 mb-2">{children}</h4>,
+      h5: ({ children }: any) => <h5 className="text-gray-900 md:text-lg text-base font-manrope font-semibold leading-tight tracking-normal mt-3 mb-2">{children}</h5>,
+      h6: ({ children }: any) => <h6 className="text-gray-900 md:text-base text-sm font-manrope font-semibold leading-tight tracking-normal mt-2 mb-2">{children}</h6>,
+      blockquote: ({ children }: any) => (
+        <blockquote className="border-l-4 border-vs-purple pl-4 my-4 italic text-gray-600">
+          {children}
+        </blockquote>
+      ),
+    },
+    list: {
+      bullet: ({ children }: any) => (
+        <ul className="flex flex-col gap-0 my-4">
+          {children}
+        </ul>
+      ),
+      number: ({ children }: any) => (
+        <ol className="flex flex-col gap-0 my-4">
+          {children}
+        </ol>
+      ),
+    },
+    listItem: {
+      bullet: ({ children }: any) => (
+        <div className="flex gap-2 items-start px-0 py-1.5">
+          <div className="flex items-center px-0 py-1 shrink-0">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="16" 
+              height="16" 
+              viewBox="0 0 16 16" 
+              fill="none"
+              className="shrink-0"
+            >
+              <path 
+                fillRule="evenodd" 
+                clipRule="evenodd" 
+                d="M13.363 3.32248C13.4259 3.37018 13.4787 3.4298 13.5184 3.49794C13.5582 3.56607 13.5841 3.64138 13.5948 3.71955C13.6054 3.79772 13.6005 3.87722 13.5804 3.9535C13.5602 4.02977 13.5252 4.10133 13.4774 4.16408L7.07743 12.5641C7.02552 12.6321 6.95965 12.6883 6.88424 12.7288C6.80884 12.7692 6.72565 12.7931 6.64025 12.7988C6.55486 12.8045 6.46923 12.7918 6.38913 12.7617C6.30903 12.7316 6.2363 12.6846 6.17583 12.6241L2.57583 9.02408C2.46984 8.91034 2.41215 8.7599 2.41489 8.60446C2.41763 8.44902 2.4806 8.30071 2.59053 8.19078C2.70046 8.08085 2.84877 8.01788 3.00421 8.01513C3.15965 8.01239 3.31009 8.07009 3.42383 8.17608L6.53903 11.2905L12.523 3.43688C12.6193 3.31044 12.7619 3.22738 12.9194 3.20593C13.0769 3.18448 13.2364 3.2264 13.363 3.32248Z" 
+                fill="#99A1AF"
+              />
+            </svg>
+          </div>
+          <div className="flex flex-1 flex-col font-geist font-normal justify-center text-[#364153] text-base leading-6 tracking-normal">
+            <p className="leading-6 whitespace-pre-wrap">{children}</p>
+          </div>
+        </div>
+      ),
+      number: ({ children }: any) => (
+        <div className="flex gap-2 items-start px-0 py-1.5">
+          <div className="flex items-center px-0 py-1 shrink-0">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              width="16" 
+              height="16" 
+              viewBox="0 0 16 16" 
+              fill="none"
+              className="shrink-0"
+            >
+              <path 
+                fillRule="evenodd" 
+                clipRule="evenodd" 
+                d="M13.363 3.32248C13.4259 3.37018 13.4787 3.4298 13.5184 3.49794C13.5582 3.56607 13.5841 3.64138 13.5948 3.71955C13.6054 3.79772 13.6005 3.87722 13.5804 3.9535C13.5602 4.02977 13.5252 4.10133 13.4774 4.16408L7.07743 12.5641C7.02552 12.6321 6.95965 12.6883 6.88424 12.7288C6.80884 12.7692 6.72565 12.7931 6.64025 12.7988C6.55486 12.8045 6.46923 12.7918 6.38913 12.7617C6.30903 12.7316 6.2363 12.6846 6.17583 12.6241L2.57583 9.02408C2.46984 8.91034 2.41215 8.7599 2.41489 8.60446C2.41763 8.44902 2.4806 8.30071 2.59053 8.19078C2.70046 8.08085 2.84877 8.01788 3.00421 8.01513C3.15965 8.01239 3.31009 8.07009 3.42383 8.17608L6.53903 11.2905L12.523 3.43688C12.6193 3.31044 12.7619 3.22738 12.9194 3.20593C13.0769 3.18448 13.2364 3.2264 13.363 3.32248Z" 
+                fill="#99A1AF"
+              />
+            </svg>
+          </div>
+          <div className="flex flex-1 flex-col font-geist font-normal justify-center text-[#364153] text-base leading-6 tracking-normal">
+            <p className="leading-6 whitespace-pre-wrap">{children}</p>
+          </div>
+        </div>
+      ),
     },
     marks: {
-      strong: ({ children }: any) => <strong>{children}</strong>,
-      em: ({ children }: any) => <em>{children}</em>,
+      strong: ({ children }: any) => <strong className="font-semibold">{children}</strong>,
+      em: ({ children }: any) => <em className="italic">{children}</em>,
+      underline: ({ children }: any) => <span className="underline">{children}</span>,
+      highlight: ({ children }: any) => (
+        <span className="bg-yellow-200 font-semibold">{children}</span>
+      ),
       link: ({ value, children }: any) => {
         const target = value?.blank ? '_blank' : undefined;
         const rel = value?.blank ? 'noopener noreferrer' : undefined;
@@ -301,6 +387,17 @@ export default function ContentVideoTabsSection({
           <a href={value?.href} target={target} rel={rel} className="text-vs-purple underline hover:opacity-80">
             {children}
           </a>
+        );
+      },
+    },
+    types: {
+      listingBlock: ({ value }: any) => {
+        if (!value) return null;
+        return (
+          <ListingBlock
+            itemHeading={value.itemHeading}
+            listingItem={value.listingItem}
+          />
         );
       },
     },
@@ -388,7 +485,11 @@ export default function ContentVideoTabsSection({
                       </div>
                     ) : null}
                     
-                    {tab.features && tab.features.length > 0 && (
+                    {tab.content && Array.isArray(tab.content) && tab.content.length > 0 ? (
+                      <div className="md:mt-6 mt-3">
+                        <PortableText value={tab.content} components={portableTextComponents} />
+                      </div>
+                    ) : tab.features && tab.features.length > 0 ? (
                       <div className="flex flex-col gap-0 md:mt-6 mt-3">
                         {tab.features.map((feature, idx) => (
                           <div
@@ -418,7 +519,7 @@ export default function ContentVideoTabsSection({
                           </div>
                         ))}
                       </div>
-                    )}
+                    ) : null}
 
                     {tab.ctaListItems && tab.ctaListItems.length > 0 ? (
                       <div className="flex flex-col md:flex-row justify-start gap-4 md:mt-12 mt-6">

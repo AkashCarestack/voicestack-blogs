@@ -28,7 +28,21 @@ export default function FeatureTestimonialsSection({ data }: { data: any }) {
             description={data?.description}
             className="xl:px-12 md:px-6 px-4"
           /> */}
-          <div className={``}>
+          <div className={``}  style={{
+              backgroundImage: `repeating-linear-gradient(
+                -45deg,
+                #E5E7EB,
+                #E5E7EB 1px,
+                transparent 1px,
+                transparent 10px
+              )`,
+              // backgroundSize: 'cover',
+              // backgroundPosition: 'center',
+              // backgroundRepeat: 'no-repeat',
+              width: '100%',
+              height: '100%',
+              backgroundSize: '14.14px 14.14px',
+            }}>
             {/* Top divider */}
 
             <SectionDivider height="48px" color="#E5E7EB" />

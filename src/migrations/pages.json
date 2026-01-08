@@ -1,0 +1,229 @@
+[
+  {
+    "_id": "page-example-1",
+    "_type": "page",
+    "title": "Example Page 1",
+    "slug": {
+      "_type": "slug",
+      "current": "example-page-1"
+    },
+    "content": [
+      {
+        "_type": "block",
+        "style": "normal",
+        "children": [
+          {
+            "_type": "span",
+            "text": "This is an example page content. You can add rich text content here using Sanity's block content structure."
+          }
+        ]
+      }
+    ],
+    "language": "en"
+  },
+  {
+    "_id": "page-example-2",
+    "_type": "page",
+    "title": "Example Page 2",
+    "slug": {
+      "_type": "slug",
+      "current": "example-page-2"
+    },
+    "content": [
+      {
+        "_type": "block",
+        "style": "h1",
+        "children": [
+          {
+            "_type": "span",
+            "text": "Welcome to Example Page 2"
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "normal",
+        "children": [
+          {
+            "_type": "span",
+            "text": "This is another example page with different content."
+          }
+        ]
+      }
+    ],
+    "language": "en"
+  },
+  {
+    "_id": "page-cloud-fax",
+    "_type": "page",
+    "title": "Manage Every Fax with Cloud Fax",
+    "slug": {
+      "_type": "slug",
+      "current": "cloud-fax"
+    },
+    "content": [
+      {
+        "_type": "block",
+        "style": "h1",
+        "children": [
+          {
+            "_type": "span",
+            "text": "Manage Every Fax with Cloud Fax"
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "normal",
+        "children": [
+          {
+            "_type": "span",
+            "text": "Capture every incoming fax. Route every document. Act without delay."
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "h2",
+        "children": [
+          {
+            "_type": "span",
+            "text": "1. What is Cloud Fax for healthcare clinics?"
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "normal",
+        "children": [
+          {
+            "_type": "span",
+            "text": "Cloud Fax is a secure, digital fax solution for healthcare practices, enabling clinics to send, receive, and manage patient documents without paper, fax machines, or manual workflows."
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "h2",
+        "children": [
+          {
+            "_type": "span",
+            "text": "2. How does Cloud Fax improve clinic workflow efficiency?"
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "normal",
+        "children": [
+          {
+            "_type": "span",
+            "text": "By centralizing fax management and automating document routing, Cloud Fax reduces processing time, eliminates manual errors, and streamlines healthcare workflows for faster patient care."
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "h2",
+        "children": [
+          {
+            "_type": "span",
+            "text": "3. Can Cloud Fax integrate with patient records and appointment systems?"
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "normal",
+        "children": [
+          {
+            "_type": "span",
+            "text": "Yes. Cloud Fax links all incoming and outgoing faxes to patient records and appointment workflows, ensuring accurate tracking, seamless follow-ups, and complete documentation."
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "h2",
+        "children": [
+          {
+            "_type": "span",
+            "text": "4. Is Cloud Fax secure and HIPAA compliant?"
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "normal",
+        "children": [
+          {
+            "_type": "span",
+            "text": "VoiceStack Cloud Fax uses end-to-end encryption, secure storage, and role-based access controls to ensure all patient documents remain HIPAA-compliant and protected."
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "h2",
+        "children": [
+          {
+            "_type": "span",
+            "text": "5. Can multiple team members access and manage faxes across locations?"
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "normal",
+        "children": [
+          {
+            "_type": "span",
+            "text": "Yes. Cloud Fax provides a centralized inbox with shared access and staff-level controls, allowing multi-location clinics and DSOs to manage faxes efficiently and consistently."
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "h2",
+        "children": [
+          {
+            "_type": "span",
+            "text": "6. How does Cloud Fax handle urgent or high-priority documents?"
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "normal",
+        "children": [
+          {
+            "_type": "span",
+            "text": "High-priority faxes are automatically flagged and routed to the right team member or department for immediate action, reducing delays in critical patient care."
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "h2",
+        "children": [
+          {
+            "_type": "span",
+            "text": "7. Can Cloud Fax replace traditional fax machines completely?"
+          }
+        ]
+      },
+      {
+        "_type": "block",
+        "style": "normal",
+        "children": [
+          {
+            "_type": "span",
+            "text": "Yes. By eliminating physical fax machines, paper, and manual workflows, Cloud Fax modernizes healthcare communication while maintaining compliance and operational efficiency."
+          }
+        ]
+      }
+    ],
+    "language": "en"
+  }
+]
+

@@ -45,10 +45,11 @@ console.log(pageData, 'pageData')
       {pageData['the-missing-visibility']?.componentData && (
         <GroupedCardsGridSection
         data={pageData['the-missing-visibility']?.componentData}
+        sectionBorder="b"
         />
       )}
       {pageData['card-with-image'] && (
-        <GroupedCardsGridSection data={pageData['card-with-image']?.genericListingComponent} />
+        <GroupedCardsGridSection data={pageData['card-with-image']?.genericListingComponent} sectionBorder="b" />
       )}
      
       {pageData['feature-testimonials-section-single']?.componentData && (
