@@ -272,7 +272,7 @@ export const HeroHeadingComponents: any = {
       React.createElement(
         'span',
         {
-          className: 'text-gray-950  md:max-w-[607px] w-full font-manrope xl:text-7xl md:text-5xl text-center md:text-left text-3xl font-extrabold !leading-[111.11%] tracking-normal',
+          className: 'text-gray-950  md:max-w-[607px] w-full font-manrope xl:text-6xl md:text-5xl text-center md:text-left text-3xl font-extrabold !leading-[116.667%] tracking-[-0.8px]',
         },
         children
       ),
