@@ -200,7 +200,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
               {sortedIntegrations.map((integration: any) => (
                 <div
                   key={integration._id}
-                  className="flex items-center justify-center group relative transition-all duration-300"
+                  className="flex items-center justify-center group relative transition-all duration-300 overflow-hidden"
                   style={{
                     borderRadius: '8px',
                     border: '1px solid rgba(255,255,255,0.20)',
@@ -251,7 +251,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                 {gridCells.map((cell) => (
                   <div
                     key={cell.key}
-                    className={`flex items-center justify-center ${
+                    className={`flex items-center justify-center overflow-hidden ${
                       cell.type === 'integration'
                         ? 'group relative transition-all duration-300'
                         : ''
