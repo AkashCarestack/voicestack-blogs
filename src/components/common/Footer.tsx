@@ -60,7 +60,7 @@ const Footer = ({ data }) => {
   return (
     <Section id="footer" className={'bg-black'}>
       <div className="flex justify-center w-full px-4 md:px-12">
-        <div className="w-full">
+        <div className="w-full flex flex-col gap-3">
           <FooterBottom data={data}/>
 
           {/* Main Footer Content */}

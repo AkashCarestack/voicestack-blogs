@@ -256,13 +256,13 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
             </div>
           }
           {image && !hasVideo && !hasTestimonial && (
-            <div className='flex-1  w-full h-full max-w-[481px] max-h-[444px]'>
-              <Image className='md:w-[481px] md:h-[444px] w-full h-full object-cover' src={image} alt={heading} width={1000} height={1000} />
+            <div className='flex-1  w-full h-full max-w-[550px] max-h-[550px]'>
+              <Image className='max-w-[550px] max-h-[550px] w-full h-full object-cover' src={image} alt={heading} width={1000} height={1000} />
             </div>
           )}
           {/* Testimonial Section with YouTube Video */}
           {hasTestimonial && !hasVideo && !image && (
-            <div className="lg:max-w-[481px] leading-none flex-1 flex justify-center lg:justify-end items-start relative testimonial-card">
+            <div className="max-w-[550px] max-h-[550px] leading-none flex-1 flex justify-center lg:justify-end items-start relative testimonial-card">
               <div className="absolute right-auto left-1/2 lg:left-auto lg:right-0 top-[0] bg-[#4A3CE1] opacity-10 rounded-[12px] md:rounded-[22px] -translate-x-1/2 lg:translate-x-0 rotate-[-7.7deg] scale-90 aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] shrink-0 origin-bottom-left"></div>
               <div className="relative rounded-[8px] md:rounded-[16px] aspect-[9/16] lg:aspect-[380/550] w-[320px] lg:w-[380px] overflow-hidden shrink-0">
                 <div
@@ -410,7 +410,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
           )}
           
           {hasVideo && !hasTestimonial && (
-            <div className='flex-1 w-full h-full max-w-[481px] max-h-[444px] bg-transparent video-container'>
+            <div className='flex-1 w-full h-full max-w-[550px] max-h-[550px] bg-transparent video-container'>
               {videoId ? (
                 // YouTube video handling
                 <div
@@ -457,7 +457,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
                             backgroundRepeat: 'no-repeat',
                             objectFit: 'cover',
                           }}
-                          className="absolute h-full w-full object-cover md:w-[481px] md:h-[444px]"
+                          className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]"
                           autoPlay
                           loop
                           muted
@@ -472,7 +472,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
                         </video>
                       ) : image ? (
                         <Image 
-                          className="absolute h-full w-full object-cover md:w-[481px] md:h-[444px]" 
+                          className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]" 
                           src={image} 
                           alt={heading} 
                           width={1000} 
@@ -529,7 +529,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
                         backgroundRepeat: 'no-repeat',
                         objectFit: 'cover',
                       }}
-                      className="absolute h-full w-full object-cover md:w-[481px] md:h-[444px]"
+                      className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]"
                       autoPlay
                       loop
                       muted
@@ -544,7 +544,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
                     </video>
                   ) : image ? (
                     <Image 
-                      className="absolute h-full w-full object-cover md:w-[481px] md:h-[444px]" 
+                      className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]" 
                       src={image} 
                       alt={heading} 
                       width={1000} 
@@ -587,7 +587,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
                   ref={(el) => {
                     if (el) videoRef.current = el
                   }}
-                  className='md:w-[481px] md:h-[444px] w-full h-full object-cover rounded-[12px] md:rounded-[24px]'
+                  className='max-w-[550px] max-h-[550px] w-full h-full object-cover rounded-[12px] md:rounded-[24px]'
                   muted
                   loop
                   playsInline
