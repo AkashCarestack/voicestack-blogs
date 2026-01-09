@@ -475,9 +475,9 @@ export default function CategoryFeatureTabsSection({
       >
         <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
           {/* Header Section */}
-          <div className="flex-col relative w-full flex gap-8 items-center justify-center mb-16 px-4 md:px-12">
+          <div className="flex-col gap-16 relative w-full flex items-center justify-center mb-16">
             <div className="flex flex-col gap-3 items-center text-center max-w-[712px]">
-              <SectionHeaderV2
+              <SectionHeaderV2 className='md:px-12 px-4'
                 heading={
                   sectionHeading?.sectionHeadingDynamic
                     ? sectionHeading?.sectionHeadingDynamic
@@ -491,147 +491,146 @@ export default function CategoryFeatureTabsSection({
                     : 'Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
                 }
                 className='px-0'
+                demoButton={true}
               />
             </div>
-            <Button type="primary" link="/demo">
-              <span className="text-base font-medium">Book Free Demo</span>
-            </Button>
-          </div>
+            
+            {/* Switchable Tabs - Sticky */}
+            {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12`}> */}
+            <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
 
-          {/* Switchable Tabs - Sticky */}
-          {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12`}> */}
-          <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+              <SwitchableTabs
+                data={allCategories.map(category => ({
+                  id: category.name,
+                  key: category.name,
+                  title: category.name,
+                  testimonial: null,
+                  setActiveTab: handleCategoryClick,
+                })) as IdataProps[]}
+                setActiveTab={handleCategoryClick}
+                activeTab={activeCategory}
+                isSticky={false}
+                className="md:py-2 bg-transparent !shadow-none !border-none"
+                isShowImage={false}
+                shadow={false}
+              />
+            </div>
 
-            <SwitchableTabs
-              data={allCategories.map(category => ({
-                id: category.name,
-                key: category.name,
-                title: category.name,
-                testimonial: null,
-                setActiveTab: handleCategoryClick,
-              })) as IdataProps[]}
-              setActiveTab={handleCategoryClick}
-              activeTab={activeCategory}
-              isSticky={false}
-              className="md:py-2 bg-transparent !shadow-none !border-none"
-              isShowImage={false}
-              shadow={false}
-            />
-          </div>
+            {/* Carousel Content - Two Column Layout with Smooth Animation */}
+            <div className="relative w-full">
+              {/* Single container box that stays */}
+              <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
+                {/* Left Column: Content and Pill Items with Smooth Animation */}
+                <div className="bg-white flex flex-col gap-6 items-start justify-start p-12 min-h-[400px] relative overflow-hidden">
+                  <AnimatePresence mode="wait">
+                    {allCategories.map((category) => {
+                      const pillItems = getPillItems(category);
+                      const isActive = category.name === activeCategory;
+                      
+                      if (!isActive) return null;
+                      
+                      return (
+                        <motion.div
+                          key={category.name}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                          className="flex flex-col gap-6 items-start w-full"
+                        >
+                          <div className="flex flex-col gap-[6px] items-start w-full">
+                            {/* Category Label */}
+                            {category.name && (
+                              <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                                <p className="leading-6 whitespace-pre-wrap">{category.name}</p>
+                              </div>
+                            )}
+                            {/* Main Heading */}
+                            {category.subheading && (
+                              <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900  w-full">
+                                <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl">{category.subheading}</p>
+                              </div>
+                            )}
+                            {/* Description */}
+                            {category.description && (
+                              <p className="font-geist leading-[150%] font-normal text-gray-700 text-base whitespace-pre-wrap">
+                                {category.description}
+                              </p>
+                            )}
+                          </div>
 
-          {/* Carousel Content - Two Column Layout with Smooth Animation */}
-          <div className="relative w-full">
-            {/* Single container box that stays */}
-            <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
-              {/* Left Column: Content and Pill Items with Smooth Animation */}
-              <div className="bg-white flex flex-col gap-6 items-start justify-start p-12 min-h-[400px] relative overflow-hidden">
-                <AnimatePresence mode="wait">
-                  {allCategories.map((category) => {
-                    const pillItems = getPillItems(category);
-                    const isActive = category.name === activeCategory;
-                    
-                    if (!isActive) return null;
-                    
-                    return (
-                      <motion.div
-                        key={category.name}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex flex-col gap-6 items-start w-full"
-                      >
-                        <div className="flex flex-col gap-[6px] items-start w-full">
-                          {/* Category Label */}
-                          {category.name && (
-                            <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
-                              <p className="leading-6 whitespace-pre-wrap">{category.name}</p>
-                            </div>
-                          )}
-                          {/* Main Heading */}
-                          {category.subheading && (
-                            <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900  w-full">
-                              <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl">{category.subheading}</p>
-                            </div>
-                          )}
-                          {/* Description */}
-                          {category.description && (
-                            <p className="font-geist leading-[150%] font-normal text-gray-700 text-base whitespace-pre-wrap">
-                              {category.description}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Pill Items Grid */}
-                        <div className="flex flex-wrap gap-3 items-start w-full">
-                          {pillItems.map((item, index) => (
-                            <Link
-                              key={`${category.name}-${index}`}
-                              href={item.href}
-                              className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white hover:border-[rgba(255,255,255,0.60)] hover:bg-[#E5E7EB] transition-all duration-200 shadow-sm cursor-pointer"
-                            >
-                              <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
-                                {item.heading}
-                              </span>
-                              {item.dynamicSvg && (
-                                <div
-                                  className="flex items-center justify-center w-5 h-5 flex-shrink-0 [&_svg]:w-5 [&_svg]:h-5"
-                                  dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
-                                />
-                              )}
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
-              </div>
-
-              {/* Right Column: Category Image with Fixed Grid Pattern */}
-              <div className="bg-gray-50 flex flex-col items-center justify-center h-[400px] lg:h-auto overflow-hidden relative">
-                {/* Grid Pattern Background - Fixed, doesn't move */}
-                <div className="absolute inset-0 z-0">
-                  <GridPattern
-                    width={50}
-                    height={50}
-                    x={-1}
-                    y={-1}
-                    className={cn(
-                      "[mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"
-                    )}
-                  />
+                          {/* Pill Items Grid */}
+                          <div className="flex flex-wrap gap-3 items-start w-full">
+                            {pillItems.map((item, index) => (
+                              <Link
+                                key={`${category.name}-${index}`}
+                                href={item.href}
+                                className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white hover:border-[rgba(255,255,255,0.60)] hover:bg-[#E5E7EB] transition-all duration-200 shadow-sm cursor-pointer"
+                              >
+                                <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
+                                  {item.heading}
+                                </span>
+                                {item.dynamicSvg && (
+                                  <div
+                                    className="flex items-center justify-center w-5 h-5 flex-shrink-0 [&_svg]:w-5 [&_svg]:h-5"
+                                    dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
+                                  />
+                                )}
+                              </Link>
+                            ))}
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
                 </div>
-                {/* Images - Smooth fade animation */}
-                <AnimatePresence mode="wait">
-                  {allCategories.map((category) => {
-                    const isActive = category.name === activeCategory;
-                    
-                    if (!isActive || !category?.mainImage) return null;
-                    
-                    return (
-                      <motion.div
-                        key={category.name}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="w-full h-full relative flex items-end justify-center"
-                      >
-                        <ImageLoader
-                          image={category.mainImage}
-                          alt={`${category.name} feature illustration`}
-                          title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
-                          fixed={true}
-                          className="rounded-lg object-contain w-full h-full"
-                        />
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
+
+                {/* Right Column: Category Image with Fixed Grid Pattern */}
+                <div className="bg-gray-50 flex flex-col items-center justify-center h-[400px] lg:h-auto overflow-hidden relative">
+                  {/* Grid Pattern Background - Fixed, doesn't move */}
+                  <div className="absolute inset-0 z-0">
+                    <GridPattern
+                      width={50}
+                      height={50}
+                      x={-1}
+                      y={-1}
+                      className={cn(
+                        "[mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"
+                      )}
+                    />
+                  </div>
+                  {/* Images - Smooth fade animation */}
+                  <AnimatePresence mode="wait">
+                    {allCategories.map((category) => {
+                      const isActive = category.name === activeCategory;
+                      
+                      if (!isActive || !category?.mainImage) return null;
+                      
+                      return (
+                        <motion.div
+                          key={category.name}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                          className="w-full h-full relative flex items-end justify-center"
+                        >
+                          <ImageLoader
+                            image={category.mainImage}
+                            alt={`${category.name} feature illustration`}
+                            title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
+                            fixed={true}
+                            className="rounded-lg object-contain w-full h-full"
+                          />
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
               </div>
             </div>
           </div>
+
         </Container>
       </Section>
     );
