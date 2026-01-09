@@ -16,6 +16,7 @@ import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSecti
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
+import OfferSection from '~/v2/sections/OfferSection'
 
 
 interface PhonesProps {
@@ -122,6 +123,16 @@ console.log("ppppp",pageData['phone-listing']?.componentData);
           }
         />
       )}
+
+{pageData['offer']?.componentData && (
+
+      <OfferSection
+
+        data={pageData['offer']?.componentData}
+
+      />
+
+    )}
       
       {faq && <FaqSection faqItems={faq} />}
     </>
