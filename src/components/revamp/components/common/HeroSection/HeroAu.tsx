@@ -40,7 +40,7 @@ export default function HeroAU({
   }
 
   return (
-    <Section  className=' bg-gray-50'>
+    <Section  className=' bg-gray-50 overflow-hidden'>
       <Container type="V2" className=" md:py-[136px] py-[64px] md:pl-12 gap-12">
         <div className='flex md:flex-row relative '>
           <video
@@ -60,7 +60,7 @@ export default function HeroAU({
             <source src="https://cdn.sanity.io/files/76tr0pyh/develop/afbf5be56052d1634405ab6b95302674d38298c8.mp4" type="video/mp4" />
           </video>
           
-          <div className='flex flex-col gap-4 flex-1 md:max-w-[606px] relative z-10'>
+          <div className='flex flex-col gap-4 flex-1 md:max-w-[606px] relative '>
           <div className='flex justify-center items-center md:justify-start'>
             <h1 className='px-3.5 py-[9px] flex items-center gap-1.5 rounded-full border w-fit border-[#AEA0FF] bg-white/20 shadow-glow' ><ThunderSvg />
             <span className="font-geist text-sm text-gray-950 font-normal leading-4 tracking-normal capitalize">{heroStrip}</span>
