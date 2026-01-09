@@ -171,29 +171,63 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
   // Determine heading level based on title presence
   const headingLevel = title ? 'h2' : 'h1'
   
+  // Helper function to extract text content from React children
+  const extractText = (children: React.ReactNode): string => {
+    if (!children) return ''
+    if (typeof children === 'string') return children
+    if (typeof children === 'number') return String(children)
+    if (Array.isArray(children)) {
+      return children.map(child => extractText(child)).join('')
+    }
+    if (typeof children === 'object' && children !== null && 'props' in children) {
+      return extractText(children.props?.children)
+    }
+    return ''
+  }
+  
   // Create dynamic component configuration
   const dynamicHeroFeatureComponents = {
     ...HeroFeatureComponents,
     block: {
       ...HeroFeatureComponents.block,
-      normal: ({ children }: { children: React.ReactNode }) =>
-        React.createElement(
+      normal: ({ children }: { children: React.ReactNode }) => {
+        // Don't render if children is empty or only contains whitespace
+        const textContent = extractText(children).trim()
+        if (!textContent || textContent.length === 0) return null
+        return React.createElement(
           headingLevel,
           {
             className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%]',
           },
           children
-        ),
-      h2: ({ children }: { children: React.ReactNode }) =>
-        React.createElement(
+        )
+      },
+      h2: ({ children }: { children: React.ReactNode }) => {
+        // Don't render if children is empty or only contains whitespace
+        const textContent = extractText(children).trim()
+        if (!textContent || textContent.length === 0) return null
+        return React.createElement(
           headingLevel,
           {
             className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%]',
           },
           children
-        ),
+        )
+      },
     },
   }
+  
+  // Check if heading has content before rendering
+  const hasHeadingContent = heading && (
+    (Array.isArray(heading) && heading.length > 0 && heading.some((block: any) => {
+      if (!block?.children) return false
+      return block.children.some((child: any) => {
+        const text = child?.text || ''
+        return text.trim().length > 0
+      })
+    })) ||
+    (typeof heading === 'string' && heading.trim().length > 0)
+  )
   
   return (
     <Section className="relative overflow-hidden" id="FeatureHero" border="b">
@@ -214,15 +248,19 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
                 </h1>
               )
             )}
-            <PortableText
-              value={heading}
-              // components={type === 'feature' ? HeroFeatureComponents : type === 'form' ? ComparisonHeroH1 : HeroFeatureHeadingComponents}
-              components={dynamicHeroFeatureComponents}
-            />
-            <PortableText
-              value={description}
-              components={descriptionComponents}
-            />
+            {hasHeadingContent && (
+              <PortableText
+                value={heading}
+                // components={type === 'feature' ? HeroFeatureComponents : type === 'form' ? ComparisonHeroH1 : HeroFeatureHeadingComponents}
+                components={dynamicHeroFeatureComponents}
+              />
+            )}
+            {description && (
+              <PortableText
+                value={description}
+                components={descriptionComponents}
+              />
+            )}
             <div className="flex flex-col md:flex-row md:gap-[18px] items-center md:mt-5 mt-4 gap-3">
               {buttons &&
                 buttons.length &&
