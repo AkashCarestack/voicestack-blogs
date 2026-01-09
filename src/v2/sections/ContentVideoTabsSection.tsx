@@ -12,6 +12,7 @@ import { IdataProps } from '~/components/revamp/components/common/interface/comm
 import { urlForImage } from '~/lib/sanity.image';
 import ImageLoader from '~/components/common/imageLoader/imageLoader';
 import ListingBlock from '~/components/blockEditor/ListingBlock';
+import { useStickyTop } from '~/hooks/useStickyTop';
 
 
 interface Feature {
@@ -88,6 +89,7 @@ export default function ContentVideoTabsSection({
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const stickyTabsRef = useRef<HTMLDivElement | null>(null);
+  const stickyTop = useStickyTop({ desktop: 60, tablet: 30 });
 
   // Helper function to check if video has valid data
   const hasValidVideo = (video: any): boolean => {
@@ -436,7 +438,7 @@ export default function ContentVideoTabsSection({
       <div 
         ref={stickyTabsRef}
         data-sticky-tabs
-        className="sticky top-[60px] md:top-[30px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0"
+        className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0`}
       >
         <SwitchableTabs
           data={tabs.map(tab => ({

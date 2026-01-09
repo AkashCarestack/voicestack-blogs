@@ -17,6 +17,7 @@ import Button from '~/components/common/Button';
 import GroupedCardsGrid from '../components/GroupedCardsGrid';
 import SectionDivider from '../components/SectionDivider';
 import { tr } from 'date-fns/locale';
+import { useStickyTop } from '~/hooks/useStickyTop';
 
 interface Feature {
   _id: string;
@@ -66,6 +67,7 @@ export default function CategoryFeatureTabsSection({
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isScrolling, setIsScrolling] = useState(false);
+  const stickyTop = useStickyTop({ desktop: 60, tablet: 50 });
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
@@ -497,7 +499,7 @@ export default function CategoryFeatureTabsSection({
           </div>
 
           {/* Switchable Tabs - Sticky */}
-          <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12">
+          <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12`}>
             <SwitchableTabs
               data={allCategories.map(category => ({
                 id: category.name,
@@ -508,7 +510,7 @@ export default function CategoryFeatureTabsSection({
               })) as IdataProps[]}
               setActiveTab={handleCategoryClick}
               activeTab={activeCategory}
-              isSticky={true}
+              isSticky={false}
               className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
               isShowImage={false}
               shadow={false}
@@ -659,7 +661,7 @@ export default function CategoryFeatureTabsSection({
         </div>
 
         {/* Switchable Tabs - Sticky */}
-        <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+        <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0`}>
           <SwitchableTabs
             data={allCategories.map(category => ({
               id: category.name,
@@ -670,7 +672,7 @@ export default function CategoryFeatureTabsSection({
             })) as IdataProps[]}
             setActiveTab={handleCategoryClick}
             activeTab={activeCategory}
-            isSticky={true}
+            isSticky={false}
             className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
             isShowImage={false}
             shadow={false}
