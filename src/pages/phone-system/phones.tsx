@@ -29,6 +29,9 @@ export default function Phones({
   region,
   faq,
 }: PhonesProps) {
+
+console.log("ppppp",pageData['phone-listing']?.componentData);
+
   // Extract integration data from pageData instead of separate query
   const integrationData = React.useMemo(() => {
     // Check both paths: v2 pages use 'integrations-listing', non-v2 use 'custom'
@@ -103,6 +106,20 @@ export default function Phones({
     {pageData['feature-testimonials-section-single']?.componentData && (
         <FeatureTestimonialsSection
           data={pageData['feature-testimonials-section-single']?.componentData}
+        />
+      )}
+
+
+      
+      {pageData['phone-listing']?.componentData && (
+        <CategoryFeatureTabsSection
+          features={
+            pageData['phone-listing']?.componentData
+          }
+          variant="simplelisting"
+          sectionHeading={
+            pageData['phone-listing']?.componentData
+          }
         />
       )}
       

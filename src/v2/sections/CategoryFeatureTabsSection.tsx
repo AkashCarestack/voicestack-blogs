@@ -55,7 +55,7 @@ interface CategoryFeatureTabsSectionProps {
   features: Feature[] | any; 
   sectionHeading?: any;
   className?: string;
-  variant?: 'default' | 'carousel' | 'scrollcarousel' | 'singlecard';
+  variant?: 'default' | 'carousel' | 'scrollcarousel' | 'singlecard' | 'simplelisting';
 }
 
 export default function CategoryFeatureTabsSection({
@@ -441,6 +441,141 @@ export default function CategoryFeatureTabsSection({
                   />
                 </div>
               )}
+            </div>
+          </div>
+        </Container>
+      </Section>
+    );
+  }
+
+  // Simple Listing variant - Clean layout showing all tabs as cards
+  if (variant === 'simplelisting') {
+    // Get raw tabs data directly from features
+    const rawTabs = features?.tabs || features?.refData?.tabsListingComponent?.tabs || [];
+    
+    // Extract bullet points from content blocks
+    const extractBulletsFromContent = (content: any[]): string[] => {
+      if (!Array.isArray(content)) return [];
+      
+      return content
+        .filter((block: any) => block._type === 'block' && block.listItem === 'bullet')
+        .map((block: any) => {
+          if (block.children && Array.isArray(block.children)) {
+            return block.children
+              .map((child: any) => child.text || '')
+              .join(' ')
+              .trim();
+          }
+          return '';
+        })
+        .filter(Boolean);
+    };
+
+    return (
+      <Section
+        id="phone-listing"
+        className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
+      >
+        <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
+          {/* Header Section */}
+          {sectionHeading && (
+            <div className="flex-col relative w-full flex gap-8 items-center justify-center mb-12 px-4 md:px-12">
+              <div className="flex flex-col gap-3 items-center text-center max-w-[712px]">
+                <SectionHeaderV2
+                  heading={
+                    sectionHeading?.sectionHeadingDynamic ||
+                    sectionHeading?.headline ||
+                    'Our Phone Collection'
+                  }
+                  description={
+                    sectionHeading?.subheadline ||
+                    'Explore our range of professional phones designed for your practice.'
+                  }
+                  className='px-0'
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Phone List - 50/50 Layout */}
+          <div className="w-full">
+            <div className="flex flex-col">
+              {rawTabs.map((tab: any, index: number) => {
+                const phoneTitle = tab.tabHeading || 'Untitled Phone';
+                const phoneDescription = extractTextFromBlocks(tab.description);
+                const phoneImage = tab.image;
+                const featureBullets = extractBulletsFromContent(tab.content || []);
+                const isFirst = index === 0;
+                const isLast = index === rawTabs.length - 1;
+                
+                return (
+                  <React.Fragment key={tab._key || index}>
+                    <div className={cn(
+                      "grid grid-cols-1 lg:grid-cols-2 gap-0 w-full",
+                      isFirst && "border-t border-gray-200",
+                      isLast && "border-b border-gray-200"
+                    )}>
+                      {/* Left: Content (50%) - Order 2 on mobile, 1 on desktop */}
+                      <div className="flex flex-col gap-6 p-8 lg:p-12 bg-white order-2 lg:order-1">
+                        {/* Phone Title */}
+                        <h3 className="font-manrope font-semibold text-2xl md:text-3xl text-gray-900">
+                          {phoneTitle}
+                        </h3>
+                        
+                        {/* Description */}
+                        {phoneDescription && (
+                          <p className="font-geist text-base text-gray-700 leading-6">
+                            {phoneDescription}
+                          </p>
+                        )}
+
+                        {/* Feature Pills/Bullets */}
+                        {featureBullets.length > 0 && (
+                          <div className="flex flex-wrap gap-2">
+                            {featureBullets.map((bullet, bulletIndex) => (
+                              <div
+                                key={bulletIndex}
+                                className="inline-flex items-center px-4 py-2 bg-white border border-gray-200 rounded-full"
+                              >
+                                <span className="font-geist text-sm text-gray-950 leading-6">
+                                  {bullet}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Right: Image (50%) - Order 1 on mobile, 2 on desktop */}
+                      {phoneImage && (
+                        <div className="w-full min-h-[300px] lg:h-full bg-gray-50 flex items-center justify-center p-8 lg:p-12 relative overflow-hidden order-1 lg:order-2">
+                          {/* Grid Pattern Background */}
+                          <div className="absolute inset-0 z-0">
+                            <GridPattern
+                              width={50}
+                              height={50}
+                              x={-1}
+                              y={-1}
+                              className={cn(
+                                "[mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"
+                              )}
+                            />
+                          </div>
+                          <div className="relative z-10 w-full h-full min-h-[300px] flex items-center justify-center">
+                            <ImageLoader
+                              image={phoneImage}
+                              alt={phoneTitle}
+                              title={phoneTitle}
+                              fixed={true}
+                              className="object-contain w-full h-full max-h-[400px]"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </React.Fragment>
+                );
+              })}
             </div>
           </div>
         </Container>
