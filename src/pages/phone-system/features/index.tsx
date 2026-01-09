@@ -58,6 +58,11 @@ export default function FeaturesPage({
           data={data['logos-listing']?.componentData.blocksListingData}
         />
       )}
+      
+      <CategoryFeatureTabsSection 
+          features={features} 
+          sectionHeading={data['category-feature-tabs']?.componentData?.sectionHeading}
+      />
       {data['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={data['integrations-listing']?.componentData}
@@ -69,10 +74,6 @@ export default function FeaturesPage({
           data={data['feature-testimonials-section-single']?.componentData}
         />
       )}
-       <CategoryFeatureTabsSection 
-          features={features} 
-          sectionHeading={data['category-feature-tabs']?.componentData?.sectionHeading}
-      />
       {faq && <FaqSection faqItems={faq} />}
     </>
   )

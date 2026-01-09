@@ -499,7 +499,9 @@ export default function CategoryFeatureTabsSection({
           </div>
 
           {/* Switchable Tabs - Sticky */}
-          <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12`}>
+          {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12`}> */}
+          <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+
             <SwitchableTabs
               data={allCategories.map(category => ({
                 id: category.name,
@@ -510,7 +512,7 @@ export default function CategoryFeatureTabsSection({
               })) as IdataProps[]}
               setActiveTab={handleCategoryClick}
               activeTab={activeCategory}
-              isSticky={false}
+              isSticky={true}
               className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
               isShowImage={false}
               shadow={false}
@@ -661,7 +663,9 @@ export default function CategoryFeatureTabsSection({
         </div>
 
         {/* Switchable Tabs - Sticky */}
-        <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0`}>
+        {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0`}> */}
+        <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+
           <SwitchableTabs
             data={allCategories.map(category => ({
               id: category.name,
