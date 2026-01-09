@@ -83,6 +83,36 @@ const config = {
         permanent: false,
       },
       {
+        source: '/dental-phones',
+        destination: '/phone-system',
+        permanent: false,
+      },
+      {
+        source: '/who-we-serve/groups-and-dsos',
+        destination: '/who-we-serve/groups-and-enterprises',
+        permanent: false,
+      },
+      {
+        source: '/who-we-serve/single-locations',
+        destination: '/who-we-serve/dental',
+        permanent: false,
+      },
+      {
+        source: '/who-we-serve/startups',
+        destination: '/who-we-serve/dental',
+        permanent: false,
+      },
+      {
+        source: '/who-we-serve/mobile-practice',
+        destination: '/who-we-serve/dental',
+        permanent: false,
+      },
+      {
+        source: '/who-we-serve/specialists',
+        destination: '/who-we-serve/dental',
+        permanent: false,
+      },
+      {
         source: '/',
         has: [
           { type: 'query', key: 's' }
