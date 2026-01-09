@@ -522,7 +522,7 @@ export default function CategoryFeatureTabsSection({
             {/* Single container box that stays */}
             <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
               {/* Left Column: Content and Pill Items with Smooth Animation */}
-              <div className="bg-white flex flex-col gap-6 items-start justify-start p-12 min-h-[400px] relative overflow-hidden">
+              <div className="bg-white flex flex-col gap-6 items-start justify-start md:p-12 p-6 min-h-[400px] relative overflow-hidden">
                 <AnimatePresence mode="wait">
                   {allCategories.map((category) => {
                     const pillItems = getPillItems(category);
