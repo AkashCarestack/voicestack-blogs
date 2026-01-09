@@ -477,6 +477,7 @@ export default function CategoryFeatureTabsSection({
           {/* Header Section */}
           <div className="flex-col gap-16 relative w-full flex items-center justify-center mb-16">
             <div className="flex flex-col gap-3 items-center text-center max-w-[712px]">
+              
               <SectionHeaderV2 className='md:px-12 px-4'
                 heading={
                   sectionHeading?.sectionHeadingDynamic
