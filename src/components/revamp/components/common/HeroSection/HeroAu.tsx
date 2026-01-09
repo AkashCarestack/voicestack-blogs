@@ -40,10 +40,27 @@ export default function HeroAU({
   }
 
   return (
-    <Section  className='overflow-hidden bg-gray-50'>
+    <Section  className=' bg-gray-50'>
       <Container type="V2" className=" md:py-[136px] py-[64px] md:pl-12 gap-12">
-        <div className='flex md:flex-row'>
-          <div className='flex flex-col gap-4 flex-1 md:max-w-[606px]'>
+        <div className='flex md:flex-row relative '>
+          <video
+            className='absolute w-full h-full object-cover z-0'
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{ 
+              '--tw-translate-x': '91px',
+              transform: 'rotate(143deg) scale(1.1)',
+              transformOrigin: 'center center',
+              right: '-25rem',
+              mixBlendMode: 'multiply'
+            } as React.CSSProperties}
+          >
+            <source src="https://cdn.sanity.io/files/76tr0pyh/develop/afbf5be56052d1634405ab6b95302674d38298c8.mp4" type="video/mp4" />
+          </video>
+          
+          <div className='flex flex-col gap-4 flex-1 md:max-w-[606px] relative z-10'>
           <div className='flex justify-center items-center md:justify-start'>
             <h1 className='px-3.5 py-[9px] flex items-center gap-1.5 rounded-full border w-fit border-[#AEA0FF] bg-white/20 shadow-glow' ><ThunderSvg />
             <span className="font-geist text-sm text-gray-950 font-normal leading-4 tracking-normal capitalize">{heroStrip}</span>
@@ -67,12 +84,12 @@ export default function HeroAU({
               ))}
               </div>
           </div>
-          <div className='hidden md:block md:relative flex-1'>
-
+          <div className='hidden md:block md:relative flex-1 z-10'>
         <div className='flex-1 md:ml-auto md:absolute w-[1002px] h-[738px]'>
-          {image?.url && <Image className='w-full h-full flex-1 object-contain' alt={heading} width={1000} height={1000} src={image.url} />}
-          </div>
+          {/* Image overlay */}
+          {image?.url && <Image className='relative w-full h-full flex-1 object-contain z-10' alt={heading} width={1000} height={1000} src={image.url} />}
         </div>
+      </div>
       </div>
     </Container>
   </Section>
