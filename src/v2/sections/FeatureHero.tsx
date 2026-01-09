@@ -167,26 +167,57 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
   
   // Check if we have testimonial with video
   const hasTestimonial = testimonial && testimonial?.video?.[0]?.videoId
+  
+  // Determine heading level based on title presence
+  const headingLevel = title ? 'h2' : 'h1'
+  
+  // Create dynamic component configuration
+  const dynamicHeroFeatureComponents = {
+    ...HeroFeatureComponents,
+    block: {
+      ...HeroFeatureComponents.block,
+      normal: ({ children }: { children: React.ReactNode }) =>
+        React.createElement(
+          headingLevel,
+          {
+            className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%]',
+          },
+          children
+        ),
+      h2: ({ children }: { children: React.ReactNode }) =>
+        React.createElement(
+          headingLevel,
+          {
+            className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%]',
+          },
+          children
+        ),
+    },
+  }
+  
   return (
     <Section className="relative overflow-hidden" id="FeatureHero" border="b">
       <Container type="V2" className="md:py-24 py-16 overflow-hidden justify-center flex">
         <div className='flex lg:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10 items-center'>
           <div className={`flex flex-col gap-3 relative z-10 flex-1  ${type === 'form' ? 'max-w-[606px]' : ''}`}>
-            {(type === 'form' || type === 'comparison') ? (
-              <div className="flex items-center gap-2 py-[9px] pr-4 pl-[14px] rounded-full border border-[#AEA0FF] lg:self-start self-center bg-white/20 shadow-[-7px_0_10px_0_rgba(251,111,142,0.5),7px_0_10px_0_rgba(74,60,225,0.5)]">
-                <LightningIcon className="w-4 h-4" />
-                <h2 className="text-center md:text-left text-sm font-geist font-normal leading-[115%] text-gray-950">
+            {title && (
+              (type === 'form' || type === 'comparison') ? (
+                <div className="flex items-center gap-2 py-[9px] pr-4 pl-[14px] rounded-full border border-[#AEA0FF] lg:self-start self-center bg-white/20 shadow-[-7px_0_10px_0_rgba(251,111,142,0.5),7px_0_10px_0_rgba(74,60,225,0.5)]">
+                  <LightningIcon className="w-4 h-4" />
+                  <h1 className="text-center md:text-left text-sm font-geist font-normal leading-[115%] text-gray-950">
+                    {title?.toUpperCase()}
+                  </h1>
+                </div>
+              ):(
+                <h1 className="text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase">
                   {title?.toUpperCase()}
-                </h2>
-              </div>
-            ):(
-              <h2 className="text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase">
-                {title?.toUpperCase()}
-              </h2>
+                </h1>
+              )
             )}
             <PortableText
               value={heading}
-              components={type === 'feature' ? HeroFeatureComponents : type === 'form' ? ComparisonHeroH1 : HeroFeatureHeadingComponents}
+              // components={type === 'feature' ? HeroFeatureComponents : type === 'form' ? ComparisonHeroH1 : HeroFeatureHeadingComponents}
+              components={dynamicHeroFeatureComponents}
             />
             <PortableText
               value={description}
@@ -225,13 +256,13 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
             </div>
           }
           {image && !hasVideo && !hasTestimonial && (
-            <div className='flex-1  w-full h-full max-w-[481px] max-h-[444px]'>
-              <Image className='md:w-[481px] md:h-[444px] w-full h-full object-cover' src={image} alt={heading} width={1000} height={1000} />
+            <div className='flex-1  w-full h-full max-w-[550px] max-h-[550px]'>
+              <Image className='max-w-[550px] max-h-[550px] w-full h-full object-cover' src={image} alt={heading} width={1000} height={1000} />
             </div>
           )}
           {/* Testimonial Section with YouTube Video */}
           {hasTestimonial && !hasVideo && !image && (
-            <div className="lg:max-w-[481px] leading-none flex-1 flex justify-center lg:justify-end items-start relative testimonial-card">
+            <div className="max-w-[550px] max-h-[550px] leading-none flex-1 flex justify-center lg:justify-end items-start relative testimonial-card">
               <div className="absolute right-auto left-1/2 lg:left-auto lg:right-0 top-[0] bg-[#4A3CE1] opacity-10 rounded-[12px] md:rounded-[22px] -translate-x-1/2 lg:translate-x-0 rotate-[-7.7deg] scale-90 aspect-[9/16] lg:aspect-[380/550] w-[300px] lg:w-[380px] shrink-0 origin-bottom-left"></div>
               <div className="relative rounded-[8px] md:rounded-[16px] aspect-[9/16] lg:aspect-[380/550] w-[320px] lg:w-[380px] overflow-hidden shrink-0">
                 <div
@@ -379,7 +410,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
           )}
           
           {hasVideo && !hasTestimonial && (
-            <div className='flex-1 w-full h-full max-w-[481px] max-h-[444px] bg-transparent video-container'>
+            <div className='flex-1 w-full h-full max-w-[550px] max-h-[550px] bg-transparent video-container'>
               {videoId ? (
                 // YouTube video handling
                 <div
@@ -426,7 +457,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
                             backgroundRepeat: 'no-repeat',
                             objectFit: 'cover',
                           }}
-                          className="absolute h-full w-full object-cover md:w-[481px] md:h-[444px]"
+                          className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]"
                           autoPlay
                           loop
                           muted
@@ -441,7 +472,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
                         </video>
                       ) : image ? (
                         <Image 
-                          className="absolute h-full w-full object-cover md:w-[481px] md:h-[444px]" 
+                          className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]" 
                           src={image} 
                           alt={heading} 
                           width={1000} 
@@ -498,7 +529,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
                         backgroundRepeat: 'no-repeat',
                         objectFit: 'cover',
                       }}
-                      className="absolute h-full w-full object-cover md:w-[481px] md:h-[444px]"
+                      className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]"
                       autoPlay
                       loop
                       muted
@@ -513,7 +544,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
                     </video>
                   ) : image ? (
                     <Image 
-                      className="absolute h-full w-full object-cover md:w-[481px] md:h-[444px]" 
+                      className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]" 
                       src={image} 
                       alt={heading} 
                       width={1000} 
@@ -556,7 +587,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
                   ref={(el) => {
                     if (el) videoRef.current = el
                   }}
-                  className='md:w-[481px] md:h-[444px] w-full h-full object-cover rounded-[12px] md:rounded-[24px]'
+                  className='max-w-[550px] max-h-[550px] w-full h-full object-cover rounded-[12px] md:rounded-[24px]'
                   muted
                   loop
                   playsInline

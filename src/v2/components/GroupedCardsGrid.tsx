@@ -19,6 +19,7 @@ interface CardItemMainProps {
   numberedCardComponents: Partial<PortableTextReactComponents>
   createSpecialtyCardComponents: (listIconSvgCode?: string) => Partial<PortableTextReactComponents>
   onlyImage: boolean
+  cardWithGraph?: boolean
 }
 
 const CardItemMain: React.FC<CardItemMainProps> = ({
@@ -32,17 +33,18 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
   contentTextColor,
   numberedCardComponents,
   createSpecialtyCardComponents,
-  onlyImage
+  onlyImage,
+  cardWithGraph = false
 }) => {
   const imageUrl = item.image?.url || urlForImage(item.image)
   const hasImage = !!imageUrl
-  // console.log('item GroupedCardsGrid',imageUrl,hasImage,item)
+  console.log('item GroupedCardsGrid',cardWithGraph)
   // Simple listing data mode
   if (isSimpleListing) {
     return (
-      <div className={`w-full flex flex-col h-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
+      <div className={`w-full flex flex-col h-full relative min-h-[200px] ${onlyImage ? 'pb-0' : 'pb-6'}`}>
          {hasImage && imageUrl && (
-          <div className="w-full h-[250px]">
+          <div className={`w-full ${cardWithGraph ? 'absolute inset-0' : ''}`}>
             <Image
               src={imageUrl}
               alt={item.heading || ''}
@@ -95,9 +97,9 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
 
   // Portable text mode
   return (
-    <div className={`w-full flex flex-col h-full ${onlyImage ? 'pb-0' : 'pb-6'}`}>
+    <div className={`w-full flex flex-col h-full min-h-[200px] ${onlyImage ? 'pb-0' : 'pb-6'}`}>
       {hasImage && imageUrl && (
-        <div className="w-full">
+        <div className={`w-full ${cardWithGraph ? 'absolute inset-0' : ''}`}>
           <Image
             src={imageUrl}
             alt={item.heading || ''}
@@ -222,9 +224,10 @@ export interface GroupedCardsGridProps {
   simpleListingData?: boolean
   columnCount?: 2 | 3 | 4
   showBorderBottom?: boolean
+  cardWithGraph?: boolean
 }
 
-export default function GroupedCardsGrid({ customListingItems = [], theme, showBorderBottom = false, simpleListingData = false, columnCount }: GroupedCardsGridProps) {
+export default function GroupedCardsGrid({ customListingItems = [], theme, showBorderBottom = false, simpleListingData = false, columnCount, cardWithGraph = false }: GroupedCardsGridProps) {
   if (!customListingItems || customListingItems.length === 0) return null
 
   const isDark = theme === 'dark'
@@ -389,6 +392,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
         numberedCardComponents={numberedCardComponents}
         createSpecialtyCardComponents={createSpecialtyCardComponents}
         onlyImage={onlyImage}
+        cardWithGraph={cardWithGraph}
       />
     )
 
@@ -434,7 +438,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
           {linkUrl && <TickIcon />}
           {linkUrl ? (
             <>
-              <Anchor href={linkUrl} className="block h-full group">
+              <Anchor href={linkUrl} className="block h-full w-full group">
                 <div className={`${cardHoverColor} transition-all duration-200 h-full`}>
                   {cardContent}
                 </div>

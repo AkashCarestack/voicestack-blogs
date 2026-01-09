@@ -1,15 +1,15 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
-import SimpleHead from '~/components/common/SimpleHead'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
+import SimpleHead from '~/components/common/SimpleHead'
+
 
 interface VisionGroupsMSOProps {
   pageData: any
@@ -58,7 +58,7 @@ export default function VisionGroupsMSO({
           data={pageData['card-with-image']?.genericListingComponent}
         />
       )}
-        <StatisticsSection variant="V2" />
+        <StatisticsSection />
         {pageData['integrations-listing']?.componentData && (
           <IntegrationsShowcaseSection
             data={pageData['integrations-listing']?.componentData}
