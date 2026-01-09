@@ -31,7 +31,7 @@ export default function WhoWeServeIndex({
   comparisonLegendData,
   faq,
 }: WhoWeServeIndexProps) {
-  console.log(pageData['test-listing-3']?.componentData, 'fffffffff')
+  console.log(pageData, 'fffffffff')
 
   return pageData?.slug?.includes('v2') ? (
     <>
@@ -44,9 +44,9 @@ export default function WhoWeServeIndex({
           data={pageData['logo-listing']?.componentData.blocksListingData}
         />
       )}
-      {pageData['card-with-image'] && (
+      {pageData['how-voicestack-works'] && (
         <GroupedCardsGridSection
-          data={pageData['card-with-image']?.genericListingComponent}
+          data={pageData['how-voicestack-works']?.componentData?.blocksListingData}
         />
       )}
       {pageData['power-of-ai'] && (
