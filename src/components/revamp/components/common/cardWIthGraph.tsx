@@ -106,6 +106,7 @@ export default function cardWIthGraph({ data }: { data: any }) {
                       theme={'light'}
                       simpleListingData={true}
                       columnCount={3}
+                      cardWithGraph={true}
                     />
                   </div>
                 </div>
