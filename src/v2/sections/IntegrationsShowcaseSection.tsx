@@ -43,12 +43,28 @@ className?: string
   sectionBorder?: 't' | 'b' | 'y' 
 }
 
+// Default CTA items for the section
+const defaultCtaListItems = [
+  {
+    ctaText: 'Explore Integration',
+    ctaLink: '/phone-system/integrations',
+    ctaType: 'secondaryWhite',
+  },
+  {
+    ctaText: 'Book Free Demo',
+    ctaLink: '/demo',
+    ctaType: 'primary',
+  },
+]
+
 const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   className = '',
   data,
   theme,
   sectionBorder = 'b',
 }) => {
+  // Use CTA items from data or fall back to defaults
+
   const sortedIntegrations = React.useMemo(() => {
     const integrations =
       data?.refData?.integrationListing?.integrationList || []
@@ -145,9 +161,9 @@ console.log(data, 'data')
         <div className="flex flex-col gap-8 items-center relative w-full">
           <SectionHeaderV2
             heading={data?.heading}
-            description={data?.description}
+            description="VoiceStack seamlessly integrates with leading PMS, CRM, and analytics platforms, giving you effortless visibility across your operations."
             isWhite={true}
-            ctaListItems={data?.ctaListItems}
+            ctaListItems={defaultCtaListItems}
             className="md:px-6 xl:px-12 px-4"
           />
 
@@ -274,8 +290,8 @@ console.log(data, 'data')
                           className="w-full h-full object-contain"
                         />
                         {/* Tooltip - only for integration cells */}
-                        <div className="absolute bg-[#efeeea] bottom-[-20px] px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
-                          <p className="font-['Geist',_sans-serif] font-normal text-xs text-[#52525c]">
+                        <div className="absolute bg-[#efeeea] bottom-0 px-2 py-1 rounded-sm align-center opacity-0 group-hover:opacity-100 transition-opacity duration-300  z-10">
+                          <p className="font-['Geist',_sans-serif] font-normal text-xs text-[#52525c] text-center">
                             {cell.data.title}
                           </p>
                         </div>
