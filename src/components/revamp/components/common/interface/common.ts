@@ -31,6 +31,7 @@ export interface SectionHeaderPropsV2 {
         ctaText?: string
         ctaType?: string
     }>
+    demoButton?: boolean
 }
 
 import { ReactNode } from 'react';

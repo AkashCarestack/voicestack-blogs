@@ -513,7 +513,7 @@ export default function CategoryFeatureTabsSection({
                     <div className={cn(
                       "grid grid-cols-1 lg:grid-cols-2 gap-0 w-full",
                       isFirst && "border-t border-gray-200",
-                      isLast && "border-b border-gray-200"
+                      !isLast && "border-b border-gray-200"
                     )}>
                       {/* Left: Content (50%) - Order 2 on mobile, 1 on desktop */}
                       <div className="flex flex-col gap-6 p-8 lg:p-12 bg-white order-2 lg:order-1">

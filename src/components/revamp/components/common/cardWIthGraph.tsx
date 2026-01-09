@@ -52,7 +52,7 @@ export default function cardWIthGraph({ data }: { data: any }) {
             </div> */}
               <div className="max-w-[1027px] w-full m-auto border-x border-gray-200 rounded-t-xl">
                 <div className="border-t border-gray-200 rounded-t-xl bg-gray-50 ">
-                  <div className="flex justify-between items-center">
+                  <div className="md:flex hidden justify-between items-center">
                     <div className="flex gap-2 px-4 py-4">
                       <span className="size-3 rounded-full  bg-red-500"></span>
                       <span className="size-3 rounded-full  bg-yellow-500"></span>
@@ -66,7 +66,7 @@ export default function cardWIthGraph({ data }: { data: any }) {
                     </div>
                   </div>
                   <div className="w-full flex">
-                    <div className="flex flex-col gap-2 border-r border-gray-200 bg-gray-50  justify-between">
+                    <div className="md:flex hidden flex-col gap-2 border-r border-gray-200 bg-gray-50  justify-between">
                       <div className="flex flex-col ">
                         <div className="flex items-center justify-center px-2 py-3 border-b border-t border-gray-200 ">
                           <Image
