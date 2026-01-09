@@ -10,6 +10,7 @@ import SwitchableTabs from '~/components/revamp/components/common/switchableTabs
 import { IdataProps } from '~/components/revamp/components/common/interface/common';
 import GroupedCardsGrid from '~/v2/components/GroupedCardsGrid';
 import SectionDivider from '~/v2/components/SectionDivider';
+import { useStickyTop } from '~/hooks/useStickyTop';
 
 interface IntegrationCategory {
   _id: string;
@@ -125,6 +126,7 @@ export default function IntegrationsSectionWithNavigation({
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
+  const stickyTop = useStickyTop({ desktop: 60, tablet: 50 });
 
   useEffect(() => {
     if (categories && categories.length > 0 && !activeCategory) {
@@ -338,7 +340,7 @@ export default function IntegrationsSectionWithNavigation({
         </div>
 
         {/* Switchable Tabs - Sticky */}
-        <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-12 mb-[-64px] pb-[130px] pt-[72px] shrink-0">
+        <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-12 mb-[-64px] pb-[130px] pt-[72px] shrink-0`}>
           <SwitchableTabs
             data={switchableTabsData}
             setActiveTab={handleCategoryClick}
