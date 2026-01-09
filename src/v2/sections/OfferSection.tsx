@@ -26,17 +26,22 @@ const OfferSection = ({ data }: OfferSectionProps) => {
                   description={data?.subDescription}
                   
                 />
-                <div className="flex justify-start">
-                  <Button
-                    type="primary"
-                    className="w-fit"
-                    link="#demo"
-                  >
-                    <span>
-                      {'Book Free Demo'}
-                    </span>
-                  </Button>
-                </div>
+                {data?.ctaListItems && data.ctaListItems.length > 0 && (
+                  <div className="flex justify-start gap-4 flex-wrap">
+                    {data.ctaListItems.map((cta: any, index: number) => (
+                      <Button
+                        key={index}
+                        type={cta?.ctaType || 'primary'}
+                        className="w-fit"
+                        link={cta?.ctaLink || '#'}
+                      >
+                        <span>
+                          {cta?.ctaText || 'Button'}
+                        </span>
+                      </Button>
+                    ))}
+                  </div>
+                )}
 
               </div>
             </div>

@@ -16,6 +16,7 @@ import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSecti
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
+import OfferSection from '~/v2/sections/OfferSection'
 
 
 interface PhonesProps {
@@ -29,6 +30,9 @@ export default function Phones({
   region,
   faq,
 }: PhonesProps) {
+
+console.log("ppppp",pageData['phone-listing']?.componentData);
+
   // Extract integration data from pageData instead of separate query
   const integrationData = React.useMemo(() => {
     // Check both paths: v2 pages use 'integrations-listing', non-v2 use 'custom'
@@ -105,6 +109,30 @@ export default function Phones({
           data={pageData['feature-testimonials-section-single']?.componentData}
         />
       )}
+
+
+      
+      {pageData['phone-listing']?.componentData && (
+        <CategoryFeatureTabsSection
+          features={
+            pageData['phone-listing']?.componentData
+          }
+          variant="simplelisting"
+          sectionHeading={
+            pageData['phone-listing']?.componentData
+          }
+        />
+      )}
+
+{pageData['offer']?.componentData && (
+
+      <OfferSection
+
+        data={pageData['offer']?.componentData}
+
+      />
+
+    )}
       
       {faq && <FaqSection faqItems={faq} />}
     </>
