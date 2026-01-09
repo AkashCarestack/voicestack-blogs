@@ -136,6 +136,7 @@ export default function DentalPhonesIntegrations({
 
   return pageData?.slug?.includes('v2') ? (
     <>
+    <SimpleHead data={pageData?.seo} />
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       <FeatureHero data={pageData['integrations-hero']} type="feature" />
       {pageData['logos-listing']?.componentData && (

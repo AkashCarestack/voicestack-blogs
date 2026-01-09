@@ -12,6 +12,7 @@ import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import SimpleHead from '~/components/common/SimpleHead'
 
 interface Feature {
   _id: string
@@ -51,6 +52,7 @@ export default function FeaturesPage({
 
   return (
     <>
+    <SimpleHead data={data?.seo} />
       <FeatureHero data={data['feature-hero']} type="feature" />
 
       {data['logos-listing']?.componentData && (

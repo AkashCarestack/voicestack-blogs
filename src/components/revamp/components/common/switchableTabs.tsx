@@ -116,7 +116,8 @@ export default function SwitchableTabs({
 
   return (
     <div
-      className={`${isSticky && 'sticky'} ${scrollUp ? 'md:top-[-5px] top-0 ' : 'md:top-[38px] top-0'} flex ${fullWidth ? 'gap-[10px]' : 'gap-2.5'} w-full justify-center items-center transition-all duration-300 ease-in-out ${fullWidth ? 'px-4 md:px-12' : 'px-2 md:px-0'} ${className || ''}`}
+      // className={`${isSticky && 'sticky'} ${scrollUp ? 'md:top-[-5px] top-0 ' : 'md:top-[38px] top-0'} flex ${fullWidth ? 'gap-[10px]' : 'gap-2.5'} w-full justify-center items-center transition-all duration-300 ease-in-out ${fullWidth ? 'px-4 md:px-12' : 'px-2 md:px-0'} ${className || ''}`}
+      className={`${isSticky && 'sticky'} top-0 flex ${fullWidth ? 'gap-[10px]' : 'gap-2.5'} w-full justify-center items-center transition-all duration-300 ease-in-out ${fullWidth ? 'px-4 md:px-12' : 'px-2 md:px-0'} ${className || ''}`}
       style={{
         position: isSticky ? 'sticky' : 'relative',
       }}

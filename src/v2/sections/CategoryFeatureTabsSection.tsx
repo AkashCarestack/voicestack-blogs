@@ -500,7 +500,7 @@ export default function CategoryFeatureTabsSection({
 
           {/* Switchable Tabs - Sticky */}
           {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12`}> */}
-          <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+          <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
 
             <SwitchableTabs
               data={allCategories.map(category => ({
@@ -512,8 +512,8 @@ export default function CategoryFeatureTabsSection({
               })) as IdataProps[]}
               setActiveTab={handleCategoryClick}
               activeTab={activeCategory}
-              isSticky={true}
-              className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
+              isSticky={false}
+              className="md:py-2 bg-transparent !shadow-none !border-none"
               isShowImage={false}
               shadow={false}
             />
@@ -660,11 +660,9 @@ export default function CategoryFeatureTabsSection({
             }
             className='xl:px-12 md:px-6 px-4'
           />
-        </div>
-
         {/* Switchable Tabs - Sticky */}
         {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0`}> */}
-        <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+        <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
 
           <SwitchableTabs
             data={allCategories.map(category => ({
@@ -677,7 +675,7 @@ export default function CategoryFeatureTabsSection({
             setActiveTab={handleCategoryClick}
             activeTab={activeCategory}
             isSticky={false}
-            className="md:py-8 py-4 bg-transparent !shadow-none !border-none"
+            className="md:py-2 py-4 bg-transparent !shadow-none !border-none"
             isShowImage={false}
             shadow={false}
             isSkip={true}
@@ -812,6 +810,8 @@ export default function CategoryFeatureTabsSection({
             );
           })}
         </div>
+        </div>
+
       </Container>
     </Section>
   );
