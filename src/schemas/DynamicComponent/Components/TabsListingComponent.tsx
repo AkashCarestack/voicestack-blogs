@@ -1,4 +1,4 @@
-import { sectionHeadingDynamicSchema } from '~/schemas/Common/commonSchema'
+import { sectionHeadingDynamicSchema, ctaListItemSchema } from '~/schemas/Common/commonSchema'
 
 const TabsListingComponent = {
   name: 'tabsListingComponent',
@@ -52,6 +52,12 @@ const TabsListingComponent = {
       name:'cardImage',
       title: 'Card Image',
       type: 'image',
+    },
+    {
+      name: 'ctaListItems',
+      title: 'Call to Action List',
+      type: 'array',
+      of: [ctaListItemSchema],
     },
     {
       name: 'overviewVideo',
@@ -254,33 +260,6 @@ const TabsListingComponent = {
               name: 'icon',
               title: 'Icon (SVG)',
               type: 'text',
-            },
-            {
-              name: 'ctaListItems',
-              title: 'Call to Action List',
-              type: 'array',
-              of: [
-                {
-                  type: 'object',
-                  fields: [
-                    {
-                      name: 'ctaText',
-                      title: 'CTA Text',
-                      type: 'string',
-                    },
-                    {
-                      name: 'ctaLink',
-                      title: 'CTA Link',
-                      type: 'string',
-                    },
-                    {
-                      name: 'ctaType',
-                      title: 'Button type',
-                      type: 'string',
-                    },
-                  ],
-                },
-              ],
             },
             {
               name: 'Link',
