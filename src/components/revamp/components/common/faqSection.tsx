@@ -359,9 +359,11 @@ export default function FaqSection({ faqItems }: any) {
                     <motion.div 
                       onClick={() => toggleQuestion(questionKey)}
                       key={questionKey} 
-                      className="cursor-pointer border md:rounded-[16px] rounded-[8px] md:p-6 p-4 border-gray-200"
-                      whileHover={{ borderColor: '#D1D5DB' }}
-                      transition={{ duration: 0.2 }}
+                      className="cursor-pointer border md:rounded-[16px] rounded-[8px] md:p-6 p-4 border-gray-200 bg-white"
+                      whileHover={!isQuestionOpen ? { 
+                        backgroundColor: '#F9FAFB',
+                      } : {}}
+                      transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
                     >
                       <button
                         className="w-full text-left flex items-center justify-between rounded-[16px]"
