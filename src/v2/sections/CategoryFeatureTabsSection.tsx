@@ -685,7 +685,7 @@ export default function CategoryFeatureTabsSection({
           {allCategories.map((category, index) => {
             return (
               <React.Fragment key={category.name}>
-                {index > 0 && <div className="border-b border-gray-200"><SectionDivider height="130px" /></div>}
+                {index > 0 && <div className={`${category?.features.length > 0 ? 'border-b border-gray-200' : 'border-y'}`}><SectionDivider height="130px" /></div>}
                 <article
                   ref={(el) => {
                     sectionRefs.current[category.name] = el;
@@ -697,7 +697,7 @@ export default function CategoryFeatureTabsSection({
                 >
                 <div className="w-full">
                   {/* Hero Section - Based on Figma Design */}
-                  <div className={cn("grid lg:grid-cols-2 grid-cols-1 gap-px bg-gray-200 w-full", index === 0 && "border-t")} style={index === 0 ? { borderTopColor: 'var(--color-gray-200, #E5E7EB)' } : {}}>
+                  <div className={cn("grid lg:grid-cols-2 grid-cols-1 gap-px bg-gray-200 w-full", index === 0 && "border-t", index === allCategories.length - 1 && "border-b")} style={index === 0 ? { borderTopColor: 'var(--color-gray-200, #E5E7EB)' } : {}}>
                     {/* Left: Content Section */}
                     <div className="bg-white flex flex-col gap-16 items-start justify-center md:p-12 p-4 h-full">
                       <div className="flex flex-col gap-8 items-start w-full">
