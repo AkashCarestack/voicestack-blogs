@@ -401,7 +401,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
   const TickIcon = () => {
     const strokeColor = isDark ? '#FFFFFF' : '#030712'
     return (
-      <span className={`p-[18px] border-b ${isDark ? 'border-gray-800' : 'border-gray-200'} ${isDark ? 'bg-gray-950' : 'bg-white'} border-l absolute right-0 cursor-pointer`}>
+      <span className={`p-[18px] pointer-events-none border-b ${isDark ? 'border-gray-800' : 'border-gray-200'} ${isDark ? 'bg-gray-950' : 'bg-white'} border-l absolute right-0 cursor-pointer`}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"

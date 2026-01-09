@@ -15,6 +15,7 @@ import ProgressBar from '~/utils/progressBar/progressBar';
 import Anchor from './anchor';
 import PhoneIcon from '../icons/PhoneIcon';
 import { useLayoutData } from '~/providers/LayoutDataProvider';
+import { useHeaderContext } from '~/providers/HeaderContextProvider';
 import { urlForImage } from '~/lib/sanity.image';
 import RegionStrip from '../revamp/components/regionStrip';
 import { formatOrganizationSchema, formatSoftwareSchema } from '../utils/common';
@@ -120,6 +121,7 @@ const Header = ({ data, refer = null }) => {
   const toggleRef = useRef<HTMLSpanElement>(null);
   const isMobile = useMediaQuery(767);
   const { siteSettings } = useLayoutData();
+  const { setShowTopStrip: setContextShowTopStrip } = useHeaderContext();
 
   const { query } = router;
   const queryString = new URLSearchParams(query as Record<string, string>).toString();
@@ -166,6 +168,11 @@ const Header = ({ data, refer = null }) => {
     setCurrentLocale(router.locale);
   }, [router?.locale]);
 
+  // Sync initial showTopStrip state to context
+  useEffect(() => {
+    setContextShowTopStrip(showTopStrip);
+  }, [showTopStrip, setContextShowTopStrip]);
+
   const closeMenu = () => {
     setShowMenu(false);
     document.body.classList.remove('menu-active');
@@ -188,12 +195,15 @@ const Header = ({ data, refer = null }) => {
 
     if (currentScrollY <= 0) {
       setShowTopStrip(true);
+      setContextShowTopStrip(true);
       // setRegionSwitcherTopShow(true);
     } else if (currentScrollY < lastScrollY) {
       setShowTopStrip(true);
+      setContextShowTopStrip(true);
       setHeaderFixed(false);
     } else if (currentScrollY > lastScrollY) {
       setShowTopStrip(false);
+      setContextShowTopStrip(false);
       // setRegionSwitcherTopShow(false);
     }
 
