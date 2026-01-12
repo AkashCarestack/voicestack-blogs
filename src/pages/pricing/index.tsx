@@ -79,7 +79,7 @@ export default function Pricing({
     <>
       <SimpleHead data={pricingPageData?.seo} />
 
-      <FeatureHero data={pricingPageData['pricing-hero']} />
+      <FeatureHero data={pricingPageData['pricing-hero']} isCentered={true}/>
       
       <Section className="bg-white" border="b">
         <Container className="flex flex-col items-center gap-8" type="V2" border="y-0">
