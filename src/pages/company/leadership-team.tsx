@@ -5,6 +5,7 @@ import SimpleHead from '~/components/common/SimpleHead'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import Queries from '~/components/revamp/queries'
+import FeatureHero from '~/v2/sections/FeatureHero'
 import LeadershipList from '~/v2/sections/leadershipList'
 
 // Define proper TypeScript interfaces
@@ -19,7 +20,7 @@ export default function LeadershipTeamPage({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <HeroWrapper>
+      {/* <HeroWrapper>
         {pageData['leadership-team-hero']?.componentData && (
           <HeroSection
             page=""
@@ -28,7 +29,8 @@ export default function LeadershipTeamPage({
             data={pageData['leadership-team-hero']?.componentData}
             />
         )} 
-      </HeroWrapper>
+      </HeroWrapper> */}
+      <FeatureHero data={pageData['leadership-team-hero']} isCentered={true}/>
       {pageData['leadership-team-list']?.componentData && (
         <LeadershipList data={pageData['leadership-team-list']?.componentData} />
       )}

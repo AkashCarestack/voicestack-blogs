@@ -16,9 +16,10 @@ interface FeatureHeroProps {
   data: any
   type?:string | 'form' | 'feature'
   hideBg?: boolean
+  isCentered?: boolean
 }
 
-export default function FeatureHero({ data, type , hideBg = false}: { data: any, type?: string, hideBg?: boolean }) {
+export default function FeatureHero({ data, type , hideBg = false, isCentered = false}: { data: any, type?: string, hideBg?: boolean, isCentered?: boolean }) {
   const hubspotFormId = data?.componentData?.hubspotFormId || data?.hubspotFormId
   const value = data?.heroComponent 
   const buttons = value?.bookBtnContent || data?.bookBtnContent
