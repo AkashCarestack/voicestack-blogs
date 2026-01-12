@@ -2,7 +2,6 @@ import { GetStaticProps } from 'next'
 
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import ListingWithTabs from '~/components/revamp/components/common/listingwithTabs'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import FaqSection from '~/components/revamp/components/common/faqSection'
@@ -11,18 +10,52 @@ import { getFeaturesListQuery, getFeaturesList } from '~/lib/sanity.queries'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
-export default function WhyVoicestackIndex({ data, heroData, faq, features }: any) {
+import FeatureHero from '~/v2/sections/FeatureHero'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+export default function WhyVoicestackIndex({
+  data,
+  heroData,
+  faq,
+  features,
+}: any) {
+  console.log(data, 'data====')
   return (
     <>
       <SimpleHead data={data?.seo} />
-      <HeroWrapper>
-        <Breadcrumb breadCrumb={data?.breadCrumb} />
-        <HeroSection data={heroData} refer={data} page="why-voicestack" />
-      </HeroWrapper>
-      {data['grow-your-practice'] && (
-        <ListingWithTabs list={data['grow-your-practice']} />
+      {heroData && <FeatureHero data={heroData} />}
+      {data?.['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={data?.['logos-listing']?.componentData.blocksListingData}
+        />
       )}
-      <CategoryFeatureTabs features={features} />
+      <CategoryFeatureTabsSection
+        features={
+          data['grow-your-practice']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+         variant="default"
+        sectionHeading={
+          data['grow-your-practice']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+      />
+
+      {data['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={data['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
+      <CategoryFeatureTabsSection
+        features={features}
+        variant="carousel"
+        sectionHeading={
+          data['category-feature-tabs']?.componentData?.sectionHeading
+        }
+      />
       {data['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
@@ -45,14 +78,16 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const client = getClient()
 
   try {
-    const queries = new Queries('why-voicestack', region)
-  
-    const pageData = await queries.getPageData('whyVoicestack', 'why-voicestack')
-    
+    const queries = new Queries('why-voicestack-v2', region)
+
+    const pageData = await queries.getPageData(
+      'whyVoicestack',
+      'why-voicestack-v2',
+    )
 
     // Check if data exists and has content
     const noPageData = Object.values(pageData).every(
-      (value) => value === null || value === undefined
+      (value) => value === null || value === undefined,
     )
 
     if (noPageData) {
@@ -61,19 +96,20 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
     const heroData = pageData?.['why-voicestack-hero']?.componentData || null
-    
+
     // Fetch features data for CategoryFeatureTabs
     const features = await getFeaturesList(client, region)
 
     // Ensure FAQ data is serializable
-    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
-    
+    const faqData =
+      pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+
     return {
       props: {
         data: pageData,
         heroData: heroData,
         faq: faqData,
-        features: features || []
+        features: features || [],
       },
     }
   } catch (error) {
