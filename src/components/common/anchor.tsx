@@ -36,25 +36,30 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       const { query } = router
 
       const queryParams: Record<string, string> = Object.entries(query).reduce((acc: any, [key, value]) => {
-        if (value !== undefined && key !== "slug" && key !== "flag") {
+        if (value !== undefined && key !== "flag" && key !== "slug") {
           acc[key] = value.toString();
         }
         return acc;
       }, {});
 
-      const noParams = Object.keys(queryParams).length === 0;
-      const urlSearchParams = new URLSearchParams(queryParams);
       // Get the existing URL parameters from href
       const existingParams = href.includes('?') ? href.split('?')[1] : '';
-
-      // Merge existing parameters with updated URL params
-      let updatedParams = `${existingParams ? (noParams ? existingParams : existingParams + '&') : ""}${urlSearchParams.toString()}`;
+      
+      // Merge existing parameters with router query params using URLSearchParams to avoid duplicates
+      const mergedParams = new URLSearchParams(existingParams);
+      
+      // Add router query params (they will overwrite duplicates)
+      Object.entries(queryParams).forEach(([key, value]) => {
+        mergedParams.set(key, value);
+      });
+      
+      const updatedParams = mergedParams.toString();
       // Append updated URL params to href
-      if (router.asPath.startsWith("/lp") || router.asPath.startsWith("/uk")) {
-        setNewLink(`${href}`);
-      } else {
+      // if (router.asPath.startsWith("/lp") || router.asPath.startsWith("/uk")) {
+      //   setNewLink(`${href}`);
+      // } else {
         setNewLink(`${href.split('?')[0]}${updatedParams.length > 0 ? "?" + updatedParams : ""}`);
-      }
+      // }
     }, [href, router, trackCtx]);
 
 
@@ -62,7 +67,7 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
     const dataId = elementId || btnId || '';
 
     return (
-      <Link {...(dataId && { 'data-elementid': dataId })} href={newLink} locale={router.locale} replace={replace}
+      <Link {...(dataId && { 'data-elementid': dataId })} href={newLink} locale={locale} replace={replace}
         onClick={(e) => {
           if (newLink === "#") e.preventDefault();
           const element = getCssSelectorShort(e.target as Element);
