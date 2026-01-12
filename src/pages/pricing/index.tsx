@@ -78,7 +78,7 @@ export default function Pricing({
     )
     return category?.featureCategory?.name || key.replaceAll('-', ' ')
   }
-  console.log('landingPageData===', pricingPageData)
+  console.log("landingPageData===",pricingPageData)
   return (
     <>
       <SimpleHead data={pricingPageData?.seo} />

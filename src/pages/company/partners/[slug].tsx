@@ -30,9 +30,7 @@ import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSecti
 
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
-
 interface PartnerSlugPageProps {
-
   pageData: any
 
   region: string
@@ -40,12 +38,9 @@ interface PartnerSlugPageProps {
   slug: string
 
   features: any[]
-
 }
 
-
 export default function PartnerSlugPage({
-
   pageData,
 
   region,
@@ -53,157 +48,82 @@ export default function PartnerSlugPage({
   slug,
 
   features,
-
 }: PartnerSlugPageProps) {
-
- 
-
-  const heroData = pageData['partner-hero']?.componentData;
-  // return(
-  //   <></>
-  // )
+  const heroData = pageData['partner-hero']?.componentData
+  
 
   return (
-
     <>
-
       <SimpleHead data={pageData?.seo} />
 
-      <LpHeader/>
+      <LpHeader />
 
-        {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
+      {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
 
-        {heroData && (
-
-          <>
-
-            <FeatureHero
-
-              data={heroData}
-
-              type="partner"
-
-              
-
-            />
-
-          </>
-
-        )}
-
-        
+      {heroData && (
+        <>
+          <FeatureHero data={heroData} type="partner" />
+        </>
+      )}
 
       {pageData['logo-listing']?.componentData && (
-
         <LogoListingV2
-
           data={pageData['logo-listing']?.componentData.blocksListingData}
-
         />
-
       )}
-
 
       {pageData['offer']?.componentData && (
-
-        <OfferSection
-
-          data={pageData['offer']?.componentData}
-
-        />
-
+        <OfferSection data={pageData['offer']?.componentData} />
       )}
-
 
       {features && features.length > 0 && (
         <CategoryFeatureTabsSection
-
           features={features}
-
           variant="carousel"
-
           sectionHeading={
-
             pageData['category-feature-tabs']?.componentData?.sectionHeading
-
           }
-
         />
       )}
-
 
       {pageData['power-of-ai'] && (
-
         <GroupedCardsGridSection
-
           data={pageData['power-of-ai']?.componentData}
-
           theme="dark"
-
           aiSection={true}
-
         />
-
       )}
-
-      
 
       {pageData['integrations-listing']?.componentData && (
-
         <IntegrationsShowcaseSection
-
           data={pageData['integrations-listing']?.componentData}
-
           theme="dark"
-
           sectionBorder="b"
-
         />
-
       )}
-
 
       {pageData['testimonial-video-section']?.componentData?.refData
-
         ?.testimonialListing && (
-
         <VerticalTestimonialListing
-
           data={
-
             pageData['testimonial-video-section']?.componentData?.refData
-
               ?.testimonialListing
-
           }
-
         />
-
       )}
 
-
       <StatisticsSection />
-
     </>
-
   )
-
 }
 
-
 export const getStaticPaths: GetStaticPaths = async ({
-
   locales,
 
   defaultLocale,
-
 }) => {
-
   try {
-
     const client = getClient()
-
-    
 
     // Get all unique partner slugs (without drafts)
 
@@ -217,114 +137,84 @@ export const getStaticPaths: GetStaticPaths = async ({
 
     `
 
-    
-
     const partners = await client.fetch(partnersQuery)
-
-    
 
     // Get unique slugs (in case there are duplicates across languages)
     // Exclude static pages that have their own files (e.g., empower-emr.tsx)
     const excludedSlugs = ['empower-emr']
-    
+
     const uniqueSlugs = [
-
       ...new Set(partners.map((partner: any) => partner.slug).filter(Boolean)),
-
     ].filter((slug: string) => !excludedSlugs.includes(slug))
-
-    
 
     // Format paths for Next.js
 
     const paths = uniqueSlugs.map((slug: string) => ({
-
       params: { slug },
-
     }))
 
-    
-
     return {
-
       paths,
 
       fallback: 'blocking',
-
     }
-
   } catch (error) {
-
     console.error('Error fetching partner paths:', error)
 
     return {
-
       paths: [],
 
       fallback: 'blocking',
-
     }
-
   }
-
 }
 
-
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
-
   const region = locale || 'en'
 
   const slug = params?.slug as string
 
-
   if (!slug) {
-
     return {
-
       notFound: true,
-
     }
-
   }
 
-  
-
   try {
-
     const queries = new Queries('partner', region)
 
     const pageData = await queries.getPageData('partner', slug)
 
-
     // Check if pageData has any content sections (excluding metadata)
 
-    const metadataKeys = ['faqData', 'faqReferenced', 'title', 'description', 'breadCrumb', 'seo', 'icon']
+    const metadataKeys = [
+      'faqData',
+      'faqReferenced',
+      'title',
+      'description',
+      'breadCrumb',
+      'seo',
+      'icon',
+    ]
 
-    // const hasContent = pageData && Object.keys(pageData).some(key => 
+    // const hasContent = pageData && Object.keys(pageData).some(key =>
 
     //   !metadataKeys.includes(key) && pageData[key] !== null && pageData[key] !== undefined
 
     // )
 
-
     if (!pageData) {
-
       console.error(`pageData is empty (all null) for ${slug}`)
 
       return {
-
         notFound: true,
-
       }
-
     }
 
     const features = await getFeaturesList(getClient(), region)
 
     return {
-
       props: {
-
         pageData,
 
         region: region,
@@ -332,21 +222,13 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
         slug: slug,
 
         features: features || [],
-
       },
-
     }
-
   } catch (error) {
-
     console.error('Error fetching Partner page:', error)
 
     return {
-
       notFound: true,
-
     }
-
   }
-
 }

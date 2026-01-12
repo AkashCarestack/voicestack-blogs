@@ -18,7 +18,7 @@ interface PhonesProps {
 }
 
 export default function Phones({ pageData, region, faq }: PhonesProps) {
-  console.log('ppppp', pageData['phone-listing']?.componentData)
+  // console.log('ppppp', pageData['phone-listing']?.componentData)
 
   // Extract integration data from pageData instead of separate query
   const integrationData = React.useMemo(() => {
@@ -84,7 +84,7 @@ export default function Phones({ pageData, region, faq }: PhonesProps) {
 
   return (
     <>
-     <SimpleHead data={pageData?.seo} />
+    {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       <FeatureHero
         data={pageData['phones-hero']?.componentData}
