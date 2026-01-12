@@ -96,6 +96,15 @@ function shouldExcludePath(path: string): boolean {
     return true;
   }
   
+  // Exclude paths containing '-v2' in any segment
+  // Check if any path segment ends with '-v2' or contains '-v2'
+  const pathSegments = path.split('/');
+  for (const segment of pathSegments) {
+    if (segment.endsWith('-v2') || segment.includes('-v2')) {
+      return true;
+    }
+  }
+  
   return false;
 }
 
