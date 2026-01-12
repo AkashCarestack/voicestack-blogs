@@ -5,10 +5,10 @@ import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
-import ReviewTestimonial from '~/components/revamp/components/common/ReviewTestimonial/ReviewTestimonial'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
+import ReviewTestimonialV2 from '~/v2/sections/ReviewTestimonialV2'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
+import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
 interface ReviewsProps {
   pageData: any
@@ -19,7 +19,7 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <HeroWrapper>
+    
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         <HeroSection
           page=""
@@ -37,10 +37,10 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
             hideTitle={true}
           />
         )}
-      </HeroWrapper>
+      
      
         {pageData['review-testimonial']?.componentData && (
-          <ReviewTestimonial data={pageData['review-testimonial']?.componentData} />
+          <ReviewTestimonialV2 data={pageData['review-testimonial']?.componentData} />
         )}
         <div className='w-full lg:mb-24 mb-12'>
         <StatisticsSection />

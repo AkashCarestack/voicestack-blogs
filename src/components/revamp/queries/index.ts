@@ -413,6 +413,7 @@ class Queries {
         "metaDescription": seo.metaDescription,
         "keyWords": seo.keyWords,
         "canonical": seo.canonical,
+        "disableIndex": seo.disableIndex,
         "icon": basicInfo.icon.asset-> {
           ${this.IMAGE_METADATA_FIELDS}
         },
@@ -2742,6 +2743,7 @@ class Queries {
         metaDescription: result?.metaDescription || null,
         keyWords: result?.keyWords || null,
         canonical: result?.canonical || null,
+        disableIndex: result?.disableIndex || null,
       },
       // metaTitle: result?.metaTitle || null,
       // metaDescription: result?.metaDescription || null,

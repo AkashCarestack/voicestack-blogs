@@ -56,6 +56,7 @@ interface CategoryFeatureTabsSectionProps {
   sectionHeading?: any;
   className?: string;
   variant?: 'default' | 'carousel' | 'carouselwithcards' | 'scrollcarousel' | 'singlecard' | 'simplelisting';
+  sectionBorder?: "b" | "t" | "y" | "none";
 }
 
 export default function CategoryFeatureTabsSection({
@@ -63,6 +64,7 @@ export default function CategoryFeatureTabsSection({
   sectionHeading,
   className,
   variant = 'default',
+  sectionBorder = 'none',
 }: CategoryFeatureTabsSectionProps) {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>('');
@@ -331,6 +333,7 @@ export default function CategoryFeatureTabsSection({
       <Section
         id="features"
         className={cn("py-sm md:py-md lg:py-lg scroll-m-16 bg-gray-50 relative overflow-hidden", className)}
+        border={sectionBorder}
       >
         <div className="md:block hidden absolute top-0 right-0 w-[43rem] h-full z-0">
           <GridPattern
@@ -375,6 +378,7 @@ export default function CategoryFeatureTabsSection({
       <Section
         id="features"
         className={cn("w-full flex flex-col bg-white relative", className)}
+        border={sectionBorder}
       >
         <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
           <div className="grid lg:grid-cols-2 grid-cols-1 gap-px bg-gray-200 w-full">
@@ -475,6 +479,7 @@ export default function CategoryFeatureTabsSection({
         <Section
           id="phone-listing"
           className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
+          border={sectionBorder}
         >
           <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
             {/* Header Section */}
@@ -607,10 +612,11 @@ export default function CategoryFeatureTabsSection({
       <Section
         id="features"
         className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
+        border={sectionBorder}
       >
         <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
           {/* Header Section */}
-          <div className="flex-col gap-16 relative w-full flex items-center justify-center mb-16">
+          <div className="flex-col gap-16 relative w-full flex items-center justify-center">
             <div className="flex flex-col gap-3 items-center text-center max-w-[712px]">
               
               <SectionHeaderV2 className='md:px-12 px-4'
@@ -777,10 +783,11 @@ export default function CategoryFeatureTabsSection({
       <Section
         id="features"
         className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
+        border={sectionBorder}
       >
         <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
           {/* Header Section */}
-          <div className="flex-col gap-16 relative w-full flex items-center justify-center mb-16">
+          <div className="flex-col gap-16 relative w-full flex items-center justify-center ">
             <div className="flex flex-col gap-3 items-center text-center max-w-[712px]">
               
               <SectionHeaderV2 className='md:px-12 px-4'
@@ -977,8 +984,8 @@ export default function CategoryFeatureTabsSection({
   return (
     <Section
       id="features"
-      border='b'
       className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
+      border={sectionBorder}
     >
       <Container className='w-full py-sm md:py-sm lg:py-lg ' type="V2" border="y-0">
         <div className="flex-col relative w-full flex gap-16 mb-[60px]">

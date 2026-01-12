@@ -28,7 +28,7 @@ const config = {
   },
   i18n: {
     localeDetection:false,
-    locales: ['en', 'en-GB', 'en-AU'],
+    locales: ['en', ],
     defaultLocale: 'en'
   },
   // Fix for Vercel deployment issues
@@ -83,6 +83,11 @@ const config = {
         permanent: false,
       },
       {
+        source: '/dental-phones/:path*',
+        destination: '/phone-system',
+        permanent: false,
+      },
+      {
         source: '/dental-phones',
         destination: '/phone-system',
         permanent: false,
@@ -113,6 +118,11 @@ const config = {
         permanent: false,
       },
       {
+        source: '/dental-phones/ai-receptionist',
+        destination: '/phone-system/features/ai-receptionist',
+        permanent: false,
+      },
+      {
         source: '/',
         has: [
           { type: 'query', key: 's' }
@@ -126,32 +136,32 @@ const config = {
   async rewrites() {
    
     return [
-      // {
-      //   source: '/en-gb',
-      //   destination: 'https://voicestack-engb.vercel.app/en-GB',
-      // },
-      // {
-      //   source: '/en-gb/:path*',
-      //   destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
-      // },
-      // {
-      //   source: '/en-GB',
-      //   destination: 'https://voicestack-engb.vercel.app/en-GB',
-      // },
-      // {
-      //   source: '/en-GB/:path*',
-      //   destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
-      // },
+      {
+        source: '/en-gb',
+        destination: 'https://voicestack-engb.vercel.app/en-GB',
+      },
+      {
+        source: '/en-gb/:path*',
+        destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
+      },
+      {
+        source: '/en-GB',
+        destination: 'https://voicestack-engb.vercel.app/en-GB',
+      },
+      {
+        source: '/en-GB/:path*',
+        destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
+      },
       {
         source: '/sitemap.xml',
         destination: '/api/sitemap',
       },
       
-      // {
-      //   source: '/en-gb',
-      //   destination: '/en-GB',
-      //   locale: false,
-      // },
+      {
+        source: '/en-gb',
+        destination: '/en-GB',
+        locale: false,
+      },
       {
         source: '/en-gb/:path*',
         destination: '/en-GB/:path*',
@@ -162,26 +172,26 @@ const config = {
         destination: '/en-AU/:path*',
         locale: false,
       },
-      // {
-      //   source: '/en-au',
-      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
+      {
+        source: '/en-au',
+        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
         
-      // },
-      // {
-      //   source: '/en-AU',
-      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
+      },
+      {
+        source: '/en-AU',
+        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
       
-      // },
-      // {
-      //   source: '/en-au/:path',
-      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path',
+      },
+      {
+        source: '/en-au/:path',
+        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path',
       
-      // },
-      // {
-      //   source: '/en-AU/:path*',
-      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path*',
+      },
+      {
+        source: '/en-AU/:path*',
+        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path*',
        
-      // }
+      }
     ];
   },
   

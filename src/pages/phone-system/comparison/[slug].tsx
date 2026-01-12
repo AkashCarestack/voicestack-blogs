@@ -7,13 +7,14 @@ import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getAllComparisonValues, getFeaturesList } from '~/lib/sanity.queries'
 import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import SimpleHead from '~/components/common/SimpleHead'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import OfferSection from '~/v2/sections/OfferSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 
 interface ComparisonPageProps {
   pageData: any
@@ -48,7 +49,13 @@ export default function ComparisonSlugPage({
     <>
       <SimpleHead data={pageData?.seo} />
         {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
-        <FeatureHero data={pageData['comparison-hero']} type="form" hideBg={true} />
+        <FeatureHero data={pageData['comparison-hero']} />
+
+      {pageData['logo-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logo-listing']?.componentData?.blocksListingData}
+        />
+      )}
 
       {comparisonSectionData && (
         <SiteComparisonSection
@@ -56,12 +63,11 @@ export default function ComparisonSlugPage({
           // legendData={pageData?.comparisonLegendData || []}
         />
       )}
-        {pageData['offer']?.componentData && (
+      {pageData['offer']?.componentData && (
         <OfferSection
           data={pageData['offer']?.componentData}
         />
       )}
-
 
       <CategoryFeatureTabsSection
           features={features} 
@@ -69,13 +75,14 @@ export default function ComparisonSlugPage({
           sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
       />
 
-    {pageData['integrations-listing']?.componentData && (
+      {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
       )}
-       {pageData['stack-card-tab-testimonial']?.componentData.refData && (
+
+      {pageData['stack-card-tab-testimonial']?.componentData.refData && (
         <StackCardTestimonial
           data={
             pageData['stack-card-tab-testimonial']?.componentData.refData.tabsListingComponent

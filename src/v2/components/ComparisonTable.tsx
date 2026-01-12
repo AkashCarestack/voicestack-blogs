@@ -79,7 +79,7 @@ function RowHeading({ heading, description, link }) {
                   {heading}
                 </Anchor>
               ) : (
-              <p className="text-gray-700 flex flex-0 whitespace-normal  lg:text-base text-xs font-normal leading-6 tracking-normal underline decoration-dotted decoration-gray-700 decoration-[10%] underline-offset-[25%] underline-from-font">
+              <p className="text-gray-700 flex flex-0 whitespace-normal  lg:text-base text-xs font-normal leading-6 tracking-normal decoration-dotted decoration-gray-700 decoration-[10%] underline-offset-[25%] underline-from-font">
                 {heading}sdf {link}
               </p>
               )}
@@ -88,7 +88,7 @@ function RowHeading({ heading, description, link }) {
             </CursorTooltip>
           ) : (
 
-            <p className="text-gray-700 flex flex-0 whitespace-normal  lg:text-base text-xs font-normal leading-6 tracking-normal underline decoration-dotted decoration-gray-700 decoration-[10%] underline-offset-[25%] underline-from-font">
+            <p className="text-gray-700 flex flex-0 whitespace-normal  lg:text-base text-xs font-normal leading-6 tracking-normal decoration-dotted decoration-gray-700 decoration-[10%] underline-offset-[25%] underline-from-font">
                 {heading}
             </p>
           )}

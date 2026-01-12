@@ -55,6 +55,7 @@ export default function WhyVoicestackIndex({
         sectionHeading={
           data['category-feature-tabs']?.componentData?.sectionHeading
         }
+        sectionBorder="b"
       />
       {data['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
