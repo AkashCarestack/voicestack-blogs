@@ -69,7 +69,7 @@ const Footer = ({ data }) => {
             {/* Footer Columns */}
             {safeData?.footerColumns && safeData.footerColumns.length > 0 && (
               <div
-                className="grid grid-cols-2 md:grid-cols-3 pt-8 pb-8 rounded-xl lg:grid-cols-5 gap-6"
+                className="grid grid-cols-2 md:grid-cols-4 pt-8 pb-8 rounded-xl gap-6"
                 style={{
                   borderRadius: 'var(--radius-lg, 8px)',
                   border: '0 solid rgba(255, 255, 255, 0.40)',
