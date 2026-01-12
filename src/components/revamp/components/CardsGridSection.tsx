@@ -8,6 +8,7 @@ import SectionHeaderV2 from '../../../v2/components/common/sectionHeaderV2'
 import Section from '~/components/structure/Section'
 import CardItemComponent from '../../../v2/components/common/CardItem'
 import { CardItemProps as CardItem } from '../../../v2/components/common/CardItem'
+import Anchor from '~/components/common/anchor'
 
 interface CardsGridSectionProps {
   type?: 'col-2' | 'col-3'
@@ -120,9 +121,9 @@ const CardsGridSection = ({ data, customText, type, variant, bottomSpace }: Card
                   return (
                     <div key={item._key || Math.random()}>
                       {item.link?.url ? (
-                        <Link href={item.link.url} className="block h-full">
+                        <Anchor href={item.link.url} className="block h-full">
                           {CardContent}
-                        </Link>
+                        </Anchor>
                       ) : (
                         CardContent
                       )}

@@ -24,6 +24,7 @@ const OfferSection = ({ data }: OfferSectionProps) => {
                   heading={data?.sectionHeadingDynamic}
                   // heading={pageData['how-voicestack-works2'].componentData.heading}
                   description={data?.subDescription}
+                  demoButton={true}
                   
                 />
                 {data?.ctaListItems && data.ctaListItems.length > 0 && (

@@ -296,7 +296,7 @@ export const HeroFeatureComponents: any = {
       React.createElement(
         'h2',
         {
-          className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%]',
+          className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px]',
         },
         children
       ),
@@ -304,7 +304,7 @@ export const HeroFeatureComponents: any = {
       React.createElement(
         'h2',
         {
-          className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%]',
+          className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px]',
         },
         children
       ),
@@ -336,9 +336,9 @@ export const descriptionComponents: any = {
   block: {
     normal: ({ children }: { children: React.ReactNode }) =>
       React.createElement(
-        'span',
+        'p',
         {
-          className: 'text-gray-950 font-normal text-center md:text-left md:max-w-[607px] w-full font-geist md:text-lg text-base leading-[155.55%]',
+          className: 'text-gray-950 font-normal text-center md:text-left md:max-w-[711px] w-full font-geist md:text-lg text-base leading-[155.55%]',
         },
         children
       ),

@@ -51,19 +51,10 @@ const NavigationMenu = ({
                 {isMobile ? (
                   <span>{link.label}</span>
                 ) : (
-                  <Link className="cursor-pointer" href={link.href}>
+                  <Anchor className="cursor-pointer" href={link.href}>
                     <span>{link.label}</span>
-                  </Link>
+                  </Anchor>
                 )}
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  className={`transition-transform duration-200 ${isMobile ? (isSubmenuOpen ? 'rotate-180' : '') : 'group-hover:rotate-180'}`}
-                >
-                  <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
               </div>
               <div className={`lg:absolute static top-full left-0 ${isMobile ? 'mt-0' : 'mt-2'} w-full lg:w-64 bg-white ${isMobile ? 'rounded-none' : 'rounded-lg'} lg:shadow-lg lg:border border-gray-200 ${isMobile ? (isSubmenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden') : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'} transition-all duration-200 z-50`}>
                 <div className="py-2">

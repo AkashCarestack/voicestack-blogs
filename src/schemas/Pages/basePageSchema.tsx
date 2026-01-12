@@ -161,6 +161,13 @@ export const createBasePageSchema = (name: string, title: string) => ({
           description: 'Keywords for SEO purposes',
         },
         {
+          name: 'disableIndex',
+          title: 'Disable indexing',
+          type: 'boolean',
+          description: 'Disable indexing',
+          initialValue: false,
+        },
+        {
           name: 'canonical',
           title: 'Canonical URL',
           type: 'url',

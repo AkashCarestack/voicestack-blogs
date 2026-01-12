@@ -36,7 +36,7 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       const { query } = router
 
       const queryParams: Record<string, string> = Object.entries(query).reduce((acc: any, [key, value]) => {
-        if (value !== undefined && key !== "slug") {
+        if (value !== undefined && key !== "slug" && key !== "flag") {
           acc[key] = value.toString();
         }
         return acc;
@@ -50,7 +50,11 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       // Merge existing parameters with updated URL params
       let updatedParams = `${existingParams ? (noParams ? existingParams : existingParams + '&') : ""}${urlSearchParams.toString()}`;
       // Append updated URL params to href
-      setNewLink(`${href.split('?')[0]}${updatedParams.length > 0 ? "?" + updatedParams : ""}`);
+      if (router.asPath.startsWith("/lp") || router.asPath.startsWith("/uk")) {
+        setNewLink(`${href}`);
+      } else {
+        setNewLink(`${href.split('?')[0]}${updatedParams.length > 0 ? "?" + updatedParams : ""}`);
+      }
     }, [href, router, trackCtx]);
 
 
@@ -58,8 +62,9 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
     const dataId = elementId || btnId || '';
 
     return (
-      <Link {...(dataId && { 'data-elementid': dataId })} href={href} locale={locale} replace={replace}
+      <Link {...(dataId && { 'data-elementid': dataId })} href={newLink} locale={router.locale} replace={replace}
         onClick={(e) => {
+          if (newLink === "#") e.preventDefault();
           const element = getCssSelectorShort(e.target as Element);
           let e_name = "";
           const utm_term = getQueryParamFromLink(newLink, 'utm_term');

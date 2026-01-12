@@ -5,7 +5,7 @@ import IntegrationsGrid from '~/components/revamp/components/common/Integrations
 import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
 import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
 import {
@@ -15,8 +15,10 @@ import {
 import { getClient } from '~/lib/sanity.client'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import LogoListingSection from '~/components/LogoListingSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 // import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 // Define proper TypeScript interfaces
@@ -66,13 +68,19 @@ export default function ComparisonPage({
       {/* <HeroWrapper> */}
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
         {pageData['comparison-hero']?.componentData && (
-          <HeroSection
-            page=""
+          <FeatureHero
             data={pageData['comparison-hero']?.componentData}
-            showFullDescription={true}
+            // showFullDescription={true}
           />
         )}
       {/* </HeroWrapper> */}
+
+      
+      {pageData['logo-listing']?.componentData && (
+          <LogoListingV2
+            data={pageData['logo-listing']?.componentData?.blocksListingData}
+          />
+        )}
 
       {comparisonTableData && (
         <SiteComparisonSection
@@ -88,8 +96,7 @@ export default function ComparisonPage({
         />
       )}
 
-      {/* Testimonial Section */}
-      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+{pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
             pageData['stack-card-tab-testimonial']?.componentData?.refData
@@ -106,12 +113,13 @@ export default function ComparisonPage({
       )}
 
       <StatisticsSection/>
+{/*       
       {pageData['logo-listing']?.componentData && (
           <LogoListingSection
             data={pageData['logo-listing']?.componentData?.blocksListingData}
             header={false}
           />
-        )}
+        )} */}
       
       {/* FAQ Section */}
       {faq && (
@@ -128,7 +136,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const region = locale || 'en'
     const queries = new Queries('comparison', region)
     const slug =
-      region === 'en' ? 'comparison' : `comparison-${region.toLowerCase()}`
+    region === 'en' ? 'comparison' : `comparison-${region.toLowerCase()}`
 
     // Fetch page data for integrations
     const pageData = await queries.getPageData('dentalPhones', slug)

@@ -8,6 +8,7 @@ import { formatPhoneNumberWithCountryCode } from '../utils/helper'
 import Anchor from './anchor'
 import { usePricingModal } from './PricingModalContext'
 import ArrowIcon from '../revamp/icons/arrowIcon'
+import replaceUrl from '~/helpers/replaceUrl'
 
 interface ButtonProps {
   type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
@@ -136,7 +137,10 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   }
 
   // If it's a pricing button, don't use the link
-  const finalLink = isPricingButton ? undefined : (link ? formatLink(link, buttonVariant) : link)
+  // Extract URL from link (handle both string and object with cached_url)
+  const linkUrl = typeof link === 'string' ? link : (link?.cached_url || link?.url || link)
+  const processedLink = linkUrl ? replaceUrl(linkUrl) : linkUrl
+  const finalLink = isPricingButton ? undefined : (processedLink ? formatLink(processedLink, buttonVariant) : processedLink)
 
   const combinedClasses = clsx(baseClasses, customClasses, className)
   if (finalLink) {
