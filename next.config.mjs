@@ -83,6 +83,11 @@ const config = {
         permanent: false,
       },
       {
+        source: '/dental-phones/:path*',
+        destination: '/phone-system',
+        permanent: false,
+      },
+      {
         source: '/dental-phones',
         destination: '/phone-system',
         permanent: false,

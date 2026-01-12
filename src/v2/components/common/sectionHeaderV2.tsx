@@ -29,7 +29,7 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
             </div>
           )}
           {demoButton && (
-            <div className="flex justify-center mt-8">
+            <div className={`flex mt-8 ${data.isLeftAlign ? 'justify-start' : 'justify-center'}`}>
               <Button type="primary" link="/demo">
                 <span className="">Book Free Demo</span>
               </Button>

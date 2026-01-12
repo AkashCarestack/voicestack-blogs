@@ -10,6 +10,7 @@ import Section from '~/components/structure/Section'
 import HubspotGenericForm from '~/components/revamp/components/common/hubspotGeneric'
 import LightningIcon from '../icons/LightningIcon'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
+import Anchor from '~/components/common/anchor'
 
 interface FeatureHeroProps {
   data: any
@@ -197,7 +198,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
         return React.createElement(
           headingLevel,
           {
-            className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%]',
+            className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px]',
           },
           children
         )
@@ -209,7 +210,7 @@ export default function FeatureHero({ data, type , hideBg = false}: { data: any,
         return React.createElement(
           headingLevel,
           {
-            className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%]',
+            className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px]',
           },
           children
         )
