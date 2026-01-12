@@ -1,6 +1,7 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
+import Anchor from '~/components/common/anchor'
 import Container from '~/components/structure/Container'
 
 const Custom404: NextPage = () => {
@@ -23,12 +24,12 @@ const Custom404: NextPage = () => {
           </div>
           
           <div className="space-y-4">
-            <Link 
+            <Anchor 
               href="/"
               className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
             >
               Go Back Home
-            </Link>
+            </Anchor>
   
           </div>
           </div>

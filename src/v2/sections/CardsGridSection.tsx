@@ -75,7 +75,7 @@ const CardsGridSection = ({ data, customText, variant, bottomSpace, colCount }: 
                   return (
                     <div key={item._key || Math.random()} className="bg-white">
                       {item.link?.url ? (
-                        <Link href={item.link.url} className="block h-full">
+                        <Anchor href={item.link.url} className="block h-full">
                           <CardItemComponent item={item} />
                         </Link>
                       ) : (
