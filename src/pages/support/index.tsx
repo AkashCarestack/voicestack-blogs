@@ -4,9 +4,9 @@ import HeroSection from '~/components/revamp/components/common/HeroSection/heroS
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import SimpleHead from '~/components/common/SimpleHead'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import { useLayoutData } from '~/providers/LayoutDataProvider'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 
 interface SupportPageProps {
   supportPageData: any
@@ -43,7 +43,7 @@ export default function SupportPage({
         )}
       </HeroWrapper>
 
-      <div className='w-full lg:mb-24 mb-12 mt-12 lg:mt-32'>
+      <div className='w-full  '>
         <StatisticsSection/>
       </div>
       
