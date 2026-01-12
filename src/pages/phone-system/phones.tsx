@@ -10,20 +10,14 @@ import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import OfferSection from '~/v2/sections/OfferSection'
 
-
 interface PhonesProps {
   pageData: any
   region: string
   faq: any
 }
 
-export default function Phones({
-  pageData,
-  region,
-  faq,
-}: PhonesProps) {
-
-console.log("ppppp",pageData['phone-listing']?.componentData);
+export default function Phones({ pageData, region, faq }: PhonesProps) {
+  console.log('ppppp', pageData['phone-listing']?.componentData)
 
   // Extract integration data from pageData instead of separate query
   const integrationData = React.useMemo(() => {
@@ -90,42 +84,33 @@ console.log("ppppp",pageData['phone-listing']?.componentData);
   return (
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['phones-hero']?.componentData} type="feature" />
+      <FeatureHero
+        data={pageData['phones-hero']?.componentData}
+        type="feature"
+      />
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
-    {pageData['feature-testimonials-section-single']?.componentData && (
+      {pageData['feature-testimonials-section-single']?.componentData && (
         <FeatureTestimonialsSection
           data={pageData['feature-testimonials-section-single']?.componentData}
         />
       )}
 
-
-      
       {pageData['phone-listing']?.componentData && (
         <CategoryFeatureTabsSection
-          features={
-            pageData['phone-listing']?.componentData
-          }
+          features={pageData['phone-listing']?.componentData}
           variant="simplelisting"
-          sectionHeading={
-            pageData['phone-listing']?.componentData
-          }
+          sectionHeading={pageData['phone-listing']?.componentData}
         />
       )}
 
-{pageData['offer']?.componentData && (
+      {pageData['offer']?.componentData && (
+        <OfferSection data={pageData['offer']?.componentData} />
+      )}
 
-      <OfferSection
-
-        data={pageData['offer']?.componentData}
-
-      />
-
-    )}
-      
       {faq && <FaqSection faqItems={faq} />}
     </>
   )
@@ -135,10 +120,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
     const queries = new Queries('phones', region)
-    const slug =
-      region === 'en'
-        ? 'phones'
-        : `phones-${region.toLowerCase()}`
+    const slug = region === 'en' ? 'phones' : `phones-${region.toLowerCase()}`
 
     // Fetch page data for integrations
     const pageData = await queries.getPageData('dentalPhones', slug)
