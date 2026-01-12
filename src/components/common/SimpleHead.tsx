@@ -13,8 +13,7 @@ export type { AlternatePath } from '~/components/utils/alternatePaths'
 export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
   const { alternatePaths, defaultUrl } = useAlternatePaths();
 
-  const fullTitle = data?.metaTitle ? `${data?.metaTitle}` : 'VoiceStack® | AI Powered Enterprise Phone System';
-  console.log("data", data);
+  const fullTitle = data?.metaTitle ? `${data?.metaTitle}` : 'VoiceStack® | AI Powered Enterprise Phone System'; 
   return (
     <Head>
       <title>{fullTitle}</title>
