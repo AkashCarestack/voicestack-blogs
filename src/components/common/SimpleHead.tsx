@@ -17,6 +17,7 @@ export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
   return (
     <Head>
       <title>{fullTitle}</title>
+      <meta name="title" content={fullTitle} />
       <meta name="description" content={data?.metaDescription || 'AI Powered Enterprise Phone System'} />
       {data?.keyWords && <meta name="keywords" content={typeof data?.keyWords === 'string' ? data?.keyWords : data?.keyWords?.join(',')} />}
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />

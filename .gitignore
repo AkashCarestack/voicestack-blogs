@@ -54,3 +54,5 @@ studio/.env.development
 backup/production.tar.gz
 # /src/migrations
 /backups/
+/seo-checker/
+/fetch-page/
