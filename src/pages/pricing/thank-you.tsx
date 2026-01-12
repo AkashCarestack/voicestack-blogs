@@ -31,14 +31,25 @@ export default function PricingThankYouPage() {
   const lastName = pricingData?.lastname || ''
   const email = pricingData?.email || ''
   const fullName = `${firstName} ${lastName}`.trim() || 'there'
+  const metaDescriptn = "Thank you for requesting VoiceStack pricing. One of our team members will contact you shortly to discuss your needs & provide a pricing overview."
+  const metaKeywords = "voicestack thank you, voicestack pricing thank you, voicestack pricing request received"
+  const fullTitle = "Thank You | VoiceStack® Pricing Request Has Been Received"
 
   return (
     <>
       <Head>
-        <title>Thank You | VoiceStack® Pricing Request Has Been Received</title>
-        <meta name="description" content="Thank you for requesting VoiceStack pricing. One of our team members will contact you shortly to discuss your needs and provide a pricing overview." />
-        <meta name="keywords" content="voicestack thank you, voicestack pricing thank you, voicestack pricing request received" />
-        <meta name="robots" content="noindex, nofollow" />
+        <title>{fullTitle}</title>
+        <link rel="canonical" href={'https://www.voicestack.com/pricing/thank-you'} />
+        <meta name="description" content={metaDescriptn} />
+        <meta name="keywords" content={metaKeywords} />
+        <meta name="robots" content="noindex, nofollow, noarchive" />
+        <meta name="author" content="VoiceStack®" />
+        <meta property="og:type" content="website" />
+      <meta property="og:title" content={fullTitle} />
+      <meta property="og:url" content={'https://www.voicestack.com/pricing/thank-you'} />
+      <meta property="og:description" content={metaDescriptn} />
+      <meta name="title" content={fullTitle} />
+        <meta name="robots" content="noindex, nofollow, noarchive" />
       </Head>
       <div className="py-24 px-4">
         <div className="w-full gap-16 flex flex-col justify-center items-center min-h-[500px]">
