@@ -1,17 +1,19 @@
-import React from 'react'
 import { GetStaticProps } from 'next'
-import Queries from '~/components/revamp/queries'
-import { getFeaturesList } from '~/lib/sanity.queries'
-import { getClient } from '~/lib/sanity.client'
-import Section from '~/components/structure/Section'
-import Container from '~/components/structure/Container'
-import FaqSection from '~/components/revamp/components/common/faqSection'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
-import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
+import React from 'react'
+
 import SimpleHead from '~/components/common/SimpleHead'
+import CardsWithTestimonial from '~/components/revamp/components/common/cardsWithTestimonial'
+import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import Queries from '~/components/revamp/queries'
+import Container from '~/components/structure/Container'
+import Section from '~/components/structure/Section'
+import { getClient } from '~/lib/sanity.client'
+import { getFeaturesList } from '~/lib/sanity.queries'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 
 // Define TypeScript interfaces
 interface PageData {
@@ -72,35 +74,15 @@ export default function Pricing({
     )
     return category?.featureCategory?.name || key.replaceAll('-', ' ')
   }
+  console.log("landingPageData===",pricingPageData)
   return (
     <>
       <SimpleHead data={pricingPageData?.seo} />
 
-      <HeroWrapper>
-        {pricingPageData &&
-          (() => {
-            // Find the hero section - try common patterns
-            const heroKey = Object.keys(pricingPageData).find(
-              (key) =>
-                key.includes('hero') && pricingPageData[key]?.componentData,
-            )
-            const heroData = heroKey
-              ? pricingPageData[heroKey]?.componentData
-              : null
-
-            return heroData ? (
-              <HeroSection 
-                page="pricing" 
-                isCentered={true} 
-                data={heroData}
-                showFullDescription={true}
-              />
-            ) : null
-          })()}
-      </HeroWrapper>
+      <FeatureHero data={pricingPageData['pricing-hero']} />
       
-      <Section className="">
-        <Container className="flex flex-col items-center gap-8">
+      <Section className="bg-white" border="b">
+        <Container className="flex flex-col items-center gap-8" type="V2" border="y-0">
           <div className="lg:py-lg md:py-md py-sm">
             <FeatureCategoryGrid
               groupedData={groupedData}
@@ -112,11 +94,27 @@ export default function Pricing({
               }}
             />
           </div>
-          {
+          {/* {
             testimonialData && (<TabCardsListing data={testimonialData} />)
-          }
+          } */}
 
-          {landingPageData['stack-card-tab-testimonial']?.componentData?.refData && (
+          
+          {/* FAQ Section */}
+          {/* {faq && <FaqSection faqItems={faq} />} */}
+        </Container>
+      </Section>
+      <CategoryFeatureTabsSection
+          features={
+            pricingPageData['manage-every-calls']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+          variant="scrollcarousel"
+          sectionHeading={
+            pricingPageData['manage-every-calls']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      {landingPageData['stack-card-tab-testimonial']?.componentData?.refData && (
             
             <StackCardTestimonial
               isPricingPage={true}
@@ -126,10 +124,6 @@ export default function Pricing({
               }
             />
           )}
-          {/* FAQ Section */}
-          {/* {faq && <FaqSection faqItems={faq} />} */}
-        </Container>
-      </Section>
     </>
   )
 }
@@ -149,7 +143,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     // Fetch company page data for pricing page hero section
     const companyQueries = new Queries('company', region)
     const pricingPageSlug =
-      region === 'en' ? 'pricing-page' : `pricing-page-${region.toLowerCase()}`
+      region === 'en' ? 'pricing-page-v2' : `pricing-page-v2-${region.toLowerCase()}`
     const pricingPageData = await companyQueries.getPageData(
       'company',
       pricingPageSlug,
@@ -162,7 +156,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         features,
         landingPageData,
         faq: faq || null,
-        pricingPageData: pricingPageData || null,
+        pricingPageData: JSON.parse(JSON.stringify(pricingPageData ?? null))
       },
     }
   } catch (error) {
