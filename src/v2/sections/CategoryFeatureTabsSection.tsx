@@ -55,7 +55,7 @@ interface CategoryFeatureTabsSectionProps {
   features: Feature[] | any; 
   sectionHeading?: any;
   className?: string;
-  variant?: 'default' | 'carousel' | 'scrollcarousel' | 'singlecard' | 'simplelisting';
+  variant?: 'default' | 'carousel' | 'carouselwithcards' | 'scrollcarousel' | 'singlecard' | 'simplelisting';
 }
 
 export default function CategoryFeatureTabsSection({
@@ -656,7 +656,7 @@ export default function CategoryFeatureTabsSection({
               {/* Single container box that stays */}
               <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
                 {/* Left Column: Content and Pill Items with Smooth Animation */}
-                <div className="bg-white flex flex-col gap-6 items-start justify-start p-12 min-h-[400px] relative overflow-hidden">
+                <div className="bg-white flex flex-col gap-6 items-start justify-start p-12 min-h-[500px] relative overflow-hidden">
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const pillItems = getPillItems(category);
@@ -763,6 +763,209 @@ export default function CategoryFeatureTabsSection({
                   </AnimatePresence>
                 </div>
               </div>
+            </div>
+          </div>
+
+        </Container>
+      </Section>
+    );
+  }
+
+  // Carousel with Cards variant - Similar to carousel but with GroupedCardsGrid instead of pill items
+  if (variant === 'carouselwithcards') {
+    return (
+      <Section
+        id="features"
+        className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
+      >
+        <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
+          {/* Header Section */}
+          <div className="flex-col gap-16 relative w-full flex items-center justify-center mb-16">
+            <div className="flex flex-col gap-3 items-center text-center max-w-[712px]">
+              
+              <SectionHeaderV2 className='md:px-12 px-4'
+                heading={
+                  sectionHeading?.sectionHeadingDynamic
+                    ? sectionHeading?.sectionHeadingDynamic
+                    : sectionHeading?.headline
+                      ? sectionHeading?.headline
+                      : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+                }
+                description={
+                  sectionHeading?.subheadline
+                    ? sectionHeading?.subheadline
+                    : 'Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
+                }
+                demoButton={true}
+              />
+            </div>
+            
+            {/* Switchable Tabs - Sticky */}
+            <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+              <SwitchableTabs
+                data={allCategories.map(category => ({
+                  id: category.name,
+                  key: category.name,
+                  title: category.name,
+                  testimonial: null,
+                  setActiveTab: handleCategoryClick,
+                })) as IdataProps[]}
+                setActiveTab={handleCategoryClick}
+                activeTab={activeCategory}
+                isSticky={false}
+                className="md:py-2 bg-transparent !shadow-none !border-none"
+                isShowImage={false}
+                shadow={false}
+              />
+            </div>
+
+            <div className="relative w-full">
+              <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
+                <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 min-h-[500px] relative overflow-hidden">
+                  <AnimatePresence mode="wait">
+                    {allCategories.map((category) => {
+                      const isActive = category.name === activeCategory;
+                      
+                      if (!isActive) return null;
+                      
+                      return (
+                        <motion.div
+                          key={category.name}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -20 }}
+                          transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                          className="flex flex-col gap-6 items-start w-full"
+                        >
+                          <div className="flex flex-col gap-[6px] items-start w-full">
+                            {/* Category Label */}
+                            {category.name && (
+                              <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                                <p className="leading-6 whitespace-pre-wrap">{category.name}</p>
+                              </div>
+                            )}
+                            {/* Main Heading */}
+                            {category.subheading && (
+                              <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 w-full">
+                                <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl">{category.subheading}</p>
+                              </div>
+                            )}
+                            {/* Description */}
+                            {category.description && (
+                              <p className="font-geist leading-[150%] font-normal text-gray-700 text-base whitespace-pre-wrap">
+                                {category.description}
+                              </p>
+                            )}
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
+
+                {/* Right Column: Category Image with Fixed Grid Pattern */}
+                <div className="bg-gray-50 flex flex-col items-center justify-center h-[400px] lg:h-auto overflow-hidden relative">
+                  {/* Grid Pattern Background - Fixed, doesn't move */}
+                  <div className="absolute inset-0 z-0">
+                    <GridPattern
+                      width={50}
+                      height={50}
+                      x={-1}
+                      y={-1}
+                      className={cn(
+                        "[mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"
+                      )}
+                    />
+                  </div>
+                  {/* Images - Smooth fade animation */}
+                  <AnimatePresence mode="wait">
+                    {allCategories.map((category) => {
+                      const isActive = category.name === activeCategory;
+                      
+                      if (!isActive || !category?.mainImage) return null;
+                      
+                      return (
+                        <motion.div
+                          key={category.name}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                          className="w-full h-full relative flex items-center justify-center"
+                        >
+                          <div className="max-w-[500px] w-full h-full relative flex items-center justify-center">
+                            <ImageLoader
+                              image={category.mainImage}
+                              alt={`${category.name} feature illustration`}
+                              title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
+                              fixed={true}
+                              className="rounded-lg object-contain w-full h-full"
+                            />
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              {/* GroupedCardsGrid - Outside the two-column layout */}
+              <AnimatePresence mode="wait">
+                {allCategories.map((category) => {
+                  const isActive = category.name === activeCategory;
+                  
+                  if (!isActive || !category.features || category.features.length === 0) return null;
+                  
+                  return (
+                    <motion.div
+                      key={category.name}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                      className="w-full"
+                    >
+                      <GroupedCardsGrid
+                        customListingItems={category.features.map((feature) => {
+                          // Get SVG code from feature - check multiple possible locations
+                          const iconSvg = 
+                            feature.basicInfo?.dynamicSvg ||
+                            (feature.basicInfo?.icon as any)?.iconSvgCode || 
+                            (feature.basicInfo?.icon as any)?.icon ||
+                            feature.featureCategory?.iconSvgCode || 
+                            category.iconSvgCode ||
+                            // Default SVG if none provided
+                            '<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 8V16L21.3333 18.6667" stroke="#6A7282" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.3334 16.0002C29.3334 13.4199 28.5847 10.8951 27.1781 8.73199C25.7716 6.56885 23.7676 4.86028 21.4093 3.81351C19.0509 2.76674 16.4395 2.42674 13.8917 2.83475C11.3439 3.24276 8.96929 4.38124 7.05575 6.11212C5.14221 7.84301 3.772 10.0919 3.11129 12.5861C2.45058 15.0803 2.52777 17.7127 3.33348 20.1639C4.1392 22.6151 5.63883 24.7798 7.6505 26.3956C9.66217 28.0114 12.0995 29.0088 14.6667 29.2668" stroke="#6A7282" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M29.3334 21.3335L22.0001 28.6668L18.6667 25.3335" stroke="#030712" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+                          
+                          // Get slug from basicInfo or direct slug
+                          const featureSlug = feature.basicInfo?.slug?.current || feature.slug?.current;
+                          const basePath = getBasePath();
+                          
+                          return {
+                            heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
+                            description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
+                            dynamicSvg: iconSvg,
+                            image: feature.mainImage || null,
+                            link: featureSlug ? {
+                              buttonType: "text",
+                              text: null,
+                              url: `${basePath}/${featureSlug}`
+                            } : {
+                              buttonType: "text",
+                              text: null,
+                              url: null
+                            }
+                          };
+                        })}
+                        theme="light"
+                        simpleListingData={true}
+                        columnCount={3}
+                        showBorderBottom={true}
+                      />
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
             </div>
           </div>
 

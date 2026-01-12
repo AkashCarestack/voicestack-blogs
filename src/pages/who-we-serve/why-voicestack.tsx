@@ -36,7 +36,7 @@ export default function WhyVoicestackIndex({
           data['grow-your-practice']?.componentData?.refData
             ?.tabsListingComponent
         }
-         variant="default"
+         variant="carouselwithcards"
         sectionHeading={
           data['grow-your-practice']?.componentData?.refData
             ?.tabsListingComponent
