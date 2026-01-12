@@ -69,14 +69,24 @@ export default function AppDownload({ homeSettings, heroData, bannerData, footer
     setIsDemoPopUpShown(heroData);
   }, [heroData])
 
- 
+ const metadescriptn ="Download the Official VoiceStack® App from the Apple App Store for iOS & Google Play for Android. Use VoiceStack® with your mobile phone today!"
+ const metaKeywords = "voicestack download, voicestack app, download app, voicestack for ios, voicestack for android, voicestack app store, voicestack google play"
 
   return (
     <>
+    
     <Head>
       <title>Download VoiceStack® | VoiceStack® Mobile App Downloads</title>
-      <meta name="description"  content="Download the Official VoiceStack® App from the Apple App Store for iOS and Google Play for Android. Use VoiceStack® with your mobile phone today!"></meta>
-      <meta name="keywords" content="VoiceStack® app download, VoiceStack® mobile app, VoiceStack® app for iOS, VoiceStack® app for Android"></meta>
+      <meta name="title" content="Download VoiceStack® | VoiceStack® Mobile App Downloads" />
+      <meta title="Download VoiceStack® | VoiceStack® Mobile App Downloads" />
+      <meta name="robots" content="index, follow, archive" />
+      <link rel="canonical" href="https://www.voicestack.com/download-app" />
+      <meta name="description"  content={metadescriptn}></meta>
+      <meta property="og:description" content={metadescriptn}></meta>
+      <meta property="og:type" content="website" />
+      <meta property="og:title" content="Download VoiceStack® | VoiceStack® Mobile App Downloads" />
+      <meta property="og:url" content="https://www.voicestack.com/download-app" />
+      <meta name="keywords" content={metaKeywords}></meta>
       <meta name="author" content="VoiceStack®"></meta>
       <meta name="canonical" content="https://voicestack.com/download-app"></meta>
     </Head>
