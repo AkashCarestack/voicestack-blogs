@@ -6,6 +6,7 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import { PortableText } from '@portabletext/react'
 import SwitchableTabs from '../switchableTabs'
+import Image from 'next/image'
 
 interface TestimonialData {
   id: string
@@ -423,17 +424,18 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                 <div
                   className="flex relative w-full"
                   style={{
-                    height: `607px`,
+                    height: `548px`,
                     width: `${
-                      607 *
+                      548 *
                         currentTestimonial?.image?.metadata?.dimensions
                           ?.aspectRatio || 2
                     }px`,
                   }}
                 >
-                  <ImageLoader
-                    radius={24}
-                    image={currentTestimonial?.image?.url}
+                  <Image
+                    width={607}
+                    height={607}
+                    src={currentTestimonial?.image?.url}
                     alt={
                       currentTestimonial?.image?.alt ||
                       currentTestimonial?.tabHeading
@@ -443,7 +445,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                         ? currentTestimonial?.testimonial?.practiceName
                         : currentTestimonial?.image?.title
                     }
-                    className="w-full h-full object-contain"
+                    className="w-full h-full object-contain rounded-[12px] lg:rounded-[24px]"
                   />
                 </div>
               </div>

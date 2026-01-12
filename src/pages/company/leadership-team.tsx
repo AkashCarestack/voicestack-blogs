@@ -1,19 +1,12 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
-import SimpleHead from '~/components/common/SimpleHead'
 
-import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
-import FaqSection from '~/components/revamp/components/common/faqSection'
+import SimpleHead from '~/components/common/SimpleHead'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import LeadershipList from '~/components/revamp/components/common/LeadershipList/leadershipList'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
 import Queries from '~/components/revamp/queries'
-import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
-import { getClient } from '~/lib/sanity.client'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import LeadershipList from '~/v2/sections/leadershipList'
 
 // Define proper TypeScript interfaces
 
@@ -27,7 +20,7 @@ export default function LeadershipTeamPage({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <HeroWrapper>
+      {/* <HeroWrapper>
         {pageData['leadership-team-hero']?.componentData && (
           <HeroSection
             page=""
@@ -36,7 +29,8 @@ export default function LeadershipTeamPage({
             data={pageData['leadership-team-hero']?.componentData}
             />
         )} 
-      </HeroWrapper>
+      </HeroWrapper> */}
+      <FeatureHero data={pageData['leadership-team-hero']} isCentered={true}/>
       {pageData['leadership-team-list']?.componentData && (
         <LeadershipList data={pageData['leadership-team-list']?.componentData} />
       )}

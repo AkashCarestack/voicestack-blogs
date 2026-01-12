@@ -83,6 +83,11 @@ const config = {
         permanent: false,
       },
       {
+        source: '/dental-phones/:path*',
+        destination: '/phone-system',
+        permanent: false,
+      },
+      {
         source: '/dental-phones',
         destination: '/phone-system',
         permanent: false,
@@ -110,6 +115,11 @@ const config = {
       {
         source: '/who-we-serve/specialists',
         destination: '/who-we-serve/dental',
+        permanent: false,
+      },
+      {
+        source: '/dental-phones/ai-receptionist',
+        destination: '/phone-system/features/ai-receptionist',
         permanent: false,
       },
       {

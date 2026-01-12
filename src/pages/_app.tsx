@@ -26,7 +26,7 @@ import type { AppContext } from 'next/app'
 
 import Layout from '../components/Layout'
 import ProgressLoader from '../components/common/ProgressLoader'
-import GlobalHead from '../components/common/GlobalHead'
+// import GlobalHead from '../components/common/GlobalHead'
 
 const inter = Inter({
   subsets: ['latin'],

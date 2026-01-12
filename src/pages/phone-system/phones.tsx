@@ -95,22 +95,24 @@ export default function Phones({ pageData, region, faq }: PhonesProps) {
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
-      {pageData['feature-testimonials-section-single']?.componentData && (
-        <FeatureTestimonialsSection
-          data={pageData['feature-testimonials-section-single']?.componentData}
-        />
-      )}
+      
 
       {pageData['phone-listing']?.componentData && (
         <CategoryFeatureTabsSection
           features={pageData['phone-listing']?.componentData}
           variant="simplelisting"
           sectionHeading={pageData['phone-listing']?.componentData}
+          sectionBorder="b"
         />
       )}
 
       {pageData['offer']?.componentData && (
         <OfferSection data={pageData['offer']?.componentData} />
+      )}
+      {pageData['feature-testimonials-section-single']?.componentData && (
+        <FeatureTestimonialsSection
+          data={pageData['feature-testimonials-section-single']?.componentData}
+        />
       )}
 
       {faq && <FaqSection faqItems={faq} />}
