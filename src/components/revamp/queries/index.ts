@@ -2743,7 +2743,7 @@ class Queries {
         metaDescription: result?.metaDescription || null,
         keyWords: result?.keyWords || null,
         canonical: result?.canonical || null,
-        disableIndex: result?.disableIndex,
+        disableIndex: result?.disableIndex || null,
       },
       // metaTitle: result?.metaTitle || null,
       // metaDescription: result?.metaDescription || null,

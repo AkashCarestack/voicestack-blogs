@@ -118,6 +118,11 @@ const config = {
         permanent: false,
       },
       {
+        source: '/dental-phones/ai-receptionist',
+        destination: '/phone-system/features/ai-receptionist',
+        permanent: false,
+      },
+      {
         source: '/',
         has: [
           { type: 'query', key: 's' }
