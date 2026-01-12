@@ -13,6 +13,7 @@ import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 
 // Define TypeScript interfaces
@@ -34,25 +35,28 @@ export default function Pricing({
   pricingPageData,
   region,
 }: PricingProps & { region?: string }) {
-  const testimonialData = pricingPageData?.["groups-and-dso"]?.componentData?.refData?.tabsListingComponent;
-  
+  const testimonialData =
+    pricingPageData?.['groups-and-dso']?.componentData?.refData
+      ?.tabsListingComponent
+
   if (testimonialData) {
-    testimonialData.headline = "Pricing That Covers Every Touch Point";
-    testimonialData.subDescription ="VoiceStack is committed to give you more value than you pay for. We provide onboarding, training, account management and customer support services as part of our pricing plans, so that all your teams are fully supported for continuous success.";
-    testimonialData.tabs?.map((e:any)=>{
+    testimonialData.headline = 'Pricing That Covers Every Touch Point'
+    testimonialData.subDescription =
+      'VoiceStack is committed to give you more value than you pay for. We provide onboarding, training, account management and customer support services as part of our pricing plans, so that all your teams are fully supported for continuous success.'
+    testimonialData.tabs?.map((e: any) => {
       if (e?.ctaListItems?.[0]) {
-        e.ctaListItems[0].ctaLink = "/pricing";
-        e.ctaListItems[0].ctaText = "Get Pricing";
+        e.ctaListItems[0].ctaLink = '/pricing'
+        e.ctaListItems[0].ctaText = 'Get Pricing'
       }
     })
   }
- 
+
   const getPricingFormId = () => {
-    const usFormId = 'a28e5858-ce77-4b10-9c4b-4099cc6f1cef'    
+    const usFormId = 'a28e5858-ce77-4b10-9c4b-4099cc6f1cef'
     return usFormId
   }
 
-  const groupedData = features.reduce((acc: any, feature: any) => {
+  const groupedData = (features || []).reduce((acc: any, feature: any) => {
     const categoryName =
       feature?.featureCategory?.name?.replaceAll(' ', '-') || 'Uncategorized'
     if (!acc[categoryName]) {
@@ -69,7 +73,7 @@ export default function Pricing({
 
   // Get category display name (original name without dashes)
   const getCategoryDisplayName = (key: string) => {
-    const category = features.find(
+    const category = (features || []).find(
       (f: any) => f?.featureCategory?.name?.replaceAll(' ', '-') === key,
     )
     return category?.featureCategory?.name || key.replaceAll('-', ' ')
@@ -79,51 +83,48 @@ export default function Pricing({
     <>
       <SimpleHead data={pricingPageData?.seo} />
 
-      <FeatureHero data={pricingPageData['pricing-hero']} isCentered={true}/>
-      
-      <Section className="bg-white" border="b">
-        <Container className="flex flex-col items-center gap-8" type="V2" border="y-0">
-          <div className="lg:py-lg md:py-md py-sm">
-            <FeatureCategoryGrid
-              groupedData={groupedData}
-              getCategoryDisplayName={getCategoryDisplayName}
-              ctaCard={{
-                title: 'Flexible Pricing Models<br/> For Your Practice',
-                buttonText: 'Get Pricing',
-                buttonLink: '/demo',
-              }}
-            />
-          </div>
-          {/* {
-            testimonialData && (<TabCardsListing data={testimonialData} />)
-          } */}
-
-          
-          {/* FAQ Section */}
-          {/* {faq && <FaqSection faqItems={faq} />} */}
-        </Container>
-      </Section>
-      <CategoryFeatureTabsSection
-          features={
-            pricingPageData['manage-every-calls']?.componentData?.refData
-              ?.tabsListingComponent
-          }
-          variant="scrollcarousel"
-          sectionHeading={
-            pricingPageData['manage-every-calls']?.componentData?.refData
-              ?.tabsListingComponent
+      <FeatureHero data={pricingPageData['pricing-hero']} />
+      {pricingPageData['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={
+            pricingPageData['logos-listing']?.componentData.blocksListingData
           }
         />
-      {landingPageData['stack-card-tab-testimonial']?.componentData?.refData && (
-            
-            <StackCardTestimonial
-              isPricingPage={true}
-              data={
-                landingPageData['stack-card-tab-testimonial']?.componentData?.refData
-                  ?.tabsListingComponent
-              }
-            />
-          )}
+      )}
+
+      {/* <FeatureCategoryGrid
+        groupedData={groupedData}
+        getCategoryDisplayName={getCategoryDisplayName}
+        ctaCard={{
+          title: 'Flexible Pricing Models<br/> For Your Practice',
+          buttonText: 'Get Pricing',
+          buttonLink: '/demo',
+        }}
+        // features={features} 
+          // sectionHeading={pricingPageData['category-feature-tabs']?.componentData?.sectionHeading}
+      /> */}
+
+      <CategoryFeatureTabsSection
+        features={
+          pricingPageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        variant="scrollcarousel"
+        sectionHeading={
+          pricingPageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+      />
+      {landingPageData['stack-card-tab-testimonial']?.componentData
+        ?.refData && (
+        <StackCardTestimonial
+          isPricingPage={true}
+          data={
+            landingPageData['stack-card-tab-testimonial']?.componentData
+              ?.refData?.tabsListingComponent
+          }
+        />
+      )}
     </>
   )
 }
@@ -143,7 +144,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     // Fetch company page data for pricing page hero section
     const companyQueries = new Queries('company', region)
     const pricingPageSlug =
-      region === 'en' ? 'pricing-page-v2' : `pricing-page-v2-${region.toLowerCase()}`
+      region === 'en'
+        ? 'pricing-page-v2'
+        : `pricing-page-v2-${region.toLowerCase()}`
     const pricingPageData = await companyQueries.getPageData(
       'company',
       pricingPageSlug,
@@ -156,14 +159,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         features,
         landingPageData,
         faq: faq || null,
-        pricingPageData: JSON.parse(JSON.stringify(pricingPageData ?? null))
+        pricingPageData: JSON.parse(JSON.stringify(pricingPageData ?? null)),
       },
     }
   } catch (error) {
     console.error('Error fetching Pricing page data:', error)
     return {
       props: {
-        features: {},
+        features: [],
         slug: '',
         region: locale || 'en',
         landingPageData: null,
