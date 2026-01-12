@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
 
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
@@ -83,6 +84,7 @@ export default function Phones({ pageData, region, faq }: PhonesProps) {
 
   return (
     <>
+     <SimpleHead data={pageData?.seo} />
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       <FeatureHero
         data={pageData['phones-hero']?.componentData}

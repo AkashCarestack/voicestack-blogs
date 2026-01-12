@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
 
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import StatisticsSection from '~/components/revamp/components/StatisticsSection'
@@ -71,6 +72,7 @@ export default function DentalPhonesIndex({
   console.log("ppp",pageData)
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
       <FeatureHero data={pageData['dental-phones-hero']} type="feature" />
 
       {pageData['logos-listing']?.componentData && (
