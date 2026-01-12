@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import Anchor from '~/components/common/anchor'
 
 interface Article {
   _id: string
@@ -145,7 +146,7 @@ export default function ArticlesGrid({ articles, limit = 4 }: ArticlesGridProps)
                   key={article._id || index}
                   className="bg-gray-950 flex flex-[1_0_0] flex-col items-start min-h-px min-w-px overflow-clip pb-6 pt-0 px-0 relative shrink-0 w-full md:w-auto"
                 >
-                  <Link href={getArticleUrl(article)} className="w-full">
+                  <Anchor href={getArticleUrl(article)} className="w-full">
                     <div className="aspect-[500/250] overflow-clip relative shrink-0 w-full">
                       {getArticleImage(article) ? (
                         <div className="absolute aspect-[1000/498] bottom-px left-1/2 top-0 translate-x-[-50%] w-full">
@@ -176,10 +177,10 @@ export default function ArticlesGrid({ articles, limit = 4 }: ArticlesGridProps)
                         </div>
                       </div>
                     </div>
-                  </Link>
+                  </Anchor>
                   <div className="absolute content-stretch flex inset-0 items-start justify-end pointer-events-none">
                     <div className="bg-gray-950 border-gray-800 border-b border-l border-r-0 border-solid border-t-0 flex items-center p-[18px] relative shrink-0 pointer-events-auto">
-                      <Link href={getArticleUrl(article)} className="flex items-center justify-center">
+                      <Anchor href={getArticleUrl(article)} className="flex items-center justify-center">
                         <div className="relative size-5">
                           <svg
                             width="20"
@@ -198,7 +199,7 @@ export default function ArticlesGrid({ articles, limit = 4 }: ArticlesGridProps)
                             />
                           </svg>
                         </div>
-                      </Link>
+                      </Anchor>
                     </div>
                   </div>
                 </div>
