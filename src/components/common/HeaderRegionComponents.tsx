@@ -15,19 +15,31 @@ export type Region = {
   regionName: string;
 };
 
-// Helper function to safely add flag=true without duplication
-const getHrefWithFlag = (queryString: string): string => {
+// Helper function to remove slug from query string
+const removeSlugFromQuery = (queryString: string): string => {
   if (!queryString) {
-    return '/?flag=true';
+    return '';
   }
-  // queryString already has '?' prefix, so extract the actual query params
   const queryParams = queryString.startsWith('?') ? queryString.substring(1) : queryString;
   const params = new URLSearchParams(queryParams);
-  if (params.has('flag') && params.get('flag') === 'true') {
-    return `/${queryString}`;
+  params.delete('slug');
+  return params.toString() ? `?${params.toString()}` : '';
+};
+
+// Helper function to safely add flag=true without duplication and remove slug
+const getHrefWithFlag = (queryString: string): string => {
+  const cleanQueryString = removeSlugFromQuery(queryString);
+  
+  if (!cleanQueryString) {
+    return '/?flag=true';
   }
-  // Add flag=true to existing query string (queryString already has '?')
-  return `/${queryString}&flag=true`;
+  
+  const params = new URLSearchParams(cleanQueryString.substring(1));
+  if (params.has('flag') && params.get('flag') === 'true') {
+    return `/${cleanQueryString}`;
+  }
+  // Add flag=true to existing query string
+  return `/${cleanQueryString}&flag=true`;
 };
 
 // Sub-components
