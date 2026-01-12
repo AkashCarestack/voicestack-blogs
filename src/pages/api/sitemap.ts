@@ -104,6 +104,12 @@ function shouldExcludePath(path: string): boolean {
   if (path.startsWith('dental-phones/features/')) return true;
   if (path.startsWith('test') || path.includes('/test')) return true;
   
+  // Exclude paths containing '-v2' in any segment
+  const pathSegments = path.split('/');
+  for (const segment of pathSegments) {
+    if (segment.endsWith('-v2') || segment.includes('-v2')) return true;
+  }
+  
   return false;
 }
 

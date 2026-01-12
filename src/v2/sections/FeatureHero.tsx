@@ -19,7 +19,7 @@ interface FeatureHeroProps {
   isCentered?: boolean
 }
 
-export default function FeatureHero({ data, type , hideBg = false, isCentered = false}: { data: any, type?: string, hideBg?: boolean, isCentered?: boolean }) {
+export default function FeatureHero({ data, type , hideBg = false, isCentered = false}: FeatureHeroProps) {
   const hubspotFormId = data?.componentData?.hubspotFormId || data?.hubspotFormId
   const value = data?.heroComponent 
   const buttons = value?.bookBtnContent || data?.bookBtnContent
@@ -28,7 +28,7 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
   const title = value?.heroStrip || data?.heroStrip?.toUpperCase()
   const image = urlForImage(value?.heroImage) || data?.heroImage?.url
   
-  // Extract testimonial data
+  // Extract testimonial data 
   const testimonial = value?.testimonial || data?.testimonial
   
   // Extract video data
@@ -199,7 +199,7 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
         return React.createElement(
           headingLevel,
           {
-            className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px]',
+            className: `text-gray-950 text-center font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px] ${isCentered ? 'md:text-center' : ' md:text-left'}`,
           },
           children
         )
@@ -211,7 +211,7 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
         return React.createElement(
           headingLevel,
           {
-            className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px]',
+            className: `text-gray-950 text-center font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px] ${isCentered ? 'md:text-center' : ' md:text-left'}`,
           },
           children
         )
@@ -235,7 +235,7 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
     <Section className="relative overflow-hidden" id="FeatureHero" border="b">
       <Container type="V2" className="md:py-24 py-16 overflow-hidden justify-center flex">
         <div className='flex lg:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10 items-center'>
-          <div className={`flex flex-col gap-3 relative z-10 flex-1  ${type === 'form' ? 'max-w-[606px]' : ''}`}>
+          <div className={`flex flex-col gap-3 relative z-10 flex-1  ${type === 'form' ? 'max-w-[606px]' : ''} ${isCentered ? 'text-center items-center' : ''}`}>
             {title && (
               (type === 'form' || type === 'comparison') ? (
                 <div className="flex items-center gap-2 py-[9px] pr-4 pl-[14px] rounded-full border border-[#AEA0FF] lg:self-start self-center bg-white/20 shadow-[-7px_0_10px_0_rgba(251,111,142,0.5),7px_0_10px_0_rgba(74,60,225,0.5)]">
@@ -258,10 +258,12 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
               />
             )}
             {description && (
-              <PortableText
-                value={description}
-                components={descriptionComponents}
-              />
+              <div className={`${isCentered ? 'text-center [&>p]:text-center' : ''} flex flex-col gap-3`}>
+                <PortableText
+                  value={description}
+                  components={descriptionComponents}
+                />
+              </div>
             )}
             <div className="flex flex-col md:flex-row md:gap-[18px] items-center md:mt-5 mt-4 gap-3">
               {buttons &&
