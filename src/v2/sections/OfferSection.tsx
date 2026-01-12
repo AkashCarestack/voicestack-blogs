@@ -13,8 +13,8 @@ interface OfferSectionProps {
 const OfferSection = ({ data }: OfferSectionProps) => {
 
   return (
-    <Section className='bg-gray-50 relative overflow-hidden' border="b">
-      <Container className='py-16' type="V2" border='y-0'>
+    <Section className='bg-white relative overflow-hidden' >
+      <Container className='' type="V2" border='y-0'>
         <div className="flex relative" style={{ background: 'linear-gradient(258deg, #D3C6FB 0%, #393CC0 100%)' }}>
           <div className="flex md:flex-row flex-col relative z-10">
             <div className="max-w-[702px] md:p-16 py-8 px-8 flex-1">
@@ -27,7 +27,7 @@ const OfferSection = ({ data }: OfferSectionProps) => {
                   demoButton={true}
                   
                 />
-                {data?.ctaListItems && data.ctaListItems.length > 0 && (
+                {/* {data?.ctaListItems && data.ctaListItems.length > 0 && (
                   <div className="flex justify-start gap-4 flex-wrap">
                     {data.ctaListItems.map((cta: any, index: number) => (
                       <Button
@@ -42,7 +42,7 @@ const OfferSection = ({ data }: OfferSectionProps) => {
                       </Button>
                     ))}
                   </div>
-                )}
+                )} */}
 
               </div>
             </div>
