@@ -439,6 +439,12 @@ class Queries {
                   subheadline,
                   subDescription,
                   sectionHeadingDynamic,
+                  ctaListItems[] {
+                    _key,
+                    ctaText,
+                    ctaLink,
+                    ctaType
+                  },
                   // Overview Video with thumbnails
                   "overviewVideo": overviewVideo[] {
                     ...,
@@ -469,6 +475,12 @@ class Queries {
                         subDescription,
                         sectionHeadingDynamic,
                         showCTA,
+                        ctaListItems[] {
+                          _key,
+                          ctaText,
+                          ctaLink,
+                          ctaType
+                        },
                         // Overview Video with thumbnails
                         "overviewVideo": overviewVideo[] {
                           ...,

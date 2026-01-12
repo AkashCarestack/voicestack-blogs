@@ -337,46 +337,46 @@ export default function IntegrationsSectionWithNavigation({
               className="px-0"
             />
           </div>
-        </div>
 
-        {/* Switchable Tabs - Sticky */}
-        {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-12 mb-[-64px] pb-[130px] pt-[72px] shrink-0`}> */}
-        <div className="sticky top-[60px] md:top-[50px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-12 mb-[-64px] pb-[130px] pt-[72px] shrink-0">
+          {/* Switchable Tabs - Sticky */}
+          {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-12 mb-[-64px] pb-[130px] pt-[72px] shrink-0`}> */}
+          <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-12  shrink-0">
 
-          <SwitchableTabs
-            data={switchableTabsData}
-            setActiveTab={handleCategoryClick}
-            activeTab={activeCategory}
-            isSticky={false}
-            className="bg-transparent !shadow-none !border-none"
-            isShowImage={false}
-            shadow={false}
-            fullWidth={true}
-          />
-        </div>
+            <SwitchableTabs
+              data={switchableTabsData}
+              setActiveTab={handleCategoryClick}
+              activeTab={activeCategory}
+              isSticky={false}
+              className="md:py-2 bg-transparent !shadow-none !border-none"
+              isShowImage={false}
+              shadow={false}
+              fullWidth={true}
+            />
+          </div>
 
-        {/* Category Sections with SectionDivider */}
-        <div className="flex flex-col w-full mb-[-64px] relative shrink-0 z-[1]">
-          {categorySections.map((section, index) => (
-            <React.Fragment key={section.id}>
-              {index > 0 && (
-                <div className=" ">
-                  <SectionDivider className='border-gray-200 border-t' height="130px" />
-                </div>
-              )}
-              <article
-                ref={(el) => {
-                  sectionRefs.current[section.id] = el;
-                }}
-                data-category={section.id}
-                id={`category-${section.id.toLowerCase().replace(/\s+/g, '-')}`}
-                className="bg-white overflow-hidden scroll-mt-[200px]"
-                style={{ scrollMarginTop: '200px' }}
-              >
-                <CategorySection {...section} />
-              </article>
-            </React.Fragment>
-          ))}
+          {/* Category Sections with SectionDivider */}
+          <div className="flex flex-col w-full mb-[-64px] relative shrink-0 z-[1]">
+            {categorySections.map((section, index) => (
+              <React.Fragment key={section.id}>
+                {index > 0 && (
+                  <div className=" ">
+                    <SectionDivider className='border-gray-200 border-t' height="130px" />
+                  </div>
+                )}
+                <article
+                  ref={(el) => {
+                    sectionRefs.current[section.id] = el;
+                  }}
+                  data-category={section.id}
+                  id={`category-${section.id.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="bg-white overflow-hidden scroll-mt-[200px]"
+                  style={{ scrollMarginTop: '200px' }}
+                >
+                  <CategorySection {...section} />
+                </article>
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </Container>
     </Section>

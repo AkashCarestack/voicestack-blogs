@@ -198,7 +198,7 @@ const Header = ({ data, refer = null }) => {
       setContextShowTopStrip(true);
       // setRegionSwitcherTopShow(true);
     } else if (currentScrollY < lastScrollY) {
-      setShowTopStrip(true);
+      // setShowTopStrip(true);
       setContextShowTopStrip(true);
       setHeaderFixed(false);
     } else if (currentScrollY > lastScrollY) {

@@ -3,8 +3,8 @@ import { SectionHeaderPropsV2 } from '../../../components/revamp/components/comm
 import SectionH2 from '~/components/typography/revamp/SectionH2'
 import Button from '~/components/common/Button'
 
-export default function SectionHeaderV2({ showFullLength = false, ...data }: SectionHeaderPropsV2) {
-  // Check if heading is portable text (array) or string
+export default function SectionHeaderV2({ showFullLength = false, demoButton = false, ...data }: SectionHeaderPropsV2) {
+  // Check if heading is portable text (array) or string  
   // const isPortableText = Array.isArray(data.heading)
   
   return (
@@ -26,6 +26,13 @@ export default function SectionHeaderV2({ showFullLength = false, ...data }: Sec
                   </Button>
                 )
               })}
+            </div>
+          )}
+          {demoButton && (
+            <div className="flex justify-center mt-8">
+              <Button type="primary" link="/demo">
+                <span className="">Book Free Demo</span>
+              </Button>
             </div>
           )}
       </div>
