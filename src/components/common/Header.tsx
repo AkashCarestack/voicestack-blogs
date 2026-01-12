@@ -324,7 +324,7 @@ const Header = ({ data, refer = null }) => {
             />
           </>
         )}
-        {SoftwareSchemaData && isDentalPhonesPages && (
+        {/* {SoftwareSchemaData && isDentalPhonesPages && (
           <>
           <script
               type="application/ld+json"
@@ -332,7 +332,7 @@ const Header = ({ data, refer = null }) => {
               dangerouslySetInnerHTML={{ __html: JSON.stringify(SoftwareSchemaData) }}
             />
           </>
-        )}
+        )} */}
       </Head>
 
       <ProgressBar />

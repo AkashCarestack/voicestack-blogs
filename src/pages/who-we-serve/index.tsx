@@ -35,6 +35,7 @@ export default function WhoWeServeIndex({
 
   return pageData?.slug?.includes('v2') ? (
     <>
+    {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <FeatureHero
         data={pageData['dental-phones-hero']?.componentData}
         type="feature"
