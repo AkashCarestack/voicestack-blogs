@@ -6,6 +6,7 @@ import useMediaQuery from '~/utils/mediaQuery'
 import Link from 'next/link'
 import SectionHeader from './sectionHeader'
 import Section from '~/components/structure/Section'
+import Anchor from '~/components/common/anchor'
 
 export default function ImageCardSection({ data, heading, description }: any) {
   const isMobile = useMediaQuery(767)
@@ -62,14 +63,14 @@ export default function ImageCardSection({ data, heading, description }: any) {
                       text={item.link.text}
                       type="underline"
                     >
-                      <Link href={item.link.url}>{item.link.text}</Link>
+                      <Anchor href={item.link.url}>{item.link.text}</Anchor>
                     </Button>
                   </div>
                 )}
                 </div>
                 
               </div>
-            </div>
+            </div>  
           ))}
         </div>
         <div className='flex justify-center'>

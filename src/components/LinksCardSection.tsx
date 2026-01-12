@@ -4,6 +4,7 @@ import Container from './structure/Container'
 import Link from 'next/link'
 import LearnMore from './ui/LearnMore'
 import Image from 'next/image'
+import Anchor from './common/anchor'
 
 const LinksCardsSection = ({ data }) => {
   return (
@@ -14,7 +15,7 @@ const LinksCardsSection = ({ data }) => {
             data.length > 0 &&
             data.map((item: any, index: number) => {
               return item.href ? (
-                <Link href={item.href} key={index}>
+                <Anchor href={item.href} key={index}>
                   <div
                     key={index}
                     className="flex py-6 gap-3 flex-col justify-between h-full group"
@@ -38,7 +39,7 @@ const LinksCardsSection = ({ data }) => {
                     </div>
                     <LearnMore>{item.label}</LearnMore>
                   </div>
-                </Link>
+                </Anchor>
               ) : (
                 <div
                   key={index}
