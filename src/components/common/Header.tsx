@@ -314,7 +314,9 @@ const Header = ({ data, refer = null }) => {
         {/* organization schema */}
         {OrganizationSchemaData && (
           <>
+          <meta name="author" content="VoiceStack®"></meta>
           <meta property="og:image" content={urlForImage(siteSettings?.ogImage)} />
+          <meta name="twitter:image" content={urlForImage(siteSettings?.ogImage)} />
           <script
               type="application/ld+json"
               id="organization-schema"
