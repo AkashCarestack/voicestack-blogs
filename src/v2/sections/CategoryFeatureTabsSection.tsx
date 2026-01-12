@@ -893,7 +893,7 @@ export default function CategoryFeatureTabsSection({
                           transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
                           className="w-full h-full relative flex items-center justify-center"
                         >
-                          <div className="max-w-[500px] w-full h-full relative flex items-center justify-center">
+                          <div className="w-full h-full relative flex items-center justify-center">
                             <ImageLoader
                               image={category.mainImage}
                               alt={`${category.name} feature illustration`}
