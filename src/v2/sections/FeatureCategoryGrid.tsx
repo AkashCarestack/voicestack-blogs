@@ -35,7 +35,6 @@ interface FieldMapping {
   id?: string | ((item: any) => string) // Field name or function to get id
   title?: string | ((item: any) => string) // Field name or function to get title
   icon?: string | ((item: any) => string | undefined) // Field name or function to get icon
-
   // Category fields (for grouped data)
   categoryKey?: string | ((item: any) => string) // Field name or function to get category key
   categoryName?: string | ((key: string, item?: any) => string) // Field name or function to get category name
@@ -138,7 +137,6 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
       } else {
         // Grouped mode
         const grouped: { [key: string]: Feature[] } = {}
-
         data.forEach((item: any) => {
           const categoryKey = getFieldValue(
             item,
@@ -200,12 +198,10 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
         })
       } else {
         const grouped: { [key: string]: Feature[] } = {}
-
         data.forEach((item: any) => {
           const categoryKey = dataTransformer.getCategoryKey
             ? dataTransformer.getCategoryKey(item)
             : item?.category || item?.featureCategory?.name || 'Uncategorized'
-
           if (!grouped[categoryKey]) {
             grouped[categoryKey] = []
           }
