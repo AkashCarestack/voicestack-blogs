@@ -63,7 +63,7 @@ export default function FeaturesPage({
       
       <CategoryFeatureTabsSection 
           features={features} 
-          sectionHeading={data['category-feature-tabs']?.componentData?.sectionHeading}
+          // sectionHeading={data['category-feature-tabs']?.componentData?.sectionHeading}
       />
       {data['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection

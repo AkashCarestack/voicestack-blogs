@@ -3,7 +3,6 @@ import React from 'react'
 
 import SimpleHead from '~/components/common/SimpleHead'
 import CardsWithTestimonial from '~/components/revamp/components/common/cardsWithTestimonial'
-import FeatureCategoryGrid from '~/components/revamp/components/common/FeatureCategoryGrid/FeatureCategoryGrid'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import Queries from '~/components/revamp/queries'
@@ -12,6 +11,7 @@ import Section from '~/components/structure/Section'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import FeatureCategoryGrid from '~/v2/sections/FeatureCategoryGrid'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
@@ -63,10 +63,11 @@ export default function Pricing({
       acc[categoryName] = []
     }
     acc[categoryName].push({
+      ...feature,
       title: feature?.basicInfo?.title,
+      subheading: feature?.basicInfo?.subheading,
       id: feature._id,
       icon: feature?.featureCategory?.iconSvgCode,
-      ...feature,
     })
     return acc
   }, {})
@@ -78,12 +79,15 @@ export default function Pricing({
     )
     return category?.featureCategory?.name || key.replaceAll('-', ' ')
   }
-  console.log("landingPageData===",pricingPageData)
+  console.log("landingPageData===",landingPageData)
+  console.log("pricingPageData===",pricingPageData)
+  // console.log("features===",features)
+  console.log("groupedData===",features)
   return (
     <>
       <SimpleHead data={pricingPageData?.seo} />
 
-      <FeatureHero data={pricingPageData['pricing-hero']} />
+      <FeatureHero data={pricingPageData['pricing-hero']} isCentered={true}/>
       {pricingPageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={
@@ -92,7 +96,7 @@ export default function Pricing({
         />
       )}
 
-      {/* <FeatureCategoryGrid
+      <FeatureCategoryGrid
         groupedData={groupedData}
         getCategoryDisplayName={getCategoryDisplayName}
         ctaCard={{
@@ -102,7 +106,7 @@ export default function Pricing({
         }}
         // features={features} 
           // sectionHeading={pricingPageData['category-feature-tabs']?.componentData?.sectionHeading}
-      /> */}
+      />
 
       <CategoryFeatureTabsSection
         features={
