@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useTracking } from "cs-tracker";
-import { useRouter } from "next/router";
+import { useTracking } from 'cs-tracker'
+import { useRouter } from 'next/router'
+import { getCookie } from '~/utils/tracker/cookie'
+
 import React, { useEffect, useState } from "react";
-// import { getCssSelectorShort } from "./createCSSSelector";
-// import { getParams } from "./getQueryParams";
-// import { getCookie } from "utils/tracker/cookie";
+
 
 const BookFreeDemo = () => {
   const router = useRouter();
@@ -40,40 +40,28 @@ const BookFreeDemo = () => {
           })
         );
 
-        // const element = getCssSelectorShort(event.target);
-        // const responseData = await fetch(
-        //   `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
-        // );
-        // const {
-        //   utm_source = null,
-        //   utm_term = null,
-        //   utm_content = null,
-        //   utm_campaign = null,
-        //   utm_medium = null,
-        //   ...params
-        // } = getParams();
+        const params = new URLSearchParams();
 
-        // trackEvent({
-        //   e_type: "meeting-request",
-        //   e_name: "book-free-demo",
-        //   e_time: new Date(),
-        //   e_path: window?.location.href,
-        //   user_segment:getCookie("__cs_vs"),
-        //   utm_campaign,
-        //   utm_content,
-        //   utm_source,
-        //   utm_term,
-        //   utm_medium,
-        //   // element,
-        //   url_params: params,
-        //   current_path: window?.location.href,
-        //   base_path: window.location.origin + window.location.pathname,
-        //   domain: window.location.origin,
-        //   destination_url: window.location.origin + "/thank-you",
-        //   referrer_url: window.document.referrer,
-        // });
+        trackEvent({
+          e_name: 'demo_submission_uk',
+          e_type: "form-submission",
+          e_time: new Date(),
+          e_path: window?.location.href,
+          user_segment:getCookie("__cs_vs"),
+          url_params: { email, ...params },
+          current_path: window?.location.href,
+          base_path: window.location.origin + window.location.pathname,
+          domain: window.location.origin,
+          destination_url: null,
+          referrer_url: window.document.referrer,
+        });
+        setTimeout(async () => {
+          // const responseData = await fetch(
+          //   `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
+          // );
+          router.push("/pricing/demo/thank-you");
+        }, 1000)
 
-        router.push("/pricing/demo/thank-you");
       }
     });
   }, []);
