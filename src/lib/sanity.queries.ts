@@ -1863,6 +1863,7 @@ export const getFeaturesListQuery = groq`
     _id,
     basicInfo {
       title,
+      subheading,
       slug,
       description,
       dynamicSvg,

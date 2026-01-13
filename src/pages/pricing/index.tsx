@@ -63,10 +63,11 @@ export default function Pricing({
       acc[categoryName] = []
     }
     acc[categoryName].push({
+      ...feature,
       title: feature?.basicInfo?.title,
+      subheading: feature?.basicInfo?.subheading,
       id: feature._id,
       icon: feature?.featureCategory?.iconSvgCode,
-      ...feature,
     })
     return acc
   }, {})
@@ -78,12 +79,15 @@ export default function Pricing({
     )
     return category?.featureCategory?.name || key.replaceAll('-', ' ')
   }
-  console.log("landingPageData===",pricingPageData)
+  console.log("landingPageData===",landingPageData)
+  console.log("pricingPageData===",pricingPageData)
+  // console.log("features===",features)
+  console.log("groupedData===",features)
   return (
     <>
       <SimpleHead data={pricingPageData?.seo} />
 
-      <FeatureHero data={pricingPageData['pricing-hero']} />
+      <FeatureHero data={pricingPageData['pricing-hero']} isCentered={true}/>
       {pricingPageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={
@@ -92,7 +96,7 @@ export default function Pricing({
         />
       )}
 
-      {/* <FeatureCategoryGrid
+      <FeatureCategoryGrid
         groupedData={groupedData}
         getCategoryDisplayName={getCategoryDisplayName}
         ctaCard={{
@@ -102,7 +106,7 @@ export default function Pricing({
         }}
         // features={features} 
           // sectionHeading={pricingPageData['category-feature-tabs']?.componentData?.sectionHeading}
-      /> */}
+      />
 
       <CategoryFeatureTabsSection
         features={
