@@ -358,13 +358,13 @@ export const descriptionComponents: any = {
       React.createElement(
         'li',
         {
-          className: 'flex justify-start gap-3 items-center py-[10px] md:py-[14px] text-base text-gray-950 leading-[150%] border-b',
+          className: 'flex justify-start gap-3 py-[10px] md:py-[14px] text-base text-gray-950 leading-[150%] border-b',
           style: { borderColor: '#0307121A' },
         },
         React.createElement(
           'span',
           {
-            className: ' flex-shrink-0',
+            className: ' flex-shrink-0 mt-[3px]',
           },
           React.createElement(
             'svg',
