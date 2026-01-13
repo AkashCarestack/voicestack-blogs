@@ -1,8 +1,9 @@
 import React from 'react'
 import Button from '~/components/common/Button'
-import FeatureCardSection from '../components/common/FeatureCardSection'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
+import FeatureCardSection from '../components/common/FeatureCardSection'
 
 interface Feature {
   id?: string
@@ -16,6 +17,7 @@ interface Feature {
 interface CategoryCard {
   key: string
   name: string
+  subheading?: string
   icon?: string
   features: Feature[]
 }
@@ -35,6 +37,7 @@ interface FieldMapping {
   id?: string | ((item: any) => string) // Field name or function to get id
   title?: string | ((item: any) => string) // Field name or function to get title
   icon?: string | ((item: any) => string | undefined) // Field name or function to get icon
+
   // Category fields (for grouped data)
   categoryKey?: string | ((item: any) => string) // Field name or function to get category key
   categoryName?: string | ((key: string, item?: any) => string) // Field name or function to get category name
@@ -137,6 +140,7 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
       } else {
         // Grouped mode
         const grouped: { [key: string]: Feature[] } = {}
+
         data.forEach((item: any) => {
           const categoryKey = getFieldValue(
             item,
@@ -170,6 +174,9 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
           return {
             key,
             name: categoryName,
+            subheading:
+              features[0]?.featureCategory?.subheading ||
+              features[0]?.subheading,
             icon: categoryIcon,
             features,
           }
@@ -198,10 +205,12 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
         })
       } else {
         const grouped: { [key: string]: Feature[] } = {}
+
         data.forEach((item: any) => {
           const categoryKey = dataTransformer.getCategoryKey
             ? dataTransformer.getCategoryKey(item)
             : item?.category || item?.featureCategory?.name || 'Uncategorized'
+
           if (!grouped[categoryKey]) {
             grouped[categoryKey] = []
           }
@@ -213,6 +222,8 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
           name: dataTransformer.getCategoryName
             ? dataTransformer.getCategoryName(key, features[0])
             : key.replaceAll('-', ' '),
+          subheading:
+            features[0]?.featureCategory?.subheading || features[0]?.subheading,
           icon: dataTransformer.getCategoryIcon
             ? dataTransformer.getCategoryIcon(features)
             : features[0]?.icon ||
@@ -228,6 +239,8 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
       return Object.entries(groupedData).map(([key, features]) => ({
         key,
         name: getCategoryDisplayName(key),
+        subheading:
+          features[0]?.featureCategory?.subheading || features[0]?.subheading,
         icon:
           features[0]?.icon ||
           features[0]?.dynamicSvg ||
@@ -289,40 +302,66 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
   }
 
   return (
-    <Section className="relative py-sm md:py-md  bg-white">
-      <Container className="w-full justify-center">
-        <div
-          className={`grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 justify-center  ${className}`}
-        >
-          {cards.map((card: CategoryCard) => (
-            <FeatureCardSection
-              key={card.key}
-              cardTitle={card.name}
-              cardIcon={card.icon}
-              features={card.features}
-              featureIdField={getFeatureIdField()}
-              featureTitleField={getFeatureTitleField()}
-              showTickIcon={showTickIcon}
-            />
-          ))}
-          {/* CTA Card */}
-          {ctaCard && (
-            <div className="bg-vs-blue backdrop-blur-sm md:rounded-3xl md:h-full h-[241px] rounded-xl py-6 md:px-12 px-6 flex flex-col justify-center items-center md:gap-6 gap-4 hover:bg-vs-blue transition-all">
-              {ctaCard.title && (
-                <h3
-                  dangerouslySetInnerHTML={{ __html: ctaCard.title }}
-                  className="md:text-xl text-lg font-bold text-white font-manrope text-center"
-                ></h3>
-              )}
-              <Button
-                type="primary"
-                className="w-fit"
-                link={ctaCard.buttonLink || '/demo'}
-              >
-                <span>{ctaCard.buttonText || 'Book Free Demo'}</span>
-              </Button>
-            </div>
-          )}
+    <Section className="relative bg-white" border="b">
+      <Container
+        className="w-full justify-center pt-sm md:pt-lg pb-sm"
+        type="V2"
+        border="y-0"
+      >
+        <div className="flex flex-col gap-16">
+          <SectionHeaderV2
+            heading="Feature-Packed to Improve <br/> Every Front Office Workflow"
+            description="Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice."
+          />
+
+          <div
+            className={`grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-y-6 md:gap-y-12 justify-center ${className}`}
+            style={{
+              backgroundImage: `repeating-linear-gradient(
+                -45deg,
+                #E5E7EB,
+                #E5E7EB 1px,
+                transparent 1px,
+                transparent 10px
+              )`,
+            
+              width: '100%',
+              height: '100%',
+              backgroundSize: '14.14px 14.14px',
+            }}
+          >
+            {cards.map((card: CategoryCard) => (
+              <FeatureCardSection
+                key={card.key}
+                cardTitle={card.name}
+                cardSubheading={card.subheading}
+                cardIcon={card.icon}
+                features={card.features}
+                featureIdField={getFeatureIdField()}
+                featureTitleField={getFeatureTitleField()}
+                showTickIcon={showTickIcon}
+                className="border-r border-gray-200 last:border-r-0"
+              />
+            ))}
+            {/* CTA Card */}
+            {ctaCard && (
+              <div className="bg-white md:h-full h-[241px] py-6 md:px-12 px-6 flex flex-col justify-center items-center md:gap-6 gap-4 border-y border-gray-200 transition-all">
+                {ctaCard.title && (
+                  <h3
+                    dangerouslySetInnerHTML={{ __html: ctaCard.title }}
+                    className="md:text-2xl text-lg font-medium text-gray-950 text-center"
+                  ></h3>
+                )}
+                <Button
+                  type="primary"
+                  className="w-fit"
+                  link={ctaCard.buttonLink || '/demo'}
+                >
+                  <span>{ctaCard.buttonText || 'Book Free Demo'}</span>
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
       </Container>
     </Section>
