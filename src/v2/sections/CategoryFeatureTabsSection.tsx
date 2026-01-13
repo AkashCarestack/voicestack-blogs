@@ -594,11 +594,11 @@ export default function CategoryFeatureTabsSection({
     const getPillItems = (category: typeof allCategories[0]) => {
       // Default SVG icon for all pill items
       const defaultPillIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5.83398 5.8335H14.1673V14.1668" stroke="#030712" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.83398 14.1668L14.1673 5.8335" stroke="#030712" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      
+      const basePath = getBasePath();
+
       return category.features.map((feature) => {
         const featureSlug = feature.basicInfo?.slug?.current || feature.slug?.current;
-        const href = featureSlug ? `/dental-phones/features/${featureSlug}` : '#';
-        
+        const href = featureSlug ? `${basePath}/${featureSlug}` : '#';
         return {
           heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
           description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',

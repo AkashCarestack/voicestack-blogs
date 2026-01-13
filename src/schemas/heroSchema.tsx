@@ -161,4 +161,10 @@ export const heroFields = [
     type: 'string',
     description: 'Hubspot form Id for the hero section',
   }),
+  defineField({
+    name: 'meetingLink',
+    title: 'Meeting Link',
+    type: 'url',
+    description: 'Meeting link URL for the hero section for partner page',
+  }),
 ]

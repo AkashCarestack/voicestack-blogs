@@ -11,6 +11,7 @@ import HubspotGenericForm from '~/components/revamp/components/common/hubspotGen
 import LightningIcon from '../icons/LightningIcon'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import Anchor from '~/components/common/anchor'
+import PartnerHubspotForm from '../components/common/PartnerHubspotForm'
 
 interface FeatureHeroProps {
   data: any
@@ -21,6 +22,7 @@ interface FeatureHeroProps {
 
 export default function FeatureHero({ data, type , hideBg = false, isCentered = false}: FeatureHeroProps) {
   const hubspotFormId = data?.componentData?.hubspotFormId || data?.hubspotFormId
+  const meetingLink = data?.componentData?.meetingLink || data?.meetingLink || data?.demoMeetingLink
   const value = data?.heroComponent 
   const buttons = value?.bookBtnContent || data?.bookBtnContent
   const heading = value?.heroheading || data?.heroheading
@@ -287,12 +289,11 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
                 Book a Demo
               </h3>
               <div className="mt-4 vs-button">
-                <HubspotGenericForm
-                  formId={data?.hubspotFormId || 'f2fbfea3-a1e5-4e17-a506-a9d341a45458'}
+                <PartnerHubspotForm
+                  formId={data?.hubspotFormId}
                   // formId={'f2fbfea3-a1e5-4e17-a506-a9d341a45458'}
+                  meetingLink={meetingLink}
                   portalId="4832409"
-                  onFormSubmit={() => {}}
-                  onFormReady={() => {}}
                 />
               </div>
             </div>
