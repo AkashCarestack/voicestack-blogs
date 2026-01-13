@@ -49,6 +49,12 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     // Exclude /company/partners (landing page) - only child pages should override
     return pathname.startsWith('/company/partners/') && pathname !== '/company/partners'
   }, [router.pathname])
+
+  // Check if we're on a pricing page
+  const isPricingPage = useMemo(() => {
+    const pathname = router.pathname
+    return pathname == '/pricing'
+  }, [router.pathname])
   
   // Extract text from children to check for "get pricing"
   const buttonText = useMemo(() => {
@@ -92,14 +98,15 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   
   // Handle click - if it's a pricing button, open modal instead of navigating
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-    if (isPricingButton && openPricingModal) {
-      e.preventDefault()
-      openPricingModal()
-    }
-    // Call original onClick if provided
-    if (onClick) {
-      onClick(e)
-    }
+    return;
+    // if (isPricingButton && openPricingModal) {
+    //   e.preventDefault()
+    //   openPricingModal()
+    // }
+    // // Call original onClick if provided
+    // if (onClick) {
+    //   onClick(e)
+    // }
   }
   
   const baseClasses = `relative [&>*]:relative inline-block rounded-[8px] text-gray-950 font-geist font-medium tracking-[0]  !leading-[150%] flex items-center  justify-center whitespace-nowrap gap-[8px] transition-all duration-300 ease-linear  ${className}`
@@ -161,7 +168,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   // Pricing buttons keep their original behavior (open modal)
   const finalLink = useMemo(() => {
     // Pricing buttons should open modal, not navigate
-    if (isPricingButton) return undefined
+    // if (isPricingButton) return undefined
     if (!formattedLink) return formattedLink
     
     // Don't override if already #demo
@@ -188,6 +195,9 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     // This preserves interlinking buttons to other pages
     if (isPartnerChildPage && isBookFreeDemoButton && formattedLink) {
       return '#demo'
+    }
+    if (isPricingPage && formattedLink) {
+      return '/pricing/demo'
     }
     
     return formattedLink
