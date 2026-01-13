@@ -87,7 +87,7 @@ const BookFreeDemo = () => {
         <p>Hi Please wait while we confirm your booking</p>
       </div>
       <div
-        className="meetings-iframe-container"
+        className="meetings-iframe-container md:py-24 py-16"
         data-src="https://meetings.hubspot.com/carestack-dan/voicestack-us-website-pricing-demo?embed=true"
         // data-src="https://meetings.hubspot.com/marcomm-admin/test-link-harsha?embed=true"
       ></div>
