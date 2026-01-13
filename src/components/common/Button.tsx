@@ -201,7 +201,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     }
     
     return formattedLink
-  }, [isPricingButton, formattedLink, isPartnerChildPage, isBookFreeDemoButton])
+  }, [isPricingButton, formattedLink, isPartnerChildPage, isBookFreeDemoButton, router])
 
   const combinedClasses = clsx(baseClasses, customClasses, className)
   if (finalLink) {
