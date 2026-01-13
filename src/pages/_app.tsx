@@ -303,8 +303,8 @@ function dispatchEvent(data: any) {
     const domain = window.location.origin;
     // if (window !== undefined && trackData.length > 0 && !isSending) {
 
-    
-    if (window !== undefined && trackData.length > 0 && !isSending && (domain == "https://voicestack.com" || domain == "https://www.voicestack.com") ) {
+    // Allow tracking from any origin URL dynamically
+    if (window !== undefined && trackData.length > 0 && !isSending) {
       const user = getUser()
       if (user) {
 
