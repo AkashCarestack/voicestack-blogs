@@ -7,6 +7,7 @@ interface HubpostGenericProps {
   onFormSubmit?: any;
   onFormReady?: any;
   id?: string;
+  meetingLink?: string;
 }
 
 const HubspotGenericForm = ({
@@ -14,7 +15,8 @@ const HubspotGenericForm = ({
   portalId,
   onFormSubmit,
   onFormReady,
-  id
+  id,
+  meetingLink
 }: HubpostGenericProps) => {
   useEffect(() => {
     const script = document.createElement("script");

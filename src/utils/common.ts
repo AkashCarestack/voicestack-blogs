@@ -343,6 +343,19 @@ export const descriptionComponents: any = {
         children
       ),
   },
+  marks: {
+    link: ({ children, value }: { children: React.ReactNode; value?: { href?: string } }) =>
+      React.createElement(
+        'a',
+        {
+          href: value?.href,
+          className: 'text-vs-blue ',
+          target: value?.href?.startsWith('http') ? '_blank' : undefined,
+          rel: value?.href?.startsWith('http') ? 'noopener noreferrer' : undefined,
+        },
+        children
+      ),
+  },
   list: {
     bullet: ({ children }: { children: React.ReactNode }) =>
       React.createElement(
@@ -358,13 +371,13 @@ export const descriptionComponents: any = {
       React.createElement(
         'li',
         {
-          className: 'flex justify-start gap-3 items-center py-[10px] md:py-[14px] text-base text-gray-950 leading-[150%] border-b',
+          className: 'flex justify-start gap-3 py-[10px] md:py-[14px] text-base text-gray-950 leading-[150%] border-b',
           style: { borderColor: '#0307121A' },
         },
         React.createElement(
           'span',
           {
-            className: ' flex-shrink-0',
+            className: ' flex-shrink-0 mt-[3px]',
           },
           React.createElement(
             'svg',

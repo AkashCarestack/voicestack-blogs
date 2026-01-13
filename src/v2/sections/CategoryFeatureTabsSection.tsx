@@ -662,7 +662,7 @@ export default function CategoryFeatureTabsSection({
               {/* Single container box that stays */}
               <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
                 {/* Left Column: Content and Pill Items with Smooth Animation */}
-                <div className="bg-white flex flex-col gap-6 items-start justify-start p-12 min-h-[500px] relative overflow-hidden">
+                <div className="bg-white flex flex-col gap-6 items-start justify-start p-12 min-h-[500px] relative overflow-hidden border-r border-gray-200">
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const pillItems = getPillItems(category);
@@ -828,7 +828,7 @@ export default function CategoryFeatureTabsSection({
 
             <div className="relative w-full">
               <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
-                <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 min-h-[500px] relative overflow-hidden">
+                <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 min-h-[500px] relative overflow-hidden border-r border-gray-200">
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const isActive = category.name === activeCategory;
@@ -1052,11 +1052,11 @@ export default function CategoryFeatureTabsSection({
                             {/* Category Label */}
                             {category.name && (
                               <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
-                                <p className="leading-6 whitespace-pre-wrap">{category.name}</p>
+                                <p className="leading-[150%] whitespace-pre-wrap">{category.name}</p>
                               </div>
                             )}
                             {/* Main Heading */}
-                            <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
+                            <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 md:text-4xl text-xl w-full">
                               <p className="leading-[133.33%] whitespace-pre-wrap">{category.subheading}</p>
                             </div>
                           </div>

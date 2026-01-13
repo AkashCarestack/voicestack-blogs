@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import React, { useMemo } from 'react'
 
 import MailIcon from '../icons/MailIcon'
@@ -36,9 +37,24 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   onClick,
   ...rest
 }) => {
+  const router = useRouter()
   // Get pricing modal context (may be undefined if provider is not available)
   const pricingModal = usePricingModal()
   const openPricingModal = pricingModal?.openPricingModal
+  
+  // Check if we're on a partner child page (with slug), not the landing page
+  const isPartnerChildPage = useMemo(() => {
+    const pathname = router.pathname
+    // Match /company/partners/[slug] pattern (has a slug after /company/partners/)
+    // Exclude /company/partners (landing page) - only child pages should override
+    return pathname.startsWith('/company/partners/') && pathname !== '/company/partners'
+  }, [router.pathname])
+
+  // Check if we're on a pricing page
+  const isPricingPage = useMemo(() => {
+    const pathname = router.pathname
+    return pathname == '/pricing'
+  }, [router.pathname])
   
   // Extract text from children to check for "get pricing"
   const buttonText = useMemo(() => {
@@ -75,16 +91,22 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     return buttonText.toLowerCase().includes('get pricing')
   }, [buttonText])
   
+  // Check if button text contains "book free demo" (case-insensitive)
+  const isBookFreeDemoButton = useMemo(() => {
+    return buttonText.toLowerCase().includes('book free demo')
+  }, [buttonText])
+  
   // Handle click - if it's a pricing button, open modal instead of navigating
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-    if (isPricingButton && openPricingModal) {
-      e.preventDefault()
-      openPricingModal()
-    }
-    // Call original onClick if provided
-    if (onClick) {
-      onClick(e)
-    }
+    return;
+    // if (isPricingButton && openPricingModal) {
+    //   e.preventDefault()
+    //   openPricingModal()
+    // }
+    // // Call original onClick if provided
+    // if (onClick) {
+    //   onClick(e)
+    // }
   }
   
   const baseClasses = `relative [&>*]:relative inline-block rounded-[8px] text-gray-950 font-geist font-medium tracking-[0]  !leading-[150%] flex items-center  justify-center whitespace-nowrap gap-[8px] transition-all duration-300 ease-linear  ${className}`
@@ -140,7 +162,46 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   // Extract URL from link (handle both string and object with cached_url)
   const linkUrl = typeof link === 'string' ? link : (link?.cached_url || link?.url || link)
   const processedLink = linkUrl ? replaceUrl(linkUrl) : linkUrl
-  const finalLink = isPricingButton ? undefined : (processedLink ? formatLink(processedLink, buttonVariant) : processedLink)
+  const formattedLink = processedLink ? formatLink(processedLink, buttonVariant) : processedLink
+  
+  // On partner child pages, override "book free demo" buttons to #demo (but preserve special links)
+  // Pricing buttons keep their original behavior (open modal)
+  const finalLink = useMemo(() => {
+    // Pricing buttons should open modal, not navigate
+    // if (isPricingButton) return undefined
+    if (!formattedLink) return formattedLink
+    
+    // Don't override if already #demo
+    if (formattedLink === '#demo') return formattedLink
+    
+    // Don't override special protocol links (mailto, tel, external URLs)
+    if (
+      formattedLink.startsWith('mailto:') ||
+      formattedLink.startsWith('tel:') ||
+      formattedLink.startsWith('tel://') ||
+      formattedLink.startsWith('http://') ||
+      formattedLink.startsWith('https://')
+    ) {
+      return formattedLink
+    }
+    
+    // Don't override hash links (anchors)
+    if (formattedLink.startsWith('#')) {
+      return formattedLink
+    }
+    
+    // On partner child pages (with slug), only override "book free demo" buttons to #demo
+    // Landing page (/company/partners) is excluded
+    // This preserves interlinking buttons to other pages
+    if (isPartnerChildPage && isBookFreeDemoButton && formattedLink) {
+      return '#demo'
+    }
+    if (isPricingPage && formattedLink) {
+      return '/pricing/demo'
+    }
+    
+    return formattedLink
+  }, [isPricingButton, formattedLink, isPartnerChildPage, isBookFreeDemoButton, router])
 
   const combinedClasses = clsx(baseClasses, customClasses, className)
   if (finalLink) {
