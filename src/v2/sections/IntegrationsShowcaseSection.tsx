@@ -161,7 +161,7 @@ console.log(data, 'data')
         <div className="flex flex-col gap-8 items-center relative w-full">
           <SectionHeaderV2
             heading={data?.heading}
-            description={data?.description || "VoiceStack seamlessly integrates with leading PMS, CRM, and analytics platforms, giving you effortless visibility across your operations."}
+            description={data?.description || 'VoiceStack seamlessly integrates with leading PMS, CRM, and analytics platforms, giving you effortless visibility across your operations.'}
             isWhite={true}
             ctaListItems={defaultCtaListItems}
             className="md:px-6 xl:px-12 px-4"
