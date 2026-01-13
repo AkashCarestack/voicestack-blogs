@@ -319,7 +319,7 @@ export default function IntegrationsSectionWithNavigation({
     >
       <Container className="w-full py-sm md:py-sm lg:py-sm" type="V2" border="y-0">
         {/* Header Section */}
-        <div className="flex-col relative w-full flex gap-16 mb-[-64px] px-12 py-16 shrink-0 z-[3]">
+        <div className="flex-col relative w-full flex gap-16 mb-[-64px] py-16 shrink-0 z-[3]">
           <div className="flex flex-col gap-3 items-start text-center relative shrink-0 max-w-[712px] mx-auto">
             <SectionHeaderV2
               heading={
