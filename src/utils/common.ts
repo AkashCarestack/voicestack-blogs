@@ -343,6 +343,19 @@ export const descriptionComponents: any = {
         children
       ),
   },
+  marks: {
+    link: ({ children, value }: { children: React.ReactNode; value?: { href?: string } }) =>
+      React.createElement(
+        'a',
+        {
+          href: value?.href,
+          className: 'text-vs-blue ',
+          target: value?.href?.startsWith('http') ? '_blank' : undefined,
+          rel: value?.href?.startsWith('http') ? 'noopener noreferrer' : undefined,
+        },
+        children
+      ),
+  },
   list: {
     bullet: ({ children }: { children: React.ReactNode }) =>
       React.createElement(
