@@ -116,7 +116,7 @@ const HubSpotForm = ({
                   //   var meetingUrl = `${meetingLink}?${params.toString()}`;
                   //   router.push(meetingUrl);
                   // }
-                  router.push('/thank-you');
+                  router.push('/demo/thank-you');
                    
                 }, 3000)
               },
