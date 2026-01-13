@@ -59,7 +59,10 @@ const BookFreeDemo = () => {
           // const responseData = await fetch(
           //   `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
           // );
-          router.push("/pricing/demo/thank-you");
+          var redirectBase = "/pricing/demo/thank-you/";
+          var wholeUrl = redirectBase + "?email=" + email;
+          router.push(wholeUrl);
+          // router.push("/pricing/demo/thank-you");
         }, 1000)
 
       }
@@ -76,8 +79,8 @@ const BookFreeDemo = () => {
       </div>
       <div
         className="meetings-iframe-container md:py-24 py-16"
-        data-src="https://meetings.hubspot.com/carestack-dan/voicestack-us-website-pricing-demo?embed=true"
-        // data-src="https://meetings.hubspot.com/marcomm-admin/test-link-harsha?embed=true"
+        // data-src="https://meetings.hubspot.com/carestack-dan/voicestack-us-website-pricing-demo?embed=true"
+        data-src="https://meetings.hubspot.com/marcomm-admin/test-link-harsha?embed=true"
       ></div>
     </>
   );
