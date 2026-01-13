@@ -1,5 +1,8 @@
 import React from 'react'
 import Button from '~/components/common/Button'
+import Section from '~/components/structure/Section'
+import Container from '~/components/structure/Container'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import FeatureCardSection from '../components/common/FeatureCardSection'
 
 interface Feature {
@@ -14,6 +17,7 @@ interface Feature {
 interface CategoryCard {
   key: string
   name: string
+  subheading?: string
   icon?: string
   features: Feature[]
 }
@@ -33,7 +37,7 @@ interface FieldMapping {
   id?: string | ((item: any) => string) // Field name or function to get id
   title?: string | ((item: any) => string) // Field name or function to get title
   icon?: string | ((item: any) => string | undefined) // Field name or function to get icon
-  
+
   // Category fields (for grouped data)
   categoryKey?: string | ((item: any) => string) // Field name or function to get category key
   categoryName?: string | ((key: string, item?: any) => string) // Field name or function to get category name
@@ -52,28 +56,27 @@ interface FeatureCategoryGridProps {
   // Option 1: Pre-grouped data (current structure)
   groupedData?: CategoryFeatures
   getCategoryDisplayName?: (key: string) => string
-  
+
   // Option 2: Raw data array with simple field mapping (EASIEST)
   data?: any[]
   fieldMapping?: FieldMapping
-  
+
   // Option 3: Raw data array with transformer functions
   dataTransformer?: DataTransformer
-  
+
   // Option 4: Pre-formatted category cards
   categoryCards?: CategoryCard[]
-  
+
   // Display mode
   displayMode?: 'grouped' | 'individual' // 'grouped' = group by category, 'individual' = one card per item
-  
+
   // CTA Card
   ctaCard?: CTACardProps
-  
+
   // Custom className
   className?: string
   showTickIcon?: boolean
 }
-
 
 const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
   groupedData,
@@ -91,7 +94,7 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
   const getFieldValue = (
     item: any,
     field: string | ((item: any) => any) | undefined,
-    fallback: any = undefined
+    fallback: any = undefined,
   ): any => {
     if (!field) return fallback
     if (typeof field === 'function') {
@@ -111,10 +114,22 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
       if (displayMode === 'individual') {
         // Each item becomes its own card
         return data.map((item: any, index: number) => {
-          const id = getFieldValue(item, fieldMapping.id, item._key || item.id || item._id || `item-${index}`)
-          const title = getFieldValue(item, fieldMapping.title, item.heading || item.title || item.name || '')
-          const icon = getFieldValue(item, fieldMapping.icon, item.dynamicSvg || item.icon || item.featureCategory?.iconSvgCode)
-          
+          const id = getFieldValue(
+            item,
+            fieldMapping.id,
+            item._key || item.id || item._id || `item-${index}`,
+          )
+          const title = getFieldValue(
+            item,
+            fieldMapping.title,
+            item.heading || item.title || item.name || '',
+          )
+          const icon = getFieldValue(
+            item,
+            fieldMapping.icon,
+            item.dynamicSvg || item.icon || item.featureCategory?.iconSvgCode,
+          )
+
           return {
             key: id,
             name: title,
@@ -125,14 +140,14 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
       } else {
         // Grouped mode
         const grouped: { [key: string]: Feature[] } = {}
-        
+
         data.forEach((item: any) => {
           const categoryKey = getFieldValue(
             item,
             fieldMapping.categoryKey,
-            item?.category || item?.featureCategory?.name || 'Uncategorized'
+            item?.category || item?.featureCategory?.name || 'Uncategorized',
           )
-          
+
           if (!grouped[categoryKey]) {
             grouped[categoryKey] = []
           }
@@ -145,18 +160,23 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
             fieldMapping.categoryName,
             typeof fieldMapping.categoryName === 'function'
               ? fieldMapping.categoryName(key, features[0])
-              : key.replaceAll('-', ' ')
+              : key.replaceAll('-', ' '),
           )
-          
+
           const categoryIcon = getFieldValue(
             features,
             fieldMapping.categoryIcon,
-            features[0]?.icon || features[0]?.dynamicSvg || features[0]?.featureCategory?.iconSvgCode
+            features[0]?.icon ||
+              features[0]?.dynamicSvg ||
+              features[0]?.featureCategory?.iconSvgCode,
           )
 
           return {
             key,
             name: categoryName,
+            subheading:
+              features[0]?.featureCategory?.subheading ||
+              features[0]?.subheading,
             icon: categoryIcon,
             features,
           }
@@ -174,22 +194,23 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
           const title = dataTransformer.getFeatureTitle
             ? dataTransformer.getFeatureTitle(item)
             : item.heading || item.title || item.name || ''
-          
+
           return {
             key: id,
             name: title,
-            icon: item.dynamicSvg || item.icon || item.featureCategory?.iconSvgCode,
+            icon:
+              item.dynamicSvg || item.icon || item.featureCategory?.iconSvgCode,
             features: [item],
           }
         })
       } else {
         const grouped: { [key: string]: Feature[] } = {}
-        
+
         data.forEach((item: any) => {
           const categoryKey = dataTransformer.getCategoryKey
             ? dataTransformer.getCategoryKey(item)
             : item?.category || item?.featureCategory?.name || 'Uncategorized'
-          
+
           if (!grouped[categoryKey]) {
             grouped[categoryKey] = []
           }
@@ -201,9 +222,13 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
           name: dataTransformer.getCategoryName
             ? dataTransformer.getCategoryName(key, features[0])
             : key.replaceAll('-', ' '),
+          subheading:
+            features[0]?.featureCategory?.subheading || features[0]?.subheading,
           icon: dataTransformer.getCategoryIcon
             ? dataTransformer.getCategoryIcon(features)
-            : features[0]?.icon || features[0]?.dynamicSvg || features[0]?.featureCategory?.iconSvgCode,
+            : features[0]?.icon ||
+              features[0]?.dynamicSvg ||
+              features[0]?.featureCategory?.iconSvgCode,
           features,
         }))
       }
@@ -214,7 +239,12 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
       return Object.entries(groupedData).map(([key, features]) => ({
         key,
         name: getCategoryDisplayName(key),
-        icon: features[0]?.icon || features[0]?.dynamicSvg || features[0]?.featureCategory?.iconSvgCode,
+        subheading:
+          features[0]?.featureCategory?.subheading || features[0]?.subheading,
+        icon:
+          features[0]?.icon ||
+          features[0]?.dynamicSvg ||
+          features[0]?.featureCategory?.iconSvgCode,
         features,
       }))
     }
@@ -224,7 +254,11 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
 
   const cards = transformDataToCards()
 
-  const getFeatureId = (feature: Feature, mapping?: FieldMapping, transformer?: DataTransformer): string => {
+  const getFeatureId = (
+    feature: Feature,
+    mapping?: FieldMapping,
+    transformer?: DataTransformer,
+  ): string => {
     if (mapping?.id) {
       const id = getFieldValue(feature, mapping.id)
       if (id) return String(id)
@@ -235,7 +269,11 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
     return feature.id || feature._id || feature._key || Math.random().toString()
   }
 
-  const getFeatureTitle = (feature: Feature, mapping?: FieldMapping, transformer?: DataTransformer): string => {
+  const getFeatureTitle = (
+    feature: Feature,
+    mapping?: FieldMapping,
+    transformer?: DataTransformer,
+  ): string => {
     if (mapping?.title) {
       const title = getFieldValue(feature, mapping.title)
       if (title) return String(title)
@@ -264,38 +302,70 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
   }
 
   return (
-    <div className={`grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 justify-center  ${className}`}>
-      {cards.map((card: CategoryCard) => (
-        <FeatureCardSection
-          key={card.key}
-          cardTitle={card.name}
-          cardIcon={card.icon}
-          features={card.features}
-          featureIdField={getFeatureIdField()}
-          featureTitleField={getFeatureTitleField()}
-          showTickIcon={showTickIcon}
-        />
-      ))}
-      {/* CTA Card */}
-      {ctaCard && (
-        <div className="bg-vs-blue backdrop-blur-sm md:rounded-3xl md:h-full h-[241px] rounded-xl py-6 md:px-12 px-6 flex flex-col justify-center items-center md:gap-6 gap-4 hover:bg-vs-blue transition-all">
-          {ctaCard.title && (
-            <h3 dangerouslySetInnerHTML={{__html: ctaCard.title}} className="md:text-xl text-lg font-bold text-white font-manrope text-center">
-              
-            </h3>
-          )}
-          <Button
-            type="primary"
-            className="w-fit"
-            link={ctaCard.buttonLink || '/demo'}
+    <Section className="relative bg-white" border="b">
+      <Container
+        className="w-full justify-center pt-sm md:pt-lg pb-sm"
+        type="V2"
+        border="y-0"
+      >
+        <div className="flex flex-col gap-16">
+          <SectionHeaderV2
+            heading="Feature-Packed to Improve <br/> Every Front Office Workflow"
+            description="Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice."
+          />
+
+          <div
+            className={`grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-y-6 md:gap-y-12 justify-center ${className}`}
+            style={{
+              backgroundImage: `repeating-linear-gradient(
+                -45deg,
+                #E5E7EB,
+                #E5E7EB 1px,
+                transparent 1px,
+                transparent 10px
+              )`,
+            
+              width: '100%',
+              height: '100%',
+              backgroundSize: '14.14px 14.14px',
+            }}
           >
-            <span>{ctaCard.buttonText || 'Book Free Demo'}</span>
-          </Button>
+            {cards.map((card: CategoryCard) => (
+              <FeatureCardSection
+                key={card.key}
+                cardTitle={card.name}
+                cardSubheading={card.subheading}
+                cardIcon={card.icon}
+                features={card.features}
+                featureIdField={getFeatureIdField()}
+                featureTitleField={getFeatureTitleField()}
+                showTickIcon={showTickIcon}
+                className="border-r border-gray-200 last:border-r-0"
+              />
+            ))}
+            {/* CTA Card */}
+            {ctaCard && (
+              <div className="bg-white md:h-full h-[241px] py-6 md:px-12 px-6 flex flex-col justify-center items-center md:gap-6 gap-4 border-y border-gray-200 transition-all">
+                {ctaCard.title && (
+                  <h3
+                    dangerouslySetInnerHTML={{ __html: ctaCard.title }}
+                    className="md:text-2xl text-lg font-medium text-gray-950 text-center"
+                  ></h3>
+                )}
+                <Button
+                  type="primary"
+                  className="w-fit"
+                  link={ctaCard.buttonLink || '/demo'}
+                >
+                  <span>{ctaCard.buttonText || 'Book Free Demo'}</span>
+                </Button>
+              </div>
+            )}
+          </div>
         </div>
-      )}
-    </div>
+      </Container>
+    </Section>
   )
 }
 
 export default FeatureCategoryGrid
-
