@@ -1090,14 +1090,12 @@ export default function CategoryFeatureTabsSection({
                       </div>
                       {category?.mainImage && (
                         <div className="w-full h-full relative flex items-end justify-center">
-                          <figure className="relative w-full flex items-end justify-center h-auto">
+                          <figure className="relative w-full h-full flex items-end justify-center">
                             <ImageLoader
                               image={category.mainImage}
                               alt={`${category.name} feature illustration`}
                               title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
-                              width={400}
-                              height={400}
-                              fixed={false}
+                              fixed={true}
                               className="rounded-lg object-contain w-full h-full"
                             />
                           </figure>
