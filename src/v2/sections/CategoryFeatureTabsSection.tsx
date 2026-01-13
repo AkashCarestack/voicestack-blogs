@@ -1052,11 +1052,11 @@ export default function CategoryFeatureTabsSection({
                             {/* Category Label */}
                             {category.name && (
                               <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
-                                <p className="leading-6 whitespace-pre-wrap">{category.name}</p>
+                                <p className="leading-[150%] whitespace-pre-wrap">{category.name}</p>
                               </div>
                             )}
                             {/* Main Heading */}
-                            <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
+                            <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 md:text-4xl text-xl w-full">
                               <p className="leading-[133.33%] whitespace-pre-wrap">{category.subheading}</p>
                             </div>
                           </div>
