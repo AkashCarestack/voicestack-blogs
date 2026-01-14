@@ -579,7 +579,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                       <Button type="primary" className="w-fit" link="/demo">
                         <span>
                           {isPricingPage
-                            ? 'Get Pricing'
+                            ? 'Book Free Demo'
                             : currentTestimonial?.ctaListItems[0]?.ctaText ||
                               'Book Free Demo'}
                         </span>
