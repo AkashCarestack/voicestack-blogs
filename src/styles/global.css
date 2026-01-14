@@ -253,6 +253,10 @@ html {
   margin-bottom: 1rem !important;
 }
 
+#hubspotForm fieldset  {
+  max-width: 100%;
+}
+
 #hubspotForm fieldset .legal-consent-container {
   font-size: 12px !important;
 }

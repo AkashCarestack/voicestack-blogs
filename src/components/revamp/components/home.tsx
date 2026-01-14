@@ -92,12 +92,12 @@ export default function Home({
         />
       )}
       <StatisticsSection />
-      {comparisonLegendData && (
+      {/* {comparisonLegendData && (
         <SiteComparisonSection
           data={comparisonSectionData}
           legendData={comparisonLegendData}
         />
-      )}
+      )} */}
       {data.faqData && <FaqSection faqItems={data.faqData[0]} />}
     </div>
   ) : (

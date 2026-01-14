@@ -1,16 +1,23 @@
 import { GetStaticProps } from 'next'
+import { useRouter } from 'next/router'
 import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
 import type { SanityClient } from 'next-sanity'
 import { getDemoFormData } from '~/lib/sanity.queries'
-import HubSpotForm from '~/components/common/HubspotForm'
+import HubSpotForm from '~/v2/components/common/HubspotForm'
 import Head from 'next/head'
+import HubSpotMeeting from '~/v2/components/common/HubspotMeeting'
 
 interface DemoPageProps {
   formData: {
-    dmeoFormId?: string
+    demoFormId?: string
     demoMeetingLink?: string
     dmeoFormEventName?: string
+    demoForms?: Array<{
+      practiceType?: string
+      demoFormId?: string
+      demoMeetingLink?: string
+    }>
   }
   region: string
   draftMode: boolean
@@ -36,7 +43,27 @@ export const getStaticProps: GetStaticProps<any> = async ({
   }
 }
 
+
 export default function DemoPage({ formData, region }: DemoPageProps) {
+  const router = useRouter()
+  
+  // Get practiceType from query params, default to "Dental"
+  const practiceType = (router.query.practiceType as string) || 'Dental'
+  
+  // Find the matching form data based on practiceType
+  const activeFormData = formData?.demoForms?.find((form) => form.practiceType === practiceType)
+  
+  // Use activeFormData if found, otherwise fall back to default formData
+  const formId = activeFormData?.demoFormId
+  const meetingLink = activeFormData?.demoMeetingLink
+  const practiceTypeSlug = activeFormData?.practiceType.toLowerCase().replace(' ', '_')
+  const eventName = `demo_form_${practiceTypeSlug}_${router.locale}`
+  console.log({eventName});
+  
+  console.log({activeFormData});
+  
+  console.log({formId, meetingLink})
+  
   return (
     <>
       <Head>
@@ -56,13 +83,22 @@ export default function DemoPage({ formData, region }: DemoPageProps) {
               </p>
             </div>
           </div>
-          <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-6 min-h-[500px]">
-            <HubSpotForm 
-              id={formData?.dmeoFormId} 
-              eventName={formData?.dmeoFormEventName} 
-              meetingLink={formData?.demoMeetingLink}
-            />
-          </div>
+          {formId && (
+            <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-6 min-h-[500px]">
+                <HubSpotForm 
+                  id={formId} 
+                  eventName={eventName} 
+                />
+            </div>
+          )}
+          {meetingLink && (
+            <div className="w-full min-h-[500px]">
+              <HubSpotMeeting 
+                meetingLink={meetingLink}
+                eventName={eventName}
+              />
+            </div>
+          )}
         </div>
       </div>
     </>

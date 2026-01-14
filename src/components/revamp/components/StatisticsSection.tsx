@@ -103,7 +103,7 @@ const StatisticsSection = ({ bgColor, variant }: StatisticsSectionProps = {}) =>
                 <SectionHeader
                   isLeftAlign={true} 
                   isWhite={true}
-                  heading={'The Most Advanced AI Phone System for Dentists Globally.'}
+                  heading={'The Most Advanced AI Phone System for <br/> Practices Globally.'}
                   description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused dental practices across the US, UK, and Australia. From single offices to DSOs with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
                 />
                 

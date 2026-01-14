@@ -184,7 +184,7 @@ export default function FaqSection({ faqItems }: any) {
     const shouldShow = isActive || isHovered
 
     return (
-      <motion.span 
+      shouldShow ? <motion.span 
         className="w-5 h-5 flex items-center justify-center flex-shrink-0"
         initial={false}
         animate={{ 
@@ -196,6 +196,7 @@ export default function FaqSection({ faqItems }: any) {
       >
         <IndicatorIcon />
       </motion.span>
+      : null
     )
   }
 
@@ -209,7 +210,7 @@ export default function FaqSection({ faqItems }: any) {
         onHoverEnd={() => setIsHovered(false)}
         whileHover={{ x: 4 }}
         transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
-        className={`font-geist text-base leading-[150%] border-b border-b-gray-200 tracking-normal p-3 text-left ${
+        className={`font-geist text-base leading-[150%] border-b border-b-gray-200 tracking-normal p-3 !text-left ${
           isActive
             ? 'text-gray-950 font-medium' 
             : 'text-gray-500 font-normal'
@@ -235,9 +236,9 @@ export default function FaqSection({ faqItems }: any) {
     )
   }
 
-  const ContactInfoItem = ({ label, email, emailTextSize = 'xl:text-base' }: { label: string; email: string; emailTextSize?: string }) => {
+  const ContactInfoItem = ({ className, label, email, emailTextSize = 'xl:text-base' }: { className?: string; label: string; email: string; emailTextSize?: string }) => {
     return (
-      <div className='flex md:flex-col flex-row gap-2 xl:px-6 px-3 xl:py-3 py-2 md:border-l border-t md:border-t-0 border-[#E5E7EB] min-w-0'>
+      <div className={`flex overflow-auto !bg-[#F9FAFB] md:flex-col flex-row gap-2 xl:px-6 px-3 xl:py-3 py-2 border-t border-b border-[#E5E7EB] w-full ${className}`}>
         <p className='text-gray-600 md:text-left text-center font-normal xl:text-base text-sm leading-[145%] flex-shrink-0'>{label}:</p>
         <a href={`mailto:${email}`} className={`text-vs-blue font-medium ${emailTextSize} text-sm lg:text-xs leading-[145%] break-words min-w-0`}>{email}</a>
       </div>
@@ -254,25 +255,27 @@ export default function FaqSection({ faqItems }: any) {
         />
       </Head>
     )}
-    <Section className="py-sm md:py-md lg:py-lg bg-gray-50">
+    <Section className="py-sm md:py-md lg:py-lg bg-white">
     <Container className='flex-col gap-16'>
       <div className='flex flex-col md:gap-[45px] gap-6 font-manrope font-bold leading-[120%]'>
       <div className='flex lg:flex-row flex-col gap-8 md:justify-between justify-start items-center md:items-start'>
-       <div className='flex-1 lg:max-w-[380px]'> <SectionH2 content='Frequently Asked Questions' /> </div>
+       <div className='flex-1 lg:max-w-[370px]'> <SectionH2 content='Frequently Asked Questions' /> </div>
         {/* <h2 className='font-manrope flex-1 max-w-[369px] md:text-5xl text-2xl md:font-semibold font-medium  leading-tight tracking-tight text-gray-950'>Frequently Asked Questions</h2> */}
-        <div className='flex md:flex-row flex-col w-full flex-1 max-w-[712px] border border-[#E5E7EB] rounded-[6px] md:overflow-auto'>
-        <div className='flex flex-col md:max-w-[200px] w-full bg-[#F9FAFB] xl:px-6 px-3 xl:py-3 py-2'>
+        <div className='flex md:flex-row flex-col w-full flex-1 max-w-[712px]  overflow-auto'>
+        <div className=' hidden  flex-col md:max-w-[200px] w-full bg-[#F9FAFB] xl:px-6 px-3 xl:py-3 py-2'>
             <p className="font-geist xl:text-base text-sm font-normal leading-[150%] tracking-normal text-gray-700">For further queries contact:</p>
           </div>
           <ContactInfoItem 
             label="Support" 
             email={contactData?.contactEmail || ''} 
             emailTextSize="xl:text-base"
+            className="md:border-l md:border-r-0 border-l border-r border-b md:rounded-l-[6px] md:rounded-r-none rounded-[6px] mb-1.5 md:mb-0"
           />
           <ContactInfoItem 
             label="Sales" 
             email={contactData?.salesEmail || ''} 
             emailTextSize="xl:text-base"
+            className="border-l border-r md:rounded-r-[6px] md:rounded-l-none rounded-[6px]"
           />
         </div>
       </div>
@@ -328,7 +331,7 @@ export default function FaqSection({ faqItems }: any) {
 
         {/* Desktop Categories Sidebar */}
         { !hideCategory && (
-        <div className="hidden lg:flex flex-col gap-1.5 flex-1 max-w-[369px]">
+        <div className="hidden lg:flex flex-col sticky top-[100px] self-start gap-1.5 flex-1 max-w-[369px]">
           {categories.map((category: any) => (
             <CategoryButton
               key={category._key}
@@ -349,7 +352,7 @@ export default function FaqSection({ faqItems }: any) {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                className={`gap-6 flex flex-col flex-1 ${hideCategory ? '' : 'lg:max-w-[712px]'}`}
+                className={`gap-3 flex flex-col flex-1 ${hideCategory ? '' : 'lg:max-w-[712px]'}`}
               >
                 {activeQuestions.map((question: any, index: number) => {
                   const questionKey = question._key || index
@@ -359,10 +362,11 @@ export default function FaqSection({ faqItems }: any) {
                     <motion.div 
                       onClick={() => toggleQuestion(questionKey)}
                       key={questionKey} 
-                      className="cursor-pointer border md:rounded-[16px] rounded-[8px] md:p-6 p-4 border-gray-200 bg-white"
+                      className={`cursor-pointer border md:rounded-[16px] rounded-[6px] md:p-6 p-4 border-gray-200 ${!isQuestionOpen ? 'bg-white' : '!bg-[#F9FAFB]'}`}
                       whileHover={!isQuestionOpen ? { 
                         backgroundColor: '#F9FAFB',
                       } : {}}
+                      
                       transition={{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }}
                     >
                       <button
