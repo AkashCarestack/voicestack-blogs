@@ -8,7 +8,7 @@ import Head from 'next/head'
 
 interface DemoPageProps {
   formData: {
-    dmeoFormId?: string
+    demoFormId?: string
     demoMeetingLink?: string
     dmeoFormEventName?: string
   }
@@ -58,7 +58,7 @@ export default function DemoPage({ formData, region }: DemoPageProps) {
           </div>
           <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-6 min-h-[500px]">
             <HubSpotForm 
-              id={formData?.dmeoFormId} 
+              id={formData?.demoFormId} 
               eventName={formData?.dmeoFormEventName} 
               meetingLink={formData?.demoMeetingLink}
             />

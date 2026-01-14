@@ -24,7 +24,7 @@ export const FormModal: React.FC<FormModalProps> = ({
   data
 }) => {
     const router = useRouter();
-    const formId = data?.dmeoFormId
+    const formId = data?.demoFormId
     const meetingLink = data.demoMeetingLink;
 
   return (
