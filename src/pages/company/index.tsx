@@ -151,7 +151,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       leaderShipTeam: {
         title: 'Leadership Team',
         description:
-          'Meet the founders and leaders changing the dental software industry one practice at a time.',
+          'Meet the founders and leaders changing the healthcare software industry one practice at a time.',
         cta: {
           buttonText: 'Learn More',
           buttonLink: '/company/leadership-team',
