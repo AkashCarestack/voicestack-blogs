@@ -18,6 +18,7 @@ import GroupedCardsGrid from '../components/GroupedCardsGrid';
 import SectionDivider from '../components/SectionDivider';
 import { tr } from 'date-fns/locale';
 import { useStickyTop } from '~/hooks/useStickyTop';
+import useMediaQuery from '~/utils/mediaQuery';
 
 interface Feature {
   _id: string;
@@ -73,6 +74,7 @@ export default function CategoryFeatureTabsSection({
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
+  const isMobile = useMediaQuery(767);
 
   // Get base path dynamically from current route
   const getBasePath = useCallback(() => {
@@ -1032,7 +1034,7 @@ export default function CategoryFeatureTabsSection({
           {allCategories.map((category, index) => {
             return (
               <React.Fragment key={category.name}>
-                {index > 0 && <div className={`${category?.features.length > 0 ? 'border-b border-gray-200' : 'border-y'}`}><SectionDivider height="130px" /></div>}
+                {index > 0 && <div className={`${category?.features.length > 0 ? 'border-b border-gray-200' : 'border-y'}`}><SectionDivider height={isMobile ? "60px" : "130px"} /></div>}
                 <article
                   ref={(el) => {
                     sectionRefs.current[category.name] = el;
