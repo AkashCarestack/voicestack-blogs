@@ -99,8 +99,8 @@ const FeatureCardSection: React.FC<FeatureCardSectionProps> = ({
         {/* Card Subheading - Bold Title */}
         {cardSubheading && (
           <h3 className="text-lg md:text-xl font-medium text-gray-950 leading-[140%]">
-            {cardSubheading}
-          </h3>
+            <p dangerouslySetInnerHTML={{ __html: cardSubheading }} />
+            </h3>
         )}
       </div>
 
