@@ -68,7 +68,6 @@ const HubSpotMeeting = ({
           var redirectBase = "/demo/thank-you/";
           var wholeUrl = redirectBase + "?email=" + email + "&meeting=true";
           router.push(wholeUrl);
-          // router.push("/pricing/demo/thank-you");
         }, 1000)
 
       }

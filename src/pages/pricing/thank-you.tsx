@@ -38,14 +38,14 @@ export default function PricingThankYouPage() {
     <>
       <Head>
         <title>{fullTitle}</title>
-        <link rel="canonical" href={'https://www.voicestack.com/pricing/demo/thank-you'} />
+        <link rel="canonical" href={'https://www.voicestack.com/pricing/thank-you'} />
         <meta name="description" content={metaDescriptn} />
         <meta name="keywords" content={metaKeywords} />
         <meta name="robots" content="noindex, nofollow, noarchive" />
         <meta name="author" content="VoiceStack®" />
         <meta property="og:type" content="website" />
       <meta property="og:title" content={fullTitle} />
-      <meta property="og:url" content={'https://www.voicestack.com/pricing/demo/thank-you'} />
+      <meta property="og:url" content={'https://www.voicestack.com/pricing/thank-you'} />
       <meta property="og:description" content={metaDescriptn} />
       <meta name="title" content={fullTitle} />
         <meta name="robots" content="noindex, nofollow, noarchive" />

@@ -102,7 +102,7 @@ export default function Pricing({
         ctaCard={{
           title: 'Flexible Pricing Models<br/> For Your Practice',
           buttonText: 'Book Free Demo',
-          buttonLink: '/pricing/demo',
+          buttonLink: '/demo',
         }}
         // features={features} 
           // sectionHeading={pricingPageData['category-feature-tabs']?.componentData?.sectionHeading}
