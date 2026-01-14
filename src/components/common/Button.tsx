@@ -213,9 +213,9 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     if (isPartnerChildPage && formattedLink) {
       return '#demo'
     }
-    if (isPricingPage && formattedLink) {
-      return '/pricing/demo'
-    }
+    // if (isPricingPage && formattedLink) {
+    //   return '/pricing/demo'
+    // }
     
     return formattedLink
   }, [isPricingButton, formattedLink, isPartnerChildPage, isBookFreeDemoButton, router])
