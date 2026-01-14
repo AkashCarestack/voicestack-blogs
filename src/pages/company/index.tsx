@@ -3,7 +3,6 @@ import { GetStaticProps } from 'next'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import AboutCompany from '~/components/revamp/components/common/AboutCompany'
-import MinimalCardList from '~/components/revamp/components/common/minimalCardList'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import Queries from '~/components/revamp/queries'
 import { PortableText } from '@portabletext/react'
@@ -13,6 +12,11 @@ import bg2 from 'public/background/upscalemedia-transformed-2.png'
 import bg3 from 'public/background/upscalemedia-transformed-3.png'
 import SimpleHead from '~/components/common/SimpleHead'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import CardsGridSection from '~/v2/sections/CardsGridSection'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import MinimalCardList from '~/v2/components/common/minimalCardList'
 
 
 
@@ -39,27 +43,14 @@ export default function CompanyPage({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <HeroWrapper>
-        {companyLandingData && (() => {
-          // Find the hero section - try common patterns
-          const heroKey = Object.keys(companyLandingData).find(
-            (key) => key.includes('hero') && companyLandingData[key]?.componentData
-          )
-          const heroData =  pageData["company-hero"]?.componentData 
-          
-          return heroData ? (
-            <HeroSection
-              page=""
-              showFullDescription={true}
-              data={heroData}
-            />
-          ) : null
-        })()}
-      </HeroWrapper>
+     
+      <FeatureHero
+        data={pageData["company-hero"]?.componentData}
+      />
       {/* <AboutCompany heading={heading} description={description} image={image} icon={icon} /> */}
-      <Section className="bg-white py-sm md:py-md">
-        <Container className="flex flex-col px-4">
-          <h2 className='text-2xl md:text-4xl font-manrope font-semibold leading-[120%] mb-2 text-gray-950'>Our Story</h2>
+      <Section className="bg-white">
+        <Container className="flex flex-col px-6 md:px-12  py-sm md:py-md" type="V2" border="y-0">
+          <SectionHeaderV2 heading="Our Story" isLeftAlign={true}/>
       
          {/* <Image 
            src={VoicestackLogo} 
@@ -70,7 +61,7 @@ export default function CompanyPage({
            title="VoiceStack"
          /> */}
           {pageData.description && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 py-6 md:py-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 py-6 md:py-8 ">
               <div className="flex flex-col gap-4 md:gap-6 text-left">
                 <PortableText 
                   value={Array.isArray(pageData.description) 
@@ -120,9 +111,9 @@ export default function CompanyPage({
        
           <div className='flex flex-col md:flex-row gap-4 md:gap-6 pt-8 md:pt-16'>
             {data?.leaderShipTeam && (
-              <div className="flex-1">
-                <MinimalCardList data={data.leaderShipTeam} />
-              </div>
+               <div className="flex-1 border border-gray-200 rounded-lg p-4">
+               <MinimalCardList data={data.leaderShipTeam} />
+             </div>
             )}
             {/* {data?.partners && (
               <div className="flex-1">
@@ -160,7 +151,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       leaderShipTeam: {
         title: 'Leadership Team',
         description:
-          'Meet the founders and leaders changing the dental software industry one practice at a time.',
+          'Meet the founders and leaders changing the healthcare software industry one practice at a time.',
         cta: {
           buttonText: 'Learn More',
           buttonLink: '/company/leadership-team',
@@ -184,7 +175,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         metaTitle: pageData?.metaTitle || null,
         metaDescription: pageData?.metaDescription || null,
         data: data,
-        companyLandingData: companyLandingData || null,
+        companyLandingData: JSON.parse(JSON.stringify(companyLandingData ?? null))
       },
     }
   } catch (error) {

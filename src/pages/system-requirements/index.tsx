@@ -71,14 +71,21 @@ export default function SystemRequirements({ homeSettings, heroData, bannerData,
   useEffect(() => {
     setIsDemoPopUpShown(heroData);
   }, [heroData])
-
+const  title="System Requirements | Requirements For Using VoiceStack®"
  
 
   return (
     <>
     <Head>
-      <title>System Requirements | Requirements For Using VoiceStack®</title>
+      <title>{title}</title>
+      <meta name="title" content={title}/>
+      <meta property="og:title" content={title}/>
+      <link rel="canonical" href="https://www.voicestack.com/system-requirements" />
+      <meta name="robots" content="index, follow, archive" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://www.voicestack.com/system-requirements" />
       <meta name="description"  content="View the system requirements for running VoiceStack® at your dental practice. Ensure your hardware & network meet the specs for optimal performance."></meta>
+      <meta property="og:description" content="View the system requirements for running VoiceStack® at your dental practice. Ensure your hardware & network meet the specs for optimal performance."></meta>
       <meta name="keywords" content="voicestack system requirements, hardware requirements, internet requirements" />
       <meta name="canonical" content="https://voicestack.com/system-requirements" />
     </Head>

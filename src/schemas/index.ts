@@ -7,6 +7,7 @@ import comparison from './Comparison'
 import comparisonValue from "./ComparisonValue"
 import CsCardsListing from './CsCardsListing/index'
 import customBlockContent from './customBlockContent'
+import customListingContent from './customListingContent'
 import customContent from './customContent'
 import customContentNew from './customContentNew'
 import listingBlock from './listingBlock'
@@ -55,6 +56,7 @@ import TestimonialHighlight from './TestimonialHighlight'
 import HtmlCode from './Utilis/HtmlCode'
 import VerticalTestimonialListing from './VerticalTestimonialListing'
 import WhoWeServeListing from './WhoWeServeListing'
+import GenericItemsListing from './GenericItemsListing'
 
 
 export const schema: { types: SchemaTypeDefinition[] } = {
@@ -78,6 +80,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     testimonialSection,
     faq,
     customBlockContent,
+    customListingContent,
     TestimonialHighlight,
     Miscellaneous,
     page,
@@ -109,6 +112,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     GlobalData,
     VerticalTestimonialListing,
     WhoWeServeListing,
+    GenericItemsListing,
     button,
     faqRevamp,
   ],

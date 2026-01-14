@@ -28,6 +28,11 @@ export default {
           type: 'string',
         },
         {
+          name: 'description',
+          title: 'Banner Description',
+          type: 'text',
+        },
+        {
           name: 'buttonText',
           title: 'Button Text',
           type: 'string',
@@ -42,6 +47,14 @@ export default {
           title: 'Show Banner',
           type: 'boolean',
           initialValue: true,
+        },
+        {
+          name: 'backgroundImage',
+          title: 'Background Image',
+          type: 'image',
+          options: {
+            hotspot: true,
+          },
         }
       ]
     },

@@ -90,6 +90,11 @@ const GlobalData = {
                   type: 'blockContent',
                 },
                 {
+                  name: 'content',
+                  title: 'Content',
+                  type: 'blockContent',
+                },
+                {
                   name: 'image',
                   title: 'Image',
                   type: 'image',

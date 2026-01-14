@@ -6,8 +6,8 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const config = {
-  compiler:{
-    removeConsole:process.env.NODE_ENV =='production'
+  compiler: {
+    removeConsole: process.env.NODE_ENV == 'production',
   },
   turbopack:{
     root: path.resolve(__dirname),
@@ -28,7 +28,7 @@ const config = {
   },
   i18n: {
     localeDetection:false,
-    locales: ['en'],
+    locales: ['en', ],
     defaultLocale: 'en'
   },
   // Fix for Vercel deployment issues
@@ -40,6 +40,11 @@ const config = {
     if (isServer) {
       config.optimization.splitChunks = false;
     }
+    // Add alias resolution for ~/assets
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '~/assets': path.resolve(__dirname, 'public/assets'),
+    };
     return config;
   },
   // Disable static optimization for problematic pages
@@ -78,6 +83,46 @@ const config = {
         permanent: false,
       },
       {
+        source: '/dental-phones/:path*',
+        destination: '/phone-system',
+        permanent: false,
+      },
+      {
+        source: '/dental-phones',
+        destination: '/phone-system',
+        permanent: false,
+      },
+      {
+        source: '/who-we-serve/groups-and-dsos',
+        destination: '/who-we-serve/groups-and-enterprises',
+        permanent: false,
+      },
+      {
+        source: '/who-we-serve/single-locations',
+        destination: '/who-we-serve/dental',
+        permanent: false,
+      },
+      {
+        source: '/who-we-serve/startups',
+        destination: '/who-we-serve/dental',
+        permanent: false,
+      },
+      {
+        source: '/who-we-serve/mobile-practice',
+        destination: '/who-we-serve/dental',
+        permanent: false,
+      },
+      {
+        source: '/who-we-serve/specialists',
+        destination: '/who-we-serve/dental',
+        permanent: false,
+      },
+      {
+        source: '/dental-phones/ai-receptionist',
+        destination: '/phone-system/features/ai-receptionist',
+        permanent: false,
+      },
+      {
         source: '/',
         has: [
           { type: 'query', key: 's' }
@@ -112,14 +157,19 @@ const config = {
         destination: '/api/sitemap',
       },
       
-      // {
-      //   source: '/en-gb',
-      //   destination: '/en-GB',
-      //   locale: false,
-      // },
+      {
+        source: '/en-gb',
+        destination: '/en-GB',
+        locale: false,
+      },
       {
         source: '/en-gb/:path*',
         destination: '/en-GB/:path*',
+        locale: false,
+      },
+      {
+        source: '/en-au/:path*',
+        destination: '/en-AU/:path*',
         locale: false,
       },
       {

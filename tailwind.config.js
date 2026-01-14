@@ -20,6 +20,7 @@ module.exports = {
 		backgroundColor: {
 			'custom-gradient': 'linear-gradient(180deg, #F4F3FA 31.25%, rgba(244, 243, 250, 0) 100%)',
 			'img-gray': '#DDDCDF',
+			'img-gray-secondary': '#A7A5A5',
 		  },
   		
 			fontFamily: {
@@ -134,6 +135,7 @@ module.exports = {
       },
 	  boxShadow: {
         'custom-light': '0px 6px 20px 0px rgba(0, 0, 0, 0.05)',
+		glow: '-7px 0 10px 0 rgba(251,111,142,0.5), 7px 0 10px 0 rgba(74,60,225,0.5)',
       },
   	}
   },

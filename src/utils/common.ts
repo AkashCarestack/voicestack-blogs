@@ -1,3 +1,4 @@
+import React from 'react'
 import siteConfig from 'config/siteConfig'
 
 export const fetchAuthor = (post) => {
@@ -262,3 +263,177 @@ export const toCamelCase = (text: string | undefined): string => {
     })
     .join(' ')
 }
+
+
+/**Common Component for Custom block content hero section Use from Here only**/
+export const HeroHeadingComponents: any = {
+  block: {
+    normal: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'span',
+        {
+          className: 'text-gray-950  md:max-w-[607px] w-full font-manrope xl:text-6xl md:text-5xl text-center md:text-left text-3xl font-bold !leading-[116.667%] tracking-[-1.8px]',
+        },
+        children
+      ),
+  },
+}
+export const HeroFeatureHeadingComponents: any = {
+  block: {
+    normal: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'span',
+        {
+          className: 'text-gray-950 text-center md:text-left font-manrope xl:text-7xl md:text-5xl text-3xl font-bold leading-[111.111%] tracking-[-0.8px]',
+        },
+        children
+      ),
+  },
+}
+export const HeroFeatureComponents: any = {
+  block: {
+    normal: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'h2',
+        {
+          className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px]',
+        },
+        children
+      ),
+      h2: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'h2',
+        {
+          className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px] ',
+        },
+        children
+      ),
+  },
+  list: {
+    bullet: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'ul',
+        {
+          className: 'text-base text-gray-950 leading-[24px] self-stretch list-inside font-normal text-left',
+        },
+        children
+      ),
+  },
+  listItem: {
+    bullet: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'li',
+        {
+          className: 'flex justify-start gap-3  py-[10px] md:py-[14px] text-base text-gray-950 leading-[150%] border-b ',
+          style: { borderColor: '#0307121A' },
+        },
+        React.createElement('span', null, children)
+      ),
+  },  
+}
+
+export const descriptionComponents: any = {
+  block: {
+    normal: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'p',
+        {
+          className: 'text-gray-950 font-normal text-center md:text-left md:max-w-[711px] w-full font-geist md:text-lg text-base leading-[155.55%] [&_strong]:!font-semibold',
+        },
+        
+        children
+      ),
+
+  },
+  marks: {
+    link: ({ children, value }: { children: React.ReactNode; value?: { href?: string } }) =>
+      React.createElement(
+        'a',
+        {
+          href: value?.href,
+          className: 'text-vs-blue ',
+          target: value?.href?.startsWith('http') ? '_blank' : undefined,
+          rel: value?.href?.startsWith('http') ? 'noopener noreferrer' : undefined,
+        },
+        children
+      ),
+  },
+  list: {
+    bullet: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'ul',
+        {
+          className: 'text-base text-gray-950 leading-[24px] self-stretch  list-inside font-normal text-left',
+        },
+        children
+      ),
+  },
+  listItem: {
+    bullet: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'li',
+        {
+          className: 'flex justify-start gap-3 py-[10px] md:py-[14px] text-base text-gray-950 leading-[150%] border-b',
+          style: { borderColor: '#0307121A' },
+        },
+        React.createElement(
+          'span',
+          {
+            className: ' flex-shrink-0 mt-[3px]',
+          },
+          React.createElement(
+            'svg',
+            {
+              xmlns: 'http://www.w3.org/2000/svg',
+              width: '16',
+              height: '16',
+              viewBox: '0 0 16 16',
+              fill: 'none',
+            },
+            React.createElement('path', {
+              fillRule: 'evenodd',
+              clipRule: 'evenodd',
+              d: 'M13.3633 3.32248C13.4261 3.37018 13.4789 3.4298 13.5187 3.49794C13.5584 3.56607 13.5844 3.64138 13.595 3.71955C13.6056 3.79772 13.6007 3.87722 13.5806 3.9535C13.5605 4.02977 13.5255 4.10133 13.4777 4.16408L7.07767 12.5641C7.02576 12.6321 6.95989 12.6883 6.88449 12.7288C6.80908 12.7692 6.72589 12.7931 6.6405 12.7988C6.5551 12.8045 6.46948 12.7918 6.38937 12.7617C6.30927 12.7316 6.23654 12.6846 6.17607 12.6241L2.57607 9.02408C2.47009 8.91034 2.41239 8.7599 2.41513 8.60446C2.41788 8.44902 2.48084 8.30071 2.59078 8.19078C2.70071 8.08085 2.84901 8.01788 3.00445 8.01513C3.1599 8.01239 3.31033 8.07009 3.42407 8.17608L6.53927 11.2905L12.5233 3.43688C12.6196 3.31044 12.7621 3.22738 12.9196 3.20593C13.0771 3.18448 13.2367 3.2264 13.3633 3.32248Z',
+              fill: '#030712',
+            })
+          )
+        ),
+        React.createElement('span', null, children)
+      ),
+  },
+}
+
+export const ComparisonHeroH1: any = {
+  block: {
+    normal: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'span',
+        {
+          className:'max-w-[606px] text-[#030712] font-[Manrope] text-center md:text-left md:text-6xl text-4xl font-bold leading-[115%] tracking-[-0.8px]',
+        },
+        children
+      ),
+  },
+  list: {
+    bullet: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'ul',
+        {
+          className: 'text-base text-gray-950 leading-[24px] self-stretch list-inside font-normal text-left',
+        },
+        children
+      ),
+  },
+  listItem: {
+    bullet: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'li',
+        {
+          className: 'flex justify-start gap-3  py-[10px] md:py-[14px] text-base text-gray-950 leading-[150%] border-b',
+          style: { borderColor: '#0307121A' },
+        },
+        React.createElement('span', null, children)
+      ),
+  },  
+}
+

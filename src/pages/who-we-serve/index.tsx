@@ -2,15 +2,19 @@ import { GetStaticProps } from 'next'
 
 import SimpleHead from '~/components/common/SimpleHead'
 import LogoListingSection from '~/components/LogoListingSection'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import CardListing from '~/components/revamp/components/cardListing'
-import CardsGridSection from '~/components/revamp/components/CardsGridSection'
+import CardsGridSection from '~/v2/sections/CardsGridSection'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import HoverTestimonial from '~/components/revamp/components/common/HoverTestimonial/HoverTestimonial'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import Queries from '~/components/revamp/queries'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 
 interface WhoWeServeIndexProps {
   pageData: any
@@ -27,11 +31,45 @@ export default function WhoWeServeIndex({
   comparisonLegendData,
   faq,
 }: WhoWeServeIndexProps) {
+  console.log(pageData, 'fffffffff')
 
-  return (
+  return pageData?.slug?.includes('v2') ? (
+    <>
+    {pageData?.seo && <SimpleHead data={pageData?.seo} />}
+      <FeatureHero
+        data={pageData['dental-phones-hero']?.componentData}
+        type="feature"
+      />
+      {pageData['logo-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logo-listing']?.componentData.blocksListingData}
+        />
+      )}
+      {pageData['how-voicestack-works'] && (
+        <GroupedCardsGridSection
+          data={pageData['how-voicestack-works']?.componentData?.blocksListingData}
+        />
+      )}
+      {pageData['power-of-ai'] && (
+        <GroupedCardsGridSection
+          data={pageData['power-of-ai']?.componentData}
+          theme="dark"
+          aiSection={true}
+          sectionBorder="b"
+        />
+      )}
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
+      <StatisticsSection />
+    </>
+  ) : (
     <>
       <SimpleHead data={pageData?.seo} />
-      
+
       <HeroWrapper>
         <HeroSection
           page=""
@@ -58,6 +96,18 @@ export default function WhoWeServeIndex({
           data={pageData['hover-card-change-testimonial']?.componentData}
         />
       )}
+       {pageData['test-listing-3']?.componentData && (
+        <CardsGridSection variant="V2" colCount={3}
+          data={pageData['test-listing-3'].componentData}
+        />
+      )}
+      
+      {pageData['test-listing-3']?.componentData && (
+        <GroupedCardsGridSection
+          data={pageData['test-listing-3']?.componentData}
+          theme="dark"
+        />
+      )}
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
           <IntegrationsGrid
@@ -73,13 +123,6 @@ export default function WhoWeServeIndex({
           header={true}
         />
       )}
-
-      {/* FAQ Section */}
-      {/* {faq && (
-        <div>
-          <FaqSection faqItems={faq} />
-        </div>
-      )} */}
     </>
   )
 }
@@ -89,9 +132,11 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   try {
     // Get all pages
-    const queries = new Queries('landing', region)
-    const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
+    const queries = new Queries('landing-v2', region)
+    const slug =
+      region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
+    pageData.slug = slug
     // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null

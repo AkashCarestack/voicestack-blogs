@@ -12,10 +12,22 @@ import React from 'react'
 //   removePadding?: boolean
 // }
 
-export default function Section(props:any) {
+interface SectionProps {
+  children: React.ReactNode
+  className?: string
+  border?: "y" | "t" | "b" | "none"
+  id?: string
+  style?: React.CSSProperties
+  isDark?: boolean
+}
+
+export default function Section(props:SectionProps) {
+  const { children, className, border = "none", isDark = false } = props
+  const borderColor = isDark ? "border-gray-800" : "border-gray-200"
+  const borderClass = border === "y" ? "border-y " + borderColor : border === "b" ? "border-b " + borderColor : border === "t" ? "border-t " + borderColor : ''
   return (
-    <section id={props.id} className={`${props.className} w-full flex justify-center`} style={props.style}>
-        {props.children}
+    <section id={props.id} className={`${className} w-full flex justify-center ${borderClass} ${borderColor}`} style={props.style}>
+        {children}
     </section>
   )
 }

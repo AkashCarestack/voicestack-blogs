@@ -26,7 +26,7 @@ import type { AppContext } from 'next/app'
 
 import Layout from '../components/Layout'
 import ProgressLoader from '../components/common/ProgressLoader'
-import GlobalHead from '../components/common/GlobalHead'
+// import GlobalHead from '../components/common/GlobalHead'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -304,7 +304,7 @@ function dispatchEvent(data: any) {
     // if (window !== undefined && trackData.length > 0 && !isSending) {
 
     
-    if (window !== undefined && trackData.length > 0 && !isSending && (domain == "https://voicestack.com" || domain == "https://www.voicestack.com") ) {
+    if (window !== undefined && trackData.length > 0 && !isSending && (domain == "https://voicestack.com" || domain == "https://www.voicestack.com" || domain == "https://voicestack-sanity-gamma.vercel.app") ) {
       const user = getUser()
       if (user) {
 

@@ -30,7 +30,6 @@ export default function PartnerPageTestimonial({
   const testimonials =
     data.items && data.items.length > 0 ? data.items : null
 
-    console.log(data, "testimonials");
 
   return (
     <Section className="relative py-sm md:py-md bg-[#F9F9F9] font-geist">

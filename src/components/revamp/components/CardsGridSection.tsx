@@ -4,24 +4,17 @@ import Container from '~/components/structure/Container'
 import SectionHeader from './common/sectionHeader'
 import Image from 'next/image'
 import Link from 'next/link'
-
-interface CardItem {
-  _key?: string
-  heading?: string
-  subheading?: string
-  description?: string
-  link?: {
-    url?: string
-    text?: string
-    buttonType?: string
-  }
-  dynamicSvg?: string
-  image?: any
-}
+import SectionHeaderV2 from '../../../v2/components/common/sectionHeaderV2'
+import Section from '~/components/structure/Section'
+import CardItemComponent from '../../../v2/components/common/CardItem'
+import { CardItemProps as CardItem } from '../../../v2/components/common/CardItem'
+import Anchor from '~/components/common/anchor'
 
 interface CardsGridSectionProps {
+  type?: 'col-2' | 'col-3'
   data?: {
     heading?: string
+    sectionHeadingDynamic?: string
     description?: string
     items?: CardItem[]
     useReference?: boolean
@@ -30,11 +23,18 @@ interface CardsGridSectionProps {
       _id?: string
       [key: string]: any
     }
+    ctaListItems?: Array<{
+      ctaLink?: string
+      ctaText?: string
+      ctaType?: string
+    }>
   }
   customText?: string
+  variant?: 'V1' | 'V2'
+  bottomSpace?: boolean
 }
 
-const CardsGridSection = ({ data, customText }: CardsGridSectionProps) => {
+const CardsGridSection = ({ data, customText, type, variant, bottomSpace }: CardsGridSectionProps) => {
   
   // Handle referenced data if useReference is true
   const useReferenceData = data?.useReference && data?.blocksListingData
@@ -42,12 +42,16 @@ const CardsGridSection = ({ data, customText }: CardsGridSectionProps) => {
   
   // Use data from props or fallback to defaults
   const heading = displayData?.heading || 'section header'
+  const sectionHeadingDynamic = displayData?.sectionHeadingDynamic || 'section heading dynamic'
   const description = displayData?.description || 'section description'
+  const ctaListItems = displayData?.ctaListItems || []
   const items = displayData?.items || []
+
   
   if (!data) return null;
-
+  
   return (
+    
     <div className='w-full bg-[#F9F9F9]'>
       <div className={`justify-center relative`}>
         <Container className='w-full lg:py-lg md:py-md py-sm'>
@@ -57,6 +61,10 @@ const CardsGridSection = ({ data, customText }: CardsGridSectionProps) => {
               heading={heading}
               description={description}
             />
+            {/* <SectionHeaderV2
+              heading={displayData?.sectionHeadingDynamic}
+              description={description}
+            /> */}
             <div className="relative z-10 w-full flex flex-col gap-12 flex-grow">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-6">
                 {items.map((item) => {
@@ -113,9 +121,9 @@ const CardsGridSection = ({ data, customText }: CardsGridSectionProps) => {
                   return (
                     <div key={item._key || Math.random()}>
                       {item.link?.url ? (
-                        <Link href={item.link.url} className="block h-full">
+                        <Anchor href={item.link.url} className="block h-full">
                           {CardContent}
-                        </Link>
+                        </Anchor>
                       ) : (
                         CardContent
                       )}

@@ -2,13 +2,20 @@ import Head from 'next/head'
 import Button from '~/components/common/Button'
 
 export default function LoginPage() {
+  const  metadescptn="Login securely to your VoiceStack® account. Owners, managers, & team members can login to their VoiceStack® user account or reset their password."
   return (
     <>
       <Head>
-        <title>Login | VoiceStack® Login | VoiceStack® Practice Login</title>
-        <meta name="description" content="Login securely to your VoiceStack® account. Dentists, managers, &amp; team members can login to their VoiceStack® user account or reset their password." />
+        <title>Login | VoiceStack® Login | VoiceStack® Secure Login</title>
+        <meta name="title" content="Login | VoiceStack® Login | VoiceStack® Secure Login" />
+        <meta name="description" content={metadescptn} />
+        <meta property="og:description" content={metadescptn} />
         <meta name="keywords" content="login, voicestack login, voicestack log in, voicestack provider login" />
         <meta name="author" content="VoiceStack®" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Login | VoiceStack® Login | VoiceStack® Secure Login" />
+        <link rel="canonical" href="https://www.voicestack.com/login" />
+        <meta name="robots" content="index, follow, archive" />
         
       </Head>
       <div className="py-24 px-4">

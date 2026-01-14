@@ -1,0 +1,116 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { cn } from "~/lib/utils";
+import { TabItemProps } from '../types';
+import PauseButton from './PauseButton';
+import ProgressBar from './ProgressBar';
+import MediaDisplay from './MediaDisplay';
+
+export default function TabItem({
+  tab,
+  isActive,
+  index,
+  totalTabs,
+  progress,
+  isPaused,
+  onTabClick,
+  onPauseToggle,
+  tabs,
+  activeTab,
+}: TabItemProps) {
+  const zIndex = isActive ? 10 : totalTabs - index;
+
+  return (
+    <motion.div
+      key={tab.key}
+      className={cn(
+        " border-gray-200 relative overflow-hidden transition-colors duration-200",
+        isActive ? "bg-gray-50 border-b" : "bg-white cursor-pointer border-b",
+        index === 0 && "border-t ",
+        index === totalTabs - 1 && "border-b-0 ",
+      )}
+      style={{ 
+        zIndex,
+        willChange: 'transform',
+      }}
+      animate={{
+        backgroundColor: isActive ? "#F9FAFB" : "#FFFFFF",
+      }}
+      transition={{
+        duration: 0.2,
+        ease: [0.4, 0, 0.2, 1],
+      }}
+    >
+      {!isActive && (
+        <div
+          onClick={() => onTabClick(tab.key)}
+          className="flex gap-6 items-center md:px-12 px-6 md:py-6 py-4 w-full transition-all duration-200 ease-in-out hover:bg-gray-50/80 group"
+        >
+          <div className="flex flex-col justify-center font-geist font-normal text-base text-gray-500 leading-6 tracking-normal whitespace-nowrap transition-colors duration-200 group-hover:text-gray-700">
+            <p>{tab.step.replace('STEP ', '')}</p>
+          </div>
+          <div className="flex flex-col flex-1 gap-0.5 items-start">
+            <div className="flex flex-col justify-center w-full font-geist font-normal text-base text-gray-500 leading-[150%] tracking-normal transition-colors duration-200 group-hover:text-gray-700">
+              <p className="whitespace-pre-wrap leading-[150%]">{tab.title}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isActive && (
+        <motion.div
+          key={`expanded-${tab.key}`}
+          initial={{ opacity: 0, }}
+          animate={{ 
+            opacity: 1, 
+            transform: 'translateY(0)',
+          }}
+          style={{
+            willChange: 'transform',
+            // height: isActive ? '!important 282px' : '!important 70px',
+          }}
+          transition={{
+            opacity: {
+              duration: 0.25,
+              ease: [0.4, 0, 0.2, 1],
+            },
+            transform: {
+              duration: 0.3,
+              ease: [0.4, 0, 0.2, 1],
+            },
+          }}
+          className="flex flex-col md:gap-12 gap-6 items-start justify-center md:p-12 p-4"
+        >
+          <div className="flex items-center justify-between w-full">
+            <div className="flex flex-col justify-center font-geist font-normal text-base text-vs-purple leading-[125%] tracking-normal uppercase whitespace-nowrap">
+              <p className="leading-[125%]">{tab.step}</p>
+            </div>
+            <div className="hidden md:block">
+              <PauseButton isPaused={isPaused} onToggle={onPauseToggle} />
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-1.5 items-start w-full tracking-normal">
+            <div className="flex flex-col justify-center w-full font-geist font-medium text-lg text-gray-950 leading-[155.55%]">
+              <p className="whitespace-pre-wrap leading-[155.55%]">{tab.title}</p>
+            </div>
+            <div className="flex flex-col justify-center w-full font-geist font-normal text-base text-gray-700 leading-[150%]">
+              <p className="whitespace-pre-wrap leading-[150%]">{tab.subheading}</p>
+            </div>
+          </div>
+
+          {/* Progress bar - Desktop Only */}
+          <ProgressBar progress={progress} activeTab={tab.key} />
+
+          {/* Media Display - Mobile Only */}
+          {tabs && activeTab && (
+            <div className="w-full lg:hidden mt-6 h-[300px] md:h-[400px] rounded-2xl overflow-hidden bg-gray-100">
+              <MediaDisplay tabs={tabs} activeTab={activeTab} />
+            </div>
+          )}
+        </motion.div>
+      )}
+    </motion.div>
+  );
+}
+
