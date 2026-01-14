@@ -67,7 +67,7 @@ const NavigationMenu = ({
                     />
                   </div>
                 )}
-                <ul className={`lg:absolute static top-full left-0 ${isMobile ? 'mt-0' : 'mt-2'} w-full lg:w-64 bg-white ${isMobile ? 'rounded-none' : 'rounded-lg'} lg:shadow-lg lg:border border-gray-200 ${isMobile ? (isSubmenuOpen ? 'block' : 'hidden') : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'} transition-all duration-200 z-50 list-none m-0 py-2`}>
+                <ul className={`lg:absolute static top-full left-0 ${isMobile ? 'mt-0' : 'mt-2'} w-full lg:w-80 bg-white ${isMobile ? 'rounded-none' : 'rounded-lg'} lg:shadow-lg lg:border border-gray-200 ${isMobile ? (isSubmenuOpen ? 'block' : 'hidden') : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'} transition-all duration-200 z-50 list-none m-0 py-2`}>
                   {submenuItems.map((subItem: any, subIndex: number) => (
                     <li key={`submenu-${i}-${subIndex}`} className="list-none">
                       <Anchor
