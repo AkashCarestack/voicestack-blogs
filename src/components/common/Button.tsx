@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 
 import MailIcon from '../icons/MailIcon'
 import PhoneIcon from '../icons/PhoneIcon'
@@ -10,6 +10,7 @@ import Anchor from './anchor'
 import { usePricingModal } from './PricingModalContext'
 import ArrowIcon from '../revamp/icons/arrowIcon'
 import replaceUrl from '~/helpers/replaceUrl'
+import { PracticeTypeModal } from './PracticeTypeModal'
 
 interface ButtonProps {
   type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
@@ -41,6 +42,9 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   // Get pricing modal context (may be undefined if provider is not available)
   const pricingModal = usePricingModal()
   const openPricingModal = pricingModal?.openPricingModal
+  
+  // State for practice type modal
+  const [showPracticeTypeModal, setShowPracticeTypeModal] = useState(false)
   
   // Check if we're on a partner child page (with slug), not the landing page
   const isPartnerChildPage = useMemo(() => {
@@ -96,17 +100,24 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     return buttonText.toLowerCase().includes('book free demo')
   }, [buttonText])
   
-  // Handle click - if it's a pricing button, open modal instead of navigating
+  // Handle click - if it's a "book free demo" button, show practice type modal
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-    return;
+    // If it's a "book free demo" button, show modal instead of navigating
+    if (isBookFreeDemoButton) {
+      e.preventDefault()
+      setShowPracticeTypeModal(true)
+      return
+    }
+    
     // if (isPricingButton && openPricingModal) {
     //   e.preventDefault()
     //   openPricingModal()
     // }
-    // // Call original onClick if provided
-    // if (onClick) {
-    //   onClick(e)
-    // }
+    
+    // Call original onClick if provided
+    if (onClick) {
+      onClick(e)
+    }
   }
   
   const baseClasses = `relative [&>*]:relative inline-block rounded-[8px] text-gray-950 font-geist font-medium tracking-[0]  !leading-[150%] flex items-center  justify-center whitespace-nowrap gap-[8px] transition-all duration-300 ease-linear  ${className}`
@@ -190,10 +201,16 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       return formattedLink
     }
     
+    // For "book free demo" buttons, always link to /demo
+    // Next.js Link with locale prop will handle locale-aware routing automatically
+    if (isBookFreeDemoButton) {
+      return '/demo'
+    }
+    
     // On partner child pages (with slug), only override "book free demo" buttons to #demo
     // Landing page (/company/partners) is excluded
     // This preserves interlinking buttons to other pages
-    if (isPartnerChildPage && isBookFreeDemoButton && formattedLink) {
+    if (isPartnerChildPage && formattedLink) {
       return '#demo'
     }
     if (isPricingPage && formattedLink) {
@@ -208,7 +225,6 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     return (
       <>
         <Anchor
-
           href={finalLink}
           className={combinedClasses}
           target={target}
@@ -220,14 +236,28 @@ const Button: React.FunctionComponent<ButtonProps> = ({
           {type === 'secondaryTel' && <PhoneIcon className='size-6'/>}
           {children}
         </Anchor>
+        {showPracticeTypeModal && (
+          <PracticeTypeModal
+            onClose={() => setShowPracticeTypeModal(false)}
+            locale={locale || router.locale}
+          />
+        )}
       </>
     )
   }
 
   return (
-    <button className={combinedClasses} onClick={handleClick} {...rest}>
-      {children}
-    </button>
+    <>
+      <button className={combinedClasses} onClick={handleClick} {...rest}>
+        {children}
+      </button>
+      {showPracticeTypeModal && (
+        <PracticeTypeModal
+          onClose={() => setShowPracticeTypeModal(false)}
+          locale={locale || router.locale}
+        />
+      )}
+    </>
   )
 }
 

@@ -789,7 +789,12 @@ export async function getDemoFormData(client: SanityClient, region: string) {
     demoMeetingLink,
     dmeoFormEventName,
     redirectLink,
-    schedulerLink
+    schedulerLink,
+    demoForms[]{
+      practiceType,
+      demoFormId,
+      demoMeetingLink
+    }
   }`
   return await client.fetch(query, { region })
 }
