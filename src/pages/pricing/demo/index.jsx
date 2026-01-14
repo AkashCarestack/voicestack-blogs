@@ -59,10 +59,9 @@ const BookFreeDemo = () => {
           // const responseData = await fetch(
           //   `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
           // );
-          var redirectBase = "/pricing/demo/thank-you/";
+          var redirectBase = "/pricing/thank-you/";
           var wholeUrl = redirectBase + "?email=" + email;
           router.push(wholeUrl);
-          // router.push("/pricing/demo/thank-you");
         }, 1000)
 
       }

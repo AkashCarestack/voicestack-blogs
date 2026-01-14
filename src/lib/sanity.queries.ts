@@ -794,6 +794,11 @@ export async function getDemoFormData(client: SanityClient, region: string) {
       practiceType,
       demoFormId,
       demoMeetingLink
+    },
+    pricingDemoForms[]{
+      practiceType,
+      demoFormId,
+      demoMeetingLink
     }
   }`
   return await client.fetch(query, { region })

@@ -1,11 +1,22 @@
 import * as React from 'react'
+import { createPortal } from 'react-dom'
 import { CloseIcon } from '@sanity/icons'
 import { useRouter } from 'next/router'
+import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
 
 export interface PracticeTypeModalProps {
   className?: string
   onClose?: () => void
   locale?: string
+  formData?: {
+    pricingDemoForms?: Array<{
+      practiceType?: string
+      demoFormId?: string
+      demoMeetingLink?: string
+    }>
+  }
+  region?: string
+  onPracticeTypeSelect?: (practiceType: string) => void
 }
 
 // Hardcoded practice types matching the Sanity schema
@@ -15,10 +26,45 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
   className,
   onClose,
   locale,
+  formData: propFormData,
+  region: propRegion,
+  onPracticeTypeSelect,
 }) => {
   const router = useRouter()
+  
+  const formData = propFormData
+  const region = propRegion || locale
+
+  // Check if we're on a pricing page
+  const isPricingPage = React.useMemo(() => {
+    const pathname = router.pathname
+    const asPath = router.asPath.split('?')[0] // Remove query params
+    return pathname === '/pricing' || asPath === '/pricing' || asPath.endsWith('/pricing')
+  }, [router.pathname, router.asPath])
 
   const handlePracticeTypeSelect = (practiceType: string) => {
+    // If callback prop is provided, use it
+    if (onPracticeTypeSelect) {
+      if (onClose) {
+        onClose()
+      }
+      onPracticeTypeSelect(practiceType)
+      return
+    }
+
+    // If on pricing page, try to use the global callback
+    if (isPricingPage) {
+      const pricingDemoCallback = getPricingDemoModalCallback()
+      if (pricingDemoCallback) {
+        if (onClose) {
+          onClose()
+        }
+        pricingDemoCallback(practiceType)
+        return
+      }
+    }
+
+    // Otherwise, navigate to demo page (existing behavior)
     // Get current query params from router.asPath
     const asPath = router.asPath.split('?')[0] // Get path without query
     const currentSearch = router.asPath.includes('?') 
@@ -53,9 +99,9 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
   // Use hardcoded practice types
   const practiceTypes = PRACTICE_TYPES
 
-  return (
+  const modalContent = (
     <div
-      className={`relative z-[999] ${className || ''}`}
+      className={`fixed inset-0 z-[9999] ${className || ''}`}
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
@@ -68,12 +114,12 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
 
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div
-          className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0"
+          className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0"
         >
           <div
             className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
           >
-            <div className="bg-white px-4 pb-4 pt-5 sm:p-6">
+            <div className="bg-white px-4 pb-8 pt-5 sm:p-6">
               <div className="sm:flex sm:items-start">
                 <div className="mt-3 px-4 sm:mt-0 sm:text-left w-full flex flex-col gap-6">
                   <div className="flex mt-4 justify-between w-full">
@@ -127,5 +173,12 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
       </div>
     </div>
   )
+
+  // Use portal to render modal to body, ensuring it's always on top
+  if (typeof window !== 'undefined') {
+    return createPortal(modalContent, document.body)
+  }
+
+  return null
 }
 
