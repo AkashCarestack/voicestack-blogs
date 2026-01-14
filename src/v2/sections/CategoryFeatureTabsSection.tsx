@@ -855,8 +855,8 @@ export default function CategoryFeatureTabsSection({
                             {/* Main Heading */}
                             {category.subheading && (
                               <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 w-full">
-                                <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl">{category.subheading}</p>
-                              </div>
+                                <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
+                                </div>
                             )}
                             {/* Description */}
                             {category.description && (
@@ -1058,7 +1058,7 @@ export default function CategoryFeatureTabsSection({
                             )}
                             {/* Main Heading */}
                             <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 md:text-4xl text-xl w-full">
-                              <p className="leading-[133.33%] whitespace-pre-wrap">{category.subheading}</p>
+                            <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
                             </div>
                           </div>
                           {/* Description */}

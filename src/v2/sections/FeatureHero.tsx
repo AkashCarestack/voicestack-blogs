@@ -201,7 +201,7 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
         return React.createElement(
           headingLevel,
           {
-            className: `text-gray-950 text-center font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px] ${isCentered ? 'md:text-center' : ' md:text-left'}`,
+            className: `text-gray-950 text-center font-manrope xl:text-[56px] md:text-5xl  text-3xl font-bold !leading-[107.143%] max-w-3xl ${isCentered ? 'md:text-center' : ' md:text-left'}`,
           },
           children
         )

@@ -304,7 +304,7 @@ export const HeroFeatureComponents: any = {
       React.createElement(
         'h2',
         {
-          className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px]',
+          className: 'text-gray-950 text-center md:text-left font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px] ',
         },
         children
       ),
@@ -324,7 +324,7 @@ export const HeroFeatureComponents: any = {
       React.createElement(
         'li',
         {
-          className: 'flex justify-start gap-3  py-[10px] md:py-[14px] text-base text-gray-950 leading-[150%] border-b',
+          className: 'flex justify-start gap-3  py-[10px] md:py-[14px] text-base text-gray-950 leading-[150%] border-b ',
           style: { borderColor: '#0307121A' },
         },
         React.createElement('span', null, children)
@@ -338,10 +338,12 @@ export const descriptionComponents: any = {
       React.createElement(
         'p',
         {
-          className: 'text-gray-950 font-normal text-center md:text-left md:max-w-[711px] w-full font-geist md:text-lg text-base leading-[155.55%]',
+          className: 'text-gray-950 font-normal text-center md:text-left md:max-w-[711px] w-full font-geist md:text-lg text-base leading-[155.55%] [&_strong]:!font-semibold',
         },
+        
         children
       ),
+
   },
   marks: {
     link: ({ children, value }: { children: React.ReactNode; value?: { href?: string } }) =>
@@ -407,7 +409,7 @@ export const ComparisonHeroH1: any = {
       React.createElement(
         'span',
         {
-          className:'max-w-[606px] text-[#030712] font-[Manrope] text-center md:text-left md:text-6xl text-4xl font-extrabold leading-[115%] tracking-[-0.8px]',
+          className:'max-w-[606px] text-[#030712] font-[Manrope] text-center md:text-left md:text-6xl text-4xl font-bold leading-[115%] tracking-[-0.8px]',
         },
         children
       ),
