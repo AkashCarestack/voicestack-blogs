@@ -94,9 +94,9 @@ export default function FeatureTestimonialsSection({ data }: { data: any }) {
                             {item.testimonial?.designation}
                           </span>
                         </p>
-                        <p className="text-sm md:text-base font-normal text-gray-500">
+                        {/* <p className="text-sm md:text-base font-normal text-gray-500">
                           {item.testimonial?.practiceName}
-                        </p>
+                        </p> */}
                       </div>
                     </div>
                     {/* Quote */}
