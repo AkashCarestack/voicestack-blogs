@@ -340,7 +340,7 @@ const TestimonialSlider = ({
                               {logo?.name}
                             </p>
                             <p className="text-sm text-white/60">
-                              {logo?.practiceName}
+                              {logo?.designation}
                             </p>
                           </span>
                         </div>
