@@ -65,6 +65,7 @@ const PricingHubspotMeeting: React.FC<{
           domain: window.location.origin,
           destination_url: null,
           referrer_url: window.document.referrer,
+          element_id: formDetails,
         });
         setTimeout(async () => {
           var redirectBase = "/pricing/thank-you/";
