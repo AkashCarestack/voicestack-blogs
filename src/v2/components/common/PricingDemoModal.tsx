@@ -86,7 +86,7 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
           >
             <div className={`bg-white pb-4 pt-5 sm:p-6 sm:pb-4 ${hasMeetingLink ? 'px-0' : 'px-4'}`}>
               <div className="sm:flex sm:items-start">
-                <div className={`mt-3 sm:mt-0 sm:text-left w-full flex flex-col gap-8
+                <div className={`sm:mt-0 sm:text-left w-full flex flex-col gap-0
                 
                 ${hasMeetingLink ? 'px-1' : 'px-4'}
                 `}>
@@ -95,7 +95,7 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
                       <></>
                       ):( */}
                     <div className="flex flex-col gap-2">
-                      <h3
+                      {/* <h3
                         className="text-2xl font-semibold leading-6 text-gray-900"
                         id="modal-title"
                       >
@@ -106,7 +106,7 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
                           {showPracticeTypeSelection
                             ? 'Start your transition to VoiceStack. Book a demo with us today.'
                             : 'Start your transition to VoiceStack. Book a demo with us today.'}
-                        </p>
+                        </p> */}
                     </div>
                       {/* )} */}
 
