@@ -269,13 +269,13 @@ export default function FaqSection({ faqItems }: any) {
             label="Support" 
             email={contactData?.contactEmail || ''} 
             emailTextSize="xl:text-base"
-            className="md:border-l md:border-r-0 border-l border-r border-b md:rounded-l-[6px] rounded-[6px] mb-1.5 md:mb-0"
+            className="md:border-l md:border-r-0 border-l border-r border-b md:rounded-l-[6px] md:rounded-r-none rounded-[6px] mb-1.5 md:mb-0"
           />
           <ContactInfoItem 
             label="Sales" 
             email={contactData?.salesEmail || ''} 
             emailTextSize="xl:text-base"
-            className="border-l border-r md:rounded-r-[6px] rounded-[6px]"
+            className="border-l border-r md:rounded-r-[6px] md:rounded-l-none rounded-[6px]"
           />
         </div>
       </div>
