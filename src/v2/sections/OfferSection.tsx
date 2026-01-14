@@ -24,10 +24,10 @@ const OfferSection = ({ data }: OfferSectionProps) => {
                   heading={data?.sectionHeadingDynamic}
                   // heading={pageData['how-voicestack-works2'].componentData.heading}
                   description={data?.subDescription}
-                  demoButton={true}
+                  // demoButton={true}
                   
                 />
-                {/* {data?.ctaListItems && data.ctaListItems.length > 0 && (
+                {data?.ctaListItems && data.ctaListItems.length > 0 && (
                   <div className="flex justify-start gap-4 flex-wrap">
                     {data.ctaListItems.map((cta: any, index: number) => (
                       <Button
@@ -42,7 +42,7 @@ const OfferSection = ({ data }: OfferSectionProps) => {
                       </Button>
                     ))}
                   </div>
-                )} */}
+                )}
 
               </div>
             </div>

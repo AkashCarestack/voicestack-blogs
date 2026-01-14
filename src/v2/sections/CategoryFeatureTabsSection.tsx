@@ -481,7 +481,7 @@ export default function CategoryFeatureTabsSection({
           className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
           border={sectionBorder}
         >
-          <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
+          <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="b-0">
             {/* Header Section */}
             {sectionHeading && (
               <div className="flex-col relative w-full flex gap-8 items-center justify-center mb-12 px-4 md:px-12">
@@ -497,6 +497,7 @@ export default function CategoryFeatureTabsSection({
                       'Explore our range of professional phones designed for your practice.'
                     }
                     className='px-0'
+                    demoButton={true}
                   />
                 </div>
               </div>
@@ -516,9 +517,9 @@ export default function CategoryFeatureTabsSection({
                   return (
                     <React.Fragment key={tab._key || index}>
                       <div className={cn(
-                        "grid grid-cols-1 lg:grid-cols-2 gap-0 w-full",
+                        "grid grid-cols-1 lg:grid-cols-2 gap-0 w-full h-full",
                         isFirst && "border-t border-gray-200",
-                        !isLast && "border-b border-gray-200"
+                        "border-b border-gray-200"
                       )}>
                         {/* Left: Content (50%) - Order 2 on mobile, 1 on desktop */}
                         <div className="flex flex-col gap-6 p-8 lg:p-12 bg-white order-2 lg:order-1">
@@ -553,7 +554,7 @@ export default function CategoryFeatureTabsSection({
   
                         {/* Right: Image (50%) - Order 1 on mobile, 2 on desktop */}
                         {phoneImage && (
-                          <div className="w-full min-h-[300px] lg:h-full bg-gray-50 flex items-center justify-center p-8 lg:p-12 relative overflow-hidden order-1 lg:order-2">
+                          <div className="w-full h-full bg-gray-50 flex items-center justify-center  relative overflow-hidden order-1 lg:order-2">
                             {/* Grid Pattern Background */}
                             <div className="absolute inset-0 z-0">
                               <GridPattern
@@ -566,13 +567,13 @@ export default function CategoryFeatureTabsSection({
                                 )}
                               />
                             </div>
-                            <div className="relative z-10 w-full h-full min-h-[300px] flex items-center justify-center">
+                            <div className="relative z-10 w-full !h-full flex items-center justify-center">
                               <ImageLoader
                                 image={phoneImage}
                                 alt={phoneTitle}
                                 title={phoneTitle}
-                                fixed={true}
-                                className="object-contain w-full h-full max-h-[400px]"
+                                fixed={false}
+                                className="object-contain w-full !h-full"
                               />
                             </div>
                           </div>
@@ -689,8 +690,8 @@ export default function CategoryFeatureTabsSection({
                             {/* Main Heading */}
                             {category.subheading && (
                               <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900  w-full">
-                                <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl">{category.subheading}</p>
-                              </div>
+                                <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
+                                </div>
                             )}
                             {/* Description */}
                             {category.description && (
@@ -854,8 +855,8 @@ export default function CategoryFeatureTabsSection({
                             {/* Main Heading */}
                             {category.subheading && (
                               <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 w-full">
-                                <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl">{category.subheading}</p>
-                              </div>
+                                <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
+                                </div>
                             )}
                             {/* Description */}
                             {category.description && (
@@ -1057,7 +1058,7 @@ export default function CategoryFeatureTabsSection({
                             )}
                             {/* Main Heading */}
                             <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 md:text-4xl text-xl w-full">
-                              <p className="leading-[133.33%] whitespace-pre-wrap">{category.subheading}</p>
+                            <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
                             </div>
                           </div>
                           {/* Description */}
