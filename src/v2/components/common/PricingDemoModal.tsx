@@ -134,7 +134,7 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
                             key={practiceType}
                             type="button"
                             onClick={() => handlePracticeTypeSelect(practiceType)}
-                            className="w-full px-4 py-3 text-left bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-900 font-medium"
+                            className="w-full px-4 py-3 bg-gray-100 hover:bg-vs-lemon-green rounded-lg transition-colors text-gray-950 font-medium text-center"
                           >
                             {practiceType}
                           </button>
