@@ -42,6 +42,7 @@ const PricingHubspotMeeting: React.FC<{
           event: eventName,
           form: formDetails,
         });
+        
         window.localStorage.setItem(
           "pricingDemoMeetingData",
           JSON.stringify({
