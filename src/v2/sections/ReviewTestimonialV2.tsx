@@ -205,7 +205,7 @@ export default function ReviewTestimonialV2({ data, buttonDemo = false }: Review
                                 {testimonial?.name}
                               </p>
                               <p className="text-sm md:text-base text-gray-600">
-                                {testimonial?.designation} , {testimonial?.practiceName}
+                                {testimonial?.designation}
                               </p>
                             </div>
                           </div>

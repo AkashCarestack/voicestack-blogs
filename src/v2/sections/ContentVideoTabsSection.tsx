@@ -470,7 +470,7 @@ export default function ContentVideoTabsSection({
         </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:px-12 px-4 ">
             {/* Left: Scrollable Content Sections */}
-            <div className="w-full">
+            <div className="w-full lg:max-w-[503px]">
               {tabs?.map((tab,i) => (
                 <section
                   key={tab.key}
@@ -499,7 +499,7 @@ export default function ContentVideoTabsSection({
                       ) : null}
                       
                       {tab.content && Array.isArray(tab.content) && tab.content.length > 0 ? (
-                        <div className="md:mt-6 mt-3">
+                        <div className="">
                           <PortableText value={tab.content} components={portableTextComponents} />
                         </div>
                       ) : tab.features && tab.features.length > 0 ? (
