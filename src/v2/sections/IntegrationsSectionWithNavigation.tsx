@@ -332,7 +332,7 @@ export default function IntegrationsSectionWithNavigation({
               description={
                 sectionHeading?.subheadline
                   ? sectionHeading?.subheadline
-                  : 'VoiceStack is a modern AI powered phone system that supports integrations with all major software systems that growing dental practices require. Our integration landscape is always growing as we add new partners almost on a monthly basis.'
+                  : 'VoiceStack is a modern AI powered phone system that supports integrations with all major software systems that growing practices require. Our integration landscape is always growing as we add new partners almost on a monthly basis.'
               }
               className="px-0"
             />

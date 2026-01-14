@@ -3,7 +3,6 @@ import React from 'react'
 import SimpleHead from '~/components/common/SimpleHead'
 
 import FaqSection from '~/components/revamp/components/common/faqSection'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
@@ -13,6 +12,7 @@ import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
 // Define proper TypeScript interfaces
@@ -125,7 +125,7 @@ export default function DentalPhonesIndex({
           theme="dark"
         />
       )}
-      <StatisticsSection variant="V2" />
+      <StatisticsSection  />
 
       {faq && <FaqSection faqItems={faq} />}
     </>
