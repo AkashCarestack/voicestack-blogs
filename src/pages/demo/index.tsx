@@ -7,6 +7,7 @@ import { getDemoFormData } from '~/lib/sanity.queries'
 import HubSpotForm from '~/v2/components/common/HubspotForm'
 import Head from 'next/head'
 import HubSpotMeeting from '~/v2/components/common/HubspotMeeting'
+import demoTrackingNames from '~/v2/data/demoTrackingNames.json'
 
 interface DemoPageProps {
   formData: {
@@ -57,7 +58,11 @@ export default function DemoPage({ formData, region }: DemoPageProps) {
   const formId = activeFormData?.demoFormId
   const meetingLink = activeFormData?.demoMeetingLink
   const practiceTypeSlug = activeFormData?.practiceType.toLowerCase().replace(' ', '_')
-  const eventName = `demo_form_${practiceTypeSlug}_${router.locale}`
+  
+  // Map region to tracking name key
+  const regionKey = region === 'en-GB' ? 'uk' : region === 'en-AU' ? 'au' : 'us'
+  const eventName = demoTrackingNames[regionKey as keyof typeof demoTrackingNames] || demoTrackingNames.us
+  const formDetails = `${practiceTypeSlug}_${router.locale}`; 
   console.log({eventName});
   
   console.log({activeFormData});
@@ -88,6 +93,7 @@ export default function DemoPage({ formData, region }: DemoPageProps) {
                 <HubSpotForm 
                   id={formId} 
                   eventName={eventName} 
+                  formDetails={formDetails}
                 />
             </div>
           )}

@@ -7,12 +7,13 @@ import { getCookie } from '~/utils/tracker/cookie'
 const HubSpotForm = ({
   id,
   eventName,
-  meetingLink
+  meetingLink,
+  formDetails
 }: {
   id?: string
   eventName?: string
   meetingLink?: string
-
+  formDetails?: string
 }) => {
 
 
@@ -77,6 +78,11 @@ const HubSpotForm = ({
 
                 const email = form.querySelector('input[name="email"]').value;
 
+                window2.dataLayer.push({
+                  email: email,
+                  event: eventName || 'demo_submission_uk',
+                });
+
                 window.localStorage.setItem(
                   "demoData",
                   JSON.stringify({
@@ -103,6 +109,7 @@ const HubSpotForm = ({
                   domain: window.location.origin,
                   destination_url: null,
                   referrer_url: window.document.referrer,
+                  element_id: formDetails,
                 });
                 
                 setTimeout(async () => {
