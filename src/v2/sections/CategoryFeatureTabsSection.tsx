@@ -828,7 +828,7 @@ export default function CategoryFeatureTabsSection({
 
             <div className="relative w-full">
               <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
-                <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 min-h-[500px] relative overflow-hidden">
+                <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 min-h-[500px] relative overflow-hidden border-r border-gray-200">
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const isActive = category.name === activeCategory;
@@ -1090,14 +1090,12 @@ export default function CategoryFeatureTabsSection({
                       </div>
                       {category?.mainImage && (
                         <div className="w-full h-full relative flex items-end justify-center">
-                          <figure className="relative w-full flex items-end justify-center h-auto">
+                          <figure className="relative w-full h-full flex items-end justify-center">
                             <ImageLoader
                               image={category.mainImage}
                               alt={`${category.name} feature illustration`}
                               title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
-                              width={400}
-                              height={400}
-                              fixed={false}
+                              fixed={true}
                               className="rounded-lg object-contain w-full h-full"
                             />
                           </figure>

@@ -406,8 +406,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                             {currentTestimonial?.testimonial?.name}
                           </p>
                           <p className="text-white/60 text-sm">
-                            {currentTestimonial?.testimonial?.designation} ,{' '}
-                            {currentTestimonial?.testimonial?.practiceName}
+                            {currentTestimonial?.testimonial?.designation}
                           </p>
                         </div>
                       </div>
@@ -519,8 +518,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                         {currentTestimonial?.testimonial?.name}
                       </p>
                       <p className="text-gray-600 text-left">
-                        {currentTestimonial?.testimonial?.designation} ,{' '}
-                        {currentTestimonial?.testimonial?.practiceName}
+                        {currentTestimonial?.testimonial?.designation}
                       </p>
                     </div>
                   </div>
@@ -579,7 +577,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                       <Button type="primary" className="w-fit" link="/demo">
                         <span>
                           {isPricingPage
-                            ? 'Get Pricing'
+                            ? 'Book Free Demo'
                             : currentTestimonial?.ctaListItems[0]?.ctaText ||
                               'Book Free Demo'}
                         </span>

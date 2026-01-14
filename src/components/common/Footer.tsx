@@ -102,7 +102,7 @@ const Footer = ({ data }) => {
                             <Anchor
                               href={link.link}
                               target={link.newTab ? '_blank' : '_self'}
-                              className="text-white font-geist text-sm font-normal leading-5 tracking-normal hover:text-white/80 transition-colors duration-300"
+                              className="text-white font-geist text-sm font-normal leading-5 tracking-normal hover:text-vs-lemon-green transition-colors duration-300"
                             >
                               {link.text}
                             </Anchor>

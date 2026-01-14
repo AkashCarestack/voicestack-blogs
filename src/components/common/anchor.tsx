@@ -66,6 +66,10 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
     
     const dataId = elementId || btnId || '';
 
+    // Extract onClick from rest to prevent it from overriding tracking handler
+    // This is the root cause - Button passes onClick which was overriding tracking
+    const { onClick: externalOnClick, ...restProps } = rest;
+
     return (
       <Link {...(dataId && { 'data-elementid': dataId })} href={newLink} locale={locale} replace={replace}
         onClick={(e) => {
@@ -73,8 +77,15 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
           const element = getCssSelectorShort(e.target as Element);
           let e_name = "";
           const utm_term = getQueryParamFromLink(newLink, 'utm_term');
+          
+          // Check if this is a demo button link
+          const linkPath = newLink.split('?')[0].split('#')[0];
+          const isDemoLink = linkPath === '/demo' || linkPath.endsWith('/demo') || linkPath.includes('/pricing/demo');
+          
           if (utm_term) {
             e_name = utm_term;
+          } else if (isDemoLink) {
+            e_name = "demo-button";
           } else {
             if (!newLink.includes('https://')) {
               e_name = (rest.className?.split('_')[0] !== undefined ? `${rest.className?.split('_')[0]}` :
@@ -110,7 +121,13 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
             domain: window.location.origin,
             referrer_url: window.document.referrer
           });
-        }}  {...rest} passHref /*{...(prefetch === false ? { prefetch } : {})}*/ prefetch={false}>
+
+          // Call external onClick if provided (from Button component, etc.)
+          // This ensures both tracking AND button's onClick work
+          if (externalOnClick) {
+            externalOnClick(e);
+          }
+        }}  {...restProps} passHref /*{...(prefetch === false ? { prefetch } : {})}*/ prefetch={false}>
         {children}
       </Link>
 
