@@ -1,17 +1,17 @@
+import React from 'react'
 import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
-// import { usePricingModal } from './PricingModalContext'
 
-const HubSpotMeeting = ({
-  meetingLink,
-  eventName,
-  formDetails,
-}: {
+const PricingHubspotMeeting: React.FC<{
   meetingLink?: string
   eventName?: string
   formDetails?: string
+}> = ({
+  meetingLink,
+  eventName,
+  formDetails,
 }) => {
   const { trackEvent } = useTracking({}, {})
   const router = useRouter()
@@ -29,11 +29,6 @@ const HubSpotMeeting = ({
       if (event.origin != "https://meetings.hubspot.com") return false;
 
       if (event.data.meetingBookSucceeded) {
-        // document.getElementsByClassName(
-        //   "meetings-iframe-container"
-        // )[0].style.display = "none"; //hiding the meeting iframe
-        // document.getElementsByClassName("meeting-confirm")[0].style.display =
-        //   "block"; //showing the temporary meeting status (if needed)
         let meetingData = event.data.meetingsPayload.bookingResponse; //data
         let organizer = meetingData.postResponse.organizer.name;
         let date = meetingData.event.dateString;
@@ -41,14 +36,14 @@ const HubSpotMeeting = ({
         let email = meetingData.postResponse.contact.email;
         const urlParams = new URLSearchParams(window.location.search);
 
+
         window2.dataLayer.push({
           email: email,
           event: eventName,
           form: formDetails,
         });
-
         window.localStorage.setItem(
-          "demoMeetingData",
+          "pricingDemoMeetingData",
           JSON.stringify({
             organizer,
             dateString: date,
@@ -57,7 +52,6 @@ const HubSpotMeeting = ({
         );
 
         const params = new URLSearchParams();
-        // const eventName = `demo_meeting_submission_${router.locale}`
         trackEvent({
           e_name: eventName,
           e_type: "form-submission",
@@ -72,17 +66,14 @@ const HubSpotMeeting = ({
           referrer_url: window.document.referrer,
         });
         setTimeout(async () => {
-          // const responseData = await fetch(
-          //   `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
-          // );
-          var redirectBase = "/demo/thank-you/";
+          var redirectBase = "/pricing/thank-you/";
           var wholeUrl = redirectBase + "?email=" + email + "&meeting=true";
           router.push(wholeUrl);
         }, 1000)
 
       }
     });
-  }, []);
+  }, [meetingLink, eventName, router]);
 
   return (
     <>
@@ -94,7 +85,6 @@ const HubSpotMeeting = ({
       </div>
       <div
         className="meetings-iframe-container"
-        // data-src="https://meetings.hubspot.com/carestack-dan/voicestack-us-website-pricing-demo?embed=true"
         data-src={meetingLink ? `${meetingLink}?embed=true` : undefined}
         // data-src="https://meetings.hubspot.com/marcomm-admin/test-link-harsha?embed=true"
       ></div>
@@ -103,5 +93,5 @@ const HubSpotMeeting = ({
 };
 
 
-export default HubSpotMeeting
+export default PricingHubspotMeeting
 

@@ -62,7 +62,6 @@ const BookFreeDemo = () => {
           var redirectBase = "/pricing/thank-you/";
           var wholeUrl = redirectBase + "?email=" + email;
           router.push(wholeUrl);
-          // router.push("/pricing/demo/thank-you");
         }, 1000)
 
       }

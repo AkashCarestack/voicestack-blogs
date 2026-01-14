@@ -63,11 +63,6 @@ export default function DemoPage({ formData, region }: DemoPageProps) {
   const regionKey = region === 'en-GB' ? 'uk' : region === 'en-AU' ? 'au' : 'us'
   const eventName = demoTrackingNames[regionKey as keyof typeof demoTrackingNames] || demoTrackingNames.us
   const formDetails = `${practiceTypeSlug}_${router.locale}`; 
-  console.log({eventName});
-  
-  console.log({activeFormData});
-  
-  console.log({formId, meetingLink})
   
   return (
     <>
@@ -102,6 +97,7 @@ export default function DemoPage({ formData, region }: DemoPageProps) {
               <HubSpotMeeting 
                 meetingLink={meetingLink}
                 eventName={eventName}
+                formDetails={formDetails}
               />
             </div>
           )}
