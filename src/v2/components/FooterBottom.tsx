@@ -1,6 +1,8 @@
 import Section from '~/components/structure/Section'
 import FooterBottomBg from '../../../public/assets/Bg/image2.png'
 import Button from '~/components/common/Button'
+import Image from 'next/image'
+import { urlForImage } from '~/lib/sanity.image'
 
 interface FooterBottomProps {
   data?: {
@@ -12,6 +14,7 @@ interface FooterBottomProps {
       showBanner?: boolean
       backgroundImage?: {
         url?: string
+        asset?: any
       }
     }
   }
@@ -25,8 +28,24 @@ export default function FooterBottom({ data }: FooterBottomProps) {
     return null
   }
 
-  // Use Sanity background image if available, otherwise fallback to default
-  const backgroundImageUrl = ctaBanner?.backgroundImage?.url || FooterBottomBg.src
+  // Optimize image URL - use Sanity optimization if available, otherwise use Next.js Image for local images
+  const getOptimizedImageSource = () => {
+    if (ctaBanner?.backgroundImage?.asset) {
+      // Sanity image - use urlForImage with optimization
+      return urlForImage(ctaBanner.backgroundImage.asset, {
+        width: 1920, // Max width for large displays
+        quality: 85, // Good quality but smaller file size
+      }) || ''
+    }
+    if (ctaBanner?.backgroundImage?.url) {
+      // Direct URL from Sanity (fallback)
+      return ctaBanner.backgroundImage.url
+    }
+    // Local image - Next.js will optimize automatically
+    return FooterBottomBg
+  }
+
+  const imageSource = getOptimizedImageSource()
 
   // Use Sanity content or fallback defaults
   const title = ctaBanner?.title || 'Grow your practice with Voicestack'
@@ -37,16 +56,19 @@ export default function FooterBottom({ data }: FooterBottomProps) {
   return (
     <Section id="footer-bottom" className={'bg-black text-white'}>
       <div className="flex flex-col gap-3 items-center w-full">
-        <div
-          className="flex flex-col items-center self-stretch md:pt-24 pt-16 md:pb-16 pb-8 md:rounded-br-[24px] md:rounded-bl-[24px] rounded-bl-[12px] rounded-br-[12px]"
-          style={{
-            backgroundImage: `url(${backgroundImageUrl})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}
-        >
-          <div className="max-w-[690px] mx-auto text-center px-4">
+        <div className="relative flex flex-col items-center self-stretch md:pt-24 pt-16 md:pb-16 pb-8 md:rounded-br-[24px] md:rounded-bl-[24px] rounded-bl-[12px] rounded-br-[12px] overflow-hidden">
+          {/* Optimized background image */}
+          <Image
+            src={imageSource}
+            alt=""
+            fill
+            className="object-cover object-center"
+            priority
+            quality={85}
+            sizes="100vw"
+          />
+          {/* Content overlay */}
+          <div className="relative z-10 max-w-[690px] mx-auto text-center px-4">
             <h3 className="font-manrope font-semibold lg:text-6xl text-3xl !leading-[113%]">
               {title}
             </h3>
