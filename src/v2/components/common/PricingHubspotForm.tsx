@@ -1,19 +1,17 @@
-
+import React from 'react'
 import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
 
-const HubSpotForm = ({
-  id,
-  eventName,
-  meetingLink,
-  formDetails
-}: {
+const PricingHubspotForm: React.FC<{
   id?: string
   eventName?: string
-  meetingLink?: string
   formDetails?: string
+}> = ({
+  id,
+  eventName,
+  formDetails
 }) => {
 
 
@@ -41,10 +39,11 @@ const HubSpotForm = ({
             window.hbspt.forms.create({
               portalId: '4832409',
               region: 'na1',
-              formId: id ,
+              formId: id,
+              
               // formId: "f2fbfea3-a1e5-4e17-a506-a9d341a45458",
               
-              target: '#hubspotForm',
+              target: '#pricingHubspotForm',
               inlineMessage:
                 'We are confirming your demo request..',
               onFormReady: function ($form, ctx) {
@@ -85,7 +84,7 @@ const HubSpotForm = ({
                 });
 
                 window.localStorage.setItem(
-                  "demoData",
+                  "pricingDemoData",
                   JSON.stringify({
                     firstname: form.querySelector('input[name="firstname"]').value,
                     lastname: form.querySelector('input[name="lastname"]').value,
@@ -94,9 +93,7 @@ const HubSpotForm = ({
                   })
                 );
                 
-                // if(meetingLink){
-                  document.getElementById("successMessage").style.display = "block";
-                // }
+                document.getElementById("pricingSuccessMessage").style.display = "block";
                 
                 trackEvent({
                   e_name: eventName || 'demo_submission_uk',
@@ -118,16 +115,16 @@ const HubSpotForm = ({
                   const responseData = await fetch(
                     `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
                   ); 
-                  // document.getElementById("successMessage").innerHTML = "Thank you, a VoiceStack representative will reach out to you shortly."; 
-                  // Commented out meeting redirect - now redirecting to thank-you page instead
-                  // if(meetingLink){
-                  //   var meetingUrl = `${meetingLink}?${params.toString()}`;
-                  //   router.push(meetingUrl);
-                  // }
-                  var redirectBase = "/demo/thank-you/";
-                  var wholeUrl = redirectBase + "?email=" + email;
+                  var redirectBase = "/pricing/thank-you/";
+                  // Remove 'meeting' parameter if it exists (from previous meeting booking)
+                  const redirectParams = new URLSearchParams();
+                  redirectParams.set("email", email);
+                  // Remove meeting param if present
+                  if (urlParams.has("meeting")) {
+                    urlParams.delete("meeting");
+                  }
+                  var wholeUrl = redirectBase + "?" + redirectParams.toString();
                   router.push(wholeUrl);
-                  // router.push('/demo/thank-you');
                    
                 }, 3000)
               },
@@ -147,22 +144,16 @@ const HubSpotForm = ({
       )
       if (hubspotScript) hubspotScript.remove()
     }
-  }, [id, eventName, router])
+  }, [id, eventName, router, formDetails])
 
   return (
     <>
-      <div id="hubspotForm"></div>
-      <div id="successMessage" style={{display: 'none', marginTop: '20px'}}>
+      <div id="pricingHubspotForm"></div>
+      <div id="pricingSuccessMessage" style={{display: 'none', marginTop: '20px'}}>
         Please wait..
       </div>
-      <style jsx global>{`
-        #hubspotForm .submitted-message {
-          display: ${meetingLink ? 'none' : 'block'};
-        }
-        
-      `}</style>
     </>
   )
 }
 
-export default HubSpotForm
+export default PricingHubspotForm

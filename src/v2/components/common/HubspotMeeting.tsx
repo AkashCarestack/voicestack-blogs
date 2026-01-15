@@ -7,15 +7,18 @@ import { getCookie } from '~/utils/tracker/cookie'
 const HubSpotMeeting = ({
   meetingLink,
   eventName,
+  formDetails,
 }: {
   meetingLink?: string
   eventName?: string
+  formDetails?: string
 }) => {
   const { trackEvent } = useTracking({}, {})
   const router = useRouter()
   
 
   useEffect(() => {
+    const window2: any = window
     const script = document.createElement("script");
     script.type = "text/javascript";
     script.async = true;
@@ -37,6 +40,13 @@ const HubSpotMeeting = ({
         let time = meetingData.event.dateTime;
         let email = meetingData.postResponse.contact.email;
         const urlParams = new URLSearchParams(window.location.search);
+
+        window2.dataLayer.push({
+          email: email,
+          event: eventName,
+          form: formDetails,
+        });
+
         window.localStorage.setItem(
           "demoMeetingData",
           JSON.stringify({
@@ -60,6 +70,7 @@ const HubSpotMeeting = ({
           domain: window.location.origin,
           destination_url: null,
           referrer_url: window.document.referrer,
+          element_id: formDetails,
         });
         setTimeout(async () => {
           // const responseData = await fetch(
@@ -68,7 +79,6 @@ const HubSpotMeeting = ({
           var redirectBase = "/demo/thank-you/";
           var wholeUrl = redirectBase + "?email=" + email + "&meeting=true";
           router.push(wholeUrl);
-          // router.push("/pricing/demo/thank-you");
         }, 1000)
 
       }
@@ -86,7 +96,8 @@ const HubSpotMeeting = ({
       <div
         className="meetings-iframe-container"
         // data-src="https://meetings.hubspot.com/carestack-dan/voicestack-us-website-pricing-demo?embed=true"
-        data-src="https://meetings.hubspot.com/marcomm-admin/test-link-harsha?embed=true"
+        data-src={meetingLink ? `${meetingLink}?embed=true` : undefined}
+        // data-src="https://meetings.hubspot.com/marcomm-admin/test-link-harsha?embed=true"
       ></div>
     </>
   );

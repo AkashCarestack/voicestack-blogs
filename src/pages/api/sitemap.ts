@@ -201,6 +201,34 @@ function extractFooterPaths(footers: FooterData[]): Set<string> {
   return paths;
 }
 
+async function getFeaturePaths(client: any): Promise<Set<string>> {
+  const paths = new Set<string>();
+  
+  const featuresQuery = groq`
+    *[_type == "features" && !(_id in path("drafts.**")) && defined(basicInfo.slug.current)] {
+      "slug": basicInfo.slug.current
+    }
+  `;
+  
+  const features = await client.fetch(featuresQuery);
+  
+  // Get unique slugs and build paths
+  const uniqueSlugs = new Set<string>();
+  features.forEach((feature: any) => {
+    // Exclude 'track' feature
+    if (feature.slug && feature.slug !== 'track' && !shouldExcludePath(`phone-system/features/${feature.slug}`)) {
+      uniqueSlugs.add(feature.slug);
+    }
+  });
+  
+  // Build paths for feature pages
+  uniqueSlugs.forEach(slug => {
+    paths.add(`phone-system/features/${slug}`);
+  });
+  
+  return paths;
+}
+
 async function getNavigationPaths(client: any): Promise<Set<string>> {
   const headerQuery = groq`
     *[_type == "homeSettings" && !(_id in path("drafts.**"))] {
@@ -299,8 +327,17 @@ export default async function handler(
 ) {
   try {
     const client = getClient(req.preview ? { token: readToken } : undefined);
-    const navigationPaths = await getNavigationPaths(client);
-    const sitemap = generateSiteMap(navigationPaths);
+    const [navigationPaths, featurePaths] = await Promise.all([
+      getNavigationPaths(client),
+      getFeaturePaths(client)
+    ]);
+    
+    // Combine all paths
+    const allPaths = new Set<string>();
+    navigationPaths.forEach(p => allPaths.add(p));
+    featurePaths.forEach(p => allPaths.add(p));
+    
+    const sitemap = generateSiteMap(allPaths);
     
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');

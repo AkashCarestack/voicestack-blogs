@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { CloseIcon } from '@sanity/icons'
 
 import PricingHubSpotForm from './PricingHubSpotForm'
+import { X } from 'lucide-react'
 
 export interface PricingFormModalProps {
   className?: string
@@ -89,7 +90,8 @@ export const PricingFormModal: React.FC<PricingFormModalProps> = ({
                       onClick={onClose}
                     >
                       <div className="w-5">
-                        <CloseIcon></CloseIcon>
+                        {/* <CloseIcon></CloseIcon> */}
+                        <X className="w-6 h-6" />
                       </div>
                     </button>
                   </div>

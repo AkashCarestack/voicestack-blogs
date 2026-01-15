@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import SimpleHead from '~/components/common/SimpleHead'
 import CardsWithTestimonial from '~/components/revamp/components/common/cardsWithTestimonial'
@@ -9,12 +9,15 @@ import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import { getClient } from '~/lib/sanity.client'
-import { getFeaturesList } from '~/lib/sanity.queries'
+import { getFeaturesList, getDemoFormData } from '~/lib/sanity.queries'
+import type { SanityClient } from 'next-sanity'
+import PricingDemoModal from '~/v2/components/common/PricingDemoModal'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureCategoryGrid from '~/v2/sections/FeatureCategoryGrid'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
+import { setPricingDemoModalCallback, clearPricingDemoModalCallback } from '~/utils/pricingDemoModal'
 
 // Define TypeScript interfaces
 interface PageData {
@@ -26,6 +29,13 @@ interface PricingProps {
   landingPageData: any
   faq: any
   pricingPageData: any
+  formData?: {
+    pricingDemoForms?: Array<{
+      practiceType?: string
+      demoFormId?: string
+      demoMeetingLink?: string
+    }>
+  }
 }
 
 export default function Pricing({
@@ -34,7 +44,30 @@ export default function Pricing({
   faq,
   pricingPageData,
   region,
+  formData,
 }: PricingProps & { region?: string }) {
+  // Manage pricing demo modal state directly
+  const [isPricingDemoModalOpen, setIsPricingDemoModalOpen] = useState(false)
+  const [selectedPracticeType, setSelectedPracticeType] = useState<string | null>(null)
+
+  const openPricingDemoModal = (practiceType: string) => {
+    setSelectedPracticeType(practiceType)
+    setIsPricingDemoModalOpen(true)
+  }
+
+  const closePricingDemoModal = () => {
+    setIsPricingDemoModalOpen(false)
+    setSelectedPracticeType(null)
+  }
+
+  // Set up callback for PracticeTypeModal to use
+  useEffect(() => {
+    setPricingDemoModalCallback(openPricingDemoModal)
+    return () => {
+      clearPricingDemoModalCallback()
+    }
+  }, [])
+
   const testimonialData =
     pricingPageData?.['groups-and-dso']?.componentData?.refData
       ?.tabsListingComponent
@@ -79,10 +112,7 @@ export default function Pricing({
     )
     return category?.featureCategory?.name || key.replaceAll('-', ' ')
   }
-  console.log("landingPageData===",landingPageData)
-  console.log("pricingPageData===",pricingPageData)
-  // console.log("features===",features)
-  console.log("groupedData===",features)
+
   return (
     <>
       <SimpleHead data={pricingPageData?.seo} />
@@ -102,7 +132,7 @@ export default function Pricing({
         ctaCard={{
           title: 'Flexible Pricing Models<br/> For Your Practice',
           buttonText: 'Book Free Demo',
-          buttonLink: '/pricing/demo',
+          buttonLink: '/demo',
         }}
         // features={features} 
           // sectionHeading={pricingPageData['category-feature-tabs']?.componentData?.sectionHeading}
@@ -127,6 +157,16 @@ export default function Pricing({
             landingPageData['stack-card-tab-testimonial']?.componentData
               ?.refData?.tabsListingComponent
           }
+        />
+      )}
+
+      {/* Pricing Demo Modal */}
+      {isPricingDemoModalOpen && selectedPracticeType && formData && (
+        <PricingDemoModal
+          onClose={closePricingDemoModal}
+          formData={formData}
+          region={region}
+          initialPracticeType={selectedPracticeType}
         />
       )}
     </>
@@ -156,6 +196,10 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       pricingPageSlug,
     )
 
+    // Fetch form data for pricing demo forms
+    const client = getClient() as SanityClient
+    const formData = await getDemoFormData(client, region)
+
     return {
       props: {
         slug,
@@ -164,6 +208,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         landingPageData,
         faq: faq || null,
         pricingPageData: JSON.parse(JSON.stringify(pricingPageData ?? null)),
+        formData: formData || {},
       },
     }
   } catch (error) {
@@ -176,6 +221,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         landingPageData: null,
         faq: null,
         pricingPageData: null,
+        formData: {},
       },
     }
   }

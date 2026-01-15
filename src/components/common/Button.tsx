@@ -10,7 +10,7 @@ import Anchor from './anchor'
 import { usePricingModal } from './PricingModalContext'
 import ArrowIcon from '../revamp/icons/arrowIcon'
 import replaceUrl from '~/helpers/replaceUrl'
-import { PracticeTypeModal } from './PracticeTypeModal'
+import { PracticeTypeModal } from '~/v2/components/common/PracticeTypeModal'
 
 interface ButtonProps {
   type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
@@ -213,9 +213,9 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     if (isPartnerChildPage && formattedLink) {
       return '#demo'
     }
-    if (isPricingPage && formattedLink) {
-      return '/pricing/demo'
-    }
+    // if (isPricingPage && formattedLink) {
+    //   return '/pricing/demo'
+    // }
     
     return formattedLink
   }, [isPricingButton, formattedLink, isPartnerChildPage, isBookFreeDemoButton, router])

@@ -1,15 +1,24 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+import React from 'react'
 import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
 
-import React, { useEffect, useState } from "react";
+const PricingHubspotMeeting: React.FC<{
+  meetingLink?: string
+  eventName?: string
+  formDetails?: string
+}> = ({
+  meetingLink,
+  eventName,
+  formDetails,
+}) => {
+  const { trackEvent } = useTracking({}, {})
+  const router = useRouter()
+  
 
-
-const BookFreeDemo = () => {
-  const router = useRouter();
-  const { trackEvent } = useTracking({}, {});
   useEffect(() => {
+    const window2: any = window
     const script = document.createElement("script");
     script.type = "text/javascript";
     script.async = true;
@@ -20,19 +29,22 @@ const BookFreeDemo = () => {
       if (event.origin != "https://meetings.hubspot.com") return false;
 
       if (event.data.meetingBookSucceeded) {
-        document.getElementsByClassName(
-          "meetings-iframe-container"
-        )[0].style.display = "none"; //hiding the meeting iframe
-        document.getElementsByClassName("meeting-confirm")[0].style.display =
-          "block"; //showing the temporary meeting status (if needed)
         let meetingData = event.data.meetingsPayload.bookingResponse; //data
         let organizer = meetingData.postResponse.organizer.name;
         let date = meetingData.event.dateString;
         let time = meetingData.event.dateTime;
         let email = meetingData.postResponse.contact.email;
         const urlParams = new URLSearchParams(window.location.search);
+
+
+        window2.dataLayer.push({
+          email: email,
+          event: eventName,
+          form: formDetails,
+        });
+        
         window.localStorage.setItem(
-          "pricingDemoData",
+          "pricingDemoMeetingData",
           JSON.stringify({
             organizer,
             dateString: date,
@@ -41,9 +53,8 @@ const BookFreeDemo = () => {
         );
 
         const params = new URLSearchParams();
-
         trackEvent({
-          e_name: 'demo_submission_uk',
+          e_name: eventName,
           e_type: "form-submission",
           e_time: new Date(),
           e_path: window?.location.href,
@@ -54,20 +65,17 @@ const BookFreeDemo = () => {
           domain: window.location.origin,
           destination_url: null,
           referrer_url: window.document.referrer,
+          element_id: formDetails,
         });
         setTimeout(async () => {
-          // const responseData = await fetch(
-          //   `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
-          // );
-          var redirectBase = "/pricing/demo/thank-you/";
-          var wholeUrl = redirectBase + "?email=" + email;
+          var redirectBase = "/pricing/thank-you/";
+          var wholeUrl = redirectBase + "?email=" + email + "&meeting=true";
           router.push(wholeUrl);
-          // router.push("/pricing/demo/thank-you");
         }, 1000)
 
       }
     });
-  }, []);
+  }, [meetingLink, eventName, router]);
 
   return (
     <>
@@ -78,12 +86,14 @@ const BookFreeDemo = () => {
         <p>Hi Please wait while we confirm your booking</p>
       </div>
       <div
-        className="meetings-iframe-container md:py-24 py-16"
-        data-src="https://meetings.hubspot.com/carestack-dan/voicestack-us-website-pricing-demo?embed=true"
+        className="meetings-iframe-container"
+        data-src={meetingLink ? `${meetingLink}?embed=true` : undefined}
         // data-src="https://meetings.hubspot.com/marcomm-admin/test-link-harsha?embed=true"
       ></div>
     </>
   );
 };
 
-export default BookFreeDemo;
+
+export default PricingHubspotMeeting
+
