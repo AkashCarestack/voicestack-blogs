@@ -6,6 +6,7 @@ import SanityPortableText from '~/components/blockEditor/sanityBlockEditor'
 import HeroInner from './common/HeroInner'
 import HeroSection from './revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from './revamp/components/common/HeroWrapper'
+import FeatureHero from '~/v2/sections/FeatureHero'
 
 const ContentSection = ({ content, draftMode, token, slugData }) => {
   const router = useRouter()
@@ -14,9 +15,11 @@ const ContentSection = ({ content, draftMode, token, slugData }) => {
   return (
     <>
       {slugData !== 'app-download' &&     
-      <HeroWrapper>
-        <HeroSection data={content} isCentered={true} />
-      </HeroWrapper>
+      <FeatureHero   data={content} type="feature" isCentered={true} />
+
+      // // <HeroWrapper>
+      //   <HeroSection data={content} isCentered={true} />
+      // // </HeroWrapper>
       
       }
 
