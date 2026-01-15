@@ -9,6 +9,7 @@ import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 import SimpleHead from '~/components/common/SimpleHead'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 interface PhysicalTherapyGroupsMSOProps {
   pageData: any
@@ -24,6 +25,8 @@ export default function PhysicalTherapyGroupsMSO({
   return (
     <>
     <SimpleHead data={pageData?.seo} />
+    
+    <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       <FeatureHero data={pageData['dso-hero']?.componentData} type="feature" />
       <div>
         {pageData['logo-listing']?.componentData && (
