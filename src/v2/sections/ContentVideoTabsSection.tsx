@@ -489,7 +489,7 @@ export default function ContentVideoTabsSection({
                           {tab.category}
                         </div>
                       )}
-                      <h2 className="my-3 text-gray-900 md:text-4xl  text-2xl font-manrope font-semibold leading-10 tracking-normal">
+                      <h2 className="my-3 text-gray-900 md:text-4xl  text-2xl font-manrope font-semibold leading-[133.33%] tracking-normal">
                         {tab.heading}
                       </h2>
                       {tab.description && Array.isArray(tab.description) && tab.description.length > 0 ? (
