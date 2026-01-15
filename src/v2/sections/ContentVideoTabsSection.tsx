@@ -185,22 +185,26 @@ export default function ContentVideoTabsSection({
       const stickyTopOffset = isMobile ? 80 : 70;
       const headerHeight = stickyTopOffset + stickyTabsHeight;
       
-      // Use getBoundingClientRect to get position relative to viewport, then add scroll position
-      // This accounts for any parent container offsets
+      // Get element's position relative to document
       const rect = section.getBoundingClientRect();
       const elementPosition = rect.top + window.scrollY;
       
-      // Calculate viewport center position
+      // Calculate viewport dimensions
       const viewportHeight = window.innerHeight;
       const sectionHeight = section.offsetHeight;
       
-      // Center the section in the viewport, accounting for sticky header
-      // Position = element top - (viewport center - header height)
-      const centerOffset = (viewportHeight / 2) - (sectionHeight / 2) - headerHeight;
-      const offsetPosition = elementPosition - centerOffset;
+      // Calculate available viewport space below sticky header
+      const availableSpace = viewportHeight - headerHeight;
+      
+      // Center the section in the available viewport space
+      // We want the section's top to be at: headerHeight + (availableSpace - sectionHeight) / 2
+      const targetTopPosition = headerHeight + (availableSpace - sectionHeight) / 2;
+      
+      // Calculate scroll position to achieve this
+      const scrollPosition = elementPosition - targetTopPosition;
 
       window.scrollTo({
-        top: Math.max(0, offsetPosition),
+        top: Math.max(0, scrollPosition),
         behavior: 'smooth',
       });
     }
