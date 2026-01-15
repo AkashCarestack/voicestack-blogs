@@ -730,7 +730,7 @@ export default function CategoryFeatureTabsSection({
                 </div>
 
                 {/* Right Column: Category Image with Fixed Grid Pattern */}
-                <div className="bg-gray-50 flex flex-col items-center justify-center md:h-[400px] h-[300px] lg:h-auto overflow-hidden relative">
+                <div className="bg-gray-50 flex flex-col items-center justify-center  h-full overflow-hidden relative">
                   {/* Grid Pattern Background - Fixed, doesn't move */}
                   <div className="absolute inset-0 z-0">
                     <GridPattern
@@ -757,7 +757,7 @@ export default function CategoryFeatureTabsSection({
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                          className="w-full h-full relative flex items-end justify-center"
+                          className="w-full relative flex items-end justify-center md:h-[400px] h-[300px] lg:h-auto"
                         >
                           <ImageLoader
                             image={category.mainImage}

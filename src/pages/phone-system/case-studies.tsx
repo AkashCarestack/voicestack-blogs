@@ -10,6 +10,7 @@ import HeroSection from '~/components/revamp/components/common/HeroSection/heroS
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import Queries from '~/components/revamp/queries'
+import FeatureHero from '~/v2/sections/FeatureHero'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 
 export default function CustomerStories({ pageData }: any) {
@@ -27,15 +28,8 @@ export default function CustomerStories({ pageData }: any) {
       <>
         <SimpleHead data={pageData?.seo} />
         
-        <HeroWrapper>
-          <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-          <HeroSection
-            page=""
-            data={pageData['dental-phones-hero']?.componentData}
-            isCentered={true}
-            showFullDescription={true}
-          />
-        </HeroWrapper>
+        <FeatureHero  data={pageData['dental-phones-hero']?.componentData} type="feature" isCentered={true} />
+
 
         {pageData['testimonial-tabs']?.componentData && (
           <CategoryFeatureTabs page="case-studies" sectionHeading={pageData['testimonial-tabs']?.componentData} features={pageData['testimonial-tabs']?.componentData?.tabs} />
