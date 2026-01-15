@@ -101,7 +101,7 @@ const Footer = ({ data }) => {
                           <li key={linkIndex}>
                             <Anchor
                               href={link.link}
-                              target={link.newTab ? '_blank' : '_self'}
+                              target={link.newTab || link.link.startsWith('http') ? '_blank' : '_self'}
                               className="text-white font-geist text-sm font-normal leading-5 tracking-normal hover:text-vs-lemon-green transition-colors duration-300"
                             >
                               {link.text}
