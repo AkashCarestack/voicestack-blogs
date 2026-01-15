@@ -665,7 +665,7 @@ export default function CategoryFeatureTabsSection({
               {/* Single container box that stays */}
               <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
                 {/* Left Column: Content and Pill Items with Smooth Animation */}
-                <div className="bg-white flex flex-col gap-6 items-start justify-start md:p-12 p-6 min-h-[500px] relative overflow-hidden border-r border-gray-200">
+                <div className="bg-white flex flex-col gap-6 items-start justify-start md:p-12 p-6 w-full h-full relative overflow-hidden border-r border-gray-200">
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const pillItems = getPillItems(category);
@@ -730,7 +730,7 @@ export default function CategoryFeatureTabsSection({
                 </div>
 
                 {/* Right Column: Category Image with Fixed Grid Pattern */}
-                <div className="bg-gray-50 flex flex-col items-center justify-center md:h-[400px] h-[300px] lg:h-auto overflow-hidden relative">
+                <div className="bg-gray-50 flex flex-col items-center justify-center w-full  h-full overflow-hidden relative">
                   {/* Grid Pattern Background - Fixed, doesn't move */}
                   <div className="absolute inset-0 z-0">
                     <GridPattern
@@ -757,7 +757,7 @@ export default function CategoryFeatureTabsSection({
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                          className="w-full h-full relative flex items-end justify-center"
+                          className="w-full relative flex items-end justify-center md:h-[400px] h-full"
                         >
                           <ImageLoader
                             image={category.mainImage}
