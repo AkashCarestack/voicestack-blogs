@@ -127,7 +127,7 @@ export default function SwitchableTabs({
         className={
           fullWidth
             ? 'bg-white border border-gray-200 rounded-[500px] md:p-[6px] flex gap-[10px] w-full transition-all duration-300 ease-in-out overflow-x-auto overflow-y-hidden scrollbar-hide whitespace-nowrap'
-            : `lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] rounded-full md:p-1.5 p-1 flex flex-row gap-2.5 lg:w-fit w-full lg:bg-white bg-white ${shadow ? 'lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]' : 'md:border border-gray-200 border-transparent lg:shadow-none'} overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide scrollbar-none transition-all duration-300 ease-in-out`
+            : `lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] rounded-full md:p-1.5 p-1 flex flex-row gap-2.5 lg:w-fit w-full lg:bg-white bg-white ${shadow ? 'lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]' : 'md:border border-gray-200  lg:shadow-none'} overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide scrollbar-none transition-all duration-300 ease-in-out`
         }
         style={{
           WebkitOverflowScrolling: 'touch',
