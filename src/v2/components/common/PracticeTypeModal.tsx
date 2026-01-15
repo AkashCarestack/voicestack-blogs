@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { CloseIcon } from '@sanity/icons'
 import { useRouter } from 'next/router'
 import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
+import { X } from 'lucide-react'
 
 export interface PracticeTypeModalProps {
   className?: string
@@ -142,7 +143,8 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
                       onClick={onClose}
                     >
                       <div className="w-5">
-                        <CloseIcon></CloseIcon>
+                        {/* <CloseIcon></CloseIcon> */}
+                        <X className="w-6 h-6" />
                       </div>
                     </button>
                   </div>
@@ -158,7 +160,7 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
                           key={practiceType}
                           type="button"
                           onClick={() => handlePracticeTypeSelect(practiceType)}
-                          className="w-full px-4 py-3 text-left bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-900 font-medium"
+                          className="w-full px-4 py-3 bg-gray-100 hover:bg-vs-lemon-green rounded-lg transition-colors text-gray-950 font-medium text-center"
                         >
                           {practiceType}
                         </button>

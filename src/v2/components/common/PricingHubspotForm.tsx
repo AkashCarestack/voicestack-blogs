@@ -80,6 +80,7 @@ const PricingHubspotForm: React.FC<{
                 window2.dataLayer.push({
                   email: email,
                   event: eventName || 'demo_submission_uk',
+                  form: formDetails,
                 });
 
                 window.localStorage.setItem(

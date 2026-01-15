@@ -4,6 +4,7 @@ import { CloseIcon } from '@sanity/icons'
 import PricingHubspotForm from './PricingHubspotForm'
 import PricingHubspotMeeting from './PricingHubspotMeeting'
 import demoTrackingNames from '~/v2/data/demoTrackingNames.json'
+import { Cross, X } from 'lucide-react'
 
 export interface PricingDemoModalProps {
   className?: string
@@ -77,30 +78,37 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
           className="flex min-h-full items-center justify-center p-4 text-center sm:p-0"
         >
           <div
-            className={`relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full min-h-[670px] ${
+            className={`relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8  min-h-[670px] w-full ${
               hasMeetingLink 
                 ? 'sm:min-w-[950px] sm:max-w-[950px]' 
                 : 'sm:max-w-lg'
             }`}
           >
-            <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+            <div className={`bg-white pb-4 pt-5 sm:p-6 sm:pb-4 ${hasMeetingLink ? 'px-0' : 'px-4'}`}>
               <div className="sm:flex sm:items-start">
-                <div className="mt-3 px-4 sm:mt-0 sm:text-left w-full flex flex-col gap-8">
-                  <div className="flex mt-4 justify-between w-full">
+                <div className={`sm:mt-0 sm:text-left w-full flex flex-col gap-0
+                
+                ${hasMeetingLink ? 'px-1' : 'px-4'}
+                `}>
+                  <div className={`flex mt-4 justify-between w-full ${hasMeetingLink ? 'px-4' : 'px-0'}`}>
+                  {/* {hasMeetingLink ? (
+                      <></>
+                      ):( */}
                     <div className="flex flex-col gap-2">
-                      <h3
+                      {/* <h3
                         className="text-2xl font-semibold leading-6 text-gray-900"
                         id="modal-title"
                       >
                         {showPracticeTypeSelection ? 'Book Free Demo' : 'Book Free Demo'}
                       </h3>
-
-                      <p className="text-gray-500">
-                        {showPracticeTypeSelection
-                          ? 'Start your transition to VoiceStack. Book a demo with us today.'
-                          : 'Start your transition to VoiceStack. Book a demo with us today.'}
-                      </p>
+                     
+                        <p className="text-gray-500">
+                          {showPracticeTypeSelection
+                            ? 'Start your transition to VoiceStack. Book a demo with us today.'
+                            : 'Start your transition to VoiceStack. Book a demo with us today.'}
+                        </p> */}
                     </div>
+                      {/* )} */}
 
                     <button
                       type="button"
@@ -108,7 +116,8 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
                       onClick={onClose}
                     >
                       <div className="w-5">
-                        <CloseIcon></CloseIcon>
+                        {/* <CloseIcon></CloseIcon> */}
+                        <X className="w-6 h-6" />
                       </div>
                     </button>
                   </div>
@@ -125,7 +134,7 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
                             key={practiceType}
                             type="button"
                             onClick={() => handlePracticeTypeSelect(practiceType)}
-                            className="w-full px-4 py-3 text-left bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-900 font-medium"
+                            className="w-full px-4 py-3 bg-gray-100 hover:bg-vs-lemon-green rounded-lg transition-colors text-gray-950 font-medium text-center"
                           >
                             {practiceType}
                           </button>

@@ -251,6 +251,12 @@ html {
   @apply flex flex-wrap;
 }
 
+#hubspotForm legend,
+#pricingHubspotForm legend {
+  /* @apply flex flex-wrap gap-x-8 gap-y-6; */
+  @apply text-xs;
+}
+
 #hubspotForm fieldset > div,
 #pricingHubspotForm fieldset > div {
   margin-bottom: 1rem !important;
