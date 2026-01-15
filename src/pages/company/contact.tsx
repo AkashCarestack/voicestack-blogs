@@ -11,10 +11,51 @@ import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import { useLayoutData } from '~/providers/LayoutDataProvider'
+import FeatureHero from '~/v2/sections/FeatureHero'
 
 
 export default function ContactPage({ pageData }) {
   const { contactData } = useLayoutData()
+  
+  // Get base hero data
+  const baseHeroData = pageData['contact-hero']?.componentData || null
+  
+  // Extract contact information
+  const contactEmail = contactData?.contactEmail || contactData?.supportEmail || 'support@voicestack.com'
+  const contactPhone = contactData?.phoneNumber || contactData?.supportPhoneNumber || ''
+  
+  // Create button data for email and phone
+  const contactButtons = []
+  
+  if (contactEmail) {
+    contactButtons.push({
+      _key: 'contact-email-btn',
+      buttonText: contactEmail,
+      buttonLink: `mailto:${contactEmail}`,
+      buttonType: 'secondaryMail',
+    })
+  }
+  
+  if (contactPhone) {
+    contactButtons.push({
+      _key: 'contact-phone-btn',
+      buttonText: contactPhone,
+      buttonLink: `tel:${contactPhone.replace(/\D/g, '')}`,
+      buttonType: 'secondaryTel',
+    })
+  }
+  
+  // Merge heroData with button data, email, and phone
+  const heroData = baseHeroData ? {
+    ...baseHeroData,
+    bookBtnContent: [
+      ...(baseHeroData.bookBtnContent || []),
+      ...contactButtons,
+    ],
+    contactEmail,
+    contactPhone,
+  } : null
+  
   return (
     <>
       {/* <div
@@ -52,7 +93,8 @@ export default function ContactPage({ pageData }) {
         </Section>
       </div> */}
       <SimpleHead data={pageData?.seo} />
-      <HeroWrapper>
+      {heroData && <FeatureHero data={heroData} type="feature" isCentered={true} />}
+      {/* <HeroWrapper>
         {pageData['contact-hero']?.componentData && (
           <HeroSection
             page="contact"
@@ -62,7 +104,7 @@ export default function ContactPage({ pageData }) {
             contactData={contactData}
           />
         )}
-      </HeroWrapper>
+      </HeroWrapper> */}
     </>
   )
 }
