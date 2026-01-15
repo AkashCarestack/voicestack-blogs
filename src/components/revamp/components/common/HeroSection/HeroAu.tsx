@@ -44,7 +44,7 @@ export default function HeroAU({
       <Container type="V2" className=" md:py-[136px] py-[64px] md:pl-12 gap-12">
         <div className='flex md:flex-row relative '>
           <video
-            className='absolute w-full h-full object-cover z-0'
+            className='hidden lg:block absolute w-full h-full object-cover z-0'
             autoPlay
             loop
             muted
