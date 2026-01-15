@@ -119,7 +119,6 @@ const LogoListingV2 = ({ data }: LogoListingV2Props) => {
     )
   }
 
-  console.log(data, 'logoColumns')
   return (
     <Section className="bg-white" border="b">
       <Container type="V2" border="y-0" className="w-full">
@@ -147,7 +146,9 @@ const LogoListingV2 = ({ data }: LogoListingV2Props) => {
           {logoColumns.map((columnLogos, columnIndex) => (
             <div
               key={`column-${columnIndex}`}
-              className="bg-white flex-1 max-w-[237px] overflow-hidden relative border-r border-gray-200 last:border-r-0"
+              className={`bg-white flex-1 max-w-[237px] overflow-hidden relative border-r border-gray-200 last:border-r-0 ${
+                columnIndex === 3 ? 'hidden md:block' : ''
+              }`}
               style={{
                 height: `${LOGO_HEIGHT}px`,
               }}
