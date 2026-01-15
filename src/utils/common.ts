@@ -270,7 +270,7 @@ export const HeroHeadingComponents: any = {
   block: {
     normal: ({ children }: { children: React.ReactNode }) =>
       React.createElement(
-        'span',
+        'h2',
         {
           className: 'text-gray-950  md:max-w-[607px] w-full font-manrope xl:text-6xl md:text-5xl text-center md:text-left text-3xl font-bold !leading-[116.667%] md:tracking-[-1.8px] tracking-normal',
         },
