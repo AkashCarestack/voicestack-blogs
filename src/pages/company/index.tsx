@@ -17,6 +17,7 @@ import CardsGridSection from '~/v2/sections/CardsGridSection'
 import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import MinimalCardList from '~/v2/components/common/minimalCardList'
+import GroupedCardsGrid from '~/v2/components/GroupedCardsGrid'
 
 
 
@@ -109,18 +110,27 @@ export default function CompanyPage({
             </div>
           )}
        
-          <div className='flex flex-col md:flex-row gap-4 md:gap-6 pt-8 md:pt-16'>
-            {data?.leaderShipTeam && (
-               <div className="flex-1 border border-gray-200 rounded-lg p-4">
-               <MinimalCardList data={data.leaderShipTeam} />
-             </div>
-            )}
-            {/* {data?.partners && (
-              <div className="flex-1">
-                <MinimalCardList data={data.partners} />
-              </div>
-            )} */}
-          </div>
+       <div className='border-x border-gray-200'>
+          <GroupedCardsGrid 
+            customListingItems={[
+              {
+                heading: data?.leaderShipTeam?.title,
+                description: data?.leaderShipTeam?.description,
+                link: { url: data?.leaderShipTeam?.cta?.buttonLink },
+              },
+              // {
+              //   heading: data?.partners?.title,
+              //   description: data?.partners?.description,
+              //   link: { url: data?.partners?.cta?.buttonLink },
+              // },
+            ]} 
+            theme={'light'} 
+            simpleListingData={true}
+            columnCount={2}
+            showBorderBottom={true}
+          />
+
+       </div>
         </Container>
       </Section>
     </>

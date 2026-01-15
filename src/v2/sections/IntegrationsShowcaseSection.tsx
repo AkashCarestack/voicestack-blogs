@@ -221,16 +221,16 @@ console.log(data, 'data')
                     borderRadius: '8px',
                     border: '1px solid rgba(255,255,255,0.20)',
                     background: 'rgba(255,255,255,0.10)',
-                    width: '60px',
-                    height: '60px',
+                    width: '50px',
+                    height: '50px',
                   }}
                 >
                   {integration.colorImage?.url && (
                     <Image
                       src={integration.colorImage.url}
                       alt={integration.title}
-                      width={60}
-                      height={60}
+                      width={50}
+                      height={50}
                       className="w-full h-full object-contain"
                     />
                   )}
@@ -267,7 +267,7 @@ console.log(data, 'data')
                 {gridCells.map((cell) => (
                   <div
                     key={cell.key}
-                    className={`flex items-center justify-center overflow-hidden ${
+                    className={`flex items-center justify-center ${
                       cell.type === 'integration'
                         ? 'group relative transition-all duration-300'
                         : ''
@@ -290,7 +290,7 @@ console.log(data, 'data')
                           className="w-full h-full object-contain"
                         />
                         {/* Tooltip - only for integration cells */}
-                        <div className="absolute bg-[#efeeea] bottom-0 px-2 py-1 rounded-sm align-center opacity-0 group-hover:opacity-100 transition-opacity duration-300  z-10">
+                        <div className="absolute bg-[#efeeea] bottom-0 px-2 py-1 rounded-sm align-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
                           <p className="font-['Geist',_sans-serif] font-normal text-xs text-[#52525c] text-center">
                             {cell.data.title}
                           </p>
