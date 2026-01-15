@@ -513,6 +513,7 @@ const VerticalTestimonialListing = ({
           <SectionHeaderV2
             heading={data?.heading || data?.title}
             description={data?.description}
+            className='xl:px-12 md:px-6 px-4'
           />
           <div
             className="lg:px-12 px-6 lg:pb-12 pb-6"
