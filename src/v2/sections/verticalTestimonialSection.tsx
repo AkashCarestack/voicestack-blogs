@@ -511,10 +511,9 @@ const VerticalTestimonialListing = ({
       >
         <div className="flex flex-col items-center w-full gap-16">
           <SectionHeaderV2
-            className="md:px-0  px-4"
+            className='xl:px-12 md:px-6 px-4'
             heading={data?.heading || data?.title}
             description={data?.description}
-            className='xl:px-12 md:px-6 px-4'
           />
           <div
             className="lg:px-12 px-6 lg:pb-12 pb-6"
