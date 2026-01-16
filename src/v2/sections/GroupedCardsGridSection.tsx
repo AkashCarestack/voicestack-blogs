@@ -86,7 +86,7 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
                     width={1332} height={400} />
                   </div>
                   <div className="flex justify-center">
-                    <span className="font-semibold lg:text-3xl text-xl leading-[1.5] text-white mb-1 tracking-normal font-manrope">VoiceStack AI</span>
+                    <h3 className="font-semibold lg:text-3xl text-xl leading-[1.5] text-white mb-1 tracking-normal font-manrope">VoiceStack AI</h3>
                   </div>
                 </>
               ) : (
