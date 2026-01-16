@@ -1,0 +1,211 @@
+[
+  {
+    "_id": "faq-revamp-voicestack-vs-mango-voice",
+    "_type": "faqRevamp",
+    "sectionName": "VoiceStack vs Mango Voice",
+    "slug": {
+      "_type": "slug",
+      "current": "voicestack-vs-mango-voice"
+    },
+    "faqCategories": [
+      {
+        "_type": "faqCategory",
+        "_key": "category-voicestack-vs-mango-voice",
+        "categoryName": "VoiceStack vs Mango Voice",
+        "questions": [
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-1",
+            "question": "Why do practices switch from Mango Voice to VoiceStack?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-1",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Practices switch to VoiceStack because it's more than just a phone system - it's a modern communication platform built for practice growth. VoiceStack meets every standard need of a practice while offering AI-powered tools that automate routine tasks, improve efficiency, and help teams do more with less effort. Many practices report significant increases in productivity, improved patient communication, and measurable growth after switching."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-2",
+            "question": "Will I save money switching from Mango Voice to VoiceStack?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "It depends on your exact Mango Voice subscription and what add-on software you may be using, but in many cases, yes! Larger practices often see substantial savings simply by upgrading to a modern, unified phone system. Others reduce costs by consolidating multiple software subscriptions into one integrated solution. Even beyond direct savings, many offices see increased profitability thanks to time-saving automation and improved call conversion rates."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-3",
+            "question": "Is VoiceStack easier to learn and use than Mango Voice?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "We think so - absolutely! VoiceStack was designed with simplicity, speed, and scalability in mind. The interface is clean and intuitive, so your team can get up and running quickly. Plus, our onboarding specialists and support team make sure everyone feels confident using the system from day one."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-4",
+            "question": "If I switch from Mango Voice to VoiceStack, what features will I get?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack includes everything you'd expect from a top-tier, modern phone system - plus powerful AI and marketing integrations that take it to another level."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-5",
+            "question": "What does the onboarding process look like?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Our onboarding process is designed to be simple and stress-free. Here's how it works:"
+                  }
+                ]
+              },
+              {
+                "_type": "block",
+                "_key": "block-5-2",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Audit & Planning: We review your current phone setup, numbers, and call flows to identify opportunities for improvement."
+                  }
+                ]
+              },
+              {
+                "_type": "block",
+                "_key": "block-5-3",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Configuration: Our team recreates and optimizes your processes within the VoiceStack environment."
+                  }
+                ]
+              },
+              {
+                "_type": "block",
+                "_key": "block-5-4",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Migration: We port over your existing numbers with no downtime, ensuring a smooth and seamless transition."
+                  }
+                ]
+              },
+              {
+                "_type": "block",
+                "_key": "block-5-5",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Training & Launch: We train your team and go live—with ongoing support whenever you need it."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-6",
+            "question": "Can I keep my current phone numbers and phones?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-6",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Yes! VoiceStack works with most SIP-enabled phones and conference systems. Prefer to go mobile or cloud-based? We also offer softphone options for desktop, laptop, and mobile devices - giving your team full flexibility."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-7",
+            "question": "Is it hard to switch from Mango Voice to VoiceStack?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-7",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "Not at all. We handle all the technical details behind the scenes so you don't have to. From setup to number porting to team training, our team ensures your transition is smooth, fast, and interruption-free."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "_type": "faqItem",
+            "_key": "faq-item-8",
+            "question": "How does VoiceStack improve my productivity?",
+            "answer": [
+              {
+                "_type": "block",
+                "_key": "block-8",
+                "style": "normal",
+                "children": [
+                  {
+                    "_type": "span",
+                    "text": "VoiceStack's AI-powered tools work around the clock to help your team stay efficient and responsive. During office hours, the AI Assistant can answer routine calls, route patients to the right team member, and automatically detect opportunities that need follow-up - saving your front desk hours each week. After hours, the same AI Assistant keeps working for you, answering calls, capturing missed opportunities, and even sending automated follow-up texts so no potential patient slips through the cracks. With VoiceStack handling repetitive communication tasks, your team can focus on what matters most - delivering an outstanding patient experience."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "hideCategory": true,
+    "language": "en"
+  }
+]
+

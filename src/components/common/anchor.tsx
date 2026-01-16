@@ -36,35 +36,56 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       const { query } = router
 
       const queryParams: Record<string, string> = Object.entries(query).reduce((acc: any, [key, value]) => {
-        if (value !== undefined && key !== "slug") {
+        if (value !== undefined && key !== "flag" && key !== "slug") {
           acc[key] = value.toString();
         }
         return acc;
       }, {});
 
-      const noParams = Object.keys(queryParams).length === 0;
-      const urlSearchParams = new URLSearchParams(queryParams);
       // Get the existing URL parameters from href
       const existingParams = href.includes('?') ? href.split('?')[1] : '';
-
-      // Merge existing parameters with updated URL params
-      let updatedParams = `${existingParams ? (noParams ? existingParams : existingParams + '&') : ""}${urlSearchParams.toString()}`;
+      
+      // Merge existing parameters with router query params using URLSearchParams to avoid duplicates
+      const mergedParams = new URLSearchParams(existingParams);
+      
+      // Add router query params (they will overwrite duplicates)
+      Object.entries(queryParams).forEach(([key, value]) => {
+        mergedParams.set(key, value);
+      });
+      
+      const updatedParams = mergedParams.toString();
       // Append updated URL params to href
-      setNewLink(`${href.split('?')[0]}${updatedParams.length > 0 ? "?" + updatedParams : ""}`);
+      // if (router.asPath.startsWith("/lp") || router.asPath.startsWith("/uk")) {
+      //   setNewLink(`${href}`);
+      // } else {
+        setNewLink(`${href.split('?')[0]}${updatedParams.length > 0 ? "?" + updatedParams : ""}`);
+      // }
     }, [href, router, trackCtx]);
 
 
     
     const dataId = elementId || btnId || '';
 
+    // Extract onClick from rest to prevent it from overriding tracking handler
+    // This is the root cause - Button passes onClick which was overriding tracking
+    const { onClick: externalOnClick, ...restProps } = rest;
+
     return (
-      <Link {...(dataId && { 'data-elementid': dataId })} href={href} locale={locale} replace={replace}
+      <Link {...(dataId && { 'data-elementid': dataId })} href={newLink} locale={locale} replace={replace}
         onClick={(e) => {
+          if (newLink === "#") e.preventDefault();
           const element = getCssSelectorShort(e.target as Element);
           let e_name = "";
           const utm_term = getQueryParamFromLink(newLink, 'utm_term');
+          
+          // Check if this is a demo button link
+          const linkPath = newLink.split('?')[0].split('#')[0];
+          const isDemoLink = linkPath === '/demo' || linkPath.endsWith('/demo') || linkPath.includes('/pricing/demo');
+          
           if (utm_term) {
             e_name = utm_term;
+          } else if (isDemoLink) {
+            e_name = "demo-button";
           } else {
             if (!newLink.includes('https://')) {
               e_name = (rest.className?.split('_')[0] !== undefined ? `${rest.className?.split('_')[0]}` :
@@ -100,7 +121,13 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
             domain: window.location.origin,
             referrer_url: window.document.referrer
           });
-        }}  {...rest} passHref /*{...(prefetch === false ? { prefetch } : {})}*/ prefetch={false}>
+
+          // Call external onClick if provided (from Button component, etc.)
+          // This ensures both tracking AND button's onClick work
+          if (externalOnClick) {
+            externalOnClick(e);
+          }
+        }}  {...restProps} passHref /*{...(prefetch === false ? { prefetch } : {})}*/ prefetch={false}>
         {children}
       </Link>
 

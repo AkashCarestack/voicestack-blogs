@@ -339,9 +339,22 @@ export async function getFooterData(client: SanityClient, region: string) {
     title,
     ctaBanner {
       title,
+      description,
       buttonText,
       buttonLink,
-      showBanner
+      showBanner,
+      "backgroundImage": backgroundImage.asset-> {
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          },
+          lqip
+        }
+      }
     },
     footerColumns[] {
       title,
@@ -772,11 +785,21 @@ export async function getContactData(client: SanityClient, region: string) {
 
 export async function getDemoFormData(client: SanityClient, region: string) {
   const query = groq`*[_type == "homeSettings" && language == $region][0]{
-    dmeoFormId,
+    demoFormId,
     demoMeetingLink,
     dmeoFormEventName,
     redirectLink,
-    schedulerLink
+    schedulerLink,
+    demoForms[]{
+      practiceType,
+      demoFormId,
+      demoMeetingLink
+    },
+    pricingDemoForms[]{
+      practiceType,
+      demoFormId,
+      demoMeetingLink
+    }
   }`
   return await client.fetch(query, { region })
 }
@@ -1042,6 +1065,7 @@ export const whoWeServeQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1186,6 +1210,7 @@ export const dentalPhonesQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1333,6 +1358,7 @@ export const dentalSoftwareQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1423,6 +1449,7 @@ export const dentalSoftwareQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1529,6 +1556,7 @@ export const whyVoicestackQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1619,6 +1647,7 @@ export const whyVoicestackQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1844,8 +1873,10 @@ export const getFeaturesListQuery = groq`
     _id,
     basicInfo {
       title,
+      subheading,
       slug,
       description,
+      dynamicSvg,
       icon {
         asset-> {
           _id,
@@ -1884,6 +1915,7 @@ export const getFeatureBySlugQuery = groq`
       title,
       slug,
       description,
+      dynamicSvg,
       icon {
         asset-> {
           _id,
@@ -2086,6 +2118,7 @@ export const getAllFeaturesQuery = groq`
       title,
       slug,
       description,
+      dynamicSvg,
       icon {
         asset-> {
           _id,
@@ -2124,6 +2157,7 @@ export const getFeaturesByCategoryQuery = groq`
       title,
       slug,
       description,
+      dynamicSvg,
       icon {
         asset-> {
           _id,

@@ -81,6 +81,15 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'colorImage',
+      title: 'Image with Color',
+      group: 'basic',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
       name: 'link',
       title: 'Integration Link',
       group: 'basic',

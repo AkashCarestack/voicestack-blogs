@@ -2,7 +2,7 @@ import React from 'react'
 import { GetStaticProps } from 'next'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import CardsGridSection from '~/components/revamp/components/CardsGridSection'
-import SiteComparisonSection from '~/components/SiteComparisonSection'
+import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
 // import VoiceStackComparisonCards from '~/components/revamp/components/VoiceStackComparisonCards'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
@@ -10,7 +10,11 @@ import { readToken } from '~/lib/sanity.api'
 import { getComparisonTableData, getAllComparisonValues } from '~/lib/sanity.queries'
 import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
+import Section from '~/components/structure/Section'
+import Container from '~/components/structure/Container'
+import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -57,19 +61,9 @@ interface TestShakirProps {
 }
 
 export default function TestShakir({ pageData, region, comparisonTableData, comparisonLegendData }: TestShakirProps) {
-
-  // console.log(pageData)
-  // Add error boundary and validation
-  // if (!pageData?.['inner-hero']?.componentData) {
-  //   return (
-  //     <div className="flex items-center justify-center min-h-screen">
-  //       <div className="text-center">
-  //         <h1 className="text-2xl font-bold text-gray-800 mb-4">Page Not Found</h1>
-  //         <p className="text-gray-600">The requested page content is not available.</p>
-  //       </div>
-  //     </div>
-  //   )
-  // }
+  if (!pageData) {
+    return null
+  }
 
   // Create comparison section data (same structure as homepage)
   const comparisonSectionData = {
@@ -78,7 +72,7 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
-
+  const tabListingData = pageData['mobile-practice-v2-generic']?.componentData
   return (
     <>
       {pageData['inner-hero']?.componentData && (
@@ -87,17 +81,55 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
           data={pageData['inner-hero'].componentData}
         />
       )}
+
+      {pageData['test-listing-2']?.componentData && (
+        <CardsGridSection variant="V2" type="col-3"
+          data={pageData['test-listing-2'].componentData}
+        />
+      )}
+      { <SwitchableTabsV2 data={tabListingData} showTabs={false} />}
+      {/* {
+       
+        tabListingData && (<TabCardsListing data={tabListingData} />)
+      } */}
+
+      {pageData['test-listing-3']?.componentData && (
+        <CardsGridSection variant="V2" type="col-2" bottomSpace={true}
+          data={pageData['test-listing-3'].componentData}
+        />
+      )}
+      <StatisticsSection />
       
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection 
           data={pageData['how-voicestack-works'].componentData}
         />
       )}
+
+
+      
+
       {pageData['how-voicestack-works2']?.componentData && (
         <CardsGridSection 
           data={pageData['how-voicestack-works2'].componentData}
         />
       )}
+
+      <Section className='bg-[#ffffff]' border="b">
+        <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0" innerPadding>
+          <div className="flex-col relative w-full flex gap-16">
+            <SectionHeaderV2 className='xl:px-12 md:px-6 px-4'
+              heading={pageData['how-voicestack-works2']?.componentData?.sectionHeadingDynamic || ''}
+              // heading={pageData['how-voicestack-works2']?.componentData?.heading}
+              description={"lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."}
+            />
+
+            <div>
+              test content
+            </div>
+          </div>
+        </Container>
+      </Section>
 
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
@@ -106,7 +138,9 @@ export default function TestShakir({ pageData, region, comparisonTableData, comp
       )}
       
       {/* VoiceStack Comparison Cards Section */}
-      <ComparisonCardsSection data={pageData['comparison-cards']?.componentData}/>
+      {pageData['comparison-cards']?.componentData && (
+        <ComparisonCardsSection data={pageData['comparison-cards'].componentData}/>
+      )}
       
       {pageData['comparison-table']?.componentData && (
         <SiteComparisonSection 

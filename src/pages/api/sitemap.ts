@@ -6,6 +6,9 @@ import siteConfig from 'config/siteConfig'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://www.voicestack.com"
 
+// Paths with all locale variants and hreflang alternates
+const PATHS_WITH_ALTERNATES = ['', 'system-requirements'];
+
 // Exclude list for test pages and patterns
 const EXCLUDED_PATHS = [
   'who-we-serve/test-shakir',
@@ -14,20 +17,35 @@ const EXCLUDED_PATHS = [
   'en-GB/test',
   'test',
   'search',
+  'onboarding',
+  'demo/thank-you',
+  'pricing/thank-you',
 ];
 
-// Locales that should only have root pages (no child pages)
-// This can be easily modified later if needed
-const LOCALES_WITHOUT_CHILD_PAGES = ['en-GB', 'en-AU'];
+interface NavigationLink {
+  label?: string
+  href?: string
+  link?: string
+  text?: string
+  submenu?: NavigationLink[]
+}
 
-// Paths that should be available for all locales (including en-GB and en-AU)
-const PATHS_AVAILABLE_FOR_ALL_LOCALES = ['', 'system-requirements'];
+interface FooterColumn {
+  title?: string
+  titleLink?: string
+  links?: NavigationLink[]
+}
 
-interface SitemapPage {
-  slug: string
-  language: string | null
-  _type: string
-  _updatedAt?: string
+interface HeaderData {
+  language: string
+  navigationMenu?: NavigationLink[]
+  topNavigationMenu?: NavigationLink[]
+}
+
+interface FooterData {
+  language: string
+  footerColumns?: FooterColumn[]
+  bottomLinks?: NavigationLink[]
 }
 
 function formatHreflang(locale: string): string {
@@ -35,171 +53,19 @@ function formatHreflang(locale: string): string {
     'en': 'en',
     'en-GB': 'en-GB',
     'en-AU': 'en-AU',
-    'EN': 'en',
-    'EN-GB': 'en-GB',
-    'EN-AU': 'en-AU',
     '': 'en'
   };
   return localeMap[locale] || 'en';
 }
 
-function getPathForPage(page: SitemapPage): string {
-  const slug = page.slug || '';
-  
-  if (slug === 'landing') {
-    if (page._type === 'whoWeServe' || page._type === 'whoWeServePage' || page._type === 'whyVoicestack') {
-      return 'who-we-serve';
-    } else if (page._type === 'dentalSoftware') {
-      return 'dental-software';
-    }
-    return '';
-  }
-  
-  if (page._type === 'whoWeServe' || page._type === 'whoWeServePage') {
-    return `who-we-serve/${slug}`;
-  } else if (page._type === 'dentalSoftware') {
-    return `dental-software/${slug}`;
-  } else if (page._type === 'whyVoicestack') {
-    return `who-we-serve/${slug}`;
-  } else if (page._type === 'features') {
-    return `dental-phones/features/${slug}`;
-  } else if (page._type === 'page') {
-    return slug;
-  } else if (page._type === 'footerLink') {
-    // Footer links are already in the correct format
-    return slug;
-  }
-  
-  return slug;
-}
-
-function shouldExcludePath(path: string): boolean {
-  // Check exact matches
-  if (EXCLUDED_PATHS.includes(path)) {
-    return true;
-  }
-  
-  // Check if path starts with any excluded path
-  for (const excluded of EXCLUDED_PATHS) {
-    if (path.startsWith(excluded + '/') || path === excluded) {
-      return true;
-    }
-  }
-  
-  // Exclude all feature child pages (features/*)
-  if (path.startsWith('dental-phones/features/')) {
-    return true;
-  }
-  
-  // Exclude paths that start with 'test'
-  if (path.startsWith('test') || path.includes('/test')) {
-    return true;
-  }
-  
-  return false;
-}
-
 function buildUrl(path: string, locale: string): string {
-  const cleanPath = path.replace(/^\/+/, '').replace(/\/+$/, '');
+  const cleanedPath = path.replace(/^\/+/, '').replace(/\/+$/, '');
   
   if (locale === 'en' || !locale) {
-    return cleanPath ? `${BASE_URL}/${cleanPath}` : BASE_URL;
+    return cleanedPath ? `${BASE_URL}/${cleanedPath}` : BASE_URL;
   }
   
-  return cleanPath ? `${BASE_URL}/${locale}/${cleanPath}` : `${BASE_URL}/${locale}`;
-}
-async function getSitemapData(client: any): Promise<SitemapPage[]> {
-  const query1 = groq`
-    *[_type in ["whoWeServe", "whoWeServePage", "dentalSoftware", "whyVoicestack"] 
-      && defined(basicInfo.slug.current) 
-      && !(_id in path("drafts.**"))] {
-      _type,
-      "slug": basicInfo.slug.current,
-      language,
-      _updatedAt
-    }
-  `;
-  
-  const query2 = groq`
-    *[_type in ["page", "features"] 
-      && defined(slug.current) 
-      && !(_id in path("drafts.**"))] {
-      _type,
-      "slug": slug.current,
-      language,
-      _updatedAt
-    }
-  `;
-  
-  const footerQuery = groq`
-    *[_type == "footer" && !(_id in path("drafts.**"))] {
-      language,
-      footerColumns[] {
-        links[] {
-          link,
-          text
-        }
-      },
-      bottomLinks[] {
-        link,
-        text
-      }
-    }
-  `;
-  
-  const [pages1, pages2, footers] = await Promise.all([
-    client.fetch(query1),
-    client.fetch(query2),
-    client.fetch(footerQuery)
-  ]);
-  
-  const footerPages: SitemapPage[] = [];
-  footers.forEach((footer: any) => {
-    if (footer.footerColumns) {
-      footer.footerColumns.forEach((column: any) => {
-        if (column.links) {
-          column.links.forEach((link: any) => {
-            if (link.link && !link.link.startsWith('http') && !link.link.startsWith('mailto:') && !link.link.startsWith('tel:')) {
-              const path = link.link.replace(/^\//, '').replace(/^(en-GB|en-AU)\//, '');
-              if (path) {
-                footerPages.push({
-                  slug: path,
-                  language: footer.language || 'en',
-                  _type: 'footerLink',
-                  _updatedAt: new Date().toISOString()
-                });
-              }
-            }
-          });
-        }
-      });
-    }
-    
-    if (footer.bottomLinks) {
-      footer.bottomLinks.forEach((link: any) => {
-        if (link.link && !link.link.startsWith('http') && !link.link.startsWith('mailto:') && !link.link.startsWith('tel:')) {
-          const path = link.link.replace(/^\//, '').replace(/^(en-GB|en-AU)\//, '');
-          if (path) {
-            footerPages.push({
-              slug: path,
-              language: footer.language || 'en',
-              _type: 'footerLink',
-              _updatedAt: new Date().toISOString()
-            });
-          }
-        }
-      });
-    }
-  });
-  
-  return [...pages1, ...pages2, ...footerPages];
-}
-
-function normalizeLanguage(language: string | null | undefined): string {
-  if (!language || language === '') {
-    return 'en';
-  }
-  return language;
+  return cleanedPath ? `${BASE_URL}/${locale}/${cleanedPath}` : `${BASE_URL}/${locale}`;
 }
 
 function escapeXml(unsafe: string): string {
@@ -211,140 +77,245 @@ function escapeXml(unsafe: string): string {
     .replace(/'/g, '&apos;');
 }
 
-function generateSiteMap(pages: SitemapPage[]) {
-  const urlMap = new Map<string, { [locale: string]: { url: string; lastmod: string } }>();
-  const locales = siteConfig.locales;
-  const processedUrls = new Set<string>(); // Track processed URLs to avoid duplicates
+function isInternalLink(link: string | undefined): boolean {
+  if (!link) return false;
+  return !link.startsWith('http') && 
+         !link.startsWith('mailto:') && 
+         !link.startsWith('tel:') &&
+         !link.startsWith('#');
+}
 
-  const staticPaths = [
-    { path: '', key: 'home' },
-    { path: 'system-requirements', key: 'system-requirements' },
-    { path: 'dental-phones', key: 'dental-phones' },
-    { path: 'dental-software', key: 'dental-software' },
-    { path: 'who-we-serve', key: 'who-we-serve' },
-    // { path: 'pricing', key: 'pricing' },
-  ];
+function cleanPath(link: string): string {
+  return link
+    .replace(/^\/+/, '')
+    .replace(/^(en-GB|en-AU)\//, '')
+    .replace(/\/+$/, '');
+}
 
-  staticPaths.forEach(({ path, key }) => {
-    const variants: { [locale: string]: { url: string; lastmod: string } } = {};
-    locales.forEach(locale => {
-      // Allow all locales for home and system-requirements, but exclude en-GB and en-AU for other paths
-      const isAllowedForAllLocales = PATHS_AVAILABLE_FOR_ALL_LOCALES.includes(path);
-      if (!isAllowedForAllLocales && LOCALES_WITHOUT_CHILD_PAGES.includes(locale)) {
-        return;
-      }
-      const url = buildUrl(path, locale);
-      if (!processedUrls.has(url)) {
-        variants[locale] = {
-          url,
-          lastmod: new Date().toISOString()
-        };
-        processedUrls.add(url);
-      }
-    });
-    if (Object.keys(variants).length > 0) {
-      urlMap.set(key, variants);
-    }
-  });
-
-  const pagesByPath = new Map<string, SitemapPage[]>();
+function shouldExcludePath(path: string): boolean {
+  if (!path) return false;
   
-  // Filter out excluded pages
-  const filteredPages = pages.filter(page => {
-    const path = getPathForPage(page);
-    return !shouldExcludePath(path);
-  });
+  if (EXCLUDED_PATHS.includes(path)) return true;
   
-  filteredPages.forEach(page => {
-    const path = getPathForPage(page);
-    if (!pagesByPath.has(path)) {
-      pagesByPath.set(path, []);
-    }
-    pagesByPath.get(path)!.push(page);
-  });
+  for (const excluded of EXCLUDED_PATHS) {
+    if (path.startsWith(excluded + '/') || path === excluded) return true;
+  }
+  
+  if (path.startsWith('dental-phones/features/')) return true;
+  if (path.startsWith('test') || path.includes('/test')) return true;
+  
+  // Exclude paths containing '-v2' in any segment
+  const pathSegments = path.split('/');
+  for (const segment of pathSegments) {
+    if (segment.endsWith('-v2') || segment.includes('-v2')) return true;
+  }
+  
+  return false;
+}
 
-  pagesByPath.forEach((pageVariants, path) => {
-    // Skip if path should be excluded
-    if (shouldExcludePath(path)) {
-      return;
-    }
-    
-    // Identify root-level static paths and paths available for all locales
-    const staticPathKeys = staticPaths.map(sp => sp.key);
-    const isRootPage = path === '' || staticPathKeys.includes(path);
-    const isAllowedForAllLocales = PATHS_AVAILABLE_FOR_ALL_LOCALES.includes(path);
-    const isChildPage = !isRootPage && !isAllowedForAllLocales;
-    
-    // Filter out child pages for locales that should only have root pages
-    // But allow paths that are available for all locales (like system-requirements)
-    if (isChildPage) {
-      pageVariants = pageVariants.filter(page => {
-        const pageLocale = normalizeLanguage(page.language);
-        return !LOCALES_WITHOUT_CHILD_PAGES.includes(pageLocale);
-      });
+// Extract paths from header navigation (only 'en' locale)
+function extractHeaderPaths(headers: HeaderData[]): Set<string> {
+  const paths = new Set<string>();
+  
+  // Only process 'en' locale header
+  const enHeader = headers.find(h => h.language === 'en' || !h.language);
+  if (!enHeader) return paths;
+  
+  if (enHeader.navigationMenu) {
+    enHeader.navigationMenu.forEach((item) => {
+      if (item.href && isInternalLink(item.href)) {
+        const path = cleanPath(item.href);
+        if (path && !shouldExcludePath(path)) {
+          paths.add(path);
+        }
+      }
       
-      // If no variants remain after filtering, skip this path entirely
-      if (pageVariants.length === 0) {
-        return;
+      if (item.submenu) {
+        item.submenu.forEach((subItem) => {
+          if (subItem.href && isInternalLink(subItem.href)) {
+            const path = cleanPath(subItem.href);
+            if (path && !shouldExcludePath(path)) {
+              paths.add(path);
+            }
+          }
+        });
       }
-    }
-    
-    const variants: { [locale: string]: { url: string; lastmod: string } } = {};
-    const availableLocales = new Set<string>();
-    
-    pageVariants.forEach(page => {
-      const pageLocale = normalizeLanguage(page.language);
-      if (locales.includes(pageLocale)) {
-        // Final safety check: don't add child pages for restricted locales
-        // But allow paths that are available for all locales
-        if (isChildPage && LOCALES_WITHOUT_CHILD_PAGES.includes(pageLocale)) {
-          return;
-        }
-        
-        const url = buildUrl(path, pageLocale);
-        // Only add if URL hasn't been processed yet
-        if (!processedUrls.has(url)) {
-          availableLocales.add(pageLocale);
-          variants[pageLocale] = {
-            url,
-            lastmod: page._updatedAt || new Date().toISOString()
-          };
-          processedUrls.add(url);
+    });
+  }
+  
+  if (enHeader.topNavigationMenu) {
+    enHeader.topNavigationMenu.forEach((item) => {
+      if (item.href && isInternalLink(item.href)) {
+        const path = cleanPath(item.href);
+        if (path && !shouldExcludePath(path)) {
+          paths.add(path);
         }
       }
     });
-    
-    if (availableLocales.size > 0) {
-      urlMap.set(path, variants);
+  }
+  
+  return paths;
+}
+
+// Extract paths from footer (only 'en' locale)
+function extractFooterPaths(footers: FooterData[]): Set<string> {
+  const paths = new Set<string>();
+  
+  // Only process 'en' locale footer
+  const enFooter = footers.find(f => f.language === 'en' || !f.language);
+  if (!enFooter) return paths;
+  
+  if (enFooter.footerColumns) {
+    enFooter.footerColumns.forEach((column) => {
+      if (column.titleLink && isInternalLink(column.titleLink)) {
+        const path = cleanPath(column.titleLink);
+        if (path && !shouldExcludePath(path)) {
+          paths.add(path);
+        }
+      }
+      
+      if (column.links) {
+        column.links.forEach((link) => {
+          if (link.link && isInternalLink(link.link)) {
+            const path = cleanPath(link.link);
+            if (path && !shouldExcludePath(path)) {
+              paths.add(path);
+            }
+          }
+        });
+      }
+    });
+  }
+  
+  if (enFooter.bottomLinks) {
+    enFooter.bottomLinks.forEach((link) => {
+      if (link.link && isInternalLink(link.link)) {
+        const path = cleanPath(link.link);
+        if (path && !shouldExcludePath(path)) {
+          paths.add(path);
+        }
+      }
+    });
+  }
+  
+  return paths;
+}
+
+async function getFeaturePaths(client: any): Promise<Set<string>> {
+  const paths = new Set<string>();
+  
+  const featuresQuery = groq`
+    *[_type == "features" && !(_id in path("drafts.**")) && defined(basicInfo.slug.current)] {
+      "slug": basicInfo.slug.current
+    }
+  `;
+  
+  const features = await client.fetch(featuresQuery);
+  
+  // Get unique slugs and build paths
+  const uniqueSlugs = new Set<string>();
+  features.forEach((feature: any) => {
+    // Exclude 'track' feature
+    if (feature.slug && feature.slug !== 'track' && !shouldExcludePath(`phone-system/features/${feature.slug}`)) {
+      uniqueSlugs.add(feature.slug);
     }
   });
+  
+  // Build paths for feature pages
+  uniqueSlugs.forEach(slug => {
+    paths.add(`phone-system/features/${slug}`);
+  });
+  
+  return paths;
+}
+
+async function getNavigationPaths(client: any): Promise<Set<string>> {
+  const headerQuery = groq`
+    *[_type == "homeSettings" && !(_id in path("drafts.**"))] {
+      language,
+      navigationMenu[] {
+        label,
+        href,
+        submenu[] {
+          label,
+          href
+        }
+      },
+      topNavigationMenu[] {
+        label,
+        href
+      }
+    }
+  `;
+  
+  const footerQuery = groq`
+    *[_type == "footer" && !(_id in path("drafts.**"))] {
+      language,
+      footerColumns[] {
+        title,
+        titleLink,
+        links[] {
+          text,
+          link
+        }
+      },
+      bottomLinks[] {
+        text,
+        link
+      }
+    }
+  `;
+  
+  const [headers, footers] = await Promise.all([
+    client.fetch(headerQuery),
+    client.fetch(footerQuery)
+  ]);
+  
+  const headerPaths = extractHeaderPaths(headers);
+  const footerPaths = extractFooterPaths(footers);
+  
+  // Combine paths
+  const allPaths = new Set<string>();
+  headerPaths.forEach(p => allPaths.add(p));
+  footerPaths.forEach(p => allPaths.add(p));
+  
+  return allPaths;
+}
+
+function generateSiteMap(navigationPaths: Set<string>) {
+  const locales = siteConfig.locales;
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
   xml += '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
 
-  for (const [path, variants] of urlMap) {
-    const availableLocales = Object.keys(variants);
-    const defaultLocale = availableLocales.includes('en') ? 'en' : availableLocales[0];
-    
-    Object.entries(variants).forEach(([locale, urlData]) => {
+  // 1. Generate entries for paths WITH hreflang alternates (home, system-requirements)
+  PATHS_WITH_ALTERNATES.forEach(path => {
+    locales.forEach(locale => {
       xml += '  <url>\n';
-      xml += `    <loc>${escapeXml(urlData.url)}</loc>\n`;
-      xml += `    <lastmod>${escapeXml(urlData.lastmod)}</lastmod>\n`;
+      xml += `    <loc>${escapeXml(buildUrl(path, locale))}</loc>\n`;
 
-      availableLocales.forEach(altLocale => {
-        if (variants[altLocale]) {
-          xml += `    <xhtml:link rel="alternate" hreflang="${formatHreflang(altLocale)}" href="${escapeXml(variants[altLocale].url)}"/>\n`;
-        }
+      // Add hreflang alternates for all locales
+      locales.forEach(altLocale => {
+        xml += `    <xhtml:link rel="alternate" hreflang="${formatHreflang(altLocale)}" href="${escapeXml(buildUrl(path, altLocale))}"/>\n`;
       });
 
-      if (variants[defaultLocale]) {
-        xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(variants[defaultLocale].url)}"/>\n`;
-      }
+      // Add x-default pointing to 'en' version
+      xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(buildUrl(path, 'en'))}"/>\n`;
 
       xml += '  </url>\n';
     });
-  }
+  });
+
+  // 2. Generate entries for other pages (only 'en', no hreflang)
+  navigationPaths.forEach(path => {
+    // Skip paths that already have alternates
+    if (PATHS_WITH_ALTERNATES.includes(path)) return;
+    
+    xml += '  <url>\n';
+    xml += `    <loc>${escapeXml(buildUrl(path, 'en'))}</loc>\n`;
+    xml += '  </url>\n';
+  });
 
   xml += '</urlset>';
   return xml;
@@ -355,9 +326,18 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   try {
-    const client = getClient(req?.preview ? { token: readToken } : undefined);
-    const pages = await getSitemapData(client);
-    const sitemap = generateSiteMap(pages);
+    const client = getClient(req.preview ? { token: readToken } : undefined);
+    const [navigationPaths, featurePaths] = await Promise.all([
+      getNavigationPaths(client),
+      getFeaturePaths(client)
+    ]);
+    
+    // Combine all paths
+    const allPaths = new Set<string>();
+    navigationPaths.forEach(p => allPaths.add(p));
+    featurePaths.forEach(p => allPaths.add(p));
+    
+    const sitemap = generateSiteMap(allPaths);
     
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');

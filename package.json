@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "voicestack-sanity",
   "scripts": {
     "build": "npm run lint && next build",
     "dev": "next dev -p 3003 --turbopack",
@@ -10,7 +11,9 @@
     "start": "next start",
     "type-check": "tsc --noEmit",
     "find-unused-exports": "find-unused-exports",
-    "populate-footer": "node scripts/populate-footer-data.js"
+    "find-unused-components": "node scripts/find-unused-components.js",
+    "populate-footer": "node scripts/populate-footer-data.js",
+    "upload-data": "node src/migrations/upload-pages-and-faqs.js"
   },
   "prettier": {
     "semi": false,

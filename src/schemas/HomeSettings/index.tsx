@@ -30,6 +30,18 @@ export default defineType({
       name: 'cta',
       title: 'CTA',
     },
+    {
+      name: 'form',
+      title: 'Form',
+    },
+    {
+      name: 'demoForms',
+      title: 'Demo Forms',
+    },
+    {
+      name: 'pricingDemoForms',
+      title: 'Pricing Demo Forms',
+    },
   ],
   fields: [
     // Hero fields from shared schema
@@ -39,10 +51,10 @@ export default defineType({
     })),
 
     defineField({
-      name: 'dmeoFormId',
+      name: 'demoFormId',
       title: 'Demo Form Id',
       type: 'string',
-      group: 'basic',
+      group: 'form',
       
     }),
     
@@ -50,14 +62,124 @@ export default defineType({
       name: 'demoMeetingLink',
       title: 'Demo Meeting Link',
       type: 'string',
-      group: 'basic',
+      group: 'form',
     }),
     
     defineField({
       name: 'dmeoFormEventName',
       title: 'Demo Form Event Name',
       type: 'string',
-      group: 'basic',
+      group: 'form',
+    }),
+
+    defineField({
+      name: 'demoForms',
+      title: 'Demo Forms',
+      type: 'array',
+      group: 'demoForms',
+      of: [
+        {
+          type: 'object',
+          name: 'demoFormItem',
+          title: 'Demo Form',
+          fields: [
+            {
+              name: 'practiceType',
+              title: 'Practice Type',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Dental', value: 'Dental' },
+                  { title: 'Optometry', value: 'Optometry' },
+                  { title: 'Physical Therapy', value: 'Physical Therapy' },
+                  { title: 'Veterinary', value: 'Veterinary' },
+                ],
+              },
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'demoFormId',
+              title: 'Demo Form Id',
+              type: 'string',
+              // validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'demoMeetingLink',
+              title: 'Demo Meeting Link',
+              type: 'string',
+              // validation: (Rule: any) => Rule.required(),
+            },
+          ],
+          preview: {
+            select: {
+              title: 'practiceType',
+              subtitle: 'demoFormId',
+            },
+            prepare(selection: any) {
+              const { title, subtitle } = selection
+              return {
+                title: title || 'Untitled Demo Form',
+                // subtitle: subtitle || 'No Form ID',
+              }
+            },
+          },
+        },
+      ],
+    }),
+
+    defineField({
+      name: 'pricingDemoForms',
+      title: 'Pricing Demo Forms',
+      type: 'array',
+      group: 'pricingDemoForms',
+      of: [
+        {
+          type: 'object',
+          name: 'demoFormItem',
+          title: 'Demo Form',
+          fields: [
+            {
+              name: 'practiceType',
+              title: 'Practice Type',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Dental', value: 'Dental' },
+                  { title: 'Optometry', value: 'Optometry' },
+                  { title: 'Physical Therapy', value: 'Physical Therapy' },
+                  { title: 'Veterinary', value: 'Veterinary' },
+                ],
+              },
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'demoFormId',
+              title: 'Demo Form Id',
+              type: 'string',
+              // validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'demoMeetingLink',
+              title: 'Demo Meeting Link',
+              type: 'string',
+              // validation: (Rule: any) => Rule.required(),
+            },
+          ],
+          preview: {
+            select: {
+              title: 'practiceType',
+              subtitle: 'demoFormId',
+            },
+            prepare(selection: any) {
+              const { title, subtitle } = selection
+              return {
+                title: title || 'Untitled Demo Form',
+                // subtitle: subtitle || 'No Form ID',
+              }
+            },
+          },
+        },
+      ],
     }),
 
     defineField({

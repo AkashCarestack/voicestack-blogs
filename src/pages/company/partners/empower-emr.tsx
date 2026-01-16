@@ -19,7 +19,7 @@ export default function EmpowerEMR({ pageData, faq }: EmpowerEMRProps) {
  
   return (
     <>
-      <LpHeader logo={VoicestackLogo} logoAlt="VoiceStack Empower EMR"/>
+      <LpHeader/>
       <SimpleHead data={pageData?.seo} noindex={true} />
       <HeroWrapper>
         {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
@@ -58,6 +58,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+
+    // Normalize undefined values to null for JSON serialization
+    if (pageData?.seo) {
+      if (pageData.seo.disableIndex === undefined) {
+        pageData.seo.disableIndex = null
+      }
+    }
 
     return {
       props: {

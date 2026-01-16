@@ -688,8 +688,8 @@ export const formatOrganizationSchema = (props: any) => {
         "url": "https://voicestack.com/",
         "logo": "https://voicestack.com/assets/schema/schema-logo-voicestack-1200x1200.jpg",
         "image": "https://voicestack.com/assets/schema/schema-logo-voicestack-1200x1200.jpg",
-        "description": "VoiceStack® is an award-winning, AI-powered phone system that's trusted by thousands of dentists & dental practices.",
-        "slogan": "The Most Advanced AI-Powered Dental Phone System.",
+        "description": "VoiceStack® is an award-winning, AI-powered phone system that's trusted by thousands of dentists, veterinarians, optometrists, and physical therapists.",
+        "slogan": "The Most Advanced AI-Powered Phone System For Modern Practices.",
         "foundingDate": "2024",
   
         "founder": {
@@ -729,7 +729,7 @@ export const formatOrganizationSchema = (props: any) => {
             "contactType": "Sales",
             "areaServed": "US",
             "availableLanguage": "en",
-            "url": "https://voicestack.com/demo"
+            "url": "https://voicestack.com/sales"
           }
         ],
   

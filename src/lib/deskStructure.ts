@@ -98,7 +98,7 @@ const customTitleMap: Record<string, string> = {
   homePage: 'Home Page',
   whoWeServe: 'Who We Serve',
   dentalSoftware: 'Dental Software',
-  dentalPhones: 'Dental Phones',
+  dentalPhones: 'Phone System',
   whyVoicestack: 'Why Voicestack',
     company: 'Company Page',
     partner: 'Partner Page',
@@ -186,7 +186,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     faqRevamp: ['faqRevamp'],
     
     // Blocks & Lists
-    blocks: ['logoListing', 'partnerListing', 'verticalTestimonialListing', 'csCardsListing', 'whoWeServeListing'],
+    blocks: ['logoListing', 'partnerListing', 'verticalTestimonialListing', 'csCardsListing', 'whoWeServeListing', 'genericItemsListing'],
     
     // Media & UI
     media: ['banner', 'footer', 'miscellaneous'],

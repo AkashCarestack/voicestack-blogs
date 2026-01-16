@@ -168,6 +168,10 @@ const HeroSection = ({
     document.body.appendChild(script)
   }, [])
 
+  if (!data) {
+    return null
+  }
+
   return (
     <section className="font-geist justify-center">
       <Container

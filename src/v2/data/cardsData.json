@@ -1,0 +1,62 @@
+[
+  {
+    "description": "Your front desk is overwhelmed. Every missed call is a new patient choosing another practice.",
+    "dynamicSvg": "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n  <path d=\"M16 8V16L21.3333 18.6667\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 16.0002C29.3334 13.4199 28.5847 10.8951 27.1781 8.73199C25.7716 6.56885 23.7676 4.86028 21.4093 3.81351C19.0509 2.76674 16.4395 2.42674 13.8917 2.83475C11.3439 3.24276 8.96929 4.38124 7.05575 6.11212C5.14221 7.84301 3.772 10.0919 3.11129 12.5861C2.45058 15.0803 2.52777 17.7127 3.33348 20.1639C4.1392 22.6151 5.63883 24.7798 7.6505 26.3956C9.66217 28.0114 12.0995 29.0088 14.6667 29.2668\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 21.3335L22.0001 28.6668L18.6667 25.3335\" stroke=\"#030712\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</svg>",
+    "heading": "27–35% of calls are missed during business hours",
+    "link": {
+      "buttonType": "text",
+      "text": null,
+      "url": null
+    }
+  },
+  {
+    "description": "Most calls and messages come when you're closed. By morning, they've booked with someone else.",
+    "dynamicSvg": "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n  <path d=\"M16 8V16L21.3333 18.6667\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 16.0002C29.3334 13.4199 28.5847 10.8951 27.1781 8.73199C25.7716 6.56885 23.7676 4.86028 21.4093 3.81351C19.0509 2.76674 16.4395 2.42674 13.8917 2.83475C11.3439 3.24276 8.96929 4.38124 7.05575 6.11212C5.14221 7.84301 3.772 10.0919 3.11129 12.5861C2.45058 15.0803 2.52777 17.7127 3.33348 20.1639C4.1392 22.6151 5.63883 24.7798 7.6505 26.3956C9.66217 28.0114 12.0995 29.0088 14.6667 29.2668\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 21.3335L22.0001 28.6668L18.6667 25.3335\" stroke=\"#030712\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</svg>",
+    "heading": "70% of missed patient opportunities happen <span>after hours</span>",
+    "link": {
+      "buttonType": "text",
+      "text": null,
+      "url": null
+    }
+  },
+  {
+    "description": "Most calls and messages come when you're closed. By morning, they've booked with someone else.",
+    "dynamicSvg": "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n  <path d=\"M16 8V16L21.3333 18.6667\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 16.0002C29.3334 13.4199 28.5847 10.8951 27.1781 8.73199C25.7716 6.56885 23.7676 4.86028 21.4093 3.81351C19.0509 2.76674 16.4395 2.42674 13.8917 2.83475C11.3439 3.24276 8.96929 4.38124 7.05575 6.11212C5.14221 7.84301 3.772 10.0919 3.11129 12.5861C2.45058 15.0803 2.52777 17.7127 3.33348 20.1639C4.1392 22.6151 5.63883 24.7798 7.6505 26.3956C9.66217 28.0114 12.0995 29.0088 14.6667 29.2668\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 21.3335L22.0001 28.6668L18.6667 25.3335\" stroke=\"#030712\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</svg>",
+    "heading": "70% of missed patient opportunities happen <span>after hours</span>",
+    "link": {
+      "buttonType": "text",
+      "text": null,
+      "url": null
+    }
+  },
+  {
+    "description": "Your front desk is overwhelmed. Every missed call is a new patient choosing another practice.",
+    "dynamicSvg": "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n  <path d=\"M16 8V16L21.3333 18.6667\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 16.0002C29.3334 13.4199 28.5847 10.8951 27.1781 8.73199C25.7716 6.56885 23.7676 4.86028 21.4093 3.81351C19.0509 2.76674 16.4395 2.42674 13.8917 2.83475C11.3439 3.24276 8.96929 4.38124 7.05575 6.11212C5.14221 7.84301 3.772 10.0919 3.11129 12.5861C2.45058 15.0803 2.52777 17.7127 3.33348 20.1639C4.1392 22.6151 5.63883 24.7798 7.6505 26.3956C9.66217 28.0114 12.0995 29.0088 14.6667 29.2668\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 21.3335L22.0001 28.6668L18.6667 25.3335\" stroke=\"#030712\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</svg>",
+    "heading": "27–35% of calls are missed during business hours",
+    "link": {
+      "buttonType": "text",
+      "text": null,
+      "url": null
+    }
+  },
+  {
+    "description": "Most calls and messages come when you're closed. By morning, they've booked with someone else.",
+    "dynamicSvg": "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n  <path d=\"M16 8V16L21.3333 18.6667\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 16.0002C29.3334 13.4199 28.5847 10.8951 27.1781 8.73199C25.7716 6.56885 23.7676 4.86028 21.4093 3.81351C19.0509 2.76674 16.4395 2.42674 13.8917 2.83475C11.3439 3.24276 8.96929 4.38124 7.05575 6.11212C5.14221 7.84301 3.772 10.0919 3.11129 12.5861C2.45058 15.0803 2.52777 17.7127 3.33348 20.1639C4.1392 22.6151 5.63883 24.7798 7.6505 26.3956C9.66217 28.0114 12.0995 29.0088 14.6667 29.2668\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 21.3335L22.0001 28.6668L18.6667 25.3335\" stroke=\"#030712\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</svg>",
+    "heading": "70% of missed patient opportunities happen <span>after hours</span>",
+    "link": {
+      "buttonType": "text",
+      "text": null,
+      "url": null
+    }
+  },
+  {
+    "description": "Most calls and messages come when you're closed. By morning, they've booked with someone else.",
+    "dynamicSvg": "<svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n  <path d=\"M16 8V16L21.3333 18.6667\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 16.0002C29.3334 13.4199 28.5847 10.8951 27.1781 8.73199C25.7716 6.56885 23.7676 4.86028 21.4093 3.81351C19.0509 2.76674 16.4395 2.42674 13.8917 2.83475C11.3439 3.24276 8.96929 4.38124 7.05575 6.11212C5.14221 7.84301 3.772 10.0919 3.11129 12.5861C2.45058 15.0803 2.52777 17.7127 3.33348 20.1639C4.1392 22.6151 5.63883 24.7798 7.6505 26.3956C9.66217 28.0114 12.0995 29.0088 14.6667 29.2668\" stroke=\"#6A7282\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M29.3334 21.3335L22.0001 28.6668L18.6667 25.3335\" stroke=\"#030712\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</svg>",
+    "heading": "70% of missed patient opportunities happen <span>after hours</span>",
+    "link": {
+      "buttonType": "text",
+      "text": null,
+      "url": null
+    }
+  }
+]

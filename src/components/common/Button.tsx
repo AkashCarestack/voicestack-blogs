@@ -1,14 +1,19 @@
 import clsx from 'clsx'
 import Link from 'next/link'
-import React, { useMemo } from 'react'
-import Anchor from './anchor'
-import { usePricingModal } from './PricingModalContext'
+import { useRouter } from 'next/router'
+import React, { useMemo, useState } from 'react'
+
 import MailIcon from '../icons/MailIcon'
 import PhoneIcon from '../icons/PhoneIcon'
 import { formatPhoneNumberWithCountryCode } from '../utils/helper'
+import Anchor from './anchor'
+import { usePricingModal } from './PricingModalContext'
+import ArrowIcon from '../revamp/icons/arrowIcon'
+import replaceUrl from '~/helpers/replaceUrl'
+import { PracticeTypeModal } from '~/v2/components/common/PracticeTypeModal'
 
 interface ButtonProps {
-  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel'
+  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
   alter?: 'bgWhite' | 'borderWhite' | 'disabled' | 'default'
   children?: React.ReactNode
   link?: any
@@ -33,9 +38,27 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   onClick,
   ...rest
 }) => {
+  const router = useRouter()
   // Get pricing modal context (may be undefined if provider is not available)
   const pricingModal = usePricingModal()
   const openPricingModal = pricingModal?.openPricingModal
+  
+  // State for practice type modal
+  const [showPracticeTypeModal, setShowPracticeTypeModal] = useState(false)
+  
+  // Check if we're on a partner child page (with slug), not the landing page
+  const isPartnerChildPage = useMemo(() => {
+    const pathname = router.pathname
+    // Match /company/partners/[slug] pattern (has a slug after /company/partners/)
+    // Exclude /company/partners (landing page) - only child pages should override
+    return pathname.startsWith('/company/partners/') && pathname !== '/company/partners'
+  }, [router.pathname])
+
+  // Check if we're on a pricing page
+  const isPricingPage = useMemo(() => {
+    const pathname = router.pathname
+    return pathname == '/pricing'
+  }, [router.pathname])
   
   // Extract text from children to check for "get pricing"
   const buttonText = useMemo(() => {
@@ -72,12 +95,25 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     return buttonText.toLowerCase().includes('get pricing')
   }, [buttonText])
   
-  // Handle click - if it's a pricing button, open modal instead of navigating
+  // Check if button text contains "book free demo" (case-insensitive)
+  const isBookFreeDemoButton = useMemo(() => {
+    return buttonText.toLowerCase().includes('book free demo')
+  }, [buttonText])
+  
+  // Handle click - if it's a "book free demo" button, show practice type modal
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-    if (isPricingButton && openPricingModal) {
+    // If it's a "book free demo" button, show modal instead of navigating
+    if (isBookFreeDemoButton) {
       e.preventDefault()
-      openPricingModal()
+      setShowPracticeTypeModal(true)
+      return
     }
+    
+    // if (isPricingButton && openPricingModal) {
+    //   e.preventDefault()
+    //   openPricingModal()
+    // }
+    
     // Call original onClick if provided
     if (onClick) {
       onClick(e)
@@ -103,6 +139,10 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       type === 'secondaryMail',
     'border-2 md:h-[44px] bg:white/10 border-[rgba(74,60,225,0.15)] hover:border-[rgba(74,60,225,0.15)] hover:bg-black/5 py-2.5 px-6 items-center':
       type === 'secondaryTel',
+      'border-none text-base font-medium leading-[150%] tracking-normal flex text-codgray-950 hover:text-vs-blue':
+      type === 'borderlessIcon',
+      'border-2 md:h-[44px] bg:white/10 border-white/40 hover:border-white/50 hover:bg-white/5 py-2.5 px-6 text-white':
+      type === 'secondaryWhite',
 
   }) 
 
@@ -130,14 +170,61 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   }
 
   // If it's a pricing button, don't use the link
-  const finalLink = isPricingButton ? undefined : (link ? formatLink(link, buttonVariant) : link)
+  // Extract URL from link (handle both string and object with cached_url)
+  const linkUrl = typeof link === 'string' ? link : (link?.cached_url || link?.url || link)
+  const processedLink = linkUrl ? replaceUrl(linkUrl) : linkUrl
+  const formattedLink = processedLink ? formatLink(processedLink, buttonVariant) : processedLink
+  
+  // On partner child pages, override "book free demo" buttons to #demo (but preserve special links)
+  // Pricing buttons keep their original behavior (open modal)
+  const finalLink = useMemo(() => {
+    // Pricing buttons should open modal, not navigate
+    // if (isPricingButton) return undefined
+    if (!formattedLink) return formattedLink
+    
+    // Don't override if already #demo
+    if (formattedLink === '#demo') return formattedLink
+    
+    // Don't override special protocol links (mailto, tel, external URLs)
+    if (
+      formattedLink.startsWith('mailto:') ||
+      formattedLink.startsWith('tel:') ||
+      formattedLink.startsWith('tel://') ||
+      formattedLink.startsWith('http://') ||
+      formattedLink.startsWith('https://')
+    ) {
+      return formattedLink
+    }
+    
+    // Don't override hash links (anchors)
+    if (formattedLink.startsWith('#')) {
+      return formattedLink
+    }
+    
+    // For "book free demo" buttons, always link to /demo
+    // Next.js Link with locale prop will handle locale-aware routing automatically
+    if (isBookFreeDemoButton) {
+      return '/demo'
+    }
+    
+    // On partner child pages (with slug), only override "book free demo" buttons to #demo
+    // Landing page (/company/partners) is excluded
+    // This preserves interlinking buttons to other pages
+    if (isPartnerChildPage && formattedLink) {
+      return '#demo'
+    }
+    // if (isPricingPage && formattedLink) {
+    //   return '/pricing/demo'
+    // }
+    
+    return formattedLink
+  }, [isPricingButton, formattedLink, isPartnerChildPage, isBookFreeDemoButton, router])
 
   const combinedClasses = clsx(baseClasses, customClasses, className)
   if (finalLink) {
     return (
       <>
         <Anchor
-
           href={finalLink}
           className={combinedClasses}
           target={target}
@@ -149,14 +236,28 @@ const Button: React.FunctionComponent<ButtonProps> = ({
           {type === 'secondaryTel' && <PhoneIcon className='size-6'/>}
           {children}
         </Anchor>
+        {showPracticeTypeModal && (
+          <PracticeTypeModal
+            onClose={() => setShowPracticeTypeModal(false)}
+            locale={locale || router.locale}
+          />
+        )}
       </>
     )
   }
 
   return (
-    <button className={combinedClasses} onClick={handleClick} {...rest}>
-      {children}
-    </button>
+    <>
+      <button className={combinedClasses} onClick={handleClick} {...rest}>
+        {children}
+      </button>
+      {showPracticeTypeModal && (
+        <PracticeTypeModal
+          onClose={() => setShowPracticeTypeModal(false)}
+          locale={locale || router.locale}
+        />
+      )}
+    </>
   )
 }
 

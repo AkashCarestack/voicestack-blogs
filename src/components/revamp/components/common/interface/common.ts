@@ -16,6 +16,23 @@ export interface SectionHeaderProps {
     className?: string
     showFullLength?: boolean
 }
+export interface SectionHeaderPropsV2 {
+    heading?: string,
+    subheading?: string,
+    description?: string,
+    mailId?: string,
+    isWhite?: boolean,
+    isLeftAlign?: boolean,
+    headingSm?: boolean
+    className?: string
+    showFullLength?: boolean
+    ctaListItems?: Array<{
+        ctaLink?: string
+        ctaText?: string
+        ctaType?: string
+    }>
+    demoButton?: boolean
+}
 
 import { ReactNode } from 'react';
 
