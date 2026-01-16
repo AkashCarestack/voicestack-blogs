@@ -90,7 +90,8 @@ export default function AppDownload({ homeSettings, heroData, bannerData, footer
       <meta name="author" content="VoiceStack®"></meta>
       <meta name="canonical" content="https://voicestack.com/download-app"></meta>
     </Head>
-      <ContentSection slugData={miscellaneousData?.heroSectionSlug?.current} content={miscellaneousData} draftMode={draftMode} token={token}/>
+    <AppDownloadHero data={miscellaneousData}/>
+      {/* <ContentSection slugData={miscellaneousData?.heroSectionSlug?.current} content={miscellaneousData} draftMode={draftMode} token={token}/> */}
       
     </>
   )
