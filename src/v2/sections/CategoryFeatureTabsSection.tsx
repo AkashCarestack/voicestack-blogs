@@ -389,9 +389,9 @@ export default function CategoryFeatureTabsSection({
               <div className="flex flex-col gap-6 items-start w-full">
                 {/* Main Heading */}
                 {firstCategory.name && (
-                  <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
-                    <p className="leading-[133.33%] whitespace-pre-wrap">{firstCategory.name}</p>
-                  </div>
+                  <h3 className="flex flex-col font-manrope font-semibold justify-center text-gray-900 text-4xl w-full">
+                    <span className="leading-[133.33%] whitespace-pre-wrap">{firstCategory.name}</span>
+                  </h3>
                 )}
                 {/* Description */}
                 {firstCategory.description && (
@@ -685,15 +685,15 @@ export default function CategoryFeatureTabsSection({
                           <div className="flex flex-col gap-[6px] items-start w-full">
                             {/* Category Label */}
                             {category.name && (
-                              <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
-                                <p className="leading-6 whitespace-pre-wrap">{category.name}</p>
-                              </div>
+                              <h3 className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                                <span className="leading-6 whitespace-pre-wrap">{category.name}</span>
+                              </h3>
                             )}
                             {/* Main Heading */}
                             {category.subheading && (
-                              <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900  w-full">
-                                <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
-                                </div>
+                              <h4 className="flex flex-col font-manrope font-semibold justify-center text-gray-900  w-full">
+                                <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
+                              </h4>
                             )}
                             {/* Description */}
                             {category.description && (
@@ -757,7 +757,7 @@ export default function CategoryFeatureTabsSection({
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                          className="w-full relative flex items-end justify-center md:h-[400px] h-[300px] lg:h-auto"
+                          className="w-full relative flex items-end justify-center md:h-[400px] h-[300px]"
                         >
                           <ImageLoader
                             image={category.mainImage}
@@ -850,15 +850,15 @@ export default function CategoryFeatureTabsSection({
                           <div className="flex flex-col gap-[6px] items-start w-full">
                             {/* Category Label */}
                             {category.name && (
-                              <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
-                                <p className="leading-6 whitespace-pre-wrap">{category.name}</p>
-                              </div>
+                              <h3 className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                                <span className="leading-6 whitespace-pre-wrap">{category.name}</span>
+                              </h3>
                             )}
                             {/* Main Heading */}
                             {category.subheading && (
-                              <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 w-full">
-                                <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
-                                </div>
+                              <h4 className="flex flex-col font-manrope font-semibold justify-center text-gray-900 w-full">
+                                <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
+                              </h4>
                             )}
                             {/* Description */}
                             {category.description && (
@@ -1054,14 +1054,16 @@ export default function CategoryFeatureTabsSection({
                           <div className="flex flex-col gap-1.5 items-start leading-0 w-full">
                             {/* Category Label */}
                             {category.name && (
-                              <div className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
-                                <p className="leading-[150%] whitespace-pre-wrap">{category.name}</p>
-                              </div>
+                              <h3 className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                                <span className="leading-[150%] whitespace-pre-wrap">{category.name}</span>
+                              </h3>
                             )}
                             {/* Main Heading */}
-                            <div className="flex flex-col font-manrope font-semibold justify-center text-gray-900 md:text-4xl text-xl w-full">
-                            <p className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
-                            </div>
+                            {category.subheading && (
+                              <h4 className="flex flex-col font-manrope font-semibold justify-center text-gray-900 md:text-4xl text-xl w-full">
+                                <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
+                              </h4>
+                            )}
                           </div>
                           {/* Description */}
                           <p className="font-geist font-normal leading-6 relative text-gray-700 text-base w-full whitespace-pre-wrap">
