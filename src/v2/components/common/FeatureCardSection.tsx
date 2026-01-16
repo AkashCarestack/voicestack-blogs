@@ -92,15 +92,15 @@ const FeatureCardSection: React.FC<FeatureCardSectionProps> = ({
     >
       <div className="flex flex-col gap-1 px-3 md:px-6 mb-4 md:mb-8">
         {/* Category Label - Purple */}
-        <p className="font-geist font-normal text-sm md:text-base text-[#7C3AED] mb-2">
+        <h3 className="font-geist font-normal text-sm md:text-base text-[#7C3AED] mb-2">
           {cardTitle}
-        </p>
+        </h3>
 
         {/* Card Subheading - Bold Title */}
         {cardSubheading && (
-          <h3 className="text-lg md:text-xl font-medium text-gray-950 leading-[140%]">
+          <h4 className="text-lg md:text-xl font-medium text-gray-950 leading-[140%]">
             <p dangerouslySetInnerHTML={{ __html: cardSubheading }} />
-            </h3>
+            </h4>
         )}
       </div>
 
