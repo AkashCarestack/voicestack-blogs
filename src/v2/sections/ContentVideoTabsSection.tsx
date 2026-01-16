@@ -451,8 +451,8 @@ export default function ContentVideoTabsSection({
         <div 
           ref={stickyTabsRef}
           data-sticky-tabs
-          // className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0`}
-          className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0"
+          // className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
+          className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
 
         >
           <SwitchableTabs
