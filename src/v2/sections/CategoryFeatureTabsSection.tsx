@@ -76,15 +76,10 @@ export default function CategoryFeatureTabsSection({
   const activeCategoryRef = useRef<string>('');
   const isMobile = useMediaQuery(767);
 
-  // Get base path dynamically from current route
+  // Get base path - always use /phone-system/features
   const getBasePath = useCallback(() => {
-    const pathname = router.pathname || router.asPath;
-    const pathSegments = pathname.split('/').filter(Boolean);
-    if (pathSegments.length >= 2) {
-      return `/${pathSegments[0]}/${pathSegments[1]}`;
-    }
     return '/phone-system/features';
-  }, [router.pathname, router.asPath]);
+  }, []);
 
   // Helper function to extract plain text from blockContent/portable text
   const extractTextFromBlocks = (blocks: any): string => {
@@ -602,12 +597,12 @@ export default function CategoryFeatureTabsSection({
       return category.features.map((feature) => {
         const featureSlug = feature.basicInfo?.slug?.current || feature.slug?.current;
         const href = featureSlug ? `${basePath}/${featureSlug}` : '#';
-        return {
-          heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
-          description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
-          dynamicSvg: defaultPillIcon,
-          href,
-        };
+          return {
+            heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
+            description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
+            dynamicSvg: defaultPillIcon,
+            href: featureSlug ? `${basePath}/${featureSlug}`.replace(/\/+/g, '/') : '#',
+          };
       });
     };
 
@@ -664,69 +659,63 @@ export default function CategoryFeatureTabsSection({
             <div className="relative w-full">
               {/* Single container box that stays */}
               <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
-                {/* Left Column: Content and Pill Items with Smooth Animation */}
+                {/* Left Column: Content and Pill Items */}
                 <div className="bg-white flex flex-col gap-6 items-start justify-start md:p-12 p-6 min-h-[500px] relative overflow-hidden border-r border-gray-200">
-                  <AnimatePresence mode="wait">
-                    {allCategories.map((category) => {
-                      const pillItems = getPillItems(category);
-                      const isActive = category.name === activeCategory;
-                      
-                      if (!isActive) return null;
-                      
-                      return (
-                        <motion.div
-                          key={category.name}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                          className="flex flex-col gap-6 items-start w-full"
-                        >
-                          <div className="flex flex-col gap-[6px] items-start w-full">
-                            {/* Category Label */}
-                            {category.name && (
-                              <h3 className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
-                                <span className="leading-6 whitespace-pre-wrap">{category.name}</span>
-                              </h3>
-                            )}
-                            {/* Main Heading */}
-                            {category.subheading && (
-                              <h4 className="flex flex-col font-manrope font-semibold justify-center text-gray-900  w-full">
-                                <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
-                              </h4>
-                            )}
-                            {/* Description */}
-                            {category.description && (
-                              <p className="font-geist leading-[150%] font-normal text-gray-700 text-base whitespace-pre-wrap">
-                                {category.description}
-                              </p>
-                            )}
-                          </div>
+                  {allCategories.map((category) => {
+                    const pillItems = getPillItems(category);
+                    const isActive = category.name === activeCategory;
+                    
+                    if (!isActive) return null;
+                    
+                    return (
+                      <div
+                        key={category.name}
+                        className="flex flex-col gap-6 items-start w-full"
+                      >
+                        <div className="flex flex-col gap-[6px] items-start w-full">
+                          {/* Category Label */}
+                          {category.name && (
+                            <h3 className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                              <span className="leading-6 whitespace-pre-wrap">{category.name}</span>
+                            </h3>
+                          )}
+                          {/* Main Heading */}
+                          {category.subheading && (
+                            <h4 className="flex flex-col font-manrope font-semibold justify-center text-gray-900  w-full">
+                              <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
+                            </h4>
+                          )}
+                          {/* Description */}
+                          {category.description && (
+                            <p className="font-geist leading-[150%] font-normal text-gray-700 text-base whitespace-pre-wrap">
+                              {category.description}
+                            </p>
+                          )}
+                        </div>
 
-                          {/* Pill Items Grid */}
-                          <div className="flex flex-wrap gap-3 items-start w-full">
-                            {pillItems.map((item, index) => (
-                              <Link
-                                key={`${category.name}-${index}`}
-                                href={item.href}
-                                className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white hover:border-[rgba(255,255,255,0.60)] hover:bg-[#E5E7EB] transition-all duration-200 shadow-sm cursor-pointer"
-                              >
-                                <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
-                                  {item.heading}
-                                </span>
-                                {item.dynamicSvg && (
-                                  <div
-                                    className="flex items-center justify-center w-5 h-5 flex-shrink-0 [&_svg]:w-5 [&_svg]:h-5"
-                                    dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
-                                  />
-                                )}
-                              </Link>
-                            ))}
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </AnimatePresence>
+                        {/* Pill Items Grid */}
+                        <div className="flex flex-wrap gap-3 items-start w-full">
+                          {pillItems.map((item, index) => (
+                            <Link
+                              key={`${category.name}-${index}`}
+                              href={item.href}
+                              className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white hover:border-[rgba(255,255,255,0.60)] hover:bg-[#E5E7EB] transition-all duration-200 shadow-sm cursor-pointer"
+                            >
+                              <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
+                                {item.heading}
+                              </span>
+                              {item.dynamicSvg && (
+                                <div
+                                  className="flex items-center justify-center w-5 h-5 flex-shrink-0 [&_svg]:w-5 [&_svg]:h-5"
+                                  dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
+                                />
+                              )}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
 
                 {/* Right Column: Category Image with Fixed Grid Pattern */}
@@ -959,7 +948,7 @@ export default function CategoryFeatureTabsSection({
                             link: featureSlug ? {
                               buttonType: "text",
                               text: null,
-                              url: `${basePath}/${featureSlug}`
+                              url: `${basePath}/${featureSlug}`.replace(/\/+/g, '/')
                             } : {
                               buttonType: "text",
                               text: null,
@@ -1136,7 +1125,7 @@ export default function CategoryFeatureTabsSection({
                             link: featureSlug ? {
                               buttonType: "text",
                               text: null,
-                              url: `${basePath}/${featureSlug}`
+                              url: `${basePath}/${featureSlug}`.replace(/\/+/g, '/')
                             } : {
                               buttonType: "text",
                               text: null,
