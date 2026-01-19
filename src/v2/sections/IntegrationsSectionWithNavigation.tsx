@@ -75,7 +75,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
       <div className="bg-white flex items-end justify-between px-12 py-16 relative shrink-0 tracking-normal w-full first:border-t border-gray-200 border-solid">
         <div className="flex flex-col gap-3 items-start relative shrink-0 w-full max-w-[921px]">
           <div className="flex flex-col font-manrope font-semibold justify-center leading-0 relative shrink-0 text-gray-950 text-4xl w-full">
-            <p className="leading-[40px] whitespace-pre-wrap">{title}</p>
+            <h3 className="leading-[40px] whitespace-pre-wrap">{title}</h3>
           </div>
           <p className="font-geist font-normal leading-6 relative shrink-0 text-[#6a7282] text-base w-full whitespace-pre-wrap">
             {description}

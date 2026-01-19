@@ -489,13 +489,13 @@ export default function ContentVideoTabsSection({
                   >
                     <div className="flex flex-col justify-center">
                       {tab.category && (
-                        <h3 className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
+                        <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
                           {tab.category}
-                        </h3>
+                        </span>
                       )}
-                      <h4 className="my-3 text-gray-900 md:text-4xl  text-2xl font-manrope font-semibold leading-[133.33%] tracking-normal">
+                      <h3 className="my-3 text-gray-900 md:text-4xl  text-2xl font-manrope font-semibold leading-[133.33%] tracking-normal">
                         {tab.heading}
-                      </h4>
+                      </h3>
                       {tab.description && Array.isArray(tab.description) && tab.description.length > 0 ? (
                         <div className="text-gray-500 md:text-lg text-base font-geist font-normal leading-[155.55%] tracking-normal">
                           <PortableText value={tab.description} components={portableTextComponents} />
