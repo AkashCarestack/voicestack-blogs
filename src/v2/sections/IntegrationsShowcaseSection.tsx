@@ -231,7 +231,7 @@ console.log(data, 'data')
                       alt={integration.title}
                       width={50}
                       height={50}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain rounded-[8px]"
                     />
                   )}
                 </div>
@@ -269,7 +269,7 @@ console.log(data, 'data')
                     key={cell.key}
                     className={`flex items-center justify-center ${
                       cell.type === 'integration'
-                        ? 'group relative transition-all duration-300'
+                        ? 'group relative transition-all duration-300 overflow-hidden'
                         : ''
                     }`}
                     style={{
@@ -287,7 +287,7 @@ console.log(data, 'data')
                           alt={cell.data.title}
                           width={70}
                           height={70}
-                          className="w-full h-full object-contain"
+                          className="w-full h-full object-contain rounded-[8px]"
                         />
                         {/* Tooltip - only for integration cells */}
                         <div className="absolute bg-[#efeeea] bottom-0 px-2 py-1 rounded-sm align-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
