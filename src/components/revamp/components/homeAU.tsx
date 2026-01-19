@@ -12,6 +12,7 @@ import IntegrationCloudSection from '~/v2/sections/IntegrationCloudSection'
 import FooterBottom from './common/FooterBottom'
 import AboutCoachingPartners from '~/v2/sections/AboutCoachingPartnersSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 
 export default function 
 HomeAU({
@@ -48,16 +49,27 @@ HomeAU({
         <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
       )}
 
+<CategoryFeatureTabsSection
+        features={featuresData}
+        variant="carousel"
+        sectionHeading={
+          data['category-feature-tabs']?.componentData?.sectionHeading
+        }
+      />
+
       {comparisonLegendData && (
         <SiteComparisonSection
           data={comparisonSectionData}
           legendData={comparisonLegendData}
         />
       )}
+      
       {pageData['voicestack-solution']?.componentData && <ContentVideoTabsSection data={pageData['voicestack-solution']?.componentData} />}
+
       {pageData['integrations-showcase']?.customComponent && (
         <IntegrationCloudSection data={pageData['integrations-showcase']?.customComponent} />
       )}
+
       {pageData['test-listing-2']?.componentData && (
         <CardsGridSection variant="V2" colCount={3}
           data={pageData['test-listing-2'].componentData}
