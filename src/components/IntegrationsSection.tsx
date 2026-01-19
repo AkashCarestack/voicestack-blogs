@@ -47,64 +47,6 @@ const IntegrationsSection: React.FC<IntegrationsSectionProps> = ({ className = '
   const router = useRouter()
   const [integrations, setIntegrations] = useState<IntegrationList[]>([])
   const [loading, setLoading] = useState(true)
-
-  // Get language from route locale
-  const language = router.locale || 'en'
-
-  // Fetch integrations data from CMS
-  useEffect(() => {
-    const fetchIntegrations = async () => {
-      try {
-        const client = getClient()
-        
-        // Fetch integration list with their categories
-        const integrationsQuery = `*[_type == "integrationList" && language == $language] | order(order asc, title asc) {
-          _id,
-          title,
-          headline,
-          description,
-          shortDescription,
-          image {
-            asset-> {
-              _id,
-              url
-            }
-          },
-          link,
-          integrationCategory-> {
-            _id,
-            name,
-            subheading,
-            description,
-            mainImage {
-              asset-> {
-                _id,
-                url
-              }
-            },
-            icon {
-              asset-> {
-                _id,
-                url
-              }
-            },
-            iconSvgCode
-          },
-          language
-        }`
-        
-        const integrationsData = await client.fetch(integrationsQuery, { language })
-        setIntegrations(integrationsData)
-        setLoading(false)
-      } catch (error) {
-        console.error('Error fetching integrations data:', error)
-        setLoading(false)
-      }
-    }
-    
-    fetchIntegrations()
-  }, [language])
-
   // Render integration icon
   const renderIntegrationIcon = (integration: IntegrationList) => {
     if (integration.image && integration.image.asset?.url) {
