@@ -43,7 +43,9 @@ const StatisticsSection = ({ bgColor }: StatisticsSectionProps = {}) => {
             <div className="flex-col relative w-full flex gap-8">
 
               <SectionHeaderV2 isLeftAlign={true} className=''
-                heading={createRotatingWordHeading("The Most Advanced AI Phone System for Practices Globally.")}
+                heading={"The Most Advanced AI Phone System for Practices Globally."}
+                // heading={createRotatingWordHeading("The Most Advanced AI Phone System for Practices Globally.")}
+
                 // heading={pageData['how-voicestack-works2'].componentData.heading}
                 description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused practices across the US, UK, and Australia. From single offices to practices with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
               />
