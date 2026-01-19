@@ -58,6 +58,23 @@ function formatHreflang(locale: string): string {
   return localeMap[locale] || 'en';
 }
 
+function formatLastmod(date: string | Date | null | undefined): string {
+  if (!date) {
+    // Default to current date/time if no date provided
+    return new Date().toISOString();
+  }
+  
+  const dateObj = typeof date === 'string' ? new Date(date) : date;
+  
+  if (isNaN(dateObj.getTime())) {
+    return new Date().toISOString();
+  }
+  
+  // Format as YYYY-MM-DDThh:mm:ss+00:00 (sitemap standard with time)
+  // ISO 8601 format is accepted by sitemap protocol
+  return dateObj.toISOString();
+}
+
 function buildUrl(path: string, locale: string): string {
   const cleanedPath = path.replace(/^\/+/, '').replace(/\/+$/, '');
   
@@ -201,38 +218,44 @@ function extractFooterPaths(footers: FooterData[]): Set<string> {
   return paths;
 }
 
-async function getFeaturePaths(client: any): Promise<Set<string>> {
-  const paths = new Set<string>();
+async function getFeaturePaths(client: any): Promise<Map<string, string>> {
+  const pathDates = new Map<string, string>();
   
   const featuresQuery = groq`
     *[_type == "features" && !(_id in path("drafts.**")) && defined(basicInfo.slug.current)] {
-      "slug": basicInfo.slug.current
+      "slug": basicInfo.slug.current,
+      _updatedAt
     }
   `;
   
   const features = await client.fetch(featuresQuery);
   
-  // Get unique slugs and build paths
-  const uniqueSlugs = new Set<string>();
+  // Get unique slugs and build paths with dates
+  const uniqueSlugs = new Map<string, string>();
   features.forEach((feature: any) => {
     // Exclude 'track' feature
     if (feature.slug && feature.slug !== 'track' && !shouldExcludePath(`phone-system/features/${feature.slug}`)) {
-      uniqueSlugs.add(feature.slug);
+      const existingDate = uniqueSlugs.get(feature.slug);
+      // Use the most recent date if duplicate slugs exist
+      if (!existingDate || (feature._updatedAt && feature._updatedAt > existingDate)) {
+        uniqueSlugs.set(feature.slug, feature._updatedAt || new Date().toISOString());
+      }
     }
   });
   
-  // Build paths for feature pages
-  uniqueSlugs.forEach(slug => {
-    paths.add(`phone-system/features/${slug}`);
+  // Build paths for feature pages with dates
+  uniqueSlugs.forEach((date, slug) => {
+    pathDates.set(`phone-system/features/${slug}`, date);
   });
   
-  return paths;
+  return pathDates;
 }
 
-async function getNavigationPaths(client: any): Promise<Set<string>> {
+async function getNavigationPaths(client: any): Promise<Map<string, string>> {
   const headerQuery = groq`
     *[_type == "homeSettings" && !(_id in path("drafts.**"))] {
       language,
+      _updatedAt,
       navigationMenu[] {
         label,
         href,
@@ -251,6 +274,7 @@ async function getNavigationPaths(client: any): Promise<Set<string>> {
   const footerQuery = groq`
     *[_type == "footer" && !(_id in path("drafts.**"))] {
       language,
+      _updatedAt,
       footerColumns[] {
         title,
         titleLink,
@@ -274,16 +298,85 @@ async function getNavigationPaths(client: any): Promise<Set<string>> {
   const headerPaths = extractHeaderPaths(headers);
   const footerPaths = extractFooterPaths(footers);
   
-  // Combine paths
-  const allPaths = new Set<string>();
-  headerPaths.forEach(p => allPaths.add(p));
-  footerPaths.forEach(p => allPaths.add(p));
+  // Get the most recent update date from headers/footers
+  const enHeader = headers.find((h: any) => h.language === 'en' || !h.language);
+  const enFooter = footers.find((f: any) => f.language === 'en' || !f.language);
   
-  return allPaths;
+  const headerDate = enHeader?._updatedAt || new Date().toISOString();
+  const footerDate = enFooter?._updatedAt || new Date().toISOString();
+  const mostRecentDate = headerDate > footerDate ? headerDate : footerDate;
+  
+  // Combine paths with dates
+  const pathDates = new Map<string, string>();
+  headerPaths.forEach(p => pathDates.set(p, headerDate));
+  footerPaths.forEach(p => {
+    // Use most recent date if path exists in both
+    const existingDate = pathDates.get(p);
+    if (!existingDate || footerDate > existingDate) {
+      pathDates.set(p, footerDate);
+    } else {
+      pathDates.set(p, existingDate);
+    }
+  });
+  
+  return pathDates;
 }
 
-function generateSiteMap(navigationPaths: Set<string>) {
+// Fetch page document dates for paths that might have corresponding page documents
+async function getPageDocumentDates(client: any, paths: Set<string>): Promise<Map<string, string>> {
+  const pathDates = new Map<string, string>();
+  
+  // Query for page documents that match our paths
+  const pageQuery = groq`
+    *[_type == "page" && !(_id in path("drafts.**")) && defined(basicInfo.slug.current)] {
+      "slug": basicInfo.slug.current,
+      language,
+      _updatedAt
+    }
+  `;
+  
+  const pages = await client.fetch(pageQuery);
+  
+  // Create a map of path to date
+  pages.forEach((page: any) => {
+    if (!page.slug) return;
+    
+    // Build path based on language and slug
+    let path = '';
+    if (page.language === 'en' || !page.language) {
+      path = page.slug;
+    } else {
+      path = `${page.language}/${page.slug}`;
+    }
+    
+    // Normalize path (remove locale prefix if needed)
+    path = cleanPath(path);
+    
+    if (paths.has(path) && page._updatedAt) {
+      const existingDate = pathDates.get(path);
+      // Use most recent date if multiple pages match
+      if (!existingDate || page._updatedAt > existingDate) {
+        pathDates.set(path, page._updatedAt);
+      }
+    }
+  });
+  
+  return pathDates;
+}
+
+function generateSiteMap(navigationPaths: Map<string, string>, featurePaths: Map<string, string>) {
   const locales = siteConfig.locales;
+  
+  // Combine all paths and dates
+  const allPathDates = new Map<string, string>();
+  navigationPaths.forEach((date, path) => allPathDates.set(path, date));
+  featurePaths.forEach((date, path) => {
+    const existingDate = allPathDates.get(path);
+    // Use most recent date if path exists in both
+    if (!existingDate || date > existingDate) {
+      allPathDates.set(path, date);
+    }
+  });
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
@@ -291,9 +384,13 @@ function generateSiteMap(navigationPaths: Set<string>) {
 
   // 1. Generate entries for paths WITH hreflang alternates (home, system-requirements)
   PATHS_WITH_ALTERNATES.forEach(path => {
+    const lastmod = allPathDates.get(path) || new Date().toISOString();
+    const formattedLastmod = formatLastmod(lastmod);
+    
     locales.forEach(locale => {
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(buildUrl(path, locale))}</loc>\n`;
+      xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
 
       // Add hreflang alternates for all locales
       locales.forEach(altLocale => {
@@ -308,12 +405,14 @@ function generateSiteMap(navigationPaths: Set<string>) {
   });
 
   // 2. Generate entries for other pages (only 'en', no hreflang)
-  navigationPaths.forEach(path => {
+  allPathDates.forEach((date, path) => {
     // Skip paths that already have alternates
     if (PATHS_WITH_ALTERNATES.includes(path)) return;
+    const formattedLastmod = formatLastmod(date);
     
     xml += '  <url>\n';
     xml += `    <loc>${escapeXml(buildUrl(path, 'en'))}</loc>\n`;
+    xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
     xml += '  </url>\n';
   });
 
@@ -332,12 +431,22 @@ export default async function handler(
       getFeaturePaths(client)
     ]);
     
-    // Combine all paths
-    const allPaths = new Set<string>();
-    navigationPaths.forEach(p => allPaths.add(p));
-    featurePaths.forEach(p => allPaths.add(p));
+    // Get page document dates for paths that might have corresponding page documents
+    const allPathsSet = new Set<string>();
+    navigationPaths.forEach((_, p) => allPathsSet.add(p));
+    featurePaths.forEach((_, p) => allPathsSet.add(p));
     
-    const sitemap = generateSiteMap(allPaths);
+    const pageDates = await getPageDocumentDates(client, allPathsSet);
+    
+    // Merge page dates into navigation paths (prefer page document dates if available)
+    pageDates.forEach((date, path) => {
+      const existingDate = navigationPaths.get(path);
+      if (!existingDate || date > existingDate) {
+        navigationPaths.set(path, date);
+      }
+    });
+    
+    const sitemap = generateSiteMap(navigationPaths, featurePaths);
     
     res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');

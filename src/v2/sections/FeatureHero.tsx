@@ -12,15 +12,21 @@ import LightningIcon from '../icons/LightningIcon'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import Anchor from '~/components/common/anchor'
 import PartnerHubspotForm from '../components/common/PartnerHubspotForm'
+import Link from 'next/link'
+import AppleIcon from '~/assets/AppleIcon'
+import PlayIcon from '~/assets/PlayIcon'
 
 interface FeatureHeroProps {
   data: any
   type?:string | 'form' | 'feature'
   hideBg?: boolean
   isCentered?: boolean
+  pageType?: string | 'download-app'
+  appStoreLinks?: any
 }
 
-export default function FeatureHero({ data, type , hideBg = false, isCentered = false}: FeatureHeroProps) {
+export default function FeatureHero({ data, type , hideBg = false, isCentered = false ,pageType = '', appStoreLinks = ""}: FeatureHeroProps) {
+  
   const hubspotFormId = data?.componentData?.hubspotFormId || data?.hubspotFormId
   const meetingLink = data?.componentData?.meetingLink || data?.meetingLink || data?.demoMeetingLink
   const value = data?.heroComponent 
@@ -235,7 +241,7 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
   
   return (
     <Section className="relative overflow-hidden" id="FeatureHero" border="b">
-      <Container type="V2" className="md:py-24 py-16 overflow-hidden justify-center flex">
+      <Container type="V2" className={`md:py-24 py-16 overflow-hidden justify-center flex ${pageType === 'download-app' ? 'flex-col' : ''}`}>
         <div className='flex lg:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10 items-center'>
           <div className={`flex flex-col gap-3 relative z-10 flex-1  ${type === 'form' ? 'max-w-[606px]' : ''} ${isCentered ? 'text-center items-center' : ''}`}>
             {title && (
@@ -665,18 +671,82 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
             </div>
           )}
         </div>
-        {!hideBg &&
-        <div className="hidden z-0 md:block absolute right-0 bottom-0 w-[1000px] h-[738px] pointer-events-none">
-          <Image
-            className="w-full h-full object-cover"
-            alt="bgStyle"
-            width={1049}
-            height={738}
-            src={bgStyle.src}
-          />
-        </div>
-    }
+        {!hideBg && (
+          <div className="hidden z-0 md:block absolute right-0 bottom-0 w-[1000px] h-[738px] pointer-events-none">
+            <Image
+              className="w-full h-full object-cover"
+              alt="bgStyle"
+              width={1049}
+              height={738}
+              src={bgStyle.src}
+            />
+          </div>
+        )}
+
+        {/******************* 
+         *  Only for download page case - to show download app buttons **
+        **************/}
+
+
+        {pageType === 'download-app' && appStoreLinks && (appStoreLinks.appStore || appStoreLinks.googlePlay) && (
+          <div className="w-full flex justify-center">
+            <div className="flex flex-col gap-4 items-center md:pt-12 pt-[10px]">
+              {appStoreLinks.downloadText && (
+                <p className="text-[#030712] text-lg font-medium leading-[160%] text-center">
+                  {appStoreLinks.downloadText}
+                </p>
+              )}
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                {/* App Store Button */}
+                {appStoreLinks.appStore && (
+                  <Link
+                    href={appStoreLinks.appStore}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-6 px-2 py-2 pr-6 rounded-[18px] border border-white/20 bg-white hover:bg-white/25 transition-all duration-300"
+                  >
+                    <div className="flex items-center justify-center w-[62px] h-[62px] rounded-xl bg-black/10">
+                      <AppleIcon />
+                    </div>
+                    <div className="flex flex-col items-start">
+                      <span className="text-gray-900 text-sm font-normal uppercase leading-[1.45]">
+                        Download on
+                      </span>
+                      <span className="text-gray-900 text-xl font-semibold leading-[1.45]">
+                        App Store
+                      </span>
+                    </div>
+                  </Link>
+                )}
+
+                {/* Google Play Button */}
+                {appStoreLinks.googlePlay && (
+                  <Link
+                    href={appStoreLinks.googlePlay}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-6 px-2 py-2 pr-6 rounded-[18px] border border-white/20 bg-white hover:bg-white/25 transition-all duration-300"
+                  >
+                    <div className="flex items-center justify-center w-[62px] h-[62px] rounded-xl bg-black/10">
+                      <PlayIcon />
+                    </div>
+                    <div className="flex flex-col items-start">
+                      <span className="text-[#030712] text-sm font-normal uppercase leading-[1.45]">
+                        GET IT ON
+                      </span>
+                      <span className="text-[#030712] text-xl font-semibold leading-[1.45]">
+                        Google Play
+                      </span>
+                    </div>
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </Container>
     </Section>
   )
 }
+

@@ -117,7 +117,7 @@ export default function SwitchableTabs({
   return (
     <div
       // className={`${isSticky && 'sticky'} ${scrollUp ? 'md:top-[-5px] top-0 ' : 'md:top-[38px] top-0'} flex ${fullWidth ? 'gap-[10px]' : 'gap-2.5'} w-full justify-center items-center transition-all duration-300 ease-in-out ${fullWidth ? 'px-4 md:px-12' : 'px-2 md:px-0'} ${className || ''}`}
-      className={`${isSticky && 'sticky'} top-0 flex ${fullWidth ? 'gap-[10px]' : 'gap-2.5'} w-full justify-center items-center transition-all duration-300 ease-in-out ${fullWidth ? 'px-4 md:px-12' : 'px-2 md:px-0'} ${className || ''}`}
+      className={`${isSticky && 'sticky'} top-0 flex ${fullWidth ? 'gap-[10px]' : 'gap-2.5'} w-full justify-center items-center transition-all duration-300 ease-in-out ${fullWidth ? 'px-4 md:px-12' : 'px-0 md:px-0'} ${className || ''}`}
       style={{
         position: isSticky ? 'sticky' : 'relative',
       }}
@@ -127,7 +127,7 @@ export default function SwitchableTabs({
         className={
           fullWidth
             ? 'bg-white border md:border-gray-200 border-transparent rounded-[500px] md:p-[6px] p-1 flex gap-[10px] w-full transition-all duration-300 ease-in-out overflow-x-auto overflow-y-hidden scrollbar-hide whitespace-nowrap'
-            : `lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] rounded-full md:p-1.5 p-1 flex flex-row gap-2.5 lg:w-fit w-full lg:bg-white bg-white ${shadow ? 'lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]' : 'md:border border-gray-200  lg:shadow-none'} overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide scrollbar-none transition-all duration-300 ease-in-out`
+            : `lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)] md:rounded-full md:p-1.5 p-1 flex flex-row gap-2.5 lg:w-fit w-full lg:bg-white bg-white ${shadow ? 'lg:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]' : 'md:border border-gray-200  lg:shadow-none'} overflow-x-auto overflow-y-hidden whitespace-nowrap scrollbar-hide scrollbar-none transition-all duration-300 ease-in-out`
         }
         style={{
           WebkitOverflowScrolling: 'touch',

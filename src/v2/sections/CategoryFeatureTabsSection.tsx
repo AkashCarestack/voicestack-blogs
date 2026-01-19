@@ -636,7 +636,7 @@ export default function CategoryFeatureTabsSection({
             
             {/* Switchable Tabs - Sticky */}
             {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12`}> */}
-            <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+            <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0">
 
               <SwitchableTabs
                 data={allCategories.map(category => ({
@@ -675,15 +675,15 @@ export default function CategoryFeatureTabsSection({
                         <div className="flex flex-col gap-[6px] items-start w-full">
                           {/* Category Label */}
                           {category.name && (
-                            <h3 className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                            <span className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
                               <span className="leading-6 whitespace-pre-wrap">{category.name}</span>
-                            </h3>
+                            </span>
                           )}
                           {/* Main Heading */}
                           {category.subheading && (
-                            <h4 className="flex flex-col font-manrope font-semibold justify-center text-gray-900  w-full">
+                            <h3 className="flex flex-col font-manrope font-semibold justify-center text-gray-900  w-full">
                               <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
-                            </h4>
+                            </h3>
                           )}
                           {/* Description */}
                           {category.description && (
@@ -800,7 +800,7 @@ export default function CategoryFeatureTabsSection({
             </div>
             
             {/* Switchable Tabs - Sticky */}
-            <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+            <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0">
               <SwitchableTabs
                 data={allCategories.map(category => ({
                   id: category.name,
@@ -839,9 +839,9 @@ export default function CategoryFeatureTabsSection({
                           <div className="flex flex-col gap-[6px] items-start w-full">
                             {/* Category Label */}
                             {category.name && (
-                              <h3 className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                              <span className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
                                 <span className="leading-6 whitespace-pre-wrap">{category.name}</span>
-                              </h3>
+                              </span>
                             )}
                             {/* Main Heading */}
                             {category.subheading && (
@@ -997,8 +997,8 @@ export default function CategoryFeatureTabsSection({
             className='xl:px-12 md:px-6 px-4'
           />
         {/* Switchable Tabs - Sticky */}
-        {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0`}> */}
-        <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-0">
+        {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}> */}
+        <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0">
 
           <SwitchableTabs
             data={allCategories.map(category => ({
@@ -1043,15 +1043,15 @@ export default function CategoryFeatureTabsSection({
                           <div className="flex flex-col gap-1.5 items-start leading-0 w-full">
                             {/* Category Label */}
                             {category.name && (
-                              <h3 className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                              <span className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
                                 <span className="leading-[150%] whitespace-pre-wrap">{category.name}</span>
-                              </h3>
+                              </span>
                             )}
                             {/* Main Heading */}
                             {category.subheading && (
-                              <h4 className="flex flex-col font-manrope font-semibold justify-center text-gray-900 md:text-4xl text-xl w-full">
+                              <h3 className="flex flex-col font-manrope font-semibold justify-center text-gray-900 md:text-4xl text-xl w-full">
                                 <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
-                              </h4>
+                              </h3>
                             )}
                           </div>
                           {/* Description */}

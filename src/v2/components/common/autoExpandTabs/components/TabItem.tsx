@@ -51,7 +51,7 @@ export default function TabItem({
           </div>
           <div className="flex flex-col flex-1 gap-0.5 items-start">
             <div className="flex flex-col justify-center w-full font-geist font-normal text-base text-gray-500 leading-[150%] tracking-normal transition-colors duration-200 group-hover:text-gray-700">
-              <p className="whitespace-pre-wrap leading-[150%]">{tab.title}</p>
+              <h3 className="whitespace-pre-wrap leading-[150%]">{tab.title}</h3>
             </div>
           </div>
         </div>
@@ -92,10 +92,10 @@ export default function TabItem({
 
           <div className="flex flex-col gap-1.5 items-start w-full tracking-normal">
             <div className="flex flex-col justify-center w-full font-geist font-medium text-lg text-gray-950 leading-[155.55%]">
-              <p className="whitespace-pre-wrap leading-[155.55%]">{tab.title}</p>
+              <h3 className="whitespace-pre-wrap leading-[155.55%]">{tab.title}</h3>
             </div>
             <div className="flex flex-col justify-center w-full font-geist font-normal text-base text-gray-700 leading-[150%]">
-              <p className="whitespace-pre-wrap leading-[150%]">{tab.subheading}</p>
+              <h3 className="whitespace-pre-wrap leading-[150%]">{tab.subheading}</h3>
             </div>
           </div>
 
