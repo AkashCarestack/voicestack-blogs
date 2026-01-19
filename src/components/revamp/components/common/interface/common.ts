@@ -21,7 +21,7 @@ export interface SectionHeaderProps {
 export interface SectionHeaderPropsV2 {
     heading?: string | ReactNode,
     subheading?: string,
-    description?: string | ReactNode,
+    description?: any | ReactNode,
     mailId?: string,
     isWhite?: boolean,
     isLeftAlign?: boolean,
