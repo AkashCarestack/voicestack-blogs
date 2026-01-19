@@ -46,12 +46,7 @@ interface CustomComponentProps {
 }
 
 const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => {
-  // Debug logging
-  if (process.env.NODE_ENV === 'development') {
-    console.log('CustomComponent Debug:', { data, slugData })
-  }
 
-  // Handle missing data gracefully
   if (!data) {
     console.log('CustomComponent: No data provided', { data, slugData })
     return (
@@ -157,11 +152,6 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
   const comparisonTableData = getComparisonTableData()
   const featureListData = getFeatureListData()
   
-  // Debug logging after variables are declared
-  if (process.env.NODE_ENV === 'development') {
-    console.log('CustomComponent Debug: featureListData', featureListData)
-    console.log('CustomComponent Debug: selectAllFeatures', featureListData?.featureList?.selectAllFeatures)
-  }
   
   const finalTitle = title || referencedData?.title
   const finalSubtitle = subtitle || referencedData?.subtitle
@@ -309,22 +299,6 @@ const CustomComponent: React.FC<CustomComponentProps> = ({ data, slugData }) => 
     const [allFeatures, setAllFeatures] = useState([])
     const [loading, setLoading] = useState(false)
 
-    useEffect(() => {
-      if (featureListData?.featureList?.selectAllFeatures) {
-        setLoading(true)
-        const client = getClient()
-        getAllFeatures(client, 'en')
-          .then(features => {
-            console.log('CustomComponent: Fetched all features:', features)
-            setAllFeatures(features)
-            setLoading(false)
-          })
-          .catch(error => {
-            console.error('Error fetching all features:', error)
-            setLoading(false)
-          })
-      }
-    }, [featureListData?.featureList?.selectAllFeatures])
 
     if (!featureListData) {
       return (
