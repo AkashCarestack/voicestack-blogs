@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { PortableText } from '@portabletext/react'
 import { PortableTextReactComponents } from '@portabletext/react'
 
 interface SectionH2Props {
-  content: any // Portable text content (customBlockContent)
+  content: any // Portable text content (customBlockContent) or ReactNode
   className?: string
   isWhite?: boolean
   headingSm?: boolean
@@ -55,17 +55,28 @@ const SectionH2: React.FC<SectionH2Props> = ({
   const combinedClasses = `${baseClasses} ${sizeClasses} ${colorClasses} ${className}`
   
 
-  // Check if content is valid portable text
+  // Check if content is valid
   if (!content) {
     return null
+  }
+
+  // Check if content is a ReactNode (React element)
+  if (React.isValidElement(content) || (typeof content === 'object' && !Array.isArray(content) && content !== null && '$$typeof' in content)) {
+    return (
+      <h2 className={combinedClasses}>
+        {content}
+      </h2>
+    )
   }
 
   return (
     <h2 className={combinedClasses}>
       {Array.isArray(content) ? (
         <PortableText value={content} components={components} />
-      ) : (
+      ) : typeof content === 'string' ? (
         <span dangerouslySetInnerHTML={{ __html: content }} />
+      ) : (
+        <span>{content}</span>
       )}
     </h2>
   )
