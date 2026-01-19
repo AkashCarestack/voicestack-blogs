@@ -153,39 +153,10 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
                     />
                   ) : (
                     <div className="flex flex-col items-start pb-3 pt-0 w-full">
-                      {item.content.map((block: any, blockIndex: number) => {
-                        // Create components with the group's listIconSvgCode
-                        const components = createSpecialtyCardComponents(listIconSvgCode)
-                        
-                        // Check if this is a bullet list item
-                        if (block.listItem === 'bullet') {
-                          return (
-                            <>
-                              
-                              <div
-                                key={block._key || blockIndex}
-                                className={`flex gap-2 items-start px-0 py-1 w-full`}
-                              >
-                                <div className={`flex-1 font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
-                                  
-                                  <PortableText
-                                    value={[block]}
-                                    components={components}
-                                  />
-                                </div>
-                              </div>
-                            </>
-                          )
-                        }
-                        // Regular block
-                        return (
-                          <PortableText
-                            key={block._key || blockIndex}
-                            value={[block]}
-                            components={components}
-                          />
-                        )
-                      })}
+                      <PortableText
+                        value={item.content}
+                        components={createSpecialtyCardComponents(listIconSvgCode)}
+                      />
                     </div>
                   )}
                 </div>
@@ -308,9 +279,14 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
         },
       },
       list: {
-        bullet: ({ children }) => (
-          <ul className="flex flex-col gap-1 lg:ml-[-24px]">{children}</ul>
-        ),
+        bullet: ({ children }: { children?: React.ReactNode }) =>
+          React.createElement(
+            'ul',
+            {
+              className: 'flex flex-col gap-1 lg:ml-[-24px]',
+            },
+            children
+          ),
       },
       listItem: {
         bullet: ({ children }) => (

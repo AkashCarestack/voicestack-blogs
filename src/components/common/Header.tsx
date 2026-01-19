@@ -303,7 +303,18 @@ const Header = ({ data, refer = null }) => {
   }
   const OrganizationSchemaData = formatOrganizationSchema(siteSettings.seoSettings);
   const SoftwareSchemaData = formatSoftwareSchema(siteSettings.seoSettings);
-  const isDentalPhonesPages = router?.pathname?.includes('/dental-phones');
+  // Show software schema for:
+  // - All /dental-phones pages but NOT comparison pages (/voicestack-vs-*)
+  // - All who-we-serve/ pages but NOT the landing page (/who-we-serve) and NOT who-we-serve/why-voicestack
+  const pathname = router?.pathname || '';
+  const ShowSoftwareSchema =
+  (pathname.startsWith('/phone-system') &&
+    !pathname.includes('/voicestack-vs-')) ||
+
+  (pathname.startsWith('/who-we-serve/') &&
+    !pathname.startsWith('/who-we-serve/why-voicestack'));
+
+console.log('ShowSoftwareSchema', ShowSoftwareSchema);
   return (
     <>
       <Head>
@@ -324,7 +335,7 @@ const Header = ({ data, refer = null }) => {
             />
           </>
         )}
-        {/* {SoftwareSchemaData && isDentalPhonesPages && (
+        {SoftwareSchemaData && ShowSoftwareSchema && (
           <>
           <script
               type="application/ld+json"
@@ -332,7 +343,7 @@ const Header = ({ data, refer = null }) => {
               dangerouslySetInnerHTML={{ __html: JSON.stringify(SoftwareSchemaData) }}
             />
           </>
-        )} */}
+        )}
       </Head>
 
       <ProgressBar />
