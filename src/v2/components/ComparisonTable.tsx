@@ -160,7 +160,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
           Feature Comparison Table
         </TableCaption>
         <TableHeader className="">
-          <TableRow className="border-none">
+          <TableRow className={`${data?.rowCategories?.length > 1 ? 'border-none' : 'border-b border-gray-100'}`}>
             <TableHead className="sticky left-0 w-48 h-16 text-gray-950 text-left text-base font-medium px-6  border-gray-200 bg-white">
               {data.columnDimensionName}
             </TableHead>
@@ -203,7 +203,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
         <TableBody className="divide-y divide-gray-100">
           {(data.rowCategories || []).map((category, categoryIndex) => (
             <React.Fragment key={categoryIndex}>
-              {data.rowCategories && data.rowCategories.length > 1 && (
+              {data?.rowCategories?.length > 1 && (
                 <TableRow className="border-t-[1px] border-b-[1px] border-gray-200 ">
                   <TableCell className="sticky left-0 lg:text-base font-medium text-gray-950 text-sm border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={numberOfComparisons + 1}>
                     <button
