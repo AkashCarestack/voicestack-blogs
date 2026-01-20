@@ -139,7 +139,7 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const region = locale || 'en'
   const slug = params?.slug as string
 
-  console.log(slug, 'slug', params, 'params', locale, 'locale')
+  // console.log(slug, 'slug', params, 'params', locale, 'locale')
 
   if (!slug) {
     return {
@@ -150,26 +150,14 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   try {
     const queries = new Queries('features', region)
     const pageData = await queries.getPageData('features', slug)
-    console.log(pageData, 'pageData')
+    // console.log(pageData, 'pageData')
 
-    // Check if pageData has any content sections (excluding metadata)
-    const metadataKeys = ['faqData', 'faqReferenced', 'title', 'description', 'breadCrumb', 'seo', 'icon']
-    const hasContent = Object.keys(pageData).some(key => 
-      !metadataKeys.includes(key) && pageData[key] !== null && pageData[key] !== undefined
-    )
-
-    if (!pageData || !hasContent) {
+    if (!pageData) {
       console.error(`pageData is empty (all null) for ${slug}`)
       return {
         notFound: true,
       }
     }
-    // if (!pageData) {
-    //   console.error(`pageData not found for ${slug}`)
-    //   return {
-    //     notFound: true,
-    //   }
-    // }
 
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
