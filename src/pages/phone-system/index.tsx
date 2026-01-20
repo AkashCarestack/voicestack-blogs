@@ -127,7 +127,7 @@ export default function DentalPhonesIndex({
         />
       )}
       {pageData['offer']?.componentData && (
-        <OfferSection data={pageData['offer']?.componentData} />
+        <OfferSection data={pageData['offer']?.componentData} variant="compact" />
       )}
       <StatisticsSection  />
 
