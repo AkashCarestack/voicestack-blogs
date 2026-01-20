@@ -58,6 +58,12 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const slug = region === 'en' ? 'reviews' : `reviews-${region.toLowerCase()}`
     const pageData = await queries.getPageData('dentalPhones', slug)
 
+    if(!pageData){
+      return {
+        notFound: true
+      }
+    }
+
     // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null

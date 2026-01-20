@@ -184,6 +184,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         : `feature-landing-page-${region.toLowerCase()}`
     const queries = new Queries('feature-landing', region)
     const landingPageData = await queries.getPageData('featurePage', slug)
+
+
+    if(!landingPageData){
+      return {
+        notFound: true
+      }
+    }
     const features = await getFeaturesList(getClient(), region)
     const faq = await queries.getFaqBySlug('pricing', region)
 

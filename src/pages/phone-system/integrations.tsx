@@ -224,17 +224,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     // Fetch page data for integrations
     const pageData = await queries.getPageData('dentalPhones', slug)
-    pageData.slug = slug
 
-    const noPageData = Object.values(pageData).every(
-      (value) => value === null || value === undefined,
-    )
-
-    if (noPageData) {
+    if(!pageData){
       return {
-        notFound: true,
+        notFound: true
       }
     }
+    pageData.slug = slug
 
     // Ensure FAQ data is serializable
     const faqData =

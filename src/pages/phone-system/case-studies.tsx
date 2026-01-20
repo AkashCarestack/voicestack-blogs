@@ -66,6 +66,12 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         : `case-studies-${region.toLowerCase()}`
     const pageData = await queries.getPageData('dentalPhones', slug)
 
+    if(!pageData){
+      return {
+        notFound: true
+      }
+    }
+
     return {
       props: {
         pageData: pageData || null,

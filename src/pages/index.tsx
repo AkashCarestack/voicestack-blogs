@@ -37,13 +37,16 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const pageData = await queries.getPageData('homePage', slug)
     const pageData1 = await queries1.getPageData('homePage', slug1)
     const client = getClient()
-    pageData.slug = slug
-    pageData1.slug = slug1
+
+    console.log(pageData, 'pageData home page')
     if (!pageData || Object.keys(pageData).length === 0) {
       return {
         notFound: true,
       }
     }
+    
+    pageData.slug = slug
+    pageData1.slug = slug1
 
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null

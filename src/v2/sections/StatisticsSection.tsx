@@ -6,6 +6,7 @@ import WorldMapV2 from 'public/assets/world-map-v2.png'
 import Section from '~/components/structure/Section'
 import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import { createRotatingWordHeading } from '../components/common/RotatingWordHeading'
+import { useRouter } from 'next/router'
 
 interface StatisticsSectionProps {
   bgColor?: string
@@ -34,6 +35,8 @@ const StatisticsSection = ({ bgColor }: StatisticsSectionProps = {}) => {
       label: "Calls Handled"
     }
   ]
+  
+  const router = useRouter()
 
   return (
     <Section className='bg-gray-50 relative overflow-hidden' border="b">
@@ -42,12 +45,17 @@ const StatisticsSection = ({ bgColor }: StatisticsSectionProps = {}) => {
           <div className="max-w-[850px] md:py-24 py-16">
             <div className="flex-col relative w-full flex gap-8">
 
-              <SectionHeaderV2 isLeftAlign={true} className=''
-                // heading={"The Most Advanced AI Phone System for Practices Globally."}
-                heading={createRotatingWordHeading("The Most Advanced AI Phone System for Practices Globally.")}
-                // heading={pageData['how-voicestack-works2'].componentData.heading}
-                description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused practices across the US, UK, and Australia. From single offices to practices with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
-              />
+              {router.locale === 'en' ? (
+                <SectionHeaderV2 isLeftAlign={true} className=''
+                  heading={createRotatingWordHeading("The Most Advanced AI Phone System for Practices Globally.")}
+                  description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused practices across the US, UK, and AU. From single offices to practices with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
+                />
+              ) : (
+                <SectionHeaderV2 isLeftAlign={true} className=''
+                  heading={"The Most Advanced AI Phone System for Dental Practices Globally."}
+                  description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused practices across the US, UK, and AU. From single offices to practices with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
+                />
+              )}     
 
               <div className="flex justify-start">
                 <Button
