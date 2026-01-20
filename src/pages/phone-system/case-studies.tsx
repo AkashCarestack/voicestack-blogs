@@ -28,7 +28,9 @@ export default function CustomerStories({ pageData }: any) {
       <>
         <SimpleHead data={pageData?.seo} />
         
-        <FeatureHero  data={pageData['dental-phones-hero']?.componentData} type="feature" isCentered={true} />
+        {pageData['dental-phones-hero']?.componentData && (
+          <FeatureHero  data={pageData['dental-phones-hero']?.componentData} type="feature" isCentered={true} />
+        )}
 
 
         {pageData['testimonial-tabs']?.componentData && (

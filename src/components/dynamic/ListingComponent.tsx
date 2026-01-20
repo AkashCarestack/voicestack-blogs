@@ -46,7 +46,7 @@ const ListingComponent: React.FC<ListingComponentProps> = ({ data, slugData }) =
 
   // Handle missing data gracefully
   if (!data) {
-    console.log('ListingComponent: No data provided', { data, slugData })
+    // console.log('ListingComponent: No data provided', { data, slugData })
     return (
       <div className="py-16 bg-red-50 border border-red-200 rounded-lg mx-4">
         <div className="text-center">
@@ -58,7 +58,7 @@ const ListingComponent: React.FC<ListingComponentProps> = ({ data, slugData }) =
   }
 
   if (!data.items || data.items.length === 0) {
-    console.log('ListingComponent: No items array or empty items', { data, slugData })
+    // console.log('ListingComponent: No items array or empty items', { data, slugData })
     return (
       <div className="py-16 bg-yellow-50 border border-yellow-200 rounded-lg mx-4">
         <div className="text-center">

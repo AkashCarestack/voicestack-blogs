@@ -149,7 +149,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
   const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const textColor = isDark ? 'text-white' : 'text-gray-950'
-console.log(data, 'data')
+// console.log(data, 'data')
   return (
     <Section className={`relative overflow-hidden bg-[#030712] ${className}`} border={sectionBorder} isDark={isDark}>
       <Container

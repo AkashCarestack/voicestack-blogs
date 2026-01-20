@@ -30,13 +30,15 @@ export default function StartupPractices({
   faq,
 }: StartupPracticesProps) {
   const tabsListingComponentData =
-    pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
-console.log(pageData, 'pageDat----')
+  pageData && pageData['smarter-systems'] && pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
+// console.log(pageData, 'pageDat----')
 
   return pageData?.slug?.includes('v2') ? (
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['startup-practices-hero']} type="feature" />
+      {pageData['startup-practices-hero']?.componentData && (
+        <FeatureHero data={pageData['startup-practices-hero']} type="feature" />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
@@ -76,10 +78,12 @@ console.log(pageData, 'pageDat----')
 
       <HeroWrapper>
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        <HeroSection
-          page=""
-          data={pageData['dental-phones-hero']?.componentData}
-        />
+        {pageData['dental-phones-hero']?.componentData && (
+          <HeroSection
+            page=""
+            data={pageData['dental-phones-hero']?.componentData}
+          />
+        )}
       </HeroWrapper>
       {/* {tabsListingComponentData &&
         <SingleTabCardListing data={tabsListingComponentData}/>
@@ -145,6 +149,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const pageData = await queries.getPageData('whoWeServe', slug)
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true,
+      }
     }
     pageData.slug = slug
     // Ensure FAQ data is serializable

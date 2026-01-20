@@ -21,7 +21,7 @@ export default function WhyVoicestackIndex({
   faq,
   features,
 }: any) {
-  console.log(data, 'data====')
+  // console.log(data, 'data====')
   return (
     <>
       <SimpleHead data={data?.seo} />

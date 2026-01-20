@@ -38,7 +38,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
 }) => {
   const imageUrl = item.image?.url || urlForImage(item.image)
   const hasImage = !!imageUrl
-  console.log('item GroupedCardsGrid',cardWithGraph)
+  // console.log('item GroupedCardsGrid',cardWithGraph)
   // Simple listing data mode
   if (isSimpleListing) {
     return (

@@ -36,10 +36,12 @@ export default function WhoWeServeIndex({
   return pageData?.slug?.includes('v2') ? (
     <>
     {pageData?.seo && <SimpleHead data={pageData?.seo} />}
-      <FeatureHero
-        data={pageData['dental-phones-hero']?.componentData}
-        type="feature"
-      />
+      {pageData['dental-phones-hero']?.componentData && (
+        <FeatureHero
+          data={pageData['dental-phones-hero']?.componentData}
+          type="feature"
+        />
+      )}
       {pageData['logo-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logo-listing']?.componentData.blocksListingData}

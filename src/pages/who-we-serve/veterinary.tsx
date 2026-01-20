@@ -52,7 +52,9 @@ export default function Veterinary({ pageData, faq, features }: VeterinaryProps)
         data={pageData?.seo}
       />
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['veterinary-hero']} type="feature" />
+      {pageData['veterinary-hero']?.componentData && (
+        <FeatureHero data={pageData['veterinary-hero']} type="feature" />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}

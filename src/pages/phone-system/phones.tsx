@@ -86,10 +86,12 @@ export default function Phones({ pageData, region, faq }: PhonesProps) {
     <>
     {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero
-        data={pageData['phones-hero']?.componentData}
-        type="feature"
-      />
+      {pageData['phones-hero']?.componentData && (
+        <FeatureHero
+          data={pageData['phones-hero']?.componentData}
+          type="feature"
+        />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}

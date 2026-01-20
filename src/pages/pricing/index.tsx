@@ -117,7 +117,9 @@ export default function Pricing({
     <>
       <SimpleHead data={pricingPageData?.seo} />
 
-      <FeatureHero data={pricingPageData['pricing-hero']} isCentered={true}/>
+      {pricingPageData['pricing-hero']?.componentData && (
+        <FeatureHero data={pricingPageData['pricing-hero']} isCentered={true}/>
+      )}
       {pricingPageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={

@@ -69,7 +69,9 @@ export default function Dental({ pageData, faq, features, articles }: DentalProp
       {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {/* </div> */}
-      <FeatureHero data={pageData['dental-hero']} type="feature" />
+      {pageData['dental-hero']?.componentData && (
+        <FeatureHero data={pageData['dental-hero']} type="feature" />
+      )}
 
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2

@@ -368,7 +368,7 @@ export default function CategoryFeatureTabsSection({
   if (variant === 'singlecard' && allCategories.length > 0) {
     const firstCategory = allCategories[0];
     const pillItems = firstCategory.features || [];
-    console.log(firstCategory,'firstCategory');
+    // console.log(firstCategory,'firstCategory');
     
 
     return (

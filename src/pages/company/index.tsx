@@ -45,9 +45,11 @@ export default function CompanyPage({
     <>
       <SimpleHead data={pageData?.seo} />
      
-      <FeatureHero
-        data={pageData["company-hero"]?.componentData}
-      />
+      {pageData["company-hero"]?.componentData && (
+        <FeatureHero
+          data={pageData["company-hero"]?.componentData}
+        />
+      )}
       {/* <AboutCompany heading={heading} description={description} image={image} icon={icon} /> */}
       <Section className="bg-white">
         <Container className="flex flex-col px-6 md:px-12  py-sm md:py-md" type="V2" border="y-0">

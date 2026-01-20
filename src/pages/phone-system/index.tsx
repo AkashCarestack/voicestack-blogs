@@ -69,11 +69,13 @@ export default function DentalPhonesIndex({
   faq,
   features,
 }: DentalPhonesIndexProps) {
-  console.log("ppp",pageData)
+  // console.log("ppp",pageData)
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <FeatureHero data={pageData['dental-phones-hero']} type="feature" />
+      {pageData['dental-phones-hero']?.componentData && (
+        <FeatureHero data={pageData['dental-phones-hero']} type="feature" />
+      )}
 
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2

@@ -138,7 +138,9 @@ export default function DentalPhonesIntegrations({
     <>
     <SimpleHead data={pageData?.seo} />
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['integrations-hero']} type="feature" />
+      {pageData['integrations-hero']?.componentData && (
+        <FeatureHero data={pageData['integrations-hero']} type="feature" />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}

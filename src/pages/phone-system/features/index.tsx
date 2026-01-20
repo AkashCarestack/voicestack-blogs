@@ -53,7 +53,9 @@ export default function FeaturesPage({
   return (
     <>
     <SimpleHead data={data?.seo} />
-      <FeatureHero data={data['feature-hero']} type="feature" />
+      {data['feature-hero']?.componentData && (
+        <FeatureHero data={data['feature-hero']} type="feature" />
+      )}
 
       {data['logos-listing']?.componentData && (
         <LogoListingV2

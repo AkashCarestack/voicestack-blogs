@@ -88,34 +88,41 @@ const config = {
         permanent: false,
       },
       {
-        source: '/dental-phones',
+        source: '/en/dental-phones',
         destination: '/phone-system',
         permanent: false,
+        locale: false,
       },
       {
-        source: '/who-we-serve/groups-and-dsos',
+        source: '/en/who-we-serve/groups-and-dsos',
         destination: '/who-we-serve/groups-and-enterprises',
         permanent: false,
+        locale: false,
       },
       {
-        source: '/who-we-serve/single-locations',
+        source: '/en/who-we-serve/single-locations',
         destination: '/who-we-serve/dental',
         permanent: false,
+        locale: false,
       },
       {
-        source: '/who-we-serve/startups',
+        source: '/en/who-we-serve/startups',
         destination: '/who-we-serve/dental',
         permanent: false,
+        locale: false,
+        // Only applies to default locale (en) - locale-aware by default in Next.js i18n
       },
       {
-        source: '/who-we-serve/mobile-practice',
+        source: '/en/who-we-serve/mobile-practice',
         destination: '/who-we-serve/dental',
         permanent: false,
+        locale: false,
       },
       {
-        source: '/who-we-serve/specialists',
+        source: '/en/who-we-serve/specialists',
         destination: '/who-we-serve/dental',
         permanent: false,
+        locale: false, // Only apply to default locale (en), not en-AU
       },
       {
         source: '/dental-phones/ai-receptionist',

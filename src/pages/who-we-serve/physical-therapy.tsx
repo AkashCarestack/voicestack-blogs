@@ -52,7 +52,9 @@ export default function PhysicalTherapy({ pageData, faq, features }: PhysicalThe
         data={pageData?.seo}
       />
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['physical-therapy-hero']} type="feature" />
+      {pageData['physical-therapy-hero']?.componentData && (
+        <FeatureHero data={pageData['physical-therapy-hero']} type="feature" />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}

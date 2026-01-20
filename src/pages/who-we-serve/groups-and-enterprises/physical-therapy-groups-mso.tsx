@@ -27,7 +27,9 @@ export default function PhysicalTherapyGroupsMSO({
     <SimpleHead data={pageData?.seo} />
     
     <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['dso-hero']?.componentData} type="feature" />
+      {pageData['dso-hero']?.componentData && (
+        <FeatureHero data={pageData['dso-hero']?.componentData} type="feature" />
+      )}
       <div>
         {pageData['logo-listing']?.componentData && (
           <LogoListingV2
