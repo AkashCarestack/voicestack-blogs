@@ -31,14 +31,16 @@ export default function WordRotate({
     if (words.length === 0) return;
 
     const currentWord = words[index];
-    let timeout: NodeJS.Timeout;
+    if (!currentWord) return;
+
+    let timeout: NodeJS.Timeout | undefined;
 
     if (!isDeleting && displayedText.length < currentWord.length) {
       // Typing mode: add characters one by one
       timeout = setTimeout(() => {
         setDisplayedText(currentWord.slice(0, displayedText.length + 1));
       }, typingSpeed);
-    } else if (!isDeleting && displayedText.length === currentWord.length) {
+    } else if (!isDeleting && displayedText.length === currentWord.length && currentWord.length > 0) {
       // Finished typing: pause before deleting
       timeout = setTimeout(() => {
         setIsDeleting(true);
@@ -54,12 +56,33 @@ export default function WordRotate({
       setIndex((prevIndex) => (prevIndex + 1) % words.length);
     }
 
-    return () => clearTimeout(timeout);
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
   }, [displayedText, isDeleting, index, words, typingSpeed, deletingSpeed, pauseDuration]);
+
+  // Get the current full word for SEO/accessibility
+  const currentFullWord = words[index] || "";
 
   if (asSpan) {
     return (
-      <span className={cn("inline-block whitespace-nowrap", className)}>
+      <span 
+        className={cn(
+          "inline-block whitespace-nowrap transition-all duration-300 ease-out text-vs-purple",
+          className
+        )}
+        style={{
+          fontSize: "inherit",
+          fontFamily: "inherit",
+          fontWeight: "inherit",
+          lineHeight: "inherit",
+          letterSpacing: "inherit",
+        }}
+        aria-live="polite"
+        aria-atomic="true"
+        aria-label={currentFullWord}
+        title={currentFullWord}
+      >
         {displayedText}
       </span>
     );
@@ -67,7 +90,20 @@ export default function WordRotate({
 
   return (
     <div className={cn("overflow-hidden", className)}>
-      <h1 className={cn(className)}>
+      <h1 
+        className={cn("transition-all duration-300 ease-out", className)}
+        style={{
+          fontSize: "inherit",
+          fontFamily: "inherit",
+          fontWeight: "inherit",
+          lineHeight: "inherit",
+          letterSpacing: "inherit",
+          color: "inherit",
+        }}
+        aria-live="polite"
+        aria-atomic="true"
+        aria-label={currentFullWord}
+      >
         {displayedText}
       </h1>
     </div>
