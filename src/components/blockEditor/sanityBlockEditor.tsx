@@ -16,6 +16,7 @@ import WarningIcon from '../icons/WarningIcon'
 import H2 from '../typography/H2'
 import H3 from '../typography/H3'
 import Paragraph from '../typography/Paragraph'
+import WordRotate from '~/components/ui/word-rotate'
 
 interface SanityPortableTextProps {
   content: any
@@ -117,6 +118,16 @@ const SanityPortableText: React.FC<SanityPortableTextProps> = ({
           <ListingBlock
             itemHeading={value.itemHeading}
             listingItem={value.listingItem}
+          />
+        )
+      },
+      rotatingWord: ({ value }) => {
+        // Hardcoded words - internally configured
+        const words = ['Dental', 'Optometry', 'Physical Therapy', 'Veterinary'];
+        return (
+          <WordRotate
+            words={words}
+            asSpan={true}
           />
         )
       },

@@ -26,6 +26,12 @@ export default function WordRotate({
   const [index, setIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Mark as mounted after initial render (for animation)
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     if (words.length === 0) return;
@@ -63,33 +69,45 @@ export default function WordRotate({
 
   // Get the current full word for SEO/accessibility
   const currentFullWord = words[index] || "";
+  // For SEO: ensure first word is available on initial render
+  const initialWord = words[0] || "";
 
   if (asSpan) {
     return (
-      <span 
-        className={cn(
-          "inline-block whitespace-nowrap transition-all duration-300 ease-out text-vs-purple",
-          className
-        )}
-        style={{
-          fontSize: "inherit",
-          fontFamily: "inherit",
-          fontWeight: "inherit",
-          lineHeight: "inherit",
-          letterSpacing: "inherit",
-        }}
-        aria-live="polite"
-        aria-atomic="true"
-        aria-label={currentFullWord}
-        title={currentFullWord}
-      >
-        {displayedText}
-      </span>
+      <>
+        {/* SEO: Hidden text with all words for search engines */}
+        <span className="sr-only" aria-hidden="true">
+          {words.join(", ")}
+        </span>
+        <span 
+          className={cn(
+            "inline-block whitespace-nowrap transition-all duration-300 ease-out text-vs-purple",
+            className
+          )}
+          style={{
+            fontSize: "inherit",
+            fontFamily: "inherit",
+            fontWeight: "inherit",
+            lineHeight: "inherit",
+            letterSpacing: "inherit",
+          }}
+          aria-live="polite"
+          aria-atomic="true"
+          aria-label={currentFullWord}
+          title={currentFullWord}
+        >
+          {isMounted ? displayedText : initialWord}
+        </span>
+      </>
     );
   }
 
   return (
     <div className={cn("overflow-hidden", className)}>
+      {/* SEO: Hidden text with all words for search engines */}
+      <span className="sr-only" aria-hidden="true">
+        {words.join(", ")}
+      </span>
       <h1 
         className={cn("transition-all duration-300 ease-out", className)}
         style={{
@@ -104,7 +122,7 @@ export default function WordRotate({
         aria-atomic="true"
         aria-label={currentFullWord}
       >
-        {displayedText}
+        {isMounted ? displayedText : initialWord}
       </h1>
     </div>
   );
