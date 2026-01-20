@@ -11,6 +11,7 @@ import customListingContent from './customListingContent'
 import customContent from './customContent'
 import customContentNew from './customContentNew'
 import listingBlock from './listingBlock'
+import rotatingWord from './rotatingWord'
 import browserList from './browserList'
 import DynamicComponent from './DynamicComponent'
 import faq from './faq'
@@ -88,6 +89,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     customContent,
     customContentNew,
     listingBlock,
+    rotatingWord,
     browserList,
     footer,
     banner,
