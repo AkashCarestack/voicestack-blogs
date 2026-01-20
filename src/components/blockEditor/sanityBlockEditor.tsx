@@ -123,7 +123,7 @@ const SanityPortableText: React.FC<SanityPortableTextProps> = ({
       },
       rotatingWord: ({ value }) => {
         // Hardcoded words - internally configured
-        const words = ['Dental', 'Optometry', 'Physical Therapy', 'Veterinary'];
+        const words = ['Enterprise', 'Dental', 'Optometry', 'Physical Therapy', 'Veterinary'];
         return (
           <WordRotate
             words={words}

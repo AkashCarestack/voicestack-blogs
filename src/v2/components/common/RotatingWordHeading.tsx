@@ -10,7 +10,7 @@ import WordRotate from '~/components/ui/word-rotate';
  */
 export function createRotatingWordHeading(
   text: string,
-  words: string[] = ['Dental', 'Optometry', 'Physical Therapy', 'Veterinary']
+  words: string[] = ['Enterprise', 'Dental', 'Optometry', 'Physical Therapy', 'Veterinary']
 ): React.ReactElement {
   // Default duration - controlled inside
   const duration = 2500;
