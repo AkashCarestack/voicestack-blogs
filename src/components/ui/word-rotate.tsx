@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { AnimatePresence, HTMLMotionProps, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 import { cn } from "~/lib/utils";
 
 interface WordRotateProps {
   words: string[];
   duration?: number;
-  framerProps?: HTMLMotionProps<"span">;
+  typingSpeed?: number;
+  deletingSpeed?: number;
+  pauseDuration?: number;
   className?: string;
   asSpan?: boolean;
 }
@@ -16,118 +17,95 @@ interface WordRotateProps {
 export default function WordRotate({
   words,
   duration = 2500,
-  framerProps,
+  typingSpeed = 100,
+  deletingSpeed = 20,
+  pauseDuration = 1000,
   className,
   asSpan = false,
 }: WordRotateProps) {
-  // Magic UI default animation variants
-  const defaultVariants = {
-    enter: { y: '20%', opacity: 0 },
-    center: { y: 0, opacity: 1 },
-    exit: { y: '-20%', opacity: 0 },
-  };
-
-  const defaultTransition = { duration: 0.35, ease: [0.4, 0, 0.2, 1] };
   const [index, setIndex] = useState(0);
-  const [width, setWidth] = useState<number | "auto">("auto");
-  const measureRef = useRef<HTMLSpanElement>(null);
+  const [displayedText, setDisplayedText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (words.length === 0) return;
+
+    const currentWord = words[index];
+    if (!currentWord) return;
+
+    let timeout: NodeJS.Timeout | undefined;
+
+    if (!isDeleting && displayedText.length < currentWord.length) {
+      // Typing mode: add characters one by one
+      timeout = setTimeout(() => {
+        setDisplayedText(currentWord.slice(0, displayedText.length + 1));
+      }, typingSpeed);
+    } else if (!isDeleting && displayedText.length === currentWord.length && currentWord.length > 0) {
+      // Finished typing: pause before deleting
+      timeout = setTimeout(() => {
+        setIsDeleting(true);
+      }, pauseDuration);
+    } else if (isDeleting && displayedText.length > 0) {
+      // Deleting mode: remove characters one by one
+      timeout = setTimeout(() => {
+        setDisplayedText(displayedText.slice(0, -1));
+      }, deletingSpeed);
+    } else if (isDeleting && displayedText.length === 0) {
+      // Finished deleting: move to next word
+      setIsDeleting(false);
       setIndex((prevIndex) => (prevIndex + 1) % words.length);
-    }, duration);
-
-    // Clean up interval on unmount
-    return () => clearInterval(interval);
-  }, [words, duration]);
-
-  // Measure the widest word to prevent layout shift
-  useEffect(() => {
-    if (asSpan) {
-      // Use a timeout to ensure DOM is ready
-      const timer = setTimeout(() => {
-        if (measureRef.current) {
-          const measureElement = measureRef.current;
-          let maxWidth = 0;
-          
-          // Create a temporary element to measure each word
-          const tempSpan = document.createElement("span");
-          tempSpan.style.visibility = "hidden";
-          tempSpan.style.position = "absolute";
-          tempSpan.style.whiteSpace = "nowrap";
-          tempSpan.style.top = "-9999px";
-          tempSpan.style.left = "-9999px";
-          
-          // Copy font styles from parent or use defaults
-          const parentStyles = window.getComputedStyle(measureElement);
-          tempSpan.style.fontSize = parentStyles.fontSize || "inherit";
-          tempSpan.style.fontFamily = parentStyles.fontFamily || "inherit";
-          tempSpan.style.fontWeight = parentStyles.fontWeight || "inherit";
-          tempSpan.style.letterSpacing = parentStyles.letterSpacing || "normal";
-          
-          document.body.appendChild(tempSpan);
-
-          words.forEach((word) => {
-            tempSpan.textContent = word;
-            maxWidth = Math.max(maxWidth, tempSpan.offsetWidth);
-          });
-
-          document.body.removeChild(tempSpan);
-          if (maxWidth > 0) {
-            setWidth(maxWidth);
-          }
-        }
-      }, 100);
-
-      return () => clearTimeout(timer);
     }
-  }, [words, asSpan]);
+
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [displayedText, isDeleting, index, words, typingSpeed, deletingSpeed, pauseDuration]);
+
+  // Get the current full word for SEO/accessibility
+  const currentFullWord = words[index] || "";
 
   if (asSpan) {
     return (
       <span 
-        ref={measureRef}
-        className={cn("inline-block", className)}
-        // style={{
-        //   ...(width !== "auto" ? { minWidth: `${width}px` } : {}),
-        // }}
+        className={cn(
+          "inline-block whitespace-nowrap transition-all duration-300 ease-out text-vs-purple",
+          className
+        )}
+        style={{
+          fontSize: "inherit",
+          fontFamily: "inherit",
+          fontWeight: "inherit",
+          lineHeight: "inherit",
+          letterSpacing: "inherit",
+        }}
+        aria-live="polite"
+        aria-atomic="true"
+        aria-label={currentFullWord}
+        title={currentFullWord}
       >
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.span
-            key={words[index]}
-            className="inline-block whitespace-nowrap"
-            variants={framerProps?.variants || defaultVariants}
-            initial={framerProps?.initial || "enter"}
-            animate={framerProps?.animate || "center"}
-            exit={framerProps?.exit || "exit"}
-            transition={framerProps?.transition || defaultTransition}
-            style={{ 
-              lineHeight: 'inherit',
-              fontSize: 'inherit',
-            }}
-          >
-            {words[index]}
-          </motion.span>
-        </AnimatePresence>
+        {displayedText}
       </span>
     );
   }
 
   return (
     <div className={cn("overflow-hidden", className)}>
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.h1
-          key={words[index]}
-          className={cn(className)}
-          variants={framerProps?.variants || defaultVariants}
-          initial={framerProps?.initial || "enter"}
-          animate={framerProps?.animate || "center"}
-          exit={framerProps?.exit || "exit"}
-          transition={framerProps?.transition || defaultTransition}
-        >
-          {words[index]}
-        </motion.h1>
-      </AnimatePresence>
+      <h1 
+        className={cn("transition-all duration-300 ease-out", className)}
+        style={{
+          fontSize: "inherit",
+          fontFamily: "inherit",
+          fontWeight: "inherit",
+          lineHeight: "inherit",
+          letterSpacing: "inherit",
+          color: "inherit",
+        }}
+        aria-live="polite"
+        aria-atomic="true"
+        aria-label={currentFullWord}
+      >
+        {displayedText}
+      </h1>
     </div>
   );
 }
