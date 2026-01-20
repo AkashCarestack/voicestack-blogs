@@ -147,22 +147,22 @@ const config = {
         source: '/sitemap.xml',
         destination: '/api/sitemap',
       },
-      // {
-      //   source: '/en-gb',
-      //   destination: 'https://voicestack-engb.vercel.app/en-GB',
-      // },
-      // {
-      //   source: '/en-gb/:path*',
-      //   destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
-      // },
-      // {
-      //   source: '/en-GB',
-      //   destination: 'https://voicestack-engb.vercel.app/en-GB',
-      // },
-      // {
-      //   source: '/en-GB/:path*',
-      //   destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
-      // },
+      {
+        source: '/en-gb',
+        destination: 'https://voicestack-engb.vercel.app/en-GB',
+      },
+      {
+        source: '/en-gb/:path*',
+        destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
+      },
+      {
+        source: '/en-GB',
+        destination: 'https://voicestack-engb.vercel.app/en-GB',
+      },
+      {
+        source: '/en-GB/:path*',
+        destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
+      },
       
       {
         source: '/en-gb',
@@ -179,26 +179,26 @@ const config = {
         destination: '/en-AU/:path*',
         locale: false,
       },
-      {
-        source: '/en-au',
-        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
+      // {
+      //   source: '/en-au',
+      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
         
-      },
-      {
-        source: '/en-AU',
-        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
+      // },
+      // {
+      //   source: '/en-AU',
+      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
       
-      },
-      {
-        source: '/en-au/:path',
-        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path',
+      // },
+      // {
+      //   source: '/en-au/:path',
+      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path',
       
-      },
-      {
-        source: '/en-AU/:path*',
-        destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path*',
+      // },
+      // {
+      //   source: '/en-AU/:path*',
+      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path*',
        
-      }
+      // }
     ];
   },
   
