@@ -19,7 +19,7 @@ export default function WordRotate({
   duration = 2500,
   typingSpeed = 100,
   deletingSpeed = 20,
-  pauseDuration = 1000,
+  pauseDuration = 1200,
   className,
   asSpan = false,
 }: WordRotateProps) {
