@@ -11,6 +11,7 @@ import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import OfferSection from '~/v2/sections/OfferSection'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
@@ -124,6 +125,9 @@ export default function DentalPhonesIndex({
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
+      )}
+      {pageData['offer']?.componentData && (
+        <OfferSection data={pageData['offer']?.componentData} />
       )}
       <StatisticsSection  />
 

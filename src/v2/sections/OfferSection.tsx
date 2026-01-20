@@ -13,7 +13,7 @@ interface OfferSectionProps {
 const OfferSection = ({ data }: OfferSectionProps) => {
 
   return (
-    <Section className='bg-white relative overflow-hidden' >
+    <Section className='bg-white relative overflow-hidden'>
       <Container className='' type="V2" border='y-0'>
         <div className="flex relative" style={{ background: 'linear-gradient(258deg, #D3C6FB 0%, #393CC0 100%)' }}>
           <div className="flex md:flex-row flex-col relative z-10">
