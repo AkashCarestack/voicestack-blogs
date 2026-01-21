@@ -52,9 +52,12 @@ interface GroupedCardsGridSectionProps {
   theme?: 'light' | 'dark'
   aiSection?: boolean
   sectionBorder?: 'b' | 't' | 'y'
+  sectionSpacing?: 'pt-sm' | 'pt-md' | 'pt-lg'
 }
 
-export default function GroupedCardsGridSection({ data, theme, aiSection=false, sectionBorder='y' }: GroupedCardsGridSectionProps) {
+
+
+export default function GroupedCardsGridSection({ data, theme, aiSection=false, sectionBorder='y', sectionSpacing}: GroupedCardsGridSectionProps) {
 
   // console.log('data GroupedCardsGridSection', data)
   if (!data) return null
@@ -68,74 +71,79 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
   const textColor = isDark ? 'text-white' : 'text-gray-950'
   const labelColor = isDark ? '[&>span]:text-vs-lemon-green' : '[&>span]:text-vs-blue'
   const headingSplitColor = isDark ? 'text-vs-blue' : 'text-gray-400'
+  const topPaddingSm = sectionSpacing && sectionSpacing == "pt-sm";
   // console.log('displayData GroupedCardsGridSection',displayData);
   
 
   return (
     <Section className={bgColor} border={sectionBorder} isDark={isDark}>
-      <Container type="V2" border="y-0" darkTheme={isDark} className="pt-sm md:pt-md lg:pt-lg pb-sm">
+      <Container type="V2" border="y-0" darkTheme={isDark} className={`pt-sm ${topPaddingSm ? '' : 'md:pt-md lg:pt-lg'}  pb-sm`}>
         <div className={`flex flex-col w-full border-b ${isDark ? 'border-gray-800' : 'border-gray-200'}`}>
           {/* Header Section */}
           <div className="flex-col relative w-full flex gap-16">
-            <div>
-              {aiSection ? (
-                <>
-                  <div className="h-[290px] mb-12">
-                    <Image src={AiSectionGraphic} alt="AI Section Graphic"
-                    className="w-full h-full object-cover"
-                    width={1332} height={400} />
-                  </div>
-                  <div className="flex justify-center">
-                    <h3 className="font-semibold lg:text-3xl text-xl leading-[1.5] text-white mb-1 tracking-normal font-manrope">VoiceStack AI</h3>
-                  </div>
-                </>
-              ) : (
-                <></>
-              )}
-              <SectionHeaderV2
-                heading={displayData.sectionHeadingDynamic || displayData.heading}
-                description={displayData.description || ''}
-                className="xl:px-12 md:px-6 px-4"
-                isWhite={isDark}
-                ctaListItems={displayData.ctaListItems}
-              />
-            </div>
-            <div>
-            <div>
-
-              <GroupedCardsGrid
-                customListingItems={displayData.customListingItems}
-                theme={theme}
-              />
-
-              {/* To show data from listItems or for feature child card */}
-              {displayData.items && displayData.items.length > 0 && (
-                <GroupedCardsGrid
-                customListingItems={displayData.items}
-                theme={theme}
-                simpleListingData={true}
-                  columnCount={displayData.columnCount || 4}
+            {aiSection || displayData.sectionHeadingDynamic || displayData.heading ? (
+              <div>
+                {aiSection ? (
+                  <>
+                    <div className="h-[290px] mb-12">
+                      <Image src={AiSectionGraphic} alt="AI Section Graphic"
+                      className="w-full h-full object-cover"
+                      width={1332} height={400} />
+                    </div>
+                    <div className="flex justify-center">
+                      <h3 className="font-semibold lg:text-3xl text-xl leading-[1.5] text-white mb-1 tracking-normal font-manrope">VoiceStack AI</h3>
+                    </div>
+                  </>
+                ) : (
+                  <></>
+                )}
+                <SectionHeaderV2
+                  heading={displayData.sectionHeadingDynamic || displayData.heading}
+                  description={displayData.description || ''}
+                  className="xl:px-12 md:px-6 px-4"
+                  isWhite={isDark}
+                  ctaListItems={displayData.ctaListItems}
                 />
-              )}
-            </div>
-            {/* Card Groups */}
+              </div>
+            ):(
+              <></>
+            )}
+            <div>
+              <div>
 
-            {/* Footer Section */}
-            {(() => {
-              // Get customText from data level
-              const customText = displayData.customText
-              
-              return (
-                customText && (
-                <div className={`border-t ${borderColor} flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full`}>
-                  
-                  <div className={`flex flex-col font-geist font-normal justify-center relative ${textColor}`}>
-                    <p className={`leading-[24px] ${labelColor} [&>span]:font-medium [&>span]:mr-3`} dangerouslySetInnerHTML={{ __html: customText }}  >
-                    </p>
+                <GroupedCardsGrid
+                  customListingItems={displayData.customListingItems}
+                  theme={theme}
+                />
+
+                {/* To show data from listItems or for feature child card */}
+                {displayData.items && displayData.items.length > 0 && (
+                  <GroupedCardsGrid
+                    customListingItems={displayData.items}
+                    theme={theme}
+                    simpleListingData={true}
+                    columnCount={displayData.columnCount || 4}
+                  />
+                )}
+              </div>
+              {/* Card Groups */}
+
+              {/* Footer Section */}
+              {(() => {
+                // Get customText from data level
+                const customText = displayData.customText
+                
+                return (
+                  customText && (
+                  <div className={`border-t ${borderColor} flex gap-3 items-start justify-center leading-0 p-6 text-base tracking-normal w-full`}>
+                    
+                    <div className={`flex flex-col font-geist font-normal justify-center relative ${textColor}`}>
+                      <p className={`leading-[24px] ${labelColor} [&>span]:font-medium [&>span]:mr-3`} dangerouslySetInnerHTML={{ __html: customText }}  >
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))
-            })()}
+                ))
+              })()}
 
             </div>
           </div>

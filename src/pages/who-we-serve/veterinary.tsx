@@ -116,6 +116,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true,
+      }
     }
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null

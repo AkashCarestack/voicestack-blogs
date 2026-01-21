@@ -7,6 +7,7 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 
 import SectionHeaderV2 from '../components/common/sectionHeaderV2'
+import { useRouter } from 'next/router'
 
 interface TestimonialData {
   id: string
@@ -89,6 +90,9 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   if (!currentTestimonial) {
     return null
   }
+
+  const router = useRouter();
+  const isUs = router.locale === 'en';
 
   return (
     <Section className="relative bg-[#FFFFFF]" border="b">
@@ -582,7 +586,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                               'Book Free Demo'}
                         </span>
                       </Button>
-                      {!isPricingPage && (
+                      {!isPricingPage && isUs && (
                         <Button
                           type="secondary"
                           className="w-fit"
