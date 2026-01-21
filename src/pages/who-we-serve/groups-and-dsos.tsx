@@ -84,6 +84,7 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
   //     )}
   //   </>
   // )
+  console.log(pageData, 'pageData----')
   return (
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
@@ -95,9 +96,17 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
-      {tabsListingComponentData && (
-        <SwitchableTabsV2 data={tabsListingComponentData} />
-      )}
+        <CategoryFeatureTabsSection
+          features={
+            pageData['manage-every-calls']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+          variant="scrollcarousel"
+          sectionHeading={
+            pageData['manage-every-calls']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
         <VerticalTestimonialListingv2
@@ -114,16 +123,7 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
           theme="dark"
         />
       )}
-       <CategoryFeatureTabsSection
-        features={
-          pageData['manage-every-calls']?.componentData?.refData
-            ?.tabsListingComponent
-        }
-        variant="scrollcarousel"
-        sectionHeading={
-          pageData['manage-every-calls']?.componentData?.refData?.tabsListingComponent
-        }
-      />
+      
     </>
   )
 }
