@@ -46,6 +46,10 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   data,
   isPricingPage = false,
 }) => {
+
+  
+  const router = useRouter();
+  const isUs = router.locale === 'en';
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
@@ -91,8 +95,6 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
     return null
   }
 
-  const router = useRouter();
-  const isUs = router.locale === 'en';
 
   return (
     <Section className="relative bg-[#FFFFFF]" border="b">
