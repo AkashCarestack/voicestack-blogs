@@ -13,6 +13,8 @@ import FooterBottom from './common/FooterBottom'
 import AboutCoachingPartners from '~/v2/sections/AboutCoachingPartnersSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 
 export default function 
 HomeAU({
@@ -43,31 +45,18 @@ HomeAU({
         description={heroSectionData?.heroDescription}
         buttons={heroSectionData?.bookBtnContent}
       />
-      {/* {featuresData && <CategoryFeatureTabs features={featuresData || []} />} */}
-
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
       )}
-
-<CategoryFeatureTabsSection
-        features={featuresData}
-        variant="carousel"
-        sectionHeading={
-          data['category-feature-tabs']?.componentData?.sectionHeading
-        }
-      />
-
-      {comparisonLegendData && (
-        <SiteComparisonSection
-          data={comparisonSectionData}
-          legendData={comparisonLegendData}
-        />
+      {data['voicestack-solution']?.componentData && (
+        <ContentVideoTabsSection data={data['voicestack-solution']?.componentData} />
       )}
-      
-      {pageData['voicestack-solution']?.componentData && <ContentVideoTabsSection data={pageData['voicestack-solution']?.componentData} />}
 
-      {pageData['integrations-showcase']?.customComponent && (
-        <IntegrationCloudSection data={pageData['integrations-showcase']?.customComponent} />
+      {data['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={data['integrations-listing']?.componentData}
+          theme="dark"
+        />
       )}
 
       {pageData['test-listing-2']?.componentData && (
@@ -76,13 +65,6 @@ HomeAU({
         />
       )}
 
-      {pageData['test-listing-3']?.componentData && (
-        <CardsGridSection variant="V2" colCount={2} bottomSpace={true}
-          data={pageData['test-listing-3'].componentData}
-        />
-      )}
-
-      <StatisticsSection />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
         <VerticalTestimonialListing
@@ -93,6 +75,21 @@ HomeAU({
         
         />
       )}
+
+      {pageData['test-listing-3']?.componentData && (
+        <CardsGridSection variant="V2" colCount={2} bottomSpace={true}
+          data={pageData['test-listing-3'].componentData}
+        />
+      )}
+
+      <StatisticsSection />
+      {comparisonLegendData && (
+        <SiteComparisonSection
+          data={comparisonSectionData}
+          legendData={comparisonLegendData}
+        />
+      )}
+      
     {pageData['about-coach-partners']?.componentData && (
       <AboutCoachingPartners data={pageData['about-coach-partners']?.componentData} />
     )}
