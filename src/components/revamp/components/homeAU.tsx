@@ -13,6 +13,7 @@ import FooterBottom from './common/FooterBottom'
 import AboutCoachingPartners from '~/v2/sections/AboutCoachingPartnersSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 
 export default function 
 HomeAU({
@@ -43,13 +44,14 @@ HomeAU({
         description={heroSectionData?.heroDescription}
         buttons={heroSectionData?.bookBtnContent}
       />
-      {/* {featuresData && <CategoryFeatureTabs features={featuresData || []} />} */}
-
+      {data['voicestack-solution']?.componentData && (
+        <ContentVideoTabsSection data={data['voicestack-solution']?.componentData} />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
       )}
 
-<CategoryFeatureTabsSection
+      <CategoryFeatureTabsSection
         features={featuresData}
         variant="carousel"
         sectionHeading={

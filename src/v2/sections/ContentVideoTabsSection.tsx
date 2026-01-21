@@ -53,6 +53,7 @@ interface TabItem {
   title: string;
   category?: string;
   heading: string;
+  subHeading?: string;
   description: any; // Block content array
   content?: any; // Block content array
   features?: string[];
@@ -94,9 +95,16 @@ export default function ContentVideoTabsSection({
   // Helper function to check if video has valid data
   const hasValidVideo = (video: any): boolean => {
     if (!video) return false;
-    // Check if video has videoUrl (direct video URL)
+    // Check if video has uploadedVideo with a valid url (uploaded file - Priority 1)
+    if (video.uploadedVideo) {
+      // Check if uploadedVideo has a url property or is a valid asset reference
+      if (video.uploadedVideo.url || video.uploadedVideo.asset?._ref || video.uploadedVideo._id) {
+        return true;
+      }
+    }
+    // Check if video has videoUrl (direct video URL - Priority 2)
     if (video.videoUrl) return true;
-    // Check if video has videoId and videoPlatform (embedded video)
+    // Check if video has videoId and videoPlatform (embedded video - Priority 3)
     if (video.videoId && video.videoPlatform) return true;
     return false;
   };
@@ -134,13 +142,59 @@ export default function ContentVideoTabsSection({
           }
         }
         
-        const video = tab.genericVideo && hasValidVideo(tab.genericVideo) ? tab.genericVideo : null;
+        // Process video data - normalize videoPlatform if it exists
+        let video = null;
+        if (tab.genericVideo) {
+          // Debug: Log the raw genericVideo data
+          console.log(`Tab ${index + 1} raw genericVideo:`, tab.genericVideo);
+          
+          if (hasValidVideo(tab.genericVideo)) {
+            video = { ...tab.genericVideo };
+            // Normalize videoPlatform to lowercase and trim whitespace
+            if (video.videoPlatform) {
+              const normalizedPlatform = video.videoPlatform.toLowerCase().trim();
+              // Handle comma-separated values (e.g., "vimeo, vidyard and youtube")
+              // Extract the first valid platform
+              const validPlatforms = ['youtube', 'vimeo', 'vidyard'];
+              const platformParts = normalizedPlatform.split(/[,\s]+and\s+|[,\s]+/);
+              const foundPlatform = platformParts.find((p: string) => 
+                validPlatforms.includes(p.trim())
+              );
+              
+              if (foundPlatform) {
+                video.videoPlatform = foundPlatform.trim();
+              } else if (validPlatforms.includes(normalizedPlatform)) {
+                video.videoPlatform = normalizedPlatform;
+              } else {
+                // If platform doesn't match, set to null to avoid invalid iframe
+                console.warn(`Tab ${index + 1} invalid videoPlatform: "${video.videoPlatform}", setting to null`);
+                video.videoPlatform = null;
+              }
+            }
+            // Debug: Log processed video data
+            console.log(`Tab ${index + 1} processed video data:`, video);
+          } else {
+            // Debug: Log why video was rejected
+            console.warn(`Tab ${index + 1} video rejected - invalid data:`, {
+              hasUploadedVideo: !!tab.genericVideo.uploadedVideo,
+              uploadedVideoUrl: tab.genericVideo.uploadedVideo?.url,
+              uploadedVideoId: tab.genericVideo.uploadedVideo?._id,
+              uploadedVideoAssetRef: tab.genericVideo.uploadedVideo?.asset?._ref,
+              hasVideoUrl: !!tab.genericVideo.videoUrl,
+              hasVideoId: !!tab.genericVideo.videoId,
+              hasVideoPlatform: !!tab.genericVideo.videoPlatform,
+              videoPlatform: tab.genericVideo.videoPlatform,
+              fullGenericVideo: tab.genericVideo,
+            });
+          }
+        }
         
         const tabData = {
           key: tabKey,
           title: tab.tabSubHeading || tab.tabHeading || `Tab ${index + 1}`,
           category: tab.tabHeading || undefined,
-          heading: tab.tabSubHeading || tab.tabHeading || '',
+          heading: tab.tabHeading || '',
+          subHeading: tab.tabSubHeading || undefined,
           description: tab.description || [],
           content: tab.content || [],
           features: tab.listItems?.map((item: any) => item.subfeatureHeading).filter(Boolean) || [],
@@ -151,11 +205,6 @@ export default function ContentVideoTabsSection({
           thumbnail: imageUrl,
           image: tab.image,
         };
-        
-        // Debug log to check content
-        if (tab.content) {
-          console.log(`Tab ${index + 1} content:`, tab.content);
-        }
         
         return tabData;
       });
@@ -292,26 +341,77 @@ export default function ContentVideoTabsSection({
 
   const currentTabData = (tabs.find(tab => tab.key === activeTab) || tabs[0]) as TabItem;
   
-  // Get uploaded MP4 video from data.overviewVideo
-  const getUploadedVideo = () => {
+  // Get overview video from data.overviewVideo - handles all video types
+  const getOverviewVideo = () => {
     if (!data?.overviewVideo || !Array.isArray(data.overviewVideo) || data.overviewVideo.length === 0) {
       return null;
     }
     
     const firstVideo = data.overviewVideo[0];
-    if (!firstVideo?.uploadedVideos || !Array.isArray(firstVideo.uploadedVideos)) {
-      return null;
+    if (!firstVideo) return null;
+    
+    // Check for uploaded videos array (plural)
+    if (firstVideo.uploadedVideos && Array.isArray(firstVideo.uploadedVideos) && firstVideo.uploadedVideos.length > 0) {
+      // Find MP4 video
+      const mp4Video = firstVideo.uploadedVideos.find(
+        (uploadedVideo: any) => uploadedVideo.type === 'mp4' || uploadedVideo.type === 'mov' || uploadedVideo.type === 'webm'
+      );
+      if (mp4Video?.url) {
+        return {
+          videoUrl: mp4Video.url,
+        };
+      }
     }
     
-    // Find MP4 video
-    const mp4Video = firstVideo.uploadedVideos.find(
-      (uploadedVideo: any) => uploadedVideo.type === 'mp4'
-    );
+    // Check for single uploaded video (from Sanity asset)
+    if (firstVideo.uploadedVideo) {
+      return {
+        uploadedVideo: firstVideo.uploadedVideo,
+      };
+    }
     
-    return mp4Video?.url || null;
+    // Check for direct video URL
+    if (firstVideo.videoUrl) {
+      return {
+        videoUrl: firstVideo.videoUrl,
+      };
+    }
+    
+    // Check for platform-based video (YouTube, Vimeo, Vidyard)
+    if (firstVideo.videoId && firstVideo.videoPlatform) {
+      let normalizedPlatform = firstVideo.videoPlatform.toLowerCase().trim();
+      // Handle comma-separated values
+      const validPlatforms = ['youtube', 'vimeo', 'vidyard'];
+      const platformParts = normalizedPlatform.split(/[,\s]+and\s+|[,\s]+/);
+      const foundPlatform = platformParts.find((p: string) => 
+        validPlatforms.includes(p.trim())
+      );
+      
+      if (foundPlatform && validPlatforms.includes(foundPlatform.trim())) {
+        return {
+          videoId: firstVideo.videoId,
+          videoPlatform: foundPlatform.trim(),
+        };
+      } else if (validPlatforms.includes(normalizedPlatform)) {
+        return {
+          videoId: firstVideo.videoId,
+          videoPlatform: normalizedPlatform,
+        };
+      }
+    }
+    
+    return null;
   };
   
-  const uploadedVideoUrl = getUploadedVideo();
+  const overviewVideo = getOverviewVideo();
+  
+  // Debug: Log overview video data
+  if (data?.overviewVideo) {
+    console.log('Overview Video Data:', {
+      raw: data.overviewVideo,
+      processed: overviewVideo,
+    });
+  }
   
   // Portable text components for description and content
   const portableTextComponents = {
@@ -430,20 +530,13 @@ export default function ContentVideoTabsSection({
             description={data?.description || data?.subDescription}
             className='xl:px-12 md:px-6 px-4'
           />
-          {uploadedVideoUrl && (
-            <div className="w-full   mb-8 overflow-hidden bg-gray-100 h-[300px] md:h-[600px]">
+          {overviewVideo && (
+            <div className="w-full mb-8 overflow-hidden bg-gray-100 h-[300px] md:h-[600px]">
               <div className="relative w-full h-full">
-                <video
-                  className="w-full h-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  preload="auto"
-                >
-                  <source src={uploadedVideoUrl} type="video/mp4" />
-                  Your browser does not support the video tag.
-                </video>
+                <VideoPlayers
+                  video={overviewVideo}
+                  thumbnail={data?.overviewVideo?.[0]?.videoThumbnail}
+                />
               </div>
             </div>
           )}
@@ -490,11 +583,11 @@ export default function ContentVideoTabsSection({
                     <div className="flex flex-col justify-center">
                       {tab.category && (
                         <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
-                          {tab.category}
+                         {tab.subHeading}
                         </span>
                       )}
                       <h3 className="my-3 text-gray-900 md:text-4xl  text-2xl font-manrope font-semibold leading-[133.33%] tracking-normal">
-                        {tab.heading}
+                      {tab.heading} 
                       </h3>
                       {tab.description && Array.isArray(tab.description) && tab.description.length > 0 ? (
                         <div className="text-gray-500 md:text-lg text-base font-geist font-normal leading-[155.55%] tracking-normal">
@@ -564,6 +657,14 @@ export default function ContentVideoTabsSection({
                       <div className="w-full h-full md:h-[400px] rounded-2xl overflow-hidden bg-gray-100">
                         {tab.video ? (
                           <div className="w-full h-full">
+                            {(() => {
+                              console.log('Mobile VideoPlayer - tab:', {
+                                tabKey: tab.key,
+                                video: tab.video,
+                                thumbnail: tab.thumbnail,
+                              });
+                              return null;
+                            })()}
                             <VideoPlayers
                               video={tab.video}
                               thumbnail={tab.thumbnail}
@@ -601,6 +702,14 @@ export default function ContentVideoTabsSection({
               <div className="w-full h-[644px] md:rounded-2xl rounded-none overflow-hidden bg-gray-100">
                 {currentTabData.video ? (
                   <div className="w-full h-full">
+                    {(() => {
+                      console.log('Desktop VideoPlayer - currentTabData:', {
+                        tabKey: currentTabData.key,
+                        video: currentTabData.video,
+                        thumbnail: currentTabData.thumbnail,
+                      });
+                      return null;
+                    })()}
                     <VideoPlayers
                       video={currentTabData.video}
                       thumbnail={currentTabData.thumbnail}
