@@ -149,7 +149,9 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
   const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const textColor = isDark ? 'text-white' : 'text-gray-950'
-// console.log(data, 'data')
+  const heading = data?.refData?.integrationListing?.title
+  const description = data?.refData?.integrationListing?.description
+// console.log(data, 'data integrations section')
   return (
     <Section className={`relative overflow-hidden bg-[#030712] ${className}`} border={sectionBorder} isDark={isDark}>
       <Container
@@ -160,8 +162,8 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
       >
         <div className="flex flex-col gap-8 items-center relative w-full">
           <SectionHeaderV2
-            heading={data?.heading}
-            description={data?.description || 'VoiceStack seamlessly integrates with leading PMS, CRM, and analytics platforms, giving you effortless visibility across your operations.'}
+            heading={data?.heading || heading}
+            description={data?.description || description || 'VoiceStack seamlessly integrates with leading PMS, CRM, and analytics platforms, giving you effortless visibility across your operations.'}
             isWhite={true}
             ctaListItems={defaultCtaListItems}
             className="md:px-6 xl:px-12 px-4"
