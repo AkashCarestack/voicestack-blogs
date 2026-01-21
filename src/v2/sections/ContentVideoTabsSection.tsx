@@ -413,7 +413,7 @@ export default function ContentVideoTabsSection({
     });
   }
   
-  // Portable text components for description and content
+  // Portable text components for description
   const portableTextComponents = {
     block: {
       normal: ({ children }: any) => <p className="text-[#364153] text-base font-geist font-normal leading-6 tracking-normal">{children}</p>,
@@ -520,6 +520,15 @@ export default function ContentVideoTabsSection({
     },
   };
 
+  // Portable text components for content - uses h4 styling for normal text
+  const contentTextComponents = {
+    ...portableTextComponents,
+    block: {
+      ...portableTextComponents.block,
+      normal: ({ children }: any) => <p className="text-gray-900 md:text-xl text-lg font-manrope font-semibold leading-tight tracking-normal">{children}</p>,
+    },
+  };
+
   console.log(data);
   return (
     <Section className={cn("w-full flex flex-col !bg-white", containerClassName)}>
@@ -596,8 +605,8 @@ export default function ContentVideoTabsSection({
                       ) : null}
                       
                       {tab.content && Array.isArray(tab.content) && tab.content.length > 0 ? (
-                        <div className="">
-                          <PortableText value={tab.content} components={portableTextComponents} />
+                        <div className="mt-4">
+                          <PortableText value={tab.content} components={contentTextComponents} />
                         </div>
                       ) : tab.features && tab.features.length > 0 ? (
                         <div className="flex flex-col gap-0 md:mt-6 mt-3">
