@@ -1,5 +1,4 @@
 User-agent: *
-Disallow:
 Disallow: /lp/
 Disallow: /legal/
 Sitemap: https://voicestack.com/sitemap.xml
