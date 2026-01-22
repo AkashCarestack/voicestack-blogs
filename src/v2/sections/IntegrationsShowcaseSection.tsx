@@ -41,6 +41,7 @@ className?: string
   data:any
   theme?: 'light' | 'dark'
   sectionBorder?: 't' | 'b' | 'y' 
+  demoOnly?: boolean
 }
 
 // Default CTA items for the section
@@ -62,6 +63,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   data,
   theme,
   sectionBorder = 'b',
+  demoOnly = false,
 }) => {
   // Use CTA items from data or fall back to defaults
 
@@ -165,7 +167,11 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
             heading={data?.heading || heading}
             description={data?.description || description || 'VoiceStack seamlessly integrates with leading PMS, CRM, and analytics platforms, giving you effortless visibility across your operations.'}
             isWhite={true}
-            ctaListItems={defaultCtaListItems}
+            ctaListItems={demoOnly ? [{
+              ctaText: 'Book Free Demo',
+              ctaLink: '/demo',
+              ctaType: 'primary',
+            }] : defaultCtaListItems}
             className="md:px-6 xl:px-12 px-4"
           />
 
