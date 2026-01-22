@@ -281,7 +281,7 @@ export const HeroHeadingComponents: any = {
   types: {
     rotatingWord: ({ value }: { value: any }) => {
       // Hardcoded words - internally configured
-      const words = ['Dental', 'Optometry', 'Physical Therapy', 'Veterinary'];
+      const words = ['Enterprise', 'Dental', 'Optometry', 'Physical Therapy', 'Veterinary'];
       return React.createElement(WordRotate, {
         words: words,
         asSpan: true,
