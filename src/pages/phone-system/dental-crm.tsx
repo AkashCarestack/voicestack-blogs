@@ -89,7 +89,7 @@ export default function AiReceptionist({
       <SimpleHead data={pageData?.seo} />
 
       {pageData['dental-phones-hero']?.componentData && (
-        <FeatureHero data={pageData['dental-phones-hero']} type="feature" />
+        <FeatureHero data={pageData['dental-phones-hero']} type="feature" hideBg={region === 'en-AU' ? true : false} isVertical={region === 'en-AU' ? true : false} isCentered={region === 'en-AU' ? true : false} />
       )}
 
       {pageData['list-items'] && (
