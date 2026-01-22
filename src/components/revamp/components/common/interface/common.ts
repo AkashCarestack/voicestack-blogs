@@ -34,6 +34,7 @@ export interface SectionHeaderPropsV2 {
         ctaType?: string
     }>
     demoButton?: boolean
+    headingMd?: boolean
 }
 
 interface IFaqItemProps {
