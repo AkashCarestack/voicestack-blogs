@@ -7,6 +7,7 @@ interface SectionH2Props {
   className?: string
   isWhite?: boolean
   headingSm?: boolean
+  headingMd?: boolean
   showFullLength?: boolean
 }
 
@@ -15,6 +16,7 @@ const SectionH2: React.FC<SectionH2Props> = ({
   className = '',
   isWhite = false,
   headingSm = false,
+  headingMd = false,
   showFullLength = false,
 }) => {
   // Portable text components configuration
@@ -48,7 +50,7 @@ const SectionH2: React.FC<SectionH2Props> = ({
   
   const sizeClasses = headingSm 
     ? 'text-xl lg:text-2xl font-medium' 
-    : 'lg:text-5xl text-3xl'
+    : headingMd ? 'lg:text-4xl text-2xl' : 'lg:text-5xl text-3xl'
   
   const colorClasses = isWhite ? 'text-white' : 'text-gray-950'
   
