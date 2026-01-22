@@ -56,7 +56,7 @@ export default function PartnerSlugPage({
     <>
       <SimpleHead data={pageData?.seo} />
 
-      <LpHeader />
+      <LpHeader logo={heroData?.heroImageSecondary?.url}/>
 
       {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
 
@@ -99,6 +99,7 @@ export default function PartnerSlugPage({
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
           sectionBorder="b"
+          demoOnly={true}
         />
       )}
 
