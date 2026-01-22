@@ -18,6 +18,7 @@ import PlayIcon from '~/assets/PlayIcon'
 
 interface FeatureHeroProps {
   data: any
+  isVertical?: boolean
   type?:string | 'form' | 'feature'
   hideBg?: boolean
   isCentered?: boolean
@@ -25,7 +26,7 @@ interface FeatureHeroProps {
   appStoreLinks?: any
 }
 
-export default function FeatureHero({ data, type , hideBg = false, isCentered = false ,pageType = '', appStoreLinks = ""}: FeatureHeroProps) {
+export default function FeatureHero({ data, type , hideBg = false, isCentered = false ,pageType = '', appStoreLinks = "" , isVertical = false }: FeatureHeroProps) {
   
   const hubspotFormId = data?.componentData?.hubspotFormId || data?.hubspotFormId
   const meetingLink = data?.componentData?.meetingLink || data?.meetingLink || data?.demoMeetingLink
@@ -240,9 +241,10 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
   )
   
   return (
-    <Section className="relative overflow-hidden" id="FeatureHero" border="b">
+    <>
+    <Section className={`relative overflow-hidden ${isVertical ? 'bg-white' : ''}`} id="FeatureHero" border="b">
       <Container type="V2" className={`md:py-24 py-16 overflow-hidden justify-center flex ${pageType === 'download-app' ? 'flex-col' : ''}`}>
-        <div className='flex lg:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10 items-center'>
+        <div className={`${isVertical ? '!flex-col-reverse' : ''} flex lg:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10 items-center`}>
           <div className={`flex flex-col gap-3 relative z-10 flex-1  ${type === 'form' ? 'max-w-[606px]' : ''} ${isCentered ? 'text-center items-center' : ''}`}>
             {title && (
               (type === 'form' || type === 'comparison') ? (
@@ -304,10 +306,14 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
               </div>
             </div>
           }
-          {image && !hasVideo && !hasTestimonial && (
+          {((image && !hasVideo && !hasTestimonial) && !isVertical) ? (
             <div className='flex-1  w-full h-full max-w-[550px] max-h-[550px]'>
               <Image className='max-w-[550px] max-h-[550px] w-full h-full object-cover' src={image} alt={heading} width={1000} height={1000} />
             </div>
+          ):(
+            isVertical && <div className='flex-1 w-full h-full'>
+            <Image className={`${isVertical ? 'w-full md:max-h-[500px] h-full' : 'max-w-[550px]'} w-full h-full object-cover`} src={image} alt={heading} width={1000} height={1000} />
+          </div>
           )}
           {/* Testimonial Section with YouTube Video */}
           {hasTestimonial && !hasVideo && !image && (
@@ -747,6 +753,8 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
         )}
       </Container>
     </Section>
+    
+    </>
   )
 }
 
