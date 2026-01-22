@@ -101,6 +101,7 @@ module.exports = {
   		},
 			
 			backgroundImage: {
+			'revamp-purple-gradient':'linear-gradient(90deg, #512789 0%, #4A3CE1 100%);',
 			'vs-purple-logo-bg':'linear-gradient(180deg, #4A3CE1 0%, #191078 100%);',
 			'vs-minimal-bg':'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%);',
 			'vs-purple-gradient': 'linear-gradient(270deg, #4A3CE1 0%, #CAC5FF 100%)',

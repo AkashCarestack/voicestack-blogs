@@ -15,6 +15,7 @@ import PartnerHubspotForm from '../components/common/PartnerHubspotForm'
 import Link from 'next/link'
 import AppleIcon from '~/assets/AppleIcon'
 import PlayIcon from '~/assets/PlayIcon'
+import AiIcon from '~/assets/aiIcon.svg'
 
 interface FeatureHeroProps {
   data: any
@@ -254,8 +255,15 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
                     {title?.toUpperCase()}
                   </h1>
                 </div>
-              ):(
-                <h1 className="text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase">
+              ):isVertical ? (
+                <div className="flex items-center border-2 border-white/50 font-semibold md:gap-3 gap-2 md:py-1.5 py-1 md:pr-6 pr-3 pl-[6px] rounded-full  bg-revamp-purple-gradient">
+                  <div className="md:w-10 md:h-10 w-4 h-4"><Image src={AiIcon} alt="AI Icon" width={40} height={40} /></div>
+                  <h1 className="text-center md:text-left  md:text-sm text-xs font-geist leading-4 tracking-[0.8px] text-white md:font-semibold font-medium">
+                    {title?.toUpperCase()}
+                  </h1>
+                </div>
+              ) : (
+                <h1 className={`text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase`}>
                   {title?.toUpperCase()}
                 </h1>
               )
