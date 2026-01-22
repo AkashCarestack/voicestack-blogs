@@ -92,14 +92,14 @@ export default function AiReceptionist({
       )}
 
       {pageData['list-items'] && (
-        <GroupedCardsGridSection
+        <GroupedCardsGridSection sectionSpacing='py-0' sectionBorder='none'
           data={pageData['list-items']?.componentData}
         />
       )}
 
       
       {pageData['offer']?.componentData && (
-        <OfferSection data={pageData['offer']?.componentData} variant="compact" />
+        <OfferSection data={pageData['offer']?.componentData} variant='compact'/>
       )}
 
       {comparisonTableData && (

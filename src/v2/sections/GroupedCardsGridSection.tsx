@@ -51,8 +51,8 @@ interface GroupedCardsGridSectionProps {
   }
   theme?: 'light' | 'dark'
   aiSection?: boolean
-  sectionBorder?: 'b' | 't' | 'y'
-  sectionSpacing?: 'pt-sm' | 'pt-md' | 'pt-lg'
+  sectionBorder?: 'b' | 't' | 'y' | 'none'
+  sectionSpacing?: 'pt-sm' | 'pt-md' | 'pt-lg' | 'py-0'
 }
 
 
@@ -72,12 +72,13 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
   const labelColor = isDark ? '[&>span]:text-vs-lemon-green' : '[&>span]:text-vs-blue'
   const headingSplitColor = isDark ? 'text-vs-blue' : 'text-gray-400'
   const topPaddingSm = sectionSpacing && sectionSpacing == "pt-sm";
+  const pyNoPadding = sectionSpacing && sectionSpacing == "py-0";
   // console.log('displayData GroupedCardsGridSection',displayData);
   
 
   return (
     <Section className={bgColor} border={sectionBorder} isDark={isDark}>
-      <Container type="V2" border="y-0" darkTheme={isDark} className={`pt-sm ${topPaddingSm ? '' : 'md:pt-md lg:pt-lg'}  pb-sm`}>
+      <Container type="V2" border="y-0" darkTheme={isDark} className={` ${topPaddingSm ? '' : 'md:pt-md lg:pt-lg'} ${pyNoPadding ? '!py-0' : 'pt-sm pb-sm'}`}>
         <div className={`flex flex-col w-full border-b ${isDark ? 'border-gray-800' : 'border-gray-200'}`}>
           {/* Header Section */}
           <div className="flex-col relative w-full flex gap-16">
