@@ -51,12 +51,14 @@ export default defineType({
       title: 'heading',
       language: 'language',
       itemCount: 'items',
+      customItemCount: 'customListingItems',
     },
     prepare(selection) {
       const itemCount = selection.itemCount?.length || 0;
+      const customItemCount = selection.customItemCount?.length || 0;
       return {
         title: selection?.title || 'Generic Items Listing',
-        subtitle: `${itemCount} items`,
+        subtitle: `${itemCount} items, ${customItemCount} custom items`,
         media: <img src={showCountryFlag(selection?.language)}/>
       };
     },

@@ -1,7 +1,7 @@
 import { defineField, defineType } from 'sanity'
 
 export default defineType({
-  title: 'Rotating Word',
+  title: 'Rotating Practice Types',
   name: 'rotatingWord',
   type: 'object',
   fields: [
@@ -16,8 +16,8 @@ export default defineType({
   preview: {
     prepare() {
       return {
-        title: 'Rotating Word',
-        subtitle: 'Dental, Optometry, Physical Therapy, Veterinary',
+        title: 'Rotating Practice Types',
+        subtitle: 'Enterprise, Dental, Optometry, Physical Therapy, Veterinary',
       }
     },
   },

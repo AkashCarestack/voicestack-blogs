@@ -143,7 +143,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
-    if (!pageData || Object.keys(pageData).length === 0) {
+    if (!pageData) {
       return {
         notFound: true,
       }
