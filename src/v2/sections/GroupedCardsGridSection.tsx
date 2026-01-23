@@ -104,6 +104,7 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
                   className="xl:px-12 md:px-6 px-4"
                   isWhite={isDark}
                   ctaListItems={displayData.ctaListItems}
+                  aiSection={aiSection} 
                 />
               </div>
             ):(

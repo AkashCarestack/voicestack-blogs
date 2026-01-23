@@ -35,6 +35,7 @@ export interface SectionHeaderPropsV2 {
     }>
     demoButton?: boolean
     headingMd?: boolean
+    aiSection?: boolean
 }
 
 interface IFaqItemProps {
