@@ -15,8 +15,6 @@ const PricingHubspotMeeting: React.FC<{
 }) => {
   const { trackEvent } = useTracking({}, {})
   const router = useRouter()
-  
-
   useEffect(() => {
     const window2: any = window
     const script = document.createElement("script");

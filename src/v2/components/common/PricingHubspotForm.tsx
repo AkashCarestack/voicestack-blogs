@@ -14,7 +14,6 @@ const PricingHubspotForm: React.FC<{
   formDetails
 }) => {
 
-
   const { trackEvent } = useTracking({}, {});
   const router = useRouter();
   useEffect(() => {
