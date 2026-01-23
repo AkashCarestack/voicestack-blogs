@@ -17,7 +17,7 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
             headingMd={headingMd}
             aiSection={aiSection}
           />
-          <p className={`lg:max-w-[712px] lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue ${data.isWhite ? 'text-white' : 'text-gray-500'}`} dangerouslySetInnerHTML={{ __html: data?.description }}></p>
+          <p className={`${aiSection? 'text-gray-300' : '' } lg:max-w-[712px] lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue ${data.isWhite ? 'text-white' : 'text-gray-500'}`} dangerouslySetInnerHTML={{ __html: data?.description }}></p>
 
           {data.ctaListItems && data.ctaListItems.length > 0 && (
             <div className='flex flex-col md:flex-row justify-center gap-4 items-center mt-8'>
