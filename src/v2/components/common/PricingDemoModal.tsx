@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { CloseIcon } from '@sanity/icons'
 import PricingHubspotForm from './PricingHubspotForm'
 import PricingHubspotMeeting from './PricingHubspotMeeting'
-import demoTrackingNames from '~/v2/data/demoTrackingNames.json'
+import pricingDemoTrackingNames from '~/v2/data/pricingDemoTrackingNames.json'
 import { Cross, X } from 'lucide-react'
 
 export interface PricingDemoModalProps {
@@ -47,7 +47,7 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
   
   // Map region to tracking name key
   const regionKey = region === 'en-GB' ? 'uk' : region === 'en-AU' ? 'au' : 'us'
-  const eventName = demoTrackingNames[regionKey as keyof typeof demoTrackingNames] || demoTrackingNames.us
+  const eventName = pricingDemoTrackingNames[regionKey as keyof typeof pricingDemoTrackingNames] || pricingDemoTrackingNames.us
   const formDetails = practiceTypeSlug ? `${practiceTypeSlug}_${router.locale}` : undefined
 
   const handlePracticeTypeSelect = (practiceType: string) => {
