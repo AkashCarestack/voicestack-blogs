@@ -3,6 +3,8 @@
 import React from 'react';
 import WordRotate from '~/components/ui/word-rotate';
 
+const DEFAULT_WORDS = ['Dentists', 'Physical Therapists', 'Veterinarians', 'Optometrists'];
+
 /**
  * Function that takes full text and automatically inserts rotating words before "practices"
  * Returns a React element with rotating words inserted inline
@@ -10,7 +12,7 @@ import WordRotate from '~/components/ui/word-rotate';
  */
 export function createRotatingWordHeading(
   text: string,
-  words: string[] = ['Enterprise', 'Dental', 'Optometry', 'Physical Therapy', 'Veterinary']
+  words: string[] = DEFAULT_WORDS
 ): React.ReactElement {
   // Default duration - controlled inside
   const duration = 2500;
@@ -18,15 +20,15 @@ export function createRotatingWordHeading(
   // Find the position of "practices" (case insensitive)
   const searchText = text.toLowerCase();
   const practiceIndex = searchText.indexOf('practices');
-  
+
   if (practiceIndex === -1) {
     // If "practices" not found, return original text
     return <>{text}</>;
   }
 
-  // Split text into before and after "practices"
+  // Split text: before "practices", "practices" itself, and after "practices"
   const beforeText = text.substring(0, practiceIndex);
-  const afterText = text.substring(practiceIndex);
+  const afterText = text.substring(practiceIndex + 'practices'.length);
 
   return (
     <>
@@ -36,7 +38,6 @@ export function createRotatingWordHeading(
         duration={duration}
         asSpan={true}
       />
-      {' '}
       {afterText}
     </>
   );
