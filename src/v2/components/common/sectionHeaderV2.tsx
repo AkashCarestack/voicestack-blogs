@@ -3,7 +3,7 @@ import { SectionHeaderPropsV2 } from '../../../components/revamp/components/comm
 import SectionH2 from '~/components/typography/revamp/SectionH2'
 import Button from '~/components/common/Button'
 
-export default function SectionHeaderV2({ showFullLength = false, demoButton = false, headingMd = false, ...data }: SectionHeaderPropsV2) {
+export default function SectionHeaderV2({ showFullLength = false, demoButton = false, headingMd = false, aiSection = false, ...data }: SectionHeaderPropsV2) {
   // Check if heading is portable text (array) or string  
   // const isPortableText = Array.isArray(data.heading)
   
@@ -15,6 +15,7 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
             isWhite={data.isWhite}
             headingSm={data.headingSm}
             headingMd={headingMd}
+            aiSection={aiSection}
           />
           <p className={`lg:max-w-[712px] lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue ${data.isWhite ? 'text-white' : 'text-gray-500'}`} dangerouslySetInnerHTML={{ __html: data?.description }}></p>
 
