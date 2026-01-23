@@ -4,7 +4,7 @@ import { readToken } from '~/lib/sanity.api'
 import groq from 'groq'
 import siteConfig from 'config/siteConfig'
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://www.voicestack.com"
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://voicestack.com"
 
 // Paths with all locale variants and hreflang alternates
 const PATHS_WITH_ALTERNATES = ['', 'system-requirements'];

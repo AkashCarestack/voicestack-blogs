@@ -101,7 +101,19 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   }, [buttonText])
   
   // Handle click - if it's a "book free demo" button, show practice type modal
+  // BUT on partner pages, allow anchor links to work (scroll to #demo)
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    // On partner child pages, don't show modal - let anchor links (#demo) work normally
+    // The finalLink logic will convert links to #demo, which should scroll to the form
+    if (isPartnerChildPage) {
+      // Allow default anchor behavior (scrolling to #demo)
+      // Don't prevent default or show modal
+      if (onClick) {
+        onClick(e)
+      }
+      return
+    }
+    
     // If it's a "book free demo" button, show modal instead of navigating
     if (isBookFreeDemoButton) {
       e.preventDefault()
@@ -201,17 +213,17 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       return formattedLink
     }
     
-    // For "book free demo" buttons, always link to /demo
-    // Next.js Link with locale prop will handle locale-aware routing automatically
-    if (isBookFreeDemoButton) {
-      return '/demo'
-    }
-    
-    // On partner child pages (with slug), only override "book free demo" buttons to #demo
+    // On partner child pages (with slug), override buttons to #demo (scrolls to form)
     // Landing page (/company/partners) is excluded
     // This preserves interlinking buttons to other pages
     if (isPartnerChildPage && formattedLink) {
       return '#demo'
+    }
+    
+    // For "book free demo" buttons, link to /demo (unless on partner page, handled above)
+    // Next.js Link with locale prop will handle locale-aware routing automatically
+    if (isBookFreeDemoButton) {
+      return '/demo'
     }
     // if (isPricingPage && formattedLink) {
     //   return '/pricing/demo'

@@ -314,7 +314,7 @@ const Header = ({ data, refer = null }) => {
   (pathname.startsWith('/who-we-serve/') &&
     !pathname.startsWith('/who-we-serve/why-voicestack'));
 
-console.log('ShowSoftwareSchema', ShowSoftwareSchema);
+// console.log('ShowSoftwareSchema', ShowSoftwareSchema);
   return (
     <>
       <Head>
