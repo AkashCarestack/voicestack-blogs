@@ -164,11 +164,11 @@ export default function CategoryFeatureTabs({
     return categories.sort((a, b) => {
       const orderA = a.featureOrder ?? 9999 // Put items without order at the end
       const orderB = b.featureOrder ?? 9999
-      
+
       if (orderA !== orderB) {
         return orderA - orderB
       }
-      
+
       // If featureOrder is the same or both are null, sort by name
       return a.name.localeCompare(b.name)
     })
@@ -501,11 +501,10 @@ export default function CategoryFeatureTabs({
                         aria-selected={isActive}
                         aria-controls={`desktop-category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                         id={`desktop-tab-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                        className={`w-full flex items-center self-stretch transition-all duration-300 ${
-                          isActive
+                        className={`w-full flex items-center self-stretch transition-all duration-300 ${isActive
                             ? '  bg-white rounded-full'
                             : ' rounded-full bg-transparent hover:bg-[#F3F4F6]'
-                        }`}
+                          }`}
                         style={{
                           gap: '16px',
                           padding:
@@ -523,9 +522,8 @@ export default function CategoryFeatureTabs({
                             </div>
                           )}
                         <span
-                          className={`text-lg font-normal transition-colors duration-300 font-geist leading-7 tracking-normal ${
-                            isActive ? 'text-black' : 'text-gray-500'
-                          }`}
+                          className={`text-lg font-normal transition-colors duration-300 font-geist leading-7 tracking-normal ${isActive ? 'text-black' : 'text-gray-500'
+                            }`}
                         >
                           {category.name}
                         </span>
@@ -878,11 +876,10 @@ export default function CategoryFeatureTabs({
                           aria-selected={isActive}
                           aria-controls={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                           id={`tab-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                          className={`flex-shrink-0 p-3 rounded-full transition-all duration-300 ${
-                            isActive
+                          className={`flex-shrink-0 p-3 rounded-full transition-all duration-300 ${isActive
                               ? 'text-gray-900 shadow-sm'
                               : 'bg-white text-gray-700 border border-gray-200 hover:bg-[#F3F4F6]'
-                          }`}
+                            }`}
                           style={{
                             backgroundColor: isActive
                               ? 'rgba(21, 45, 24, 0.05)'
@@ -1066,7 +1063,7 @@ export default function CategoryFeatureTabs({
                                   </p>
                                   <p className="text-black/60 font-geist md:text-base text-sm font-normal leading-6 tracking-normal">
                                     {testimonial.designation}
-                                  </p>  
+                                  </p>
                                 </div>
                               </div>
                             </div>

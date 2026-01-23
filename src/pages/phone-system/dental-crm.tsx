@@ -6,6 +6,7 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
+import CallFlowAnalyticsSection from '~/v2/components/CallFlowAnalyticsSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
@@ -92,14 +93,14 @@ export default function AiReceptionist({
       )}
 
       {pageData['list-items'] && (
-        <GroupedCardsGridSection sectionSpacing='py-0' sectionBorder='none'
+        <GroupedCardsGridSection
           data={pageData['list-items']?.componentData}
         />
       )}
 
       
       {pageData['offer']?.componentData && (
-        <OfferSection data={pageData['offer']?.componentData} variant='compact'/>
+        <OfferSection data={pageData['offer']?.componentData} variant="compact" />
       )}
 
       {comparisonTableData && (
@@ -108,6 +109,10 @@ export default function AiReceptionist({
           legendData={comparisonLegendData || []}
         />
       )}
+
+      <CallFlowAnalyticsSection
+        data={pageData['call-flow-analytics']?.componentData}
+      />
 
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
@@ -130,9 +135,10 @@ export default function AiReceptionist({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
-    const queries = new Queries('ai-receptionist', region)
+    const queries = new Queries('dental-crm', region)
     const slug =
-      region === 'en' ? 'ai-receptionist' : `ai-receptionist-${region.toLowerCase()}`
+      region === 'en' ? 'dental-crm' : `dental-crm-${region.toLowerCase()}`
+
     const pageData = await queries.getPageData('dentalPhones', slug)
     const client = getClient()
 
@@ -163,3 +169,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
   }
 }
+
