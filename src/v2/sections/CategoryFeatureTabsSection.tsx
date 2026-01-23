@@ -81,6 +81,22 @@ export default function CategoryFeatureTabsSection({
     return '/phone-system/features';
   }, []);
 
+  // Helper function to localize text based on locale (US vs UK/AU spelling)
+  const localizeText = useCallback((text: string): string => {
+    const locale = router.locale || 'en';
+    // For UK and AU locales, use British spelling
+    if (locale === 'en-GB' || locale === 'en-AU') {
+      return text
+        .replace(/\banalyze\b/gi, 'analyse')
+        .replace(/\banalyzing\b/gi, 'analysing')
+        .replace(/\banalyzed\b/gi, 'analysed')
+        .replace(/\boptimize\b/gi, 'optimise')
+        .replace(/\boptimizing\b/gi, 'optimising')
+        .replace(/\boptimized\b/gi, 'optimised');
+    }
+    return text;
+  }, [router.locale]);
+
   // Helper function to extract plain text from blockContent/portable text
   const extractTextFromBlocks = (blocks: any): string => {
     if (!blocks) return '';
@@ -369,7 +385,7 @@ export default function CategoryFeatureTabsSection({
             description={
               sectionHeading?.subheadline
                 ? sectionHeading?.subheadline
-                : 'Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
+                : localizeText('Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.')
             }
           />
         </Container>
@@ -642,7 +658,7 @@ export default function CategoryFeatureTabsSection({
                 description={
                   sectionHeading?.subheadline
                     ? sectionHeading?.subheadline
-                    : 'Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
+                    : localizeText('Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.')
                 }
                 demoButton={true}
               />
@@ -807,7 +823,7 @@ export default function CategoryFeatureTabsSection({
                 description={
                   sectionHeading?.subheadline
                     ? sectionHeading?.subheadline
-                    : 'Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
+                    : localizeText('Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.')
                 }
                 demoButton={true}
               />
@@ -1006,7 +1022,7 @@ export default function CategoryFeatureTabsSection({
             description={
               sectionHeading?.subheadline
                 ? sectionHeading?.subheadline
-                : 'Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.'
+                : localizeText('Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.')
             }
             className='xl:px-12 md:px-6 px-4'
           />
