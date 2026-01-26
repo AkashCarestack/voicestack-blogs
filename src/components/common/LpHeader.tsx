@@ -25,7 +25,9 @@ const LpHeader = ({ data, logo, logoAlt }: LpHeaderProps) => {
             src={logo || VoicestackLogo}
             alt={logoAlt || "VoiceStack"}
             title={logoAlt || "VoiceStack"}
-            className="h-[26px] md:h-[26px] w-auto"
+            className={`${logo ? 'w-[auto] h-[auto]' : 'h-[26px] md:h-[26px] w-auto'}`}
+            width={200}
+            height={52}
           />
         </Anchor>
         <Button type="primary" link="#demo" className="md:block hidden">
