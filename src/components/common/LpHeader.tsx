@@ -25,7 +25,7 @@ const LpHeader = ({ data, logo, logoAlt }: LpHeaderProps) => {
             src={logo || VoicestackLogo}
             alt={logoAlt || "VoiceStack"}
             title={logoAlt || "VoiceStack"}
-            className={`${logo ? 'w-[auto] h-[auto]' : 'h-[26px] md:h-[26px] w-auto'}`}
+            className={`${logo ? 'md:h-[45px] h-[36px] w-auto' : 'h-[26px] md:h-[26px] w-auto'}`}
             width={200}
             height={52}
           />
