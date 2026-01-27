@@ -283,7 +283,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
           React.createElement(
             'ul',
             {
-              className: 'flex flex-col gap-1 lg:ml-[-24px]',
+              className: 'flex flex-col md:gap-3 gap-1 lg:ml-[-24px]',
             },
             children
           ),
