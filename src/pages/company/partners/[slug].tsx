@@ -56,7 +56,11 @@ export default function PartnerSlugPage({
     <>
       <SimpleHead data={pageData?.seo} />
 
-      <LpHeader logo={heroData?.heroImageSecondary?.url}/>
+      {/* <LpHeader logo={heroData?.heroImageSecondary?.url}/> */}
+      {heroData?.heroStrip && heroData?.heroStrip !== '' && (
+        <LpHeader logoText={heroData?.heroStrip?.toUpperCase()}/>
+      )}
+      {/* <LpHeader logoText={heroData?.heroStrip?.toUpperCase() || 'VoiceStack'}/> */}
 
       {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
 
