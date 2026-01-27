@@ -24,7 +24,7 @@ export default function WordRotate({
   asSpan = false,
 }: WordRotateProps) {
   const [index, setIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState("");
+  const [displayedText, setDisplayedText] = useState(words[0] || "");
   const [isDeleting, setIsDeleting] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
@@ -37,7 +37,10 @@ export default function WordRotate({
     if (words.length === 0) return;
 
     const currentWord = words[index];
-    if (!currentWord) return;
+    if (!currentWord) {
+      setIndex(0);
+      return;
+    }
 
     let timeout: NodeJS.Timeout | undefined;
 
@@ -46,7 +49,7 @@ export default function WordRotate({
       timeout = setTimeout(() => {
         setDisplayedText(currentWord.slice(0, displayedText.length + 1));
       }, typingSpeed);
-    } else if (!isDeleting && displayedText.length === currentWord.length && currentWord.length > 0) {
+    } else if (!isDeleting && displayedText.length === currentWord.length) {
       // Finished typing: pause before deleting
       timeout = setTimeout(() => {
         setIsDeleting(true);
@@ -79,7 +82,7 @@ export default function WordRotate({
         <span className="sr-only" aria-hidden="true">
           {words.join(", ")}
         </span>
-        <span 
+        <span
           className={cn(
             "inline-block whitespace-nowrap transition-all duration-300 ease-out text-vs-purple",
             className
@@ -96,7 +99,7 @@ export default function WordRotate({
           aria-label={currentFullWord}
           title={currentFullWord}
         >
-          {isMounted ? displayedText : initialWord}
+          {displayedText}
         </span>
       </>
     );
@@ -108,7 +111,7 @@ export default function WordRotate({
       <span className="sr-only" aria-hidden="true">
         {words.join(", ")}
       </span>
-      <h1 
+      <h1
         className={cn("transition-all duration-300 ease-out", className)}
         style={{
           fontSize: "inherit",
@@ -122,7 +125,7 @@ export default function WordRotate({
         aria-atomic="true"
         aria-label={currentFullWord}
       >
-        {isMounted ? displayedText : initialWord}
+        {displayedText}
       </h1>
     </div>
   );
