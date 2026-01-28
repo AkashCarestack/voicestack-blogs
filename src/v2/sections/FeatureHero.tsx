@@ -266,9 +266,9 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
                   src={data?.heroImageSecondary?.url}
                   alt={data?.heroImageSecondary?.alt || "VoiceStack"}
                   title={data?.heroImageSecondary?.title || "VoiceStack"}
-                  className={`md:h-[70px] h-[48px] w-auto`}
-                  width={280}
-                  height={70}
+                  className={`md:h-[42px] h-[32px] w-auto`}
+                  width={500}
+                  height={58}
                 />
               </div>
             ):(
