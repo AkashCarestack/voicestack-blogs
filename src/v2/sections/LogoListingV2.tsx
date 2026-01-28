@@ -40,7 +40,7 @@ const LogoListingV2 = ({ data }: LogoListingV2Props) => {
     if (logoCount === 0) return ''
     
     const keyframes: string[] = []
-    const pauseRatio = 0.9 // 4.5s out of 5s = 90%
+    const pauseRatio = 0.8 // 4.5s out of 5s = 90%
     const scrollRatio = 0.1 // 0.5s out of 5s = 10%
     
     // Always start at 0% with first logo at top
