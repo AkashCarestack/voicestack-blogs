@@ -31,7 +31,7 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
   // return (
   //   <>
   //     <SimpleHead data={pageData?.seo} />
-      
+
   //     <HeroWrapper>
   //       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
   //       <HeroSection
@@ -84,7 +84,6 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
   //     )}
   //   </>
   // )
-  console.log(pageData, 'pageData----')
   return (
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
@@ -96,34 +95,52 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
-        <CategoryFeatureTabsSection
-          features={
-            pageData['manage-every-calls']?.componentData?.refData
-              ?.tabsListingComponent
-          }
-          variant="scrollcarousel"
-          sectionHeading={
-            pageData['manage-every-calls']?.componentData?.refData
-              ?.tabsListingComponent
-          }
-        />
+
+      <CategoryFeatureTabsSection
+        features={
+          pageData['grow-your-practice']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        variant="carouselwithcards"
+        sectionHeading={
+          pageData['grow-your-practice']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+      />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
-        <VerticalTestimonialListingv2
-          data={
-            pageData['testimonial-video-section']?.componentData?.refData
-              ?.testimonialListing
-          }
-        />
-      )}
+          <VerticalTestimonialListingv2
+            data={
+              pageData['testimonial-video-section']?.componentData?.refData
+                ?.testimonialListing
+            }
+          />
+        )}
       <StatisticsSection />
+
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
       )}
-      
+
+      <CategoryFeatureTabsSection
+        features={
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        variant="scrollcarousel"
+        sectionHeading={
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+      />
+      {faq && (
+        <div>
+          <FaqSection faqItems={faq} />
+        </div>
+      )}
     </>
   )
 }

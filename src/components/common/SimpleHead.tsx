@@ -34,7 +34,7 @@ export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
 
 
       <meta name="twitter:card" content="summary_large_image"/>
-      <meta property="twitter:domain" content="voicestack-sanity-gamma.vercel.app"/>
+      <meta property="twitter:domain" content="voicestack.com"/>
       {data?.canonical && <meta property="twitter:url" content={data?.canonical}/>}
       {fullTitle && <meta name="twitter:title" content={fullTitle}/>} 
       {data?.metaDescription && <meta name="twitter:description" content={data?.metaDescription}/>}
