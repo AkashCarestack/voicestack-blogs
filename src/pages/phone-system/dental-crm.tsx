@@ -1,12 +1,17 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import Button from '~/components/common/Button'
 import SimpleHead from '~/components/common/SimpleHead'
 
 import FaqSection from '~/components/revamp/components/common/faqSection'
+import ListCardWithIcon from '~/components/revamp/components/common/ListCardWithIcon'
 import Queries from '~/components/revamp/queries'
+import Container from '~/components/structure/Container'
+import Section from '~/components/structure/Section'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
 import CallFlowAnalyticsSection from '~/v2/components/CallFlowAnalyticsSection'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
@@ -72,11 +77,12 @@ export default function AiReceptionist({
   faq,
   features,
 }: AiReceptionistProps) {
-  // console.log("ppp",pageData)
+  const iconListData = pageData['icon-list']?.componentData
+
 
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
-  
+
   // const comparisonTableTitle = pageData['comparison-table']?.componentData
   const comparisonSectionData = {
     strip: comparisonTableComponent?.title,
@@ -97,6 +103,39 @@ export default function AiReceptionist({
           data={pageData['list-items']?.componentData}
         />
       )}
+      <Section className='w-full bg-white'>
+      <Container className='w-full bg-white' type="V2" border='y-0'>
+        <div className='flex flex-col md:gap-8 gap-6 py-16 justify-between items-center'>
+        <SectionHeaderV2 heading={iconListData?.sectionHeadingDynamic}
+         description={iconListData?.description} />
+         {
+          iconListData?.ctaListItems?.length > 0 && (
+            <Button type={iconListData?.ctaListItems[0]?.ctaType as any} link={iconListData?.ctaListItems[0]?.ctaLink} className='w-fit'>
+              <span>{iconListData?.ctaListItems[0]?.ctaText}</span>
+            </Button>
+          )
+         }
+         </div>
+      <div className='flex mx-auto px-4 md:flex-row flex-col flex-wrap md:gap-6 border-t border-t-gray-200'> {
+        iconListData && 
+        iconListData?.customListingItems?.map((item:any)=>{
+            return (
+              <ListCardWithIcon
+                heading={item.heading}
+                data={item.listItems}
+                key={item._key}
+              />
+            )
+          })
+      }
+      </div>
+      </Container>
+      </Section>
+      {/* <ListCardWithIcon
+        
+        data={pageData['list-items']?.componentData}
+        }
+      /> */}
 
       
       {pageData['offer']?.componentData && (
