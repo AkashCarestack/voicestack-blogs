@@ -29,11 +29,8 @@ export default function StartupPractices({
   pageData,
   faq,
 }: StartupPracticesProps) {
-  const tabsListingComponentData =
-  pageData && pageData['smarter-systems'] && pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
-// console.log(pageData, 'pageDat----')
 
-  return pageData?.slug?.includes('v2') ? (
+  return (
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {pageData['startup-practices-hero']?.componentData && (
@@ -45,22 +42,35 @@ export default function StartupPractices({
         />
       )}
 
+      <CategoryFeatureTabsSection
+        features={
+          pageData['grow-your-practice']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        variant="carouselwithcards"
+        sectionHeading={
+          pageData['grow-your-practice']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+      />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
-        <VerticalTestimonialListingv2
-          data={
-            pageData['testimonial-video-section']?.componentData?.refData
-              ?.testimonialListing
-          }
-        />
-      )}
+          <VerticalTestimonialListingv2
+            data={
+              pageData['testimonial-video-section']?.componentData?.refData
+                ?.testimonialListing
+            }
+          />
+        )}
       <StatisticsSection />
+
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
       )}
+
       <CategoryFeatureTabsSection
         features={
           pageData['manage-every-calls']?.componentData?.refData
@@ -68,65 +78,10 @@ export default function StartupPractices({
         }
         variant="scrollcarousel"
         sectionHeading={
-          pageData['manage-every-calls']?.componentData?.refData?.tabsListingComponent
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
         }
       />
-    </>
-  ) : (
-    <>
-      <SimpleHead data={pageData?.seo} />
-
-      <HeroWrapper>
-        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        {pageData['dental-phones-hero']?.componentData && (
-          <HeroSection
-            page=""
-            data={pageData['dental-phones-hero']?.componentData}
-          />
-        )}
-      </HeroWrapper>
-      {/* {tabsListingComponentData &&
-        <SingleTabCardListing data={tabsListingComponentData}/>
-      } */}
-      {pageData['testimonial-video-section']?.componentData && (
-        <VerticalTestimonialListing
-          data={
-            pageData['testimonial-video-section']?.componentData?.refData
-              ?.testimonialListing
-          }
-        />
-      )}
-      <StatisticsSection />
-      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
-        <StackCardTestimonial
-          data={
-            pageData['stack-card-tab-testimonial']?.componentData?.refData
-              ?.tabsListingComponent
-          }
-        />
-      ) : (
-        <StackCardTestimonial
-          data={pageData['stack-card-tab-testimonial']?.componentData}
-        />
-      )}
-      {pageData['integrations-listing']?.componentData && (
-        <div className="mt-12">
-          <IntegrationsGrid
-            data={pageData['integrations-listing']?.componentData}
-          />
-        </div>
-      )}
-      {pageData?.['startup-practices']?.componentData && (
-        <TabCardsListing
-          data={pageData?.['startup-practices']?.componentData}
-        />
-      )}
-
-      {/* {
-          tabsListingData && (<TabCardsListing data={tabsListingData} />)
-        } */}
-
-      {/* FAQ Section */}
       {faq && (
         <div>
           <FaqSection faqItems={faq} />

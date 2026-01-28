@@ -15,6 +15,11 @@ import Queries from '~/components/revamp/queries'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import features from '../phone-system/features'
+import { getFeaturesList } from '~/lib/sanity.queries'
+import { getClient } from '~/lib/sanity.client'
 
 interface WhoWeServeIndexProps {
   pageData: any
@@ -22,6 +27,7 @@ interface WhoWeServeIndexProps {
   comparisonTableData: any
   comparisonLegendData: any[] | null
   faq: any
+  features: any[]
 }
 
 export default function WhoWeServeIndex({
@@ -30,6 +36,7 @@ export default function WhoWeServeIndex({
   comparisonTableData,
   comparisonLegendData,
   faq,
+  features,
 }: WhoWeServeIndexProps) {
   console.log(pageData, 'fffffffff')
 
@@ -42,16 +49,25 @@ export default function WhoWeServeIndex({
           type="feature"
         />
       )}
+
       {pageData['logo-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logo-listing']?.componentData.blocksListingData}
         />
       )}
-      {pageData['how-voicestack-works'] && (
+
+      {pageData['why-dentists-to-voicestack']?.componentData && (
         <GroupedCardsGridSection
-          data={pageData['how-voicestack-works']?.componentData?.blocksListingData}
+          data={pageData['why-dentists-to-voicestack']?.componentData}
         />
       )}
+
+      {pageData['how-voicestack-works']?.componentData && (
+        <GroupedCardsGridSection
+          data={pageData['how-voicestack-works']?.componentData}
+        />
+      )}
+
       {pageData['power-of-ai'] && (
         <GroupedCardsGridSection
           data={pageData['power-of-ai']?.componentData}
@@ -60,13 +76,36 @@ export default function WhoWeServeIndex({
           sectionBorder="b"
         />
       )}
+
+      {pageData['stack-card-tab-testimonial'] && pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
+      )}
+
+      {pageData['category-feature-tabs']?.componentData && (
+        <CategoryFeatureTabsSection
+          features={features}
+          variant="carousel"
+          sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
+        />
+      )}
+
+      <StatisticsSection />
+      
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
       )}
-      <StatisticsSection />
     </>
   ) : (
     <>
@@ -131,7 +170,7 @@ export default function WhoWeServeIndex({
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const region = locale || 'en'
-
+  const client = getClient()
   try {
     // Get all pages
     const queries = new Queries('landing-v2', region)
@@ -149,11 +188,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
 
+    const features = await getFeaturesList(client, region)
+
     return {
       props: {
         pageData: pageData,
         region: region,
         faq: faqData,
+        features: features || [],
       },
     }
   } catch (error) {

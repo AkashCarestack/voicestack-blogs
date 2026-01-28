@@ -245,9 +245,10 @@ export default function ContentVideoTabsSection({
       // Calculate available viewport space below sticky header
       const availableSpace = viewportHeight - headerHeight;
       
-      // Center the section in the available viewport space
-      // We want the section's top to be at: headerHeight + (availableSpace - sectionHeight) / 2
-      const targetTopPosition = headerHeight + (availableSpace - sectionHeight) / 2;
+      // Mobile: align to top, Desktop: center the section
+      const targetTopPosition = isMobile 
+        ? headerHeight  // Mobile: align to top just below sticky header
+        : headerHeight + (availableSpace - sectionHeight) / 2;  // Desktop: center in viewport
       
       // Calculate scroll position to achieve this
       const scrollPosition = elementPosition - targetTopPosition;
@@ -580,14 +581,14 @@ export default function ContentVideoTabsSection({
               {tabs?.map((tab,i) => (
                 <section
                   key={tab.key}
-                  className={`md:min-h-screen min-h-auto md:pt-[160px] py-8`}
+                  className={`lg:min-h-screen min-h-auto md:pt-[160px] py-8`}
                 >
                   <div
                     ref={(el) => {
                       sectionRefs.current[tab.key] = el;
                     }}
                     data-tab-key={tab.key}
-                    className='md:h-[50vh] h-full flex flex-col lg:flex-row'
+                    className='lg:h-[50vh] h-full flex flex-col lg:flex-row'
                   >
                     <div className="flex flex-col justify-center">
                       {tab.category && (
@@ -641,7 +642,7 @@ export default function ContentVideoTabsSection({
                       ) : null}
 
                       {tab.ctaListItems && tab.ctaListItems.length > 0 ? (
-                        <div className="flex flex-col md:flex-row justify-start gap-4 md:mt-12 mt-6">
+                        <div className="flex flex-col md:flex-row align-start justify-start gap-4 md:mt-12 mt-6">
                           {tab.ctaListItems.map((btn: any, key: number) => (
                             <Button 
                               key={`${btn.ctaText}-${key}`} 
@@ -663,7 +664,7 @@ export default function ContentVideoTabsSection({
                     
                     {/* Mobile: Image/Video below each content section */}
                     <div className="lg:hidden w-full mt-8">
-                      <div className="w-full h-full md:h-[400px] rounded-2xl overflow-hidden bg-gray-100">
+                      <div className="w-full h-full lg:h-[400px] rounded-2xl overflow-hidden bg-gray-100">
                         {tab.video ? (
                           <div className="w-full h-full">
                             {(() => {
