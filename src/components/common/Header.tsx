@@ -444,9 +444,11 @@ const Header = ({ data, refer = null }) => {
                   </div>
 
                   <div className="lg:flex gap-6 items-center lg:justify-end hidden">
-                  <Button type="borderless" className="w-fit text-sm font-medium" link={'/pricing'}>
-                    {'Pricing'}
-                  </Button>
+                  {router.locale === 'en' && (
+                    <Button type="borderless" className="w-fit text-sm font-medium" link={'/pricing'}>
+                      {'Pricing'}
+                    </Button>
+                  )}
                     <Button type="primary" link="/demo">
                       <span className="text-sm font-medium">{`Book Free Demo`}</span>
                     </Button>

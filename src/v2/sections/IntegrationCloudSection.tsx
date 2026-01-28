@@ -70,10 +70,6 @@ const IntegrationCloudSection: React.FC<IntegrationsGridProps> = ({
   const heroImageUrl = urlForImage(heroImage)
   const heroImageAlt = heroImage?.altText || title
 
-  console.log(data,'data');
-  
-
-
   return (
     <Section 
       className={cn(" relative overflow-hidden bg-gray-50", className)}

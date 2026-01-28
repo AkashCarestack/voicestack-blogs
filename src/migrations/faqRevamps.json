@@ -1,211 +1,659 @@
 [
   {
-    "_id": "faq-revamp-voicestack-vs-mango-voice",
+    "_id": "faq-revamp-home-en-au",
     "_type": "faqRevamp",
-    "sectionName": "VoiceStack vs Mango Voice",
+    "language": "en-au",
+    "sectionName": "Home",
     "slug": {
       "_type": "slug",
-      "current": "voicestack-vs-mango-voice"
+      "current": "home-en-au"
     },
-    "faqCategories": [
-      {
-        "_type": "faqCategory",
-        "_key": "category-voicestack-vs-mango-voice",
-        "categoryName": "VoiceStack vs Mango Voice",
-        "questions": [
-          {
-            "_type": "faqItem",
-            "_key": "faq-item-1",
-            "question": "Why do practices switch from Mango Voice to VoiceStack?",
-            "answer": [
-              {
-                "_type": "block",
-                "_key": "block-1",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "Practices switch to VoiceStack because it's more than just a phone system - it's a modern communication platform built for practice growth. VoiceStack meets every standard need of a practice while offering AI-powered tools that automate routine tasks, improve efficiency, and help teams do more with less effort. Many practices report significant increases in productivity, improved patient communication, and measurable growth after switching."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "_type": "faqItem",
-            "_key": "faq-item-2",
-            "question": "Will I save money switching from Mango Voice to VoiceStack?",
-            "answer": [
-              {
-                "_type": "block",
-                "_key": "block-2",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "It depends on your exact Mango Voice subscription and what add-on software you may be using, but in many cases, yes! Larger practices often see substantial savings simply by upgrading to a modern, unified phone system. Others reduce costs by consolidating multiple software subscriptions into one integrated solution. Even beyond direct savings, many offices see increased profitability thanks to time-saving automation and improved call conversion rates."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "_type": "faqItem",
-            "_key": "faq-item-3",
-            "question": "Is VoiceStack easier to learn and use than Mango Voice?",
-            "answer": [
-              {
-                "_type": "block",
-                "_key": "block-3",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "We think so - absolutely! VoiceStack was designed with simplicity, speed, and scalability in mind. The interface is clean and intuitive, so your team can get up and running quickly. Plus, our onboarding specialists and support team make sure everyone feels confident using the system from day one."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "_type": "faqItem",
-            "_key": "faq-item-4",
-            "question": "If I switch from Mango Voice to VoiceStack, what features will I get?",
-            "answer": [
-              {
-                "_type": "block",
-                "_key": "block-4",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "VoiceStack includes everything you'd expect from a top-tier, modern phone system - plus powerful AI and marketing integrations that take it to another level."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "_type": "faqItem",
-            "_key": "faq-item-5",
-            "question": "What does the onboarding process look like?",
-            "answer": [
-              {
-                "_type": "block",
-                "_key": "block-5",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "Our onboarding process is designed to be simple and stress-free. Here's how it works:"
-                  }
-                ]
-              },
-              {
-                "_type": "block",
-                "_key": "block-5-2",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "Audit & Planning: We review your current phone setup, numbers, and call flows to identify opportunities for improvement."
-                  }
-                ]
-              },
-              {
-                "_type": "block",
-                "_key": "block-5-3",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "Configuration: Our team recreates and optimizes your processes within the VoiceStack environment."
-                  }
-                ]
-              },
-              {
-                "_type": "block",
-                "_key": "block-5-4",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "Migration: We port over your existing numbers with no downtime, ensuring a smooth and seamless transition."
-                  }
-                ]
-              },
-              {
-                "_type": "block",
-                "_key": "block-5-5",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "Training & Launch: We train your team and go live—with ongoing support whenever you need it."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "_type": "faqItem",
-            "_key": "faq-item-6",
-            "question": "Can I keep my current phone numbers and phones?",
-            "answer": [
-              {
-                "_type": "block",
-                "_key": "block-6",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "Yes! VoiceStack works with most SIP-enabled phones and conference systems. Prefer to go mobile or cloud-based? We also offer softphone options for desktop, laptop, and mobile devices - giving your team full flexibility."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "_type": "faqItem",
-            "_key": "faq-item-7",
-            "question": "Is it hard to switch from Mango Voice to VoiceStack?",
-            "answer": [
-              {
-                "_type": "block",
-                "_key": "block-7",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "Not at all. We handle all the technical details behind the scenes so you don't have to. From setup to number porting to team training, our team ensures your transition is smooth, fast, and interruption-free."
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "_type": "faqItem",
-            "_key": "faq-item-8",
-            "question": "How does VoiceStack improve my productivity?",
-            "answer": [
-              {
-                "_type": "block",
-                "_key": "block-8",
-                "style": "normal",
-                "children": [
-                  {
-                    "_type": "span",
-                    "text": "VoiceStack's AI-powered tools work around the clock to help your team stay efficient and responsive. During office hours, the AI Assistant can answer routine calls, route patients to the right team member, and automatically detect opportunities that need follow-up - saving your front desk hours each week. After hours, the same AI Assistant keeps working for you, answering calls, capturing missed opportunities, and even sending automated follow-up texts so no potential patient slips through the cracks. With VoiceStack handling repetitive communication tasks, your team can focus on what matters most - delivering an outstanding patient experience."
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "hideCategory": true,
-    "language": "en"
-  }
+    "hideCategory": false,
+  "faqCategories": [
+    {
+      "_key": "voip-call-routing-front-desk",
+      "_type": "faqCategory",
+      "categoryName": "VoIP, Call Routing, and Front Desk Workflow",
+      "questions": [
+        {
+          "_key": "voip-1",
+          "_type": "faqItem",
+          "question": "How does VoiceStack integrate with our existing phone numbers and hardware?",
+          "answer": [
+            {
+              "_key": "voip-1-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "voip-1-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "You can keep all your existing numbers. Porting is quick and easy, and VoiceStack runs smoothly on desk phones, mobile devices, and computers."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "voip-2",
+          "_type": "faqItem",
+          "question": "What is an IVR, and how can it be used for multi-location practices?",
+          "answer": [
+            {
+              "_key": "voip-2-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "voip-2-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "An IVR is a guided phone menu that directs patients to the correct department or location. It simplifies routing for practices with multiple clinics."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "voip-3",
+          "_type": "faqItem",
+          "question": "How do we track and manage missed calls or dropped calls in the IVR?",
+          "answer": [
+            {
+              "_key": "voip-3-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "voip-3-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "A real-time dashboard alerts you to missed or abandoned calls, including the exact point at which the call dropped, and automatically creates follow-up tasks."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "voip-4",
+          "_type": "faqItem",
+          "question": "Can team members answer calls remotely on VoiceStack?",
+          "answer": [
+            {
+              "_key": "voip-4-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "voip-4-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. The platform fully supports remote agents through both our desktop app and mobile app."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "voip-5",
+          "_type": "faqItem",
+          "question": "What analytics do we gain from call flows and routing?",
+          "answer": [
+            {
+              "_key": "voip-5-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "voip-5-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "You can view routing paths, bottlenecks, drop points, answer performance, call-handling time, and workflow-efficiency metrics."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "voip-6",
+          "_type": "faqItem",
+          "question": "How quickly can we implement VoiceStack?",
+          "answer": [
+            {
+              "_key": "voip-6-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "voip-6-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Most practices complete implementation within 3-4 days. Larger multi-location groups may take slightly longer depending on routing complexity."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_key": "ai-receptionist-conversational",
+      "_type": "faqCategory",
+      "categoryName": "AI Receptionist and Conversational AI",
+      "questions": [
+        {
+          "_key": "ai-1",
+          "_type": "faqItem",
+          "question": "How does an AI receptionist handle new patient calls and appointment scheduling?",
+          "answer": [
+            {
+              "_key": "ai-1-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ai-1-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "It greets callers, identifies the reason for the call, answers common questions, and guides the patient to booking or rescheduling. When needed, it hands the call to a live team member."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "ai-2",
+          "_type": "faqItem",
+          "question": "Can the AI receptionist work after hours and during peak call times to ensure no calls are missed?",
+          "answer": [
+            {
+              "_key": "ai-2-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ai-2-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. It operates around the clock and handles overflow during busy hours, so every patient reaches help without waiting."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "ai-3",
+          "_type": "faqItem",
+          "question": "Will the AI recognise specialty-specific terms and questions?",
+          "answer": [
+            {
+              "_key": "ai-3-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ai-3-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. It is trained to accurately recognise specialty-specific terms, coverage questions, urgent needs, and everyday enquiries."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "ai-4",
+          "_type": "faqItem",
+          "question": "How does the AI determine when to route a call to a live person?",
+          "answer": [
+            {
+              "_key": "ai-4-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ai-4-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "VoiceStack assesses the caller's intent, urgency, and complexity. If human assistance is needed, the AI transfers the call immediately."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "ai-5",
+          "_type": "faqItem",
+          "question": "Can the AI make outbound calls for recalls or follow-ups?",
+          "answer": [
+            {
+              "_key": "ai-5-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ai-5-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. It can initiate hygiene recalls, treatment follow-ups, reminders, and other routine outbound tasks."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "ai-6",
+          "_type": "faqItem",
+          "question": "What happens if a caller's question is outside the AI's programming?",
+          "answer": [
+            {
+              "_key": "ai-6-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ai-6-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "The AI hands the call off to a team member and summarises the context so the team can respond appropriately."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "ai-7",
+          "_type": "faqItem",
+          "question": "Can we customise the AI's tone?",
+          "answer": [
+            {
+              "_key": "ai-7-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "ai-7-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. You can adjust voice style, greeting messages, and the entire call experience to match your practice."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_key": "call-tracking-analytics-marketing",
+      "_type": "faqCategory",
+      "categoryName": "Call Tracking, Analytics, and Marketing Attribution",
+      "questions": [
+        {
+          "_key": "tracking-1",
+          "_type": "faqItem",
+          "question": "Does VoiceStack support features such as dynamic number insertion, keyword-level tracking, call recording, and tagging?",
+          "answer": [
+            {
+              "_key": "tracking-1-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "tracking-1-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. VoiceStack includes dynamic number insertion, keyword-level tracking, call recording, and tagging. Each visitor from a campaign gets a unique number so you can see exactly which ads or keywords drove the patient."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "tracking-2",
+          "_type": "faqItem",
+          "question": "Does VoiceStack integrate directly with Google Ads?",
+          "answer": [
+            {
+              "_key": "tracking-2-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "tracking-2-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. VoiceStack integrates with Google Ads and can send conversion events directly, helping improve and optimise your Google Ads performance."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "tracking-3",
+          "_type": "faqItem",
+          "question": "Can we monitor which keywords or campaigns lead to booked appointments?",
+          "answer": [
+            {
+              "_key": "tracking-3-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "tracking-3-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. VoiceStack links call outcome data with campaign sources and keyword data so you can see which ones convert."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "tracking-4",
+          "_type": "faqItem",
+          "question": "How can call transcripts, conversation summaries, and scoring help improve front practice performance?",
+          "answer": [
+            {
+              "_key": "tracking-4-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "tracking-4-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Transcripts reveal missed opportunities and patient intent. Conversation summaries give a quick snapshot of past interactions, and scorecards support effective coaching."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "tracking-5",
+          "_type": "faqItem",
+          "question": "How fast does the dashboard refresh with new call data and AI insights?",
+          "answer": [
+            {
+              "_key": "tracking-5-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "tracking-5-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Updates are reflected in real time, allowing you to track call activity and team performance instantly."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "tracking-6",
+          "_type": "faqItem",
+          "question": "What metrics should we track in VoiceStack?",
+          "answer": [
+            {
+              "_key": "tracking-6-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "tracking-6-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Key metrics include answer rate, missed call response rate, conversion rate, call source, call outcomes and reasons, team performance, and marketing attribution."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "tracking-7",
+          "_type": "faqItem",
+          "question": "How does VoiceStack identify and surface potential revenue opportunities?",
+          "answer": [
+            {
+              "_key": "tracking-7-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "tracking-7-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "VoiceStack flags any call where the purpose is appointment booking, but the outcome is not booked. These are grouped into a Potential Opportunity bucket, making it easy to identify and convert high-value calls."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_key": "integrations-practice-management",
+      "_type": "faqCategory",
+      "categoryName": "Integrations and Practice Management Systems",
+      "questions": [
+        {
+          "_key": "integration-1",
+          "_type": "faqItem",
+          "question": "Does VoiceStack integrate with major practice management systems?",
+          "answer": [
+            {
+              "_key": "integration-1-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "integration-1-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. It works with leading practice management and business systems across multiple specialties."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "integration-2",
+          "_type": "faqItem",
+          "question": "Can call data and transcripts sync with our CRM or marketing platforms?",
+          "answer": [
+            {
+              "_key": "integration-2-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "integration-2-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. You can automate tasks, track conversions, and push call outcomes directly into your CRM and marketing dashboards."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "integration-3",
+          "_type": "faqItem",
+          "question": "Will VoiceStack support practices operating in multiple locations or different time zones?",
+          "answer": [
+            {
+              "_key": "integration-3-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "integration-3-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. It is designed for single-practice and multi-location groups, with location-specific routing and time zone handling."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "integration-4",
+          "_type": "faqItem",
+          "question": "How secure is the integration with PMS and CRM platforms?",
+          "answer": [
+            {
+              "_key": "integration-4-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "integration-4-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "All integrations adhere to strict healthcare security standards and are fully HIPAA-compliant. Data is stored, transmitted, and accessed through secure, encrypted systems to protect patient information at every step."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "integration-5",
+          "_type": "faqItem",
+          "question": "Does VoiceStack integrate with major CRMs?",
+          "answer": [
+            {
+              "_key": "integration-5-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "integration-5-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes, VoiceStack integrates with leading CRMs, including HubSpot, GoHighLevel, Twenty.com, and more."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_key": "roi-security-implementation",
+      "_type": "faqCategory",
+      "categoryName": "ROI, Security, and Implementation",
+      "questions": [
+        {
+          "_key": "roi-1",
+          "_type": "faqItem",
+          "question": "What is the expected return on investment when using VoiceStack?",
+          "answer": [
+            {
+              "_key": "roi-1-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "roi-1-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Practices see ROI through more answered calls, higher new-patient conversion rates, better marketing attribution, reduced team stress, and improved operational efficiency."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "roi-2",
+          "_type": "faqItem",
+          "question": "Is patient data stored securely and handled safely?",
+          "answer": [
+            {
+              "_key": "roi-2-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "roi-2-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Yes. All call recordings, transcripts, and analytics are stored with strict privacy controls, secure encryption, and complete HIPAA compliance."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "roi-3",
+          "_type": "faqItem",
+          "question": "What kind of training and ongoing support does VoiceStack provide?",
+          "answer": [
+            {
+              "_key": "roi-3-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "roi-3-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "We provide comprehensive pre-go-live training, including videos and documentation. After going live, you receive two hours of dedicated training plus on-demand sessions as needed. Our team offers ongoing assistance from 8.00 AM to 7.00 PM EST."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        },
+        {
+          "_key": "roi-4",
+          "_type": "faqItem",
+          "question": "Are there additional costs we should be aware of?",
+          "answer": [
+            {
+              "_key": "roi-4-answer",
+              "_type": "block",
+              "children": [
+                {
+                  "_key": "roi-4-text",
+                  "_type": "span",
+                  "marks": [],
+                  "text": "Pricing is transparent. DNI numbers and the VoiceBot feature are available as optional add-ons, and there are no unexpected costs beyond what you choose."
+                }
+              ],
+              "markDefs": [],
+              "style": "normal"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
 ]
-

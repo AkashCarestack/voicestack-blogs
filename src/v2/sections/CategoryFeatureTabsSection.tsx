@@ -1045,6 +1045,7 @@ export default function CategoryFeatureTabsSection({
               isShowImage={false}
               shadow={false}
               isSkip={true}
+              fullWidth={true}
             />
           </div>
 
@@ -1113,7 +1114,7 @@ export default function CategoryFeatureTabsSection({
                             />
                           </div>
                           {category?.mainImage && (
-                            <div className={`w-full h-full ${category?.features && category?.features.length > 0 ? "md:min-h-[500px]" : "h-full"} relative flex items-end justify-center`}>
+                            <div className={`w-full h-full md:min-h-[500px] relative flex items-end justify-center`}>
                               <figure className="relative w-full h-full flex items-end justify-center">
                                 <ImageLoader
                                   image={category.mainImage}

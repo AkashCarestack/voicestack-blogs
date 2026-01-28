@@ -107,12 +107,12 @@ export default function DentalPhonesIndex({
         />
       )}
         <CategoryFeatureTabsSection
-        features={features}
-        variant="carousel"
-        sectionHeading={
-          pageData['category-feature-tabs']?.componentData?.sectionHeading
-        }
-      />
+          features={features}
+          variant="carousel"
+          sectionHeading={
+            pageData['category-feature-tabs']?.componentData?.sectionHeading
+          }
+        />
       {pageData['card-with-image'] && (
         <GroupedCardsGridSection
           data={pageData['card-with-image']?.componentData}
