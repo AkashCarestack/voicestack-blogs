@@ -106,6 +106,12 @@ export default function WhoWeServeIndex({
           theme="dark"
         />
       )}
+
+    {faq && (
+        <div>
+          <FaqSection faqItems={faq} />
+        </div>
+      )}
     </>
   ) : (
     <>
