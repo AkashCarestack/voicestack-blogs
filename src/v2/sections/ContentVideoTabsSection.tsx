@@ -593,7 +593,7 @@ export default function ContentVideoTabsSection({
                     <div className="flex flex-col justify-center">
                       {tab.category && (
                         <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
-                          {tab.subHeading}
+                          {tab.category}
                         </span>
                       )}
                       <h3 className="my-3 text-gray-900 md:text-4xl  text-2xl font-manrope font-semibold leading-[133.33%] tracking-normal">
