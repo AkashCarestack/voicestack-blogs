@@ -6,6 +6,7 @@ import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import Queries from '~/components/revamp/queries'
+import FeatureHero from '~/v2/sections/FeatureHero'
 import ReviewTestimonialV2 from '~/v2/sections/ReviewTestimonialV2'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
@@ -21,12 +22,13 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
       <SimpleHead data={pageData?.seo} />
     
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        <HeroSection
+        {/* <HeroSection
           page=""
           showFullDescription={true}
           data={pageData['dental-phones-hero']?.componentData}
           isCentered={true}
-        />
+        /> */}
+        <FeatureHero data={pageData['dental-phones-hero']} type="feature"   isCentered={true} />
         {pageData['testimonial-video-section']?.componentData && (
           <VerticalTestimonialListing
             showBookFeeBtn={false}
