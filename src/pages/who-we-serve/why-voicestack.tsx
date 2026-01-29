@@ -36,7 +36,7 @@ export default function WhyVoicestackIndex({
           data['grow-your-practice']?.componentData?.refData
             ?.tabsListingComponent
         }
-         variant="carouselwithcards"
+        variant="carouselwithcards"
         sectionHeading={
           data['grow-your-practice']?.componentData?.refData
             ?.tabsListingComponent
@@ -86,14 +86,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         : `why-voicestack-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whyVoicestack', slug)
 
-    
-    if(!pageData){
+
+    if (!pageData) {
       return {
         notFound: true
       }
     }
     pageData.slug = slug
-    
+
     const heroData = pageData?.['why-voicestack-hero']?.componentData || null
 
     // Fetch features data for CategoryFeatureTabs

@@ -399,7 +399,7 @@ export default function CategoryFeatureTabsSection({
     const firstCategory = allCategories[0];
     const pillItems = firstCategory.features || [];
     // console.log(firstCategory,'firstCategory');
-    
+
 
     return (
       <Section
