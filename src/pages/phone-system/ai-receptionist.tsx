@@ -17,6 +17,7 @@ import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
+import ReceptionistTeamSection from '~/v2/sections/ReceptionistTeamSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -75,7 +76,7 @@ export default function AiReceptionist({
 
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
-  
+
   // const comparisonTableTitle = pageData['comparison-table']?.componentData
   const comparisonSectionData = {
     strip: comparisonTableComponent?.title,
@@ -83,6 +84,7 @@ export default function AiReceptionist({
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
+
   return (
     <>
       <SimpleHead data={pageData?.seo} />
@@ -97,9 +99,15 @@ export default function AiReceptionist({
         />
       )}
 
-      
+      {pageData['receptionist-team']?.componentData && (
+        <ReceptionistTeamSection
+          data={pageData['receptionist-team']?.componentData}
+        />
+      )}
+
+
       {pageData['offer']?.componentData && (
-        <OfferSection data={pageData['offer']?.componentData} variant='compact'/>
+        <OfferSection data={pageData['offer']?.componentData} variant='compact' />
       )}
 
       {comparisonTableData && (
@@ -115,12 +123,12 @@ export default function AiReceptionist({
           theme="dark"
         />
       )}
-       {pageData['feature-testimonials-section-single']?.componentData && (
+      {pageData['feature-testimonials-section-single']?.componentData && (
         <FeatureTestimonialsSection
           data={pageData['feature-testimonials-section-single']?.componentData}
         />
       )}
-      
+
 
       {faq && <FaqSection faqItems={faq} />}
     </>
