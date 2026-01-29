@@ -114,18 +114,18 @@ export default function ContentVideoTabsSection({
     if (manualTabs && manualTabs.length > 0) {
       return manualTabs;
     }
-    
+
     if (data?.tabs && Array.isArray(data.tabs) && data.tabs.length > 0) {
       return data.tabs.map((tab: any, index: number) => {
         const tabKey = tab._key || `tab-${index}`;
-        
+
         // Get image URL - handle multiple cases (similar to imageLoader logic)
         let imageUrl = null;
         if (tab.image) {
           // Check if image has direct URL (resolved image)
           if (tab.image.url) {
             imageUrl = tab.image.url;
-          } 
+          }
           // Check if image has asset._ref (standard Sanity structure)
           else if (tab.image.asset?._ref) {
             imageUrl = urlForImage(tab.image);
@@ -137,17 +137,17 @@ export default function ContentVideoTabsSection({
               : tab.image.asset
                 ? tab.image.asset._id
                 : tab.image._id || tab.image.asset?._id || tab.image;
-            
+
             imageUrl = urlForImage(imageID);
           }
         }
-        
+
         // Process video data - normalize videoPlatform if it exists
         let video = null;
         if (tab.genericVideo) {
           // Debug: Log the raw genericVideo data
           console.log(`Tab ${index + 1} raw genericVideo:`, tab.genericVideo);
-          
+
           if (hasValidVideo(tab.genericVideo)) {
             video = { ...tab.genericVideo };
             // Normalize videoPlatform to lowercase and trim whitespace
@@ -157,10 +157,10 @@ export default function ContentVideoTabsSection({
               // Extract the first valid platform
               const validPlatforms = ['youtube', 'vimeo', 'vidyard'];
               const platformParts = normalizedPlatform.split(/[,\s]+and\s+|[,\s]+/);
-              const foundPlatform = platformParts.find((p: string) => 
+              const foundPlatform = platformParts.find((p: string) =>
                 validPlatforms.includes(p.trim())
               );
-              
+
               if (foundPlatform) {
                 video.videoPlatform = foundPlatform.trim();
               } else if (validPlatforms.includes(normalizedPlatform)) {
@@ -188,7 +188,7 @@ export default function ContentVideoTabsSection({
             });
           }
         }
-        
+
         const tabData = {
           key: tabKey,
           title: tab.tabSubHeading || tab.tabHeading || `Tab ${index + 1}`,
@@ -205,11 +205,11 @@ export default function ContentVideoTabsSection({
           thumbnail: imageUrl,
           image: tab.image,
         };
-        
+
         return tabData;
       });
     }
-    
+
     return [];
   }, [data, manualTabs]);
 
@@ -228,28 +228,28 @@ export default function ContentVideoTabsSection({
     if (section) {
       // Calculate sticky header height dynamically
       const stickyTabsHeight = stickyTabsRef.current?.offsetHeight || 0;
-      
+
       // Mobile: top-[80px] + tabs height, Desktop: top-[70px] + tabs height
       const isMobile = window.innerWidth < 1024; // lg breakpoint
       const stickyTopOffset = isMobile ? 80 : 70;
       const headerHeight = stickyTopOffset + stickyTabsHeight;
-      
+
       // Get element's position relative to document
       const rect = section.getBoundingClientRect();
       const elementPosition = rect.top + window.scrollY;
-      
+
       // Calculate viewport dimensions
       const viewportHeight = window.innerHeight;
       const sectionHeight = section.offsetHeight;
-      
+
       // Calculate available viewport space below sticky header
       const availableSpace = viewportHeight - headerHeight;
-      
+
       // Mobile: align to top, Desktop: center the section
-      const targetTopPosition = isMobile 
+      const targetTopPosition = isMobile
         ? headerHeight  // Mobile: align to top just below sticky header
         : headerHeight + (availableSpace - sectionHeight) / 2;  // Desktop: center in viewport
-      
+
       // Calculate scroll position to achieve this
       const scrollPosition = elementPosition - targetTopPosition;
 
@@ -341,16 +341,16 @@ export default function ContentVideoTabsSection({
   }
 
   const currentTabData = (tabs.find(tab => tab.key === activeTab) || tabs[0]) as TabItem;
-  
+
   // Get overview video from data.overviewVideo - handles all video types
   const getOverviewVideo = () => {
     if (!data?.overviewVideo || !Array.isArray(data.overviewVideo) || data.overviewVideo.length === 0) {
       return null;
     }
-    
+
     const firstVideo = data.overviewVideo[0];
     if (!firstVideo) return null;
-    
+
     // Check for uploaded videos array (plural)
     if (firstVideo.uploadedVideos && Array.isArray(firstVideo.uploadedVideos) && firstVideo.uploadedVideos.length > 0) {
       // Find MP4 video
@@ -363,31 +363,31 @@ export default function ContentVideoTabsSection({
         };
       }
     }
-    
+
     // Check for single uploaded video (from Sanity asset)
     if (firstVideo.uploadedVideo) {
       return {
         uploadedVideo: firstVideo.uploadedVideo,
       };
     }
-    
+
     // Check for direct video URL
     if (firstVideo.videoUrl) {
       return {
         videoUrl: firstVideo.videoUrl,
       };
     }
-    
+
     // Check for platform-based video (YouTube, Vimeo, Vidyard)
     if (firstVideo.videoId && firstVideo.videoPlatform) {
       let normalizedPlatform = firstVideo.videoPlatform.toLowerCase().trim();
       // Handle comma-separated values
       const validPlatforms = ['youtube', 'vimeo', 'vidyard'];
       const platformParts = normalizedPlatform.split(/[,\s]+and\s+|[,\s]+/);
-      const foundPlatform = platformParts.find((p: string) => 
+      const foundPlatform = platformParts.find((p: string) =>
         validPlatforms.includes(p.trim())
       );
-      
+
       if (foundPlatform && validPlatforms.includes(foundPlatform.trim())) {
         return {
           videoId: firstVideo.videoId,
@@ -400,12 +400,12 @@ export default function ContentVideoTabsSection({
         };
       }
     }
-    
+
     return null;
   };
-  
+
   const overviewVideo = getOverviewVideo();
-  
+
   // Debug: Log overview video data
   if (data?.overviewVideo) {
     console.log('Overview Video Data:', {
@@ -413,7 +413,7 @@ export default function ContentVideoTabsSection({
       processed: overviewVideo,
     });
   }
-  
+
   // Portable text components for description
   const portableTextComponents = {
     block: {
@@ -445,18 +445,18 @@ export default function ContentVideoTabsSection({
       bullet: ({ children }: any) => (
         <div className="flex gap-2 items-start px-0 py-1.5">
           <div className="flex items-center px-0 py-1 shrink-0">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="16" 
-              height="16" 
-              viewBox="0 0 16 16" 
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
               fill="none"
               className="shrink-0"
             >
-              <path 
-                fillRule="evenodd" 
-                clipRule="evenodd" 
-                d="M13.363 3.32248C13.4259 3.37018 13.4787 3.4298 13.5184 3.49794C13.5582 3.56607 13.5841 3.64138 13.5948 3.71955C13.6054 3.79772 13.6005 3.87722 13.5804 3.9535C13.5602 4.02977 13.5252 4.10133 13.4774 4.16408L7.07743 12.5641C7.02552 12.6321 6.95965 12.6883 6.88424 12.7288C6.80884 12.7692 6.72565 12.7931 6.64025 12.7988C6.55486 12.8045 6.46923 12.7918 6.38913 12.7617C6.30903 12.7316 6.2363 12.6846 6.17583 12.6241L2.57583 9.02408C2.46984 8.91034 2.41215 8.7599 2.41489 8.60446C2.41763 8.44902 2.4806 8.30071 2.59053 8.19078C2.70046 8.08085 2.84877 8.01788 3.00421 8.01513C3.15965 8.01239 3.31009 8.07009 3.42383 8.17608L6.53903 11.2905L12.523 3.43688C12.6193 3.31044 12.7619 3.22738 12.9194 3.20593C13.0769 3.18448 13.2364 3.2264 13.363 3.32248Z" 
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M13.363 3.32248C13.4259 3.37018 13.4787 3.4298 13.5184 3.49794C13.5582 3.56607 13.5841 3.64138 13.5948 3.71955C13.6054 3.79772 13.6005 3.87722 13.5804 3.9535C13.5602 4.02977 13.5252 4.10133 13.4774 4.16408L7.07743 12.5641C7.02552 12.6321 6.95965 12.6883 6.88424 12.7288C6.80884 12.7692 6.72565 12.7931 6.64025 12.7988C6.55486 12.8045 6.46923 12.7918 6.38913 12.7617C6.30903 12.7316 6.2363 12.6846 6.17583 12.6241L2.57583 9.02408C2.46984 8.91034 2.41215 8.7599 2.41489 8.60446C2.41763 8.44902 2.4806 8.30071 2.59053 8.19078C2.70046 8.08085 2.84877 8.01788 3.00421 8.01513C3.15965 8.01239 3.31009 8.07009 3.42383 8.17608L6.53903 11.2905L12.523 3.43688C12.6193 3.31044 12.7619 3.22738 12.9194 3.20593C13.0769 3.18448 13.2364 3.2264 13.363 3.32248Z"
                 fill="#99A1AF"
               />
             </svg>
@@ -469,18 +469,18 @@ export default function ContentVideoTabsSection({
       number: ({ children }: any) => (
         <div className="flex gap-2 items-start px-0 py-1.5">
           <div className="flex items-center px-0 py-1 shrink-0">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              width="16" 
-              height="16" 
-              viewBox="0 0 16 16" 
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
               fill="none"
               className="shrink-0"
             >
-              <path 
-                fillRule="evenodd" 
-                clipRule="evenodd" 
-                d="M13.363 3.32248C13.4259 3.37018 13.4787 3.4298 13.5184 3.49794C13.5582 3.56607 13.5841 3.64138 13.5948 3.71955C13.6054 3.79772 13.6005 3.87722 13.5804 3.9535C13.5602 4.02977 13.5252 4.10133 13.4774 4.16408L7.07743 12.5641C7.02552 12.6321 6.95965 12.6883 6.88424 12.7288C6.80884 12.7692 6.72565 12.7931 6.64025 12.7988C6.55486 12.8045 6.46923 12.7918 6.38913 12.7617C6.30903 12.7316 6.2363 12.6846 6.17583 12.6241L2.57583 9.02408C2.46984 8.91034 2.41215 8.7599 2.41489 8.60446C2.41763 8.44902 2.4806 8.30071 2.59053 8.19078C2.70046 8.08085 2.84877 8.01788 3.00421 8.01513C3.15965 8.01239 3.31009 8.07009 3.42383 8.17608L6.53903 11.2905L12.523 3.43688C12.6193 3.31044 12.7619 3.22738 12.9194 3.20593C13.0769 3.18448 13.2364 3.2264 13.363 3.32248Z" 
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M13.363 3.32248C13.4259 3.37018 13.4787 3.4298 13.5184 3.49794C13.5582 3.56607 13.5841 3.64138 13.5948 3.71955C13.6054 3.79772 13.6005 3.87722 13.5804 3.9535C13.5602 4.02977 13.5252 4.10133 13.4774 4.16408L7.07743 12.5641C7.02552 12.6321 6.95965 12.6883 6.88424 12.7288C6.80884 12.7692 6.72565 12.7931 6.64025 12.7988C6.55486 12.8045 6.46923 12.7918 6.38913 12.7617C6.30903 12.7316 6.2363 12.6846 6.17583 12.6241L2.57583 9.02408C2.46984 8.91034 2.41215 8.7599 2.41489 8.60446C2.41763 8.44902 2.4806 8.30071 2.59053 8.19078C2.70046 8.08085 2.84877 8.01788 3.00421 8.01513C3.15965 8.01239 3.31009 8.07009 3.42383 8.17608L6.53903 11.2905L12.523 3.43688C12.6193 3.31044 12.7619 3.22738 12.9194 3.20593C13.0769 3.18448 13.2364 3.2264 13.363 3.32248Z"
                 fill="#99A1AF"
               />
             </svg>
@@ -534,7 +534,7 @@ export default function ContentVideoTabsSection({
   return (
     <Section className={cn("w-full flex flex-col !bg-white", containerClassName)}>
       <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
-      <div className="flex-col relative w-full flex gap-16">
+        <div className="flex-col relative w-full flex gap-16">
           <SectionHeaderV2
             heading={data?.sectionHeadingDynamic}
             description={data?.description || data?.subDescription}
@@ -551,34 +551,34 @@ export default function ContentVideoTabsSection({
             </div>
           )}
 
-        <div 
-          ref={stickyTabsRef}
-          data-sticky-tabs
-          // className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
-          className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
+          <div
+            ref={stickyTabsRef}
+            data-sticky-tabs
+            // className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
+            className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
 
-        >
-          <SwitchableTabs
-            data={tabs.map(tab => ({
-              id: tab.key,
-              key: tab.key,
-              title: tab.title,
-              testimonial: null,
-              setActiveTab: handleTabClick,
-            })) as IdataProps[]}
-            setActiveTab={handleTabClick}
-            activeTab={activeTab}
-            isSticky={false}
-            className="md:py-2 bg-transparent !shadow-none !border-none"
-            isShowImage={false}
-            shadow={false}
-            isSkip={true}
-          />
-        </div>
+          >
+            <SwitchableTabs
+              data={tabs.map(tab => ({
+                id: tab.key,
+                key: tab.key,
+                title: tab.title,
+                testimonial: null,
+                setActiveTab: handleTabClick,
+              })) as IdataProps[]}
+              setActiveTab={handleTabClick}
+              activeTab={activeTab}
+              isSticky={false}
+              className="md:py-2 bg-transparent !shadow-none !border-none"
+              isShowImage={false}
+              shadow={false}
+              isSkip={true}
+            />
+          </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:px-12 px-4 ">
             {/* Left: Scrollable Content Sections */}
             <div className="w-full lg:max-w-[503px]">
-              {tabs?.map((tab,i) => (
+              {tabs?.map((tab, i) => (
                 <section
                   key={tab.key}
                   className={`lg:min-h-screen min-h-auto md:pt-[160px] py-8`}
@@ -593,18 +593,18 @@ export default function ContentVideoTabsSection({
                     <div className="flex flex-col justify-center">
                       {tab.category && (
                         <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
-                         {tab.subHeading}
+                          {tab.subHeading}
                         </span>
                       )}
                       <h3 className="my-3 text-gray-900 md:text-4xl  text-2xl font-manrope font-semibold leading-[133.33%] tracking-normal">
-                      {tab.heading} 
+                        {tab.heading}
                       </h3>
                       {tab.description && Array.isArray(tab.description) && tab.description.length > 0 ? (
                         <div className="text-gray-500 md:text-lg text-base font-geist font-normal leading-[155.55%] tracking-normal">
                           <PortableText value={tab.description} components={portableTextComponents} />
                         </div>
                       ) : null}
-                      
+
                       {tab.content && Array.isArray(tab.content) && tab.content.length > 0 ? (
                         <div className="mt-4">
                           <PortableText value={tab.content} components={contentTextComponents} />
@@ -617,18 +617,18 @@ export default function ContentVideoTabsSection({
                               className="flex gap-2 items-start px-0 py-1.5"
                             >
                               <div className="flex items-center px-0 py-1 shrink-0">
-                                <svg 
-                                  xmlns="http://www.w3.org/2000/svg" 
-                                  width="16" 
-                                  height="16" 
-                                  viewBox="0 0 16 16" 
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  viewBox="0 0 16 16"
                                   fill="none"
                                   className="shrink-0"
                                 >
-                                  <path 
-                                    fillRule="evenodd" 
-                                    clipRule="evenodd" 
-                                    d="M13.363 3.32248C13.4259 3.37018 13.4787 3.4298 13.5184 3.49794C13.5582 3.56607 13.5841 3.64138 13.5948 3.71955C13.6054 3.79772 13.6005 3.87722 13.5804 3.9535C13.5602 4.02977 13.5252 4.10133 13.4774 4.16408L7.07743 12.5641C7.02552 12.6321 6.95965 12.6883 6.88424 12.7288C6.80884 12.7692 6.72565 12.7931 6.64025 12.7988C6.55486 12.8045 6.46923 12.7918 6.38913 12.7617C6.30903 12.7316 6.2363 12.6846 6.17583 12.6241L2.57583 9.02408C2.46984 8.91034 2.41215 8.7599 2.41489 8.60446C2.41763 8.44902 2.4806 8.30071 2.59053 8.19078C2.70046 8.08085 2.84877 8.01788 3.00421 8.01513C3.15965 8.01239 3.31009 8.07009 3.42383 8.17608L6.53903 11.2905L12.523 3.43688C12.6193 3.31044 12.7619 3.22738 12.9194 3.20593C13.0769 3.18448 13.2364 3.2264 13.363 3.32248Z" 
+                                  <path
+                                    fillRule="evenodd"
+                                    clipRule="evenodd"
+                                    d="M13.363 3.32248C13.4259 3.37018 13.4787 3.4298 13.5184 3.49794C13.5582 3.56607 13.5841 3.64138 13.5948 3.71955C13.6054 3.79772 13.6005 3.87722 13.5804 3.9535C13.5602 4.02977 13.5252 4.10133 13.4774 4.16408L7.07743 12.5641C7.02552 12.6321 6.95965 12.6883 6.88424 12.7288C6.80884 12.7692 6.72565 12.7931 6.64025 12.7988C6.55486 12.8045 6.46923 12.7918 6.38913 12.7617C6.30903 12.7316 6.2363 12.6846 6.17583 12.6241L2.57583 9.02408C2.46984 8.91034 2.41215 8.7599 2.41489 8.60446C2.41763 8.44902 2.4806 8.30071 2.59053 8.19078C2.70046 8.08085 2.84877 8.01788 3.00421 8.01513C3.15965 8.01239 3.31009 8.07009 3.42383 8.17608L6.53903 11.2905L12.523 3.43688C12.6193 3.31044 12.7619 3.22738 12.9194 3.20593C13.0769 3.18448 13.2364 3.2264 13.363 3.32248Z"
                                     fill="#030712"
                                   />
                                 </svg>
@@ -644,9 +644,9 @@ export default function ContentVideoTabsSection({
                       {tab.ctaListItems && tab.ctaListItems.length > 0 ? (
                         <div className="flex flex-col md:flex-row align-start justify-start gap-4 md:mt-12 mt-6">
                           {tab.ctaListItems.map((btn: any, key: number) => (
-                            <Button 
-                              key={`${btn.ctaText}-${key}`} 
-                              type={btn?.ctaType || 'primary'} 
+                            <Button
+                              key={`${btn.ctaText}-${key}`}
+                              type={btn?.ctaType || 'primary'}
                               link={btn.ctaLink || '/demo'}
                             >
                               <span className="text-sm font-medium">{btn.ctaText}</span>
@@ -661,7 +661,7 @@ export default function ContentVideoTabsSection({
                         </div>
                       ) : null}
                     </div>
-                    
+
                     {/* Mobile: Image/Video below each content section */}
                     <div className="lg:hidden w-full mt-8">
                       <div className="w-full h-full lg:h-[400px] rounded-2xl overflow-hidden bg-gray-100">
@@ -682,8 +682,8 @@ export default function ContentVideoTabsSection({
                           </div>
                         ) : tab.thumbnail ? (
                           <div className="w-full h-full relative">
-                            <img 
-                              src={tab.thumbnail as string} 
+                            <img
+                              src={tab.thumbnail as string}
                               alt={tab.heading}
                               className="w-full h-full object-cover rounded-2xl"
                             />
@@ -701,7 +701,7 @@ export default function ContentVideoTabsSection({
             </div>
 
             {/* Right: Sticky Video Player - Changes based on activeTab - Desktop Only */}
-            <div 
+            <div
               className="hidden lg:flex w-full lg:sticky lg:top-[200px] lg:self-start"
               style={{
                 backfaceVisibility: 'hidden',
@@ -728,7 +728,7 @@ export default function ContentVideoTabsSection({
                 ) : currentTabData.thumbnail ? (
                   <div className="w-full h-full relative">
                     <ImageLoader
-                      image={currentTabData.thumbnail as string} 
+                      image={currentTabData.thumbnail as string}
                       alt={currentTabData.heading}
                       className="w-full h-full object-cover md:rounded-2xl rounded-none"
                     />
@@ -742,7 +742,7 @@ export default function ContentVideoTabsSection({
             </div>
           </div>
         </div>
-        
+
       </Container>
     </Section>
   );
