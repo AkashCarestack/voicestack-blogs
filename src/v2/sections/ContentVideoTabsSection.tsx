@@ -606,9 +606,60 @@ export default function ContentVideoTabsSection({
                       ) : null}
 
                       {tab.content && Array.isArray(tab.content) && tab.content.length > 0 ? (
-                        <div className="mt-4">
-                          <PortableText value={tab.content} components={contentTextComponents} />
-                        </div>
+                        (() => {
+                          const hasLinks = tab.content.some((block: any) => block.markDefs?.some((def: any) => def._type === 'link'));
+
+                          if (hasLinks) {
+                            return (
+                              <div className="mt-4 flex flex-wrap gap-3 items-start w-full">
+                                {tab.content.map((block: any, idx: number) => {
+                                  if (!block.children) return null;
+                                  const text = block.children.map((c: any) => c.text).join('').trim();
+                                  if (!text) return null;
+
+                                  const linkDef = block.markDefs?.find((def: any) => def._type === 'link');
+                                  const href = linkDef?.href;
+                                  const isBlank = linkDef?.blank;
+
+                                  const content = (
+                                    <div className={`flex items-center gap-2 px-4 py-2 rounded-[500px] bg-white ${href ? 'cursor-pointer' : ''}`}>
+                                      <span className="font-geist font-medium text-base text-gray-950 leading-6 whitespace-nowrap">
+                                        {text}
+                                      </span>
+                                      {href && (
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                                          <path d="M4.66675 4.66675H11.3334V11.3334" stroke="#6A7282" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                                          <path d="M4.66675 11.3334L11.3334 4.66675" stroke="#6A7282" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg>
+                                      )}
+                                    </div>
+                                  );
+
+                                  if (href) {
+                                    return (
+                                      <a
+                                        key={block._key || idx}
+                                        href={href}
+                                        target={isBlank ? "_blank" : undefined}
+                                        rel={isBlank ? "noopener noreferrer" : undefined}
+                                        className="block group"
+                                      >
+                                        {content}
+                                      </a>
+                                    );
+                                  }
+                                  return <div key={block._key || idx}>{content}</div>;
+                                })}
+                              </div>
+                            )
+                          }
+
+                          return (
+                            <div className="mt-4">
+                              <PortableText value={tab.content} components={contentTextComponents} />
+                            </div>
+                          )
+                        })()
                       ) : tab.features && tab.features.length > 0 ? (
                         <div className="flex flex-col gap-0 md:mt-6 mt-3">
                           {tab.features.map((feature, idx) => (

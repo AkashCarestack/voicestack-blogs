@@ -90,9 +90,9 @@ HomeAU({
         />
       )}
       
-    {pageData['about-coach-partners']?.componentData && (
+    {/* {pageData['about-coach-partners']?.componentData && (
       <AboutCoachingPartners data={pageData['about-coach-partners']?.componentData} />
-    )}
+    )} */}
       {data.faqData && <FaqSection faqItems={data.faqData[0]} />}
     </>
   )

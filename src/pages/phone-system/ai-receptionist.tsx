@@ -105,6 +105,18 @@ export default function AiReceptionist({
         />
       )}
 
+      <CategoryFeatureTabsSection
+        features={
+          pageData['groups-and-dso']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        sectionHeading={
+          pageData['groups-and-dso']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        isGridListing={true}
+      />
+
 
       {pageData['offer']?.componentData && (
         <OfferSection data={pageData['offer']?.componentData} variant='compact' />

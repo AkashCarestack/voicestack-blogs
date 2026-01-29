@@ -58,6 +58,7 @@ interface CategoryFeatureTabsSectionProps {
   className?: string;
   variant?: 'default' | 'carousel' | 'carouselwithcards' | 'scrollcarousel' | 'singlecard' | 'simplelisting';
   sectionBorder?: "b" | "t" | "y" | "none";
+  isGridListing?: boolean;
 }
 
 export default function CategoryFeatureTabsSection({
@@ -66,6 +67,7 @@ export default function CategoryFeatureTabsSection({
   className,
   variant = 'default',
   sectionBorder = 'none',
+  isGridListing = false,
 }: CategoryFeatureTabsSectionProps) {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>('');
@@ -1068,35 +1070,70 @@ export default function CategoryFeatureTabsSection({
                       {/* Hero Section - Based on Figma Design */}
                       <div className={cn("grid lg:grid-cols-2 grid-cols-1 gap-px bg-gray-200 w-full", index === 0 && "border-t", index === allCategories.length - 1 && "border-b")} style={index === 0 ? { borderTopColor: 'var(--color-gray-200, #E5E7EB)' } : {}}>
                         {/* Left: Content Section */}
-                        <div className="bg-white flex flex-col gap-16 items-start justify-center md:p-12 p-4 h-full">
-                          <div className="flex flex-col gap-8 items-start w-full">
-                            <div className="flex flex-col gap-1.5 items-start tracking-normal w-full">
-                              <div className="flex flex-col gap-1.5 items-start leading-0 w-full">
-                                {/* Category Label */}
-                                {category.name && (
-                                  <span className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
-                                    <span className="leading-[150%] whitespace-pre-wrap">{category.name}</span>
-                                  </span>
-                                )}
-                                {/* Main Heading */}
-                                {category.subheading && (
-                                  <h3 className="flex flex-col font-manrope font-semibold justify-center text-gray-900 md:text-4xl text-xl w-full">
-                                    <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
-                                  </h3>
-                                )}
+                        <div className="w-full ">
+                          <div className="bg-white flex flex-col gap-16 items-start justify-center md:p-12 p-4 h-full">
+                            <div className="flex flex-col gap-8 items-start w-full">
+                              <div className="flex flex-col gap-1.5 items-start tracking-normal w-full">
+                                <div className="flex flex-col gap-1.5 items-start leading-0 w-full">
+                                  {/* Category Label */}
+                                  {category.name && (
+                                    <span className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                                      <span className="leading-[150%] whitespace-pre-wrap">{category.name}</span>
+                                    </span>
+                                  )}
+                                  {/* Main Heading */}
+                                  {category.subheading && (
+                                    <h3 className="flex flex-col font-manrope font-semibold justify-center text-gray-900 md:text-4xl text-xl w-full">
+                                      <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
+                                    </h3>
+                                  )}
+                                </div>
+                                {/* Description */}
+                                <p className="font-geist font-normal leading-6 relative text-gray-700 text-base w-full whitespace-pre-wrap">
+                                  {category.description}
+                                </p>
                               </div>
-                              {/* Description */}
-                              <p className="font-geist font-normal leading-6 relative text-gray-700 text-base w-full whitespace-pre-wrap">
-                                {category.description}
-                              </p>
+                              {/* CTA Button */}
+                              <div className="flex items-start">
+                                <Button type="primary" link="/demo">
+                                  <span className="text-base font-medium">Book Free Demo</span>
+                                </Button>
+                              </div>
                             </div>
-                            {/* CTA Button */}
-                            <div className="flex items-start">
-                              <Button type="primary" link="/demo">
-                                <span className="text-base font-medium">Book Free Demo</span>
-                              </Button>
-                            </div>
+                            {category.features && category.features.length > 0 && variant !== 'scrollcarousel' && isGridListing && (
+                              <div className="w-[calc(100%+32px)] md:w-[calc(100%+96px)] -mx-4 md:-mx-12 -mb-12">
+                                <GroupedCardsGrid
+                                  customListingItems={category.features.map((feature) => {
+                                    const featureSlug = feature.basicInfo?.slug?.current || feature.slug?.current;
+                                    const basePath = getBasePath();
+
+                                    return {
+                                      heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
+                                      description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
+                                      image: feature.mainImage || null,
+                                      link: featureSlug ? {
+                                        buttonType: "text",
+                                        text: null,
+                                        url: `${basePath}/${featureSlug}`.replace(/\/+/g, '/')
+                                      } : {
+                                        buttonType: "text",
+                                        text: null,
+                                        url: null
+                                      }
+                                    };
+                                  })}
+                                  theme="light"
+                                  simpleListingData={true}
+                                  columnCount={3}
+                                  showBorderBottom={true}
+                                />
+                              </div>
+                            )}
                           </div>
+
+
+
+
                         </div>
 
                         {/* Right: Category Image */}
@@ -1130,7 +1167,7 @@ export default function CategoryFeatureTabsSection({
                       </div>
 
                       {/* GroupedCardsGrid Component */}
-                      {category.features && category.features.length > 0 && variant !== 'scrollcarousel' && (
+                      {category.features && category.features.length > 0 && variant !== 'scrollcarousel' && !isGridListing && (
                         <div className="w-full">
                           <GroupedCardsGrid
                             customListingItems={category.features.map((feature) => {
