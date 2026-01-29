@@ -1102,38 +1102,36 @@ export default function CategoryFeatureTabsSection({
                             </div>
                             {category.features && category.features.length > 0 && variant !== 'scrollcarousel' && isGridListing && (
                               <div className="w-[calc(100%+32px)] md:w-[calc(100%+96px)] -mx-4 md:-mx-12 -mb-12">
-                                <GroupedCardsGrid
-                                  customListingItems={category.features.map((feature) => {
-                                    const featureSlug = feature.basicInfo?.slug?.current || feature.slug?.current;
-                                    const basePath = getBasePath();
+                                <div className={cn("grid grid-cols-1 md:grid-cols-2 gap-px bg-gray-200 border-gray-200", index === allCategories.length - 1 ? "border-t" : "border-y")}>
+                                  {category.features.map((feature, featureIndex) => {
+                                    const featureLink = feature.basicInfo?.slug?.current || feature.slug?.current
+                                      ? `${getBasePath()}/${feature.basicInfo?.slug?.current || feature.slug?.current}`.replace(/\/+/g, '/')
+                                      : null;
 
-                                    return {
-                                      heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
-                                      description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
-                                      image: feature.mainImage || null,
-                                      link: featureSlug ? {
-                                        buttonType: "text",
-                                        text: null,
-                                        url: `${basePath}/${featureSlug}`.replace(/\/+/g, '/')
-                                      } : {
-                                        buttonType: "text",
-                                        text: null,
-                                        url: null
-                                      }
-                                    };
+                                    const CardContent = () => (
+                                      <div className="flex flex-col py-9 px-12  bg-white h-full hover:bg-gray-50 transition-colors duration-200">
+                                        <p className="text-gray-950 font-geist text-lg font-medium leading-[28px] tracking-normal">
+                                          {feature.basicInfo?.title || feature.title || 'Untitled Feature'}
+                                        </p>
+                                      </div>
+                                    );
+
+                                    return (
+                                      <div key={feature._id || featureIndex} className="h-full">
+                                        {featureLink ? (
+                                          <Link href={featureLink} className="block h-full">
+                                            <CardContent />
+                                          </Link>
+                                        ) : (
+                                          <CardContent />
+                                        )}
+                                      </div>
+                                    );
                                   })}
-                                  theme="light"
-                                  simpleListingData={true}
-                                  columnCount={3}
-                                  showBorderBottom={true}
-                                />
+                                </div>
                               </div>
                             )}
                           </div>
-
-
-
-
                         </div>
 
                         {/* Right: Category Image */}
