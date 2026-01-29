@@ -12,17 +12,12 @@ import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
 import CallFlowAnalyticsSection from '~/v2/components/CallFlowAnalyticsSection'
 import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
-import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
-import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import OfferSection from '~/v2/sections/OfferSection'
 import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
-import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
-import StatisticsSection from '~/v2/sections/StatisticsSection'
-import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -82,7 +77,7 @@ export default function AiReceptionist({
 
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
-
+ 
   // const comparisonTableTitle = pageData['comparison-table']?.componentData
   const comparisonSectionData = {
     strip: comparisonTableComponent?.title,
@@ -103,45 +98,44 @@ export default function AiReceptionist({
           data={pageData['list-items']?.componentData}
         />
       )}
-      <Section className='w-full bg-white'>
-      <Container className='w-full bg-white' type="V2" border='y-0'>
-        <div className='flex flex-col md:gap-8 gap-6 py-16 justify-between items-center'>
-        <SectionHeaderV2 heading={iconListData?.sectionHeadingDynamic}
-         description={iconListData?.description} />
-         {
-          iconListData?.ctaListItems?.length > 0 && (
-            <Button type={iconListData?.ctaListItems[0]?.ctaType as any} link={iconListData?.ctaListItems[0]?.ctaLink} className='w-fit'>
-              <span>{iconListData?.ctaListItems[0]?.ctaText}</span>
-            </Button>
-          )
-         }
-         </div>
-      <div className='flex mx-auto px-4 md:flex-row flex-col flex-wrap md:gap-6 border-t border-t-gray-200'> {
-        iconListData && 
-        iconListData?.customListingItems?.map((item:any)=>{
-            return (
-              <ListCardWithIcon
-                heading={item.heading}
-                data={item.listItems}
-                key={item._key}
-              />
+      {iconListData && <Section className='w-full bg-white'>
+        <Container className='w-full bg-white' type="V2" border='y-0'>
+          <div className='flex flex-col md:gap-8 gap-6 py-16 justify-between items-center'>
+          <SectionHeaderV2 heading={iconListData?.sectionHeadingDynamic}
+          description={iconListData?.description} />
+          {
+            iconListData?.ctaListItems?.length > 0 && (
+              <Button type={iconListData?.ctaListItems[0]?.ctaType as any} link={iconListData?.ctaListItems[0]?.ctaLink} className='w-fit'>
+                <span>{iconListData?.ctaListItems[0]?.ctaText}</span>
+              </Button>
             )
-          })
-      }
-      </div>
-      </Container>
-      </Section>
-      {/* <ListCardWithIcon
-        
-        data={pageData['list-items']?.componentData}
+          }
+          </div>
+         <div className='flex mx-auto px-4 md:flex-row flex-col flex-wrap md:gap-6 border-t border-t-gray-200'> {
+          iconListData && 
+          iconListData?.customListingItems?.map((item:any)=>{
+              return (
+                <ListCardWithIcon
+                  heading={item.heading}
+                  data={item.listItems}
+                  key={item._key}
+                />
+              )
+            })
         }
-      /> */}
-
-      
+         </div>
+       </Container>
+      </Section>}
       {pageData['offer']?.componentData && (
         <OfferSection data={pageData['offer']?.componentData} variant="compact" />
       )}
-
+      {
+        pageData['convert-leads']?.componentData && (
+          <GroupedCardsGridSection
+            data={pageData['convert-leads']?.componentData}
+          />
+        )
+      }
       {comparisonTableData && (
         <SiteComparisonSection
           data={comparisonSectionData}
@@ -159,11 +153,12 @@ export default function AiReceptionist({
           theme="dark"
         />
       )}
-       {pageData['feature-testimonials-section-single']?.componentData && (
+      {pageData['testimonials-section']?.componentData && (
         <FeatureTestimonialsSection
           data={pageData['feature-testimonials-section-single']?.componentData}
         />
       )}
+
       
 
       {faq && <FaqSection faqItems={faq} />}
