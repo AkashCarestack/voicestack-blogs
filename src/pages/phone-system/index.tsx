@@ -5,7 +5,7 @@ import SimpleHead from '~/components/common/SimpleHead'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
-import { getFeaturesList } from '~/lib/sanity.queries'
+import { getAllComparisonValues, getFeaturesList } from '~/lib/sanity.queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
@@ -181,6 +181,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
 
+    const comparisonLegendData = (await getAllComparisonValues()) || []
     // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
@@ -193,6 +194,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         region,
         faq: faqData,
         features: features || [],
+        comparisonLegendData,
       },
     }
   } catch (error) {
