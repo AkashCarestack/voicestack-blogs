@@ -97,9 +97,9 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
 
 
   return (
-    <Section className="relative bg-[#FFFFFF]" border="b">
+    <Section className="relative bg-[#FFFFFF]"  >
       <Container
-        className="w-full justify-center pt-sm md:pt-md lg:pt-lg"
+        className="w-full justify-center pt-sm md:pt-md lg:pt-lg pb-sm md:pb-md"
         type="V2"
         border="y-0"
       >
@@ -438,7 +438,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                 </div>
               </>
             ) : (
-              <div className="flex flex-col lg:flex-row items-center lg:items-stretch">
+              <div className="flex flex-col lg:flex-row items-center lg:items-stretch border-b border-gray-200">
                 <div className="xl:w-1/2 xl:max-w-[666px] w-full hidden lg:flex items-center justify-center border-r border-gray-200">
                   <div
                     className="flex items-center justify-center relative w-full h-full"

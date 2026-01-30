@@ -38,7 +38,17 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
   const description = value?.heroDescription || data?.heroDescription
   const title = value?.heroStrip || data?.heroStrip?.toUpperCase()
   const image = urlForImage(value?.heroImage) || data?.heroImage?.url
-  const imageDimensions = getImageDimensions(value?.heroImage)
+  const imageDimensions = (() => {
+    try {
+      if (value?.heroImage && value?.heroImage?.asset?._ref) {
+        return getImageDimensions(value?.heroImage)
+      }
+      return null
+    } catch (error) {
+      console.warn('Error getting image dimensions:', error, 'Image:', value?.heroImage)
+      return null
+    }
+  })()
   
   
   // Extract testimonial data 
