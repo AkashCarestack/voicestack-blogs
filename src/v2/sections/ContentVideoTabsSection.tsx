@@ -4,6 +4,7 @@ import { PortableText } from '@portabletext/react';
 import { cn } from "~/lib/utils";
 import VideoPlayers from '~/components/common/VideoPlayer';
 import Button from '~/components/common/Button';
+import Link from 'next/link';
 import Section from '~/components/structure/Section';
 import Container from '~/components/structure/Container';
 import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2';
@@ -502,9 +503,9 @@ export default function ContentVideoTabsSection({
         const target = value?.blank ? '_blank' : undefined;
         const rel = value?.blank ? 'noopener noreferrer' : undefined;
         return (
-          <a href={value?.href} target={target} rel={rel} className="text-vs-purple underline hover:opacity-80">
+          <Link href={value?.href || '#'} target={target} rel={rel} className="text-vs-purple underline hover:opacity-80">
             {children}
-          </a>
+          </Link>
         );
       },
     },
@@ -641,7 +642,7 @@ export default function ContentVideoTabsSection({
 
                                   if (href) {
                                     return (
-                                      <a
+                                      <Link
                                         key={block._key || idx}
                                         href={href}
                                         target={isBlank ? "_blank" : undefined}
@@ -649,7 +650,7 @@ export default function ContentVideoTabsSection({
                                         className="block group"
                                       >
                                         {content}
-                                      </a>
+                                      </Link>
                                     );
                                   }
                                   return <div key={block._key || idx}>{content}</div>;
