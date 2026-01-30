@@ -43,7 +43,7 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       }, {});
 
       // Get the existing URL parameters from href
-      const existingParams = href?.includes('?') ? href?.split('?')[1] : '';
+      const existingParams = href?.includes('?') ? href.split('?')[1] : '';
       
       // Merge existing parameters with router query params using URLSearchParams to avoid duplicates
       const mergedParams = new URLSearchParams(existingParams);

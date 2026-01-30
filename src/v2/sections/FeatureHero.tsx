@@ -17,14 +17,17 @@ import Link from 'next/link'
 import AppleIcon from '~/assets/AppleIcon'
 import PlayIcon from '~/assets/PlayIcon'
 import AiIcon from '~/assets/aiIcon.svg'
+import VoicestackLogo from 'public/assets/voicestack-logo.svg'
+
+
 
 interface FeatureHeroProps {
   data: any
   isVertical?: boolean
-  type?:string | 'form' | 'feature'
+  type?: 'form' | 'feature' | 'partner' | 'comparison'
   hideBg?: boolean
   isCentered?: boolean
-  pageType?: string | 'download-app'
+  pageType?: 'download-app' | string
   appStoreLinks?: any
 }
 
@@ -265,12 +268,36 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
                     {title?.toUpperCase()}
                   </h1>
                 </div>
-              ) : (
-                <h1 className={`text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase`}>
+              ) :(
+                <h1 className={`${type === 'partner' ? 'sr-only' : ''} text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase`}>
                   {title?.toUpperCase()}
                 </h1>
               )
             )}
+            {type === 'partner' && (
+            data?.heroImageSecondary?.url ? (
+              <div className="flex mb-4 md:justify-start justify-center">
+                <Image
+                  src={data?.heroImageSecondary?.url}
+                  alt={data?.heroImageSecondary?.alt || "VoiceStack"}
+                  title={data?.heroImageSecondary?.title || "VoiceStack"}
+                  className={`md:h-[42px] h-[32px] w-auto`}
+                  width={500}
+                  height={58}
+                />
+              </div>
+            ):(
+              <div className="flex mb-4 md:justify-start justify-center">
+                <Image
+                  src={VoicestackLogo}
+                  alt={"VoiceStack"}
+                  title={"VoiceStack"}
+                  className={`md:h-[48px] h-[48px] w-auto`}
+                  width={280}
+                  height={70}
+                />
+              </div>
+            ))}
             {hasHeadingContent && (
               <PortableText
                 value={heading}
