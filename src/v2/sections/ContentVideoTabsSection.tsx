@@ -460,7 +460,7 @@ export default function ContentVideoTabsSection({
             data={tabs.map(tab => ({
               id: tab.key,
               key: tab.key,
-              title: tab.title,
+              title: tab?.category,
               testimonial: null,
               setActiveTab: handleTabClick,
             })) as IdataProps[]}
