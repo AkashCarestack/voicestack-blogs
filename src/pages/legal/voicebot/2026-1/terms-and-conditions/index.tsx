@@ -21,30 +21,30 @@ function TermsAndConditionsPage() {
                         This SAAS Customer Agreement (the &quot;Agreement&quot;) contains the Terms and Conditions that apply to the use of VOICEBOT Services (&quot;as defined below&quot;) offered by Good Methods Global Inc. (VoiceStack/ Service Provider&quot;) to the Customer identified in the applicable order form or subscription agreement (&quot;Customer&quot;). BY EXECUTING AN ORDER FORM, SUBSCRIPTION AGREEMENT, OR BY ACCESSING OR USING THE SERVICES, CUSTOMER AGREES TO BE BOUND BY THIS AGREEMENT. These Terms govern Customer&apos;s access to and use of Service Provider&apos;s AI-powered voice assistant services (&quot;VOICEBOT Services&quot;). These Terms are incorporated into and governed by the Order Form / SAAS Agreement, Subscription Agreement, or similar governing agreement between the parties (the &quot;Agreement&quot;). In the event of a conflict between these Terms and any Order Form, these Terms shall control with respect to the VOICEBOT Services unless expressly stated otherwise.
                     </p>
                     <h2 className="legal__section-title">1. Definitions</h2>
-                    <h3 className="legal__section-sub-title">
-                        1.1 <strong>&quot;VOICEBOT&quot;</strong> means Service Provider&apos;s artificial intelligence–powered automated voice agent that interacts with callers through voice over telephony, using natural language understanding and generation to receive inputs and produce Outputs. &quot;VOICEBOT&quot; includes the underlying models (including machine learning models), prompts, conversation logic, call flows, telephony and speech components (e.g., speech-to-text and text-to-speech), configurations, integrations, analytics, safety controls, and updates made available by Service Provider as part of the services.
-                    </h3>
-                    <h3 className="legal__section-sub-title">
-                        1.2 <strong>&quot;VOICEBOT Services&quot;</strong> means the provision, hosting, operation, support, and maintenance of the VOICEBOT(s)) solely for inbound and outbound telephone-based communications on behalf of the Customer, as configured, authorized, and controlled by the Customer.
-                    </h3>
+                    <p className="legal__section-sub-title">
+                    <strong>1.1 &quot;VOICEBOT&quot;</strong> means Service Provider&apos;s artificial intelligence–powered automated voice agent that interacts with callers through voice over telephony, using natural language understanding and generation to receive inputs and produce Outputs. &quot;VOICEBOT&quot; includes the underlying models (including machine learning models), prompts, conversation logic, call flows, telephony and speech components (e.g., speech-to-text and text-to-speech), configurations, integrations, analytics, safety controls, and updates made available by Service Provider as part of the services.</p>
+                    
+                    <p className="legal__section-sub-title">
+                      <strong>1.2 &quot;VOICEBOT Services&quot;</strong> means the provision, hosting, operation, support, and maintenance of the VOICEBOT(s)) solely for inbound and outbound telephone-based communications on behalf of the Customer, as configured, authorized, and controlled by the Customer.
+                    </p>
                     <p className="legal__text">
                         VOICEBOT Services are intended to support administrative, operational, and limited clinical communications related to dental practice management, including but not limited to appointment scheduling, confirmations, reminders, rescheduling, cancellations, call routing, general inquiries, treatment plan follow-ups, case acceptance communications, and discussions regarding payment plans, tax plans, or financial options as recorded in and sourced from the Customer&apos;s practice management system (&quot;PMS&quot;).
                     </p>
                     <p className="legal__text">
                         For clarity, VOICEBOT Services may communicate information related to existing treatment plans, the importance of timely completion of prescribed treatments, and available financial or scheduling options, provided such information is pre-defined, documented, and made available by the Customer within the PMS.
                     </p>
-                    <h3 className="legal__section-sub-title">
-                        1.3 <strong>&quot;PMS&quot;</strong> means Customer&apos;s practice management system or any other third-party system authorized by Customer for integration.
-                    </h3>
-                    <h3 className="legal__section-sub-title">
-                        1.4 <strong>&quot;PHI&quot;</strong> has the meaning set forth under the Health Insurance Portability and Accountability Act of 1996 (&quot;HIPAA&quot;).
-                    </h3>
-                    <h3 className="legal__section-sub-title">
-                        1.5 <strong>&quot;Applicable Law&quot;</strong> means all federal, state, and local laws, regulations, and rules applicable to Customer&apos;s use of the VOICEBOT Services, including but not limited to HIPAA, TCPA, FTC Act, state privacy laws, and call-recording consent laws.
-                    </h3>
-                    <h3 className="legal__section-sub-title">
-                        1.6 <strong>&quot;Outputs&quot;</strong> refers to any content, actions, responses, communications, call outcomes, recordings, transcriptions, or other materials produced, generated, or initiated by the VOICEBOT Services through automated, artificial intelligence driven, or machine learning based processes.
-                    </h3>
+                    <p className="legal__section-sub-title">
+                    <strong>1.3 &quot;PMS&quot;</strong> means Customer&apos;s practice management system or any other third-party system authorized by Customer for integration.
+                    </p>
+                    <p className="legal__section-sub-title">
+                    <strong>1.4 &quot;PHI&quot;</strong> has the meaning set forth under the Health Insurance Portability and Accountability Act of 1996 (&quot;HIPAA&quot;).
+                    </p>
+                    <p className="legal__section-sub-title">
+                    <strong>1.5 &quot;Applicable Law&quot;</strong> means all federal, state, and local laws, regulations, and rules applicable to Customer&apos;s use of the VOICEBOT Services, including but not limited to HIPAA, TCPA, FTC Act, state privacy laws, and call-recording consent laws.
+                    </p>
+                    <p className="legal__section-sub-title">
+                    <strong>1.6 &quot;Outputs&quot;</strong> refers to any content, actions, responses, communications, call outcomes, recordings, transcriptions, or other materials produced, generated, or initiated by the VOICEBOT Services through automated, artificial intelligence driven, or machine learning based processes.
+                    </p>
                     <h2 className="legal__section-title">2. Scope of VOICEBOT Services</h2>
                     <h3 className="legal__section-sub-title">
                         2.1 Provision and Availability.

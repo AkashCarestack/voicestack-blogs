@@ -395,11 +395,11 @@ html {
   @apply text-2xl font-semibold mb-2;
 }
 .legal-content h3 {
-  @apply text-xl font-semibold mb-2;
+  @apply font-semibold mb-2;
 }
 
 .legal-content li, .legal-content p {
-  @apply mb-5 !text-gray-800;
+  @apply mb-5 !text-gray-800 font-normal;
 }
 
 .legal-content a {
