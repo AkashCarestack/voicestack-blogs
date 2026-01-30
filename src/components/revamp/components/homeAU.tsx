@@ -21,21 +21,26 @@ HomeAU({
   data,
   featuresData,
   comparisonLegendData,
-  comparisonTableData,
-  comparisonSectionData,
   pageData,
 }: {
   data: any
   featuresData: any
   comparisonLegendData: any
-  comparisonTableData: any
-  comparisonSectionData: any
   pageData: any
 }) {
   const heroSectionData = data['hero-section']?.componentData
   const logosListingData = data['logos-listing']?.componentData.blocksListingData
 
+  const comparisonTableComponent = pageData['comparison-table']?.componentData
+  const comparisonTableData = comparisonTableComponent?.comparisonTable
   
+  // const comparisonTableTitle = pageData['comparison-table']?.componentData
+  const comparisonSectionData = {
+    strip: comparisonTableComponent?.title,
+    header: comparisonTableComponent?.description,
+    columnDimensionName: 'Features',
+    table: comparisonTableData,
+  }
   return (
     <>
       <HeroAU
@@ -59,9 +64,9 @@ HomeAU({
         />
       )}
 
-      {pageData['test-listing-2']?.componentData && (
+      {pageData['hidden-cost-of-missed-calls']?.componentData && (
         <CardsGridSection variant="V2" colCount={3}
-          data={pageData['test-listing-2'].componentData}
+          data={pageData['hidden-cost-of-missed-calls'].componentData}
         />
       )}
 
@@ -76,17 +81,18 @@ HomeAU({
         />
       )}
 
-      {pageData['test-listing-3']?.componentData && (
+      {pageData['total-freedom']?.componentData && (
         <CardsGridSection variant="V2" colCount={2} bottomSpace={true}
-          data={pageData['test-listing-3'].componentData}
+          data={pageData['total-freedom'].componentData}
         />
       )}
 
       <StatisticsSection />
-      {comparisonLegendData && (
+     
+      {comparisonTableData && (
         <SiteComparisonSection
           data={comparisonSectionData}
-          legendData={comparisonLegendData}
+          legendData={comparisonLegendData || []}
         />
       )}
       
