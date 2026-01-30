@@ -182,7 +182,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
 
     return (
         <Section className="bg-white" border="none">
-            <Container type="V2" className="py-16 md:py-24 relative px-12 md:px-0">
+            <Container type="V2" className="py-16 md:py-24 relative px-12 md:px-0" border='all'>
                 <SectionHeaderV2
                     heading={sectionHeading}
                     description={data.description || ''}
@@ -206,10 +206,10 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                             const cardHeader = item.boldHeader || item.subTitle || item.description
 
                             return (
-                                <div key={item._key || index} className="px-4 h-full outline-none">
+                                <div key={item._key || index} className="h-full outline-none">
                                     <div className="flex flex-col group h-full">
                                         {/* Image Container */}
-                                        <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden mb-8 bg-[#FDF7F2]">
+                                        <div className="relative  overflow-hidden mb-8  border nth-child(2n+1):border-gray-200 p-[10px]">
                                             {/* Background Name */}
                                             {name && (
                                                 <div className="absolute inset-0 flex items-start justify-center pt-12 pointer-events-none opacity-[0.08]">
@@ -223,8 +223,9 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                                                 <Image
                                                     src={imageUrl}
                                                     alt={name || 'AI Receptionist'}
-                                                    fill
-                                                    className="object-cover object-center z-10"
+                                                    width={500}
+                                                    height={500}
+                                                    className="object-cover object-center z-10 w-full h-full rounded-[12px]"
                                                 />
                                             )}
 
@@ -244,7 +245,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                                         </div>
 
                                         {/* Content */}
-                                        <div className="px-2 pb-8">
+                                        <div className="px-12 py-6">
                                             {cardHeader && (
                                                 <h3
                                                     className="text-xl font-geist font-medium leading-7 tracking-normal text-gray-950 mb-6 [&>span]:text-vs-purple [&>strong]:text-vs-purple [&>strong]:font-semibold"
@@ -277,7 +278,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
         }
         .receptionist-slider-wrapper .slick-list {
           overflow: hidden;
-          margin: 0 -16px;
+          margin: 0;
         }
         .receptionist-slider-wrapper .slick-slider {
           position: relative;
