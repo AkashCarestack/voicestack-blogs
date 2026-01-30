@@ -178,8 +178,6 @@ export default function IndexPage({
         <HomeAU 
           featuresData={featuresData}
           comparisonLegendData={comparisonLegendData}
-          comparisonTableData={comparisonTableData}
-          comparisonSectionData={comparisonSectionData}
           data={pageData1} pageData={pageData1} />  
       )}
     </Track>
