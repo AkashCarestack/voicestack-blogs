@@ -194,7 +194,7 @@ export interface GroupedCardsGridProps {
   customListingItems?: any[]
   theme?: 'light' | 'dark'
   simpleListingData?: boolean
-  columnCount?: 2 | 3 | 4
+  columnCount?: number
   showBorderBottom?: boolean
   cardWithGraph?: boolean
 }

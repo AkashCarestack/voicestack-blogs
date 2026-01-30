@@ -59,9 +59,11 @@ interface CategoryFeatureTabsSectionProps {
   variant?: 'default' | 'carousel' | 'carouselwithcards' | 'scrollcarousel' | 'singlecard' | 'simplelisting';
   sectionBorder?: "b" | "t" | "y" | "none";
   isGridListing?: boolean;
+  columnCount?: number;
 }
 
 export default function CategoryFeatureTabsSection({
+  columnCount,
   features,
   sectionHeading,
   className,
@@ -77,6 +79,7 @@ export default function CategoryFeatureTabsSection({
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
   const isMobile = useMediaQuery(767);
+  const [activeValue,setActiveValue] = useState<any>();
 
   // Get base path - always use /phone-system/features
   const getBasePath = useCallback(() => {
@@ -291,6 +294,7 @@ export default function CategoryFeatureTabsSection({
     [scrollToSection, variant]
   );
 
+
   // Intersection Observer to detect active section
   useEffect(() => {
     if (isScrolling || (variant !== 'default' && variant !== 'scrollcarousel')) return;
@@ -394,6 +398,8 @@ export default function CategoryFeatureTabsSection({
       </Section>
     );
   }
+
+  const isVisible = allCategories.some(category => category.name === activeCategory && category?.subheading)
 
   // Single Card Layout - Based on Figma design
   // Render if variant is 'singlecard'
@@ -851,14 +857,15 @@ export default function CategoryFeatureTabsSection({
             </div>
 
             <div className="relative w-full">
-              <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
-                <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 min-h-[500px] relative overflow-hidden border-r border-gray-200">
+              <div className={`grid  ${isVisible ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}  grid-cols-1 w-full border border-x-0 border-gray-200 relative md:h-[500px]`}>
+                {
+                  allCategories.some(category => category.name === activeCategory && category?.subheading) && 
+                  <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 min-h-[500px] relative overflow-hidden border-r border-gray-200">
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const isActive = category.name === activeCategory;
-
+                      const isVisible = isActive &&  category?.subheading
                       if (!isActive) return null;
-
                       return (
                         <motion.div
                           key={category.name}
@@ -868,7 +875,7 @@ export default function CategoryFeatureTabsSection({
                           transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
                           className="flex flex-col gap-6 items-start w-full"
                         >
-                          <div className="flex flex-col gap-[6px] items-start w-full">
+                          {isVisible && <div className="flex flex-col gap-[6px] items-start w-full">
                             {/* Category Label */}
                             {category.name && (
                               <span className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
@@ -887,15 +894,17 @@ export default function CategoryFeatureTabsSection({
                                 {category.description}
                               </p>
                             )}
-                          </div>
+                          </div> }
                         </motion.div>
                       );
                     })}
                   </AnimatePresence>
                 </div>
+                }
+                
 
                 {/* Right Column: Category Image with Fixed Grid Pattern */}
-                <div className="bg-gray-50 flex flex-col items-center justify-center h-[400px] lg:h-auto overflow-hidden relative">
+                <div className="bg-gray-50 flex flex-col items-center justify-center md:h-full h-[200px] overflow-hidden relative">
                   {/* Grid Pattern Background - Fixed, doesn't move */}
                   <div className="absolute inset-0 z-0">
                     <GridPattern
@@ -925,12 +934,13 @@ export default function CategoryFeatureTabsSection({
                           className="w-full h-full relative flex items-center justify-center"
                         >
                           <div className="w-full h-full relative flex items-center justify-center">
-                            <ImageLoader
-                              image={category.mainImage}
+                            <Image
+                              src={category.mainImage.url}
                               alt={`${category.name} feature illustration`}
                               title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
-                              fixed={true}
-                              className="rounded-lg object-contain w-full h-full"
+                              width={category.mainImage.metadata.dimensions.width}
+                              height={category.mainImage.metadata.dimensions.height}
+                              className="rounded-lg md:object-cover object-contain w-full h-full"
                             />
                           </div>
                         </motion.div>
@@ -990,7 +1000,7 @@ export default function CategoryFeatureTabsSection({
                         })}
                         theme="light"
                         simpleListingData={true}
-                        columnCount={3}
+                        columnCount={columnCount || 3}
                         showBorderBottom={true}
                       />
                     </motion.div>
