@@ -79,7 +79,7 @@ export default function CategoryFeatureTabsSection({
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
   const isMobile = useMediaQuery(767);
-  const [activeValue,setActiveValue] = useState<any>();
+  const [activeValue, setActiveValue] = useState<any>();
 
   // Get base path - always use /phone-system/features
   const getBasePath = useCallback(() => {
@@ -859,49 +859,49 @@ export default function CategoryFeatureTabsSection({
             <div className="relative w-full">
               <div className={`grid  ${isVisible ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}  grid-cols-1 w-full border border-x-0 border-gray-200 relative md:h-[500px]`}>
                 {
-                  allCategories.some(category => category.name === activeCategory && category?.subheading) && 
+                  allCategories.some(category => category.name === activeCategory && category?.subheading) &&
                   <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 min-h-[500px] relative overflow-hidden border-r border-gray-200">
-                  <AnimatePresence mode="wait">
-                    {allCategories.map((category) => {
-                      const isActive = category.name === activeCategory;
-                      const isVisible = isActive &&  category?.subheading
-                      if (!isActive) return null;
-                      return (
-                        <motion.div
-                          key={category.name}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                          className="flex flex-col gap-6 items-start w-full"
-                        >
-                          {isVisible && <div className="flex flex-col gap-[6px] items-start w-full">
-                            {/* Category Label */}
-                            {category.name && (
-                              <span className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
-                                <span className="leading-6 whitespace-pre-wrap">{category.name}</span>
-                              </span>
-                            )}
-                            {/* Main Heading */}
-                            {category.subheading && (
-                              <h4 className="flex flex-col font-manrope font-semibold justify-center text-gray-900 w-full">
-                                <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
-                              </h4>
-                            )}
-                            {/* Description */}
-                            {category.description && (
-                              <p className="font-geist leading-[150%] font-normal text-gray-700 text-base whitespace-pre-wrap">
-                                {category.description}
-                              </p>
-                            )}
-                          </div> }
-                        </motion.div>
-                      );
-                    })}
-                  </AnimatePresence>
-                </div>
+                    <AnimatePresence mode="wait">
+                      {allCategories.map((category) => {
+                        const isActive = category.name === activeCategory;
+                        const isVisible = isActive && category?.subheading
+                        if (!isActive) return null;
+                        return (
+                          <motion.div
+                            key={category.name}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                            className="flex flex-col gap-6 items-start w-full"
+                          >
+                            {isVisible && <div className="flex flex-col gap-[6px] items-start w-full">
+                              {/* Category Label */}
+                              {category.name && (
+                                <span className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                                  <span className="leading-6 whitespace-pre-wrap">{category.name}</span>
+                                </span>
+                              )}
+                              {/* Main Heading */}
+                              {category.subheading && (
+                                <h4 className="flex flex-col font-manrope font-semibold justify-center text-gray-900 w-full">
+                                  <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
+                                </h4>
+                              )}
+                              {/* Description */}
+                              {category.description && (
+                                <p className="font-geist leading-[150%] font-normal text-gray-700 text-base whitespace-pre-wrap">
+                                  {category.description}
+                                </p>
+                              )}
+                            </div>}
+                          </motion.div>
+                        );
+                      })}
+                    </AnimatePresence>
+                  </div>
                 }
-                
+
 
                 {/* Right Column: Category Image with Fixed Grid Pattern */}
                 <div className="bg-gray-50 flex flex-col items-center justify-center md:h-full h-[200px] overflow-hidden relative">
@@ -1119,7 +1119,7 @@ export default function CategoryFeatureTabsSection({
                                       : null;
 
                                     const CardContent = () => (
-                                      <div className="flex flex-col py-9 px-12  bg-white h-full hover:bg-gray-50 transition-colors duration-200">
+                                      <div className="flex flex-col py-9 px-12  bg-white h-full  transition-colors duration-200">
                                         <p className="text-gray-950 font-geist text-lg font-medium leading-[28px] tracking-normal">
                                           {feature.basicInfo?.title || feature.title || 'Untitled Feature'}
                                         </p>
