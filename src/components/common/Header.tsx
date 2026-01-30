@@ -426,7 +426,11 @@ const Header = ({ data, refer = null }) => {
                     <div
                       className={`lg:flex-row h-full overflow-y-auto absolute top-0 lg:overflow-visible  right-0 px-4 pt-4 pb-8 w-full lg:w-auto lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col gap-2 justify-between lg:items-center flex`}
                     >
-                      <NavigationMenu menuItems={safeData?.navigationMenu || []} onToggleMenu={toggleMenu} onCloseMenu={closeMenu} />
+                      <NavigationMenu 
+                        menuItems={safeData?.navigationMenu || []} 
+                        onToggleMenu={toggleMenu} 
+                        onCloseMenu={closeMenu} 
+                      />
 
                       <div className="flex flex-col gap-8 pb-8 lg:pb-0">
                         <div className="flex flex-col lg:flex-row gap-3 md:gap-5 items-center lg:hidden">

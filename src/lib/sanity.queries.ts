@@ -765,7 +765,41 @@ export async function getALLHomeSettings(client: SanityClient, region: string) {
 
 export async function getHeaderData(client: SanityClient, region: string) {
   const query = groq`*[_type == "homeSettings" && language == $region][0]{
-    navigationMenu,
+    navigationMenu[] {
+      label,
+      href,
+      hasSubmenu,
+      highlight,
+      submenu[] {
+        submenuHeader,
+        items[] {
+          label,
+          href,
+          description
+        }
+      },
+      specialMenu[] {
+        heading,
+        description,
+        link,
+        image {
+          asset-> {
+            _id,
+            url,
+            metadata {
+              dimensions {
+                width,
+                height
+              }
+            }
+          }
+        }
+      },
+      bottomCustomLinks[] {
+        label,
+        href
+      }
+    },
     topNavigationMenu,
     phoneNumber,
     ctabutton

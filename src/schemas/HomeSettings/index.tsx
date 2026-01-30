@@ -290,18 +290,83 @@ export default defineType({
               of: [
                 {
                   type: 'object',
-                  name: 'submenuItem',
-                  title: 'Submenu Item',
+                  name: 'submenuGroup',
+                  title: 'Submenu Group',
                   fields: [
                     {
-                      name: 'label',
-                      title: 'Submenu Label',
+                      name: 'submenuHeader',
+                      title: 'Submenu Header',
                       type: 'string',
-                      validation: (Rule: any) => Rule.required(),
+                      description: 'Header text for this group of submenu items',
                     },
                     {
-                      name: 'href',
-                      title: 'Submenu Link URL',
+                      name: 'items',
+                      title: 'Submenu Items',
+                      type: 'array',
+                      of: [
+                        {
+                          type: 'object',
+                          name: 'submenuItem',
+                          title: 'Submenu Item',
+                          fields: [
+                            {
+                              name: 'label',
+                              title: 'Submenu Label',
+                              type: 'string',
+                              validation: (Rule: any) => Rule.required(),
+                            },
+                            {
+                              name: 'href',
+                              title: 'Submenu Link URL',
+                              type: 'string',
+                              validation: (Rule: any) => Rule.required(),
+                            },
+                            {
+                              name: 'description',
+                              title: 'Description',
+                              type: 'string',
+                            },
+                          ],
+                          preview: {
+                            select: {
+                              title: 'label',
+                              subtitle: 'href',
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                  preview: {
+                    select: {
+                      header: 'submenuHeader',
+                      items: 'items',
+                    },
+                    prepare(selection: any) {
+                      const { header, items } = selection;
+                      const itemCount = items?.length || 0;
+                      return {
+                        title: header || 'Untitled Group',
+                        subtitle: `${itemCount} item${itemCount !== 1 ? 's' : ''}`,
+                      };
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              name: 'specialMenu',
+              title: 'Special Menu (Right Side)',
+              type: 'array',
+              of: [
+                {
+                  type: 'object',
+                  name: 'specialMenuItem',
+                  title: 'Special Menu Item',
+                  fields: [
+                    {
+                      name: 'heading',
+                      title: 'Heading',
                       type: 'string',
                       validation: (Rule: any) => Rule.required(),
                     },
@@ -309,6 +374,54 @@ export default defineType({
                       name: 'description',
                       title: 'Description',
                       type: 'string',
+                    },
+                    {
+                      name: 'link',
+                      title: 'Link URL',
+                      type: 'string',
+                      validation: (Rule: any) => Rule.required(),
+                    },
+                    {
+                      name: 'image',
+                      title: 'Image',
+                      type: 'image',
+                      options: {
+                        hotspot: true,
+                      },
+                    },
+                  ],
+                  preview: {
+                    select: {
+                      title: 'heading',
+                      subtitle: 'description',
+                      media: 'image',
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              name: 'bottomCustomLinks',
+              title: 'Bottom Custom Links',
+              type: 'array',
+              hidden: ({ parent }: any) => !parent?.hasSubmenu,
+              of: [
+                {
+                  type: 'object',
+                  name: 'customLink',
+                  title: 'Custom Link',
+                  fields: [
+                    {
+                      name: 'label',
+                      title: 'Label',
+                      type: 'string',
+                      validation: (Rule: any) => Rule.required(),
+                    },
+                    {
+                      name: 'href',
+                      title: 'Link URL',
+                      type: 'string',
+                      validation: (Rule: any) => Rule.required(),
                     },
                   ],
                   preview: {
