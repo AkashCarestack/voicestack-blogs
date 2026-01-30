@@ -38,42 +38,52 @@ const TickIcon = () => (
     </svg>
 )
 
-const ArrowIcon = ({ className, direction = 'right' }: { className?: string; direction?: 'left' | 'right' }) => (
-    <svg
-        width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-        className={cn(className, direction === 'left' ? 'rotate-180' : '')}
-    >
-        <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-)
+const PrevArrow = ({ onClick, currentSlide }: any) => {
+    const isDisabled = currentSlide === 0
 
-const NextArrow = (props: any) => {
-    const { onClick } = props
     return (
         <button
             onClick={onClick}
-            className="absolute -right-2 md:-right-6 top-[40%] -translate-y-1/2 z-50 w-10 md:w-12 h-10 md:h-12 flex items-center justify-center bg-white rounded-full shadow-lg border border-gray-100 transition-all hover:bg-gray-50 hover:border-vs-purple text-gray-400 hover:text-vs-purple"
-            aria-label="Next slide"
+            disabled={isDisabled}
+            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white rounded-full border border-gray-200 flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-[-35px] xl:left-[-78px] z-10
+        ${isDisabled ? ' cursor-not-allowed opacity-50' : ' bg-white hover:bg-gray-100 transition-colors opacity-100'}`}
+            aria-label="Previous"
         >
-            <ArrowIcon className="w-5 h-5 md:w-6 md:h-6" />
+            <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M15.8333 10H4.16658" stroke="#030712" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M10 4.16699L4.16667 10.0003L10 15.8337" stroke="#030712" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
         </button>
     )
 }
 
-const PrevArrow = (props: any) => {
-    const { onClick } = props
+const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
+    const isDisabled = currentSlide >= slideCount - 3
+
     return (
         <button
             onClick={onClick}
-            className="absolute -left-2 md:-left-6 top-[40%] -translate-y-1/2 z-50 w-10 md:w-12 h-10 md:h-12 flex items-center justify-center bg-white rounded-full shadow-lg border border-gray-100 transition-all hover:bg-gray-50 hover:border-vs-purple text-gray-400 hover:text-vs-purple"
-            aria-label="Previous slide"
+            disabled={isDisabled}
+            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white rounded-full flex items-center justify-center absolute top-1/2 -translate-y-1/2 right-[-35px] xl:right-[-78px] z-10 border border-gray-200
+        ${isDisabled ? ' cursor-not-allowed opacity-50 ' : 'bg-white hover:bg-gray-100 transition-colors opacity-100'}`}
+            aria-label="Next"
         >
-            <ArrowIcon direction="left" className="w-5 h-5 md:w-6 md:h-6" />
+            <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M4.16675 10H15.8334" stroke="#030712" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M10 4.16699L15.8333 10.0003L10 15.8337" stroke="#030712" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
         </button>
     )
 }
 
 const portableTextComponents: Partial<PortableTextReactComponents> = {
+    block: {
+        normal: ({ children }) => (
+            <p className="text-xl font-geist font-medium leading-7 tracking-normal text-gray-950 mb-6 [&>span]:text-vs-purple [&>strong]:text-vs-purple [&>strong]:font-semibold">
+                {children}
+            </p>
+        ),
+    },
     list: {
         bullet: ({ children }) => <ul className="space-y-3 w-full">{children}</ul>,
     },
@@ -83,7 +93,7 @@ const portableTextComponents: Partial<PortableTextReactComponents> = {
                 <div className="mt-1 shrink-0">
                     <TickIcon />
                 </div>
-                <span className="text-sm md:text-base text-gray-500 font-normal leading-relaxed">{children}</span>
+                <span className="text-base text-gray-700 font-geist font-normal leading-6 tracking-normal">{children}</span>
             </li>
         ),
     },
@@ -227,13 +237,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                                                         borderRadius: '20px 20px 0 0',
                                                     }}
                                                 >
-                                                    <Image
-                                                        src="https://cdn.sanity.io/images/76tr0pyh/develop/7a6fb5c3f544aa8b254691ee7d7537a586e7971a-19x18.png"
-                                                        width={19}
-                                                        height={18}
-                                                        alt="Icon"
-                                                        className="w-[19px] h-[18px]"
-                                                    />
+
                                                     <span className="text-xs font-semibold text-gray-900 uppercase tracking-wider">{badge}</span>
                                                 </div>
                                             )}
@@ -243,7 +247,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                                         <div className="px-2 pb-8">
                                             {cardHeader && (
                                                 <h3
-                                                    className="text-xl md:text-2xl font-semibold mb-6 leading-tight text-gray-950 [&>span]:text-vs-purple [&>strong]:text-vs-purple [&>strong]:font-semibold"
+                                                    className="text-xl font-geist font-medium leading-7 tracking-normal text-gray-950 mb-6 [&>span]:text-vs-purple [&>strong]:text-vs-purple [&>strong]:font-semibold"
                                                     dangerouslySetInnerHTML={{
                                                         __html: cardHeader.replace(/"/g, '&quot;')
                                                     }}
