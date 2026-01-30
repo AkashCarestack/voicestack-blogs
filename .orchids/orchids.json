@@ -1,0 +1,7 @@
+{
+  "projectId": "d530b0fc-e1ee-4d4d-af0a-8ad6ff103796",
+  "createdAt": 1769751728385,
+  "startupCommands": [
+    "npm install; nohup npm run dev > server.log 2>&1 &"
+  ]
+}

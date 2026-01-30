@@ -6,6 +6,7 @@ import Container from '~/components/structure/Container'
 import bgStyle from '~/assets/Bg/image 682.png'
 import { ComparisonHeroH1, descriptionComponents, HeroFeatureComponents, HeroFeatureHeadingComponents, HeroHeadingComponents } from '~/utils/common'
 import { urlForImage } from '~/lib/sanity.image'
+import { getImageDimensions } from '@sanity/asset-utils';
 import Section from '~/components/structure/Section'
 import HubspotGenericForm from '~/components/revamp/components/common/hubspotGeneric'
 import LightningIcon from '../icons/LightningIcon'
@@ -37,6 +38,8 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
   const description = value?.heroDescription || data?.heroDescription
   const title = value?.heroStrip || data?.heroStrip?.toUpperCase()
   const image = urlForImage(value?.heroImage) || data?.heroImage?.url
+  const imageDimensions = getImageDimensions(value?.heroImage)
+  
   
   // Extract testimonial data 
   const testimonial = value?.testimonial || data?.testimonial
@@ -320,7 +323,11 @@ export default function FeatureHero({ data, type , hideBg = false, isCentered = 
             </div>
           ):(
             isVertical && <div className='flex-1 w-full h-full'>
-            <Image className={`${isVertical ? 'w-full md:max-h-[500px] h-full' : 'max-w-[550px]'} w-full h-full object-cover`} src={image} alt={heading} width={1000} height={1000} />
+            <Image className={`${isVertical ? 'w-full md:max-h-[500px] h-full' : 'max-w-[550px]'} w-full h-full object-cover`} 
+            src={image} 
+            alt={heading}
+            width={imageDimensions?.width}
+            height={imageDimensions?.height} />
           </div>
           )}
           {/* Testimonial Section with YouTube Video */}

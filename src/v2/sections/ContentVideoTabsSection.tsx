@@ -591,7 +591,11 @@ export default function ContentVideoTabsSection({
                     className='lg:h-[50vh] h-full flex flex-col lg:flex-row'
                   >
                     <div className="flex flex-col justify-center">
-                      {tab.category && (
+                      {tab.subHeading ? (
+                        <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
+                          {tab.subHeading}
+                        </span>
+                      ) : (
                         <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
                           {tab.category}
                         </span>
@@ -611,7 +615,7 @@ export default function ContentVideoTabsSection({
 
                           if (hasLinks) {
                             return (
-                              <div className="mt-4 flex flex-wrap gap-3 items-start w-full">
+                              <div className="mt-6 flex flex-wrap gap-4 items-start w-full">
                                 {tab.content.map((block: any, idx: number) => {
                                   if (!block.children) return null;
                                   const text = block.children.map((c: any) => c.text).join('').trim();
@@ -622,14 +626,14 @@ export default function ContentVideoTabsSection({
                                   const isBlank = linkDef?.blank;
 
                                   const content = (
-                                    <div className={`flex items-center gap-2 px-4 py-2 rounded-[500px] bg-white ${href ? 'cursor-pointer' : ''}`}>
-                                      <span className="font-geist font-medium text-base text-gray-950 leading-6 whitespace-nowrap">
+                                    <div className={`flex items-center gap-2 w-full rounded-[500px] bg-white ${href ? 'cursor-pointer' : ''}`}>
+                                      <span className="font-geist font-medium text-base text-gray-950 group-hover:text-vs-purple transition-colors leading-6 whitespace-nowrap">
                                         {text}
                                       </span>
                                       {href && (
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
-                                          <path d="M4.66675 4.66675H11.3334V11.3334" stroke="#6A7282" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
-                                          <path d="M4.66675 11.3334L11.3334 4.66675" stroke="#6A7282" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[#6A7282] group-hover:text-vs-purple">
+                                          <path d="M4.66675 4.66675H11.3334V11.3334" stroke="currentColor" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                                          <path d="M4.66675 11.3334L11.3334 4.66675" stroke="currentColor" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
                                         </svg>
                                       )}
                                     </div>
