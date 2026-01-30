@@ -102,7 +102,8 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
         <div className={`w-full ${cardWithGraph ? 'absolute inset-0' : ''}`}>
           <Image
             src={imageUrl}
-            alt={item.heading || ''}
+            alt={item.image?.altText || ''}
+            title={item.image?.title || ''}
             width={item.image?.metadata?.dimensions?.width || 800}
             height={item.image?.metadata?.dimensions?.height || 600}
             className="object-cover w-full h-full"

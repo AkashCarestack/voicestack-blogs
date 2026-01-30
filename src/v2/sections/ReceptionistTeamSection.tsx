@@ -227,19 +227,13 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                                                         borderRadius: '20px 20px 0 0',
                                                     }}
                                                 >
-                                                    {item.svgCode && (
-                                                        <div
-                                                            className="w-5 h-5 flex items-center justify-center text-gray-600 [&>svg]:w-full [&>svg]:h-full"
-                                                            dangerouslySetInnerHTML={{ __html: item.svgCode }}
-                                                        />
-                                                    )}
-                                                    {!item.svgCode && (
-                                                        <div className="w-4 h-4 rounded-full bg-vs-purple/10 flex items-center justify-center">
-                                                            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <circle cx="5" cy="5" r="4" stroke="#4A3CE1" strokeWidth="1.5" />
-                                                            </svg>
-                                                        </div>
-                                                    )}
+                                                    <Image
+                                                        src="https://cdn.sanity.io/images/76tr0pyh/develop/7a6fb5c3f544aa8b254691ee7d7537a586e7971a-19x18.png"
+                                                        width={19}
+                                                        height={18}
+                                                        alt="Icon"
+                                                        className="w-[19px] h-[18px]"
+                                                    />
                                                     <span className="text-xs font-semibold text-gray-900 uppercase tracking-wider">{badge}</span>
                                                 </div>
                                             )}
