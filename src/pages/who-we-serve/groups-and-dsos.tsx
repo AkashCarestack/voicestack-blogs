@@ -97,6 +97,7 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
       )}
 
       <CategoryFeatureTabsSection
+        columnCount={4}
         features={
           pageData['grow-your-practice']?.componentData?.refData
             ?.tabsListingComponent
