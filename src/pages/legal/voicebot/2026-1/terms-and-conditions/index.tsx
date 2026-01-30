@@ -15,7 +15,7 @@ function TermsAndConditionsPage() {
 
                 <div className="legal-content">
                     <p className="legal__text">
-                        <strong>Effective Date:: 01 January 2026</strong>
+                        <strong>Effective Date: 01 January 2026</strong>
                     </p>
                     <p className="legal__text">
                         This SAAS Customer Agreement (the &quot;Agreement&quot;) contains the Terms and Conditions that apply to the use of VOICEBOT Services (&quot;as defined below&quot;) offered by Good Methods Global Inc. (VoiceStack/ Service Provider&quot;) to the Customer identified in the applicable order form or subscription agreement (&quot;Customer&quot;). BY EXECUTING AN ORDER FORM, SUBSCRIPTION AGREEMENT, OR BY ACCESSING OR USING THE SERVICES, CUSTOMER AGREES TO BE BOUND BY THIS AGREEMENT. These Terms govern Customer&apos;s access to and use of Service Provider&apos;s AI-powered voice assistant services (&quot;VOICEBOT Services&quot;). These Terms are incorporated into and governed by the Order Form / SAAS Agreement, Subscription Agreement, or similar governing agreement between the parties (the &quot;Agreement&quot;). In the event of a conflict between these Terms and any Order Form, these Terms shall control with respect to the VOICEBOT Services unless expressly stated otherwise.
