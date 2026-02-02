@@ -45,8 +45,8 @@ const PrevArrow = ({ onClick, currentSlide }: any) => {
         <button
             onClick={onClick}
             disabled={isDisabled}
-            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white rounded-full border border-gray-200 flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-[-35px] xl:left-[-78px] z-10
-        ${isDisabled ? ' cursor-not-allowed opacity-50' : ' bg-white hover:bg-gray-100 transition-colors opacity-100'}`}
+            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white  border border-gray-200 flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-[-30px] xl:left-[-25px] z-10
+        ${isDisabled ? ' cursor-not-allowed' : ' bg-white hover:bg-gray-100 transition-colors'}`}
             aria-label="Previous"
         >
             <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -64,8 +64,8 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
         <button
             onClick={onClick}
             disabled={isDisabled}
-            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white rounded-full flex items-center justify-center absolute top-1/2 -translate-y-1/2 right-[-35px] xl:right-[-78px] z-10 border border-gray-200
-        ${isDisabled ? ' cursor-not-allowed opacity-50 ' : 'bg-white hover:bg-gray-100 transition-colors opacity-100'}`}
+            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white flex items-center justify-center absolute top-1/2 -translate-y-1/2 right-[-35px] xl:right-[-30px] z-10 border border-gray-200
+        ${isDisabled ? ' cursor-not-allowed ' : 'bg-white hover:bg-gray-100 transition-colors'}`}
             aria-label="Next"
         >
             <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -108,7 +108,7 @@ const portableTextComponents: Partial<PortableTextReactComponents> = {
 export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectionProps) {
     if (!data) return null
 
-    // Support both direct items and groups from customListingItems
+
     const displayItems: any[] = []
 
     if (data.items) {
@@ -182,7 +182,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
 
     return (
         <Section className="bg-white" border="none">
-            <Container type="V2" className="py-16 md:py-24 relative px-12 md:px-0" border='all'>
+            <Container type="V2" className=" md:py-24 relative  md:px-0" border='all'>
                 <SectionHeaderV2
                     heading={sectionHeading}
                     description={data.description || ''}
@@ -209,7 +209,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                                 <div key={item._key || index} className="h-full outline-none">
                                     <div className="flex flex-col group h-full">
                                         {/* Image Container */}
-                                        <div className="relative  overflow-hidden mb-8  border nth-child(2n+1):border-gray-200 p-[10px]">
+                                        <div className="relative  overflow-hidden mb-8  border nth-child(2n+1):border-gray-200 md:p-[10px]">
                                             {/* Background Name */}
                                             {name && (
                                                 <div className="absolute inset-0 flex items-start justify-center pt-12 pointer-events-none opacity-[0.08]">
@@ -225,7 +225,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                                                     alt={name || 'AI Receptionist'}
                                                     width={500}
                                                     height={500}
-                                                    className="object-cover object-center z-10 w-full h-full rounded-[12px]"
+                                                    className="object-cover object-center z-10 w-full h-full md:rounded-[12px]"
                                                 />
                                             )}
 
@@ -245,7 +245,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                                         </div>
 
                                         {/* Content */}
-                                        <div className="px-12 py-6">
+                                        <div className="md:px-12 md:py-6 p-6">
                                             {cardHeader && (
                                                 <h3
                                                     className="text-xl font-geist font-medium leading-7 tracking-normal text-gray-950 mb-6 [&>span]:text-vs-purple [&>strong]:text-vs-purple [&>strong]:font-semibold"

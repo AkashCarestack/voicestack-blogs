@@ -47,8 +47,6 @@ export default function CompanyPage({
       {/* <AboutCompany heading={heading} description={description} image={image} icon={icon} /> */}
       <Section className="bg-white">
         <Container type="V2" border ="t-0" className="flex flex-col px-6 md:px-12  py-sm md:py-md">
-          
-      
          <Image
            src={VoicestackLogo} 
            className='w-full h-full object-cover' 
@@ -61,7 +59,7 @@ export default function CompanyPage({
           {pageData.description && (
             <div className="max-w-[610px] md:pt-12 pt-4 md:pb-12 pb-6 mx-auto">
           
-              <div className="flex flex-col gap-4 md:gap-6 text-left">
+              <div className="flex flex-col gap-4 md:gap-6 text-center">
                 <PortableText 
                   value={Array.isArray(pageData.description) 
                     ? pageData.description
@@ -70,7 +68,7 @@ export default function CompanyPage({
                   components={{
                     block: {
                       normal: ({ children }) => (
-                        <p className="text-gray-500 text-base md:text-lg leading-[150%]">
+                        <p className="text-gray-500 text-base leading-[150%]">
                           {children}
                         </p>
                       ),
