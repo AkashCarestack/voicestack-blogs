@@ -182,7 +182,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
 
     return (
         <Section className="bg-white" border="none">
-            <Container type="V2" className=" md:py-24 relative  md:px-0" border='all'>
+            <Container type="V2" className=" md:py-24 relative  md:px-0" border="y-0" >
                 <SectionHeaderV2
                     heading={sectionHeading}
                     description={data.description || ''}
@@ -191,7 +191,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                     className="mb-16 md:px-12"
                 />
 
-                <div className="receptionist-slider-wrapper">
+                <div className="receptionist-slider-wrapper border-b border-gray-200">
                     <Slider {...settings}>
                         {displayItems.map((item: any, index: number) => {
                             // Fix: Check for .url property first, as Sanity images might be already dereferenced in the query

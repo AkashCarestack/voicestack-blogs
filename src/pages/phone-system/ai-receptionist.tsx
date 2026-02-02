@@ -72,7 +72,7 @@ export default function AiReceptionist({
   faq,
   features,
 }: AiReceptionistProps) {
-  // console.log("ppp",pageData)
+  console.log("ppp",pageData)
 
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
@@ -98,6 +98,24 @@ export default function AiReceptionist({
           data={pageData['list-items']?.componentData}
         />
       )}
+
+      {pageData['feature-testimonials-section-single']?.componentData && (() => {
+        const componentData = pageData['feature-testimonials-section-single']?.componentData
+        const transformedData = {
+          ...componentData,
+          items: componentData?.testimonial 
+            ? [{
+                _key: componentData.testimonial._id || 'single-testimonial',
+                testimonial: componentData.testimonial
+              }]
+            : componentData?.items || []
+        }
+        return (
+          <FeatureTestimonialsSection
+            data={transformedData}
+          />
+        )
+      })()}
 
       {pageData['receptionist-team']?.componentData && (
         <ReceptionistTeamSection
@@ -129,17 +147,13 @@ export default function AiReceptionist({
         />
       )}
 
-      {pageData['integrations-listing']?.componentData && (
+      {/* {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
-      )}
-      {pageData['feature-testimonials-section-single']?.componentData && (
-        <FeatureTestimonialsSection
-          data={pageData['feature-testimonials-section-single']?.componentData}
-        />
-      )}
+      )} */}
+
 
 
       {faq && <FaqSection faqItems={faq} />}
