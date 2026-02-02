@@ -32,7 +32,7 @@ export const getStaticProps: GetStaticProps<any> = async ({
   const region = locale
 
   const client = getClient(draftMode ? { token: readToken } : undefined) as SanityClient
-  const slug = 'app-download'
+  const slug = region === 'en' ? 'app-download' : `app-download-${region.toLowerCase()}`
   const [homeSettings, heroData, bannerData, footerData, miscellaneousData,] = await Promise.all([
     getHeaderData(client, region),
     getHeroSectionData(client, region),
