@@ -34,7 +34,7 @@ export default function StartupPractices({
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {pageData['startup-practices-hero']?.componentData && (
-        <FeatureHero data={pageData['startup-practices-hero']} type="feature" />
+        <FeatureHero data={pageData['startup-practices-hero'].componentData} type="feature" />
       )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
