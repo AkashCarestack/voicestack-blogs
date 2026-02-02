@@ -43,16 +43,17 @@ export default function StartupPractices({
       )}
 
       <CategoryFeatureTabsSection
-        features={
-          pageData['grow-your-practice']?.componentData?.refData
-            ?.tabsListingComponent
-        }
-        variant="carouselwithcards"
-        sectionHeading={
-          pageData['grow-your-practice']?.componentData?.refData
-            ?.tabsListingComponent
-        }
-      />
+      columnCount={4}
+      features={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+      variant="carouselwithcards"
+      sectionHeading={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+    />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
           <VerticalTestimonialListingv2
