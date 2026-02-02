@@ -1021,8 +1021,8 @@ export default function CategoryFeatureTabsSection({
       className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
       border={sectionBorder}
     >
-      <Container className='w-full py-sm md:py-sm lg:py-lg ' type="V2" border="y-0">
-        <div className="flex-col relative w-full flex gap-16 mb-[60px]">
+      <Container className='w-full pt-sm md:pt-sm lg:pt-lg ' type="V2" border="y-0">
+        <div className="flex-col relative w-full flex gap-16 mb-[66px]">
           <SectionHeaderV2
             heading={
               sectionHeading?.sectionHeadingDynamic
