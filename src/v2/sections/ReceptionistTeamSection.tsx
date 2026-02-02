@@ -182,7 +182,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
 
     return (
         <Section className="bg-white" border="none">
-            <Container type="V2" className=" md:py-24 relative  md:px-0" border="y-0" >
+            <Container type="V2" className=" md:py-[66px] relative  md:px-0" border="t-0" >
                 <SectionHeaderV2
                     heading={sectionHeading}
                     description={data.description || ''}
@@ -191,7 +191,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                     className="mb-16 md:px-12"
                 />
 
-                <div className="receptionist-slider-wrapper border-b border-gray-200">
+                <div className="receptionist-slider-wrapper ">
                     <Slider {...settings}>
                         {displayItems.map((item: any, index: number) => {
                             // Fix: Check for .url property first, as Sanity images might be already dereferenced in the query
@@ -207,9 +207,9 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
 
                             return (
                                 <div key={item._key || index} className="h-full outline-none">
-                                    <div className="flex flex-col group h-full">
+                                    <div className="flex flex-col group h-full  border border-r-0 border-gray-200 slick-item-inner">
                                         {/* Image Container */}
-                                        <div className="relative  overflow-hidden mb-8  border nth-child(2n+1):border-gray-200 md:p-[10px]">
+                                        <div className="relative  overflow-hidden mb-8   md:p-[10px]">
                                             {/* Background Name */}
                                             {name && (
                                                 <div className="absolute inset-0 flex items-start justify-center pt-12 pointer-events-none opacity-[0.08]">
@@ -283,6 +283,9 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
         .receptionist-slider-wrapper .slick-slider {
           position: relative;
         }
+          .slick-track > .slick-slide.slick-active:nth-child(3n + 1) .slick-item-inner {
+           border-left: none !important;
+        } 
       `}</style>
         </Section>
     )
