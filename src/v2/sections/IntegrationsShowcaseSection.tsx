@@ -47,7 +47,7 @@ interface IntegrationsGridProps {
 // Default CTA items for the section
 const defaultCtaListItems = [
   {
-    ctaText: 'Explore Integration',
+    ctaText: 'See All Integrations',
     ctaLink: '/phone-system/integrations',
     ctaType: 'secondaryWhite',
   },
