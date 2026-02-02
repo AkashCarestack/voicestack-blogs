@@ -1,8 +1,12 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router';
 import Button from '~/components/common/Button'
 
 export default function LoginPage() {
   const  metadescptn="Login securely to your VoiceStack® account. Owners, managers, & team members can login to their VoiceStack® user account or reset their password."
+  const router = useRouter();
+  const locale = router.locale;
+  const loginUrl = locale === 'en' ? 'https://id.voicestack.com/Account/Login' : locale === 'en-AU' ? 'https://id.voicestack.au/Account/Login' : 'https://id.voicestack.com/Account/Login';
   return (
     <>
       <Head>
@@ -33,7 +37,7 @@ export default function LoginPage() {
                 <Button
                   type="primary"
                   className="w-fit"
-                  link="https://id.voicestack.com/Account/Login"
+                  link={loginUrl}
                 >
                   <span>Log in to VoiceStack</span>
                 </Button>
