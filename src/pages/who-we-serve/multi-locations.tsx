@@ -45,43 +45,59 @@ export default function MultiLocationPractices({
   return  (
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      {pageData['single-locations-hero']?.componentData && (
-        <FeatureHero data={pageData['single-locations-hero']} type="feature" />
+      {pageData['multi-locations-hero']?.componentData && (
+        <FeatureHero data={pageData['multi-locations-hero']?.componentData} type="feature" />
       )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
-      {tabsListingComponentData && (
-        <SwitchableTabsV2 data={tabsListingComponentData} />
-      )}
+       <CategoryFeatureTabsSection
+        features={
+          pageData['grow-your-practice']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        variant="carouselwithcards"
+        sectionHeading={
+          pageData['grow-your-practice']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+      />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
-        <VerticalTestimonialListingv2
-          data={
-            pageData['testimonial-video-section']?.componentData?.refData
-              ?.testimonialListing
-          }
-        />
-      )}
+          <VerticalTestimonialListingv2
+            data={
+              pageData['testimonial-video-section']?.componentData?.refData
+                ?.testimonialListing
+            }
+          />
+        )}
       <StatisticsSection />
+
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
       )}
-       <CategoryFeatureTabsSection
+
+      <CategoryFeatureTabsSection
         features={
           pageData['manage-every-calls']?.componentData?.refData
             ?.tabsListingComponent
         }
         variant="scrollcarousel"
         sectionHeading={
-          pageData['manage-every-calls']?.componentData?.refData?.tabsListingComponent
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
         }
       />
+      {faq && (
+        <div>
+          <FaqSection faqItems={faq} />
+        </div>
+      )}
     </>
   )
  
