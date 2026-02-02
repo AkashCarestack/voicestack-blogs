@@ -45,8 +45,8 @@ const PrevArrow = ({ onClick, currentSlide }: any) => {
         <button
             onClick={onClick}
             disabled={isDisabled}
-            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white rounded-full border border-gray-200 flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-[-35px] left-[0px] xl:left-[20px] z-10
-        ${isDisabled ? ' cursor-not-allowed opacity-50' : ' bg-white hover:bg-gray-100 transition-colors opacity-100'}`}
+            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white  border border-gray-200 flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-[-30px] xl:left-[-25px] z-10
+        ${isDisabled ? ' cursor-not-allowed' : ' bg-white hover:bg-gray-100 transition-colors'}`}
             aria-label="Previous"
         >
             <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -64,8 +64,8 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
         <button
             onClick={onClick}
             disabled={isDisabled}
-            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white rounded-full flex items-center justify-center absolute top-1/2 -translate-y-1/2 md:right-[-35px] right-[0px] xl:right-[20px] z-10 border border-gray-200
-        ${isDisabled ? ' cursor-not-allowed opacity-50 ' : 'bg-white hover:bg-gray-100 transition-colors opacity-100'}`}
+            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white flex items-center justify-center absolute top-1/2 -translate-y-1/2 right-[-35px] xl:right-[-30px] z-10 border border-gray-200
+        ${isDisabled ? ' cursor-not-allowed ' : 'bg-white hover:bg-gray-100 transition-colors'}`}
             aria-label="Next"
         >
             <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -108,7 +108,7 @@ const portableTextComponents: Partial<PortableTextReactComponents> = {
 export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectionProps) {
     if (!data) return null
 
-    // Support both direct items and groups from customListingItems
+
     const displayItems: any[] = []
 
     if (data.items) {
