@@ -205,7 +205,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
             <React.Fragment key={categoryIndex}>
               {data?.rowCategories?.length > 1 && (
                 <TableRow className="border-t-[1px] border-b-[1px] border-gray-200 ">
-                  <TableCell className="sticky left-0 lg:text-base font-medium text-gray-950 text-sm border-gray-200 bg-gradient-to-r from-[#F3F4F6] to-[#E5E7EB]" colSpan={numberOfComparisons + 1}>
+                  <TableCell className="sticky left-0 lg:text-base font-medium text-gray-950 text-sm border-gray-200 bg-gray-50" colSpan={numberOfComparisons + 1}>
                     <button
                       onClick={() => toggleCategory(categoryIndex)}
                       className="flex items-center gap-2 justify-between hover:opacity-80 transition-opacity cursor-pointer w-full text-left py-[18px]"
