@@ -269,7 +269,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                     </h1>
                   </div>
                 ) : (
-                  <h1 className={`${type === 'partner' ? 'sr-only' : ''} text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase`}>
+                  <h1 className={`${type === 'partner' ? 'sr-only' : ''} text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase`}>
                     {title?.toUpperCase()}
                   </h1>
                 )
