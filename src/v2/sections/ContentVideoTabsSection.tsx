@@ -341,8 +341,6 @@ export default function ContentVideoTabsSection({
     return null;
   }
 
-  const currentTabData = (tabs.find(tab => tab.key === activeTab) || tabs[0]) as TabItem;
-
   // Get overview video from data.overviewVideo - handles all video types
   const getOverviewVideo = () => {
     if (!data?.overviewVideo || !Array.isArray(data.overviewVideo) || data.overviewVideo.length === 0) {
@@ -720,17 +718,9 @@ export default function ContentVideoTabsSection({
 
                     {/* Mobile: Image/Video below each content section */}
                     <div className="lg:hidden w-full mt-8">
-                      <div className="w-full h-full lg:h-[400px] rounded-2xl overflow-hidden bg-gray-100">
+                      <div className="w-full h-full lg:h-[400px] rounded-2xl overflow-hidden bg-gray-100 relative">
                         {tab.video ? (
                           <div className="w-full h-full">
-                            {(() => {
-                              console.log('Mobile VideoPlayer - tab:', {
-                                tabKey: tab.key,
-                                video: tab.video,
-                                thumbnail: tab.thumbnail,
-                              });
-                              return null;
-                            })()}
                             <VideoPlayers
                               video={tab.video}
                               thumbnail={tab.thumbnail}
@@ -765,35 +755,37 @@ export default function ContentVideoTabsSection({
                 transform: 'translateZ(0)',
               }}
             >
-              <div className="w-full h-[644px] md:rounded-2xl rounded-none overflow-hidden bg-gray-100">
-                {currentTabData.video ? (
-                  <div className="w-full h-full">
-                    {(() => {
-                      console.log('Desktop VideoPlayer - currentTabData:', {
-                        tabKey: currentTabData.key,
-                        video: currentTabData.video,
-                        thumbnail: currentTabData.thumbnail,
-                      });
-                      return null;
-                    })()}
-                    <VideoPlayers
-                      video={currentTabData.video}
-                      thumbnail={currentTabData.thumbnail}
-                    />
+              <div className="w-full h-[644px] md:rounded-2xl rounded-none overflow-hidden bg-gray-100 relative">
+                {tabs.map((tab) => (
+                  <div
+                    key={tab.key}
+                    className={cn(
+                      "absolute inset-0 w-full h-full",
+                      activeTab === tab.key ? "block" : "hidden"
+                    )}
+                  >
+                    {tab.video ? (
+                      <div className="w-full h-full">
+                        <VideoPlayers
+                          video={tab.video}
+                          thumbnail={tab.thumbnail}
+                        />
+                      </div>
+                    ) : tab.thumbnail ? (
+                      <div className="w-full h-full relative">
+                        <ImageLoader
+                          image={tab.thumbnail as string}
+                          alt={tab.heading}
+                          className="w-full h-full object-cover md:rounded-2xl rounded-none"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <p className="text-gray-400">No media available</p>
+                      </div>
+                    )}
                   </div>
-                ) : currentTabData.thumbnail ? (
-                  <div className="w-full h-full relative">
-                    <ImageLoader
-                      image={currentTabData.thumbnail as string}
-                      alt={currentTabData.heading}
-                      className="w-full h-full object-cover md:rounded-2xl rounded-none"
-                    />
-                  </div>
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <p className="text-gray-400">No media available</p>
-                  </div>
-                )}
+                ))}
               </div>
             </div>
           </div>
