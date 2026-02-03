@@ -29,7 +29,7 @@ interface BookDemoContextType {
   error: string | null
 }
 
-const BookDemoContext = createContext<BookDemoContextType>({
+export const BookDemoContext = createContext<BookDemoContextType>({
   isDemoPopUpShown: false,
   setIsDemoPopUpShown: () => {},
   formData: null,
