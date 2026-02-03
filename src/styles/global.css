@@ -262,6 +262,11 @@ html {
   margin-bottom: 1rem !important;
 }
 
+#hubspotForm .hs-form-field,
+#pricingHubspotForm .hs-form-field {
+  margin-bottom: 1rem !important;
+}
+
 #hubspotForm fieldset,
 #pricingHubspotForm fieldset {
   max-width: 100%;
