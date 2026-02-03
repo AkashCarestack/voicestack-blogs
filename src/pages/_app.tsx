@@ -21,7 +21,7 @@ import { createObservedUser, createSession, createUser, getUserData, TrackUserPr
 import { getSession } from '~/utils/tracker/session'
 import { getUser } from '~/utils/tracker/user'
 import { getClient } from '~/lib/sanity.client'
-import { getHeaderData, getFooterData, getALLSiteSettings, getContactData } from '~/lib/sanity.queries'
+import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData } from '~/lib/sanity.queries'
 import type { AppContext } from 'next/app'
 
 import Layout from '../components/Layout'
@@ -55,6 +55,8 @@ export interface SharedPageProps {
     siteSettings?: any
     contactData?: any
   }
+  demoFormData?: any
+  region?: string
 }
 
 const PreviewProvider = lazy(() => import('~/components/PreviewProvider'));
@@ -65,7 +67,7 @@ function App({
   Component,
   pageProps,
 }: AppProps<SharedPageProps>) {
-  const { draftMode, token, layoutData } = pageProps
+  const { draftMode, token, layoutData, demoFormData, region } = pageProps
   const router = useRouter();
   
   // Check if current page is studio page
@@ -198,7 +200,7 @@ function App({
         ) : (
           // Render regular pages with layout
           <PricingModalProvider>
-            <BookDemoContextProvider>
+            <BookDemoContextProvider initialFormData={demoFormData} region={region || 'en'}>
               <LayoutDataProvider
                 initialHeaderData={layoutData?.headerData}
                 initialFooterData={layoutData?.footerData}
@@ -237,11 +239,12 @@ App.getInitialProps = async (appContext: AppContext) => {
   
   try {
     const client = getClient();
-    const [headerData, footerData, siteSettings, contactData] = await Promise.all([
+    const [headerData, footerData, siteSettings, contactData, formData] = await Promise.all([
       getHeaderData(client, locale),
       getFooterData(client, locale),
       client.fetch(getALLSiteSettings(locale)),
-      getContactData(client, locale)
+      getContactData(client, locale),
+      getDemoFormData(client, locale)
     ]);
 
     return {
@@ -253,6 +256,8 @@ App.getInitialProps = async (appContext: AppContext) => {
           siteSettings,
           contactData,
         },
+        demoFormData: formData || null,
+        region: locale,
       },
     };
   } catch (error) {
@@ -267,6 +272,8 @@ App.getInitialProps = async (appContext: AppContext) => {
           siteSettings: null,
           contactData: null,
         },
+        demoFormData: null,
+        region: locale,
       },
     };
   }

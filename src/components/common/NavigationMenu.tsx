@@ -28,7 +28,7 @@ const NavigationMenu = ({
     });
   };
 
-  console.log({menuItems});
+  // console.log({menuItems});
   
   return (
     <nav className="flex lg:items-center flex-col lg:flex-row lg:gap-y-4 gap-x-4 lg:gap-x-2 xl:gap-x-6 w-full lg:w-auto flex-wrap">
@@ -42,7 +42,7 @@ const NavigationMenu = ({
             const submenuItems = isMobile && link.href 
               ? [{ label: 'Overview', href: link.href, description: null }, ...link.submenu]
               : link.submenu;
-            console.log(submenuItems);
+            // console.log(submenuItems);
             const isSubmenuOpen = openSubmenus.has(i);
 
             return (
