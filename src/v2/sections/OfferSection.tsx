@@ -14,6 +14,7 @@ interface OfferSectionProps {
 
 const OfferSection = ({ data, variant = 'default', spacingY=false }: OfferSectionProps) => {
   const compact = variant === 'compact';
+  console.log({data});
   return (
     <Section className={`bg-white relative overflow-hidden`}>
       <Container className={`${spacingY ? 'py-16' : ''}`} type="V2" border='y-0'>
@@ -53,8 +54,8 @@ const OfferSection = ({ data, variant = 'default', spacingY=false }: OfferSectio
 
               </div>
             </div>
-            <div className="flex-1 self-end h-full">
-              <Image src={data.cardImage.url} alt='World Map' className="h-full w-full object-cover object-right"
+            <div className="flex-1 self-end">
+              <Image src={data.cardImage.url} alt={data.cardImage.altText} className="h-full w-full object-cover object-right"
                 width={727}
                 height={727}
               />
