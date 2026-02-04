@@ -1,14 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { createClient } from "@sanity/client";
 import Anchor from "~/components/common/anchor";
-
-const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
-  useCdn: true,
-  apiVersion: "2023-10-01",
-});
 
 // Exclude list for pages that shouldn't appear in search results
 const EXCLUDED_SLUGS = [
@@ -275,100 +267,15 @@ export default function SearchPage() {
     async function fetchResults() {
       setLoading(true);
       try {
-        // Query for documents with basicInfo.slug (whoWeServe, dentalPhones, etc.)
-        // Search in titles, descriptions, slugs, section headers, and content fields
-        const query1 = `
-          *[
-            _type in ["whoWeServe", "whoWeServePage", "dentalPhones", "whyVoicestack", "company", "companyPage"]
-            && (
-              basicInfo.title match $m ||
-              basicInfo.description match $m ||
-              basicInfo.slug.current match $m ||
-              title match $m ||
-              description match $m ||
-              defined(content) && content[].children[].text match $m ||
-              defined(content.sections) && content.sections[].title match $m ||
-              defined(content.sections) && content.sections[].component.tabsListingComponent.headline match $m ||
-              defined(content.sections) && content.sections[].component.tabsListingComponent.subheadline match $m ||
-              defined(content.sections) && content.sections[].component.tabsListingComponent.tabs[].tabHeading match $m ||
-              defined(content.sections) && content.sections[].component.tabsListingComponent.tabs[].tabSubHeading match $m ||
-              defined(content.sections) && content.sections[].component.tabsListingComponent.content[].children[].text match $m ||
-              defined(content.sections) && content.sections[].component.customComponent.title match $m ||
-              defined(content.sections) && content.sections[].component.customComponent.subtitle match $m ||
-              defined(content.sections) && content.sections[].component.customComponent.content[].children[].text match $m
-            )
-            && defined(basicInfo.slug.current)
-            && !(_id in path("drafts.**"))
-          ]{
-            _id,
-            _type,
-            "title": coalesce(basicInfo.title, title),
-            "slug": basicInfo.slug.current,
-            "description": coalesce(basicInfo.description, description),
-            content,
-            language
-          }
-        `;
-
-        // Query for documents with slug at root level (page, feature, etc.)
-        // Search in titles, descriptions, headings, slugs, and content
-        const query2 = `
-          *[
-            _type in ["page", "feature"]
-            && (
-              title match $m ||
-              description match $m ||
-              featureHeading match $m ||
-              slug.current match $m ||
-              defined(content) && content[].children[].text match $m ||
-              defined(overview) && overview[].children[].text match $m ||
-              shortDescription match $m
-            )
-            && defined(slug.current)
-            && !(_id in path("drafts.**"))
-          ]{
-            _id,
-            _type,
-            "title": coalesce(title, featureHeading),
-            "slug": slug.current,
-            "description": coalesce(description, ""),
-            content,
-            overview,
-            shortDescription,
-            language
-          }
-        `;
-
-        const [data1, data2] = await Promise.all([
-          client.fetch(query1, { m: `${s}*` }),
-          client.fetch(query2, { m: `${s}*` })
-        ]);
-
-        // Combine and filter
-        const allResults = [...data1, ...data2]
-          .filter((item: any) => {
-            // Filter by locale
-            if (item.language && item.language !== locale && item.language !== 'en') {
-              return false;
-            }
-            
-            // Filter excluded pages
-            const path = getPathForPage({ _type: item._type, slug: item.slug });
-            if (shouldExcludePage(item.slug, path)) {
-              return false;
-            }
-            
-            return true;
-          })
-          .map((item: any) => {
-            // Add content preview
-            return {
-              ...item,
-              preview: getContentPreview(item)
-            };
-          });
-
-        setResults(allResults);
+        // Use server-side API route instead of direct client-side Sanity calls
+        const response = await fetch(`/api/search?s=${encodeURIComponent(s)}&locale=${encodeURIComponent(locale)}`);
+        
+        if (!response.ok) {
+          throw new Error('Search request failed');
+        }
+        
+        const data = await response.json();
+        setResults(data.results || []);
       } catch (error) {
         console.error('Search error:', error);
         setResults([]);

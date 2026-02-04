@@ -161,7 +161,7 @@ export const getStaticPaths: GetStaticPaths = async ({
     return {
       paths,
 
-      fallback: 'blocking',
+      fallback: false, // Only serve pre-generated pages. New pages will 404 until rebuild (webhook handles revalidation)
     }
   } catch (error) {
     console.error('Error fetching partner paths:', error)
@@ -169,7 +169,7 @@ export const getStaticPaths: GetStaticPaths = async ({
     return {
       paths: [],
 
-      fallback: 'blocking',
+      fallback: false, // Only serve pre-generated pages. New pages will 404 until rebuild (webhook handles revalidation)
     }
   }
 }
