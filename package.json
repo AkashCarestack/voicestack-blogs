@@ -33,6 +33,7 @@
     "@supabase/supabase-js": "^2.33.1",
     "@vercel/edge": "^1.1.4",
     "@vercel/functions": "^3.1.0",
+    "accept-md-runtime": "^1.0.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cs-tracker": "^0.0.12",
@@ -55,13 +56,13 @@
     "styled-components": "6.1.8",
     "tailwind-merge": "^2.5.4",
     "tailwindcss": "^3.4.14",
-    "tailwindcss-animate": "^1.0.7",
-    "accept-md-runtime": "^1.0.0"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
     "@types/react": "18.2.55",
     "@types/react-slick": "^0.23.13",
+    "accept-md": "^1.0.3",
     "autoprefixer": "^10.4.17",
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
