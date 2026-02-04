@@ -264,11 +264,14 @@ export default function SearchPage() {
   useEffect(() => {
     if (!s || typeof s !== 'string') return;
 
+    // Extract search query as string after type guard
+    const searchQuery = s;
+
     async function fetchResults() {
       setLoading(true);
       try {
         // Use server-side API route instead of direct client-side Sanity calls
-        const response = await fetch(`/api/search?s=${encodeURIComponent(s)}&locale=${encodeURIComponent(locale)}`);
+        const response = await fetch(`/api/search?s=${encodeURIComponent(searchQuery)}&locale=${encodeURIComponent(locale)}`);
         
         if (!response.ok) {
           throw new Error('Search request failed');
