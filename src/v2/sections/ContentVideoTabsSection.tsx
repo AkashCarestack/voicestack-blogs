@@ -549,7 +549,7 @@ export default function ContentVideoTabsSection({
   return (
     <Section className={cn("w-full flex flex-col !bg-white", containerClassName)}>
       <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
-        <div className="flex-col relative w-full flex gap-16">
+        <div className="flex-col relative w-full flex gap-8">
           <SectionHeaderV2
             heading={data?.sectionHeadingDynamic}
             description={data?.description || data?.subDescription}
@@ -577,7 +577,7 @@ export default function ContentVideoTabsSection({
             data={tabs.map(tab => ({
               id: tab.key,
               key: tab.key,
-              title: tab?.category,
+              title: tab?.subHeading,
               testimonial: null,
               setActiveTab: handleTabClick,
             })) as IdataProps[]}
@@ -590,13 +590,13 @@ export default function ContentVideoTabsSection({
             isSkip={true}
           />
         </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:px-12 px-4 ">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 lg:px-12 px-4 ">
             {/* Left: Scrollable Content Sections */}
             <div className="w-full lg:max-w-[503px]">
               {tabs?.map((tab, i) => (
                 <section
                   key={tab.key}
-                  className={`lg:min-h-screen min-h-auto md:pt-[160px] py-8`}
+                  className={`lg:min-h-screen min-h-auto md:pt-[120px] py-4`}
                 >
                   <div
                     ref={(el) => {
@@ -729,7 +729,13 @@ export default function ContentVideoTabsSection({
                             <span className="text-sm font-medium">{tab.ctaText}</span>
                           </Button>
                         </div>
-                      ) : null}
+                      ) : (
+                        <div className="flex justify-start md:mt-12 mt-6">
+                          <Button type="primary" link="/demo">
+                            <span className="text-sm font-medium">Book Free Demo</span>
+                          </Button>
+                        </div>
+                      )}
                     </div>
 
                     {/* Mobile: Image/Video below each content section */}
