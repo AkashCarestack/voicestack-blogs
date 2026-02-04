@@ -21,6 +21,8 @@ function BaaPage() {
 
                 <div className="legal-content">
                     {/* <!-- <Markdown {md} />     --> */}
+                    
+                    <p>Effective Date : 1 January 2026</p>
                     <p className="legal__text">
                         If Customer is a Covered Entity and includes Protected Health
                         Information in Customer Data or otherwise provide any Protected

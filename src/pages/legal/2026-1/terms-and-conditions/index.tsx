@@ -10,7 +10,10 @@ function Terms() {
         </div>
 
         <div className="legal-content">
-          <p>EFFECTIVE DATE: 03 October 2024</p>
+          
+        <p>
+            Effective Date : 1 January 2026
+        </p>
           <p className="c0">
             <span className="c1">
               This SaaS Customer Agreement (the &ldquo;Agreement&rdquo;)
