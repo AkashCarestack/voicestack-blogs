@@ -794,6 +794,7 @@ export default function CategoryFeatureTabsSection({
                             className="rounded-lg object-contain w-full h-full"
                           />
                         </motion.div>
+                        
                       );
                     })}
                   </AnimatePresence>
@@ -857,10 +858,10 @@ export default function CategoryFeatureTabsSection({
             </div>
 
             <div className="relative w-full">
-              <div className={`grid  ${isVisible ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}  grid-cols-1 w-full border border-x-0 border-gray-200 relative md:h-[500px]`}>
+              <div className={`grid  ${isVisible ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}  grid-cols-1 w-full border border-x-0 border-gray-200 relative lg:h-[500px]`}>
                 {
                   allCategories.some(category => category.name === activeCategory && category?.subheading) &&
-                  <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 min-h-[500px] relative overflow-hidden border-r border-gray-200">
+                  <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 lg:min-h-[500px] relative overflow-hidden border-r border-gray-200">
                     <AnimatePresence mode="wait">
                       {allCategories.map((category) => {
                         const isActive = category.name === activeCategory;
@@ -964,7 +965,7 @@ export default function CategoryFeatureTabsSection({
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                      className="w-full"
+                      className="w-full lg:border-t border-gray-200"
                     >
                       <GroupedCardsGrid
                         customListingItems={category.features.map((feature) => {
