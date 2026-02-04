@@ -415,6 +415,12 @@ export default defineType({
               name: 'name',
               title: 'Schema Key (do not change this key this key is used to identify the schema)',
               type: 'string',
+              options: {
+                list: [
+                  { title: 'OrganizationSchema', value: 'OrganizationSchema' },
+                  { title: 'SoftwareApplicationSchema', value: 'SoftwareApplicationSchema' },
+                ],
+              },
             },
             {
               name: 'value',

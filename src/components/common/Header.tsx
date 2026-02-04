@@ -337,7 +337,7 @@ const Header = ({ data, refer = null }) => {
           <meta name="twitter:image" content={urlForImage(siteSettings?.ogImage)} />
           <script
               type="application/ld+json"
-              id="organization-schema"
+              id={`organization-schema-${router.locale}`}
               dangerouslySetInnerHTML={{ __html: JSON.stringify(OrganizationSchemaData) }}
             />
           </>
@@ -346,7 +346,7 @@ const Header = ({ data, refer = null }) => {
           <>
           <script
               type="application/ld+json"
-              id="software-schema"
+              id={`software-schema-${router.locale}`}
               dangerouslySetInnerHTML={{ __html: JSON.stringify(SoftwareSchemaData) }}
             />
           </>
