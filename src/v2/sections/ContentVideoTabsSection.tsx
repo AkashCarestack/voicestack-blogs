@@ -86,8 +86,10 @@ export default function ContentVideoTabsSection({
   containerClassName,
 }: ContentVideoTabsProps) {
   const activeTabRef = useRef<string>('');
+  const previousActiveTabRef = useRef<string>('');
   const [activeTab, setActiveTab] = useState<string>('');
   const [isScrolling, setIsScrolling] = useState(false);
+  const [tabActivationCount, setTabActivationCount] = useState<{ [key: string]: number }>({});
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const stickyTabsRef = useRef<HTMLDivElement | null>(null);
@@ -220,8 +222,22 @@ export default function ContentVideoTabsSection({
       const firstTab = tabs[0].key;
       setActiveTab(firstTab);
       activeTabRef.current = firstTab;
+      previousActiveTabRef.current = firstTab;
+      // Initialize activation count for first tab
+      setTabActivationCount({ [firstTab]: 1 });
     }
   }, [tabs, activeTab]);
+
+  // Increment activation count when tab becomes active (to restart video)
+  useEffect(() => {
+    if (activeTab && previousActiveTabRef.current !== activeTab) {
+      setTabActivationCount(prev => ({
+        ...prev,
+        [activeTab]: (prev[activeTab] || 0) + 1
+      }));
+      previousActiveTabRef.current = activeTab;
+    }
+  }, [activeTab]);
 
   // Smooth scroll to section
   const scrollToSection = useCallback((tabKey: string) => {
@@ -529,7 +545,6 @@ export default function ContentVideoTabsSection({
     },
   };
 
-  console.log(data);
   return (
     <Section className={cn("w-full flex flex-col !bg-white", containerClassName)}>
       <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
@@ -540,7 +555,7 @@ export default function ContentVideoTabsSection({
             className='xl:px-12 md:px-6 px-4'
           />
           {overviewVideo && (
-            <div className="w-full mb-8 overflow-hidden bg-gray-100 h-[300px] md:h-[600px]">
+            <div className="w-full mb-8 overflow-hidden h-[300px] md:h-[600px]">
               <div className="relative w-full h-full">
                 <VideoPlayers
                   video={overviewVideo}
@@ -718,10 +733,11 @@ export default function ContentVideoTabsSection({
 
                     {/* Mobile: Image/Video below each content section */}
                     <div className="lg:hidden w-full mt-8">
-                      <div className="w-full h-full lg:h-[400px] rounded-2xl overflow-hidden bg-gray-100 relative">
+                      <div className="w-full h-full lg:h-[400px] rounded-2xl overflow-hidden relative">
                         {tab.video ? (
                           <div className="w-full h-full">
                             <VideoPlayers
+                              key={`mobile-video-${tab.key}`}
                               video={tab.video}
                               thumbnail={tab.thumbnail}
                             />
@@ -755,7 +771,7 @@ export default function ContentVideoTabsSection({
                 transform: 'translateZ(0)',
               }}
             >
-              <div className="w-full h-[644px] md:rounded-2xl rounded-none overflow-hidden bg-gray-100 relative">
+              <div className="w-full h-[644px] md:rounded-2xl rounded-none overflow-hidden relative">
                 {tabs.map((tab) => (
                   <div
                     key={tab.key}
@@ -767,6 +783,7 @@ export default function ContentVideoTabsSection({
                     {tab.video ? (
                       <div className="w-full h-full">
                         <VideoPlayers
+                          key={`video-${tab.key}-${tabActivationCount[tab.key] || 0}`}
                           video={tab.video}
                           thumbnail={tab.thumbnail}
                         />
