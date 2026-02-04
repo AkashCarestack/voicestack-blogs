@@ -804,6 +804,16 @@ export async function getDemoFormData(client: SanityClient, region: string) {
   return await client.fetch(query, { region })
 }
 
+export async function getSchemaData(client: SanityClient, region: string) {
+  const query = groq`*[_type == "homeSettings" && language == $region][0]{
+    schema[]{
+      name,
+      value
+    }
+  }`
+  return await client.fetch(query, { region })
+}
+
 export const getALLSiteSettings = (region) =>
   groq`*[_type == "siteSettings"] | order(_createdAt desc)[0]`
 
