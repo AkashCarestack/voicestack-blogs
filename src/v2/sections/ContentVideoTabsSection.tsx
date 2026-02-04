@@ -14,6 +14,7 @@ import { urlForImage } from '~/lib/sanity.image';
 import ImageLoader from '~/components/common/imageLoader/imageLoader';
 import ListingBlock from '~/components/blockEditor/ListingBlock';
 import { useStickyTop } from '~/hooks/useStickyTop';
+import Image from 'next/image';
 
 
 interface Feature {
@@ -750,10 +751,11 @@ export default function ContentVideoTabsSection({
                           </div>
                         ) : tab.thumbnail ? (
                           <div className="w-full h-full relative">
-                            <img
+                            <Image
                               src={tab.thumbnail as string}
                               alt={tab.heading}
-                              className="w-full h-full object-cover rounded-2xl"
+                              fill
+                              className="object-cover rounded-2xl"
                             />
                           </div>
                         ) : (

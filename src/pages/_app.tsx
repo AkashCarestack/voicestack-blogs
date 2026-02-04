@@ -21,7 +21,7 @@ import { createObservedUser, createSession, createUser, getUserData, TrackUserPr
 import { getSession } from '~/utils/tracker/session'
 import { getUser } from '~/utils/tracker/user'
 import { getClient } from '~/lib/sanity.client'
-import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData } from '~/lib/sanity.queries'
+import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData, getSchemaData } from '~/lib/sanity.queries'
 import type { AppContext } from 'next/app'
 
 import Layout from '../components/Layout'
@@ -50,6 +50,7 @@ export interface SharedPageProps {
   draftMode: boolean
   token: string
   layoutData?: {
+    schemaData: unknown;
     headerData?: any
     footerData?: any
     siteSettings?: any
@@ -206,6 +207,7 @@ function App({
                 initialFooterData={layoutData?.footerData}
                 initialSiteSettings={layoutData?.siteSettings}
                 initialContactData={layoutData?.contactData}
+                initialSchemaData={layoutData?.schemaData}
               >
                 {/* <GlobalHead /> */}
                 <Layout>
@@ -239,12 +241,13 @@ App.getInitialProps = async (appContext: AppContext) => {
   
   try {
     const client = getClient();
-    const [headerData, footerData, siteSettings, contactData, formData] = await Promise.all([
+    const [headerData, footerData, siteSettings, contactData, formData,schemaData] = await Promise.all([
       getHeaderData(client, locale),
       getFooterData(client, locale),
       client.fetch(getALLSiteSettings(locale)),
       getContactData(client, locale),
-      getDemoFormData(client, locale)
+      getDemoFormData(client, locale),
+      getSchemaData(client, locale)
     ]);
 
     return {
@@ -255,6 +258,7 @@ App.getInitialProps = async (appContext: AppContext) => {
           footerData,
           siteSettings,
           contactData,
+          schemaData,
         },
         demoFormData: formData || null,
         region: locale,
