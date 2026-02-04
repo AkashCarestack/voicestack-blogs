@@ -571,24 +571,24 @@ export default function ContentVideoTabsSection({
             // className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
             className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
 
-          >
-            <SwitchableTabs
-              data={tabs.map(tab => ({
-                id: tab.key,
-                key: tab.key,
-                title: tab.title,
-                testimonial: null,
-                setActiveTab: handleTabClick,
-              })) as IdataProps[]}
-              setActiveTab={handleTabClick}
-              activeTab={activeTab}
-              isSticky={false}
-              className="md:py-2 bg-transparent !shadow-none !border-none"
-              isShowImage={false}
-              shadow={false}
-              isSkip={true}
-            />
-          </div>
+        >
+          <SwitchableTabs
+            data={tabs.map(tab => ({
+              id: tab.key,
+              key: tab.key,
+              title: tab?.category,
+              testimonial: null,
+              setActiveTab: handleTabClick,
+            })) as IdataProps[]}
+            setActiveTab={handleTabClick}
+            activeTab={activeTab}
+            isSticky={false}
+            className="md:py-2 bg-transparent !shadow-none !border-none"
+            isShowImage={false}
+            shadow={false}
+            isSkip={true}
+          />
+        </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:px-12 px-4 ">
             {/* Left: Scrollable Content Sections */}
             <div className="w-full lg:max-w-[503px]">

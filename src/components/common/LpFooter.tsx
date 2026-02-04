@@ -26,7 +26,7 @@ const LpFooter = ({ data }) => {
           <div className="py-3 border-gray-800 ">
             <div className="flex flex-col md:flex-row gap-6 items-center justify-between">
               {/* Logo and Copyright */}
-              <div className="flex md:gap-0 gap-6 flex-col md:flex-row md:h-[84px] items-center justify-between rounded-xl bg-zinc-900 flex-1 py-3 px-3 md:pl-8">
+              <div className="flex md:gap-0 gap-6 flex-col md:flex-row md:h-[84px] items-center justify-between rounded-xl bg-zinc-900 flex-1 py-3 px-3 md:px-8 w-full">
                 <div className="flex flex-col md:flex-row items-center gap-4">
                   {data?.logo?.asset?.url ? (
                     <Image
@@ -46,7 +46,7 @@ const LpFooter = ({ data }) => {
                   
                 </div>
                 {/* App Store Links */}
-                {data?.appStoreLinks &&
+                {/* {data?.appStoreLinks &&
                     (data.appStoreLinks.googlePlay ||
                       data.appStoreLinks.appStore) && (
                       <div className="flex gap-3">
@@ -99,58 +99,32 @@ const LpFooter = ({ data }) => {
                           </a>
                         )}
                       </div>
-                    )}
+                    )} */}
+                <div className="flex flex-wrap items-center justify-center md:justify-end gap-4">
+                 
+                  <Anchor
+                    href="/legal/2025-01/privacy-policy"
+                    className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                  >
+                    Privacy Policy
+                  </Anchor>
+                  <Anchor
+                    href="/legal/2024-10/terms-and-conditions"
+                    className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                  >
+                    Terms of Service
+                  </Anchor>
+                </div>
               </div>
             </div>
 
-            {/* Bottom Footer Links */}
-            {safeData?.bottomLinks && safeData.bottomLinks.length > 0 && (
-              <div className="mt-4 pt-4 border-t border-gray-800">
-                <ul className="flex flex-wrap items-center justify-center gap-4">
-                  {safeData.bottomLinks.map(
-                    (linkItem: any, index: number) => (
-                      <li
-                        className="text-gray-400 font-inter text-sm font-medium leading-[115%]"
-                        key={index}
-                      >
-                        <Anchor
-                          href={linkItem.link}
-                          target={linkItem.newTab ? '_blank' : '_self'}
-                          className="hover:text-white transition-colors duration-300"
-                        >
-                          {linkItem.text}
-                        </Anchor>
-                      </li>
-                    ),
-                  )}
-                </ul>
-              </div>
-            )}
+           
           </div>
           <div className="mb-5 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
             <span className="text-zinc-600 font-inter text-sm font-medium leading-[115%]">
               @{CopyrightYear} {safeData?.copyrightText || 'VoiceStack. All rights reserved'}
             </span>
-            <div className="flex flex-wrap items-center justify-center md:justify-end gap-4">
-              <Anchor
-                href="/system-requirements"
-                className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
-              >
-                System Requirements
-              </Anchor>
-              <Anchor
-                href="/legal/2025-01/privacy-policy"
-                className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
-              >
-                Privacy Policy
-              </Anchor>
-              <Anchor
-                href="/legal/2024-10/terms-and-conditions"
-                className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
-              >
-                Terms of Service
-              </Anchor>
-            </div>
+            
           </div>
         </div>
       </Container>
