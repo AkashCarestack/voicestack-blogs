@@ -96,6 +96,8 @@ export default function AiReceptionist({
       {pageData['list-items'] && (
         <GroupedCardsGridSection
           data={pageData['list-items']?.componentData}
+          sectionSpacing='py-0'
+          sectionBorder='none'
         />
       )}
       {iconListData && <Section className='w-full bg-white'>
