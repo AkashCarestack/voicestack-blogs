@@ -9,9 +9,9 @@ import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import { getClient } from '~/lib/sanity.client'
-import { getFeaturesList, getDemoFormData } from '~/lib/sanity.queries'
-import type { SanityClient } from 'next-sanity'
+import { getFeaturesList } from '~/lib/sanity.queries'
 import PricingDemoModal from '~/v2/components/common/PricingDemoModal'
+import { useDemoFormData } from '~/providers/BookDemoProvider'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureCategoryGrid from '~/v2/sections/FeatureCategoryGrid'
 import FeatureHero from '~/v2/sections/FeatureHero'
@@ -29,13 +29,6 @@ interface PricingProps {
   landingPageData: any
   faq: any
   pricingPageData: any
-  formData?: {
-    pricingDemoForms?: Array<{
-      practiceType?: string
-      demoFormId?: string
-      demoMeetingLink?: string
-    }>
-  }
 }
 
 export default function Pricing({
@@ -44,8 +37,10 @@ export default function Pricing({
   faq,
   pricingPageData,
   region,
-  formData,
 }: PricingProps & { region?: string }) {
+  // Get form data from context
+  const { formData } = useDemoFormData()
+  
   // Manage pricing demo modal state directly
   const [isPricingDemoModalOpen, setIsPricingDemoModalOpen] = useState(false)
   const [selectedPracticeType, setSelectedPracticeType] = useState<string | null>(null)
@@ -151,7 +146,7 @@ export default function Pricing({
             ?.tabsListingComponent
         }
       />
-      {landingPageData['stack-card-tab-testimonial']?.componentData
+      {/* {landingPageData['stack-card-tab-testimonial']?.componentData
         ?.refData && (
         <StackCardTestimonial
           isPricingPage={true}
@@ -160,14 +155,25 @@ export default function Pricing({
               ?.refData?.tabsListingComponent
           }
         />
+      )} */}
+
+      {pricingPageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pricingPageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={pricingPageData['stack-card-tab-testimonial']?.componentData}
+        />
       )}
 
       {/* Pricing Demo Modal */}
-      {isPricingDemoModalOpen && selectedPracticeType && formData && (
+      {isPricingDemoModalOpen && selectedPracticeType && (
         <PricingDemoModal
           onClose={closePricingDemoModal}
-          formData={formData}
-          region={region}
           initialPracticeType={selectedPracticeType}
         />
       )}
@@ -178,23 +184,7 @@ export default function Pricing({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
-    const slug =
-      region === 'en'
-        ? 'feature-landing-page'
-        : `feature-landing-page-${region.toLowerCase()}`
-    const queries = new Queries('feature-landing', region)
-    const landingPageData = await queries.getPageData('featurePage', slug)
-
-
-    if(!landingPageData){
-      return {
-        notFound: true
-      }
-    }
     const features = await getFeaturesList(getClient(), region)
-    const faq = await queries.getFaqBySlug('pricing', region)
-
-    // Fetch company page data for pricing page hero section
     const companyQueries = new Queries('company', region)
     const pricingPageSlug =
       region === 'en'
@@ -205,19 +195,17 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       pricingPageSlug,
     )
 
-    // Fetch form data for pricing demo forms
-    const client = getClient() as SanityClient
-    const formData = await getDemoFormData(client, region)
+    if(!pricingPageData){
+      return {
+        notFound: true
+      }
+    }
 
     return {
       props: {
-        slug,
         region,
         features,
-        landingPageData,
-        faq: faq || null,
         pricingPageData: JSON.parse(JSON.stringify(pricingPageData ?? null)),
-        formData: formData || {},
       },
     }
   } catch (error) {
@@ -225,12 +213,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     return {
       props: {
         features: [],
-        slug: '',
         region: locale || 'en',
-        landingPageData: null,
-        faq: null,
         pricingPageData: null,
-        formData: {},
       },
     }
   }

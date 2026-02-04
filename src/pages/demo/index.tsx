@@ -1,26 +1,13 @@
 import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
-import type { SanityClient } from 'next-sanity'
-import { getDemoFormData } from '~/lib/sanity.queries'
 import HubSpotForm from '~/v2/components/common/HubspotForm'
 import Head from 'next/head'
 import HubSpotMeeting from '~/v2/components/common/HubspotMeeting'
 import demoTrackingNames from '~/v2/data/demoTrackingNames.json'
+import { useDemoFormData } from '~/providers/BookDemoProvider'
 
 interface DemoPageProps {
-  formData: {
-    demoFormId?: string
-    demoMeetingLink?: string
-    dmeoFormEventName?: string
-    demoForms?: Array<{
-      practiceType?: string
-      demoFormId?: string
-      demoMeetingLink?: string
-    }>
-  }
-  region: string
   draftMode: boolean
   token: string
 }
@@ -29,15 +16,8 @@ export const getStaticProps: GetStaticProps<any> = async ({
   locale,
   draftMode = false,
 }) => {
-  const region = locale || 'en'
-
-  const client = getClient(draftMode ? { token: readToken } : undefined) as SanityClient
-  const formData = await getDemoFormData(client, region)
-
   return {
     props: {
-      formData: formData || {},
-      region,
       draftMode,
       token: draftMode ? readToken : '',
     },
@@ -45,8 +25,9 @@ export const getStaticProps: GetStaticProps<any> = async ({
 }
 
 
-export default function DemoPage({ formData, region }: DemoPageProps) {
+export default function DemoPage({}: DemoPageProps) {
   const router = useRouter()
+  const { formData, region } = useDemoFormData()
   
   // Get practiceType from query params, default to "Dental"
   const practiceType = (router.query.practiceType as string) || 'Dental'
@@ -57,7 +38,7 @@ export default function DemoPage({ formData, region }: DemoPageProps) {
   // Use activeFormData if found, otherwise fall back to default formData
   const formId = activeFormData?.demoFormId
   const meetingLink = activeFormData?.demoMeetingLink
-  const practiceTypeSlug = activeFormData?.practiceType.toLowerCase().replace(' ', '_')
+  const practiceTypeSlug = activeFormData?.practiceType?.toLowerCase().replace(' ', '_')
   
   // Map region to tracking name key
   const regionKey = region === 'en-GB' ? 'uk' : region === 'en-AU' ? 'au' : 'us'
