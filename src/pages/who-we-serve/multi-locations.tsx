@@ -53,17 +53,18 @@ export default function MultiLocationPractices({
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
-       <CategoryFeatureTabsSection
-        features={
-          pageData['grow-your-practice']?.componentData?.refData
-            ?.tabsListingComponent
-        }
-        variant="carouselwithcards"
-        sectionHeading={
-          pageData['grow-your-practice']?.componentData?.refData
-            ?.tabsListingComponent
-        }
-      />
+        <CategoryFeatureTabsSection
+      columnCount={4}
+      features={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+      variant="carouselwithcards"
+      sectionHeading={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+    />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
           <VerticalTestimonialListingv2

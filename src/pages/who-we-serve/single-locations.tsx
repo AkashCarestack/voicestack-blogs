@@ -53,6 +53,18 @@ export default function IndependentPractices({
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
+        <CategoryFeatureTabsSection
+      columnCount={4}
+      features={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+      variant="carouselwithcards"
+      sectionHeading={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+    />
       {tabsListingComponentData && (
         <SwitchableTabsV2 data={tabsListingComponentData} />
       )}
