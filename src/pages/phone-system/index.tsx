@@ -134,6 +134,12 @@ export default function DentalPhonesIndex({
         />
       )}
 
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
       {pageData['power-of-ai']?.componentData && (
         <GroupedCardsGridSection
           data={pageData['power-of-ai']?.componentData}
@@ -142,12 +148,6 @@ export default function DentalPhonesIndex({
         />
       )}
 
-      {pageData['integrations-listing']?.componentData && (
-        <IntegrationsShowcaseSection
-          data={pageData['integrations-listing']?.componentData}
-          theme="dark"
-        />
-      )}
 
       {comparisonTableData && (
         <SiteComparisonSection
