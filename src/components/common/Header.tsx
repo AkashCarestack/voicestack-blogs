@@ -301,7 +301,6 @@ const Header = ({ data, refer = null }) => {
       console.error('Error parsing injectJSONld:', error);
     }
   }
-    console.log( schemaData);
   
   const schemaDataObject = schemaData?.schema?.reduce((acc: any, item: any) => {
     acc[item.name] = item.value;
