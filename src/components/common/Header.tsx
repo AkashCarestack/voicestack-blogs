@@ -120,7 +120,7 @@ const Header = ({ data, refer = null }) => {
   const matchedRegion = REGIONS.find((region) => region.locale === router.locale);
   const toggleRef = useRef<HTMLSpanElement>(null);
   const isMobile = useMediaQuery(767);
-  const { siteSettings } = useLayoutData();
+  const { siteSettings,schemaData } = useLayoutData();
   const { setShowTopStrip: setContextShowTopStrip } = useHeaderContext();
 
   const { query } = router;
@@ -301,8 +301,14 @@ const Header = ({ data, refer = null }) => {
       console.error('Error parsing injectJSONld:', error);
     }
   }
-  const OrganizationSchemaData = formatOrganizationSchema(siteSettings.seoSettings);
-  const SoftwareSchemaData = formatSoftwareSchema(siteSettings.seoSettings);
+  
+  const schemaDataObject = schemaData?.schema?.reduce((acc: any, item: any) => {
+    acc[item.name] = item.value;
+    return acc;
+  }, {});
+  console.log({schemaDataObject: schemaDataObject});
+  const OrganizationSchemaData = JSON.parse(schemaDataObject['OrganizationSchema']);
+  const SoftwareSchemaData = JSON.parse(schemaDataObject['SoftwareApplicationSchema']);
   // Show software schema for:
   // - All /dental-phones pages but NOT comparison pages (/voicestack-vs-*)
   // - All who-we-serve/ pages but NOT the landing page (/who-we-serve) and NOT who-we-serve/why-voicestack
@@ -330,7 +336,7 @@ const Header = ({ data, refer = null }) => {
           <meta name="twitter:image" content={urlForImage(siteSettings?.ogImage)} />
           <script
               type="application/ld+json"
-              id="organization-schema"
+              id={`organization-schema-${router.locale}`}
               dangerouslySetInnerHTML={{ __html: JSON.stringify(OrganizationSchemaData) }}
             />
           </>
@@ -339,7 +345,7 @@ const Header = ({ data, refer = null }) => {
           <>
           <script
               type="application/ld+json"
-              id="software-schema"
+              id={`software-schema-${router.locale}`}
               dangerouslySetInnerHTML={{ __html: JSON.stringify(SoftwareSchemaData) }}
             />
           </>
