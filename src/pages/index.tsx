@@ -157,7 +157,6 @@ export default function IndexPage({
 // console.log("featuresData", featuresData)
   return (
     <Track>
-      <SimpleHead data={pageData?.seo} />
       {region === 'en' && (
         <Home
           data={pageData1}

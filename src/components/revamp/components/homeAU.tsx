@@ -15,6 +15,7 @@ import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import SimpleHead from '~/components/common/SimpleHead'
 
 export default function 
 HomeAU({
@@ -43,6 +44,7 @@ HomeAU({
   }
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
       <HeroAU
         image={heroSectionData?.heroImage}
         heading={heroSectionData?.heroheading}
