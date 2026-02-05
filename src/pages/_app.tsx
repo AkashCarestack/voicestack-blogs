@@ -21,7 +21,7 @@ import { createObservedUser, createSession, createUser, getUserData, TrackUserPr
 import { getSession } from '~/utils/tracker/session'
 import { getUser } from '~/utils/tracker/user'
 import { getClient } from '~/lib/sanity.client'
-import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData, getSchemaData } from '~/lib/sanity.queries'
+import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData, getSchemaData, getFeaturesForLayout } from '~/lib/sanity.queries'
 import type { AppContext } from 'next/app'
 
 import Layout from '../components/Layout'
@@ -55,6 +55,7 @@ export interface SharedPageProps {
     footerData?: any
     siteSettings?: any
     contactData?: any
+    featuresData?: any[]
   }
   demoFormData?: any
   region?: string
@@ -208,6 +209,7 @@ function App({
                 initialSiteSettings={layoutData?.siteSettings}
                 initialContactData={layoutData?.contactData}
                 initialSchemaData={layoutData?.schemaData}
+                initialFeaturesData={layoutData?.featuresData}
               >
                 {/* <GlobalHead /> */}
                 <Layout>
@@ -241,13 +243,14 @@ App.getInitialProps = async (appContext: AppContext) => {
   
   try {
     const client = getClient();
-    const [headerData, footerData, siteSettings, contactData, formData,schemaData] = await Promise.all([
+    const [headerData, footerData, siteSettings, contactData, formData, schemaData, featuresData] = await Promise.all([
       getHeaderData(client, locale),
       getFooterData(client, locale),
       client.fetch(getALLSiteSettings(locale)),
       getContactData(client, locale),
       getDemoFormData(client, locale),
-      getSchemaData(client, locale)
+      getSchemaData(client, locale),
+      getFeaturesForLayout(client, locale)
     ]);
 
     return {
@@ -259,6 +262,7 @@ App.getInitialProps = async (appContext: AppContext) => {
           siteSettings,
           contactData,
           schemaData,
+          featuresData,
         },
         demoFormData: formData || null,
         region: locale,
@@ -275,6 +279,7 @@ App.getInitialProps = async (appContext: AppContext) => {
           footerData: null,
           siteSettings: null,
           contactData: null,
+          featuresData: null,
         },
         demoFormData: null,
         region: locale,
