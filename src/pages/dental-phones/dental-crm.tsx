@@ -1,23 +1,23 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+import Button from '~/components/common/Button'
 import SimpleHead from '~/components/common/SimpleHead'
 
 import FaqSection from '~/components/revamp/components/common/faqSection'
+import ListCardWithIcon from '~/components/revamp/components/common/ListCardWithIcon'
 import Queries from '~/components/revamp/queries'
+import Container from '~/components/structure/Container'
+import Section from '~/components/structure/Section'
 import { getClient } from '~/lib/sanity.client'
-import { getAllComparisonValues, getFeaturesList } from '~/lib/sanity.queries'
-import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import { getFeaturesList } from '~/lib/sanity.queries'
+import CallFlowAnalyticsSection from '~/v2/components/CallFlowAnalyticsSection'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
-import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import OfferSection from '~/v2/sections/OfferSection'
 import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
-import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
-import StatisticsSection from '~/v2/sections/StatisticsSection'
-import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
-import ReceptionistTeamSection from '~/v2/sections/ReceptionistTeamSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -72,11 +72,12 @@ export default function AiReceptionist({
   faq,
   features,
 }: AiReceptionistProps) {
-  console.log("ppp",pageData)
+  const iconListData = pageData['icon-list']?.componentData
+
 
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
-
+ 
   // const comparisonTableTitle = pageData['comparison-table']?.componentData
   const comparisonSectionData = {
     strip: comparisonTableComponent?.title,
@@ -84,7 +85,6 @@ export default function AiReceptionist({
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
-
   return (
     <>
       <SimpleHead data={pageData?.seo} />
@@ -94,52 +94,51 @@ export default function AiReceptionist({
       )}
 
       {pageData['list-items'] && (
-        <GroupedCardsGridSection sectionSpacing='py-0' sectionBorder='none'
+        <GroupedCardsGridSection
           data={pageData['list-items']?.componentData}
+          sectionSpacing='py-0'
+          sectionBorder='none'
         />
       )}
-
-      {pageData['feature-testimonials-section-single']?.componentData && (() => {
-        const componentData = pageData['feature-testimonials-section-single']?.componentData
-        const transformedData = {
-          ...componentData,
-          items: componentData?.testimonial 
-            ? [{
-                _key: componentData.testimonial._id || 'single-testimonial',
-                testimonial: componentData.testimonial
-              }]
-            : componentData?.items || []
-        }
-        return (
-          <FeatureTestimonialsSection
-            data={transformedData}
+ 
+      {
+        pageData['convert-leads']?.componentData && (
+          <GroupedCardsGridSection
+            data={pageData['convert-leads']?.componentData}
           />
         )
-      })()}
-
-      {pageData['receptionist-team']?.componentData && (
-        <ReceptionistTeamSection
-          data={pageData['receptionist-team']?.componentData}
-        />
-      )}
-
-      <CategoryFeatureTabsSection
-        features={
-          pageData['groups-and-dso']?.componentData?.refData
-            ?.tabsListingComponent
+      }
+           {iconListData && <Section className='w-full bg-white'>
+        <Container className='w-full bg-white' type="V2" border='y-0'>
+          <div className='flex flex-col md:gap-8 gap-6 py-16 justify-between items-center'>
+          <SectionHeaderV2 heading={iconListData?.sectionHeadingDynamic}
+          description={iconListData?.description} />
+          {
+            iconListData?.ctaListItems?.length > 0 && (
+              <Button type={iconListData?.ctaListItems[0]?.ctaType as any} link={iconListData?.ctaListItems[0]?.ctaLink} className='w-fit'>
+                <span>{iconListData?.ctaListItems[0]?.ctaText}</span>
+              </Button>
+            )
+          }
+          </div>
+         <div className='flex mx-auto px-4 md:flex-row flex-col flex-wrap md:gap-6 border-t border-t-gray-200'> {
+          iconListData && 
+          iconListData?.customListingItems?.map((item:any)=>{
+              return (
+                <ListCardWithIcon
+                  heading={item.heading}
+                  data={item.listItems}
+                  key={item._key}
+                />
+              )
+            })
         }
-        sectionHeading={
-          pageData['groups-and-dso']?.componentData?.refData
-            ?.tabsListingComponent
-        }
-        isGridListing={true}
-      />
-
-
+         </div>
+       </Container>
+      </Section>}
       {pageData['offer']?.componentData && (
-        <OfferSection data={pageData['offer']?.componentData} variant='compact' />
+        <OfferSection data={pageData['offer']?.componentData} variant="compact" />
       )}
-
       {comparisonTableData && (
         <SiteComparisonSection
           data={comparisonSectionData}
@@ -147,14 +146,23 @@ export default function AiReceptionist({
         />
       )}
 
-      {/* {pageData['integrations-listing']?.componentData && (
+      <CallFlowAnalyticsSection
+        data={pageData['call-flow-analytics']?.componentData}
+      />
+
+      {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
-      )} */}
+      )}
+      {pageData['testimonials-section']?.componentData && (
+        <FeatureTestimonialsSection
+          data={pageData['feature-testimonials-section-single']?.componentData}
+        />
+      )}
 
-
+      
 
       {faq && <FaqSection faqItems={faq} />}
     </>
@@ -165,16 +173,17 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
     
-    // phone-system pages don't support 'en-AU' locale
-    if (region === 'en-AU') {
+    // dental-phones pages only support 'en-AU' locale
+    if (region !== 'en-AU') {
       return {
         notFound: true,
       }
     }
     
-    const queries = new Queries('ai-receptionist', region)
-    const slug =
-      region === 'en' ? 'ai-receptionist' : `ai-receptionist-${region.toLowerCase()}`
+    const queries = new Queries('dental-crm', region)
+    // Hardcode slug to 'en-au' format for dental-phones
+    const slug = 'dental-crm-en-au'
+
     const pageData = await queries.getPageData('dentalPhones', slug)
     const client = getClient()
 
@@ -184,7 +193,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
 
-    const comparisonLegendData = (await getAllComparisonValues()) || []
     // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
@@ -195,7 +203,6 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData,
         region,
-        comparisonLegendData,
         faq: faqData,
         features: features || [],
       },
@@ -207,3 +214,4 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     }
   }
 }
+

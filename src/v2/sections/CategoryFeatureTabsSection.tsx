@@ -81,10 +81,14 @@ export default function CategoryFeatureTabsSection({
   const isMobile = useMediaQuery(767);
   const [activeValue, setActiveValue] = useState<any>();
 
-  // Get base path - always use /phone-system/features
+  // Get base path - use /dental-phones/features for en-AU, /phone-system/features for others
   const getBasePath = useCallback(() => {
+    const locale = router.locale || 'en';
+    if (locale === 'en-AU') {
+      return '/dental-phones/features';
+    }
     return '/phone-system/features';
-  }, []);
+  }, [router.locale]);
 
   // Helper function to localize text based on locale (US vs UK/AU spelling)
   const localizeText = useCallback((text: string): string => {

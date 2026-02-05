@@ -331,6 +331,9 @@ const Header = ({ data, refer = null }) => {
   const ShowSoftwareSchema =
   (pathname.startsWith('/phone-system') &&
     !pathname.includes('/voicestack-vs-')) ||
+    
+    (pathname.startsWith('/dental-phones') &&
+    !pathname.includes('/voicestack-vs-')) ||
 
   (pathname.startsWith('/who-we-serve/') &&
     !pathname.startsWith('/who-we-serve/why-voicestack'));

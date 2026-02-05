@@ -83,7 +83,7 @@ const config = {
         permanent: false,
       },
       {
-        source: '/dental-phones/:path*',
+        source: '/en/dental-phones/:path*',
         destination: '/phone-system',
         permanent: false,
       },
@@ -125,7 +125,7 @@ const config = {
         locale: false, // Only apply to default locale (en), not en-AU
       },
       {
-        source: '/dental-phones/ai-receptionist',
+        source: '/en/dental-phones/ai-receptionist',
         destination: '/phone-system/features/ai-receptionist',
         permanent: false,
       },

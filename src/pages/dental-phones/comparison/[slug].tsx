@@ -119,14 +119,14 @@ export const getStaticPaths: GetStaticPaths = async ({
     ]
     
     // Exclude the main comparison page slug (handled by index.tsx)
-    // Also exclude 'comparison-en-au' and any slug ending with '-en-au' as phone-system doesn't support 'au' locale
+    // For dental-phones, only allow slugs ending with '-en-au'
     const filteredSlugs = uniqueSlugs.filter(
       (slug: string) => 
         slug !== 'comparison' && 
         slug !== 'comparison-en' && 
         slug !== 'comparison-en-gb' && 
         slug !== 'comparison-en-au' &&
-        !slug.endsWith('-en-au')
+        slug.endsWith('-en-au')
     )
     
     // Format paths for Next.js
@@ -151,8 +151,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const region = locale || 'en'
   const slug = params?.slug as string
 
-  // phone-system pages don't support 'en-AU' locale
-  if (region === 'en-AU') {
+  // dental-phones pages only support 'en-AU' locale
+  if (region !== 'en-AU') {
     return {
       notFound: true,
     }
@@ -164,8 +164,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
   
-  // Also check if slug ends with '-en-au' and reject it
-  if (slug.endsWith('-en-au')) {
+  // Only allow slugs ending with '-en-au' for dental-phones
+  if (!slug.endsWith('-en-au')) {
     return {
       notFound: true,
     }
