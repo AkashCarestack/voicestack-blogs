@@ -125,7 +125,7 @@ const PricingHubspotForm: React.FC<{
                   var wholeUrl = redirectBase + "?" + redirectParams.toString();
                   router.push(wholeUrl);
                    
-                }, 3000)
+                }, 2000)
               },
               
             } as any)

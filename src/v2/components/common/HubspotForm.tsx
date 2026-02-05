@@ -129,7 +129,7 @@ const HubSpotForm = ({
                   router.push(wholeUrl);
                   // router.push('/demo/thank-you');
                    
-                }, 3000)
+                }, 2000)
               },
               
             } as any)
