@@ -570,7 +570,10 @@ export default function ContentVideoTabsSection({
             ref={stickyTabsRef}
             data-sticky-tabs
             // className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
-            className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
+            className="sticky top-[60px] md:top-[63px] py-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
+            style={{
+              background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
+            }}
 
         >
           <SwitchableTabs
