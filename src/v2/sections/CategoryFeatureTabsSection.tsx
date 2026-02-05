@@ -74,8 +74,7 @@ export default function CategoryFeatureTabsSection({
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isScrolling, setIsScrolling] = useState(false);
-  const stickyTop = useStickyTop({ desktop: 60, tablet: 50 });
-  const stickyTopHeader = useStickyTop({ base: 48, md: 63 });
+  const stickyTopHeader = useStickyTop();
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
@@ -674,7 +673,7 @@ export default function CategoryFeatureTabsSection({
             </div>
 
             {/* Switchable Tabs - Sticky */}
-            {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12`}> */}
+            {/* ${stickyTopHeader} || 'top-[48px] md:top-[63px]' */}
             <div className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
               style={{
                 background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',

@@ -94,8 +94,7 @@ export default function ContentVideoTabsSection({
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const stickyTabsRef = useRef<HTMLDivElement | null>(null);
-  const stickyTop = useStickyTop({ desktop: 60, tablet: 30 });
-  const stickyTopHeader = useStickyTop({ base: 48, md: 63 });
+  const stickyTopHeader = useStickyTop();
 
   // Helper function to check if video has valid data
   const hasValidVideo = (video: any): boolean => {

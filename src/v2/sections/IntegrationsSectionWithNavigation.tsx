@@ -126,8 +126,7 @@ export default function IntegrationsSectionWithNavigation({
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
-  const stickyTop = useStickyTop({ desktop: 60, tablet: 50 });
-  const stickyTopHeader = useStickyTop({ base: 48, md: 63 });
+  const stickyTopHeader = useStickyTop();
 
   useEffect(() => {
     if (categories && categories.length > 0 && !activeCategory) {
