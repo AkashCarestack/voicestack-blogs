@@ -151,6 +151,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
         slidesToScroll: 1,
         autoplaySpeed: 2000,
         autoplay: true,
+        pauseOnHover: false,
         arrows: true,
         cssEase: "linear",
         nextArrow: <NextArrow />,
