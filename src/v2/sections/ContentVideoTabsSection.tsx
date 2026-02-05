@@ -308,8 +308,10 @@ export default function ContentVideoTabsSection({
 
     const observerOptions = {
       root: null,
-      rootMargin: '-80px 0px -50% 0px',
-      threshold: [0.1, 0.3, 0.6, 0.7],
+      // rootMargin: '-80px 0px -50% 0px',
+      // threshold: [0.1, 0.3, 0.6, 0.7],
+      rootMargin: '-80px 0px -30% 0px',
+      threshold: [0.3],
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -570,7 +572,10 @@ export default function ContentVideoTabsSection({
             ref={stickyTabsRef}
             data-sticky-tabs
             // className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
-            className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
+            className="sticky top-[48px] md:top-[63px] py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
+            style={{
+              background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
+            }}
 
         >
           <SwitchableTabs
@@ -596,7 +601,7 @@ export default function ContentVideoTabsSection({
               {tabs?.map((tab, i) => (
                 <section
                   key={tab.key}
-                  className={`lg:min-h-screen min-h-auto md:pt-[120px] py-4`}
+                  className={`lg:min-h-[80vh] min-h-auto md:pt-[120px] py-4`}
                 >
                   <div
                     ref={(el) => {

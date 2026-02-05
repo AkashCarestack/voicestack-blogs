@@ -251,7 +251,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
     <>
       <Section className={`relative overflow-hidden ${isVertical ? 'bg-white' : ''}`} id="FeatureHero" border="b">
         <Container type="V2" className={`md:py-24 py-16 overflow-hidden justify-center flex ${pageType === 'download-app' ? 'flex-col' : ''}`}>
-          <div className={`${isVertical ? '!flex-col-reverse' : ''} flex lg:flex-row flex-col md:gap-12  max-w-[1240px] w-full gap-6 relative z-10 items-center`}>
+          <div className={`${isVertical ? '!flex-col-reverse' : ''} flex lg:flex-row flex-col md:gap-12 w-full gap-6 relative z-10 items-center`}>
             <div className={`flex flex-col gap-3 relative z-10 flex-1  ${type === 'form' ? 'max-w-[606px]' : ''} ${isCentered ? 'text-center items-center' : ''}`}>
               {title && (
                 (type === 'form' || type === 'comparison') ? (
