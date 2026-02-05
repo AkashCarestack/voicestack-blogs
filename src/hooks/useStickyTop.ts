@@ -27,6 +27,7 @@ interface StickyTopOptions {
 
 /**
  * Hook to calculate correct sticky top values based on header state.
+ * When the main header is hidden (scroll > 200px down), returns 'top-0'.
  * When the top strip is visible (scroll up), adds 42px to all values.
  * 
  * @param options - Base top values for different breakpoints
@@ -34,11 +35,17 @@ interface StickyTopOptions {
  * 
  * @example
  * const stickyTop = useStickyTop({ base: 60, md: 50 });
+ * // Returns: "top-0" when main header is hidden
  * // Returns: "top-[60px] md:top-[50px]" when top strip is hidden
  * // Returns: "top-[102px] md:top-[92px]" when top strip is visible
  */
 export function useStickyTop(options: StickyTopOptions = {}): string {
-  const { showTopStrip } = useHeaderContext();
+  const { showTopStrip, showMainHeader } = useHeaderContext();
+  
+  // If main header is hidden, sticky elements should be at top-0
+  if (!showMainHeader) {
+    return 'top-0';
+  }
   
   const TOP_STRIP_HEIGHT = 42;
   const adjustment = showTopStrip ? TOP_STRIP_HEIGHT : 0;

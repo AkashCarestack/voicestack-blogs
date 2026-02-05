@@ -122,7 +122,7 @@ const Header = ({ data, refer = null }) => {
   const toggleRef = useRef<HTMLSpanElement>(null);
   const isMobile = useMediaQuery(767);
   const { siteSettings,schemaData } = useLayoutData();
-  const { setShowTopStrip: setContextShowTopStrip } = useHeaderContext();
+  const { setShowTopStrip: setContextShowTopStrip, setShowMainHeader: setContextShowMainHeader } = useHeaderContext();
 
   const { query } = router;
   const queryString = new URLSearchParams(query as Record<string, string>).toString();
@@ -173,6 +173,11 @@ const Header = ({ data, refer = null }) => {
   useEffect(() => {
     setContextShowTopStrip(showTopStrip);
   }, [showTopStrip, setContextShowTopStrip]);
+
+  // Sync showMainHeader state to context
+  useEffect(() => {
+    setContextShowMainHeader(showMainHeader);
+  }, [showMainHeader, setContextShowMainHeader]);
 
   const closeMenu = () => {
     setShowMenu(false);

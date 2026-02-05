@@ -95,6 +95,7 @@ export default function ContentVideoTabsSection({
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const stickyTabsRef = useRef<HTMLDivElement | null>(null);
   const stickyTop = useStickyTop({ desktop: 60, tablet: 30 });
+  const stickyTopHeader = useStickyTop({ base: 48, md: 63 });
 
   // Helper function to check if video has valid data
   const hasValidVideo = (video: any): boolean => {
@@ -572,7 +573,7 @@ export default function ContentVideoTabsSection({
             ref={stickyTabsRef}
             data-sticky-tabs
             // className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
-            className="sticky top-[48px] md:top-[63px] py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
+            className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
             style={{
               background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
             }}

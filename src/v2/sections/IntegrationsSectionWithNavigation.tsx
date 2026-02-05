@@ -127,6 +127,7 @@ export default function IntegrationsSectionWithNavigation({
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
   const stickyTop = useStickyTop({ desktop: 60, tablet: 50 });
+  const stickyTopHeader = useStickyTop({ base: 48, md: 63 });
 
   useEffect(() => {
     if (categories && categories.length > 0 && !activeCategory) {
@@ -341,7 +342,7 @@ export default function IntegrationsSectionWithNavigation({
 
           {/* Switchable Tabs - Sticky */}
           {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-12 mb-[-64px] pb-[130px] pt-[72px] shrink-0`}> */}
-          <div className="sticky top-[48px] md:top-[63px] py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto md:px-12 px-4  shrink-0"
+          <div className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto md:px-12 px-4  shrink-0`}
             style={{
               background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
             }}
