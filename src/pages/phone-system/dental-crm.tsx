@@ -100,7 +100,15 @@ export default function AiReceptionist({
           sectionBorder='none'
         />
       )}
-      {iconListData && <Section className='w-full bg-white'>
+ 
+      {
+        pageData['convert-leads']?.componentData && (
+          <GroupedCardsGridSection
+            data={pageData['convert-leads']?.componentData}
+          />
+        )
+      }
+           {iconListData && <Section className='w-full bg-white'>
         <Container className='w-full bg-white' type="V2" border='y-0'>
           <div className='flex flex-col md:gap-8 gap-6 py-16 justify-between items-center'>
           <SectionHeaderV2 heading={iconListData?.sectionHeadingDynamic}
@@ -131,13 +139,6 @@ export default function AiReceptionist({
       {pageData['offer']?.componentData && (
         <OfferSection data={pageData['offer']?.componentData} variant="compact" />
       )}
-      {
-        pageData['convert-leads']?.componentData && (
-          <GroupedCardsGridSection
-            data={pageData['convert-leads']?.componentData}
-          />
-        )
-      }
       {comparisonTableData && (
         <SiteComparisonSection
           data={comparisonSectionData}
