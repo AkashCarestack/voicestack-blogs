@@ -124,13 +124,13 @@ export const getStaticPaths: GetStaticPaths = async ({
 
     return {
       paths,
-      fallback: 'blocking',
+      fallback: 'blocking', // Only serve pre-generated pages (if false). New pages will 404 until rebuild (webhook handles revalidation)
     }
   } catch (error) {
     console.error('Error fetching feature paths:', error)
     return {
       paths: [],
-      fallback: 'blocking',
+      fallback: 'blocking', // Only serve pre-generated pages(if false). New pages will 404 until rebuild (webhook handles revalidation)
     }
   }
 }
