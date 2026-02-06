@@ -203,6 +203,27 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
     return ''
   }
 
+  // Helper function to extract text from PortableText format
+  const extractTextFromPortableText = (portableText: any): string => {
+    if (!portableText) return ''
+    if (typeof portableText === 'string') return portableText
+    if (Array.isArray(portableText)) {
+      return portableText
+        .map((block: any) => {
+          if (block?.children && Array.isArray(block.children)) {
+            return block.children.map((child: any) => child?.text || '').join('')
+          }
+          return ''
+        })
+        .join(' ')
+        .trim()
+    }
+    return ''
+  }
+
+  // Extract heading text for alt attributes
+  const headingAltText = extractTextFromPortableText(heading) || 'VoiceStack'
+
   // Create dynamic component configuration
   const dynamicHeroFeatureComponents = {
     ...HeroFeatureComponents,
@@ -346,13 +367,14 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
             }
             {((image && !hasVideo && !hasTestimonial) && !isVertical) ? (
               <div className='flex-1  w-full h-full max-w-[550px] max-h-[550px]'>
-                <Image className='max-w-[550px] max-h-[550px] w-full h-full object-cover' src={image} alt={heading} width={1000} height={1000} />
+                <Image className='max-w-[550px] max-h-[550px] w-full h-full object-cover' src={image} alt={headingAltText} title={headingAltText} width={1000} height={1000} />
               </div>
             ) : (
               isVertical && <div className='flex-1 w-full h-full'>
                 <Image className={`${isVertical ? 'w-full md:max-h-[500px] h-full' : 'max-w-[550px]'} w-full h-full object-cover`}
                   src={image}
-                  alt={heading}
+                  alt={headingAltText}
+                  title={headingAltText}
                   width={imageDimensions?.width || 1000}
                   height={imageDimensions?.height || 1000} />
               </div>
@@ -570,7 +592,8 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                           <Image
                             className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]"
                             src={image}
-                            alt={heading}
+                            alt={headingAltText}
+                            title={headingAltText}
                             width={1000}
                             height={1000}
                           />
@@ -642,7 +665,8 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                       <Image
                         className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]"
                         src={image}
-                        alt={heading}
+                        alt={headingAltText}
+                        title={headingAltText}
                         width={1000}
                         height={1000}
                       />
