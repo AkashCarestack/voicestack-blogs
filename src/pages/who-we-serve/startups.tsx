@@ -32,6 +32,7 @@ export default function StartupPractices({
 
   return (
     <>
+      {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {pageData['startup-practices-hero']?.componentData && (
         <FeatureHero data={pageData['startup-practices-hero'].componentData} type="feature" />

@@ -44,6 +44,7 @@ export default function MultiLocationPractices({
 
   return  (
     <>
+      {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {pageData['multi-locations-hero']?.componentData && (
         <FeatureHero data={pageData['multi-locations-hero']?.componentData} type="feature" />
