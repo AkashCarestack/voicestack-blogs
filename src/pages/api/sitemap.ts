@@ -96,19 +96,31 @@ function formatLastmod(date: string | Date | null | undefined): string {
   return dateObj.toISOString();
 }
 
+/**
+ * Normalizes a path for a specific locale.
+ * For en-AU locale, replaces 'phone-system' with 'dental-phones' in the path.
+ * Handles all cases: 'phone-system', 'phone-system/features', 'phone-system/features/ai-receptionist', etc.
+ */
+function normalizePathForLocale(path: string, locale: string): string {
+  if (locale === 'en-AU' && path.includes('phone-system')) {
+    // Replace phone-system with dental-phones for en-AU locale
+    // Match phone-system as a path segment (at start, after /, or before / or end)
+    return path.replace(/(^|\/)phone-system(\/|$)/g, '$1dental-phones$2');
+  }
+  return path;
+}
+
 function buildUrl(path: string, locale: string): string {
   const cleanedPath = path.replace(/^\/+/, '').replace(/\/+$/, '');
   
-  // Prevent /en-AU/phone-system from being generated (it doesn't exist)
-  // if (cleanedPath === 'phone-system' && locale === 'en-AU') {
-  //   locale = 'en';
-  // }
+  // Normalize path for locale (e.g., phone-system -> dental-phones for en-AU)
+  const normalizedPath = normalizePathForLocale(cleanedPath, locale);
   
   if (locale === 'en' || !locale) {
-    return cleanedPath ? `${BASE_URL}/${cleanedPath}` : BASE_URL;
+    return normalizedPath ? `${BASE_URL}/${normalizedPath}` : BASE_URL;
   }
   
-  return cleanedPath ? `${BASE_URL}/${locale}/${cleanedPath}` : `${BASE_URL}/${locale}`;
+  return normalizedPath ? `${BASE_URL}/${locale}/${normalizedPath}` : `${BASE_URL}/${locale}`;
 }
 
 function escapeXml(unsafe: string): string {
@@ -575,11 +587,8 @@ async function generateSiteMap(
     }
   });
 
-  // Filter out en-AU locale for phone-system path (it doesn't exist)
-  const phoneSystemPathData = allPathData.get('phone-system');
-  if (phoneSystemPathData) {
-    phoneSystemPathData.locales = phoneSystemPathData.locales.filter(locale => locale !== 'en-AU');
-  }
+  // Note: phone-system paths will be automatically transformed to dental-phones for en-AU locale
+  // in the buildUrl function, so we don't need to filter out en-AU here
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
@@ -696,11 +705,6 @@ async function generateSiteMap(
     
     // Generate entries for each locale that has this path
     pathLocales.forEach(locale => {
-      // Skip /en-AU/phone-system (it doesn't exist)
-      if (path === 'phone-system' && locale === 'en-AU') {
-        return;
-      }
-      
       const currentUrl = buildUrl(path, locale);
       
       // Skip if this URL has already been generated
@@ -792,11 +796,6 @@ async function generateSiteMap(
         
         // Generate entries for alternate path
         alternateLocales.forEach(locale => {
-          // Skip /en-AU/phone-system (it doesn't exist)
-          if (cleanAlternatePath === 'phone-system' && locale === 'en-AU') {
-            return;
-          }
-          
           const alternateUrl = buildUrl(cleanAlternatePath, locale);
           
           // Skip if this URL has already been generated
