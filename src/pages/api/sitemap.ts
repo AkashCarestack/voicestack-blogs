@@ -295,7 +295,7 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
   const features = await client.fetch(featuresQuery);
   
   // Group features by normalized slug to detect multi-locale features
-  features.forEach((feature: any) => { debugger
+  features.forEach((feature: any) => {
    
     if (!feature.slug) return;
     
