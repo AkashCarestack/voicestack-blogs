@@ -44,6 +44,7 @@ export default function IndependentPractices({
 
   return pageData?.slug?.includes('v2') ? (
     <>
+      {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {pageData['single-locations-hero']?.componentData && (
         <FeatureHero data={pageData['single-locations-hero']} type="feature" />
