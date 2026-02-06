@@ -1980,6 +1980,21 @@ export async function getFeaturesList(client: SanityClient, language: string = '
   return await client.fetch(getFeaturesListQuery, { language })
 }
 
+// Get features for layout (header/footer) - simple query with just title and slug
+export async function getFeaturesForLayout(client: SanityClient, region: string = 'en'): Promise<any[]> {
+  const query = groq`
+    *[_type == "features" && (language == $region || language == null)] | order(order asc, basicInfo.title asc) {
+      _id,
+      basicInfo {
+        title,
+        slug
+      },
+      language
+    }
+  `
+  return await client.fetch(query, { region })
+}
+
 export async function getFeatureBySlug(client: SanityClient, slug: string, language: string = 'en'): Promise<any> {
 return await client.fetch(getFeatureBySlugQuery, { slug, language })
 }

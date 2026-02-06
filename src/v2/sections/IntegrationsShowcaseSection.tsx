@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
+import { useRouter } from 'next/router'
 import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 
 import Container from '~/components/structure/Container'
@@ -44,20 +45,6 @@ interface IntegrationsGridProps {
   demoOnly?: boolean
 }
 
-// Default CTA items for the section
-const defaultCtaListItems = [
-  {
-    ctaText: 'See All Integrations',
-    ctaLink: '/phone-system/integrations',
-    ctaType: 'secondaryWhite',
-  },
-  {
-    ctaText: 'Book Free Demo',
-    ctaLink: '/demo',
-    ctaType: 'primary',
-  },
-]
-
 const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   className = '',
   data,
@@ -65,6 +52,23 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   sectionBorder = 'b',
   demoOnly = false,
 }) => {
+  const router = useRouter()
+  const locale = router.locale || 'en'
+  
+  // Default CTA items for the section - use dental-phones for en-AU, phone-system for others
+  const defaultCtaListItems = React.useMemo(() => [
+    {
+      ctaText: 'See All Integrations',
+      ctaLink: locale === 'en-AU' ? '/dental-phones/integrations' : '/phone-system/integrations',
+      ctaType: 'secondaryWhite',
+    },
+    {
+      ctaText: 'Book Free Demo',
+      ctaLink: '/demo',
+      ctaType: 'primary',
+    },
+  ], [locale])
+  
   // Use CTA items from data or fall back to defaults
 
   const sortedIntegrations = React.useMemo(() => {

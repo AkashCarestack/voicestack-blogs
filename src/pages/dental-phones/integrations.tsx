@@ -217,18 +217,16 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
     
-    // phone-system pages don't support 'en-AU' locale
-    if (region === 'en-AU') {
+    // dental-phones pages only support 'en-AU' locale
+    if (region !== 'en-AU') {
       return {
         notFound: true,
       }
     }
     
     const queries = new Queries('integrations-v2', region)
-    const slug =
-      region === 'en'
-        ? 'integrations-v2'
-        : `integrations-v2-${region.toLowerCase()}`
+    // Hardcode slug to 'en-au' format for dental-phones
+    const slug = 'integrations-v2-en-au'
 
     // Fetch page data for integrations
     const pageData = await queries.getPageData('dentalPhones', slug)

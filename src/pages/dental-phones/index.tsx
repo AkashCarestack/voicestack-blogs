@@ -169,21 +169,22 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
     
-    // phone-system pages don't support 'en-AU' locale
-    if (region === 'en-AU') {
+    // dental-phones pages only support 'en-AU' locale
+    if (region !== 'en-AU') {
       return {
         notFound: true,
       }
     }
     
     const queries = new Queries('landing-v2', region)
-    const slug =
-      region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
+    // Hardcode slug to 'en-au' format for dental-phones
+    const slug = 'landing-v2-en-au'
 
     const pageData = await queries.getPageData('dentalPhones', slug)
     const client = getClient()
 
-    if (!pageData || Object.keys(pageData).length === 0) {
+
+    if (!pageData ) {
       return {
         notFound: true,
       }

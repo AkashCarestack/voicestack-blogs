@@ -114,6 +114,7 @@ const Header = ({ data, refer = null }) => {
   const [preferredLocale, setPreferredLocale] = useState<string>('en');
   const [currentRegion, setCurrentRegion] = useState<string>('USA');
   const [showTopStrip, setShowTopStrip] = useState(true);
+  const [showMainHeader, setShowMainHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const router = useRouter();
@@ -121,7 +122,7 @@ const Header = ({ data, refer = null }) => {
   const toggleRef = useRef<HTMLSpanElement>(null);
   const isMobile = useMediaQuery(767);
   const { siteSettings,schemaData } = useLayoutData();
-  const { setShowTopStrip: setContextShowTopStrip } = useHeaderContext();
+  const { setShowTopStrip: setContextShowTopStrip, setShowMainHeader: setContextShowMainHeader } = useHeaderContext();
 
   const { query } = router;
   const queryString = new URLSearchParams(query as Record<string, string>).toString();
@@ -173,6 +174,11 @@ const Header = ({ data, refer = null }) => {
     setContextShowTopStrip(showTopStrip);
   }, [showTopStrip, setContextShowTopStrip]);
 
+  // Sync showMainHeader state to context
+  useEffect(() => {
+    setContextShowMainHeader(showMainHeader);
+  }, [showMainHeader, setContextShowMainHeader]);
+
   const closeMenu = () => {
     setShowMenu(false);
     document.body.classList.remove('menu-active');
@@ -196,14 +202,23 @@ const Header = ({ data, refer = null }) => {
     if (currentScrollY <= 0) {
       setShowTopStrip(true);
       setContextShowTopStrip(true);
+      setShowMainHeader(true);
       // setRegionSwitcherTopShow(true);
     } else if (currentScrollY < lastScrollY) {
-      // setShowTopStrip(true);
+      // Scrolling up - show both headers
       setContextShowTopStrip(true);
-      setHeaderFixed(false);
+      setShowMainHeader(true);
+      // setHeaderFixed(false);
     } else if (currentScrollY > lastScrollY) {
+      // Scrolling down
       setShowTopStrip(false);
       setContextShowTopStrip(false);
+      // Hide main header only if scroll > 200px
+      if (currentScrollY > 200) {
+        setShowMainHeader(false);
+      } else {
+        setShowMainHeader(true);
+      }
       // setRegionSwitcherTopShow(false);
     }
 
@@ -316,6 +331,9 @@ const Header = ({ data, refer = null }) => {
   const ShowSoftwareSchema =
   (pathname.startsWith('/phone-system') &&
     !pathname.includes('/voicestack-vs-')) ||
+    
+    (pathname.startsWith('/dental-phones') &&
+    !pathname.includes('/voicestack-vs-')) ||
 
   (pathname.startsWith('/who-we-serve/') &&
     !pathname.startsWith('/who-we-serve/why-voicestack'));
@@ -366,7 +384,11 @@ const Header = ({ data, refer = null }) => {
 
       <div
         className={`${
-          showTopStrip ? 'lg:translate-y-0' :  'lg:-translate-y-[42px]'
+          !showMainHeader
+            ? 'lg:-translate-y-[105px] -translate-y-[90px]'
+            : showTopStrip
+            ? 'lg:translate-y-0'
+            : 'lg:-translate-y-[42px]'
         } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}
       >
         {/* top region switcher */}
@@ -450,11 +472,11 @@ const Header = ({ data, refer = null }) => {
                   </div>
 
                   <div className="lg:flex gap-6 items-center lg:justify-end hidden">
-                  {router.locale === 'en' && (
+                  {/* {router.locale === 'en' && ( */}
                     <Button type="borderless" className="w-fit text-sm font-medium" link={'/pricing'}>
                       {'Pricing'}
                     </Button>
-                  )}
+                  {/* )} */}
                     <Button type="primary" link="/demo">
                       <span className="text-sm font-medium">{`Book Free Demo`}</span>
                     </Button>

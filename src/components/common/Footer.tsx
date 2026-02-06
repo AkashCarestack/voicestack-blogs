@@ -12,8 +12,10 @@ import Button from './Button'
 import Container from '../structure/Container'
 import Section from '../structure/Section'
 import FooterBottom from '~/v2/components/FooterBottom'
+import { useLayoutData } from '~/providers/LayoutDataProvider'
 
 const Footer = ({ data }) => {
+  const { featuresData } = useLayoutData()
   const CopyrightYear = new Date().getFullYear()
   const router = useRouter()
 
@@ -113,6 +115,57 @@ const Footer = ({ data }) => {
                 ))}
               </div>
             )}
+
+            {/* Features Grid */}
+            {featuresData && featuresData.length > 0 && (() => {
+              // Split features into 4 columns
+              const itemsPerColumn = Math.ceil(featuresData.length / 4);
+              const columns = [];
+              for (let i = 0; i < 4; i++) {
+                const startIndex = i * itemsPerColumn;
+                const endIndex = Math.min(startIndex + itemsPerColumn, featuresData.length);
+                const columnFeatures = featuresData.slice(startIndex, endIndex);
+                if (columnFeatures.length > 0) {
+                  columns.push(columnFeatures);
+                }
+              }
+              
+              return (
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(165px,1fr))] pt-8 pb-8 rounded-xl gap-6">
+                  {columns.map((columnFeatures, colIndex) => (
+                    <div key={`features-col-${colIndex}`} className="space-y-4">
+                      {colIndex === 0 ? (
+                        <span className="font-geist text-base font-medium leading-6 tracking-normal" style={{ color: 'rgba(255, 255, 255, 0.40)' }}>
+                          Features
+                        </span>
+                      ) : (
+                        <span className="font-geist text-base font-medium leading-6 tracking-normal" style={{ color: 'rgba(255, 255, 255, 0.40)' }} aria-hidden="true">
+                          {'\u00A0'}
+                        </span>
+                      )}
+                      <ul className="space-y-2">
+                        {columnFeatures.map((feature: any, featureIndex: number) => {
+                          const slug = feature?.basicInfo?.slug?.current || feature?.basicInfo?.slug || '';
+                          const title = feature?.basicInfo?.title || '';
+                          const featureUrl = slug ? router.locale === 'en-AU' ? `/dental-phones/features/${slug}` : `/phone-system/features/${slug}` : '#';
+                          
+                          return (
+                            <li key={`${feature._id || slug}-${colIndex}-${featureIndex}`}>
+                              <Anchor
+                                href={featureUrl}
+                                className="text-white font-geist text-sm font-normal leading-5 tracking-normal hover:text-vs-lemon-green transition-colors duration-300"
+                              >
+                                {title}
+                              </Anchor>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
 
             {/* Bottom Footer Section */}
             <div className="py-3 border-gray-800 ">
