@@ -5,13 +5,14 @@ import SimpleHead from '~/components/common/SimpleHead'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
-import { getFeaturesList } from '~/lib/sanity.queries'
+import { getAllComparisonValues, getFeaturesList } from '~/lib/sanity.queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import OfferSection from '~/v2/sections/OfferSection'
+import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
@@ -65,16 +66,28 @@ interface DentalPhonesIndexProps {
 export default function DentalPhonesIndex({
   pageData,
   region,
-  comparisonTableData,
   comparisonLegendData,
   faq,
   features,
 }: DentalPhonesIndexProps) {
-  console.log("ppp",pageData)
+  // console.log("ppp",pageData)
+
+  const comparisonTableComponent = pageData['comparison-table']?.componentData
+  const comparisonTableData = comparisonTableComponent?.comparisonTable
+  
+  // const comparisonTableTitle = pageData['comparison-table']?.componentData
+  const comparisonSectionData = {
+    strip: comparisonTableComponent?.title,
+    header: comparisonTableComponent?.description,
+    columnDimensionName: 'Features',
+    table: comparisonTableData,
+  }
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <FeatureHero data={pageData['dental-phones-hero']} type="feature" />
+      {pageData['dental-phones-hero']?.componentData && (
+        <FeatureHero data={pageData['dental-phones-hero']} type="feature" />
+      )}
 
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
@@ -94,12 +107,12 @@ export default function DentalPhonesIndex({
         />
       )}
         <CategoryFeatureTabsSection
-        features={features}
-        variant="carousel"
-        sectionHeading={
-          pageData['category-feature-tabs']?.componentData?.sectionHeading
-        }
-      />
+          features={features}
+          variant="carousel"
+          sectionHeading={
+            pageData['category-feature-tabs']?.componentData?.sectionHeading
+          }
+        />
       {pageData['card-with-image'] && (
         <GroupedCardsGridSection
           data={pageData['card-with-image']?.componentData}
@@ -120,14 +133,30 @@ export default function DentalPhonesIndex({
           }
         />
       )}
+
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
       )}
+      {pageData['power-of-ai']?.componentData && (
+        <GroupedCardsGridSection
+          data={pageData['power-of-ai']?.componentData}
+          theme="dark"
+          aiSection={true}
+        />
+      )}
+
+
+      {comparisonTableData && (
+        <SiteComparisonSection
+          data={comparisonSectionData}
+          legendData={comparisonLegendData || []}
+        />
+      )}
       {pageData['offer']?.componentData && (
-        <OfferSection data={pageData['offer']?.componentData} variant="compact" />
+        <OfferSection data={pageData['offer']?.componentData} spacingY={true} />
       )}
       <StatisticsSection  />
 
@@ -139,6 +168,14 @@ export default function DentalPhonesIndex({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
+    
+    // phone-system pages don't support 'en-AU' locale
+    if (region === 'en-AU') {
+      return {
+        notFound: true,
+      }
+    }
+    
     const queries = new Queries('landing-v2', region)
     const slug =
       region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
@@ -152,6 +189,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
 
+    const comparisonLegendData = (await getAllComparisonValues()) || []
     // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
@@ -164,6 +202,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         region,
         faq: faqData,
         features: features || [],
+        comparisonLegendData,
       },
     }
   } catch (error) {

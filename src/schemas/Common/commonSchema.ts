@@ -181,6 +181,13 @@ export const sectionHeadingDynamicSchema = defineField({
   description: 'Rich text heading with formatting options ',
 })
 
+export const sectionDescriptionDynamicSchema = defineField({
+  name: 'sectionDescriptionDynamic',
+  title: 'Section Description Dynamic',
+  type: 'customBlockContent',
+  description: 'Rich text description with formatting options ',
+})
+
 /**
  * Generic Video Schema
  * Reusable schema for video assets

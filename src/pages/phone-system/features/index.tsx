@@ -53,7 +53,9 @@ export default function FeaturesPage({
   return (
     <>
     <SimpleHead data={data?.seo} />
-      <FeatureHero data={data['feature-hero']} type="feature" />
+      {data['feature-hero']?.componentData && (
+        <FeatureHero data={data['feature-hero']} type="feature" />
+      )}
 
       {data['logos-listing']?.componentData && (
         <LogoListingV2
@@ -65,6 +67,14 @@ export default function FeaturesPage({
           features={features} 
           // sectionHeading={data['category-feature-tabs']?.componentData?.sectionHeading}
       />
+
+      {data['loosing-leads']?.componentData && (
+        <GroupedCardsGridSection
+          data={data['loosing-leads']?.componentData}
+          theme="dark"
+          sectionSpacing="pt-sm"
+        />
+      )}
       {data['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={data['integrations-listing']?.componentData}
@@ -84,6 +94,14 @@ export default function FeaturesPage({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
+    
+    // phone-system pages don't support 'en-AU' locale
+    if (region === 'en-AU') {
+      return {
+        notFound: true,
+      }
+    }
+    
     const slug =
       region === 'en'
         ? 'feature-landing-page-v2'

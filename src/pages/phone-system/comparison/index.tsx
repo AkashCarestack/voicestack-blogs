@@ -134,6 +134,14 @@ export default function ComparisonPage({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
+    
+    // phone-system pages don't support 'en-AU' locale
+    if (region === 'en-AU') {
+      return {
+        notFound: true,
+      }
+    }
+    
     const queries = new Queries('comparison', region)
     const slug =
     region === 'en' ? 'comparison' : `comparison-${region.toLowerCase()}`

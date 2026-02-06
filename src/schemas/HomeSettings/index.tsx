@@ -42,6 +42,10 @@ export default defineType({
       name: 'pricingDemoForms',
       title: 'Pricing Demo Forms',
     },
+    {
+      name: 'schema',
+      title: 'Schema',
+    },
   ],
   fields: [
     // Hero fields from shared schema
@@ -396,6 +400,37 @@ export default defineType({
       type: 'string',
       readOnly: true,
       hidden: true,
+    }),
+    defineField({
+      name: 'schema',
+      title: 'Schema',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'schemaItem',
+          title: 'Schema Item',
+          fields: [
+            {
+              name: 'name',
+              title: 'Schema Key (do not change this key this key is used to identify the schema)',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'OrganizationSchema', value: 'OrganizationSchema' },
+                  { title: 'SoftwareApplicationSchema', value: 'SoftwareApplicationSchema' },
+                ],
+              },
+            },
+            {
+              name: 'value',
+              title: 'Value',
+              type: 'text',
+            },
+          ]
+        }
+      ],
+      group: 'schema',
     }),
   ],
   preview: {

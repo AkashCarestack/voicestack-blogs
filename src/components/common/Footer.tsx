@@ -12,8 +12,10 @@ import Button from './Button'
 import Container from '../structure/Container'
 import Section from '../structure/Section'
 import FooterBottom from '~/v2/components/FooterBottom'
+import { useLayoutData } from '~/providers/LayoutDataProvider'
 
 const Footer = ({ data }) => {
+  const { featuresData } = useLayoutData()
   const CopyrightYear = new Date().getFullYear()
   const router = useRouter()
 
@@ -69,7 +71,7 @@ const Footer = ({ data }) => {
             {/* Footer Columns */}
             {safeData?.footerColumns && safeData.footerColumns.length > 0 && (
               <div
-                className="grid grid-cols-2 md:grid-cols-4 pt-8 pb-8 rounded-xl gap-6"
+                className="grid grid-cols-[repeat(auto-fit,minmax(165px,1fr))] pt-8 pb-8 rounded-xl gap-6"
                 style={{
                   borderRadius: 'var(--radius-lg, 8px)',
                   border: '0 solid rgba(255, 255, 255, 0.40)',
@@ -113,6 +115,57 @@ const Footer = ({ data }) => {
                 ))}
               </div>
             )}
+
+            {/* Features Grid */}
+            {featuresData && featuresData.length > 0 && (() => {
+              // Split features into 4 columns
+              const itemsPerColumn = Math.ceil(featuresData.length / 4);
+              const columns = [];
+              for (let i = 0; i < 4; i++) {
+                const startIndex = i * itemsPerColumn;
+                const endIndex = Math.min(startIndex + itemsPerColumn, featuresData.length);
+                const columnFeatures = featuresData.slice(startIndex, endIndex);
+                if (columnFeatures.length > 0) {
+                  columns.push(columnFeatures);
+                }
+              }
+              
+              return (
+                <div className="grid grid-cols-[repeat(auto-fit,minmax(165px,1fr))] pt-8 pb-8 rounded-xl gap-6">
+                  {columns.map((columnFeatures, colIndex) => (
+                    <div key={`features-col-${colIndex}`} className="space-y-4">
+                      {colIndex === 0 ? (
+                        <span className="font-geist text-base font-medium leading-6 tracking-normal" style={{ color: 'rgba(255, 255, 255, 0.40)' }}>
+                          Features
+                        </span>
+                      ) : (
+                        <span className="font-geist text-base font-medium leading-6 tracking-normal" style={{ color: 'rgba(255, 255, 255, 0.40)' }} aria-hidden="true">
+                          {'\u00A0'}
+                        </span>
+                      )}
+                      <ul className="space-y-2">
+                        {columnFeatures.map((feature: any, featureIndex: number) => {
+                          const slug = feature?.basicInfo?.slug?.current || feature?.basicInfo?.slug || '';
+                          const title = feature?.basicInfo?.title || '';
+                          const featureUrl = slug ? router.locale === 'en-AU' ? `/dental-phones/features/${slug}` : `/phone-system/features/${slug}` : '#';
+                          
+                          return (
+                            <li key={`${feature._id || slug}-${colIndex}-${featureIndex}`}>
+                              <Anchor
+                                href={featureUrl}
+                                className="text-white font-geist text-sm font-normal leading-5 tracking-normal hover:text-vs-lemon-green transition-colors duration-300"
+                              >
+                                {title}
+                              </Anchor>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
 
             {/* Bottom Footer Section */}
             <div className="py-3 border-gray-800 ">
@@ -376,18 +429,42 @@ const Footer = ({ data }) => {
                 >
                   System Requirements
                 </Anchor>
-                <Anchor
-                  href="/legal/2025-01/privacy-policy"
-                  className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
-                >
-                  Privacy Policy
-                </Anchor>
-                <Anchor
-                  href="/legal/2024-10/terms-and-conditions"
-                  className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
-                >
-                  Terms of Service
-                </Anchor>
+                {isAu ? (
+                  <>
+                    <Anchor
+                      href="/legal/aus/2024-11/privacy-policy"
+                      className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                      locale={false}
+                    >
+                      Privacy Policy
+                    </Anchor>
+                    <Anchor
+                      href="/legal/aus/2024-11/saas-customer-agreement"
+                      className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                      locale={false}
+                    >
+                      Terms of Service
+                    </Anchor>
+                  </>
+                ):(
+
+                <>
+                  <Anchor
+                    href="/legal/2025-01/privacy-policy"
+                    className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                    locale={false}
+                  >
+                    Privacy Policy
+                  </Anchor>
+                  <Anchor
+                    href="/legal/2024-10/terms-and-conditions"
+                    className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                    locale={false}
+                  >
+                    Terms of Service
+                  </Anchor>
+                </>
+                )}
               </div>
             </div>
 

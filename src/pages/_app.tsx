@@ -21,7 +21,7 @@ import { createObservedUser, createSession, createUser, getUserData, TrackUserPr
 import { getSession } from '~/utils/tracker/session'
 import { getUser } from '~/utils/tracker/user'
 import { getClient } from '~/lib/sanity.client'
-import { getHeaderData, getFooterData, getALLSiteSettings, getContactData } from '~/lib/sanity.queries'
+import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData, getSchemaData, getFeaturesForLayout } from '~/lib/sanity.queries'
 import type { AppContext } from 'next/app'
 
 import Layout from '../components/Layout'
@@ -50,11 +50,15 @@ export interface SharedPageProps {
   draftMode: boolean
   token: string
   layoutData?: {
+    schemaData: unknown;
     headerData?: any
     footerData?: any
     siteSettings?: any
     contactData?: any
+    featuresData?: any[]
   }
+  demoFormData?: any
+  region?: string
 }
 
 const PreviewProvider = lazy(() => import('~/components/PreviewProvider'));
@@ -65,7 +69,7 @@ function App({
   Component,
   pageProps,
 }: AppProps<SharedPageProps>) {
-  const { draftMode, token, layoutData } = pageProps
+  const { draftMode, token, layoutData, demoFormData, region } = pageProps
   const router = useRouter();
   
   // Check if current page is studio page
@@ -200,12 +204,14 @@ function App({
         ) : (
           // Render regular pages with layout
           <PricingModalProvider>
-            <BookDemoContextProvider>
+            <BookDemoContextProvider initialFormData={demoFormData} region={region || 'en'}>
               <LayoutDataProvider
                 initialHeaderData={layoutData?.headerData}
                 initialFooterData={layoutData?.footerData}
                 initialSiteSettings={layoutData?.siteSettings}
                 initialContactData={layoutData?.contactData}
+                initialSchemaData={layoutData?.schemaData}
+                initialFeaturesData={layoutData?.featuresData}
               >
                 {/* <GlobalHead /> */}
                 <Layout>
@@ -239,11 +245,14 @@ App.getInitialProps = async (appContext: AppContext) => {
   
   try {
     const client = getClient();
-    const [headerData, footerData, siteSettings, contactData] = await Promise.all([
+    const [headerData, footerData, siteSettings, contactData, formData, schemaData, featuresData] = await Promise.all([
       getHeaderData(client, locale),
       getFooterData(client, locale),
       client.fetch(getALLSiteSettings(locale)),
-      getContactData(client, locale)
+      getContactData(client, locale),
+      getDemoFormData(client, locale),
+      getSchemaData(client, locale),
+      getFeaturesForLayout(client, locale)
     ]);
 
     return {
@@ -254,7 +263,11 @@ App.getInitialProps = async (appContext: AppContext) => {
           footerData,
           siteSettings,
           contactData,
+          schemaData,
+          featuresData,
         },
+        demoFormData: formData || null,
+        region: locale,
       },
     };
   } catch (error) {
@@ -268,7 +281,10 @@ App.getInitialProps = async (appContext: AppContext) => {
           footerData: null,
           siteSettings: null,
           contactData: null,
+          featuresData: null,
         },
+        demoFormData: null,
+        region: locale,
       },
     };
   }
@@ -306,7 +322,7 @@ function dispatchEvent(data: any) {
     // if (window !== undefined && trackData.length > 0 && !isSending) {
 
     
-    if (window !== undefined && trackData.length > 0 && !isSending && (domain == "https://voicestack.com" || domain == "https://www.voicestack.com" || domain == "https://voicestack-sanity-gamma.vercel.app") ) {
+    if (window !== undefined && trackData.length > 0 && !isSending && (domain == "https://voicestack.com" || domain == "https://www.voicestack.com") ) {
       const user = getUser()
       if (user) {
 

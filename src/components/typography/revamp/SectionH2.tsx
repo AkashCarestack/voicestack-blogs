@@ -7,7 +7,9 @@ interface SectionH2Props {
   className?: string
   isWhite?: boolean
   headingSm?: boolean
+  headingMd?: boolean
   showFullLength?: boolean
+  aiSection?: boolean
 }
 
 const SectionH2: React.FC<SectionH2Props> = ({
@@ -15,8 +17,17 @@ const SectionH2: React.FC<SectionH2Props> = ({
   className = '',
   isWhite = false,
   headingSm = false,
+  headingMd = false,
   showFullLength = false,
+  aiSection = false
 }) => {
+
+  const textStyle = {
+  background: 'radial-gradient(50% 50% at 50% 50%, #F2DEFF 0%, #6B1DC9 100%)',
+  WebkitBackgroundClip: 'text',
+  backgroundClip: 'text',
+  color: 'transparent', // required to make the gradient visible
+};
   // Portable text components configuration
   const components: Partial<PortableTextReactComponents> = {
     block: {
@@ -26,7 +37,15 @@ const SectionH2: React.FC<SectionH2Props> = ({
     },
     marks: {
       highlight: ({ children }) => (
-        <span className="text-gray-400">{children}</span>
+        // <span className="text-gray-400">{children}</span>
+        <span
+          className={aiSection ? '' : 'text-gray-400'}
+          style={
+            aiSection
+              ? {...textStyle,}
+              : null
+          }
+        > {children} </span>
       ),
       strong: ({ children }) => <strong>{children}</strong>,
       underline: ({ children }) => <span className="underline">{children}</span>,
@@ -48,7 +67,7 @@ const SectionH2: React.FC<SectionH2Props> = ({
   
   const sizeClasses = headingSm 
     ? 'text-xl lg:text-2xl font-medium' 
-    : 'lg:text-5xl text-3xl'
+    : headingMd ? 'lg:text-4xl text-2xl' : 'lg:text-5xl text-3xl'
   
   const colorClasses = isWhite ? 'text-white' : 'text-gray-950'
   

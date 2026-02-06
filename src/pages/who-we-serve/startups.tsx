@@ -29,36 +29,50 @@ export default function StartupPractices({
   pageData,
   faq,
 }: StartupPracticesProps) {
-  const tabsListingComponentData =
-    pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
-console.log(pageData, 'pageDat----')
 
-  return pageData?.slug?.includes('v2') ? (
+  return (
     <>
+      {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['startup-practices-hero']} type="feature" />
+      {pageData['startup-practices-hero']?.componentData && (
+        <FeatureHero data={pageData['startup-practices-hero'].componentData} type="feature" />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
 
+      <CategoryFeatureTabsSection
+      columnCount={4}
+      features={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+      variant="carouselwithcards"
+      sectionHeading={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+    />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
-        <VerticalTestimonialListingv2
-          data={
-            pageData['testimonial-video-section']?.componentData?.refData
-              ?.testimonialListing
-          }
-        />
-      )}
+          <VerticalTestimonialListingv2
+            data={
+              pageData['testimonial-video-section']?.componentData?.refData
+                ?.testimonialListing
+            }
+          />
+        )}
       <StatisticsSection />
+
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
       )}
+
       <CategoryFeatureTabsSection
         features={
           pageData['manage-every-calls']?.componentData?.refData
@@ -66,63 +80,10 @@ console.log(pageData, 'pageDat----')
         }
         variant="scrollcarousel"
         sectionHeading={
-          pageData['manage-every-calls']?.componentData?.refData?.tabsListingComponent
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
         }
       />
-    </>
-  ) : (
-    <>
-      <SimpleHead data={pageData?.seo} />
-
-      <HeroWrapper>
-        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        <HeroSection
-          page=""
-          data={pageData['dental-phones-hero']?.componentData}
-        />
-      </HeroWrapper>
-      {/* {tabsListingComponentData &&
-        <SingleTabCardListing data={tabsListingComponentData}/>
-      } */}
-      {pageData['testimonial-video-section']?.componentData && (
-        <VerticalTestimonialListing
-          data={
-            pageData['testimonial-video-section']?.componentData?.refData
-              ?.testimonialListing
-          }
-        />
-      )}
-      <StatisticsSection />
-      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
-        <StackCardTestimonial
-          data={
-            pageData['stack-card-tab-testimonial']?.componentData?.refData
-              ?.tabsListingComponent
-          }
-        />
-      ) : (
-        <StackCardTestimonial
-          data={pageData['stack-card-tab-testimonial']?.componentData}
-        />
-      )}
-      {pageData['integrations-listing']?.componentData && (
-        <div className="mt-12">
-          <IntegrationsGrid
-            data={pageData['integrations-listing']?.componentData}
-          />
-        </div>
-      )}
-      {pageData?.['startup-practices']?.componentData && (
-        <TabCardsListing
-          data={pageData?.['startup-practices']?.componentData}
-        />
-      )}
-
-      {/* {
-          tabsListingData && (<TabCardsListing data={tabsListingData} />)
-        } */}
-
-      {/* FAQ Section */}
       {faq && (
         <div>
           <FaqSection faqItems={faq} />
@@ -145,6 +106,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const pageData = await queries.getPageData('whoWeServe', slug)
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true,
+      }
     }
     pageData.slug = slug
     // Ensure FAQ data is serializable

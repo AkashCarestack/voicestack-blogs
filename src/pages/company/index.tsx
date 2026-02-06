@@ -2,22 +2,15 @@ import React from 'react'
 import { GetStaticProps } from 'next'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
-import AboutCompany from '~/components/revamp/components/common/AboutCompany'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import Queries from '~/components/revamp/queries'
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
-import VoicestackLogo from 'public/assets/voicestack-logo.svg'
-import bg2 from 'public/background/upscalemedia-transformed-2.png'
-import bg3 from 'public/background/upscalemedia-transformed-3.png'
+import VoicestackLogo from 'public/assets/companyBG.png'
 import SimpleHead from '~/components/common/SimpleHead'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import FeatureHero from '~/v2/sections/FeatureHero'
-import CardsGridSection from '~/v2/sections/CardsGridSection'
 import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
-import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
-import MinimalCardList from '~/v2/components/common/minimalCardList'
 import GroupedCardsGrid from '~/v2/components/GroupedCardsGrid'
+
 
 
 
@@ -38,6 +31,7 @@ export default function CompanyPage({
   data,
   companyLandingData,
 }: CompanyPageProps) {
+  
   const items = pageData["our-impact"]?.componentData?.items;
 
 
@@ -45,63 +39,43 @@ export default function CompanyPage({
     <>
       <SimpleHead data={pageData?.seo} />
      
-      <FeatureHero
-        data={pageData["company-hero"]?.componentData}
-      />
+      {pageData["company-hero"]?.componentData && (
+        <FeatureHero
+          data={pageData["company-hero"]?.componentData}
+        />
+      )}
       {/* <AboutCompany heading={heading} description={description} image={image} icon={icon} /> */}
       <Section className="bg-white">
-        <Container className="flex flex-col px-6 md:px-12  py-sm md:py-md" type="V2" border="y-0">
-          <SectionHeaderV2 heading="Our Story" isLeftAlign={true}/>
-      
-         {/* <Image 
+        <Container type="V2" border ="t-0" className="flex flex-col px-6 md:px-12  py-sm md:py-md">
+         <Image
            src={VoicestackLogo} 
-           className='mt-8 md:mt-16' 
-           width={199} 
-           height={24} 
+           className='w-full h-full object-cover' 
+           width={1024} 
+           height={477} 
            alt="VoiceStack" 
            title="VoiceStack"
-         /> */}
+         />
+         <SectionHeaderV2 heading="Our Story"/>
           {pageData.description && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 py-6 md:py-8 ">
-              <div className="flex flex-col gap-4 md:gap-6 text-left">
+            <div className="max-w-[610px] md:pt-12 pt-4 md:pb-12 pb-6 mx-auto">
+          
+              <div className="flex flex-col gap-4 md:gap-6 text-center">
                 <PortableText 
                   value={Array.isArray(pageData.description) 
-                    ? pageData.description.slice(0, Math.ceil(pageData.description.length / 2))
-                    : pageData.description
-                  }
-                  components={{
-                    block: {
-                      normal: ({ children }) => (
-                        <p className="text-gray-700 text-base md:text-lg leading-[155.55%]">
-                          {children}
-                        </p>
-                      ),
-                    },
-                    marks: {
-                      strong: ({ children }) => (
-                        <strong className="font-semibold">{children}</strong>
-                      ),
-                    },
-                  }}
-                />
-              </div>
-              <div className="flex flex-col gap-4 md:gap-6 text-left">
-                <PortableText 
-                  value={Array.isArray(pageData.description) 
-                    ? pageData.description.slice(Math.ceil(pageData.description.length / 2))
+                    ? pageData.description
                     : []
                   }
                   components={{
                     block: {
                       normal: ({ children }) => (
-                        <p className="text-gray-700 text-base md:text-lg leading-[155.55%]">
+                        <p className="text-gray-500 text-base leading-[150%]">
                           {children}
                         </p>
                       ),
                     },
                     marks: {
                       strong: ({ children }) => (
-                        <strong className="font-semibold">{children}</strong>
+                        <strong className=" text-gray-950 font-medium leading-[155%] text-base md:text-lg">{children}</strong>
                       ),
                     },
                   }}
@@ -111,7 +85,7 @@ export default function CompanyPage({
           )}
        
        <div className='border-x border-gray-200'>
-          <GroupedCardsGrid 
+          {region === 'en' && <GroupedCardsGrid 
             customListingItems={[
               {
                 heading: data?.leaderShipTeam?.title,
@@ -129,6 +103,7 @@ export default function CompanyPage({
             columnCount={2}
             showBorderBottom={true}
           />
+          }
 
        </div>
         </Container>

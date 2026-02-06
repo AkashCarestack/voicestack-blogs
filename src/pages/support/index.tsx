@@ -68,7 +68,9 @@ export default function SupportPage({
     <>
       <SimpleHead data={supportPageData?.seo} />
       
-      <FeatureHero  data={heroData} type="feature" isCentered={true} />
+      {heroData && (
+        <FeatureHero  data={heroData} type="feature" isCentered={true} />
+      )}
 
 
       {/* <HeroWrapper>

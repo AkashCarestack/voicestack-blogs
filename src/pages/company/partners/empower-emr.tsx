@@ -20,7 +20,7 @@ export default function EmpowerEMR({ pageData, faq }: EmpowerEMRProps) {
  
   return (
     <>
-      <LpHeader logoText="Voicestack + Empower Emr"/>
+      <LpHeader logoText="VoiceStack + Empower Emr"/>
       <SimpleHead data={pageData?.seo} noindex={true} />
       {pageData['empower-emr-hero']?.componentData && ( 
         <FeatureHero data={pageData['empower-emr-hero']?.componentData} type="partner" />
@@ -60,6 +60,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true,
+      }
     }
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null

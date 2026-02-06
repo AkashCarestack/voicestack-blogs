@@ -86,10 +86,12 @@ export default function Phones({ pageData, region, faq }: PhonesProps) {
     <>
     {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero
-        data={pageData['phones-hero']?.componentData}
-        type="feature"
-      />
+      {pageData['phones-hero']?.componentData && (
+        <FeatureHero
+          data={pageData['phones-hero']?.componentData}
+          type="feature"
+        />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
@@ -123,6 +125,14 @@ export default function Phones({ pageData, region, faq }: PhonesProps) {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
+    
+    // phone-system pages don't support 'en-AU' locale
+    if (region === 'en-AU') {
+      return {
+        notFound: true,
+      }
+    }
+    
     const queries = new Queries('phones', region)
     const slug = region === 'en' ? 'phones' : `phones-${region.toLowerCase()}`
 

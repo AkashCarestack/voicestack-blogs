@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
+import { useRouter } from 'next/router'
 import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 
 import Container from '~/components/structure/Container'
@@ -36,27 +37,13 @@ interface Integration {
   }
 }
 
-interface IntegrationsGridProps {   
-className?: string
-  data:any
+interface IntegrationsGridProps {
+  className?: string
+  data: any
   theme?: 'light' | 'dark'
-  sectionBorder?: 't' | 'b' | 'y' 
+  sectionBorder?: 't' | 'b' | 'y'
   demoOnly?: boolean
 }
-
-// Default CTA items for the section
-const defaultCtaListItems = [
-  {
-    ctaText: 'Explore Integration',
-    ctaLink: '/phone-system/integrations',
-    ctaType: 'secondaryWhite',
-  },
-  {
-    ctaText: 'Book Free Demo',
-    ctaLink: '/demo',
-    ctaType: 'primary',
-  },
-]
 
 const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   className = '',
@@ -65,6 +52,23 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   sectionBorder = 'b',
   demoOnly = false,
 }) => {
+  const router = useRouter()
+  const locale = router.locale || 'en'
+  
+  // Default CTA items for the section - use dental-phones for en-AU, phone-system for others
+  const defaultCtaListItems = React.useMemo(() => [
+    {
+      ctaText: 'See All Integrations',
+      ctaLink: locale === 'en-AU' ? '/dental-phones/integrations' : '/phone-system/integrations',
+      ctaType: 'secondaryWhite',
+    },
+    {
+      ctaText: 'Book Free Demo',
+      ctaLink: '/demo',
+      ctaType: 'primary',
+    },
+  ], [locale])
+  
   // Use CTA items from data or fall back to defaults
 
   const sortedIntegrations = React.useMemo(() => {
@@ -86,9 +90,10 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   const leftEmptyCols = 3 // Empty columns on left side
   const rightEmptyCols = 3 // Empty columns on right side
   const emptyRowsTop = 1 // Empty row at top
-  const integrationRows = 2 // Rows with icons
+  // Dynamic rows: 1 row if < 8 integrations, 2 rows if >= 8
+  const integrationRows = sortedIntegrations.length < 8 ? 1 : 2
   const emptyRowsBottom = 1 // Empty row at bottom
-  const totalRows = emptyRowsTop + integrationRows + emptyRowsBottom // 4 total
+  const totalRows = emptyRowsTop + integrationRows + emptyRowsBottom
 
   // Calculate how many integrations per row based on total integrations
   const integrationsPerRow = Math.ceil(
@@ -151,7 +156,9 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
   const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const textColor = isDark ? 'text-white' : 'text-gray-950'
-console.log(data, 'data')
+  const heading = data?.refData?.integrationListing?.title
+  const description = data?.refData?.integrationListing?.description
+  // console.log(data, 'data integrations section')
   return (
     <Section className={`relative overflow-hidden bg-[#030712] ${className}`} border={sectionBorder} isDark={isDark}>
       <Container
@@ -162,8 +169,8 @@ console.log(data, 'data')
       >
         <div className="flex flex-col gap-8 items-center relative w-full">
           <SectionHeaderV2
-            heading={data?.heading}
-            description={data?.description || 'VoiceStack seamlessly integrates with leading PMS, CRM, and analytics platforms, giving you effortless visibility across your operations.'}
+            heading={data?.heading || heading}
+            description={data?.description || description || 'VoiceStack seamlessly integrates with leading PMS, CRM, and analytics platforms, giving you effortless visibility across your operations.'}
             isWhite={true}
             ctaListItems={demoOnly ? [{
               ctaText: 'Book Free Demo',
@@ -200,7 +207,7 @@ console.log(data, 'data')
                   'linear-gradient(to left, #030712 0%, rgba(3, 7, 18, 0) 100%)',
               }}
             />
- 
+
             {/* Blur vignette - radial for sides */}
             <div
               className="hidden md:block pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
@@ -210,12 +217,12 @@ console.log(data, 'data')
 
             {/* Bottom blur vignette */}
             {data?.items && data?.items?.length > 0 && (
-            <div
-              className="hidden md:block pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
+              <div
+                className="hidden md:block pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
   [mask-image:linear-gradient(to_top,black_10%,black_40%,transparent_60%,transparent_70%)]
   [-webkit-mask-image:linear-gradient(to_top,black_10%,black_40%,transparent_60%,transparent_70%)]"
-            />
-           ) }
+              />
+            )}
 
             {/* Mobile Grid - Vertical layout (below md) */}
             <div className="relative mx-auto flex flex-wrap justify-center gap-2 md:hidden px-4 pb-6">
@@ -273,11 +280,10 @@ console.log(data, 'data')
                 {gridCells.map((cell) => (
                   <div
                     key={cell.key}
-                    className={`flex items-center justify-center ${
-                      cell.type === 'integration'
-                        ? 'group relative transition-all duration-300 overflow-hidden'
+                    className={`flex items-center justify-center ${cell.type === 'integration'
+                        ? 'group relative transition-all duration-300'
                         : ''
-                    }`}
+                      }`}
                     style={{
                       borderRadius: '8px',
                       border: '1px solid rgba(255,255,255,0.20)',
@@ -307,7 +313,7 @@ console.log(data, 'data')
                 ))}
               </div>
             </div>
-            
+
             {data?.items && data.items.length > 0 && (
               <div className="flex flex-col md:flex-row flex-wrap w-full pt-4 lg:pt-0">
                 {data.items.map((item: any) => (

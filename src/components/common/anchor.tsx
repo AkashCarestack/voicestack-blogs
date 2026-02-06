@@ -35,18 +35,31 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
 
       const { query } = router
 
+      // Check if destination is a thank-you page
+      const hrefPath = href?.split('?')[0].split('#')[0];
+      const isThankYouPage = hrefPath?.includes('/thank-you');
+
       const queryParams: Record<string, string> = Object.entries(query).reduce((acc: any, [key, value]) => {
         if (value !== undefined && key !== "flag" && key !== "slug") {
+          // Exclude practiceType unless navigating to a thank-you page
+          if (key === "practiceType" && !isThankYouPage) {
+            return acc;
+          }
           acc[key] = value.toString();
         }
         return acc;
       }, {});
 
       // Get the existing URL parameters from href
-      const existingParams = href.includes('?') ? href.split('?')[1] : '';
+      const existingParams = href?.includes('?') ? href.split('?')[1] : '';
       
       // Merge existing parameters with router query params using URLSearchParams to avoid duplicates
       const mergedParams = new URLSearchParams(existingParams);
+      
+      // Remove practiceType from existing params unless navigating to a thank-you page
+      if (!isThankYouPage && mergedParams.has('practiceType')) {
+        mergedParams.delete('practiceType');
+      }
       
       // Add router query params (they will overwrite duplicates)
       Object.entries(queryParams).forEach(([key, value]) => {
@@ -58,7 +71,7 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       // if (router.asPath.startsWith("/lp") || router.asPath.startsWith("/uk")) {
       //   setNewLink(`${href}`);
       // } else {
-        setNewLink(`${href.split('?')[0]}${updatedParams.length > 0 ? "?" + updatedParams : ""}`);
+        setNewLink(`${href?.split('?')[0]}${updatedParams.length > 0 ? "?" + updatedParams : ""}`);
       // }
     }, [href, router, trackCtx]);
 

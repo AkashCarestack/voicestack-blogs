@@ -19,6 +19,7 @@ import HeroSection from './common/HeroSection/heroSection'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import SimpleHead from '~/components/common/SimpleHead'
 
 export default function Home({
   data,
@@ -39,6 +40,7 @@ export default function Home({
 
   return data?.slug?.includes('v2') ? (
     <div className="">
+      <SimpleHead data={data?.seo} />
       <HeroAU
         image={heroSectionData?.heroImage}
         heading={heroSectionData?.heroheading}

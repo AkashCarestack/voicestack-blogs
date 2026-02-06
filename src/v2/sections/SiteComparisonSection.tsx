@@ -19,7 +19,7 @@ function SiteComparisonSection({
   legendData = null,
   refer = null,
 }: SiteComparisonSectionProps) {
-  console.log('data comparison section', data)
+  // console.log('data comparison section', data)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
   const [isOpen, setIsOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)

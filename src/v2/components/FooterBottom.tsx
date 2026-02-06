@@ -48,7 +48,7 @@ export default function FooterBottom({ data }: FooterBottomProps) {
   const imageSource = getOptimizedImageSource()
 
   // Use Sanity content or fallback defaults
-  const title = ctaBanner?.title || 'Grow your practice with Voicestack'
+  const title = ctaBanner?.title || 'Grow your practice with VoiceStack'
   const description = ctaBanner?.description || 'Join leading Australian dental practices who never miss a patient call. See how VoiceStack can transform your front desk in just 15 minutes.'
   const buttonText = ctaBanner?.buttonText || 'Book Free Demo'
   const buttonLink = ctaBanner?.buttonLink || '/demo'

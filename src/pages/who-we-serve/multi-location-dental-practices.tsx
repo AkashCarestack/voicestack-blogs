@@ -23,109 +23,86 @@ import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 
-interface IndependentPracticesProps {
+interface MultiLocationPracticesProps {
   pageData: any
   faq: any
   region: string
   features: any[]
 }
 
-export default function IndependentPractices({
+export default function MultiLocationPractices({
   pageData,
   faq,
   region,
   features,
-}: IndependentPracticesProps) {
+}: MultiLocationPracticesProps) {
   const tabsListingData =
     pageData?.['manage-every-calls']?.componentData?.refData
       ?.tabsListingComponent
   const tabsListingComponentData =
     pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
 
-  return pageData?.slug?.includes('v2') ? (
+  return  (
     <>
+      {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['single-locations-hero']} type="feature" />
+      {pageData['multi-locations-hero']?.componentData && (
+        <FeatureHero data={pageData['multi-locations-hero']?.componentData} type="feature" />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
-      {tabsListingComponentData && (
-        <SwitchableTabsV2 data={tabsListingComponentData} />
-      )}
+        <CategoryFeatureTabsSection
+      columnCount={4}
+      features={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+      variant="carouselwithcards"
+      sectionHeading={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+    />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
-        <VerticalTestimonialListingv2
-          data={
-            pageData['testimonial-video-section']?.componentData?.refData
-              ?.testimonialListing
-          }
-        />
-      )}
+          <VerticalTestimonialListingv2
+            data={
+              pageData['testimonial-video-section']?.componentData?.refData
+                ?.testimonialListing
+            }
+          />
+        )}
       <StatisticsSection />
+
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
       )}
-       <CategoryFeatureTabsSection
+
+      <CategoryFeatureTabsSection
         features={
           pageData['manage-every-calls']?.componentData?.refData
             ?.tabsListingComponent
         }
         variant="scrollcarousel"
         sectionHeading={
-          pageData['manage-every-calls']?.componentData?.refData?.tabsListingComponent
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
         }
       />
-    </>
-  ) : (
-    <>
-      <SimpleHead data={pageData?.seo} />
-
-      <HeroWrapper>
-        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        <HeroSection data={pageData['dental-phones-hero']?.componentData} />
-      </HeroWrapper>
-
-      {tabsListingComponentData && (
-        <SingleTabCardListing data={tabsListingComponentData} />
-      )}
-
-      {pageData['testimonial-video-section']?.componentData && (
-        <VerticalTestimonialListing
-          data={
-            pageData['testimonial-video-section']?.componentData?.refData
-              ?.testimonialListing
-          }
-        />
-      )}
-      <div className="md:pb-16 pb-8">
-        <StatisticsSection />
-      </div>
-      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
-        <StackCardTestimonial
-          data={
-            pageData['stack-card-tab-testimonial']?.componentData?.refData
-              ?.tabsListingComponent
-          }
-        />
-      ) : (
-        <StackCardTestimonial
-          data={pageData['stack-card-tab-testimonial']?.componentData}
-        />
-      )}
-      {pageData['custom']?.componentData && (
-        <div className="">
-          <IntegrationsGrid data={pageData['custom']?.componentData} />
+      {faq && (
+        <div>
+          <FaqSection faqItems={faq} />
         </div>
       )}
-      {/* {console.log(pageData?.['groups-and-dso']?.componentData, 'groups-and-dso')} */}
-      {tabsListingData && <TabCardsListing data={tabsListingData} />}
     </>
   )
+ 
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -140,13 +117,16 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     //     : `single-locations-${region.toLowerCase()}`
     const slug =
       region === 'en'
-        ? 'single-locations-v2'
-        : `single-locations-v2-${region.toLowerCase()}`
+        ? 'multi-locations'
+        : `multi-locations-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
-    pageData.slug = slug
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true
+      }
     }
+    pageData.slug = slug
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
     const features = await getFeaturesList(getClient(), region)

@@ -13,7 +13,8 @@
     "find-unused-exports": "find-unused-exports",
     "find-unused-components": "node scripts/find-unused-components.js",
     "populate-footer": "node scripts/populate-footer-data.js",
-    "upload-data": "node src/migrations/upload-pages-and-faqs.js"
+    "upload-data": "node src/migrations/upload-pages-and-faqs.js",
+    "postbuild": "accept-md fix-routes"
   },
   "prettier": {
     "semi": false,
@@ -54,12 +55,14 @@
     "styled-components": "6.1.8",
     "tailwind-merge": "^2.5.4",
     "tailwindcss": "^3.4.14",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "accept-md-runtime": "^1.0.0"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
     "@types/react": "18.2.55",
     "@types/react-slick": "^0.23.13",
+    "accept-md": "^1.0.3",
     "autoprefixer": "^10.4.17",
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",

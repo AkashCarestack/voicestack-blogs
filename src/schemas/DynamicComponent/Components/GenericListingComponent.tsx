@@ -1,4 +1,4 @@
-import { listingItemSchema, ctaListItemSchema, sectionHeadingDynamicSchema, customListingItemSchema } from '~/schemas/Common/commonSchema'
+import { listingItemSchema, ctaListItemSchema, sectionHeadingDynamicSchema, customListingItemSchema, sectionDescriptionDynamicSchema } from '~/schemas/Common/commonSchema'
 
 export const genericListingComponentFields = [
   {
@@ -12,6 +12,7 @@ export const genericListingComponentFields = [
     title: 'Section Description',
     type: 'text',
   },
+  sectionDescriptionDynamicSchema,
   {
     name: 'useReference',
     title: 'Use Reference from Blocks & Lists',

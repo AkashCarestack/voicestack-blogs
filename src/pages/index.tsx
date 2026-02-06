@@ -34,16 +34,31 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
      const queries1 = new Queries('landing-v2', region)
     const slug1 = region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
+    
+    console.log('Fetching home page data:', { region, slug, slug1 })
+    
     const pageData = await queries.getPageData('homePage', slug)
     const pageData1 = await queries1.getPageData('homePage', slug1)
     const client = getClient()
-    pageData.slug = slug
-    pageData1.slug = slug1
-    if (!pageData || Object.keys(pageData).length === 0) {
+
+    console.log('Page data results:', { 
+      pageData: !!pageData, 
+      pageData1: !!pageData1,
+      slug,
+      slug1,
+      region 
+    })
+    if (!pageData1) {
       return {
         notFound: true,
       }
     }
+    
+    // Only set slug if pageData exists (it may not exist for en-AU)
+    if (pageData) {
+      pageData.slug = slug
+    }
+    pageData1.slug = slug1
 
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
@@ -53,7 +68,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     return {
       props: {
-        pageData,
+        pageData: pageData || null, // Ensure pageData is never undefined
         pageData1,
         region,
         faq: faqData,
@@ -120,13 +135,13 @@ export default function IndexPage({
     }
   }, [])
 
-  if (isEmpty(pageData)) {
-    return (
-      <>
-        <p className="p-5">Loading ... </p>
-      </>
-    )
-  }
+  // if (isEmpty(pageData)) {
+  //   return (
+  //     <>
+  //       <p className="p-5">Loading ... </p>
+  //     </>
+  //   )
+  // }
 
   const comparisonSectionData = {
     strip:
@@ -142,7 +157,6 @@ export default function IndexPage({
 // console.log("featuresData", featuresData)
   return (
     <Track>
-      <SimpleHead data={pageData?.seo} />
       {region === 'en' && (
         <Home
           data={pageData1}
@@ -163,9 +177,7 @@ export default function IndexPage({
         <HomeAU 
           featuresData={featuresData}
           comparisonLegendData={comparisonLegendData}
-          comparisonTableData={comparisonTableData}
-          comparisonSectionData={comparisonSectionData}
-          data={pageData} pageData={pageData} />
+          data={pageData1} pageData={pageData1} />  
       )}
     </Track>
   )

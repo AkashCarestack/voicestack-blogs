@@ -38,8 +38,12 @@ console.log(pageData, 'pageData')
       {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {/* </div> */}
-      <FeatureHero data={pageData['feature-hero']} type="feature" />
-      {console.log(pageData['logos-listing']?.componentData, 'LogoListing component Dtaat')}
+
+      {pageData['feature-hero']?.componentData && (
+        <FeatureHero data={pageData['feature-hero']?.componentData} type="feature" />
+      )}
+
+      {/* {console.log(pageData['logos-listing']?.componentData, 'LogoListing component Dtaat')} */}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
@@ -120,13 +124,13 @@ export const getStaticPaths: GetStaticPaths = async ({
 
     return {
       paths,
-      fallback: 'blocking',
+      fallback: 'blocking', // Only serve pre-generated pages (if false). New pages will 404 until rebuild (webhook handles revalidation)
     }
   } catch (error) {
     console.error('Error fetching feature paths:', error)
     return {
       paths: [],
-      fallback: 'blocking',
+      fallback: 'blocking', // Only serve pre-generated pages(if false). New pages will 404 until rebuild (webhook handles revalidation)
     }
   }
 }
@@ -134,6 +138,14 @@ export const getStaticPaths: GetStaticPaths = async ({
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const region = locale || 'en'
   const slug = params?.slug as string
+
+  // console.log(slug, 'slug', params, 'params', locale, 'locale')
+  // phone-system pages don't support 'en-AU' locale
+  if (region === 'en-AU') {
+    return {
+      notFound: true,
+    }
+  }
 
   if (!slug) {
     return {
@@ -144,8 +156,10 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   try {
     const queries = new Queries('features', region)
     const pageData = await queries.getPageData('features', slug)
+    // console.log(pageData, 'pageData')
+
     if (!pageData) {
-      console.error(`pageData not found for ${slug}`)
+      console.error(`pageData is empty (all null) for ${slug}`)
       return {
         notFound: true,
       }

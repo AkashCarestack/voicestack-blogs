@@ -138,7 +138,9 @@ export default function DentalPhonesIntegrations({
     <>
     <SimpleHead data={pageData?.seo} />
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['integrations-hero']} type="feature" />
+      {pageData['integrations-hero']?.componentData && (
+        <FeatureHero data={pageData['integrations-hero']} type="feature" />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
@@ -214,6 +216,14 @@ export default function DentalPhonesIntegrations({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
+    
+    // phone-system pages don't support 'en-AU' locale
+    if (region === 'en-AU') {
+      return {
+        notFound: true,
+      }
+    }
+    
     const queries = new Queries('integrations-v2', region)
     const slug =
       region === 'en'
@@ -222,17 +232,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     // Fetch page data for integrations
     const pageData = await queries.getPageData('dentalPhones', slug)
-    pageData.slug = slug
 
-    const noPageData = Object.values(pageData).every(
-      (value) => value === null || value === undefined,
-    )
-
-    if (noPageData) {
+    if(!pageData){
       return {
-        notFound: true,
+        notFound: true
       }
     }
+    pageData.slug = slug
 
     // Ensure FAQ data is serializable
     const faqData =

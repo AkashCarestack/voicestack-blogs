@@ -49,7 +49,9 @@ export default function ComparisonSlugPage({
     <>
       <SimpleHead data={pageData?.seo} />
         {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
-        <FeatureHero data={pageData['comparison-hero']} />
+        {pageData['comparison-hero']?.componentData && (
+          <FeatureHero data={pageData['comparison-hero']} />
+        )}
 
       {pageData['logo-listing']?.componentData && (
         <LogoListingV2
@@ -117,12 +119,14 @@ export const getStaticPaths: GetStaticPaths = async ({
     ]
     
     // Exclude the main comparison page slug (handled by index.tsx)
+    // Also exclude 'comparison-en-au' and any slug ending with '-en-au' as phone-system doesn't support 'au' locale
     const filteredSlugs = uniqueSlugs.filter(
       (slug: string) => 
         slug !== 'comparison' && 
         slug !== 'comparison-en' && 
         slug !== 'comparison-en-gb' && 
-        slug !== 'comparison-en-au'
+        slug !== 'comparison-en-au' &&
+        !slug.endsWith('-en-au')
     )
     
     // Format paths for Next.js
@@ -132,13 +136,13 @@ export const getStaticPaths: GetStaticPaths = async ({
     
     return {
       paths,
-      fallback: 'blocking',
+      fallback: 'blocking', // Only serve pre-generated pages(if false). New pages will 404 until rebuild (webhook handles revalidation)
     }
   } catch (error) {
     console.error('Error fetching comparison paths:', error)
     return {
       paths: [],
-      fallback: 'blocking',
+      fallback: 'blocking', // Only serve pre-generated pages(if false). New pages will 404 until rebuild (webhook handles revalidation)
     }
   }
 }
@@ -147,12 +151,25 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const region = locale || 'en'
   const slug = params?.slug as string
 
+  // phone-system pages don't support 'en-AU' locale
+  if (region === 'en-AU') {
+    return {
+      notFound: true,
+    }
+  }
+
   if (!slug) {
     return {
       notFound: true,
     }
   }
   
+  // Also check if slug ends with '-en-au' and reject it
+  if (slug.endsWith('-en-au')) {
+    return {
+      notFound: true,
+    }
+  }
   
   try {
     const queries = new Queries('comparison', region)
