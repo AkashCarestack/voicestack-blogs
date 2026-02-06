@@ -96,7 +96,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
           }
         `
       }} />
-      <nav aria-label="Breadcrumb" className="breadcrumb-nav flex items-center gap-2 overflow-x-auto whitespace-nowrap">
+      <nav aria-label="Breadcrumb" className="breadcrumb-nav flex items-center gap-2 overflow-x-auto whitespace-nowrap pt-4">
         {/* Home Icon */}
         <Anchor href="/" className="flex items-center justify-center flex-shrink-0">
           <div className="w-8 h-8 rounded-[4px] bg-[#4A3CE11A]/10 flex items-center justify-center">

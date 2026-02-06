@@ -20,7 +20,28 @@ const EXCLUDED_PATHS = [
   'onboarding',
   'demo/thank-you',
   'pricing/thank-you',
+  'en-AU/phone-system'
 ];
+
+const SIMILAR_ALTERNATES: Record<string, string[]> = {
+  'phone-system': ['/en-AU/dental-phones'],
+  'dental-phones': ['/phone-system'],
+  'phone-system/features': ['/en-AU/dental-phones/features'],
+  'phone-system/reviews': ['/en-AU/dental-phones/reviews'],
+  'phone-system/integrations': ['/en-AU/dental-phones/integrations'],
+  'phone-system/comparison': ['/en-AU/dental-phones/comparison'],
+  'phone-system/case-studies': ['/en-AU/dental-phones/case-studies'],
+  'phone-system/phones': ['/en-AU/dental-phones/phones'],
+  'phone-system/features/ai-receptionist': ['/en-AU/dental-phones/ai-receptionist'],
+
+}
+
+// Static pages that should be included in sitemap (pages not managed in Sanity)
+// Format: { path: string[], locales: string[] }
+const STATIC_PAGES: Array<{ path: string; locales: string[] }> = [
+  { path: 'company/leadership-team', locales: ['en', 'en-AU'] },
+]
+
 
 interface NavigationLink {
   label?: string
@@ -77,6 +98,11 @@ function formatLastmod(date: string | Date | null | undefined): string {
 
 function buildUrl(path: string, locale: string): string {
   const cleanedPath = path.replace(/^\/+/, '').replace(/\/+$/, '');
+  
+  // Prevent /en-AU/phone-system from being generated (it doesn't exist)
+  // if (cleanedPath === 'phone-system' && locale === 'en-AU') {
+  //   locale = 'en';
+  // }
   
   if (locale === 'en' || !locale) {
     return cleanedPath ? `${BASE_URL}/${cleanedPath}` : BASE_URL;
@@ -270,7 +296,9 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
   
   // Group features by normalized slug to detect multi-locale features
   features.forEach((feature: any) => {
+   
     if (!feature.slug) return;
+    
     
     // Exclude 'track' feature
     if (feature.slug === 'track') return;
@@ -529,9 +557,36 @@ async function generateSiteMap(
     }
   });
 
+  // Add static pages (pages not managed in Sanity)
+  STATIC_PAGES.forEach(({ path, locales }) => {
+    // Skip excluded paths
+    if (shouldExcludePath(path)) return;
+    
+    const existing = allPathData.get(path);
+    const currentDate = new Date().toISOString();
+    
+    if (existing) {
+      // Merge locales from static pages
+      const combinedLocales = new Set([...existing.locales, ...locales]);
+      existing.locales = Array.from(combinedLocales);
+    } else {
+      // Add static page with specified locales
+      allPathData.set(path, { date: currentDate, locales });
+    }
+  });
+
+  // Filter out en-AU locale for phone-system path (it doesn't exist)
+  const phoneSystemPathData = allPathData.get('phone-system');
+  if (phoneSystemPathData) {
+    phoneSystemPathData.locales = phoneSystemPathData.locales.filter(locale => locale !== 'en-AU');
+  }
+
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
   xml += '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
+
+  // Track all generated URLs to prevent duplicates
+  const generatedUrls = new Set<string>();
 
   // 1. Generate entries for paths WITH hreflang alternates (home, system-requirements)
   PATHS_WITH_ALTERNATES.forEach(path => {
@@ -540,8 +595,16 @@ async function generateSiteMap(
     const formattedLastmod = formatLastmod(lastmod);
     
     locales.forEach(locale => {
+      const currentUrl = buildUrl(path, locale);
+      
+      // Skip if this URL has already been generated
+      if (generatedUrls.has(currentUrl)) {
+        return;
+      }
+      generatedUrls.add(currentUrl);
+      
       xml += '  <url>\n';
-      xml += `    <loc>${escapeXml(buildUrl(path, locale))}</loc>\n`;
+      xml += `    <loc>${escapeXml(currentUrl)}</loc>\n`;
       xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
 
       // Add hreflang alternates for all locales
@@ -558,30 +621,102 @@ async function generateSiteMap(
 
   // 2. Generate entries for other pages
   // If a path exists in multiple locales, add hreflang alternates
+  const processedAlternatePaths = new Set<string>(); // Track alternate paths to avoid duplicates
+  const processedPathsWithAlternates = new Set<string>(); // Track paths that have been processed with their alternates
+  
   allPathData.forEach((pathData, path) => {
     // Skip paths that already have alternates
     if (PATHS_WITH_ALTERNATES.includes(path)) return;
     
+    // Check if this path is an alternate target of another path that has already been processed
+    // If so, skip it to avoid duplicates (it was already generated as an alternate)
+    let isAlternateTarget = false;
+    for (const [sourcePath, alternates] of Object.entries(SIMILAR_ALTERNATES)) {
+      if (sourcePath !== path && processedPathsWithAlternates.has(sourcePath)) {
+        for (const alternate of alternates) {
+          const cleanAlternatePath = alternate.replace(/^\/+/, '').replace(/^(en-GB|en-AU)\//, '');
+          if (cleanAlternatePath === path) {
+            isAlternateTarget = true;
+            break;
+          }
+        }
+        if (isAlternateTarget) break;
+      }
+    }
+    if (isAlternateTarget) return;
+    
     const formattedLastmod = formatLastmod(pathData.date);
     const pathLocales = pathData.locales.length > 0 ? pathData.locales : ['en'];
+    
+    // Check if this path has similar alternates
+    const similarAlternates = SIMILAR_ALTERNATES[path];
+    const hasSimilarAlternates = similarAlternates && similarAlternates.length > 0;
     
     // If path exists in multiple locales, add hreflang alternates
     const hasMultipleLocales = pathLocales.length > 1;
     
+    // Collect all URLs for hreflang alternates ONCE (before the loop to avoid duplicates)
+    const allAlternateUrlsSet = new Set<string>(); // Track unique URL+hreflang combinations
+    const allAlternateUrls: Array<{ url: string; hreflang: string }> = [];
+    
+    // Helper function to add alternate URL if not already added
+    const addAlternateUrl = (url: string, hreflang: string) => {
+      // Prevent /en-AU/phone-system URLs (it doesn't exist)
+      if (url.includes('/en-AU/phone-system')) {
+        return;
+      }
+      const key = `${url}|${hreflang}`;
+      if (!allAlternateUrlsSet.has(key)) {
+        allAlternateUrlsSet.add(key);
+        allAlternateUrls.push({ url, hreflang });
+      }
+    };
+    
+    // Collect alternate URLs for this path's locales
+    if (hasMultipleLocales) {
+      pathLocales.forEach(altLocale => {
+        const altUrl = buildUrl(path, altLocale);
+        const altHreflang = formatHreflang(altLocale);
+        addAlternateUrl(altUrl, altHreflang);
+      });
+    }
+    
+    // Add similar alternate paths to hreflang alternates
+    if (hasSimilarAlternates) {
+      similarAlternates.forEach(alternatePath => {
+        // Extract locale from alternate path if present
+        const alternateLocale = alternatePath.match(/^\/(en-GB|en-AU)\//)?.[1] || 'en';
+        // Clean the alternate path (remove leading slash and locale prefix) before building URL
+        const cleanAlternatePath = alternatePath.replace(/^\/+/, '').replace(/^(en-GB|en-AU)\//, '');
+        const alternateUrl = buildUrl(cleanAlternatePath, alternateLocale);
+        const alternateHreflang = formatHreflang(alternateLocale);
+        addAlternateUrl(alternateUrl, alternateHreflang);
+      });
+    }
+    
     // Generate entries for each locale that has this path
     pathLocales.forEach(locale => {
+      // Skip /en-AU/phone-system (it doesn't exist)
+      if (path === 'phone-system' && locale === 'en-AU') {
+        return;
+      }
+      
+      const currentUrl = buildUrl(path, locale);
+      
+      // Skip if this URL has already been generated
+      if (generatedUrls.has(currentUrl)) {
+        return;
+      }
+      generatedUrls.add(currentUrl);
+      
       xml += '  <url>\n';
-      xml += `    <loc>${escapeXml(buildUrl(path, locale))}</loc>\n`;
+      xml += `    <loc>${escapeXml(currentUrl)}</loc>\n`;
       xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
       
-      // Add hreflang alternates if path exists in multiple locales
-      // This links all locale versions of the same URL together
-      if (hasMultipleLocales) {
-        // Add alternates for all locales that have this path
-        pathLocales.forEach(altLocale => {
-          const altUrl = buildUrl(path, altLocale);
-          const altHreflang = formatHreflang(altLocale);
-          xml += `    <xhtml:link rel="alternate" hreflang="${altHreflang}" href="${escapeXml(altUrl)}"/>\n`;
+      // Add all hreflang alternates (already deduplicated)
+      if (allAlternateUrls.length > 0) {
+        allAlternateUrls.forEach(({ url, hreflang }) => {
+          xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
         });
         // Add x-default pointing to 'en' version if 'en' exists, otherwise first locale
         const defaultLocale = pathLocales.includes('en') ? 'en' : pathLocales[0];
@@ -591,6 +726,109 @@ async function generateSiteMap(
       
       xml += '  </url>\n';
     });
+    
+    // Generate entries for similar alternate paths
+    if (hasSimilarAlternates) {
+      similarAlternates.forEach(alternatePath => {
+        // Clean the alternate path (remove leading slash and locale prefix)
+        const cleanAlternatePath = alternatePath.replace(/^\/+/, '').replace(/^(en-GB|en-AU)\//, '');
+        // Extract locale from alternate path if present
+        const alternateLocale = alternatePath.match(/^\/(en-GB|en-AU)\//)?.[1] || 'en';
+        
+        // Skip if already processed
+        const alternatePathKey = `${cleanAlternatePath}:${alternateLocale}`;
+        if (processedAlternatePaths.has(alternatePathKey)) return;
+        processedAlternatePaths.add(alternatePathKey);
+        
+        // Check if alternate path exists in allPathData
+        const alternatePathData = allPathData.get(cleanAlternatePath);
+        const alternateLocales = alternatePathData?.locales || [alternateLocale];
+        const alternateLastmod = alternatePathData?.date || pathData.date;
+        const formattedAlternateLastmod = formatLastmod(alternateLastmod);
+        
+        // Collect hreflang alternates ONCE (before the loop to avoid duplicates)
+        const allAlternateUrlsForAlternateSet = new Set<string>();
+        const allAlternateUrlsForAlternate: Array<{ url: string; hreflang: string }> = [];
+        
+        const addAlternateUrlForAlternate = (url: string, hreflang: string) => {
+          // Prevent /en-AU/phone-system URLs (it doesn't exist)
+          if (url.includes('/en-AU/phone-system')) {
+            return;
+          }
+          const key = `${url}|${hreflang}`;
+          if (!allAlternateUrlsForAlternateSet.has(key)) {
+            allAlternateUrlsForAlternateSet.add(key);
+            allAlternateUrlsForAlternate.push({ url, hreflang });
+          }
+        };
+        
+        // Add original path locales
+        pathLocales.forEach(origLocale => {
+          const origUrl = buildUrl(path, origLocale);
+          const origHreflang = formatHreflang(origLocale);
+          addAlternateUrlForAlternate(origUrl, origHreflang);
+        });
+        
+        // Add other alternate path locales
+        if (alternateLocales.length > 1) {
+          alternateLocales.forEach(altLocale => {
+            const altUrl = buildUrl(cleanAlternatePath, altLocale);
+            const altHreflang = formatHreflang(altLocale);
+            addAlternateUrlForAlternate(altUrl, altHreflang);
+          });
+        }
+        
+        // Add other similar alternates
+        if (hasSimilarAlternates) {
+          similarAlternates.forEach(otherAlternatePath => {
+            if (otherAlternatePath === alternatePath) return; // Skip self
+            const cleanOtherPath = otherAlternatePath.replace(/^\/+/, '').replace(/^(en-GB|en-AU)\//, '');
+            const otherLocale = otherAlternatePath.match(/^\/(en-GB|en-AU)\//)?.[1] || 'en';
+            const otherUrl = buildUrl(cleanOtherPath, otherLocale);
+            const otherHreflang = formatHreflang(otherLocale);
+            addAlternateUrlForAlternate(otherUrl, otherHreflang);
+          });
+        }
+        
+        // Generate entries for alternate path
+        alternateLocales.forEach(locale => {
+          // Skip /en-AU/phone-system (it doesn't exist)
+          if (cleanAlternatePath === 'phone-system' && locale === 'en-AU') {
+            return;
+          }
+          
+          const alternateUrl = buildUrl(cleanAlternatePath, locale);
+          
+          // Skip if this URL has already been generated
+          if (generatedUrls.has(alternateUrl)) {
+            return;
+          }
+          generatedUrls.add(alternateUrl);
+          
+          xml += '  <url>\n';
+          xml += `    <loc>${escapeXml(alternateUrl)}</loc>\n`;
+          xml += `    <lastmod>${formattedAlternateLastmod}</lastmod>\n`;
+          
+          // Add all hreflang alternates (already deduplicated)
+          if (allAlternateUrlsForAlternate.length > 0) {
+            allAlternateUrlsForAlternate.forEach(({ url, hreflang }) => {
+              xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
+            });
+            // Add x-default
+            const defaultLocale = pathLocales.includes('en') ? 'en' : pathLocales[0];
+            const defaultUrl = buildUrl(path, defaultLocale);
+            xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(defaultUrl)}"/>\n`;
+          }
+          
+          xml += '  </url>\n';
+        });
+      });
+    }
+    
+    // Mark this path as processed (including its alternates) to prevent duplicate processing
+    if (hasSimilarAlternates) {
+      processedPathsWithAlternates.add(path);
+    }
   });
 
   xml += '</urlset>';
@@ -633,10 +871,15 @@ export default async function handler(
     
     const sitemap = await generateSiteMap(navigationPaths, featurePaths, client);
     
-    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
-    res.write(sitemap);
-    res.end();
+    // Set headers explicitly before sending response
+    res.writeHead(200, {
+      'Content-Type': 'text/xml; charset=utf-8',
+      'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400'
+    });
+    
+    // Send XML response
+    res.end(sitemap);
+    return;
   } catch (error) {
     console.error('Sitemap generation error:', error);
     res.status(500).json({ error: 'Failed to generate sitemap', details: error instanceof Error ? error.message : 'Unknown error' });

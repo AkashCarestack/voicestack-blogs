@@ -172,6 +172,14 @@ export default function AiReceptionist({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
+    
+    // phone-system pages don't support 'en-AU' locale
+    if (region === 'en-AU') {
+      return {
+        notFound: true,
+      }
+    }
+    
     const queries = new Queries('dental-crm', region)
     const slug =
       region === 'en' ? 'dental-crm' : `dental-crm-${region.toLowerCase()}`

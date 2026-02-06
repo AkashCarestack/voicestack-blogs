@@ -86,6 +86,7 @@ export default function GroupsAndDSO({ pageData, faq }: GroupsAndDSOProps) {
   // )
   return (
     <>
+      {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {pageData['mobile-practices-hero']?.componentData && (
         <FeatureHero data={pageData['mobile-practices-hero']} type="feature" />

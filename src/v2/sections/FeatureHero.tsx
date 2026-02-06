@@ -272,26 +272,26 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
     <>
       <Section className={`relative overflow-hidden ${isVertical ? 'bg-white' : ''}`} id="FeatureHero" border="b">
         <Container type="V2" className={`md:py-24 py-16 overflow-hidden justify-center flex ${pageType === 'download-app' ? 'flex-col' : ''}`}>
-          <div className={`${isVertical ? '!flex-col-reverse' : ''} flex lg:flex-row flex-col md:gap-12 w-full gap-6 relative z-10 items-center`}>
+          <div className={`${isVertical ? '!flex-col-reverse' : ''} flex lg:flex-row flex-col md:gap-12 w-full max-w-[1240px] gap-6 relative z-10 items-center`}>
             <div className={`flex flex-col gap-3 relative z-10 flex-1  ${type === 'form' ? 'max-w-[606px]' : ''} ${isCentered ? 'text-center items-center' : ''}`}>
               {title && (
                 (type === 'form' || type === 'comparison') ? (
                   <div className="flex items-center gap-2 py-[9px] pr-4 pl-[14px] rounded-full border border-[#AEA0FF] lg:self-start self-center bg-white/20 shadow-[-7px_0_10px_0_rgba(251,111,142,0.5),7px_0_10px_0_rgba(74,60,225,0.5)]">
                     <LightningIcon className="w-4 h-4" />
-                    <h1 className="text-center md:text-left text-sm font-geist font-normal leading-[115%] text-gray-950">
-                      {title?.toUpperCase()}
+                    <h1 className="text-center md:text-left text-sm font-geist font-normal leading-[115%] text-gray-950 uppercase">
+                      {title}
                     </h1>
                   </div>
                 ) : isVertical ? (
                   <div className="flex items-center border-2 border-white/50 font-semibold md:gap-3 gap-2 md:py-1.5 py-1 md:pr-6 pr-3 pl-[6px] rounded-full  bg-revamp-purple-gradient">
                     <div className="md:w-10 md:h-10 w-4 h-4"><Image src={AiIcon} alt="AI Icon" width={40} height={40} /></div>
-                    <h1 className="text-center md:text-left  md:text-sm text-xs font-geist leading-4 tracking-[0.8px] text-white md:font-semibold font-medium">
-                      {title?.toUpperCase()}
+                    <h1 className="text-center md:text-left  md:text-sm text-xs font-geist leading-4 tracking-[0.8px] text-white md:font-semibold font-medium uppercase">
+                      {title}
                     </h1>
                   </div>
                 ) : (
                   <h1 className={`${type === 'partner' ? 'sr-only' : ''} text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase`}>
-                    {title?.toUpperCase()}
+                    {title}
                   </h1>
                 )
               )}
@@ -760,7 +760,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
 
 
           {pageType === 'download-app' && appStoreLinks && (appStoreLinks.appStore || appStoreLinks.googlePlay) && (
-            <div className="w-full flex justify-center">
+            <div className="w-full max-w-[1240px] flex justify-center">
               <div className="flex flex-col gap-4 items-center md:pt-12 pt-[10px]">
                 {appStoreLinks.downloadText && (
                   <p className="text-[#030712] text-lg font-medium leading-[160%] text-center">

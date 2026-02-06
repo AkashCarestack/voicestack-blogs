@@ -8,6 +8,7 @@ import { getClient } from '~/lib/sanity.client'
 import { getAllComparisonValues, getFeaturesList } from '~/lib/sanity.queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
+import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
@@ -16,6 +17,7 @@ import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
+import ReceptionistTeamSection from '~/v2/sections/ReceptionistTeamSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -54,8 +56,8 @@ interface PageData {
   [key: string]: any // For other page sections
 }
 
-interface DentalPhonesIndexProps {
-  pageData: PageData
+interface AiReceptionistProps {
+  pageData: any,
   region: string
   comparisonTableData: any
   comparisonLegendData: any[] | null
@@ -63,18 +65,18 @@ interface DentalPhonesIndexProps {
   features: any[]
 }
 
-export default function DentalPhonesIndex({
+export default function AiReceptionist({
   pageData,
   region,
   comparisonLegendData,
   faq,
   features,
-}: DentalPhonesIndexProps) {
-  // console.log("ppp",pageData)
+}: AiReceptionistProps) {
+  console.log("ppp",pageData)
 
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
-  
+
   // const comparisonTableTitle = pageData['comparison-table']?.componentData
   const comparisonSectionData = {
     strip: comparisonTableComponent?.title,
@@ -82,72 +84,61 @@ export default function DentalPhonesIndex({
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
+
   return (
     <>
       <SimpleHead data={pageData?.seo} />
+
       {pageData['dental-phones-hero']?.componentData && (
-        <FeatureHero data={pageData['dental-phones-hero']} type="feature" />
+        <FeatureHero data={pageData['dental-phones-hero']} type="feature" hideBg={region === 'en-AU' ? true : false} isVertical={region === 'en-AU' ? true : false} isCentered={region === 'en-AU' ? true : false} />
       )}
 
-      {pageData['logos-listing']?.componentData && (
-        <LogoListingV2
-          data={pageData['logos-listing']?.componentData.blocksListingData}
-        />
-      )}
-      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
-        <StackCardTestimonial
-          data={
-            pageData['stack-card-tab-testimonial']?.componentData?.refData
-              ?.tabsListingComponent
-          }
-        />
-      ) : (
-        <StackCardTestimonial
-          data={pageData['stack-card-tab-testimonial']?.componentData}
-        />
-      )}
-        <CategoryFeatureTabsSection
-          features={features}
-          variant="carousel"
-          sectionHeading={
-            pageData['category-feature-tabs']?.componentData?.sectionHeading
-          }
-        />
-      {pageData['card-with-image'] && (
-        <GroupedCardsGridSection
-          data={pageData['card-with-image']?.componentData}
+      {pageData['list-items'] && (
+        <GroupedCardsGridSection sectionSpacing='py-0' sectionBorder='none'
+          data={pageData['list-items']?.componentData}
         />
       )}
 
-      {pageData['how-voicestack-works'] && (
-        <GroupedCardsGridSection
-          data={pageData['how-voicestack-works']?.componentData}
-        />
-      )}
-      {pageData['testimonial-video-section']?.componentData?.refData
-        ?.testimonialListing && (
-        <VerticalTestimonialListing
-          data={
-            pageData['testimonial-video-section']?.componentData?.refData
-              ?.testimonialListing
-          }
+      {pageData['feature-testimonials-section-single']?.componentData && (() => {
+        const componentData = pageData['feature-testimonials-section-single']?.componentData
+        const transformedData = {
+          ...componentData,
+          items: componentData?.testimonial 
+            ? [{
+                _key: componentData.testimonial._id || 'single-testimonial',
+                testimonial: componentData.testimonial
+              }]
+            : componentData?.items || []
+        }
+        return (
+          <FeatureTestimonialsSection
+            data={transformedData}
+          />
+        )
+      })()}
+
+      {pageData['receptionist-team']?.componentData && (
+        <ReceptionistTeamSection
+          data={pageData['receptionist-team']?.componentData}
         />
       )}
 
-      {pageData['integrations-listing']?.componentData && (
-        <IntegrationsShowcaseSection
-          data={pageData['integrations-listing']?.componentData}
-          theme="dark"
-        />
-      )}
-      {pageData['power-of-ai']?.componentData && (
-        <GroupedCardsGridSection
-          data={pageData['power-of-ai']?.componentData}
-          theme="dark"
-          aiSection={true}
-        />
-      )}
+      <CategoryFeatureTabsSection
+        features={
+          pageData['groups-and-dso']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        sectionHeading={
+          pageData['groups-and-dso']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        isGridListing={true}
+      />
 
+
+      {pageData['offer']?.componentData && (
+        <OfferSection data={pageData['offer']?.componentData} variant='compact' />
+      )}
 
       {comparisonTableData && (
         <SiteComparisonSection
@@ -155,10 +146,15 @@ export default function DentalPhonesIndex({
           legendData={comparisonLegendData || []}
         />
       )}
-      {pageData['offer']?.componentData && (
-        <OfferSection data={pageData['offer']?.componentData} spacingY={true} />
-      )}
-      <StatisticsSection  />
+
+      {/* {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )} */}
+
+
 
       {faq && <FaqSection faqItems={faq} />}
     </>
@@ -169,21 +165,20 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
     
-    // phone-system pages don't support 'en-AU' locale
-    if (region === 'en-AU') {
+    // dental-phones pages only support 'en-AU' locale
+    if (region !== 'en-AU') {
       return {
         notFound: true,
       }
     }
     
-    const queries = new Queries('landing-v2', region)
-    const slug =
-      region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
-
+    const queries = new Queries('ai-receptionist', region)
+    // Hardcode slug to 'en-au' format for dental-phones
+    const slug = 'ai-receptionist-en-au'
     const pageData = await queries.getPageData('dentalPhones', slug)
     const client = getClient()
 
-    if (!pageData || Object.keys(pageData).length === 0) {
+    if (!pageData) {
       return {
         notFound: true,
       }
@@ -200,9 +195,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData,
         region,
+        comparisonLegendData,
         faq: faqData,
         features: features || [],
-        comparisonLegendData,
       },
     }
   } catch (error) {

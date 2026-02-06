@@ -454,7 +454,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
 
         // Original portable text mode
         return (
-          <div key={group._key || groupIndex} className={`flex flex-col w-full ${!group.heading ? `${borderColor}` : ""}`}>
+          <div key={group._key || groupIndex} className={`flex flex-col w-full ${!group.heading ? `border-t ${borderColor}` : ""}`}>
             {/* Group Header */}
             {group.heading && (
               <div className={`${headerBgColor} border-t border-b ${borderColor} flex items-center justify-center md:px-12 px-4 md:py-8 py-6`}>

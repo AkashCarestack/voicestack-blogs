@@ -74,17 +74,21 @@ export default function CategoryFeatureTabsSection({
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isScrolling, setIsScrolling] = useState(false);
-  const stickyTop = useStickyTop({ desktop: 60, tablet: 50 });
+  const stickyTopHeader = useStickyTop();
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
   const isMobile = useMediaQuery(767);
   const [activeValue, setActiveValue] = useState<any>();
 
-  // Get base path - always use /phone-system/features
+  // Get base path - use /dental-phones/features for en-AU, /phone-system/features for others
   const getBasePath = useCallback(() => {
+    const locale = router.locale || 'en';
+    if (locale === 'en-AU') {
+      return '/dental-phones/features';
+    }
     return '/phone-system/features';
-  }, []);
+  }, [router.locale]);
 
   // Helper function to localize text based on locale (US vs UK/AU spelling)
   const localizeText = useCallback((text: string): string => {
@@ -673,8 +677,8 @@ export default function CategoryFeatureTabsSection({
             </div>
 
             {/* Switchable Tabs - Sticky */}
-            {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12`}> */}
-            <div className="sticky top-[48px] md:top-[63px] py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
+            {/* ${stickyTopHeader} || 'top-[48px] md:top-[63px]' */}
+            <div className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
               style={{
                 background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
               }}
@@ -843,7 +847,7 @@ export default function CategoryFeatureTabsSection({
             </div>
 
             {/* Switchable Tabs - Sticky */}
-            <div className="sticky top-[48px] md:top-[63px] py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
+            <div className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
               style={{
                 background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
               }}
@@ -866,7 +870,7 @@ export default function CategoryFeatureTabsSection({
             </div>
 
             <div className="relative w-full">
-              <div className={`grid  ${isVisible ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}  grid-cols-1 w-full border border-x-0 border-gray-200 relative lg:h-[500px]`}>
+              <div className={`grid  ${isVisible ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}  grid-cols-1 w-full border border-x-0 border-b-0 border-gray-200 relative lg:h-[500px]`}>
                 {
                   allCategories.some(category => category.name === activeCategory && category?.subheading) &&
                   <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 lg:min-h-[500px] relative overflow-hidden border-r border-gray-200">
@@ -1049,7 +1053,7 @@ export default function CategoryFeatureTabsSection({
           />
           {/* Switchable Tabs - Sticky */}
           {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}> */}
-          <div className="sticky top-[48px] md:top-[63px] py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
+          <div className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
             style={{
               background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
             }}

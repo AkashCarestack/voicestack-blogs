@@ -476,7 +476,7 @@ const VerticalTestimonialListing = ({
             description={data?.description}
           />
           <div
-            className="lg:px-12 px-6 lg:pb-12 pb-6"
+            className="lg:px-12 px-6 lg:pb-12 pb-6 border-t border-gray-200"
             style={{
               backgroundImage: `repeating-linear-gradient(
                 -45deg,

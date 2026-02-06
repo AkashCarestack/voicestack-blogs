@@ -147,7 +147,7 @@ const Footer = ({ data }) => {
                         {columnFeatures.map((feature: any, featureIndex: number) => {
                           const slug = feature?.basicInfo?.slug?.current || feature?.basicInfo?.slug || '';
                           const title = feature?.basicInfo?.title || '';
-                          const featureUrl = slug ? `/phone-system/features/${slug}` : '#';
+                          const featureUrl = slug ? router.locale === 'en-AU' ? `/dental-phones/features/${slug}` : `/phone-system/features/${slug}` : '#';
                           
                           return (
                             <li key={`${feature._id || slug}-${colIndex}-${featureIndex}`}>

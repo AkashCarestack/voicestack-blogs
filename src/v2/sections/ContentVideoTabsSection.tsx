@@ -94,7 +94,7 @@ export default function ContentVideoTabsSection({
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const stickyTabsRef = useRef<HTMLDivElement | null>(null);
-  const stickyTop = useStickyTop({ desktop: 60, tablet: 30 });
+  const stickyTopHeader = useStickyTop();
 
   // Helper function to check if video has valid data
   const hasValidVideo = (video: any): boolean => {
@@ -572,7 +572,7 @@ export default function ContentVideoTabsSection({
             ref={stickyTabsRef}
             data-sticky-tabs
             // className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
-            className="sticky top-[48px] md:top-[63px] py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
+            className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
             style={{
               background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
             }}
@@ -582,7 +582,7 @@ export default function ContentVideoTabsSection({
             data={tabs.map(tab => ({
               id: tab.key,
               key: tab.key,
-              title: tab?.subHeading,
+              title: tab?.category,
               testimonial: null,
               setActiveTab: handleTabClick,
             })) as IdataProps[]}
@@ -613,7 +613,7 @@ export default function ContentVideoTabsSection({
                     <div className="flex flex-col justify-center">
                       {tab.subHeading ? (
                         <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
-                          {tab.subHeading}
+                         {tab.heading} 
                         </span>
                       ) : (
                         <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
@@ -621,7 +621,7 @@ export default function ContentVideoTabsSection({
                         </span>
                       )}
                       <h3 className="my-3 text-gray-900 md:text-4xl  text-2xl font-manrope font-semibold leading-[133.33%] tracking-normal">
-                        {tab.heading}
+                      {tab.subHeading}
                       </h3>
                       {tab.description && Array.isArray(tab.description) && tab.description.length > 0 ? (
                         <div className="text-gray-500 md:text-lg text-base font-geist font-normal leading-[155.55%] tracking-normal">
