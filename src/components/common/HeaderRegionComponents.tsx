@@ -169,7 +169,7 @@ export const RegionPopup = ({
       </p>
       <Anchor
         className="bg-vs-blue hover:bg-vs-blue text-white border border-vs-blue px-[17px] py-[10px] rounded-[7px] font-inter text-base font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]"
-        href={queryString ? `/${removeSlugFromQuery(queryString)}` : '/'}
+        href={queryString ? `/${queryString}` : '/'}
         locale={preferredLocale}
         onClick={onClose}
       >
@@ -185,7 +185,7 @@ export const RegionPopup = ({
             .map((region, index) => (
               <Link
                 key={`${index}-${region.regionName}`}
-                href={queryString ? `/${removeSlugFromQuery(queryString)}` : '/'}
+                href={queryString ? `/${queryString}` : '/'}
                 locale={region.locale}
                 className="flex py-[6px] px-3 rounded-[4px] text-xs font-medium text-gray-400 hover:bg-gray-100"
                 onClick={onClose}
