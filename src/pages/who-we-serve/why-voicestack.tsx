@@ -21,7 +21,7 @@ export default function WhyVoicestackIndex({
   faq,
   features,
 }: any) {
-  console.log(data, 'data====')
+  // console.log(data, 'data====')
   return (
     <>
       <SimpleHead data={data?.seo} />
@@ -36,7 +36,7 @@ export default function WhyVoicestackIndex({
           data['grow-your-practice']?.componentData?.refData
             ?.tabsListingComponent
         }
-         variant="carouselwithcards"
+        variant="carouselwithcards"
         sectionHeading={
           data['grow-your-practice']?.componentData?.refData
             ?.tabsListingComponent
@@ -80,22 +80,20 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   try {
     const queries = new Queries('why-voicestack-v2', region)
+    const slug =
+      region === 'en'
+        ? 'why-voicestack-v2'
+        : `why-voicestack-v2-${region.toLowerCase()}`
+    const pageData = await queries.getPageData('whyVoicestack', slug)
 
-    const pageData = await queries.getPageData(
-      'whyVoicestack',
-      'why-voicestack-v2',
-    )
 
-    // Check if data exists and has content
-    const noPageData = Object.values(pageData).every(
-      (value) => value === null || value === undefined,
-    )
-
-    if (noPageData) {
+    if (!pageData) {
       return {
-        notFound: true,
+        notFound: true
       }
     }
+    pageData.slug = slug
+
     const heroData = pageData?.['why-voicestack-hero']?.componentData || null
 
     // Fetch features data for CategoryFeatureTabs

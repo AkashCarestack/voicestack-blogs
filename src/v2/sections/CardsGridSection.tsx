@@ -32,7 +32,7 @@ interface CardsGridSectionProps {
 }
 
 const CardsGridSection = ({ data, customText, variant, bottomSpace, colCount }: CardsGridSectionProps) => {
-  console.log('data CardsGridSection', data)
+  // console.log('data CardsGridSection', data)
   // Handle referenced data if useReference is true
   const useReferenceData = data?.useReference && data?.blocksListingData
   const displayData = useReferenceData ? data.blocksListingData : data
@@ -44,7 +44,7 @@ const CardsGridSection = ({ data, customText, variant, bottomSpace, colCount }: 
   const ctaListItems = displayData?.ctaListItems || []
   const items = displayData?.items || []
 
-  console.log(items,'items CardsGridSection');
+  // console.log(items,'items CardsGridSection');
 
   
   if (!data) return null;

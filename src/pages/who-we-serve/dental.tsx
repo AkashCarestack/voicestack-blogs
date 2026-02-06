@@ -69,7 +69,9 @@ export default function Dental({ pageData, faq, features, articles }: DentalProp
       {/* <div className='!max-w-[1240px] w-full m-auto !px-0'> */}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {/* </div> */}
-      <FeatureHero data={pageData['dental-hero']} type="feature" />
+      {pageData['dental-hero']?.componentData && (
+        <FeatureHero data={pageData['dental-hero']} type="feature" />
+      )}
 
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
@@ -140,6 +142,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true,
+      }
     }
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null

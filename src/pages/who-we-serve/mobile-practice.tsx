@@ -39,7 +39,9 @@ export default function MobilePractices({ pageData, faq }: MobilePracticesProps)
     pageData?.slug?.includes('v2') ? (
       <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['mobile-practices-hero']} type="feature" />
+      {pageData['mobile-practices-hero']?.componentData && (
+        <FeatureHero data={pageData['mobile-practices-hero']} type="feature" />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
@@ -139,10 +141,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         ? 'mobile-practices-v2'
         : `mobile-practices-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
-    pageData.slug = slug
     if(!pageData){
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true
+      }
     }
+    pageData.slug = slug
     const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
     return {

@@ -311,6 +311,7 @@ export default function IntegrationsSectionWithNavigation({
     );
   }
 
+  console.log(switchableTabsData, 'categorySections')
   return (
     <Section
       id="integrations"

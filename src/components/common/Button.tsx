@@ -11,6 +11,8 @@ import { usePricingModal } from './PricingModalContext'
 import ArrowIcon from '../revamp/icons/arrowIcon'
 import replaceUrl from '~/helpers/replaceUrl'
 import { PracticeTypeModal } from '~/v2/components/common/PracticeTypeModal'
+import { useDemoFormData } from '~/providers/BookDemoProvider'
+import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
 
 interface ButtonProps {
   type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
@@ -42,6 +44,9 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   // Get pricing modal context (may be undefined if provider is not available)
   const pricingModal = usePricingModal()
   const openPricingModal = pricingModal?.openPricingModal
+  
+  // Get demo form data from context
+  const { formData } = useDemoFormData()
   
   // State for practice type modal
   const [showPracticeTypeModal, setShowPracticeTypeModal] = useState(false)
@@ -100,11 +105,72 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     return buttonText.toLowerCase().includes('book free demo')
   }, [buttonText])
   
+  // Get available practice types from form data
+  const availablePracticeTypes = useMemo(() => {
+    if (!formData) return []
+    
+    // On pricing page, use pricingDemoForms; otherwise use demoForms
+    const forms = isPricingPage ? formData.pricingDemoForms : formData.demoForms
+    
+    if (!forms || !Array.isArray(forms)) return []
+    
+    // Extract practice types, filtering out null/undefined
+    return forms
+      .map((form) => form?.practiceType)
+      .filter((practiceType): practiceType is string => Boolean(practiceType))
+  }, [formData, isPricingPage])
+  
   // Handle click - if it's a "book free demo" button, show practice type modal
+  // BUT on partner pages, allow anchor links to work (scroll to #demo)
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-    // If it's a "book free demo" button, show modal instead of navigating
+    // On partner child pages, don't show modal - let anchor links (#demo) work normally
+    // The finalLink logic will convert links to #demo, which should scroll to the form
+    if (isPartnerChildPage) {
+      // Allow default anchor behavior (scrolling to #demo)
+      // Don't prevent default or show modal
+      if (onClick) {
+        onClick(e)
+      }
+      return
+    }
+    
+    // If it's a "book free demo" button, check available practice types
     if (isBookFreeDemoButton) {
       e.preventDefault()
+      
+      // If only one practice type is available, skip modal and proceed directly
+      if (availablePracticeTypes.length === 1) {
+        const singlePracticeType = availablePracticeTypes[0]
+        
+        // On pricing page, call the pricing demo modal callback directly
+        if (isPricingPage) {
+          const pricingDemoCallback = getPricingDemoModalCallback()
+          if (pricingDemoCallback) {
+            pricingDemoCallback(singlePracticeType)
+            return
+          }
+        }
+        
+        // On other pages, navigate to demo page with practiceType param
+        const asPath = router.asPath.split('?')[0]
+        const currentSearch = router.asPath.includes('?') 
+          ? router.asPath.split('?')[1].split('#')[0] 
+          : ''
+        const currentParams = new URLSearchParams(currentSearch)
+        currentParams.set('practiceType', singlePracticeType)
+        currentParams.delete('flag')
+        currentParams.delete('slug')
+        
+        const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
+        const basePath = `${localePrefix}/demo`
+        const queryString = currentParams.toString()
+        const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
+        
+        router.push(finalUrl)
+        return
+      }
+      
+      // If 2+ practice types, show modal as before
       setShowPracticeTypeModal(true)
       return
     }
@@ -201,17 +267,17 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       return formattedLink
     }
     
-    // For "book free demo" buttons, always link to /demo
-    // Next.js Link with locale prop will handle locale-aware routing automatically
-    if (isBookFreeDemoButton) {
-      return '/demo'
-    }
-    
-    // On partner child pages (with slug), only override "book free demo" buttons to #demo
+    // On partner child pages (with slug), override buttons to #demo (scrolls to form)
     // Landing page (/company/partners) is excluded
     // This preserves interlinking buttons to other pages
     if (isPartnerChildPage && formattedLink) {
       return '#demo'
+    }
+    
+    // For "book free demo" buttons, link to /demo (unless on partner page, handled above)
+    // Next.js Link with locale prop will handle locale-aware routing automatically
+    if (isBookFreeDemoButton) {
+      return '/demo'
     }
     // if (isPricingPage && formattedLink) {
     //   return '/pricing/demo'

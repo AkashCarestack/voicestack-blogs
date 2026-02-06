@@ -45,12 +45,26 @@ export default function IndependentPractices({
   return pageData?.slug?.includes('v2') ? (
     <>
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['single-locations-hero']} type="feature" />
+      {pageData['single-locations-hero']?.componentData && (
+        <FeatureHero data={pageData['single-locations-hero']} type="feature" />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
+        <CategoryFeatureTabsSection
+      columnCount={4}
+      features={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+      variant="carouselwithcards"
+      sectionHeading={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+    />
       {tabsListingComponentData && (
         <SwitchableTabsV2 data={tabsListingComponentData} />
       )}
@@ -143,10 +157,13 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         ? 'single-locations-v2'
         : `single-locations-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
-    pageData.slug = slug
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true
+      }
     }
+    pageData.slug = slug
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
     const features = await getFeaturesList(getClient(), region)

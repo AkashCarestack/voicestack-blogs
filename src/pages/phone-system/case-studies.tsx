@@ -28,7 +28,9 @@ export default function CustomerStories({ pageData }: any) {
       <>
         <SimpleHead data={pageData?.seo} />
         
-        <FeatureHero  data={pageData['dental-phones-hero']?.componentData} type="feature" isCentered={true} />
+        {pageData['dental-phones-hero']?.componentData && (
+          <FeatureHero  data={pageData['dental-phones-hero']?.componentData} type="feature" isCentered={true} />
+        )}
 
 
         {pageData['testimonial-tabs']?.componentData && (
@@ -63,6 +65,12 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         ? 'case-studies'
         : `case-studies-${region.toLowerCase()}`
     const pageData = await queries.getPageData('dentalPhones', slug)
+
+    if(!pageData){
+      return {
+        notFound: true
+      }
+    }
 
     return {
       props: {

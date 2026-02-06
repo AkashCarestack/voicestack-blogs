@@ -12,29 +12,39 @@ import IntegrationCloudSection from '~/v2/sections/IntegrationCloudSection'
 import FooterBottom from './common/FooterBottom'
 import AboutCoachingPartners from '~/v2/sections/AboutCoachingPartnersSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import SimpleHead from '~/components/common/SimpleHead'
 
 export default function 
 HomeAU({
   data,
   featuresData,
   comparisonLegendData,
-  comparisonTableData,
-  comparisonSectionData,
   pageData,
 }: {
   data: any
   featuresData: any
   comparisonLegendData: any
-  comparisonTableData: any
-  comparisonSectionData: any
   pageData: any
 }) {
   const heroSectionData = data['hero-section']?.componentData
   const logosListingData = data['logos-listing']?.componentData.blocksListingData
 
+  const comparisonTableComponent = pageData['comparison-table']?.componentData
+  const comparisonTableData = comparisonTableComponent?.comparisonTable
   
+  // const comparisonTableTitle = pageData['comparison-table']?.componentData
+  const comparisonSectionData = {
+    strip: comparisonTableComponent?.title,
+    header: comparisonTableComponent?.description,
+    columnDimensionName: 'Features',
+    table: comparisonTableData,
+  }
   return (
     <>
+      <SimpleHead data={pageData?.seo} />
       <HeroAU
         image={heroSectionData?.heroImage}
         heading={heroSectionData?.heroheading}
@@ -42,35 +52,26 @@ HomeAU({
         description={heroSectionData?.heroDescription}
         buttons={heroSectionData?.bookBtnContent}
       />
-      {/* {featuresData && <CategoryFeatureTabs features={featuresData || []} />} */}
-
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
       )}
+      {data['voicestack-solution']?.componentData && (
+        <ContentVideoTabsSection data={data['voicestack-solution']?.componentData} />
+      )}
 
-      {comparisonLegendData && (
-        <SiteComparisonSection
-          data={comparisonSectionData}
-          legendData={comparisonLegendData}
+      {data['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={data['integrations-listing']?.componentData}
+          theme="dark"
         />
       )}
-      {pageData['voicestack-solution']?.componentData && <ContentVideoTabsSection data={pageData['voicestack-solution']?.componentData} />}
-      {pageData['integrations-showcase']?.customComponent && (
-        <IntegrationCloudSection data={pageData['integrations-showcase']?.customComponent} />
-      )}
-      {pageData['test-listing-2']?.componentData && (
+
+      {pageData['hidden-cost-of-missed-calls']?.componentData && (
         <CardsGridSection variant="V2" colCount={3}
-          data={pageData['test-listing-2'].componentData}
+          data={pageData['hidden-cost-of-missed-calls'].componentData}
         />
       )}
 
-      {pageData['test-listing-3']?.componentData && (
-        <CardsGridSection variant="V2" colCount={2} bottomSpace={true}
-          data={pageData['test-listing-3'].componentData}
-        />
-      )}
-
-      <StatisticsSection />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
         <VerticalTestimonialListing
@@ -81,9 +82,25 @@ HomeAU({
         
         />
       )}
-    {pageData['about-coach-partners']?.componentData && (
+
+      {pageData['total-freedom']?.componentData && (
+        <CardsGridSection variant="V2" colCount={2} bottomSpace={true}
+          data={pageData['total-freedom'].componentData}
+        />
+      )}
+
+      <StatisticsSection />
+     
+      {comparisonTableData && (
+        <SiteComparisonSection
+          data={comparisonSectionData}
+          legendData={comparisonLegendData || []}
+        />
+      )}
+      
+    {/* {pageData['about-coach-partners']?.componentData && (
       <AboutCoachingPartners data={pageData['about-coach-partners']?.componentData} />
-    )}
+    )} */}
       {data.faqData && <FaqSection faqItems={data.faqData[0]} />}
     </>
   )

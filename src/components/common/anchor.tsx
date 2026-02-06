@@ -43,7 +43,7 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       }, {});
 
       // Get the existing URL parameters from href
-      const existingParams = href.includes('?') ? href.split('?')[1] : '';
+      const existingParams = href?.includes('?') ? href.split('?')[1] : '';
       
       // Merge existing parameters with router query params using URLSearchParams to avoid duplicates
       const mergedParams = new URLSearchParams(existingParams);
@@ -58,7 +58,7 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       // if (router.asPath.startsWith("/lp") || router.asPath.startsWith("/uk")) {
       //   setNewLink(`${href}`);
       // } else {
-        setNewLink(`${href.split('?')[0]}${updatedParams.length > 0 ? "?" + updatedParams : ""}`);
+        setNewLink(`${href?.split('?')[0]}${updatedParams.length > 0 ? "?" + updatedParams : ""}`);
       // }
     }, [href, router, trackCtx]);
 

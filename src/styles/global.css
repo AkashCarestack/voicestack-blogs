@@ -262,6 +262,11 @@ html {
   margin-bottom: 1rem !important;
 }
 
+#hubspotForm .hs-form-field,
+#pricingHubspotForm .hs-form-field {
+  margin-bottom: 1rem !important;
+}
+
 #hubspotForm fieldset,
 #pricingHubspotForm fieldset {
   max-width: 100%;
@@ -361,6 +366,10 @@ html {
   @apply text-2xl font-semibold mb-2;
 }
 
+.legal-content ul{
+  @apply m-0 pl-6 list-disc;
+}
+
 .legal-content li, .legal-content p {
   @apply mb-5 !text-gray-800;
 }
@@ -390,9 +399,12 @@ html {
 .legal-content h2 {
   @apply text-2xl font-semibold mb-2;
 }
+.legal-content h3 {
+  @apply font-semibold mb-2;
+}
 
 .legal-content li, .legal-content p {
-  @apply mb-5 !text-gray-800;
+  @apply mb-5 !text-gray-800 font-normal;
 }
 
 .legal-content a {

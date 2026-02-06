@@ -27,7 +27,9 @@ export default function VisionGroupsMSO({
     <>
     <SimpleHead data={pageData?.seo} />
     <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['dso-hero']?.componentData} type="feature" />
+      {pageData['dso-hero']?.componentData && (
+        <FeatureHero data={pageData['dso-hero']?.componentData} type="feature" />
+      )}
       <div>
         {pageData['logo-listing']?.componentData && (
           <LogoListingV2
@@ -97,6 +99,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true,
+      }
     }
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null

@@ -18,32 +18,13 @@ const PrevArrow = ({ onClick, currentSlide }: any) => {
     <button
       onClick={onClick}
       disabled={isDisabled}
-      className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-4 z-10
-        ${isDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-100 hover:bg-gray-300 transition-colors'}`}
+      className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white  border border-gray-200 flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-[-35px] xl:left-[-78px] z-10
+        ${isDisabled ? ' cursor-not-allowed' : ' bg-white hover:bg-gray-100 transition-colors'}`}
       aria-label="Previous"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        className="rotate-180"
-      >
-        <path
-          d="M5 12H19"
-          stroke="#030712"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M12 5L19 12L12 19"
-          stroke="#030712"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+      <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M15.8333 10H4.16658" stroke="#030712" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M10 4.16699L4.16667 10.0003L10 15.8337" stroke="#030712" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </button>
   )
@@ -57,31 +38,13 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
     <button
       onClick={onClick}
       disabled={isDisabled}
-      className={`w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center absolute top-1/2 -translate-y-1/2 right-4 z-10
-        ${isDisabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-gray-100 hover:bg-gray-300 transition-colors'}`}
+      className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white flex items-center justify-center absolute top-1/2 -translate-y-1/2 right-[-35px] xl:right-[-78px] z-10 border border-gray-200
+        ${isDisabled ? ' cursor-not-allowed ' : 'bg-white hover:bg-gray-100 transition-colors'}`}
       aria-label="Next"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-      >
-        <path
-          d="M5 12H19"
-          stroke="#030712"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M12 5L19 12L12 19"
-          stroke="#030712"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+      <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M4.16675 10H15.8334" stroke="#030712" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M10 4.16699L15.8333 10.0003L10 15.8337" stroke="#030712" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
     </button>
   )
@@ -91,13 +54,13 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
 interface TestimonialSliderProps {
   data: any
   settings: any
- 
+
 }
 
 const TestimonialSlider = ({
   data,
   settings,
- 
+
 }: TestimonialSliderProps) => {
   // Video state management
   const [activeVideoIndex, setActiveVideoIndex] = useState<number | null>(null)
@@ -154,7 +117,7 @@ const TestimonialSlider = ({
     const video = videoRefs.current[index]
     if (video) {
       video.currentTime = 0
-      video.play().catch(() => {})
+      video.play().catch(() => { })
     }
   }
 
@@ -253,9 +216,8 @@ const TestimonialSlider = ({
                     {image ? (
                       <Image
                         src={image?.url}
-                        className={`absolute w-full h-full object-cover z-0 transition-opacity duration-300 ${
-                          activeVideoIndex === i ? 'opacity-0' : 'opacity-100'
-                        }`}
+                        className={`absolute w-full h-full object-cover z-0 transition-opacity duration-300 ${activeVideoIndex === i ? 'opacity-0' : 'opacity-100'
+                          }`}
                         width={400}
                         height={400}
                         alt={image?.alt || 'Testimonial Thumbnail'}
@@ -278,9 +240,8 @@ const TestimonialSlider = ({
                           backgroundColor: 'transparent',
                           objectFit: 'cover',
                         }}
-                        className={`absolute h-full w-full object-cover transition-opacity duration-300 ${
-                          activeVideoIndex === i ? 'opacity-100' : 'opacity-0'
-                        }`}
+                        className={`absolute h-full w-full object-cover transition-opacity duration-300 ${activeVideoIndex === i ? 'opacity-100' : 'opacity-0'
+                          }`}
                         loop
                         muted
                         playsInline
@@ -311,11 +272,10 @@ const TestimonialSlider = ({
                             className=""
                             style={{
                               height: `48px`,
-                              width: `${
-                                48 *
+                              width: `${48 *
                                 logo?.secondaryLogo?.metadata?.dimensions
                                   ?.aspectRatio
-                              }px`,
+                                }px`,
                             }}
                           >
                             <ImageLoader
@@ -358,7 +318,7 @@ const TestimonialSlider = ({
                               height="16"
                               viewBox="0 0 17 16"
                               fill="none"
-                              className="mr-2"
+                              className=""
                             >
                               <path
                                 d="M3.5 3.73c0-.27.07-.53.21-.76.13-.23.33-.42.57-.55.24-.13.5-.2.77-.19.27.01.53.09.77.23l6.7 4.27c.21.13.39.32.51.54.12.23.19.48.19.74 0 .26-.07.52-.19.74-.12.22-.3.41-.51.54l-6.7 4.27c-.23.15-.49.23-.76.24-.27.01-.53-.06-.77-.19-.24-.13-.44-.32-.57-.55-.14-.23-.21-.49-.21-.76V3.73Z"
@@ -533,7 +493,7 @@ const VerticalTestimonialListing = ({
               backgroundSize: '14.14px 14.14px',
             }}
           >
-            <TestimonialSlider data={data} settings={settings2}/>
+            <TestimonialSlider data={data} settings={settings2} />
           </div>
         </div>
       </Container>

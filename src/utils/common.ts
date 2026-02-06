@@ -1,5 +1,6 @@
 import React from 'react'
 import siteConfig from 'config/siteConfig'
+import WordRotate from '~/components/ui/word-rotate'
 
 export const fetchAuthor = (post) => {
   let authorData: any = []
@@ -276,6 +277,16 @@ export const HeroHeadingComponents: any = {
         },
         children
       ),
+  },
+  types: {
+    rotatingWord: ({ value }: { value: any }) => {
+      // Hardcoded words - internally configured
+      const words = ['Enterprise', 'Dental', 'Optometry', 'Physical Therapy', 'Veterinary'];
+      return React.createElement(WordRotate, {
+        words: words,
+        asSpan: true,
+      });
+    },
   },
 }
 export const HeroFeatureHeadingComponents: any = {

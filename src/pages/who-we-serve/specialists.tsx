@@ -32,7 +32,9 @@ export default function SpecialityPractices({
   return pageData?.slug?.includes('v2') ? 
   <>
      <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['specialists-hero']} type="feature" />
+      {pageData['specialists-hero']?.componentData && (
+        <FeatureHero data={pageData['specialists-hero']} type="feature" />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
@@ -76,10 +78,13 @@ export default function SpecialityPractices({
 
       <HeroWrapper>
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        <HeroSection
-          page=""
-          data={pageData['dental-phones-hero']?.componentData}
-        />
+
+        {pageData?.['dental-phones-hero']?.componentData && (
+          <HeroSection
+            page=""
+            data={pageData['dental-phones-hero']?.componentData}
+          />
+        )}
       </HeroWrapper>
       
       {pageData?.['effortlessly-handle-calls']?.componentData && (
@@ -147,10 +152,14 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         ? 'specialists-v2'
         : `specialists-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
-    pageData.slug = slug
+    
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true
+      }
     }
+    pageData.slug = slug
 
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null

@@ -2731,7 +2731,7 @@ class Queries {
     )
 
     // Include FAQ data and other page-level data
-    return {
+    const pageData = {
       ...transformedSections,
       faqData: result?.faqData || null,
       faqReferenced: result?.faqReferenced || null,
@@ -2749,6 +2749,15 @@ class Queries {
       // metaDescription: result?.metaDescription || null,
       icon: result?.icon || null,
     }
+
+    // Check if pageData has any content sections (excluding metadata)
+    const metadataKeys = ['faqData', 'faqReferenced', 'title', 'description', 'breadCrumb', 'seo', 'icon']
+    const hasContent = Object.keys(pageData).some(key => 
+      !metadataKeys.includes(key) && pageData[key] !== null && pageData[key] !== undefined
+    )
+
+    // Return undefined if all content is empty/null, otherwise return pageData
+    return hasContent ? pageData : undefined
   }
 
   /**

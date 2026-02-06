@@ -49,7 +49,9 @@ export default function ComparisonSlugPage({
     <>
       <SimpleHead data={pageData?.seo} />
         {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
-        <FeatureHero data={pageData['comparison-hero']} />
+        {pageData['comparison-hero']?.componentData && (
+          <FeatureHero data={pageData['comparison-hero']} />
+        )}
 
       {pageData['logo-listing']?.componentData && (
         <LogoListingV2

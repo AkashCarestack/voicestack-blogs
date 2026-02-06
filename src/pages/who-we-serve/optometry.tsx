@@ -52,7 +52,9 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
         data={pageData?.seo}
       />
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      <FeatureHero data={pageData['optometry-hero']} type="feature" />
+      {pageData['optometry-hero']?.componentData && (
+        <FeatureHero data={pageData['optometry-hero']} type="feature" />
+      )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
@@ -114,6 +116,9 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true,
+      }
     }
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null

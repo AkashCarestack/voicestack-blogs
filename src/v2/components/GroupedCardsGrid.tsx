@@ -38,23 +38,23 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
 }) => {
   const imageUrl = item.image?.url || urlForImage(item.image)
   const hasImage = !!imageUrl
-  console.log('item GroupedCardsGrid',cardWithGraph)
+  // console.log('item GroupedCardsGrid',cardWithGraph)
   // Simple listing data mode
   if (isSimpleListing) {
     return (
       <div className={`w-full flex flex-col h-full relative min-h-[200px] ${onlyImage ? 'pb-0' : 'pb-6'}`}>
-         {hasImage && imageUrl && (
+        {hasImage && imageUrl && (
           <div className={`w-full ${cardWithGraph ? 'absolute inset-0' : ''}`}>
             <Image
               src={imageUrl}
               alt={item.heading || ''}
-              width={item.image?.metadata?.dimensions?.width || 800}
-              height={222}
+              width={item.image?.metadata?.dimensions?.width || item.image?.width || 800}
+              height={item.image?.metadata?.dimensions?.height || item.image?.height || 222}
               className="object-cover w-full h-full"
             />
           </div>
         )}
-        {onlyImage ? (null): (
+        {onlyImage ? (null) : (
           <div className="flex flex-col gap-8 items-start pb-3 pt-9 lg:px-12 px-6 w-full">
             {/* Icon */}
             {item.dynamicSvg && (
@@ -63,7 +63,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
                 dangerouslySetInnerHTML={{ __html: processSvgCode(item.dynamicSvg) }}
               />
             )}
-          
+
 
             <div className="flex flex-col gap-3 items-start justify-end w-full">
               {/* Heading */}
@@ -102,14 +102,15 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
         <div className={`w-full ${cardWithGraph ? 'absolute inset-0' : ''}`}>
           <Image
             src={imageUrl}
-            alt={item.heading || ''}
-            width={item.image?.metadata?.dimensions?.width || 800}
-            height={item.image?.metadata?.dimensions?.height || 600}
+            alt={item.image?.altText || ''}
+            title={item.image?.title || ''}
+            width={item.image?.metadata?.dimensions?.width || item.image?.width || 800}
+            height={item.image?.metadata?.dimensions?.height || item.image?.height || 600}
             className="object-cover w-full h-full"
           />
         </div>
       )}
-      {onlyImage ? (null) :(
+      {onlyImage ? (null) : (
         <div className="flex flex-col gap-8 items-start pb-3 pt-9 lg:px-12 px-6 w-full">
           {/* Icon (for specialty cards) */}
           {!isNumberedCards && item.dynamicSvgCode && (
@@ -118,7 +119,7 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
               dangerouslySetInnerHTML={{ __html: processSvgCode(item.dynamicSvgCode) }}
             />
           )}
-        
+
           <div className="flex flex-col gap-3 items-start justify-end w-full">
             {/* Item Heading */}
             {isNumberedCards ? (
@@ -127,16 +128,16 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
               </p>
             ) : (
               (item.itemHeading || item.subTitle) && (
-              <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
-                <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
-                  <h3 className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
-                    {item.itemHeading}
-                  </h3>
-                  {item.subTitle && (
-                    <p className={`font-geist font-normal text-lg leading-[24px] ${contentTextColor} tracking-normal w-full whitespace-pre-wrap`}>
-                      {item.subTitle}
-                    </p>
-                  )}
+                <div className="flex flex-col items-start pb-0 pt-0 px-0 w-full">
+                  <div className="flex flex-col gap-1 items-start mb-[-1px] w-full">
+                    <h3 className={`font-geist font-medium lg:text-xl text-lg leading-[1.4] ${textColor} tracking-normal w-full whitespace-pre-wrap`}>
+                      {item.itemHeading}
+                    </h3>
+                    {item.subTitle && (
+                      <p className={`font-geist font-normal text-lg leading-[24px] ${contentTextColor} tracking-normal w-full whitespace-pre-wrap`}>
+                        {item.subTitle}
+                      </p>
+                    )}
                   </div>
                 </div>
               )
@@ -153,39 +154,10 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
                     />
                   ) : (
                     <div className="flex flex-col items-start pb-3 pt-0 w-full">
-                      {item.content.map((block: any, blockIndex: number) => {
-                        // Create components with the group's listIconSvgCode
-                        const components = createSpecialtyCardComponents(listIconSvgCode)
-                        
-                        // Check if this is a bullet list item
-                        if (block.listItem === 'bullet') {
-                          return (
-                            <>
-                              
-                              <div
-                                key={block._key || blockIndex}
-                                className={`flex gap-2 items-start px-0 py-1 w-full`}
-                              >
-                                <div className={`flex-1 font-geist font-normal text-base leading-[24px] ${contentTextColor} tracking-normal`}>
-                                  
-                                  <PortableText
-                                    value={[block]}
-                                    components={components}
-                                  />
-                                </div>
-                              </div>
-                            </>
-                          )
-                        }
-                        // Regular block
-                        return (
-                          <PortableText
-                            key={block._key || blockIndex}
-                            value={[block]}
-                            components={components}
-                          />
-                        )
-                      })}
+                      <PortableText
+                        value={item.content}
+                        components={createSpecialtyCardComponents(listIconSvgCode)}
+                      />
                     </div>
                   )}
                 </div>
@@ -222,7 +194,7 @@ export interface GroupedCardsGridProps {
   customListingItems?: any[]
   theme?: 'light' | 'dark'
   simpleListingData?: boolean
-  columnCount?: 2 | 3 | 4
+  columnCount?: number
   showBorderBottom?: boolean
   cardWithGraph?: boolean
 }
@@ -275,7 +247,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
   const createSpecialtyCardComponents = (listIconSvgCode?: string): Partial<PortableTextReactComponents> => {
     // Process SVG code for dark theme if needed, or use as-is
     const iconSvg = listIconSvgCode ? processSvgCode(listIconSvgCode) : ''
-    
+
     return {
       block: {
         h3: ({ children }) => (
@@ -295,11 +267,11 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
         ),
         normal: ({ children, value }) => {
           // Check if any child in the block has an underline mark
-          const hasUnderline = value?.children?.some((child: any) => 
+          const hasUnderline = value?.children?.some((child: any) =>
             child.marks?.includes('underline')
           )
           const textColorClass = hasUnderline ? labelColor : contentTextColor
-          
+
           return (
             <p className={`font-geist font-normal text-base leading-[1.5] ${textColorClass} tracking-normal no-underline [&>span]:!no-underline`}>
               {children}
@@ -308,9 +280,14 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
         },
       },
       list: {
-        bullet: ({ children }) => (
-          <ul className="flex flex-col gap-1 lg:ml-[-24px]">{children}</ul>
-        ),
+        bullet: ({ children }: { children?: React.ReactNode }) =>
+          React.createElement(
+            'ul',
+            {
+              className: 'flex flex-col md:gap-3 gap-1 lg:ml-[-24px]',
+            },
+            children
+          ),
       },
       listItem: {
         bullet: ({ children }) => (
@@ -336,9 +313,9 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
   const hasOnlyImage = (item: any, isSimpleListing: boolean): boolean => {
     const imageUrl = item.image?.url || urlForImage(item.image)
     const hasImage = !!imageUrl
-    
+
     if (!hasImage) return false
-    
+
     if (isSimpleListing) {
       // For simple listing: check if no heading, no description, no dynamicSvg
       const hasHeading = !!item.heading
@@ -364,19 +341,19 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
     listIconSvgCode?: string
   ) => {
     const onlyImage = hasOnlyImage(item, isSimpleListing)
-    
+
     const flexBasisClasses: Record<number, string> = {
       2: 'w-full md:w-[calc(50%-0.5px)]',
       3: 'w-full md:w-[calc(50%-0.5px)] lg:w-[calc(33.333%-0.667px)]',
       4: 'w-full md:w-[calc(50%-0.5px)] lg:w-[calc(25%-0.75px)]',
     }
-    
+
     const flexBasisSpan2Classes: Record<number, string> = {
       2: 'w-full md:w-[calc(100%-0.5px)]',
       3: 'w-full md:w-[calc(100%-0.5px)] lg:w-[calc(66.666%-0.667px)]',
       4: 'w-full md:w-[calc(100%-0.5px)] lg:w-[calc(50%-0.75px)]',
     }
-    
+
     const flexBasis = onlyImage ? flexBasisSpan2Classes[columns] : flexBasisClasses[columns]
 
     const cardContent = (
@@ -397,37 +374,37 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
     )
 
     const linkUrl = item.link?.url
-    
-  const TickIcon = () => {
-    const strokeColor = isDark ? '#FFFFFF' : '#030712'
-    return (
-      <span className={`p-[18px] pointer-events-none border-b ${isDark ? 'border-gray-800' : 'border-gray-200'} ${isDark ? 'bg-gray-950' : 'bg-white'} border-l absolute right-0 cursor-pointer`}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
-          fill="none"
-        >
-          <path
-            d="M5.83301 14.1666L14.1663 5.83329"
-            stroke={strokeColor}
-            strokeWidth="1.25"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-          <path
-            d="M14.1663 14.1666V5.83329H5.83301"
-            stroke={strokeColor}
-            strokeWidth="1.25"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </span>
-    )
-  }
-  
+
+    const TickIcon = () => {
+      const strokeColor = isDark ? '#FFFFFF' : '#030712'
+      return (
+        <span className={`p-[18px] pointer-events-none border-b ${isDark ? 'border-gray-800' : 'border-gray-200'} ${isDark ? 'bg-gray-950' : 'bg-white'} border-l absolute right-0 cursor-pointer`}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+            fill="none"
+          >
+            <path
+              d="M5.83301 14.1666L14.1663 5.83329"
+              stroke={strokeColor}
+              strokeWidth="1.25"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M14.1663 14.1666V5.83329H5.83301"
+              stroke={strokeColor}
+              strokeWidth="1.25"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+      )
+    }
+
 
     return (
       <div
@@ -477,7 +454,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
 
         // Original portable text mode
         return (
-          <div key={group._key || groupIndex} className={`flex flex-col w-full ${!group.heading ? `border-t ${borderColor}` : ""}`}>
+          <div key={group._key || groupIndex} className={`flex flex-col w-full ${!group.heading ? `${borderColor}` : ""}`}>
             {/* Group Header */}
             {group.heading && (
               <div className={`${headerBgColor} border-t border-b ${borderColor} flex items-center justify-center md:px-12 px-4 md:py-8 py-6`}>

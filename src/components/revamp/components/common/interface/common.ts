@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface IdataProps {
     id: string;
     testimonial: any;
@@ -17,9 +19,9 @@ export interface SectionHeaderProps {
     showFullLength?: boolean
 }
 export interface SectionHeaderPropsV2 {
-    heading?: string,
+    heading?: string | ReactNode,
     subheading?: string,
-    description?: string,
+    description?: any | ReactNode,
     mailId?: string,
     isWhite?: boolean,
     isLeftAlign?: boolean,
@@ -32,9 +34,9 @@ export interface SectionHeaderPropsV2 {
         ctaType?: string
     }>
     demoButton?: boolean
+    headingMd?: boolean
+    aiSection?: boolean
 }
-
-import { ReactNode } from 'react';
 
 interface IFaqItemProps {
     answer: ReactNode | Iterable<ReactNode>;

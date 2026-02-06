@@ -1,7 +1,7 @@
 
 import { defineField, defineType } from 'sanity'
 import showCountryFlag from '~/components/utils/common';
-import { listingItemSchema, ctaListItemSchema, sectionHeadingDynamicSchema, customListingItemSchema } from '~/schemas/Common/commonSchema'
+import { listingItemSchema, ctaListItemSchema, sectionHeadingDynamicSchema, customListingItemSchema, sectionDescriptionDynamicSchema } from '~/schemas/Common/commonSchema'
 
 export default defineType({
   name: 'genericItemsListing',
@@ -20,6 +20,7 @@ export default defineType({
       title: 'Section Description',
       type: 'text',
     }),
+    sectionDescriptionDynamicSchema,
     defineField({
       name: 'items',
       title: 'Listing Items',
@@ -51,12 +52,14 @@ export default defineType({
       title: 'heading',
       language: 'language',
       itemCount: 'items',
+      customItemCount: 'customListingItems',
     },
     prepare(selection) {
       const itemCount = selection.itemCount?.length || 0;
+      const customItemCount = selection.customItemCount?.length || 0;
       return {
         title: selection?.title || 'Generic Items Listing',
-        subtitle: `${itemCount} items`,
+        subtitle: `${itemCount} items, ${customItemCount} custom items`,
         media: <img src={showCountryFlag(selection?.language)}/>
       };
     },

@@ -36,17 +36,18 @@ interface Integration {
   }
 }
 
-interface IntegrationsGridProps {   
-className?: string
-  data:any
+interface IntegrationsGridProps {
+  className?: string
+  data: any
   theme?: 'light' | 'dark'
-  sectionBorder?: 't' | 'b' | 'y' 
+  sectionBorder?: 't' | 'b' | 'y'
+  demoOnly?: boolean
 }
 
 // Default CTA items for the section
 const defaultCtaListItems = [
   {
-    ctaText: 'Explore Integration',
+    ctaText: 'See All Integrations',
     ctaLink: '/phone-system/integrations',
     ctaType: 'secondaryWhite',
   },
@@ -62,6 +63,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   data,
   theme,
   sectionBorder = 'b',
+  demoOnly = false,
 }) => {
   // Use CTA items from data or fall back to defaults
 
@@ -84,9 +86,10 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   const leftEmptyCols = 3 // Empty columns on left side
   const rightEmptyCols = 3 // Empty columns on right side
   const emptyRowsTop = 1 // Empty row at top
-  const integrationRows = 2 // Rows with icons
+  // Dynamic rows: 1 row if < 8 integrations, 2 rows if >= 8
+  const integrationRows = sortedIntegrations.length < 8 ? 1 : 2
   const emptyRowsBottom = 1 // Empty row at bottom
-  const totalRows = emptyRowsTop + integrationRows + emptyRowsBottom // 4 total
+  const totalRows = emptyRowsTop + integrationRows + emptyRowsBottom
 
   // Calculate how many integrations per row based on total integrations
   const integrationsPerRow = Math.ceil(
@@ -149,7 +152,9 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
   const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
   const textColor = isDark ? 'text-white' : 'text-gray-950'
-console.log(data, 'data')
+  const heading = data?.refData?.integrationListing?.title
+  const description = data?.refData?.integrationListing?.description
+  // console.log(data, 'data integrations section')
   return (
     <Section className={`relative overflow-hidden bg-[#030712] ${className}`} border={sectionBorder} isDark={isDark}>
       <Container
@@ -160,10 +165,14 @@ console.log(data, 'data')
       >
         <div className="flex flex-col gap-8 items-center relative w-full">
           <SectionHeaderV2
-            heading={data?.heading}
-            description={data?.description || 'VoiceStack seamlessly integrates with leading PMS, CRM, and analytics platforms, giving you effortless visibility across your operations.'}
+            heading={data?.heading || heading}
+            description={data?.description || description || 'VoiceStack seamlessly integrates with leading PMS, CRM, and analytics platforms, giving you effortless visibility across your operations.'}
             isWhite={true}
-            ctaListItems={defaultCtaListItems}
+            ctaListItems={demoOnly ? [{
+              ctaText: 'Book Free Demo',
+              ctaLink: '/demo',
+              ctaType: 'primary',
+            }] : defaultCtaListItems}
             className="md:px-6 xl:px-12 px-4"
           />
 
@@ -194,7 +203,7 @@ console.log(data, 'data')
                   'linear-gradient(to left, #030712 0%, rgba(3, 7, 18, 0) 100%)',
               }}
             />
- 
+
             {/* Blur vignette - radial for sides */}
             <div
               className="hidden md:block pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
@@ -204,12 +213,12 @@ console.log(data, 'data')
 
             {/* Bottom blur vignette */}
             {data?.items && data?.items?.length > 0 && (
-            <div
-              className="hidden md:block pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
+              <div
+                className="hidden md:block pointer-events-none absolute inset-0 z-[2] backdrop-blur-[10px]
   [mask-image:linear-gradient(to_top,black_10%,black_40%,transparent_60%,transparent_70%)]
   [-webkit-mask-image:linear-gradient(to_top,black_10%,black_40%,transparent_60%,transparent_70%)]"
-            />
-           ) }
+              />
+            )}
 
             {/* Mobile Grid - Vertical layout (below md) */}
             <div className="relative mx-auto flex flex-wrap justify-center gap-2 md:hidden px-4 pb-6">
@@ -231,7 +240,7 @@ console.log(data, 'data')
                       alt={integration.title}
                       width={50}
                       height={50}
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-contain rounded-[8px]"
                     />
                   )}
                 </div>
@@ -267,11 +276,10 @@ console.log(data, 'data')
                 {gridCells.map((cell) => (
                   <div
                     key={cell.key}
-                    className={`flex items-center justify-center ${
-                      cell.type === 'integration'
+                    className={`flex items-center justify-center ${cell.type === 'integration'
                         ? 'group relative transition-all duration-300'
                         : ''
-                    }`}
+                      }`}
                     style={{
                       borderRadius: '8px',
                       border: '1px solid rgba(255,255,255,0.20)',
@@ -287,7 +295,7 @@ console.log(data, 'data')
                           alt={cell.data.title}
                           width={70}
                           height={70}
-                          className="w-full h-full object-contain"
+                          className="w-full h-full object-contain rounded-[8px]"
                         />
                         {/* Tooltip - only for integration cells */}
                         <div className="absolute bg-[#efeeea] bottom-0 px-2 py-1 rounded-sm align-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
@@ -301,13 +309,13 @@ console.log(data, 'data')
                 ))}
               </div>
             </div>
-            
+
             {data?.items && data.items.length > 0 && (
-              <div className="flex flex-col md:flex-row w-full pt-4 lg:pt-0">
+              <div className="flex flex-col md:flex-row flex-wrap w-full pt-4 lg:pt-0">
                 {data.items.map((item: any) => (
                   <div
                     key={item._key || item._id}
-                    className="flex flex-col flex-1 gap-3 relative z-10 p-6 md:p-12 border-t md:border-r border-gray-800 md:last:border-r-0"
+                    className="flex flex-col flex-1 gap-3 relative z-10 p-6 md:p-12 border-t md:border-r border-gray-800 md:last:border-r-0 lg:min-w-0 md:min-w-[50%]"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"

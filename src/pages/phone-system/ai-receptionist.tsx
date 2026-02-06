@@ -2,17 +2,22 @@ import { GetStaticProps } from 'next'
 import React from 'react'
 import SimpleHead from '~/components/common/SimpleHead'
 
-import CardListing from '~/components/revamp/components/cardListing'
-import CardsGridSection from '~/components/revamp/components/CardsGridSection'
-import CardsWithSvg from '~/components/revamp/components/common/cardsWithTestimonial'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import Queries from '~/components/revamp/queries'
+import { getClient } from '~/lib/sanity.client'
+import { getAllComparisonValues, getFeaturesList } from '~/lib/sanity.queries'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import OfferSection from '~/v2/sections/OfferSection'
+import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
+import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
+import ReceptionistTeamSection from '~/v2/sections/ReceptionistTeamSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -42,79 +47,116 @@ interface GenericListingData {
 }
 
 interface PageData {
-  'ai-receptionist-hero'?: {
+  'dental-phones-hero': {
     componentData: HeroComponentData
+  }
+  'how-voicestack-works'?: {
+    componentData: GenericListingData
   }
   [key: string]: any // For other page sections
 }
 
 interface AiReceptionistProps {
-  pageData: PageData
+  pageData: any,
   region: string
+  comparisonTableData: any
+  comparisonLegendData: any[] | null
   faq: any
   features: any[]
 }
 
 export default function AiReceptionist({
   pageData,
+  region,
+  comparisonLegendData,
   faq,
   features,
 }: AiReceptionistProps) {
+  console.log("ppp",pageData)
+
+  const comparisonTableComponent = pageData['comparison-table']?.componentData
+  const comparisonTableData = comparisonTableComponent?.comparisonTable
+
+  // const comparisonTableTitle = pageData['comparison-table']?.componentData
+  const comparisonSectionData = {
+    strip: comparisonTableComponent?.title,
+    header: comparisonTableComponent?.description,
+    columnDimensionName: 'Features',
+    table: comparisonTableData,
+  }
+
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <HeroWrapper>
-        <HeroSection
-          showFullDescription={true}
-          refer={pageData['dental-phones-hero']}
-          data={pageData['dental-phones-hero']?.componentData}
-          page="why-voicestack"
-        />
-      </HeroWrapper>
-      {/* {pageData['ai-features']?.componentData && (
-        <CardsWithSvg data={pageData['ai-features']} />
-      )} */}
-      {pageData['ai-features']?.componentData && (
-        <CardsWithSvg data={pageData['ai-features'].componentData} />
+
+      {pageData['dental-phones-hero']?.componentData && (
+        <FeatureHero data={pageData['dental-phones-hero']} type="feature" hideBg={region === 'en-AU' ? true : false} isVertical={region === 'en-AU' ? true : false} isCentered={region === 'en-AU' ? true : false} />
       )}
-      {pageData['real-business-outcomes']?.componentData?.refData
-        ?.tabsListingComponent && (
-        <CardListing
-          data={
-            pageData['real-business-outcomes']?.componentData?.refData
-              ?.tabsListingComponent
-          }
+
+      {pageData['list-items'] && (
+        <GroupedCardsGridSection sectionSpacing='py-0' sectionBorder='none'
+          data={pageData['list-items']?.componentData}
         />
       )}
 
-      {pageData['how-voicestack-works']?.componentData && (
-        <CardsGridSection
-          data={pageData['how-voicestack-works']?.componentData}
+      {pageData['feature-testimonials-section-single']?.componentData && (() => {
+        const componentData = pageData['feature-testimonials-section-single']?.componentData
+        const transformedData = {
+          ...componentData,
+          items: componentData?.testimonial 
+            ? [{
+                _key: componentData.testimonial._id || 'single-testimonial',
+                testimonial: componentData.testimonial
+              }]
+            : componentData?.items || []
+        }
+        return (
+          <FeatureTestimonialsSection
+            data={transformedData}
+          />
+        )
+      })()}
+
+      {pageData['receptionist-team']?.componentData && (
+        <ReceptionistTeamSection
+          data={pageData['receptionist-team']?.componentData}
         />
       )}
-     {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
-        <StackCardTestimonial
-          data={
-            pageData['stack-card-tab-testimonial']?.componentData?.refData
-              ?.tabsListingComponent
-          }
+
+      <CategoryFeatureTabsSection
+        features={
+          pageData['groups-and-dso']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        sectionHeading={
+          pageData['groups-and-dso']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        isGridListing={true}
+      />
+
+
+      {pageData['offer']?.componentData && (
+        <OfferSection data={pageData['offer']?.componentData} variant='compact' />
+      )}
+
+      {comparisonTableData && (
+        <SiteComparisonSection
+          data={comparisonSectionData}
+          legendData={comparisonLegendData || []}
         />
-      ) : (
-        <StackCardTestimonial
-          data={pageData['stack-card-tab-testimonial']?.componentData}
+      )}
+
+      {/* {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
         />
-      )}
-  {pageData['custom']?.componentData && (
-        <div className="mt-12">
-          <IntegrationsGrid data={pageData['custom']?.componentData} />
-        </div>
-      )}
-      {/* FAQ Section */}
-      {faq && faq.faqCategories && faq.faqCategories.length > 0 && (
-        <div>
-          <FaqSection faqItems={faq} />
-        </div>
-      )}
+      )} */}
+
+
+
+      {faq && <FaqSection faqItems={faq} />}
     </>
   )
 }
@@ -124,43 +166,34 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const region = locale || 'en'
     const queries = new Queries('ai-receptionist', region)
     const slug =
-      region === 'en'
-        ? 'ai-receptionist'
-        : `ai-receptionist-${region.toLowerCase()}`
-    const pageData = (await queries.getPageData('aiReceptionist', slug)) || []
-    const heroData = pageData?.['why-voicestack-hero']?.componentData || null
+      region === 'en' ? 'ai-receptionist' : `ai-receptionist-${region.toLowerCase()}`
+    const pageData = await queries.getPageData('dentalPhones', slug)
+    const client = getClient()
 
-    if (!pageData || Object.keys(pageData).length === 0) {
+    if (!pageData) {
       return {
         notFound: true,
       }
     }
 
-    let faqData = null
-    if (
-      pageData?.faqData &&
-      Array.isArray(pageData.faqData) &&
-      pageData.faqData.length > 0
-    ) {
-      faqData = pageData.faqData[0]
-    } else if (
-      pageData?.faqReferenced &&
-      Array.isArray(pageData.faqReferenced) &&
-      pageData.faqReferenced.length > 0
-    ) {
-      faqData = pageData.faqReferenced[0]
-    }
+    const comparisonLegendData = (await getAllComparisonValues()) || []
+    // Ensure FAQ data is serializable
+    const faqData =
+      pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+    // Fetch features data for CategoryFeatureTabs
+    const features = await getFeaturesList(client, region)
 
     return {
       props: {
         pageData,
         region,
+        comparisonLegendData,
         faq: faqData,
-        heroData: heroData,
+        features: features || [],
       },
     }
   } catch (error) {
-    console.error('Error fetching AI Receptionist page data:', error)
+    console.error('Error fetching page data:', error)
     return {
       notFound: true,
     }

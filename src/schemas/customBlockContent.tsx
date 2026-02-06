@@ -1,5 +1,6 @@
 import { defineArrayMember, defineType } from 'sanity'
 import listingBlock from './listingBlock'
+import rotatingWord from './rotatingWord'
 
 const HighlightDecorator = (props) => (
   <span style={{ backgroundColor: 'yellow' }}>{props.children}</span>
@@ -64,6 +65,11 @@ export default defineType({
           }
         ]
       },
+      of: [
+        {
+          type: 'rotatingWord',
+        }
+      ],
     }),
   ],
 })

@@ -56,7 +56,11 @@ export default function PartnerSlugPage({
     <>
       <SimpleHead data={pageData?.seo} />
 
-      <LpHeader />
+      {/* <LpHeader logo={heroData?.heroImageSecondary?.url}/> */}
+      {heroData?.heroStrip && heroData?.heroStrip !== '' && (
+        <LpHeader logoText={heroData?.heroStrip?.toUpperCase()}/>
+      )}
+      {/* <LpHeader logoText={heroData?.heroStrip?.toUpperCase() || 'VoiceStack'}/> */}
 
       {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
 
@@ -99,6 +103,7 @@ export default function PartnerSlugPage({
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
           sectionBorder="b"
+          demoOnly={true}
         />
       )}
 

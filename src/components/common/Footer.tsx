@@ -69,7 +69,7 @@ const Footer = ({ data }) => {
             {/* Footer Columns */}
             {safeData?.footerColumns && safeData.footerColumns.length > 0 && (
               <div
-                className="grid grid-cols-2 md:grid-cols-4 pt-8 pb-8 rounded-xl gap-6"
+                className="grid grid-cols-[repeat(auto-fit,minmax(165px,1fr))] pt-8 pb-8 rounded-xl gap-6"
                 style={{
                   borderRadius: 'var(--radius-lg, 8px)',
                   border: '0 solid rgba(255, 255, 255, 0.40)',
@@ -376,18 +376,42 @@ const Footer = ({ data }) => {
                 >
                   System Requirements
                 </Anchor>
-                <Anchor
-                  href="/legal/2025-01/privacy-policy"
-                  className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
-                >
-                  Privacy Policy
-                </Anchor>
-                <Anchor
-                  href="/legal/2024-10/terms-and-conditions"
-                  className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
-                >
-                  Terms of Service
-                </Anchor>
+                {isAu ? (
+                  <>
+                    <Anchor
+                      href="/legal/aus/2024-11/privacy-policy"
+                      className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                      locale={false}
+                    >
+                      Privacy Policy
+                    </Anchor>
+                    <Anchor
+                      href="/legal/aus/2024-11/saas-customer-agreement"
+                      className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                      locale={false}
+                    >
+                      Terms of Service
+                    </Anchor>
+                  </>
+                ):(
+
+                <>
+                  <Anchor
+                    href="/legal/2025-01/privacy-policy"
+                    className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                    locale={false}
+                  >
+                    Privacy Policy
+                  </Anchor>
+                  <Anchor
+                    href="/legal/2024-10/terms-and-conditions"
+                    className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                    locale={false}
+                  >
+                    Terms of Service
+                  </Anchor>
+                </>
+                )}
               </div>
             </div>
 
