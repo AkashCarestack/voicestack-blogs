@@ -14,7 +14,7 @@
     "find-unused-components": "node scripts/find-unused-components.js",
     "populate-footer": "node scripts/populate-footer-data.js",
     "upload-data": "node src/migrations/upload-pages-and-faqs.js",
-    "postbuild": "npx accept-md fix-routes"
+    "postbuild": "accept-md fix-routes"
   },
   "prettier": {
     "semi": false,
@@ -56,7 +56,7 @@
     "tailwind-merge": "^2.5.4",
     "tailwindcss": "^3.4.14",
     "tailwindcss-animate": "^1.0.7",
-    "accept-md-runtime": "^1.0.28"
+    "accept-md-runtime": "^1.0.0"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",

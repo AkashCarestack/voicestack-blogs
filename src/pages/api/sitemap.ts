@@ -22,6 +22,11 @@ const EXCLUDED_PATHS = [
   'pricing/thank-you',
 ];
 
+const SIMILAR_ALTERNATES: Record<string, string[]> = {
+  'phone-system/features': ['/en-AU/dental-phones/features'],
+}
+
+
 interface NavigationLink {
   label?: string
   href?: string
@@ -558,6 +563,8 @@ async function generateSiteMap(
 
   // 2. Generate entries for other pages
   // If a path exists in multiple locales, add hreflang alternates
+  const processedAlternatePaths = new Set<string>(); // Track alternate paths to avoid duplicates
+  
   allPathData.forEach((pathData, path) => {
     // Skip paths that already have alternates
     if (PATHS_WITH_ALTERNATES.includes(path)) return;
@@ -565,23 +572,51 @@ async function generateSiteMap(
     const formattedLastmod = formatLastmod(pathData.date);
     const pathLocales = pathData.locales.length > 0 ? pathData.locales : ['en'];
     
+    // Check if this path has similar alternates
+    const similarAlternates = SIMILAR_ALTERNATES[path];
+    const hasSimilarAlternates = similarAlternates && similarAlternates.length > 0;
+    
     // If path exists in multiple locales, add hreflang alternates
     const hasMultipleLocales = pathLocales.length > 1;
     
+    // Collect all URLs for hreflang alternates (original path + similar alternates)
+    const allAlternateUrls: Array<{ url: string; hreflang: string }> = [];
+    
     // Generate entries for each locale that has this path
     pathLocales.forEach(locale => {
+      const currentUrl = buildUrl(path, locale);
+      const currentHreflang = formatHreflang(locale);
+      
       xml += '  <url>\n';
-      xml += `    <loc>${escapeXml(buildUrl(path, locale))}</loc>\n`;
+      xml += `    <loc>${escapeXml(currentUrl)}</loc>\n`;
       xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
       
-      // Add hreflang alternates if path exists in multiple locales
-      // This links all locale versions of the same URL together
+      // Collect URLs for hreflang alternates
       if (hasMultipleLocales) {
-        // Add alternates for all locales that have this path
         pathLocales.forEach(altLocale => {
           const altUrl = buildUrl(path, altLocale);
           const altHreflang = formatHreflang(altLocale);
-          xml += `    <xhtml:link rel="alternate" hreflang="${altHreflang}" href="${escapeXml(altUrl)}"/>\n`;
+          allAlternateUrls.push({ url: altUrl, hreflang: altHreflang });
+        });
+      }
+      
+      // Add similar alternate paths to hreflang alternates
+      if (hasSimilarAlternates) {
+        similarAlternates.forEach(alternatePath => {
+          // Clean the alternate path (remove leading slash and locale prefix)
+          
+          // Extract locale from alternate path if present
+          const alternateLocale = alternatePath.match(/^\/(en-GB|en-AU)\//)?.[1] || 'en';
+          const alternateUrl = buildUrl(alternatePath, alternateLocale);
+          const alternateHreflang = formatHreflang(alternateLocale);
+          allAlternateUrls.push({ url: alternateUrl, hreflang: alternateHreflang });
+        });
+      }
+      
+      // Add all hreflang alternates
+      if (allAlternateUrls.length > 0) {
+        allAlternateUrls.forEach(({ url, hreflang }) => {
+          xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
         });
         // Add x-default pointing to 'en' version if 'en' exists, otherwise first locale
         const defaultLocale = pathLocales.includes('en') ? 'en' : pathLocales[0];
@@ -591,6 +626,81 @@ async function generateSiteMap(
       
       xml += '  </url>\n';
     });
+    
+    // Generate entries for similar alternate paths
+    if (hasSimilarAlternates) {
+      similarAlternates.forEach(alternatePath => {
+        // Clean the alternate path (remove leading slash and locale prefix)
+        const cleanAlternatePath = alternatePath.replace(/^\/+/, '').replace(/^(en-GB|en-AU)\//, '');
+        // Extract locale from alternate path if present
+        const alternateLocale = alternatePath.match(/^\/(en-GB|en-AU)\//)?.[1] || 'en';
+        
+        // Skip if already processed
+        const alternatePathKey = `${cleanAlternatePath}:${alternateLocale}`;
+        if (processedAlternatePaths.has(alternatePathKey)) return;
+        processedAlternatePaths.add(alternatePathKey);
+        
+        // Check if alternate path exists in allPathData
+        const alternatePathData = allPathData.get(cleanAlternatePath);
+        const alternateLocales = alternatePathData?.locales || [alternateLocale];
+        const alternateLastmod = alternatePathData?.date || pathData.date;
+        const formattedAlternateLastmod = formatLastmod(alternateLastmod);
+        
+        // Generate entries for alternate path
+        alternateLocales.forEach(locale => {
+          const alternateUrl = buildUrl(cleanAlternatePath, locale);
+          const alternateHreflang = formatHreflang(locale);
+          
+          xml += '  <url>\n';
+          xml += `    <loc>${escapeXml(alternateUrl)}</loc>\n`;
+          xml += `    <lastmod>${formattedAlternateLastmod}</lastmod>\n`;
+          
+          // Add hreflang alternates linking back to original path and other alternates
+          const allAlternateUrlsForAlternate: Array<{ url: string; hreflang: string }> = [];
+          
+          // Add original path locales
+          pathLocales.forEach(origLocale => {
+            const origUrl = buildUrl(path, origLocale);
+            const origHreflang = formatHreflang(origLocale);
+            allAlternateUrlsForAlternate.push({ url: origUrl, hreflang: origHreflang });
+          });
+          
+          // Add other alternate path locales
+          if (alternateLocales.length > 1) {
+            alternateLocales.forEach(altLocale => {
+              const altUrl = buildUrl(cleanAlternatePath, altLocale);
+              const altHreflang = formatHreflang(altLocale);
+              allAlternateUrlsForAlternate.push({ url: altUrl, hreflang: altHreflang });
+            });
+          }
+          
+          // Add other similar alternates
+          if (hasSimilarAlternates) {
+            similarAlternates.forEach(otherAlternatePath => {
+              if (otherAlternatePath === alternatePath) return; // Skip self
+              const cleanOtherPath = otherAlternatePath.replace(/^\/+/, '').replace(/^(en-GB|en-AU)\//, '');
+              const otherLocale = otherAlternatePath.match(/^\/(en-GB|en-AU)\//)?.[1] || 'en';
+              const otherUrl = buildUrl(cleanOtherPath, otherLocale);
+              const otherHreflang = formatHreflang(otherLocale);
+              allAlternateUrlsForAlternate.push({ url: otherUrl, hreflang: otherHreflang });
+            });
+          }
+          
+          // Add all hreflang alternates
+          if (allAlternateUrlsForAlternate.length > 0) {
+            allAlternateUrlsForAlternate.forEach(({ url, hreflang }) => {
+              xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
+            });
+            // Add x-default
+            const defaultLocale = pathLocales.includes('en') ? 'en' : pathLocales[0];
+            const defaultUrl = buildUrl(path, defaultLocale);
+            xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(defaultUrl)}"/>\n`;
+          }
+          
+          xml += '  </url>\n';
+        });
+      });
+    }
   });
 
   xml += '</urlset>';
