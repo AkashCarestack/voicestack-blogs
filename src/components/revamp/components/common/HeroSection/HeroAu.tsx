@@ -63,7 +63,7 @@ export default function HeroAU({
           <div className='flex flex-col gap-4 flex-1 md:max-w-[606px] relative '>
           <div className='flex justify-center items-center md:justify-start'>
             <h1 className='px-3.5 py-[9px] flex items-center gap-1.5 rounded-full border w-fit border-[#AEA0FF] bg-white/20 shadow-glow' ><ThunderSvg />
-            <span className="font-geist text-sm text-gray-950 font-normal leading-4 tracking-normal uppercase">{heroStrip}</span>
+            <span className="font-geist text-sm text-gray-950 font-normal leading-4 tracking-normal capitalize">{heroStrip}</span>
             </h1>
             </div>
             <div className='flex flex-col gap-4 flex-1'>
