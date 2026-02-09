@@ -115,9 +115,16 @@ const HubSpotForm = ({
                 
                 setTimeout(async () => {
                   const urlParams = new URLSearchParams(window.location.search);
-                  const responseData = await fetch(
-                    `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
-                  ); 
+                  const apiParams = new URLSearchParams({ email });
+                  const utmMap = { utm_source: "source", utm_campaign: "campaign", utm_medium: "medium", utm_term: "term", lead_source: "lead_source" };
+                  
+                  // Try URL first, then sessionStorage (same logic as HubspotMeeting)
+                  Object.entries(utmMap).forEach(([key, param]) => {
+                    const value = urlParams.get(key) || sessionStorage.getItem(key);
+                    if (value) apiParams.append(param, value);
+                  });
+                  
+                  const responseData = await fetch(`/api/hs?${apiParams.toString()}`);
                   // document.getElementById("successMessage").innerHTML = "Thank you, a VoiceStack representative will reach out to you shortly."; 
                   // Commented out meeting redirect - now redirecting to thank-you page instead
                   // if(meetingLink){

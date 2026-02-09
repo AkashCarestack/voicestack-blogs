@@ -18,6 +18,16 @@ const HubSpotMeeting = ({
   
 
   useEffect(() => {
+    // Store UTM params from current URL to sessionStorage on mount (for future use)
+    const currentParams = new URLSearchParams(window.location.search);
+    const utmKeys = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'lead_source'];
+    utmKeys.forEach(key => {
+      const value = currentParams.get(key);
+      if (value && !sessionStorage.getItem(key)) {
+        sessionStorage.setItem(key, value);
+      }
+    });
+
     const window2: any = window
     const script = document.createElement("script");
     script.type = "text/javascript";
@@ -73,21 +83,20 @@ const HubSpotMeeting = ({
           element_id: formDetails,
         });
         setTimeout(async () => {
-          // const responseData = await fetch(
-          //   `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
-          // );
           const apiParams = new URLSearchParams({ email });
           const utmMap = { utm_source: "source", utm_campaign: "campaign", utm_medium: "medium", utm_term: "term", lead_source: "lead_source" };
+          
           Object.entries(utmMap).forEach(([key, param]) => {
-            const value = urlParams.get(key);
+            // Try URL first, then sessionStorage
+            const value = urlParams.get(key) || sessionStorage.getItem(key);
             if (value) apiParams.append(param, value);
           });
           
-          const responseData = await fetch(`/api/hs?${apiParams.toString()}`);
+          await fetch(`/api/hs?${apiParams.toString()}`);
           var redirectBase = "/demo/thank-you/";
           var wholeUrl = redirectBase + "?email=" + email + "&meeting=true";
           router.push(wholeUrl);
-        }, 1000)
+        }, 3000) // Wait 3 seconds to give HubSpot time to create the contact
 
       }
     });

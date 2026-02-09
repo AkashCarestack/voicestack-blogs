@@ -9,7 +9,7 @@ import type { AppProps } from 'next/app'
 import { Inter, Manrope } from 'next/font/google'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
-import { lazy } from 'react'
+import { lazy, useEffect } from 'react'
 
 import { cookieSelector } from '~/helpers/cookieSelector'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
@@ -74,6 +74,22 @@ function App({
   
   // Check if current page is studio page
   const isStudioPage = router.pathname.startsWith('/studio') || router.pathname.startsWith('/legal');
+  
+  // Global UTM parameter capture - runs on every page load
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const currentParams = new URLSearchParams(window.location.search);
+      const utmKeys = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'lead_source'];
+      
+      // Store UTM params in sessionStorage (only if they exist in URL and not already stored)
+      utmKeys.forEach(key => {
+        const value = currentParams.get(key);
+        if (value && !sessionStorage.getItem(key)) {
+          sessionStorage.setItem(key, value);
+        }
+      });
+    }
+  }, [router.asPath]); // Run on every route change
   
   return (
     <main className={`${inter.variable} ${manrope.variable} font-geist ${GeistSans.variable}`}>
