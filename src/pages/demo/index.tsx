@@ -1,5 +1,6 @@
 import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 import { readToken } from '~/lib/sanity.api'
 import HubSpotForm from '~/v2/components/common/HubspotForm'
 import Head from 'next/head'
@@ -29,11 +30,30 @@ export default function DemoPage({}: DemoPageProps) {
   const router = useRouter()
   const { formData, region } = useDemoFormData()
   
-  // Get practiceType from query params, default to "Dental"
-  const practiceType = (router.query.practiceType as string) || 'Dental'
+  // For en-AU, remove query params from URL if present
+  useEffect(() => {
+    if (region === 'en-AU' && router.query.practiceType) {
+      const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
+      router.replace(`${localePrefix}/demo`, undefined, { shallow: true })
+    }
+  }, [region, router])
   
-  // Find the matching form data based on practiceType
-  const activeFormData = formData?.demoForms?.find((form) => form.practiceType === practiceType)
+  // For en-AU, use the first form without query params
+  // For other regions, use practiceType from query params
+  let activeFormData
+  if (region === 'en-AU') {
+    // Use the first form from demoForms array, or fall back to default formData
+    activeFormData = formData?.demoForms?.[0] || (formData?.demoFormId ? {
+      demoFormId: formData.demoFormId,
+      demoMeetingLink: formData.demoMeetingLink,
+      practiceType: 'Dental'
+    } : null)
+  } else {
+    // Get practiceType from query params, default to "Dental"
+    const practiceType = (router.query.practiceType as string) || 'Dental'
+    // Find the matching form data based on practiceType
+    activeFormData = formData?.demoForms?.find((form) => form.practiceType === practiceType)
+  }
   
   // Use activeFormData if found, otherwise fall back to default formData
   const formId = activeFormData?.demoFormId
