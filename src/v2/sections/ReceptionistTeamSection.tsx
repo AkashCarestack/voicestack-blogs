@@ -210,7 +210,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                             const cardHeader = item.boldHeader || item.subTitle || item.description
 
                             return (
-                                <div key={item._key || index} className="h-full outline-none">
+                                <div key={item._key || index} className="h-full outline-none group">
                                     <div className="flex flex-col group h-full  border border-r-0 border-gray-200 slick-item-inner">
                                         {/* Image Container */}
                                         <div className="relative  overflow-hidden mb-8   md:p-[10px]">
@@ -236,14 +236,14 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                                             {/* Badge */}
                                             {badge && (
                                                 <div
-                                                    className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 bg-white flex items-center justify-center gap-1 shadow-sm whitespace-nowrap"
+                                                    className="absolute group-hover:translate-y-[-40px] transition-all duration-300 bottom-0 left-1/2 -translate-x-1/2 z-20 bg-white flex items-center justify-center gap-1 shadow-sm whitespace-nowrap"
                                                     style={{
-                                                        padding: '10px 32px 2px 32px',
-                                                        borderRadius: '20px 20px 0 0',
+                                                        padding: '10px 32px 10px 32px',
+                                                        borderRadius: '20px 20px 20px 20px',
                                                     }}
                                                 >
 
-                                                    <span className="text-xs font-semibold text-gray-900 uppercase tracking-wider">{badge}</span>
+                                                    <span className=" text-xs font-semibold text-gray-900 uppercase tracking-wider">{badge}</span>
                                                 </div>
                                             )}
                                         </div>
