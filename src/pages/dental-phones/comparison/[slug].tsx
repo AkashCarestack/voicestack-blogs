@@ -53,11 +53,6 @@ export default function ComparisonSlugPage({
           <FeatureHero data={pageData['comparison-hero']} />
         )}
 
-      {pageData['logo-listing']?.componentData && (
-        <LogoListingV2
-          data={pageData['logo-listing']?.componentData?.blocksListingData}
-        />
-      )}
 
       {comparisonSectionData && (
         <SiteComparisonSection
@@ -65,16 +60,18 @@ export default function ComparisonSlugPage({
           // legendData={pageData?.comparisonLegendData || []}
         />
       )}
+      
       {pageData['offer']?.componentData && (
         <OfferSection
           data={pageData['offer']?.componentData}
         />
       )}
-
       <CategoryFeatureTabsSection
-          features={features} 
-          variant="carousel"
-          sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
+        features={
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        variant="carousel"
       />
 
       {pageData['integrations-listing']?.componentData && (
@@ -119,14 +116,14 @@ export const getStaticPaths: GetStaticPaths = async ({
     ]
     
     // Exclude the main comparison page slug (handled by index.tsx)
-    // For dental-phones, only allow slugs ending with '-en-au'
+    // Also exclude 'comparison-en-au' and any slug ending with '-en-au' as phone-system doesn't support 'au' locale
     const filteredSlugs = uniqueSlugs.filter(
       (slug: string) => 
         slug !== 'comparison' && 
         slug !== 'comparison-en' && 
         slug !== 'comparison-en-gb' && 
         slug !== 'comparison-en-au' &&
-        slug.endsWith('-en-au')
+        !slug.endsWith('-en-au')
     )
     
     // Format paths for Next.js
@@ -151,12 +148,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const region = locale || 'en'
   const slug = params?.slug as string
 
-  // dental-phones pages only support 'en-AU' locale
-  if (region !== 'en-AU') {
-    return {
-      notFound: true,
-    }
-  }
 
   if (!slug) {
     return {
@@ -164,12 +155,6 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     }
   }
   
-  // Only allow slugs ending with '-en-au' for dental-phones
-  if (!slug.endsWith('-en-au')) {
-    return {
-      notFound: true,
-    }
-  }
   
   try {
     const queries = new Queries('comparison', region)
