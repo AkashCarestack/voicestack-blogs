@@ -73,9 +73,9 @@ const HubSpotMeeting = ({
           element_id: formDetails,
         });
         setTimeout(async () => {
-          // const responseData = await fetch(
-          //   `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
-          // );
+          const responseData = await fetch(
+            `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
+          );
           var redirectBase = "/demo/thank-you/";
           var wholeUrl = redirectBase + "?email=" + email + "&meeting=true";
           router.push(wholeUrl);
