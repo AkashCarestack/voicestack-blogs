@@ -1136,7 +1136,7 @@ export default function CategoryFeatureTabsSection({
                                       : null;
 
                                     const CardContent = () => (
-                                      <div className="flex flex-col py-9 px-12  bg-white h-full  transition-colors duration-200">
+                                      <div className="flex flex-col md:py-9 py-6 md:px-12 px-4 bg-white h-full  transition-colors duration-200">
                                         <p className="text-gray-950 font-geist text-lg font-medium leading-[28px] tracking-normal">
                                           {feature.basicInfo?.title || feature.title || 'Untitled Feature'}
                                         </p>
