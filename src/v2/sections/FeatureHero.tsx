@@ -271,9 +271,9 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
   return (
     <>
       <Section className={`relative overflow-hidden ${isVertical ? 'bg-white' : ''}`} id="FeatureHero" border="b">
-        <Container type="V2" className={`md:py-24 py-16 overflow-hidden justify-center flex ${pageType === 'download-app' ? 'flex-col' : ''}`}>
-          <div className={`${isVertical ? '!flex-col-reverse' : ''} flex lg:flex-row flex-col md:gap-12 w-full max-w-[1240px] gap-6 relative z-10 items-center`}>
-            <div className={`flex flex-col gap-3 relative z-10 flex-1  ${type === 'form' ? 'max-w-[606px]' : ''} ${isCentered ? 'text-center items-center' : ''}`}>
+        <Container type="V2" className={`md:py-24 py-16 overflow-hidden ${pageType === 'download-app' ? 'flex flex-col items-center justify-center' : 'justify-center flex'}`}>
+          <div className={`${isVertical ? '!flex-col-reverse' : ''} flex ${pageType === 'download-app' ? 'flex-col' : 'lg:flex-row flex-col'} md:gap-12 w-full ${pageType === 'download-app' ? 'max-w-[800px] mx-auto' : 'max-w-[1240px]'} gap-6 relative z-10 items-center`}>
+            <div className={`flex flex-col gap-3 relative z-10 ${pageType === 'download-app' ? 'w-full' : 'flex-1'} ${type === 'form' ? 'max-w-[606px]' : ''} ${isCentered || pageType === 'download-app' ? 'text-center items-center' : ''}`}>
               {title && (
                 (type === 'form' || type === 'comparison') ? (
                   <div className="flex items-center gap-2 py-[9px] pr-4 pl-[14px] rounded-full border border-[#AEA0FF] lg:self-start self-center bg-white/20 shadow-[-7px_0_10px_0_rgba(251,111,142,0.5),7px_0_10px_0_rgba(74,60,225,0.5)]">
@@ -290,7 +290,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                     </h1>
                   </div>
                 ) : (
-                  <h1 className={`${type === 'partner' ? 'sr-only' : ''} text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase`}>
+                  <h1 className={`${type === 'partner' ? 'sr-only' : ''} ${pageType === 'download-app' ? 'text-center' : 'text-center md:text-left'} text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase`}>
                     {title}
                   </h1>
                 )
@@ -334,7 +334,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                   />
                 </div>
               )}
-              <div className="flex flex-col md:flex-row md:gap-[18px] items-center md:mt-5 mt-4 gap-3">
+              <div className={`flex flex-col md:flex-row md:gap-[18px] items-center md:mt-5 mt-4 gap-3 ${pageType === 'download-app' ? 'justify-center' : ''}`}>
                 {buttons &&
                   buttons.length &&
                   buttons.map((button: any) => (
@@ -366,7 +366,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
               </div>
             }
             {((image && !hasVideo && !hasTestimonial) && !isVertical) ? (
-              <div className='flex-1  w-full h-full max-w-[550px] max-h-[550px]'>
+              <div className={`${pageType === 'download-app' ? 'w-full flex justify-center' : 'flex-1'} w-full h-full max-w-[550px] max-h-[550px]`}>
                 <Image className='max-w-[550px] max-h-[550px] w-full h-full object-cover' src={image} alt={headingAltText} title={headingAltText} width={1000} height={1000} />
               </div>
             ) : (
