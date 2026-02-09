@@ -1162,21 +1162,11 @@ export default function CategoryFeatureTabsSection({
                         </div>
 
                         {/* Right: Category Image */}
-                        <div className="bg-gray-50 flex flex-col items-center justify-end  px-4 md:px-px py-4 md:py-0 overflow-hidden relative">
+                        {category?.mainImage && <div className="bg-gray-50 flex flex-col items-center justify-end px-4 md:px-px py-4 md:py-0  overflow-hidden relative">
                           {/* Grid Pattern Background */}
-                          <div className="absolute inset-0 z-0">
-                            <GridPattern
-                              width={50}
-                              height={50}
-                              x={-1}
-                              y={-1}
-                              className={cn(
-                                "[mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"
-                              )}
-                            />
-                          </div>
+                
                           {category?.mainImage && (
-                            <div className={`w-full h-full md:min-h-[500px] relative flex items-end justify-center`}>
+                            <div className={`w-full md:min-h-[500px] h-[300px] relative flex items-end justify-center`}>
                               <figure className="relative w-full h-full flex items-end justify-center">
                                 <ImageLoader
                                   image={category.mainImage}
@@ -1188,7 +1178,7 @@ export default function CategoryFeatureTabsSection({
                               </figure>
                             </div>
                           )}
-                        </div>
+                        </div>}
                       </div>
 
                       {/* GroupedCardsGrid Component */}

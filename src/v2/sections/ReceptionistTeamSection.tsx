@@ -45,7 +45,7 @@ const PrevArrow = ({ onClick, currentSlide }: any) => {
         <button
             onClick={onClick}
             disabled={isDisabled}
-            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white  border border-gray-200 flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-[-30px] xl:left-[-25px] z-10
+            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white  border border-gray-200 flex items-center justify-center absolute md:top-1/2 top-[55%] -translate-y-1/2 md:left-[-30px] left-0 xl:left-[-25px] z-10
         ${isDisabled ? ' cursor-not-allowed' : ' bg-white hover:bg-gray-100 transition-colors'}`}
             aria-label="Previous"
         >
@@ -64,7 +64,7 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
         <button
             onClick={onClick}
             disabled={isDisabled}
-            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white flex items-center justify-center absolute top-1/2 -translate-y-1/2 right-[-35px] xl:right-[-30px] z-10 border border-gray-200
+            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white flex items-center justify-center absolute md:top-1/2 top-[55%] -translate-y-1/2 md:right-[-35px] right-0 xl:right-[-30px] z-10 border border-gray-200
         ${isDisabled ? ' cursor-not-allowed ' : 'bg-white hover:bg-gray-100 transition-colors'}`}
             aria-label="Next"
         >

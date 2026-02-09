@@ -46,7 +46,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   const openPricingModal = pricingModal?.openPricingModal
   
   // Get demo form data from context
-  const { formData } = useDemoFormData()
+  const { formData, region } = useDemoFormData()
   
   // State for practice type modal
   const [showPracticeTypeModal, setShowPracticeTypeModal] = useState(false)
@@ -151,22 +151,29 @@ const Button: React.FunctionComponent<ButtonProps> = ({
           }
         }
         
-        // On other pages, navigate to demo page with practiceType param
-        const asPath = router.asPath.split('?')[0]
-        const currentSearch = router.asPath.includes('?') 
-          ? router.asPath.split('?')[1].split('#')[0] 
-          : ''
-        const currentParams = new URLSearchParams(currentSearch)
-        currentParams.set('practiceType', singlePracticeType)
-        currentParams.delete('flag')
-        currentParams.delete('slug')
-        
+        // On other pages, navigate to demo page
+        // For en-AU, don't add practiceType query param
         const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
         const basePath = `${localePrefix}/demo`
-        const queryString = currentParams.toString()
-        const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
         
-        router.push(finalUrl)
+        if (region === 'en-AU') {
+          // For en-AU, navigate without query params
+          router.push(basePath)
+        } else {
+          // For other regions, include practiceType param
+          const asPath = router.asPath.split('?')[0]
+          const currentSearch = router.asPath.includes('?') 
+            ? router.asPath.split('?')[1].split('#')[0] 
+            : ''
+          const currentParams = new URLSearchParams(currentSearch)
+          currentParams.set('practiceType', singlePracticeType)
+          currentParams.delete('flag')
+          currentParams.delete('slug')
+          
+          const queryString = currentParams.toString()
+          const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
+          router.push(finalUrl)
+        }
         return
       }
       

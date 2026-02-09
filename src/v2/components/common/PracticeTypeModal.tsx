@@ -19,7 +19,7 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
   onPracticeTypeSelect,
 }) => {
   const router = useRouter()
-  const { formData } = useDemoFormData()
+  const { formData, region } = useDemoFormData()
 
   // Check if we're on a pricing page
   const isPricingPage = React.useMemo(() => {
@@ -66,30 +66,35 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
     }
 
     // Otherwise, navigate to demo page (existing behavior)
-    // Get current query params from router.asPath
-    const asPath = router.asPath.split('?')[0] // Get path without query
-    const currentSearch = router.asPath.includes('?') 
-      ? router.asPath.split('?')[1].split('#')[0] 
-      : ''
-    const currentParams = new URLSearchParams(currentSearch)
-    
-    // Add or update practiceType param (use exact value from schema: Dental, Optometry, Physical Therapy, Veterinary)
-    currentParams.set('practiceType', practiceType)
-    
-    // Remove internal params that shouldn't be in URL
-    currentParams.delete('flag')
-    currentParams.delete('slug')
-    
     // Build the demo URL with locale
     const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
     const basePath = `${localePrefix}/demo`
     
-    // Build final URL with query string
-    const queryString = currentParams.toString()
-    const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
-    
-    // Navigate to demo page with practiceType
-    router.push(finalUrl)
+    // For en-AU, navigate without query params
+    if (region === 'en-AU') {
+      router.push(basePath)
+    } else {
+      // For other regions, include practiceType param
+      const asPath = router.asPath.split('?')[0] // Get path without query
+      const currentSearch = router.asPath.includes('?') 
+        ? router.asPath.split('?')[1].split('#')[0] 
+        : ''
+      const currentParams = new URLSearchParams(currentSearch)
+      
+      // Add or update practiceType param (use exact value from schema: Dental, Optometry, Physical Therapy, Veterinary)
+      currentParams.set('practiceType', practiceType)
+      
+      // Remove internal params that shouldn't be in URL
+      currentParams.delete('flag')
+      currentParams.delete('slug')
+      
+      // Build final URL with query string
+      const queryString = currentParams.toString()
+      const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
+      
+      // Navigate to demo page with practiceType
+      router.push(finalUrl)
+    }
     
     // Close modal
     if (onClose) {
