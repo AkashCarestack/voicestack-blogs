@@ -66,12 +66,14 @@ const PricingHubspotMeeting: React.FC<{
           element_id: formDetails,
         });
         setTimeout(async () => {
+          // Read current URL params (in case user navigated) and sessionStorage
+          const currentUrlParams = new URLSearchParams(window.location.search);
           const apiParams = new URLSearchParams({ email });
           const utmMap = { utm_source: "source", utm_campaign: "campaign", utm_medium: "medium", utm_term: "term", lead_source: "lead_source" };
           
           Object.entries(utmMap).forEach(([key, param]) => {
-            // Try URL first, then sessionStorage
-            const value = urlParams.get(key) || sessionStorage.getItem(key);
+            // Try current URL first, then sessionStorage (carry forward from any previous page)
+            const value = currentUrlParams.get(key) || sessionStorage.getItem(key);
             if (value) apiParams.append(param, value);
           });
           

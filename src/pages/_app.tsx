@@ -81,10 +81,11 @@ function App({
       const currentParams = new URLSearchParams(window.location.search);
       const utmKeys = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'lead_source'];
       
-      // Store UTM params in sessionStorage (only if they exist in URL and not already stored)
+      // Store UTM params in sessionStorage when present in URL
+      // Always update if new UTM params are in the URL (allows updating with new campaign)
       utmKeys.forEach(key => {
         const value = currentParams.get(key);
-        if (value && !sessionStorage.getItem(key)) {
+        if (value) {
           sessionStorage.setItem(key, value);
         }
       });
