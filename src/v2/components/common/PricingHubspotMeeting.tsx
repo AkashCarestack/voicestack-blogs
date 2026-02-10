@@ -66,10 +66,20 @@ const PricingHubspotMeeting: React.FC<{
           element_id: formDetails,
         });
         setTimeout(async () => {
+          const apiParams = new URLSearchParams({ email });
+          const utmMap = { utm_source: "source", utm_campaign: "campaign", utm_medium: "medium", utm_term: "term", lead_source: "lead_source" };
+          
+          Object.entries(utmMap).forEach(([key, param]) => {
+            // Try URL first, then sessionStorage
+            const value = urlParams.get(key) || sessionStorage.getItem(key);
+            if (value) apiParams.append(param, value);
+          });
+          
+          await fetch(`/api/hs?${apiParams.toString()}`);
           var redirectBase = "/pricing/thank-you/";
           var wholeUrl = redirectBase + "?email=" + email + "&meeting=true";
           router.push(wholeUrl);
-        }, 1000)
+        }, 3000) // Wait 3 seconds to give HubSpot time to create the contact
 
       }
     });
