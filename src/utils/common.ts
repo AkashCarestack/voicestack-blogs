@@ -295,7 +295,7 @@ export const ComparisonHeroH2: any = {
       React.createElement(
         'h2',
         {
-          className: 'md:text-left text-center text-white font-manrope md:text-[56px] text-3xl leading-[107.14%] font-bold tracking-normal md:max-w-[581px] w-full font-bold ',
+          className: 'md:text-left text-center text-white font-manrope xl:text-[56px] md:text-4xl text-3xl !leading-[107.14%] font-bold tracking-normal md:max-w-[581px] w-full font-bold ',
         },
         children
       ),
