@@ -9,7 +9,7 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
   const components: Partial<PortableTextReactComponents> = {
     block: {
       normal: ({ children }) => (
-        <p className="[&_br]:hidden md:[&_br]:block lg:max-w-[712px] lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue text-gray-500">{children}</p>
+        <p className="[&_br]:hidden md:[&_br]:block lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue text-gray-500">{children}</p>
       ),
     },
     marks: {
@@ -29,7 +29,7 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
   
   return (
     <div className={`flex ${data.isLeftAlign ? 'justify-start' : 'justify-center'} ${data.className}`}>
-      <div className={`w-full ${data.isLeftAlign ? 'text-left' : 'text-center lg:w-[712px]'} `}>
+      <div className={`w-full ${data.isLeftAlign ? 'text-left' : 'text-center'} ${showFullLength ? 'lg:w-full' : 'lg:w-[712px]'}`}>
           <SectionH2 
             content={data.heading}
             isWhite={data.isWhite}
@@ -39,7 +39,7 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
           />
           {
             Array.isArray(data.description) ? <PortableText value={data.description} components={components} /> :
-            <p className={`${aiSection? 'text-gray-300' : '' } lg:max-w-[712px] lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue ${data.isWhite ? 'text-white' : 'text-gray-500'}`} dangerouslySetInnerHTML={{ __html: data?.description }}></p>
+            <p className={`${aiSection? 'text-gray-300' : '' } ${showFullLength ? 'lg:max-w-full' : 'lg:max-w-[712px]'} lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue ${data.isWhite ? 'text-white' : 'text-gray-500'}`} dangerouslySetInnerHTML={{ __html: data?.description }}></p>
           }
 
           {data.ctaListItems && data.ctaListItems.length > 0 && (

@@ -55,7 +55,7 @@ export default function ComparisonSlugPage({
         {pageData['comparison-hero']?.componentData && (
           <>
           {/* <FeatureHero data={pageData['comparison-hero']} /> */}
-          {console.log(pageData['comparison-hero'], 'pageData comparison hero')}
+          {/* {console.log(pageData['comparison-hero'], 'pageData comparison hero')} */}
           <ComparisonHero 
           image={urlForImage(pageData['comparison-hero']?.heroComponent?.heroImage)} 
           heroStrip={pageData['comparison-hero']?.heroComponent?.heroStrip}
@@ -73,7 +73,7 @@ export default function ComparisonSlugPage({
         />
       )}
       
-      {console.log(pageData['offer']?.componentData, 'pageData offer')}
+      {/* {console.log(pageData['offer']?.componentData, 'pageData offer')} */}
       {pageData['offer']?.componentData && (
         
       
