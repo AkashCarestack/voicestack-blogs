@@ -152,28 +152,25 @@ const Button: React.FunctionComponent<ButtonProps> = ({
         }
         
         // On other pages, navigate to demo page
-        // For en-AU, don't add practiceType query param
+        // Work exactly like US version: add practiceType to URL for all regions
+        // The demo page will handle removing it from URL for AU if needed
         const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
         const basePath = `${localePrefix}/demo`
         
-        if (region === 'en-AU') {
-          // For en-AU, navigate without query params
-          router.push(basePath)
-        } else {
-          // For other regions, include practiceType param
-          const asPath = router.asPath.split('?')[0]
-          const currentSearch = router.asPath.includes('?') 
-            ? router.asPath.split('?')[1].split('#')[0] 
-            : ''
-          const currentParams = new URLSearchParams(currentSearch)
-          currentParams.set('practiceType', singlePracticeType)
-          currentParams.delete('flag')
-          currentParams.delete('slug')
-          
-          const queryString = currentParams.toString()
-          const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
-          router.push(finalUrl)
-        }
+        // Get current query params from URL
+        const currentSearch = router.asPath.includes('?') 
+          ? router.asPath.split('?')[1].split('#')[0] 
+          : ''
+        const currentParams = new URLSearchParams(currentSearch)
+        
+        // Add practiceType param (for all regions, including AU)
+        currentParams.set('practiceType', singlePracticeType)
+        currentParams.delete('flag')
+        currentParams.delete('slug')
+        
+        const queryString = currentParams.toString()
+        const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
+        router.push(finalUrl)
         return
       }
       

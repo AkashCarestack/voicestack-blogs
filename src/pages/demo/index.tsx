@@ -30,29 +30,46 @@ export default function DemoPage({}: DemoPageProps) {
   const router = useRouter()
   const { formData, region } = useDemoFormData()
   
-  // For en-AU, remove query params from URL if present
+  // For en-AU, remove only practiceType query param from URL if present, preserve others
+  // This ensures practiceType is not shown in URL for AU (since only one is available)
   useEffect(() => {
     if (region === 'en-AU' && router.query.practiceType) {
       const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
-      router.replace(`${localePrefix}/demo`, undefined, { shallow: true })
+      const basePath = `${localePrefix}/demo`
+      
+      // Get the current query string from the URL
+      const currentSearch = router.asPath.includes('?') 
+        ? router.asPath.split('?')[1].split('#')[0] 
+        : ''
+      
+      // Parse existing query params
+      const queryParams = new URLSearchParams(currentSearch)
+      
+      // Remove only practiceType
+      queryParams.delete('practiceType')
+      
+      // Build final URL with remaining query params
+      const queryString = queryParams.toString()
+      const finalUrl = queryString 
+        ? `${basePath}?${queryString}` 
+        : basePath
+      
+      router.replace(finalUrl, undefined, { shallow: true })
     }
   }, [region, router])
   
-  // For en-AU, use the first form without query params
-  // For other regions, use practiceType from query params
-  let activeFormData
-  if (region === 'en-AU') {
-    // Use the first form from demoForms array, or fall back to default formData
+  // Work exactly like US version: read practiceType from query params, default to "Dental"
+  const practiceType = (router.query.practiceType as string) || 'Dental'
+  // Find the matching form data based on practiceType
+  let activeFormData = formData?.demoForms?.find((form) => form.practiceType === practiceType)
+  
+  // Fallback: if no match found, use first form or default
+  if (!activeFormData) {
     activeFormData = formData?.demoForms?.[0] || (formData?.demoFormId ? {
       demoFormId: formData.demoFormId,
       demoMeetingLink: formData.demoMeetingLink,
       practiceType: 'Dental'
     } : null)
-  } else {
-    // Get practiceType from query params, default to "Dental"
-    const practiceType = (router.query.practiceType as string) || 'Dental'
-    // Find the matching form data based on practiceType
-    activeFormData = formData?.demoForms?.find((form) => form.practiceType === practiceType)
   }
   
   // Use activeFormData if found, otherwise fall back to default formData
