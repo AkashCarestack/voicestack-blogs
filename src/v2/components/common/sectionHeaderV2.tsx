@@ -2,10 +2,31 @@ import React from 'react'
 import { SectionHeaderPropsV2 } from '../../../components/revamp/components/common/interface/common'
 import SectionH2 from '~/components/typography/revamp/SectionH2'
 import Button from '~/components/common/Button'
+import { PortableText, PortableTextReactComponents } from '@portabletext/react'
 
 export default function SectionHeaderV2({ showFullLength = false, demoButton = false, headingMd = false, aiSection = false, ...data }: SectionHeaderPropsV2) {
   // Check if heading is portable text (array) or string  
-  // const isPortableText = Array.isArray(data.heading)
+  const isPortableTextDescription = Array.isArray(data.description)
+  const components: Partial<PortableTextReactComponents> = {
+    block: {
+      normal: ({ children }) => (
+        <span className="[&_br]:hidden md:[&_br]:block">{children}</span>
+      ),
+    },
+    marks: {
+      
+      strong: ({ children }) => <strong>{children}</strong>,
+      link: ({ value, children }) => {
+        const target = value?.blank ? '_blank' : undefined
+        const rel = value?.blank ? 'noopener noreferrer' : undefined
+        return (
+          <a href={value?.href} target={target} rel={rel} className="underline hover:opacity-80">
+            {children}
+          </a>
+        )
+      },
+    },
+  }
   
   return (
     <div className={`flex ${data.isLeftAlign ? 'justify-start' : 'justify-center'} ${data.className}`}>
@@ -17,7 +38,10 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
             headingMd={headingMd}
             aiSection={aiSection}
           />
-          <p className={`${aiSection? 'text-gray-300' : '' } lg:max-w-[712px] lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue ${data.isWhite ? 'text-white' : 'text-gray-500'}`} dangerouslySetInnerHTML={{ __html: data?.description }}></p>
+          {
+            Array.isArray(data.description) ? <PortableText value={data.description} components={components} /> :
+            <p className={`${aiSection? 'text-gray-300' : '' } lg:max-w-[712px] lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue ${data.isWhite ? 'text-white' : 'text-gray-500'}`} dangerouslySetInnerHTML={{ __html: data?.description }}></p>
+          }
 
           {data.ctaListItems && data.ctaListItems.length > 0 && (
             <div className='flex flex-col md:flex-row justify-center gap-4 items-center mt-8'>
