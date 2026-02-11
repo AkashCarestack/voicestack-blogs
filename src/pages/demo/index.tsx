@@ -30,11 +30,22 @@ export default function DemoPage({}: DemoPageProps) {
   const router = useRouter()
   const { formData, region } = useDemoFormData()
   
-  // For en-AU, remove query params from URL if present
+  // For en-AU, remove only practiceType param from URL, keep all other params (like UTM)
   useEffect(() => {
     if (region === 'en-AU' && router.query.practiceType) {
       const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
-      router.replace(`${localePrefix}/demo`, undefined, { shallow: true })
+      const currentParams = new URLSearchParams(window.location.search)
+      
+      // Remove only practiceType, keep all other params
+      currentParams.delete('practiceType')
+      
+      // Build new URL with remaining params
+      const remainingParams = currentParams.toString()
+      const newUrl = remainingParams 
+        ? `${localePrefix}/demo?${remainingParams}`
+        : `${localePrefix}/demo`
+      
+      router.replace(newUrl, undefined, { shallow: true })
     }
   }, [region, router])
   
