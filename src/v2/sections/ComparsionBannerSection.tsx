@@ -20,8 +20,8 @@ const ComparisonBannerSection = ({ data, variant = 'default', spacingY=false }: 
       <Container className={`${spacingY ? 'py-16' : ''}`} type="V2" border='y-0'>
         <div className="flex relative bg-cover bg-center" style={{ backgroundImage: `url(${bannerBg.src})` }}>
           <div className="flex md:flex-row flex-col relative z-10 w-full">
-            <div className=" md:p-16 py-8 px-8 flex-1">
-              <div className="flex-col relative w-full flex gap-8 justify-center md:py-16 py-8 px-12  bg-white">
+            <div className=" md:p-16 md:py-8 md:px-8 py-4 px-4 flex-1">
+              <div className="flex-col relative w-full flex gap-8 justify-center md:py-16 py-8 px-4  bg-white">
                 {/* {compact ?(
                   <></>
                 ):( */}

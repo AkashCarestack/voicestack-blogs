@@ -295,7 +295,7 @@ export const ComparisonHeroH2: any = {
       React.createElement(
         'h2',
         {
-          className: 'text-white font-manrope md:text-[56px] text-3xl leading-[107.14%] font-bold tracking-normal md:max-w-[581px] w-full font-bold ',
+          className: 'md:text-left text-center text-white font-manrope md:text-[56px] text-3xl leading-[107.14%] font-bold tracking-normal md:max-w-[581px] w-full font-bold ',
         },
         children
       ),
@@ -441,7 +441,7 @@ export const ComparisonHeroDescriptionComponents: any = {
       React.createElement(
         'p',
         {
-          className: 'text-white font-geist md:text-lg text-base leading-[155.5%] font-normal',
+          className: 'text-white md:text-left text-center font-geist md:text-lg text-base leading-[155.5%] font-normal',
         },
         
         children
