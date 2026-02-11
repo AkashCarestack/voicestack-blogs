@@ -321,7 +321,7 @@ const Header = ({ data, refer = null }) => {
     acc[item.name] = item.value;
     return acc;
   }, {});
-  console.log({schemaDataObject: schemaDataObject});
+  // console.log({schemaDataObject: schemaDataObject});
   const OrganizationSchemaData = JSON.parse(schemaDataObject['OrganizationSchema']);
   const SoftwareSchemaData = JSON.parse(schemaDataObject['SoftwareApplicationSchema']);
   // Show software schema for:

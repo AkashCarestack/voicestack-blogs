@@ -1607,6 +1607,7 @@ class Queries {
                       
                     },
                   },
+                  sectionDescriptionDynamic,
                   customListingItems[] {
                     _key,
                     heading,

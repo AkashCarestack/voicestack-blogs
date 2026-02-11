@@ -66,35 +66,30 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
     }
 
     // Otherwise, navigate to demo page (existing behavior)
-    // Build the demo URL with locale
+    // Work exactly like US version: add practiceType to URL for all regions
+    // The demo page will handle removing it from URL for AU if needed
     const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
     const basePath = `${localePrefix}/demo`
     
-    // For en-AU, navigate without query params
-    if (region === 'en-AU') {
-      router.push(basePath)
-    } else {
-      // For other regions, include practiceType param
-      const asPath = router.asPath.split('?')[0] // Get path without query
-      const currentSearch = router.asPath.includes('?') 
-        ? router.asPath.split('?')[1].split('#')[0] 
-        : ''
-      const currentParams = new URLSearchParams(currentSearch)
-      
-      // Add or update practiceType param (use exact value from schema: Dental, Optometry, Physical Therapy, Veterinary)
-      currentParams.set('practiceType', practiceType)
-      
-      // Remove internal params that shouldn't be in URL
-      currentParams.delete('flag')
-      currentParams.delete('slug')
-      
-      // Build final URL with query string
-      const queryString = currentParams.toString()
-      const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
-      
-      // Navigate to demo page with practiceType
-      router.push(finalUrl)
-    }
+    // Get current query params from URL
+    const currentSearch = router.asPath.includes('?') 
+      ? router.asPath.split('?')[1].split('#')[0] 
+      : ''
+    const currentParams = new URLSearchParams(currentSearch)
+    
+    // Remove internal params that shouldn't be in URL
+    currentParams.delete('flag')
+    currentParams.delete('slug')
+    
+    // Add or update practiceType param (for all regions, including AU)
+    currentParams.set('practiceType', practiceType)
+    
+    // Build final URL with query string
+    const queryString = currentParams.toString()
+    const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
+    
+    // Navigate to demo page
+    router.push(finalUrl)
     
     // Close modal
     if (onClose) {
