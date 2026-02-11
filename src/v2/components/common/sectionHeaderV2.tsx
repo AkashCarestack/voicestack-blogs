@@ -6,16 +6,15 @@ import { PortableText, PortableTextReactComponents } from '@portabletext/react'
 
 export default function SectionHeaderV2({ showFullLength = false, demoButton = false, headingMd = false, aiSection = false, ...data }: SectionHeaderPropsV2) {
   // Check if heading is portable text (array) or string  
-  const isPortableTextDescription = Array.isArray(data.description)
   const components: Partial<PortableTextReactComponents> = {
     block: {
       normal: ({ children }) => (
-        <span className="[&_br]:hidden md:[&_br]:block">{children}</span>
+        <p className="[&_br]:hidden md:[&_br]:block lg:max-w-[712px] lg:text-lg text-base font-normal leading-[155.55%] [&_span]:text-vs-blue text-gray-500">{children}</p>
       ),
     },
     marks: {
       
-      strong: ({ children }) => <strong>{children}</strong>,
+      strong: ({ children }) => <b className="font-normal text-gray-950">{children}</b>,
       link: ({ value, children }) => {
         const target = value?.blank ? '_blank' : undefined
         const rel = value?.blank ? 'noopener noreferrer' : undefined
