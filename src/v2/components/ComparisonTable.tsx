@@ -232,7 +232,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
                     return comparisons.length > 0 && comparisons.slice(0, 4).map((comparisonValue, idx) => (
                       <TableCell
                         key={idx}
-                        className={`text-center border-0 ${
+                        className={`text-center border-b border-gray-100 ${
                           idx === 0 
                             ? 'bg-[#F6F5FD] sticky left-[120px]'
                             : 'bg-white '
