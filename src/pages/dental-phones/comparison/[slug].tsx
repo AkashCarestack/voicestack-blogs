@@ -15,6 +15,9 @@ import OfferSection from '~/v2/sections/OfferSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import ComparisonHero from '~/v2/sections/ComparisonHero'
+import { urlForImage } from '~/lib/sanity.image'
+import ComparisonBannerSection from '~/v2/sections/ComparsionBannerSection'
 
 interface ComparisonPageProps {
   pageData: any
@@ -50,7 +53,16 @@ export default function ComparisonSlugPage({
       <SimpleHead data={pageData?.seo} />
         {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
         {pageData['comparison-hero']?.componentData && (
-          <FeatureHero data={pageData['comparison-hero']} />
+          <>
+          {/* <FeatureHero data={pageData['comparison-hero']} /> */}
+          {console.log(pageData['comparison-hero'], 'pageData comparison hero')}
+          <ComparisonHero 
+          image={urlForImage(pageData['comparison-hero']?.heroComponent?.heroImage)} 
+          heroStrip={pageData['comparison-hero']?.heroComponent?.heroStrip}
+           heading={pageData['comparison-hero']?.heroComponent?.heroheading} 
+           description={pageData['comparison-hero']?.heroComponent?.heroDescription  }
+            buttons={pageData['comparison-hero']?.heroComponent?.bookBtnContent} />
+          </>
         )}
 
 
@@ -61,11 +73,16 @@ export default function ComparisonSlugPage({
         />
       )}
       
+      {console.log(pageData['offer']?.componentData, 'pageData offer')}
       {pageData['offer']?.componentData && (
-        <OfferSection
-          data={pageData['offer']?.componentData}
-        />
+        
+      
+        <ComparisonBannerSection
+            data={pageData['offer']?.componentData}
+          />
       )}
+
+
       <CategoryFeatureTabsSection
         features={
           pageData['manage-every-calls']?.componentData?.refData
