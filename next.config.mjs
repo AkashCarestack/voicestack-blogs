@@ -28,7 +28,7 @@ const config = {
   },
   i18n: {
     localeDetection:false,
-    locales: ['en','en-AU' ],
+    locales: ['en','en-AU', 'en-GB'],
     defaultLocale: 'en'
   },
   // Fix for Vercel deployment issues
@@ -147,22 +147,22 @@ const config = {
         source: '/sitemap.xml',
         destination: '/api/sitemap',
       },
-      {
-        source: '/en-gb',
-        destination: 'https://voicestack-engb.vercel.app/en-GB',
-      },
-      {
-        source: '/en-gb/:path*',
-        destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
-      },
-      {
-        source: '/en-GB',
-        destination: 'https://voicestack-engb.vercel.app/en-GB',
-      },
-      {
-        source: '/en-GB/:path*',
-        destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
-      },
+      // {
+      //   source: '/en-gb',
+      //   destination: 'https://voicestack-engb.vercel.app/en-GB',
+      // },
+      // {
+      //   source: '/en-gb/:path*',
+      //   destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
+      // },
+      // {
+      //   source: '/en-GB',
+      //   destination: 'https://voicestack-engb.vercel.app/en-GB',
+      // },
+      // {
+      //   source: '/en-GB/:path*',
+      //   destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
+      // },
       
       {
         source: '/en-gb',
