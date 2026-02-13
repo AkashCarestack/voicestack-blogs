@@ -590,6 +590,16 @@ async function generateSiteMap(
   // Note: phone-system paths will be automatically transformed to dental-phones for en-AU locale
   // in the buildUrl function, so we don't need to filter out en-AU here
 
+  // Filter out en-GB locale from all paths except root ('') and 'system-requirements'
+  // Only these two paths should have en-GB URLs in the sitemap
+  const allowedEnGBPaths = ['', 'system-requirements'];
+  allPathData.forEach((pathData, path) => {
+    if (!allowedEnGBPaths.includes(path)) {
+      // Remove en-GB from locales for this path
+      pathData.locales = pathData.locales.filter(locale => locale !== 'en-GB');
+    }
+  });
+
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
   xml += '        xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
@@ -673,6 +683,17 @@ async function generateSiteMap(
       // Prevent /en-AU/phone-system URLs (it doesn't exist)
       if (url.includes('/en-AU/phone-system')) {
         return;
+      }
+      // Prevent en-GB URLs for paths that aren't allowed (only root and system-requirements allowed)
+      if (hreflang === 'en-GB' || url.includes('/en-GB')) {
+        // Extract the path after /en-GB
+        const enGBMatch = url.match(/\/en-GB(?:\/(.*))?$/);
+        if (enGBMatch) {
+          const urlPath = (enGBMatch[1] || '').replace(/\/$/, ''); // Remove trailing slash
+          if (urlPath !== '' && urlPath !== 'system-requirements') {
+            return;
+          }
+        }
       }
       const key = `${url}|${hreflang}`;
       if (!allAlternateUrlsSet.has(key)) {
@@ -758,6 +779,17 @@ async function generateSiteMap(
           // Prevent /en-AU/phone-system URLs (it doesn't exist)
           if (url.includes('/en-AU/phone-system')) {
             return;
+          }
+          // Prevent en-GB URLs for paths that aren't allowed (only root and system-requirements allowed)
+          if (hreflang === 'en-GB' || url.includes('/en-GB')) {
+            // Extract the path after /en-GB
+            const enGBMatch = url.match(/\/en-GB(?:\/(.*))?$/);
+            if (enGBMatch) {
+              const urlPath = (enGBMatch[1] || '').replace(/\/$/, ''); // Remove trailing slash
+              if (urlPath !== '' && urlPath !== 'system-requirements') {
+                return;
+              }
+            }
           }
           const key = `${url}|${hreflang}`;
           if (!allAlternateUrlsForAlternateSet.has(key)) {
