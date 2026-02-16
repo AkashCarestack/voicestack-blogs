@@ -54,8 +54,8 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const region = locale || 'en'
 
-  // phone-system pages don't support 'en-AU' locale
-  if (region === 'en-AU') {
+  // phone-system pages don't support 'en-AU' or 'en-GB ' locale
+  if (region !== 'en') {
     return {
       notFound: true,
     }
@@ -63,8 +63,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
   try {
     const queries = new Queries('dentalPhones', region)
-
-    const slug = region === 'en' ? 'reviews' : `reviews-${region.toLowerCase()}`
+    // Hardcode slug since phone-system pages only support 'en' locale
+    const slug = 'reviews'
     const pageData = await queries.getPageData('dentalPhones', slug)
 
     if(!pageData){

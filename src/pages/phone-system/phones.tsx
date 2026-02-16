@@ -126,15 +126,16 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
     
-    // phone-system pages don't support 'en-AU' locale
-    if (region === 'en-AU') {
+    // phone-system pages don't support 'en-AU' or 'en-GB ' locale
+    if (region !== 'en') {
       return {
         notFound: true,
       }
     }
     
     const queries = new Queries('phones', region)
-    const slug = region === 'en' ? 'phones' : `phones-${region.toLowerCase()}`
+    // Hardcode slug since phone-system pages only support 'en' locale
+    const slug = 'phones'
 
     // Fetch page data for integrations
     const pageData = await queries.getPageData('dentalPhones', slug)

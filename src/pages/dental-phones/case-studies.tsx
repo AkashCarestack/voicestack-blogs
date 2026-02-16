@@ -58,12 +58,18 @@ export default function CustomerStories({ pageData }: any) {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const region = locale || 'en'
 
+  // dental-phones pages support 'en-AU' and 'en-GB' locales
+  if (region !== 'en-AU' && region !== 'en-GB') {
+    return {
+      notFound: true,
+    }
+  }
+
   try {
     const queries = new Queries('dentalPhones', region)
-    const slug =
-      region === 'en'
-        ? 'case-studies'
-        : `case-studies-${region.toLowerCase()}`
+    // Convert region to slug format (en-AU -> en-au, en-GB -> en-gb)
+    const regionSlug = region.toLowerCase()
+    const slug = `case-studies-${regionSlug}`
     const pageData = await queries.getPageData('dentalPhones', slug)
 
     if(!pageData){

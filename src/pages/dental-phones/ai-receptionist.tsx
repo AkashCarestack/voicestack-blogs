@@ -90,7 +90,7 @@ export default function AiReceptionist({
       <SimpleHead data={pageData?.seo} />
 
       {pageData['dental-phones-hero']?.componentData && (
-        <FeatureHero data={pageData['dental-phones-hero']} type="feature" hideBg={region === 'en-AU' ? true : false} isVertical={region === 'en-AU' ? true : false} isCentered={region === 'en-AU' ? true : false} />
+        <FeatureHero data={pageData['dental-phones-hero']} type="feature" hideBg={region === 'en-AU' || region === 'en-GB' ? true : false} isVertical={region === 'en-AU' || region === 'en-GB' ? true : false} isCentered={region === 'en-AU' || region === 'en-GB' ? true : false} />
       )}
 
       {pageData['list-items'] && (
@@ -165,16 +165,17 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
     
-    // dental-phones pages only support 'en-AU' locale
-    if (region !== 'en-AU') {
+    // dental-phones pages support 'en-AU' and 'en-GB' locales
+    if (region !== 'en-AU' && region !== 'en-GB') {
       return {
         notFound: true,
       }
     }
     
     const queries = new Queries('ai-receptionist', region)
-    // Hardcode slug to 'en-au' format for dental-phones
-    const slug = 'ai-receptionist-en-au'
+    // Convert region to slug format (en-AU -> en-au, en-GB -> en-gb)
+    const regionSlug = region.toLowerCase()
+    const slug = `ai-receptionist-${regionSlug}`
     const pageData = await queries.getPageData('dentalPhones', slug)
     const client = getClient()
 

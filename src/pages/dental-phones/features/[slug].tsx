@@ -29,7 +29,6 @@ export default function FeaturePage({
   region,
   slug,
 }: FeaturePageProps) {
-console.log(pageData, 'pageData')
   return (
     <>
       <SimpleHead
@@ -138,6 +137,13 @@ export const getStaticPaths: GetStaticPaths = async ({
 export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const region = locale || 'en'
   const slug = params?.slug as string
+
+  // dental-phones pages support 'en-AU' and 'en-GB' locales
+  if (region !== 'en-AU' && region !== 'en-GB') {
+    return {
+      notFound: true,
+    }
+  }
 
   // console.log(slug, 'slug', params, 'params', locale, 'locale')
 
