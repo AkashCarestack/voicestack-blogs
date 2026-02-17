@@ -10,13 +10,15 @@ import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
+import { formatPhoneNumberWithCountryCode } from '~/components/utils/helper'
 import { useLayoutData } from '~/providers/LayoutDataProvider'
 import FeatureHero from '~/v2/sections/FeatureHero'
+import { useRouter } from 'next/router'
 
 
 export default function ContactPage({ pageData }) {
   const { contactData } = useLayoutData()
-  
+  const router = useRouter()
   // Get base hero data
   const baseHeroData = pageData['contact-hero']?.componentData || null
   
@@ -37,10 +39,11 @@ export default function ContactPage({ pageData }) {
   }
   
   if (contactPhone) {
+    const formattedPhone = formatPhoneNumberWithCountryCode(contactPhone, router.locale)
     contactButtons.push({
       _key: 'contact-phone-btn',
       buttonText: contactPhone,
-      buttonLink: `tel:${contactPhone.replace(/\D/g, '')}`,
+      buttonLink: `tel:${formattedPhone}`,
       buttonType: 'secondaryTel',
     })
   }
