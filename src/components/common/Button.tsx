@@ -229,7 +229,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     if (variant === 'tel') {
       // Format phone number with country code and dashes
       const formattedNumber = formatPhoneNumberWithCountryCode(linkValue, locale)
-      return `tel://${formattedNumber}`
+      return `tel:${formattedNumber}`
     }
     
     if (variant === 'mail') {
