@@ -13,6 +13,7 @@ import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import SimpleHead from '~/components/common/SimpleHead'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 
 interface Feature {
   _id: string
@@ -84,6 +85,18 @@ export default function FeaturesPage({
       {data['feature-testimonials-section-single']?.componentData && (
         <FeatureTestimonialsSection
           data={data['feature-testimonials-section-single']?.componentData}
+        />
+      )}
+       {data['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            data['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={data['stack-card-tab-testimonial']?.componentData}
         />
       )}
       {faq && <FaqSection faqItems={faq} />}
