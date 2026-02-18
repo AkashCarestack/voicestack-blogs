@@ -9,7 +9,7 @@ import type { AppProps } from 'next/app'
 import { Inter, Manrope } from 'next/font/google'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
-import { lazy, useEffect } from 'react'
+import { lazy, useEffect, useState } from 'react'
 
 import { cookieSelector } from '~/helpers/cookieSelector'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
@@ -75,6 +75,19 @@ function App({
   // Check if current page is studio page
   const isStudioPage = router.pathname.startsWith('/studio') || router.pathname.startsWith('/legal');
   
+  // Only load GTM on voicestack.com production domain
+  const [isVoicestackDomain, setIsVoicestackDomain] = useState(false);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const domain = window.location.origin;
+      setIsVoicestackDomain(domain === 'https://voicestack.com' || domain === 'https://www.voicestack.com');
+    }
+  }, []);
+  
+  useEffect(() => { 
+   console.log('isVoicestackDomain', isVoicestackDomain, window.location.origin);
+  }, [isVoicestackDomain]);
+
   // Global UTM parameter capture - runs on every page load
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -131,16 +144,18 @@ function App({
           `}
         </Script>
 
-        {/* Google Tag Manager */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
-          {`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-KCX7H59S');
-          `}
-        </Script>
+        {/* Google Tag Manager - only on voicestack.com */}
+        {isVoicestackDomain && (
+          <Script id="google-tag-manager" strategy="afterInteractive">
+            {`
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-KCX7H59S');
+            `}
+          </Script>
+        )}
 
         {/* Start cookieyes banner */}
         {countryCode && countryCode == "2" && (
@@ -210,10 +225,11 @@ function App({
           />
         </noscript>
 
-        {/* <!--[BEGIN Google Tag Manager (noscript)]--> */}
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KCX7H59S" height="0" width="0"
-          style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
-        {/* <!--[END Google Tag Manager (noscript)]--> */}
+        {/* Google Tag Manager (noscript) - only on voicestack.com */}
+        {isVoicestackDomain && (
+          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KCX7H59S" height="0" width="0"
+            style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
+        )}
       
         {isStudioPage ? (
           // Render studio page without layout
