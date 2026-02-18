@@ -149,7 +149,7 @@ export default function DentalPhonesIntegrations({
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
-          theme="dark"
+          theme="dark" demoOnly={true}
         />
       )}
       {integrationData && (
@@ -159,6 +159,18 @@ export default function DentalPhonesIntegrations({
             integrations={integrationData.integrations}
           />
         </div>
+      )}
+       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
       )}
          {faq && <FaqSection faqItems={faq} />}
     </>
