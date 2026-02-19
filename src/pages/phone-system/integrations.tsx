@@ -216,6 +216,14 @@ export default function DentalPhonesIntegrations({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
+    
+    // phone-system pages don't support 'en-AU' locale
+    if (region === 'en-AU') {
+      return {
+        notFound: true,
+      }
+    }
+    
     const queries = new Queries('integrations-v2', region)
     const slug =
       region === 'en'

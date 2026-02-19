@@ -9,6 +9,7 @@ import PartnerPageTestimonial from '~/components/revamp/components/common/Partne
 import ReviewTestimonial from '~/components/revamp/components/common/ReviewTestimonial/ReviewTestimonial'
 import Queries from '~/components/revamp/queries'
 import VoicestackLogo from 'public/assets/lp/voicestack-empoweremr.png'
+import FeatureHero from '~/v2/sections/FeatureHero'
 
 interface EmpowerEMRProps {
   pageData: any
@@ -19,18 +20,22 @@ export default function EmpowerEMR({ pageData, faq }: EmpowerEMRProps) {
  
   return (
     <>
-      <LpHeader/>
+      <LpHeader logoText="VoiceStack + Empower Emr"/>
       <SimpleHead data={pageData?.seo} noindex={true} />
-      <HeroWrapper>
+      {pageData['empower-emr-hero']?.componentData && ( 
+        <FeatureHero data={pageData['empower-emr-hero']?.componentData} type="partner" />
+      )}
+      {/* <HeroWrapper> */}
         {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
 
-        {pageData['empower-emr-hero']?.componentData && ( 
+        {/* {pageData['empower-emr-hero']?.componentData && ( 
           <HeroSection
             page=""
             data={pageData['empower-emr-hero']?.componentData}
           />
-        )}
-      </HeroWrapper>
+        )} */}
+
+      {/* </HeroWrapper> */}
 
       {/* {pageData['empower-emr-testimonials']?.componentData && (
         <PartnerPageTestimonial data={pageData['empower-emr-testimonials']?.componentData} />

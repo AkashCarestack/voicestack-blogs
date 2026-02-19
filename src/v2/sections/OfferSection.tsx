@@ -53,8 +53,8 @@ const OfferSection = ({ data, variant = 'default', spacingY=false }: OfferSectio
 
               </div>
             </div>
-            <div className="flex-1 self-end h-full">
-              <Image src={data.cardImage.url} alt='World Map' className="h-full w-full object-cover object-right"
+            <div className="flex-1 self-end">
+              <Image src={data.cardImage.url} alt={data.cardImage.altText} className="h-full w-full object-cover object-right"
                 width={727}
                 height={727}
               />

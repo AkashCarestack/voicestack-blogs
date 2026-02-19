@@ -10,9 +10,10 @@ import { useRouter } from 'next/router'
 
 interface StatisticsSectionProps {
   bgColor?: string
+  slug?: string
 }
 
-const StatisticsSection = ({ bgColor }: StatisticsSectionProps = {}) => {
+const StatisticsSection = ({ bgColor, slug }: StatisticsSectionProps = {}) => {
   const statistics = [
     {
       heading: "Used in",
@@ -52,8 +53,8 @@ const StatisticsSection = ({ bgColor }: StatisticsSectionProps = {}) => {
                 />
               ) : (
                 <SectionHeaderV2 isLeftAlign={true} className=''
-                  heading={"The Most Advanced AI Phone System for Dental Practices Globally."}
-                  description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused practices across the US, UK, and AU. From single offices to practices with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
+                  heading={"The Most Advanced AI Phone System for Dentists Globally."}
+                  description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused dental practices across the US, UK, and Australia!. From single practices to DSOs with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
                 />
               )}     
               {/* <SectionHeaderV2 isLeftAlign={true} className=''

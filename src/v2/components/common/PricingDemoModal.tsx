@@ -1,44 +1,29 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
-import { CloseIcon } from '@sanity/icons'
 import PricingHubspotForm from './PricingHubspotForm'
 import PricingHubspotMeeting from './PricingHubspotMeeting'
 import pricingDemoTrackingNames from '~/v2/data/pricingDemoTrackingNames.json'
-import { Cross, X } from 'lucide-react'
+import { X } from 'lucide-react'
+import { useDemoFormData } from '~/providers/BookDemoProvider'
 
 export interface PricingDemoModalProps {
   className?: string
   onClose?: () => void
-  formData?: {
-    pricingDemoForms?: Array<{
-      practiceType?: string
-      demoFormId?: string
-      demoMeetingLink?: string
-    }>
-  }
-  region?: string
-  initialPracticeType?: string
+  initialPracticeType: string
 }
-
-// Hardcoded practice types matching the Sanity schema
-const PRACTICE_TYPES = ['Dental', 'Optometry', 'Physical Therapy', 'Veterinary']
 
 const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
   className,
   onClose,
-  formData,
-  region = 'en',
   initialPracticeType,
 }) => {
   const router = useRouter()
-  const [selectedPracticeType, setSelectedPracticeType] = React.useState<string | null>(
-    initialPracticeType || null
-  )
+  const { formData, region } = useDemoFormData()
 
   // Find the matching form data based on selected practice type
-  const activeFormData = selectedPracticeType
-    ? formData?.pricingDemoForms?.find((form) => form.practiceType === selectedPracticeType)
-    : null
+  const activeFormData = formData?.pricingDemoForms?.find(
+    (form) => form.practiceType === initialPracticeType
+  )
 
   // Use activeFormData if found
   const formId = activeFormData?.demoFormId
@@ -49,13 +34,6 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
   const regionKey = region === 'en-GB' ? 'uk' : region === 'en-AU' ? 'au' : 'us'
   const eventName = pricingDemoTrackingNames[regionKey as keyof typeof pricingDemoTrackingNames] || pricingDemoTrackingNames.us
   const formDetails = practiceTypeSlug ? `${practiceTypeSlug}_${router.locale}` : undefined
-
-  const handlePracticeTypeSelect = (practiceType: string) => {
-    setSelectedPracticeType(practiceType)
-  }
-
-  // Show practice type selection if no practice type is selected
-  const showPracticeTypeSelection = !selectedPracticeType
 
   // Check if we have a meeting link (for wider modal)
   const hasMeetingLink = meetingLink && typeof meetingLink === 'string' && meetingLink.trim()
@@ -122,62 +100,41 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
                     </button>
                   </div>
 
-                  {showPracticeTypeSelection ? (
-                    <div className="mt-2 w-full">
-                      <p className="text-base font-medium text-gray-900 mb-4">
-                        Choose your practice type
-                      </p>
-                      
-                      <div className="flex flex-col gap-3">
-                        {PRACTICE_TYPES.map((practiceType) => (
-                          <button
-                            key={practiceType}
-                            type="button"
-                            onClick={() => handlePracticeTypeSelect(practiceType)}
-                            className="w-full px-4 py-3 bg-gray-100 hover:bg-vs-lemon-green rounded-lg transition-colors text-gray-950 font-medium text-center"
-                          >
-                            {practiceType}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="mt-2 w-full mb-8">
-                      {(() => {
-                        // Render meeting if meetingLink exists and is valid (prioritize meeting over form)
-                        if (meetingLink && typeof meetingLink === 'string' && meetingLink.trim()) {
-                          return (
-                            <div className="w-full min-h-[500px]">
-                              <PricingHubspotMeeting 
-                                meetingLink={meetingLink.trim()}
-                                eventName={eventName}
-                                formDetails={formDetails}
-                              />
-                            </div>
-                          )
-                        }
-                        // Render form if formId exists and is valid
-                        if (formId && typeof formId === 'string' && formId.trim()) {
-                          return (
-                            <div className="w-full">
-                              <PricingHubspotForm 
-                                id={formId.trim()} 
-                                eventName={eventName} 
-                                formDetails={formDetails}
-                                // meetingLink={meetingLink}
-                              />
-                            </div>
-                          )
-                        }
-                        // No form or meeting available
+                  <div className="mt-2 w-full mb-8">
+                    {(() => {
+                      // Render meeting if meetingLink exists and is valid (prioritize meeting over form)
+                      if (meetingLink && typeof meetingLink === 'string' && meetingLink.trim()) {
                         return (
-                          <div className="w-full text-center py-8">
-                            <p className="text-gray-500">No form or meeting link available for this practice type.</p>
+                          <div className="w-full min-h-[500px]">
+                            <PricingHubspotMeeting 
+                              meetingLink={meetingLink.trim()}
+                              eventName={eventName}
+                              formDetails={formDetails}
+                            />
                           </div>
                         )
-                      })()}
-                    </div>
-                  )}
+                      }
+                      // Render form if formId exists and is valid
+                      if (formId && typeof formId === 'string' && formId.trim()) {
+                        return (
+                          <div className="w-full">
+                            <PricingHubspotForm 
+                              id={formId.trim()} 
+                              eventName={eventName} 
+                              formDetails={formDetails}
+                              // meetingLink={meetingLink}
+                            />
+                          </div>
+                        )
+                      }
+                      // No form or meeting available
+                      return (
+                        <div className="w-full text-center py-8">
+                          <p className="text-gray-500">No form or meeting link available for this practice type.</p>
+                        </div>
+                      )
+                    })()}
+                  </div>
                 </div>
               </div>
             </div>

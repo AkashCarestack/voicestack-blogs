@@ -134,6 +134,12 @@ export default function DentalPhonesIndex({
         />
       )}
 
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
       {pageData['power-of-ai']?.componentData && (
         <GroupedCardsGridSection
           data={pageData['power-of-ai']?.componentData}
@@ -142,12 +148,6 @@ export default function DentalPhonesIndex({
         />
       )}
 
-      {pageData['integrations-listing']?.componentData && (
-        <IntegrationsShowcaseSection
-          data={pageData['integrations-listing']?.componentData}
-          theme="dark"
-        />
-      )}
 
       {comparisonTableData && (
         <SiteComparisonSection
@@ -168,6 +168,14 @@ export default function DentalPhonesIndex({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
+    
+    // phone-system pages don't support 'en-AU' locale
+    if (region === 'en-AU') {
+      return {
+        notFound: true,
+      }
+    }
+    
     const queries = new Queries('landing-v2', region)
     const slug =
       region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`

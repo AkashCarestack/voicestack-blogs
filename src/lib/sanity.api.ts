@@ -1,4 +1,6 @@
-export const useCdn = false
+// Use CDN in production to reduce API requests (CDN requests don't count against quota)
+// Disable CDN only for preview/draft mode or when fresh data is required
+export const useCdn = process.env.NODE_ENV === 'development' ? false : true
 
 /**
  * As this file is reused in several other files, try to keep it lean and small.

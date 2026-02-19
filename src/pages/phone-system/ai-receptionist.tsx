@@ -5,7 +5,7 @@ import SimpleHead from '~/components/common/SimpleHead'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
-import { getFeaturesList } from '~/lib/sanity.queries'
+import { getAllComparisonValues, getFeaturesList } from '~/lib/sanity.queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
@@ -72,7 +72,7 @@ export default function AiReceptionist({
   faq,
   features,
 }: AiReceptionistProps) {
-  // console.log("ppp",pageData)
+  console.log("ppp",pageData)
 
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
@@ -98,6 +98,24 @@ export default function AiReceptionist({
           data={pageData['list-items']?.componentData}
         />
       )}
+
+      {pageData['feature-testimonials-section-single']?.componentData && (() => {
+        const componentData = pageData['feature-testimonials-section-single']?.componentData
+        const transformedData = {
+          ...componentData,
+          items: componentData?.testimonial 
+            ? [{
+                _key: componentData.testimonial._id || 'single-testimonial',
+                testimonial: componentData.testimonial
+              }]
+            : componentData?.items || []
+        }
+        return (
+          <FeatureTestimonialsSection
+            data={transformedData}
+          />
+        )
+      })()}
 
       {pageData['receptionist-team']?.componentData && (
         <ReceptionistTeamSection
@@ -129,17 +147,13 @@ export default function AiReceptionist({
         />
       )}
 
-      {pageData['integrations-listing']?.componentData && (
+      {/* {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
           theme="dark"
         />
-      )}
-      {pageData['feature-testimonials-section-single']?.componentData && (
-        <FeatureTestimonialsSection
-          data={pageData['feature-testimonials-section-single']?.componentData}
-        />
-      )}
+      )} */}
+
 
 
       {faq && <FaqSection faqItems={faq} />}
@@ -150,6 +164,14 @@ export default function AiReceptionist({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
+    
+    // phone-system pages don't support 'en-AU' locale
+    if (region === 'en-AU') {
+      return {
+        notFound: true,
+      }
+    }
+    
     const queries = new Queries('ai-receptionist', region)
     const slug =
       region === 'en' ? 'ai-receptionist' : `ai-receptionist-${region.toLowerCase()}`
@@ -162,6 +184,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
 
+    const comparisonLegendData = (await getAllComparisonValues()) || []
     // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
@@ -172,6 +195,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData,
         region,
+        comparisonLegendData,
         faq: faqData,
         features: features || [],
       },

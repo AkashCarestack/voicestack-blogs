@@ -9,7 +9,7 @@ import type { AppProps } from 'next/app'
 import { Inter, Manrope } from 'next/font/google'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
-import { lazy } from 'react'
+import { lazy, useEffect } from 'react'
 
 import { cookieSelector } from '~/helpers/cookieSelector'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
@@ -21,7 +21,7 @@ import { createObservedUser, createSession, createUser, getUserData, TrackUserPr
 import { getSession } from '~/utils/tracker/session'
 import { getUser } from '~/utils/tracker/user'
 import { getClient } from '~/lib/sanity.client'
-import { getHeaderData, getFooterData, getALLSiteSettings, getContactData } from '~/lib/sanity.queries'
+import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData, getSchemaData, getFeaturesForLayout } from '~/lib/sanity.queries'
 import type { AppContext } from 'next/app'
 
 import Layout from '../components/Layout'
@@ -50,11 +50,15 @@ export interface SharedPageProps {
   draftMode: boolean
   token: string
   layoutData?: {
+    schemaData: unknown;
     headerData?: any
     footerData?: any
     siteSettings?: any
     contactData?: any
+    featuresData?: any[]
   }
+  demoFormData?: any
+  region?: string
 }
 
 const PreviewProvider = lazy(() => import('~/components/PreviewProvider'));
@@ -65,11 +69,28 @@ function App({
   Component,
   pageProps,
 }: AppProps<SharedPageProps>) {
-  const { draftMode, token, layoutData } = pageProps
+  const { draftMode, token, layoutData, demoFormData, region } = pageProps
   const router = useRouter();
   
   // Check if current page is studio page
   const isStudioPage = router.pathname.startsWith('/studio') || router.pathname.startsWith('/legal');
+  
+  // Global UTM parameter capture - runs on every page load
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const currentParams = new URLSearchParams(window.location.search);
+      const utmKeys = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'lead_source'];
+      
+      // Store UTM params in sessionStorage when present in URL
+      // Always update if new UTM params are in the URL (allows updating with new campaign)
+      utmKeys.forEach(key => {
+        const value = currentParams.get(key);
+        if (value) {
+          sessionStorage.setItem(key, value);
+        }
+      });
+    }
+  }, [router.asPath]); // Run on every route change
   
   return (
     <main className={`${inter.variable} ${manrope.variable} font-geist ${GeistSans.variable}`}>
@@ -88,8 +109,10 @@ function App({
 
         {/* Start of HubSpot Embed Code */}
         <Script type="text/javascript" 
-          id="hs-script-loader" async defer 
-          src="//js.hs-scripts.com/4832409.js?businessUnitId=2351862"
+           id="hs-script-loader" 
+           async 
+           defer 
+           src="//js.hs-scripts.com/4832409.js?businessUnitId=2351862"
           strategy='lazyOnload'
           >
         </Script>
@@ -198,12 +221,14 @@ function App({
         ) : (
           // Render regular pages with layout
           <PricingModalProvider>
-            <BookDemoContextProvider>
+            <BookDemoContextProvider initialFormData={demoFormData} region={region || 'en'}>
               <LayoutDataProvider
                 initialHeaderData={layoutData?.headerData}
                 initialFooterData={layoutData?.footerData}
                 initialSiteSettings={layoutData?.siteSettings}
                 initialContactData={layoutData?.contactData}
+                initialSchemaData={layoutData?.schemaData}
+                initialFeaturesData={layoutData?.featuresData}
               >
                 {/* <GlobalHead /> */}
                 <Layout>
@@ -237,11 +262,14 @@ App.getInitialProps = async (appContext: AppContext) => {
   
   try {
     const client = getClient();
-    const [headerData, footerData, siteSettings, contactData] = await Promise.all([
+    const [headerData, footerData, siteSettings, contactData, formData, schemaData, featuresData] = await Promise.all([
       getHeaderData(client, locale),
       getFooterData(client, locale),
       client.fetch(getALLSiteSettings(locale)),
-      getContactData(client, locale)
+      getContactData(client, locale),
+      getDemoFormData(client, locale),
+      getSchemaData(client, locale),
+      getFeaturesForLayout(client, locale)
     ]);
 
     return {
@@ -252,7 +280,11 @@ App.getInitialProps = async (appContext: AppContext) => {
           footerData,
           siteSettings,
           contactData,
+          schemaData,
+          featuresData,
         },
+        demoFormData: formData || null,
+        region: locale,
       },
     };
   } catch (error) {
@@ -266,7 +298,10 @@ App.getInitialProps = async (appContext: AppContext) => {
           footerData: null,
           siteSettings: null,
           contactData: null,
+          featuresData: null,
         },
+        demoFormData: null,
+        region: locale,
       },
     };
   }

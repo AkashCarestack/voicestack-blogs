@@ -1,26 +1,14 @@
 import { GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
-import { getClient } from '~/lib/sanity.client'
+import { useEffect } from 'react'
 import { readToken } from '~/lib/sanity.api'
-import type { SanityClient } from 'next-sanity'
-import { getDemoFormData } from '~/lib/sanity.queries'
 import HubSpotForm from '~/v2/components/common/HubspotForm'
 import Head from 'next/head'
 import HubSpotMeeting from '~/v2/components/common/HubspotMeeting'
 import demoTrackingNames from '~/v2/data/demoTrackingNames.json'
+import { useDemoFormData } from '~/providers/BookDemoProvider'
 
 interface DemoPageProps {
-  formData: {
-    demoFormId?: string
-    demoMeetingLink?: string
-    dmeoFormEventName?: string
-    demoForms?: Array<{
-      practiceType?: string
-      demoFormId?: string
-      demoMeetingLink?: string
-    }>
-  }
-  region: string
   draftMode: boolean
   token: string
 }
@@ -29,15 +17,8 @@ export const getStaticProps: GetStaticProps<any> = async ({
   locale,
   draftMode = false,
 }) => {
-  const region = locale || 'en'
-
-  const client = getClient(draftMode ? { token: readToken } : undefined) as SanityClient
-  const formData = await getDemoFormData(client, region)
-
   return {
     props: {
-      formData: formData || {},
-      region,
       draftMode,
       token: draftMode ? readToken : '',
     },
@@ -45,19 +26,56 @@ export const getStaticProps: GetStaticProps<any> = async ({
 }
 
 
-export default function DemoPage({ formData, region }: DemoPageProps) {
+export default function DemoPage({}: DemoPageProps) {
   const router = useRouter()
+  const { formData, region } = useDemoFormData()
   
-  // Get practiceType from query params, default to "Dental"
+  // For en-AU, remove only practiceType query param from URL if present, preserve others
+  // This ensures practiceType is not shown in URL for AU (since only one is available)
+  useEffect(() => {
+    if (region === 'en-AU' && router.query.practiceType) {
+      const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
+      const basePath = `${localePrefix}/demo`
+      
+      // Get the current query string from the URL
+      const currentSearch = router.asPath.includes('?') 
+        ? router.asPath.split('?')[1].split('#')[0] 
+        : ''
+      
+      // Parse existing query params
+      const queryParams = new URLSearchParams(currentSearch)
+      
+      // Remove only practiceType
+      queryParams.delete('practiceType')
+      
+      // Build final URL with remaining query params
+      const queryString = queryParams.toString()
+      const finalUrl = queryString 
+        ? `${basePath}?${queryString}` 
+        : basePath
+      
+      router.replace(finalUrl, undefined, { shallow: true })
+    }
+  }, [region, router])
+  
+  // Work exactly like US version: read practiceType from query params, default to "Dental"
   const practiceType = (router.query.practiceType as string) || 'Dental'
-  
   // Find the matching form data based on practiceType
-  const activeFormData = formData?.demoForms?.find((form) => form.practiceType === practiceType)
+  let activeFormData = formData?.demoForms?.find((form) => form.practiceType === practiceType)
+  
+  // Fallback: if no match found, use first form or default
+  if (!activeFormData) {
+    activeFormData = formData?.demoForms?.[0] || (formData?.demoFormId ? {
+      demoFormId: formData.demoFormId,
+      demoMeetingLink: formData.demoMeetingLink,
+      practiceType: 'Dental'
+    } : null)
+  }
   
   // Use activeFormData if found, otherwise fall back to default formData
   const formId = activeFormData?.demoFormId
   const meetingLink = activeFormData?.demoMeetingLink
-  const practiceTypeSlug = activeFormData?.practiceType.toLowerCase().replace(' ', '_')
+  const practiceTypeSlug = activeFormData?.practiceType?.toLowerCase().replace(' ', '_')
   
   // Map region to tracking name key
   const regionKey = region === 'en-GB' ? 'uk' : region === 'en-AU' ? 'au' : 'us'

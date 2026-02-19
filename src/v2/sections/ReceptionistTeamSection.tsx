@@ -45,8 +45,8 @@ const PrevArrow = ({ onClick, currentSlide }: any) => {
         <button
             onClick={onClick}
             disabled={isDisabled}
-            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white rounded-full border border-gray-200 flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-[-35px] xl:left-[-78px] z-10
-        ${isDisabled ? ' cursor-not-allowed opacity-50' : ' bg-white hover:bg-gray-100 transition-colors opacity-100'}`}
+            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white  border border-gray-200 flex items-center justify-center absolute md:top-1/2 top-[55%] -translate-y-1/2 md:left-[-30px] left-0 xl:left-[-25px] z-10
+        ${isDisabled ? ' cursor-not-allowed' : ' bg-white hover:bg-gray-100 transition-colors'}`}
             aria-label="Previous"
         >
             <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -64,8 +64,8 @@ const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
         <button
             onClick={onClick}
             disabled={isDisabled}
-            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white rounded-full flex items-center justify-center absolute top-1/2 -translate-y-1/2 right-[-35px] xl:right-[-78px] z-10 border border-gray-200
-        ${isDisabled ? ' cursor-not-allowed opacity-50 ' : 'bg-white hover:bg-gray-100 transition-colors opacity-100'}`}
+            className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white flex items-center justify-center absolute md:top-1/2 top-[55%] -translate-y-1/2 md:right-[-35px] right-0 xl:right-[-30px] z-10 border border-gray-200
+        ${isDisabled ? ' cursor-not-allowed ' : 'bg-white hover:bg-gray-100 transition-colors'}`}
             aria-label="Next"
         >
             <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -108,7 +108,7 @@ const portableTextComponents: Partial<PortableTextReactComponents> = {
 export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectionProps) {
     if (!data) return null
 
-    // Support both direct items and groups from customListingItems
+
     const displayItems: any[] = []
 
     if (data.items) {
@@ -145,11 +145,15 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
     // Slider settings for 3 items with arrows and no dots
     const settings = {
         dots: false,
-        infinite: displayItems.length > 3,
+        infinite: true,
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
+        autoplaySpeed: 2000,
+        autoplay: true,
+        pauseOnHover: false,
         arrows: true,
+        cssEase: "linear",
         nextArrow: <NextArrow />,
         prevArrow: <PrevArrow />,
         responsive: [
@@ -182,7 +186,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
 
     return (
         <Section className="bg-white" border="none">
-            <Container type="V2" className="py-16 md:py-24 relative px-12 md:px-0">
+            <Container type="V2" className=" md:py-[66px] relative  md:px-0" border="t-0" >
                 <SectionHeaderV2
                     heading={sectionHeading}
                     description={data.description || ''}
@@ -191,7 +195,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                     className="mb-16 md:px-12"
                 />
 
-                <div className="receptionist-slider-wrapper">
+                <div className="receptionist-slider-wrapper ">
                     <Slider {...settings}>
                         {displayItems.map((item: any, index: number) => {
                             // Fix: Check for .url property first, as Sanity images might be already dereferenced in the query
@@ -206,10 +210,10 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                             const cardHeader = item.boldHeader || item.subTitle || item.description
 
                             return (
-                                <div key={item._key || index} className="px-4 h-full outline-none">
-                                    <div className="flex flex-col group h-full">
+                                <div key={item._key || index} className="h-full outline-none group">
+                                    <div className="flex flex-col group h-full  border border-r-0 border-gray-200 slick-item-inner">
                                         {/* Image Container */}
-                                        <div className="relative aspect-[4/5] rounded-[32px] overflow-hidden mb-8 bg-[#FDF7F2]">
+                                        <div className="relative  overflow-hidden mb-8   md:p-[10px]">
                                             {/* Background Name */}
                                             {name && (
                                                 <div className="absolute inset-0 flex items-start justify-center pt-12 pointer-events-none opacity-[0.08]">
@@ -223,28 +227,29 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
                                                 <Image
                                                     src={imageUrl}
                                                     alt={name || 'AI Receptionist'}
-                                                    fill
-                                                    className="object-cover object-center z-10"
+                                                    width={500}
+                                                    height={500}
+                                                    className="object-cover object-center z-10 w-full h-full md:rounded-[12px]"
                                                 />
                                             )}
 
                                             {/* Badge */}
                                             {badge && (
                                                 <div
-                                                    className="absolute bottom-0 left-1/2 -translate-x-1/2 z-20 bg-white flex items-center justify-center gap-1 shadow-sm whitespace-nowrap"
+                                                    className="absolute group-hover:translate-y-[-40px] transition-all duration-300 bottom-0 left-1/2 -translate-x-1/2 z-20 bg-white flex items-center justify-center gap-1 shadow-sm whitespace-nowrap"
                                                     style={{
-                                                        padding: '10px 32px 2px 32px',
-                                                        borderRadius: '20px 20px 0 0',
+                                                        padding: '10px 32px 10px 32px',
+                                                        borderRadius: '20px 20px 20px 20px',
                                                     }}
                                                 >
 
-                                                    <span className="text-xs font-semibold text-gray-900 uppercase tracking-wider">{badge}</span>
+                                                    <span className=" text-xs font-semibold text-gray-900 uppercase tracking-wider">{badge}</span>
                                                 </div>
                                             )}
                                         </div>
 
                                         {/* Content */}
-                                        <div className="px-2 pb-8">
+                                        <div className="md:px-12 md:py-6 p-6">
                                             {cardHeader && (
                                                 <h3
                                                     className="text-xl font-geist font-medium leading-7 tracking-normal text-gray-950 mb-6 [&>span]:text-vs-purple [&>strong]:text-vs-purple [&>strong]:font-semibold"
@@ -277,11 +282,14 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
         }
         .receptionist-slider-wrapper .slick-list {
           overflow: hidden;
-          margin: 0 -16px;
+          margin: 0;
         }
         .receptionist-slider-wrapper .slick-slider {
           position: relative;
         }
+          .slick-track > .slick-slide.slick-active:nth-child(3n + 1) .slick-item-inner {
+           border-left: none !important;
+        } 
       `}</style>
         </Section>
     )

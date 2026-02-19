@@ -32,9 +32,10 @@ export default function StartupPractices({
 
   return (
     <>
+      {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {pageData['startup-practices-hero']?.componentData && (
-        <FeatureHero data={pageData['startup-practices-hero']} type="feature" />
+        <FeatureHero data={pageData['startup-practices-hero'].componentData} type="feature" />
       )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
@@ -43,16 +44,17 @@ export default function StartupPractices({
       )}
 
       <CategoryFeatureTabsSection
-        features={
-          pageData['grow-your-practice']?.componentData?.refData
-            ?.tabsListingComponent
-        }
-        variant="carouselwithcards"
-        sectionHeading={
-          pageData['grow-your-practice']?.componentData?.refData
-            ?.tabsListingComponent
-        }
-      />
+      columnCount={4}
+      features={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+      variant="carouselwithcards"
+      sectionHeading={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+    />
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
           <VerticalTestimonialListingv2

@@ -14,6 +14,7 @@ import { urlForImage } from '~/lib/sanity.image';
 import ImageLoader from '~/components/common/imageLoader/imageLoader';
 import ListingBlock from '~/components/blockEditor/ListingBlock';
 import { useStickyTop } from '~/hooks/useStickyTop';
+import Image from 'next/image';
 
 
 interface Feature {
@@ -86,12 +87,14 @@ export default function ContentVideoTabsSection({
   containerClassName,
 }: ContentVideoTabsProps) {
   const activeTabRef = useRef<string>('');
+  const previousActiveTabRef = useRef<string>('');
   const [activeTab, setActiveTab] = useState<string>('');
   const [isScrolling, setIsScrolling] = useState(false);
+  const [tabActivationCount, setTabActivationCount] = useState<{ [key: string]: number }>({});
   const sectionRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const stickyTabsRef = useRef<HTMLDivElement | null>(null);
-  const stickyTop = useStickyTop({ desktop: 60, tablet: 30 });
+  const stickyTopHeader = useStickyTop();
 
   // Helper function to check if video has valid data
   const hasValidVideo = (video: any): boolean => {
@@ -220,8 +223,22 @@ export default function ContentVideoTabsSection({
       const firstTab = tabs[0].key;
       setActiveTab(firstTab);
       activeTabRef.current = firstTab;
+      previousActiveTabRef.current = firstTab;
+      // Initialize activation count for first tab
+      setTabActivationCount({ [firstTab]: 1 });
     }
   }, [tabs, activeTab]);
+
+  // Increment activation count when tab becomes active (to restart video)
+  useEffect(() => {
+    if (activeTab && previousActiveTabRef.current !== activeTab) {
+      setTabActivationCount(prev => ({
+        ...prev,
+        [activeTab]: (prev[activeTab] || 0) + 1
+      }));
+      previousActiveTabRef.current = activeTab;
+    }
+  }, [activeTab]);
 
   // Smooth scroll to section
   const scrollToSection = useCallback((tabKey: string) => {
@@ -291,8 +308,10 @@ export default function ContentVideoTabsSection({
 
     const observerOptions = {
       root: null,
-      rootMargin: '-80px 0px -50% 0px',
-      threshold: [0.1, 0.3, 0.6, 0.7],
+      // rootMargin: '-80px 0px -50% 0px',
+      // threshold: [0.1, 0.3, 0.6, 0.7],
+      rootMargin: '-80px 0px -30% 0px',
+      threshold: [0.3],
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -340,8 +359,6 @@ export default function ContentVideoTabsSection({
   if (!tabs || tabs.length === 0) {
     return null;
   }
-
-  const currentTabData = (tabs.find(tab => tab.key === activeTab) || tabs[0]) as TabItem;
 
   // Get overview video from data.overviewVideo - handles all video types
   const getOverviewVideo = () => {
@@ -531,18 +548,17 @@ export default function ContentVideoTabsSection({
     },
   };
 
-  console.log(data);
   return (
     <Section className={cn("w-full flex flex-col !bg-white", containerClassName)}>
       <Container className='w-full py-sm md:py-md lg:py-lg' type="V2" border="y-0">
-        <div className="flex-col relative w-full flex gap-16">
+        <div className="flex-col relative w-full flex gap-8">
           <SectionHeaderV2
             heading={data?.sectionHeadingDynamic}
             description={data?.description || data?.subDescription}
             className='xl:px-12 md:px-6 px-4'
           />
           {overviewVideo && (
-            <div className="w-full mb-8 overflow-hidden bg-gray-100 h-[300px] md:h-[600px]">
+            <div className="w-full mb-8 overflow-hidden h-[300px] md:h-[600px]">
               <div className="relative w-full h-full">
                 <VideoPlayers
                   video={overviewVideo}
@@ -556,33 +572,36 @@ export default function ContentVideoTabsSection({
             ref={stickyTabsRef}
             data-sticky-tabs
             // className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
-            className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0"
+            className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
+            style={{
+              background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
+            }}
 
-          >
-            <SwitchableTabs
-              data={tabs.map(tab => ({
-                id: tab.key,
-                key: tab.key,
-                title: tab.title,
-                testimonial: null,
-                setActiveTab: handleTabClick,
-              })) as IdataProps[]}
-              setActiveTab={handleTabClick}
-              activeTab={activeTab}
-              isSticky={false}
-              className="md:py-2 bg-transparent !shadow-none !border-none"
-              isShowImage={false}
-              shadow={false}
-              isSkip={true}
-            />
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 lg:px-12 px-4 ">
+        >
+          <SwitchableTabs
+            data={tabs.map(tab => ({
+              id: tab.key,
+              key: tab.key,
+              title: tab?.category,
+              testimonial: null,
+              setActiveTab: handleTabClick,
+            })) as IdataProps[]}
+            setActiveTab={handleTabClick}
+            activeTab={activeTab}
+            isSticky={false}
+            className="md:py-2 bg-transparent !shadow-none !border-none"
+            isShowImage={false}
+            shadow={false}
+            isSkip={true}
+          />
+        </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 lg:px-12 px-4 ">
             {/* Left: Scrollable Content Sections */}
             <div className="w-full lg:max-w-[503px]">
               {tabs?.map((tab, i) => (
                 <section
                   key={tab.key}
-                  className={`lg:min-h-screen min-h-auto md:pt-[160px] py-8`}
+                  className={`lg:min-h-[80vh] min-h-auto md:pt-[120px] py-4`}
                 >
                   <div
                     ref={(el) => {
@@ -594,7 +613,7 @@ export default function ContentVideoTabsSection({
                     <div className="flex flex-col justify-center">
                       {tab.subHeading ? (
                         <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
-                          {tab.subHeading}
+                         {tab.heading} 
                         </span>
                       ) : (
                         <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
@@ -602,7 +621,7 @@ export default function ContentVideoTabsSection({
                         </span>
                       )}
                       <h3 className="my-3 text-gray-900 md:text-4xl  text-2xl font-manrope font-semibold leading-[133.33%] tracking-normal">
-                        {tab.heading}
+                      {tab.subHeading}
                       </h3>
                       {tab.description && Array.isArray(tab.description) && tab.description.length > 0 ? (
                         <div className="text-gray-500 md:text-lg text-base font-geist font-normal leading-[155.55%] tracking-normal">
@@ -715,33 +734,33 @@ export default function ContentVideoTabsSection({
                             <span className="text-sm font-medium">{tab.ctaText}</span>
                           </Button>
                         </div>
-                      ) : null}
+                      ) : (
+                        <div className="flex justify-start md:mt-12 mt-6">
+                          <Button type="primary" link="/demo">
+                            <span className="text-sm font-medium">Book Free Demo</span>
+                          </Button>
+                        </div>
+                      )}
                     </div>
 
                     {/* Mobile: Image/Video below each content section */}
                     <div className="lg:hidden w-full mt-8">
-                      <div className="w-full h-full lg:h-[400px] rounded-2xl overflow-hidden bg-gray-100">
+                      <div className="w-full h-full lg:h-[400px] rounded-2xl overflow-hidden relative">
                         {tab.video ? (
                           <div className="w-full h-full">
-                            {(() => {
-                              console.log('Mobile VideoPlayer - tab:', {
-                                tabKey: tab.key,
-                                video: tab.video,
-                                thumbnail: tab.thumbnail,
-                              });
-                              return null;
-                            })()}
                             <VideoPlayers
+                              key={`mobile-video-${tab.key}`}
                               video={tab.video}
                               thumbnail={tab.thumbnail}
                             />
                           </div>
                         ) : tab.thumbnail ? (
                           <div className="w-full h-full relative">
-                            <img
+                            <Image
                               src={tab.thumbnail as string}
                               alt={tab.heading}
-                              className="w-full h-full object-cover rounded-2xl"
+                              fill
+                              className="object-cover rounded-2xl"
                             />
                           </div>
                         ) : (
@@ -765,35 +784,38 @@ export default function ContentVideoTabsSection({
                 transform: 'translateZ(0)',
               }}
             >
-              <div className="w-full h-[644px] md:rounded-2xl rounded-none overflow-hidden bg-gray-100">
-                {currentTabData.video ? (
-                  <div className="w-full h-full">
-                    {(() => {
-                      console.log('Desktop VideoPlayer - currentTabData:', {
-                        tabKey: currentTabData.key,
-                        video: currentTabData.video,
-                        thumbnail: currentTabData.thumbnail,
-                      });
-                      return null;
-                    })()}
-                    <VideoPlayers
-                      video={currentTabData.video}
-                      thumbnail={currentTabData.thumbnail}
-                    />
+              <div className="w-full h-[644px] md:rounded-2xl rounded-none overflow-hidden relative">
+                {tabs.map((tab) => (
+                  <div
+                    key={tab.key}
+                    className={cn(
+                      "absolute inset-0 w-full h-full",
+                      activeTab === tab.key ? "block" : "hidden"
+                    )}
+                  >
+                    {tab.video ? (
+                      <div className="w-full h-full">
+                        <VideoPlayers
+                          key={`video-${tab.key}-${tabActivationCount[tab.key] || 0}`}
+                          video={tab.video}
+                          thumbnail={tab.thumbnail}
+                        />
+                      </div>
+                    ) : tab.thumbnail ? (
+                      <div className="w-full h-full relative">
+                        <ImageLoader
+                          image={tab.thumbnail as string}
+                          alt={tab.heading}
+                          className="w-full h-full object-cover md:rounded-2xl rounded-none"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <p className="text-gray-400">No media available</p>
+                      </div>
+                    )}
                   </div>
-                ) : currentTabData.thumbnail ? (
-                  <div className="w-full h-full relative">
-                    <ImageLoader
-                      image={currentTabData.thumbnail as string}
-                      alt={currentTabData.heading}
-                      className="w-full h-full object-cover md:rounded-2xl rounded-none"
-                    />
-                  </div>
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <p className="text-gray-400">No media available</p>
-                  </div>
-                )}
+                ))}
               </div>
             </div>
           </div>

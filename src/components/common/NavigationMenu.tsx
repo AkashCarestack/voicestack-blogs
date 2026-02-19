@@ -50,6 +50,10 @@ const NavigationMenu = ({
       });
     }
 
+  // console.log({menuItems});
+  
+
+
     if (hasSubmenu) {
       // In mobile, add "Overview" link as first submenu item only if hasSubmenu AND href exists
       const shouldShowOverview = isMobile && link.href && link.hasSubmenu;

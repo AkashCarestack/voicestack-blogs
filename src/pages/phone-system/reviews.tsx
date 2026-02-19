@@ -54,6 +54,13 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const region = locale || 'en'
 
+  // phone-system pages don't support 'en-AU' locale
+  if (region === 'en-AU') {
+    return {
+      notFound: true,
+    }
+  }
+
   try {
     const queries = new Queries('dentalPhones', region)
 

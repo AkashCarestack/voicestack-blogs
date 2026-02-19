@@ -125,6 +125,14 @@ export default function Phones({ pageData, region, faq }: PhonesProps) {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
+    
+    // phone-system pages don't support 'en-AU' locale
+    if (region === 'en-AU') {
+      return {
+        notFound: true,
+      }
+    }
+    
     const queries = new Queries('phones', region)
     const slug = region === 'en' ? 'phones' : `phones-${region.toLowerCase()}`
 

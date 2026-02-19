@@ -56,7 +56,11 @@ export default function PartnerSlugPage({
     <>
       <SimpleHead data={pageData?.seo} />
 
-      <LpHeader logo={heroData?.heroImageSecondary?.url}/>
+      {/* <LpHeader logo={heroData?.heroImageSecondary?.url}/> */}
+      {heroData?.heroStrip && heroData?.heroStrip !== '' && (
+        <LpHeader logoText={heroData?.heroStrip?.toUpperCase()}/>
+      )}
+      {/* <LpHeader logoText={heroData?.heroStrip?.toUpperCase() || 'VoiceStack'}/> */}
 
       {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
 
@@ -157,7 +161,7 @@ export const getStaticPaths: GetStaticPaths = async ({
     return {
       paths,
 
-      fallback: 'blocking',
+      fallback: 'blocking', // Only serve pre-generated pages(if false). New pages will 404 until rebuild (webhook handles revalidation)
     }
   } catch (error) {
     console.error('Error fetching partner paths:', error)
@@ -165,7 +169,7 @@ export const getStaticPaths: GetStaticPaths = async ({
     return {
       paths: [],
 
-      fallback: 'blocking',
+      fallback: 'blocking', // Only serve pre-generated pages(if false). New pages will 404 until rebuild (webhook handles revalidation)
     }
   }
 }

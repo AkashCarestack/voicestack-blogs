@@ -11,6 +11,8 @@ import { usePricingModal } from './PricingModalContext'
 import ArrowIcon from '../revamp/icons/arrowIcon'
 import replaceUrl from '~/helpers/replaceUrl'
 import { PracticeTypeModal } from '~/v2/components/common/PracticeTypeModal'
+import { useDemoFormData } from '~/providers/BookDemoProvider'
+import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
 
 interface ButtonProps {
   type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
@@ -42,6 +44,9 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   // Get pricing modal context (may be undefined if provider is not available)
   const pricingModal = usePricingModal()
   const openPricingModal = pricingModal?.openPricingModal
+  
+  // Get demo form data from context
+  const { formData, region } = useDemoFormData()
   
   // State for practice type modal
   const [showPracticeTypeModal, setShowPracticeTypeModal] = useState(false)
@@ -100,6 +105,21 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     return buttonText.toLowerCase().includes('book free demo')
   }, [buttonText])
   
+  // Get available practice types from form data
+  const availablePracticeTypes = useMemo(() => {
+    if (!formData) return []
+    
+    // On pricing page, use pricingDemoForms; otherwise use demoForms
+    const forms = isPricingPage ? formData.pricingDemoForms : formData.demoForms
+    
+    if (!forms || !Array.isArray(forms)) return []
+    
+    // Extract practice types, filtering out null/undefined
+    return forms
+      .map((form) => form?.practiceType)
+      .filter((practiceType): practiceType is string => Boolean(practiceType))
+  }, [formData, isPricingPage])
+  
   // Handle click - if it's a "book free demo" button, show practice type modal
   // BUT on partner pages, allow anchor links to work (scroll to #demo)
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
@@ -114,9 +134,47 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       return
     }
     
-    // If it's a "book free demo" button, show modal instead of navigating
+    // If it's a "book free demo" button, check available practice types
     if (isBookFreeDemoButton) {
       e.preventDefault()
+      
+      // If only one practice type is available, skip modal and proceed directly
+      if (availablePracticeTypes.length === 1) {
+        const singlePracticeType = availablePracticeTypes[0]
+        
+        // On pricing page, call the pricing demo modal callback directly
+        if (isPricingPage) {
+          const pricingDemoCallback = getPricingDemoModalCallback()
+          if (pricingDemoCallback) {
+            pricingDemoCallback(singlePracticeType)
+            return
+          }
+        }
+        
+        // On other pages, navigate to demo page
+        // Work exactly like US version: add practiceType to URL for all regions
+        // The demo page will handle removing it from URL for AU if needed
+        const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
+        const basePath = `${localePrefix}/demo`
+        
+        // Get current query params from URL
+        const currentSearch = router.asPath.includes('?') 
+          ? router.asPath.split('?')[1].split('#')[0] 
+          : ''
+        const currentParams = new URLSearchParams(currentSearch)
+        
+        // Add practiceType param (for all regions, including AU)
+        currentParams.set('practiceType', singlePracticeType)
+        currentParams.delete('flag')
+        currentParams.delete('slug')
+        
+        const queryString = currentParams.toString()
+        const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
+        router.push(finalUrl)
+        return
+      }
+      
+      // If 2+ practice types, show modal as before
       setShowPracticeTypeModal(true)
       return
     }

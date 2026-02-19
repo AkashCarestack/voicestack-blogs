@@ -15,7 +15,7 @@ export type Region = {
   regionName: string;
 };
 
-// Helper function to remove slug from query string
+// Helper function to remove slug and practiceType from query string
 const removeSlugFromQuery = (queryString: string): string => {
   if (!queryString) {
     return '';
@@ -23,6 +23,7 @@ const removeSlugFromQuery = (queryString: string): string => {
   const queryParams = queryString.startsWith('?') ? queryString.substring(1) : queryString;
   const params = new URLSearchParams(queryParams);
   params.delete('slug');
+  params.delete('practiceType'); // Exclude practiceType from region switcher links
   return params.toString() ? `?${params.toString()}` : '';
 };
 

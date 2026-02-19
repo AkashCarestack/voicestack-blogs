@@ -318,7 +318,7 @@ const TestimonialSlider = ({
                               height="16"
                               viewBox="0 0 17 16"
                               fill="none"
-                              className="mr-2"
+                              className=""
                             >
                               <path
                                 d="M3.5 3.73c0-.27.07-.53.21-.76.13-.23.33-.42.57-.55.24-.13.5-.2.77-.19.27.01.53.09.77.23l6.7 4.27c.21.13.39.32.51.54.12.23.19.48.19.74 0 .26-.07.52-.19.74-.12.22-.3.41-.51.54l-6.7 4.27c-.23.15-.49.23-.76.24-.27.01-.53-.06-.77-.19-.24-.13-.44-.32-.57-.55-.14-.23-.21-.49-.21-.76V3.73Z"
@@ -476,7 +476,7 @@ const VerticalTestimonialListing = ({
             description={data?.description}
           />
           <div
-            className="lg:px-12 px-6 lg:pb-12 pb-6"
+            className="lg:px-12 px-6 lg:pb-12 pb-6 border-t border-gray-200"
             style={{
               backgroundImage: `repeating-linear-gradient(
                 -45deg,

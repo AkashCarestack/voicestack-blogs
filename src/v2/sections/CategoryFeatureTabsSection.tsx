@@ -59,9 +59,11 @@ interface CategoryFeatureTabsSectionProps {
   variant?: 'default' | 'carousel' | 'carouselwithcards' | 'scrollcarousel' | 'singlecard' | 'simplelisting';
   sectionBorder?: "b" | "t" | "y" | "none";
   isGridListing?: boolean;
+  columnCount?: number;
 }
 
 export default function CategoryFeatureTabsSection({
+  columnCount,
   features,
   sectionHeading,
   className,
@@ -72,16 +74,21 @@ export default function CategoryFeatureTabsSection({
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [isScrolling, setIsScrolling] = useState(false);
-  const stickyTop = useStickyTop({ desktop: 60, tablet: 50 });
+  const stickyTopHeader = useStickyTop();
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
   const isMobile = useMediaQuery(767);
+  const [activeValue, setActiveValue] = useState<any>();
 
-  // Get base path - always use /phone-system/features
+  // Get base path - use /dental-phones/features for en-AU, /phone-system/features for others
   const getBasePath = useCallback(() => {
+    const locale = router.locale || 'en';
+    if (locale === 'en-AU') {
+      return '/dental-phones/features';
+    }
     return '/phone-system/features';
-  }, []);
+  }, [router.locale]);
 
   // Helper function to localize text based on locale (US vs UK/AU spelling)
   const localizeText = useCallback((text: string): string => {
@@ -291,6 +298,7 @@ export default function CategoryFeatureTabsSection({
     [scrollToSection, variant]
   );
 
+
   // Intersection Observer to detect active section
   useEffect(() => {
     if (isScrolling || (variant !== 'default' && variant !== 'scrollcarousel')) return;
@@ -394,6 +402,8 @@ export default function CategoryFeatureTabsSection({
       </Section>
     );
   }
+
+  const isVisible = allCategories.some(category => category.name === activeCategory && category?.subheading)
 
   // Single Card Layout - Based on Figma design
   // Render if variant is 'singlecard'
@@ -667,8 +677,12 @@ export default function CategoryFeatureTabsSection({
             </div>
 
             {/* Switchable Tabs - Sticky */}
-            {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto px-4 md:px-12 mb-12`}> */}
-            <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0">
+            {/* ${stickyTopHeader} || 'top-[48px] md:top-[63px]' */}
+            <div className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
+              style={{
+                background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
+              }}
+            >
 
               <SwitchableTabs
                 data={allCategories.map(category => ({
@@ -692,7 +706,7 @@ export default function CategoryFeatureTabsSection({
               {/* Single container box that stays */}
               <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
                 {/* Left Column: Content and Pill Items */}
-                <div className="bg-white flex flex-col gap-6 items-start justify-start md:p-12 p-6 min-h-[500px] relative overflow-hidden border-r border-gray-200">
+                <div className="bg-white flex flex-col gap-6 items-start justify-start md:p-12 p-6 lg:min-h-[500px] relative overflow-hidden border-r border-gray-200">
                   {allCategories.map((category) => {
                     const pillItems = getPillItems(category);
                     const isActive = category.name === activeCategory;
@@ -788,6 +802,7 @@ export default function CategoryFeatureTabsSection({
                             className="rounded-lg object-contain w-full h-full"
                           />
                         </motion.div>
+                        
                       );
                     })}
                   </AnimatePresence>
@@ -832,7 +847,11 @@ export default function CategoryFeatureTabsSection({
             </div>
 
             {/* Switchable Tabs - Sticky */}
-            <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0">
+            <div className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
+              style={{
+                background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
+              }}
+            >
               <SwitchableTabs
                 data={allCategories.map(category => ({
                   id: category.name,
@@ -851,51 +870,54 @@ export default function CategoryFeatureTabsSection({
             </div>
 
             <div className="relative w-full">
-              <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
-                <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 min-h-[500px] relative overflow-hidden border-r border-gray-200">
-                  <AnimatePresence mode="wait">
-                    {allCategories.map((category) => {
-                      const isActive = category.name === activeCategory;
+              <div className={`grid  ${isVisible ? 'lg:grid-cols-2' : 'lg:grid-cols-1'}  grid-cols-1 w-full border border-x-0 border-b-0 border-gray-200 relative lg:h-[500px]`}>
+                {
+                  allCategories.some(category => category.name === activeCategory && category?.subheading) &&
+                  <div className="bg-white flex flex-col gap-6 items-start justify-end p-12 lg:min-h-[500px] relative overflow-hidden border-r border-gray-200">
+                    <AnimatePresence mode="wait">
+                      {allCategories.map((category) => {
+                        const isActive = category.name === activeCategory;
+                        const isVisible = isActive && category?.subheading
+                        if (!isActive) return null;
+                        return (
+                          <motion.div
+                            key={category.name}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                            className="flex flex-col gap-6 items-start w-full"
+                          >
+                            {isVisible && <div className="flex flex-col gap-[6px] items-start w-full">
+                              {/* Category Label */}
+                              {category.name && (
+                                <span className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                                  <span className="leading-6 whitespace-pre-wrap">{category.name}</span>
+                                </span>
+                              )}
+                              {/* Main Heading */}
+                              {category.subheading && (
+                                <h4 className="flex flex-col font-manrope font-semibold justify-center text-gray-900 w-full">
+                                  <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
+                                </h4>
+                              )}
+                              {/* Description */}
+                              {category.description && (
+                                <p className="font-geist leading-[150%] font-normal text-gray-700 text-base whitespace-pre-wrap">
+                                  {category.description}
+                                </p>
+                              )}
+                            </div>}
+                          </motion.div>
+                        );
+                      })}
+                    </AnimatePresence>
+                  </div>
+                }
 
-                      if (!isActive) return null;
-
-                      return (
-                        <motion.div
-                          key={category.name}
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                          className="flex flex-col gap-6 items-start w-full"
-                        >
-                          <div className="flex flex-col gap-[6px] items-start w-full">
-                            {/* Category Label */}
-                            {category.name && (
-                              <span className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
-                                <span className="leading-6 whitespace-pre-wrap">{category.name}</span>
-                              </span>
-                            )}
-                            {/* Main Heading */}
-                            {category.subheading && (
-                              <h4 className="flex flex-col font-manrope font-semibold justify-center text-gray-900 w-full">
-                                <span className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl" dangerouslySetInnerHTML={{ __html: category.subheading }} />
-                              </h4>
-                            )}
-                            {/* Description */}
-                            {category.description && (
-                              <p className="font-geist leading-[150%] font-normal text-gray-700 text-base whitespace-pre-wrap">
-                                {category.description}
-                              </p>
-                            )}
-                          </div>
-                        </motion.div>
-                      );
-                    })}
-                  </AnimatePresence>
-                </div>
 
                 {/* Right Column: Category Image with Fixed Grid Pattern */}
-                <div className="bg-gray-50 flex flex-col items-center justify-center h-[400px] lg:h-auto overflow-hidden relative">
+                <div className="bg-gray-50 flex flex-col items-center justify-center md:h-full h-[200px] overflow-hidden relative">
                   {/* Grid Pattern Background - Fixed, doesn't move */}
                   <div className="absolute inset-0 z-0">
                     <GridPattern
@@ -925,12 +947,13 @@ export default function CategoryFeatureTabsSection({
                           className="w-full h-full relative flex items-center justify-center"
                         >
                           <div className="w-full h-full relative flex items-center justify-center">
-                            <ImageLoader
-                              image={category.mainImage}
+                            <Image
+                              src={category.mainImage.url}
                               alt={`${category.name} feature illustration`}
                               title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
-                              fixed={true}
-                              className="rounded-lg object-contain w-full h-full"
+                              width={category.mainImage.metadata.dimensions.width}
+                              height={category.mainImage.metadata.dimensions.height}
+                              className="rounded-lg md:object-cover object-contain w-full h-full"
                             />
                           </div>
                         </motion.div>
@@ -954,7 +977,7 @@ export default function CategoryFeatureTabsSection({
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                      className="w-full"
+                      className="w-full lg:border-t border-gray-200"
                     >
                       <GroupedCardsGrid
                         customListingItems={category.features.map((feature) => {
@@ -990,7 +1013,7 @@ export default function CategoryFeatureTabsSection({
                         })}
                         theme="light"
                         simpleListingData={true}
-                        columnCount={3}
+                        columnCount={columnCount || 3}
                         showBorderBottom={true}
                       />
                     </motion.div>
@@ -1011,8 +1034,8 @@ export default function CategoryFeatureTabsSection({
       className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
       border={sectionBorder}
     >
-      <Container className='w-full py-sm md:py-sm lg:py-lg ' type="V2" border="y-0">
-        <div className="flex-col relative w-full flex gap-16 mb-[60px]">
+      <Container className='w-full pt-sm md:pt-sm lg:pt-lg ' type="V2" border="y-0">
+        <div className="flex-col relative w-full flex gap-16 mb-[66px]">
           <SectionHeaderV2
             heading={
               sectionHeading?.sectionHeadingDynamic
@@ -1030,7 +1053,11 @@ export default function CategoryFeatureTabsSection({
           />
           {/* Switchable Tabs - Sticky */}
           {/* <div className={`sticky ${stickyTop} z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}> */}
-          <div className="sticky top-[60px] md:top-[70px] z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0">
+          <div className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
+            style={{
+              background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
+            }}
+          >
 
             <SwitchableTabs
               data={allCategories.map(category => ({
@@ -1071,7 +1098,7 @@ export default function CategoryFeatureTabsSection({
                       <div className={cn("grid lg:grid-cols-2 grid-cols-1 gap-px bg-gray-200 w-full", index === 0 && "border-t", index === allCategories.length - 1 && "border-b")} style={index === 0 ? { borderTopColor: 'var(--color-gray-200, #E5E7EB)' } : {}}>
                         {/* Left: Content Section */}
                         <div className="w-full ">
-                          <div className="bg-white flex flex-col gap-16 items-start justify-center md:p-12 p-4 h-full">
+                          <div className="bg-white flex flex-col gap-16 items-start justify-between md:p-12 p-4 h-full">
                             <div className="flex flex-col gap-8 items-start w-full">
                               <div className="flex flex-col gap-1.5 items-start tracking-normal w-full">
                                 <div className="flex flex-col gap-1.5 items-start leading-0 w-full">
@@ -1109,7 +1136,7 @@ export default function CategoryFeatureTabsSection({
                                       : null;
 
                                     const CardContent = () => (
-                                      <div className="flex flex-col py-9 px-12  bg-white h-full hover:bg-gray-50 transition-colors duration-200">
+                                      <div className="flex flex-col md:py-9 py-6 md:px-12 px-4 bg-white h-full  transition-colors duration-200">
                                         <p className="text-gray-950 font-geist text-lg font-medium leading-[28px] tracking-normal">
                                           {feature.basicInfo?.title || feature.title || 'Untitled Feature'}
                                         </p>
@@ -1135,21 +1162,11 @@ export default function CategoryFeatureTabsSection({
                         </div>
 
                         {/* Right: Category Image */}
-                        <div className="bg-gray-50 flex flex-col items-center justify-end  px-4 md:px-px py-4 md:py-0 overflow-hidden relative">
+                        {category?.mainImage && <div className="bg-gray-50 flex flex-col items-center justify-end px-4 md:px-px py-4 md:py-0  overflow-hidden relative">
                           {/* Grid Pattern Background */}
-                          <div className="absolute inset-0 z-0">
-                            <GridPattern
-                              width={50}
-                              height={50}
-                              x={-1}
-                              y={-1}
-                              className={cn(
-                                "[mask-image:linear-gradient(to_bottom_left,white,transparent,transparent)]"
-                              )}
-                            />
-                          </div>
+                
                           {category?.mainImage && (
-                            <div className={`w-full h-full md:min-h-[500px] relative flex items-end justify-center`}>
+                            <div className={`w-full md:min-h-[500px] h-[300px] relative flex items-end justify-center`}>
                               <figure className="relative w-full h-full flex items-end justify-center">
                                 <ImageLoader
                                   image={category.mainImage}
@@ -1161,7 +1178,7 @@ export default function CategoryFeatureTabsSection({
                               </figure>
                             </div>
                           )}
-                        </div>
+                        </div>}
                       </div>
 
                       {/* GroupedCardsGrid Component */}

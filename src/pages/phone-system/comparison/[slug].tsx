@@ -15,6 +15,9 @@ import OfferSection from '~/v2/sections/OfferSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import { urlForImage } from '~/lib/sanity.image'
+import ComparisonHero from '~/v2/sections/ComparisonHero'
+import ComparisonBannerSection from '~/v2/sections/ComparsionBannerSection'
 
 interface ComparisonPageProps {
   pageData: any
@@ -49,8 +52,18 @@ export default function ComparisonSlugPage({
     <>
       <SimpleHead data={pageData?.seo} />
         {/* <Breadcrumb breadCrumb={pageData?.breadCrumb} /> */}
-        {pageData['comparison-hero']?.componentData && (
+
+        {/* {pageData['comparison-hero']?.componentData && (
           <FeatureHero data={pageData['comparison-hero']} />
+        )} */}
+
+        {pageData['comparison-hero-v2']?.componentData && (
+          <ComparisonHero 
+            image={urlForImage(pageData['comparison-hero-v2']?.heroComponent?.heroImage)} 
+            heroStrip={pageData['comparison-hero-v2']?.heroComponent?.heroStrip}
+            heading={pageData['comparison-hero-v2']?.heroComponent?.heroheading} 
+            description={pageData['comparison-hero-v2']?.heroComponent?.heroDescription  }
+            buttons={pageData['comparison-hero-v2']?.heroComponent?.bookBtnContent} />
         )}
 
       {pageData['logo-listing']?.componentData && (
@@ -65,10 +78,15 @@ export default function ComparisonSlugPage({
           // legendData={pageData?.comparisonLegendData || []}
         />
       )}
-      {pageData['offer']?.componentData && (
+
+      {/* {pageData['offer']?.componentData && (
         <OfferSection
           data={pageData['offer']?.componentData}
         />
+      )} */}
+
+      {pageData['offer-v2']?.componentData && (
+        <ComparisonBannerSection data={pageData['offer-v2']?.componentData}/>
       )}
 
       <CategoryFeatureTabsSection
@@ -119,12 +137,14 @@ export const getStaticPaths: GetStaticPaths = async ({
     ]
     
     // Exclude the main comparison page slug (handled by index.tsx)
+    // Also exclude 'comparison-en-au' and any slug ending with '-en-au' as phone-system doesn't support 'au' locale
     const filteredSlugs = uniqueSlugs.filter(
       (slug: string) => 
         slug !== 'comparison' && 
         slug !== 'comparison-en' && 
         slug !== 'comparison-en-gb' && 
-        slug !== 'comparison-en-au'
+        slug !== 'comparison-en-au' &&
+        !slug.endsWith('-en-au')
     )
     
     // Format paths for Next.js
@@ -134,13 +154,13 @@ export const getStaticPaths: GetStaticPaths = async ({
     
     return {
       paths,
-      fallback: 'blocking',
+      fallback: 'blocking', // Only serve pre-generated pages(if false). New pages will 404 until rebuild (webhook handles revalidation)
     }
   } catch (error) {
     console.error('Error fetching comparison paths:', error)
     return {
       paths: [],
-      fallback: 'blocking',
+      fallback: 'blocking', // Only serve pre-generated pages(if false). New pages will 404 until rebuild (webhook handles revalidation)
     }
   }
 }
@@ -149,12 +169,25 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const region = locale || 'en'
   const slug = params?.slug as string
 
+  // phone-system pages don't support 'en-AU' locale
+  if (region === 'en-AU') {
+    return {
+      notFound: true,
+    }
+  }
+
   if (!slug) {
     return {
       notFound: true,
     }
   }
   
+  // Also check if slug ends with '-en-au' and reject it
+  if (slug.endsWith('-en-au')) {
+    return {
+      notFound: true,
+    }
+  }
   
   try {
     const queries = new Queries('comparison', region)

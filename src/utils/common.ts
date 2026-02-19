@@ -289,6 +289,28 @@ export const HeroHeadingComponents: any = {
     },
   },
 }
+export const ComparisonHeroH2: any = {
+  block: {
+    normal: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'h2',
+        {
+          className: 'md:text-left text-center text-white font-manrope xl:text-[56px] md:text-4xl text-3xl !leading-[107.14%] font-bold tracking-normal md:max-w-[581px] w-full font-bold ',
+        },
+        children
+      ),
+  },
+  types: {
+    rotatingWord: ({ value }: { value: any }) => {
+      // Hardcoded words - internally configured
+      const words = ['Enterprise', 'Dental', 'Optometry', 'Physical Therapy', 'Veterinary'];
+      return React.createElement(WordRotate, {
+        words: words,
+        asSpan: true,
+      });
+    },
+  },
+}
 export const HeroFeatureHeadingComponents: any = {
   block: {
     normal: ({ children }: { children: React.ReactNode }) =>
@@ -412,6 +434,21 @@ export const descriptionComponents: any = {
         React.createElement('span', null, children)
       ),
   },
+}
+export const ComparisonHeroDescriptionComponents: any = {
+  block: {
+    normal: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'p',
+        {
+          className: 'text-white md:text-left text-center font-geist md:text-lg text-base leading-[155.5%] font-normal',
+        },
+        
+        children
+      ),
+
+  },
+
 }
 
 export const ComparisonHeroH1: any = {

@@ -23,27 +23,28 @@ import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 
-interface MultiLocationPracticesProps {
+interface IndependentPracticesProps {
   pageData: any
   faq: any
   region: string
   features: any[]
 }
 
-export default function MultiLocationPractices({
+export default function IndependentPractices({
   pageData,
   faq,
   region,
   features,
-}: MultiLocationPracticesProps) {
+}: IndependentPracticesProps) {
   const tabsListingData =
     pageData?.['manage-every-calls']?.componentData?.refData
       ?.tabsListingComponent
   const tabsListingComponentData =
     pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
 
-  return  (
+  return pageData?.slug?.includes('v2') ? (
     <>
+      {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {pageData['single-locations-hero']?.componentData && (
         <FeatureHero data={pageData['single-locations-hero']} type="feature" />
@@ -53,6 +54,18 @@ export default function MultiLocationPractices({
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
+        <CategoryFeatureTabsSection
+      columnCount={4}
+      features={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+      variant="carouselwithcards"
+      sectionHeading={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+    />
       {tabsListingComponentData && (
         <SwitchableTabsV2 data={tabsListingComponentData} />
       )}
@@ -83,8 +96,51 @@ export default function MultiLocationPractices({
         }
       />
     </>
+  ) : (
+    <>
+      <SimpleHead data={pageData?.seo} />
+
+      <HeroWrapper>
+        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+        <HeroSection data={pageData['dental-phones-hero']?.componentData} />
+      </HeroWrapper>
+
+      {tabsListingComponentData && (
+        <SingleTabCardListing data={tabsListingComponentData} />
+      )}
+
+      {pageData['testimonial-video-section']?.componentData && (
+        <VerticalTestimonialListing
+          data={
+            pageData['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
+        />
+      )}
+      <div className="md:pb-16 pb-8">
+        <StatisticsSection />
+      </div>
+      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
+      )}
+      {pageData['custom']?.componentData && (
+        <div className="">
+          <IntegrationsGrid data={pageData['custom']?.componentData} />
+        </div>
+      )}
+      {/* {console.log(pageData?.['groups-and-dso']?.componentData, 'groups-and-dso')} */}
+      {tabsListingData && <TabCardsListing data={tabsListingData} />}
+    </>
   )
- 
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -99,8 +155,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     //     : `single-locations-${region.toLowerCase()}`
     const slug =
       region === 'en'
-        ? 'multi-locations'
-        : `multi-locations-${region.toLowerCase()}`
+        ? 'single-locations-v2'
+        : `single-locations-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
