@@ -13,30 +13,24 @@ interface StatisticsSectionProps {
   slug?: string
 }
 
+const STATISTICS_US_AU = [
+  { heading: 'Used in', value: '1500+', label: 'Practices Globally' },
+  { heading: 'Average', value: '$80,000', label: 'Additional Revenue Per Location' },
+  { heading: 'Average', value: '84%', label: 'Call Conversion Rate' },
+  { heading: 'Every Day', value: '100,000+', label: 'Calls Handled' },
+]
+
+const STATISTICS_UK = [
+  { heading: 'Used in', value: '1500+', label: 'Practices Globally' },
+  { heading: 'Average', value: '£80,000', label: 'Additional Revenue Per Location' },
+  { heading: 'Average', value: '84%', label: 'Call Conversion Rate' },
+  { heading: 'Every Day', value: '100,000+', label: 'Calls Handled' },
+]
+
 const StatisticsSection = ({ bgColor, slug }: StatisticsSectionProps = {}) => {
-  const statistics = [
-    {
-      heading: "Used in",
-      value: "1500+",
-      label: "Practices Globally"
-    },
-    {
-      heading: "Average",
-      value: "$80,000",
-      label: "Additional Revenue Per Location"
-    },
-    {
-      heading: "Average",
-      value: "84%",
-      label: "Call Conversion Rate"
-    },
-    {
-      heading: "Every Day",
-      value: "100,000+",
-      label: "Calls Handled"
-    }
-  ]
   const router = useRouter()
+  const statistics =
+    router.locale === 'en-GB' ? STATISTICS_UK : STATISTICS_US_AU
 
   return (
     <Section className='bg-gray-50 relative overflow-hidden' border="b">
