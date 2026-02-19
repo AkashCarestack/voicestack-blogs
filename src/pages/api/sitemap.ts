@@ -33,6 +33,8 @@ const SIMILAR_ALTERNATES: Record<string, string[]> = {
   'phone-system/case-studies': ['/en-AU/dental-phones/case-studies'],
   'phone-system/phones': ['/en-AU/dental-phones/phones'],
   'phone-system/features/ai-receptionist': ['/en-AU/dental-phones/ai-receptionist'],
+  'who-we-serve/multi-location-dental-practices': ['/en-GB/who-we-serve/multi-site-dental-practices'],
+  'who-we-serve/single-location-dental-practices': ['/en-GB/who-we-serve/single-site-dental-practices'],
 
 }
 
@@ -310,10 +312,6 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
   features.forEach((feature: any) => {
    
     if (!feature.slug) return;
-    
-    
-    // Exclude 'track' feature
-    if (feature.slug === 'track') return;
     
     const normalizedPath = `phone-system/features/${feature.slug}`;
     
@@ -816,7 +814,7 @@ async function generateSiteMap(
             // Add x-default
             const defaultLocale = pathLocales.includes('en') ? 'en' : pathLocales[0];
             const defaultUrl = buildUrl(path, defaultLocale);
-            xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(defaultUrl)}"/>\n`;
+            xml += `<xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(defaultUrl)}"/>\n`;
           }
           
           xml += '  </url>\n';
