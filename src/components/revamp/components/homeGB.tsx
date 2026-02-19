@@ -16,7 +16,7 @@ import SimpleHead from '~/components/common/SimpleHead'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 
-export default function 
+export default function
 HomeGB({
   data,
   featuresData,
@@ -75,12 +75,12 @@ HomeGB({
           aiSection={true}
         />
       )}
-      {/* {data['integrations-listing']?.componentData && (
+      {data['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={data['integrations-listing']?.componentData}
           theme="dark"
         />
-      )} */}
+      )}
       <CategoryFeatureTabsSection
         features={featuresData}
         variant="carousel"
