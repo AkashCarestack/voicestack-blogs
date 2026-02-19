@@ -59,7 +59,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   const defaultCtaListItems = React.useMemo(() => [
     {
       ctaText: 'See All Integrations',
-      ctaLink: locale === 'en-AU' ? '/dental-phones/integrations' : '/phone-system/integrations',
+      ctaLink: (locale === 'en-AU' || locale === 'en-GB') ? '/dental-phones/integrations' : '/phone-system/integrations',
       ctaType: 'secondaryWhite',
     },
     {

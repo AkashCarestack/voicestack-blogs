@@ -13,7 +13,7 @@ const TopNavigationMenu = ({ safeData, currentLocale }: { safeData: any; current
         <div className="flex items-center gap-2 text-gray-900 text-sm mr-3">
           <span>Talk to an expert</span>
           <Anchor
-            href={`tel://${phoneNumberWithCountryCode}`}
+            href={`tel:${phoneNumberWithCountryCode}`}
             className="text-gray-900 text-sm font-semibold flex items-center gap-2 hover:text-gray-800 transition-colors"
           >
             {safeData?.phoneNumber}

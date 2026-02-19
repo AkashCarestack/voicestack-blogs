@@ -13,6 +13,7 @@ import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import SimpleHead from '~/components/common/SimpleHead'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 
 interface Feature {
   _id: string
@@ -86,6 +87,18 @@ export default function FeaturesPage({
           data={data['feature-testimonials-section-single']?.componentData}
         />
       )}
+       {data['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            data['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={data['stack-card-tab-testimonial']?.componentData}
+        />
+      )}
       {faq && <FaqSection faqItems={faq} />}
     </>
   )
@@ -95,15 +108,16 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
     
-    // dental-phones pages only support 'en-AU' locale
-    if (region !== 'en-AU') {
+    // dental-phones pages support 'en-AU' and 'en-GB' locales
+    if (region !== 'en-AU' && region !== 'en-GB') {
       return {
         notFound: true,
       }
     }
     
-    // Hardcode slug to 'en-au' format for dental-phones
-    const slug = 'feature-landing-page-v2-en-au'
+    // Convert region to slug format (en-AU -> en-au, en-GB -> en-gb)
+    const regionSlug = region.toLowerCase()
+    const slug = `feature-landing-page-v2-${regionSlug}`
     const queries = new Queries('feature-landing-page-v2', region)
     const landingPageData = await queries.getPageData('featurePage', slug)
     const features = await getFeaturesList(getClient(), region)

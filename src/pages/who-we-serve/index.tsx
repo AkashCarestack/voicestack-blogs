@@ -38,7 +38,6 @@ export default function WhoWeServeIndex({
   faq,
   features,
 }: WhoWeServeIndexProps) {
-  console.log(pageData, 'fffffffff')
 
   return pageData?.slug?.includes('v2') ? (
     <>

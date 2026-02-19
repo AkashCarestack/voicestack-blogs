@@ -95,17 +95,15 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
     
-    // phone-system pages don't support 'en-AU' locale
-    if (region === 'en-AU') {
+    // phone-system pages don't support 'en-AU' or 'en-GB ' locale
+    if (region !== 'en') {
       return {
         notFound: true,
       }
     }
     
-    const slug =
-      region === 'en'
-        ? 'feature-landing-page-v2'
-        : `feature-landing-page-v2-${region.toLowerCase()}`
+    // Hardcode slug since phone-system pages only support 'en' locale
+    const slug = 'feature-landing-page-v2'
     const queries = new Queries('feature-landing-page-v2', region)
     const landingPageData = await queries.getPageData('featurePage', slug)
     const features = await getFeaturesList(getClient(), region)
