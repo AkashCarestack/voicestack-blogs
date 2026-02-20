@@ -85,7 +85,7 @@ export default function CompanyPage({
           )}
        
        <div className='border-x border-gray-200'>
-          {region === 'en' && <GroupedCardsGrid 
+          {(region === 'en' || region === 'en-GB') && <GroupedCardsGrid 
             customListingItems={[
               {
                 heading: data?.leaderShipTeam?.title,

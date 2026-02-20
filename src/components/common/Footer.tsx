@@ -147,7 +147,7 @@ const Footer = ({ data }) => {
                         {columnFeatures.map((feature: any, featureIndex: number) => {
                           const slug = feature?.basicInfo?.slug?.current || feature?.basicInfo?.slug || '';
                           const title = feature?.basicInfo?.title || '';
-                          const featureUrl = slug ? router.locale === 'en-AU' ? `/dental-phones/features/${slug}` : `/phone-system/features/${slug}` : '#';
+                          const featureUrl = slug ? (router.locale === 'en-AU' || router.locale === 'en-GB') ? `/dental-phones/features/${slug}` : `/phone-system/features/${slug}` : '#';
                           
                           return (
                             <li key={`${feature._id || slug}-${colIndex}-${featureIndex}`}>
@@ -446,7 +446,24 @@ const Footer = ({ data }) => {
                       Terms of Service
                     </Anchor>
                   </>
-                ):(
+                ): isUk ? (
+                  <>
+                    <Anchor
+                      href="/legal/uk/2024-11/privacy-policy"
+                      className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                      locale={false}
+                    >
+                      Privacy Policy
+                    </Anchor>
+                    <Anchor
+                      href="/legal/uk/2024-11/terms-and-conditions"
+                      className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                      locale={false}
+                    >
+                      Terms of Service
+                    </Anchor>
+                  </>
+                ): (
 
                 <>
                   <Anchor

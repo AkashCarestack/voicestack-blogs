@@ -8,12 +8,12 @@ import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import Queries from '~/components/revamp/queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -149,7 +149,7 @@ export default function DentalPhonesIntegrations({
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}
-          theme="dark"
+          theme="dark" demoOnly={true}
         />
       )}
       {integrationData && (
@@ -159,6 +159,18 @@ export default function DentalPhonesIntegrations({
             integrations={integrationData.integrations}
           />
         </div>
+      )}
+       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
       )}
          {faq && <FaqSection faqItems={faq} />}
     </>
@@ -190,7 +202,7 @@ export default function DentalPhonesIntegrations({
           />
         </div>
       )}
-      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+      {/* {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
             pageData['stack-card-tab-testimonial']?.componentData?.refData
@@ -201,7 +213,7 @@ export default function DentalPhonesIntegrations({
         <StackCardTestimonial
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
-      )}
+      )} */}
 
       {/* FAQ Section */}
       {faq && (
@@ -217,16 +229,17 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
     
-    // dental-phones pages only support 'en-AU' locale
-    if (region !== 'en-AU') {
+    // dental-phones pages support 'en-AU' and 'en-GB' locales
+    if (region !== 'en-AU' && region !== 'en-GB') {
       return {
         notFound: true,
       }
     }
     
     const queries = new Queries('integrations-v2', region)
-    // Hardcode slug to 'en-au' format for dental-phones
-    const slug = 'integrations-v2-en-au'
+    // Convert region to slug format (en-AU -> en-au, en-GB -> en-gb)
+    const regionSlug = region.toLowerCase()
+    const slug = `integrations-v2-${regionSlug}`
 
     // Fetch page data for integrations
     const pageData = await queries.getPageData('dentalPhones', slug)

@@ -161,6 +161,12 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const region = locale || 'en'
   const slug = params?.slug as string
 
+  // dental-phones pages support 'en-AU' and 'en-GB' locales
+  if (region !== 'en-AU' && region !== 'en-GB') {
+    return {
+      notFound: true,
+    }
+  }
 
   if (!slug) {
     return {

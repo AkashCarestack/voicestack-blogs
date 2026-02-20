@@ -169,8 +169,8 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
   const region = locale || 'en'
   const slug = params?.slug as string
 
-  // phone-system pages don't support 'en-AU' locale
-  if (region === 'en-AU') {
+  // phone-system pages don't support 'en-AU' or 'en-GB ' locale
+  if (region !== 'en') {
     return {
       notFound: true,
     }

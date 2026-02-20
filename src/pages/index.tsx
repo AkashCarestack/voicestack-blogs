@@ -167,10 +167,12 @@ export default function IndexPage({
         />
       )}
       {region === 'en-GB' && (
-        <HomeGB data={pageData['hero-section']?.componentData}
-       
-
-         />
+        <HomeGB
+          featuresData={featuresData}
+          comparisonLegendData={comparisonLegendData}
+          data={pageData1}
+          pageData={pageData1}
+        />
       )}
    
       {region === 'en-AU' && (

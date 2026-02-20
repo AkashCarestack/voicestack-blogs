@@ -8,6 +8,8 @@ import { useLayoutData } from '~/providers/LayoutDataProvider'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
+import { formatPhoneNumberWithCountryCode } from '~/components/utils/helper'
+import { useRouter } from 'next/router'
 
 interface SupportPageProps {
   supportPageData: any
@@ -22,7 +24,7 @@ export default function SupportPage({
   region,
   faq,
 }: SupportPageProps) {
-
+  const router = useRouter()
   const heroKey = Object.keys(supportPageData || {}).find(
     (key) => key.includes('hero') && supportPageData[key]?.componentData
   )
@@ -46,10 +48,11 @@ export default function SupportPage({
   }
   
   if (supportPhone) {
+    const formattedPhone = formatPhoneNumberWithCountryCode(supportPhone, router.locale)
     contactButtons.push({
       _key: 'support-phone-btn',
       buttonText: supportPhone,
-      buttonLink: `tel:${supportPhone.replace(/\D/g, '')}`,
+      buttonLink: `tel:${formattedPhone}`,
       buttonType: 'secondaryTel',
     })
   }

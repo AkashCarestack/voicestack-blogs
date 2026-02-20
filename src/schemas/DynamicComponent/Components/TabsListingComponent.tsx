@@ -11,8 +11,19 @@ const TabsListingComponent = {
         'Global Data (if not provided, data will be fetched from Selected global data)',
       type: 'reference',
       to: [{ type: 'globalData' }],
+      // options: {
+      //   filter: 'defined(_id)',
+      // },
       options: {
-        filter: 'defined(_id)',
+        filter: ({ document, parent }: any) => {
+          // Get the parent document's language by going up the tree
+          const currentLanguage = document?.language || 'en'
+          
+          return {
+            filter: 'language == $language',
+            params: { language: currentLanguage }
+          }
+        }
       },
     },
     {
