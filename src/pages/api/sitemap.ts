@@ -20,8 +20,20 @@ const EXCLUDED_PATHS = [
   'onboarding',
   'demo/thank-you',
   'pricing/thank-you',
-  'en-AU/phone-system'
+  'en-AU/phone-system',
+  'en/who-we-serve/multi-location-dental-practices'
 ];
+
+// Paths that must not have their en (root) URL in sitemap; en-AU and en-GB versions still included
+const PATHS_NO_EN_URL = [
+  'who-we-serve/single-location-dental-practices',
+  'who-we-serve/multi-location-dental-practices',
+  'who-we-serve/groups-and-enterprises'
+];
+
+function shouldOmitEnUrl(path: string, locale: string): boolean {
+  return locale === 'en' && PATHS_NO_EN_URL.includes(path);
+}
 
 // Locale-aware alternate mapping: canonical key -> path per locale (only include locales where this path exists)
 const LOCALE_ALTERNATE_MAP: Record<string, Record<string, string>> = {
@@ -397,6 +409,21 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
   `;
   
   const features = await client.fetch(featuresQuery);
+  // console.log({features});
+
+  // features.forEach((slug: any) => {
+  //   const featureDate = slug._updatedAt || new Date().toISOString();
+  //   const enPath = `phone-system/features/${slug.slug}`;
+  //   const enAUPath = `dental-phones/features/${slug.slug}`;
+  //   const enGBPath = `dental-phones/features/${slug.slug}`;
+  //   if(slug =='en'){
+  //     pathData.set(enPath, { date: featureDate, locales: new Set([slug.language]) });
+  //   }else if(slug =='en-AU'){
+  //     pathData.set(enAUPath, { date: featureDate, locales: new Set([slug.language]) });
+  //   }else if(slug =='en-GB'){
+  //     pathData.set(enGBPath, { date: featureDate, locales: new Set([slug.language]) });
+  //   }
+  // });
   
   // Group features by normalized slug to detect multi-locale features
   features.forEach((feature: any) => {
@@ -678,12 +705,15 @@ async function generateSiteMap(
   // Note: phone-system paths will be automatically transformed to dental-phones for en-AU locale
   // in the buildUrl function, so we don't need to filter out en-AU here
 
-  // Filter out en-GB locale from all paths except root ('') and 'system-requirements'
-  // Only these two paths should have en-GB URLs in the sitemap
-  const allowedEnGBPaths = ['', 'system-requirements'];
+  // Filter out en-GB locale from all paths except root, system-requirements, feature pages, and who-we-serve single/site (region alternates)
+  const isAllowedEnGB = (p: string) =>
+    p === '' || p === 'system-requirements' || p.startsWith('phone-system/features/') ||
+    p === 'dental-phones' || p.startsWith('dental-phones/') ||
+    p === 'who-we-serve/single-location-dental-practices' || p === 'who-we-serve/single-site-dental-practices' ||
+    p === 'who-we-serve/multi-location-dental-practices' || p === 'who-we-serve/multi-site-dental-practices' ||
+    p === 'who-we-serve/groups-and-enterprises' || p === 'who-we-serve/groups-and-dsos' || p === 'who-we-serve/dental-groups-dsos-corporates';
   allPathData.forEach((pathData, path) => {
-    if (!allowedEnGBPaths.includes(path)) {
-      // Remove en-GB from locales for this path
+    if (!isAllowedEnGB(path)) {
       pathData.locales = pathData.locales.filter(locale => locale !== 'en-GB');
     }
   });
@@ -719,8 +749,8 @@ async function generateSiteMap(
         xml += `    <xhtml:link rel="alternate" hreflang="${formatHreflang(altLocale)}" href="${escapeXml(buildUrl(path, altLocale))}"/>\n`;
       });
 
-      // Add x-default pointing to 'en' version
-      xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(buildUrl(path, 'en'))}"/>\n`;
+      // x-default same as loc (this URL)
+      xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(currentUrl)}"/>\n`;
 
       xml += '  </url>\n';
     });
@@ -733,6 +763,7 @@ async function generateSiteMap(
 
   allPathData.forEach((pathData, path) => {
     if (PATHS_WITH_ALTERNATES.includes(path)) return;
+    if (shouldExcludePath(path)) return;
 
     const canonicalKey = getCanonicalKey(path);
     if (canonicalKey && processedCanonicalKeys.has(canonicalKey)) return;
@@ -749,12 +780,16 @@ async function generateSiteMap(
 
     const addAlternateUrl = (url: string, hreflang: string) => {
       if (url.includes('/en-AU/phone-system') || url.includes('/en-GB/phone-system')) return;
-      // Only allow en-GB for root and system-requirements
+      // Allow en-GB for root, system-requirements, feature pages, and single-location/single-site (region alternates)
       if (hreflang === 'en-GB' || url.includes('/en-GB')) {
         const enGBMatch = url.match(/\/en-GB(?:\/(.*))?$/);
         if (enGBMatch) {
           const urlPath = (enGBMatch[1] || '').replace(/\/$/, '');
-          if (urlPath !== '' && urlPath !== 'system-requirements') return;
+          const allowed = urlPath === '' || urlPath === 'system-requirements' || urlPath === 'dental-phones' || urlPath.startsWith('dental-phones/') ||
+            urlPath === 'who-we-serve/single-location-dental-practices' || urlPath === 'who-we-serve/single-site-dental-practices' ||
+            urlPath === 'who-we-serve/multi-location-dental-practices' || urlPath === 'who-we-serve/multi-site-dental-practices' ||
+            urlPath === 'who-we-serve/groups-and-enterprises' || urlPath === 'who-we-serve/groups-and-dsos' || urlPath === 'who-we-serve/dental-groups-dsos-corporates';
+          if (!allowed) return;
         }
       }
       const key = `${url}|${hreflang}`;
@@ -770,10 +805,12 @@ async function generateSiteMap(
       });
     }
 
+    // Allow dental-phones/features/ as alternates (en-AU/en-GB form of phone-system/features)
+    const allowLocalePathForAlternate = (p: string) => !shouldExcludePath(p) || p.startsWith('dental-phones/features/');
     if (hasLocaleAlternates && localeMap) {
       locales.forEach(locale => {
         const localePath = localeMap[locale];
-        if (localePath != null) {
+        if (localePath != null && allowLocalePathForAlternate(localePath) && !shouldOmitEnUrl(localePath, locale)) {
           const url = buildUrl(localePath, locale);
           addAlternateUrl(url, formatHreflang(locale));
         }
@@ -781,6 +818,7 @@ async function generateSiteMap(
     }
 
     pathLocales.forEach(locale => {
+      if (shouldOmitEnUrl(path, locale)) return;
       const currentUrl = buildUrl(path, locale);
       if (generatedUrls.has(currentUrl)) return;
       generatedUrls.add(currentUrl);
@@ -792,9 +830,8 @@ async function generateSiteMap(
         allAlternateUrls.forEach(({ url, hreflang }) => {
           xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
         });
-        const defaultLocale = pathLocales.includes('en') ? 'en' : pathLocales[0];
-        const defaultUrl = buildUrl(path, defaultLocale);
-        xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(defaultUrl)}"/>\n`;
+        // x-default same as loc (this URL)
+        xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(currentUrl)}"/>\n`;
       }
       xml += '  </url>\n';
     });
@@ -802,7 +839,7 @@ async function generateSiteMap(
     if (hasLocaleAlternates && localeMap) {
       locales.forEach(locale => {
         const localePath = localeMap[locale];
-        if (localePath == null) return;
+        if (localePath == null || shouldExcludePath(localePath) || shouldOmitEnUrl(localePath, locale)) return;
         const pathLocaleKey = `${localePath}:${locale}`;
         if (processedAlternatePathLocales.has(pathLocaleKey)) return;
         if (generatedUrls.has(buildUrl(localePath, locale))) return;
@@ -820,7 +857,11 @@ async function generateSiteMap(
             const enGBMatch = url.match(/\/en-GB(?:\/(.*))?$/);
             if (enGBMatch) {
               const urlPath = (enGBMatch[1] || '').replace(/\/$/, '');
-              if (urlPath !== '' && urlPath !== 'system-requirements') return;
+              const allowed = urlPath === '' || urlPath === 'system-requirements' || urlPath === 'dental-phones' || urlPath.startsWith('dental-phones/') ||
+                urlPath === 'who-we-serve/single-location-dental-practices' || urlPath === 'who-we-serve/single-site-dental-practices' ||
+                urlPath === 'who-we-serve/multi-location-dental-practices' || urlPath === 'who-we-serve/multi-site-dental-practices' ||
+                urlPath === 'who-we-serve/groups-and-enterprises' || urlPath === 'who-we-serve/groups-and-dsos' || urlPath === 'who-we-serve/dental-groups-dsos-corporates';
+              if (!allowed) return;
             }
           }
           const k = `${url}|${hreflang}`;
@@ -831,7 +872,7 @@ async function generateSiteMap(
         };
         locales.forEach(l => {
           const p = localeMap[l];
-          if (p != null) addAlt(buildUrl(p, l), formatHreflang(l));
+          if (p != null && allowLocalePathForAlternate(p) && !shouldOmitEnUrl(p, l)) addAlt(buildUrl(p, l), formatHreflang(l));
         });
 
         const alternateUrl = buildUrl(localePath, locale);
@@ -843,9 +884,8 @@ async function generateSiteMap(
           alternateUrlsList.forEach(({ url, hreflang }) => {
             xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
           });
-          const defaultLocale = localeMap['en'] != null ? 'en' : (locales[0] ?? 'en');
-          const defaultPath = localeMap[defaultLocale] ?? localePath;
-          xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(buildUrl(defaultPath, defaultLocale))}"/>\n`;
+          // x-default same as loc (this URL)
+          xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(alternateUrl)}"/>\n`;
         }
         xml += '  </url>\n';
       });
