@@ -36,7 +36,12 @@ function shouldOmitEnUrl(path: string, locale: string): boolean {
 }
 
 // Paths that must not have en-GB URL in sitemap (pages don't exist for en-GB); en and en-AU still included
-const PATHS_NO_EN_GB_URL = ['dental-phones/comparison', 'dental-phones/case-studies'];
+const PATHS_NO_EN_GB_URL = [
+  'dental-phones/comparison',
+  'dental-phones/case-studies',
+  'phone-system/comparison',
+  'phone-system/case-studies',
+];
 
 function shouldOmitEnGBUrl(path: string): boolean {
   return PATHS_NO_EN_GB_URL.includes(path);
@@ -84,6 +89,11 @@ const LOCALE_ALTERNATE_MAP: Record<string, Record<string, string>> = {
     'en-AU': 'who-we-serve/groups-and-dsos',
     'en-GB': 'who-we-serve/dental-groups-dsos-corporates',
   },
+  'who-we-serve/startups': {
+    'en': 'who-we-serve/startups',
+    'en-AU': 'who-we-serve/startups',
+    'en-GB': 'who-we-serve/squat-dental-practices',
+  },
 }
 
 // Path -> canonical key for resolving alternates (multiple paths can map to same key)
@@ -117,6 +127,8 @@ const PATH_TO_CANONICAL: Record<string, string> = {
   'who-we-serve/dental-groups-dsos-corporates': 'who-we-serve/groups-dsos',
   'who-we-serve/groups-and-dsos': 'who-we-serve/groups-dsos',
   'who-we-serve/groups-and-enterprises': 'who-we-serve/groups-dsos',
+  'who-we-serve/startups': 'who-we-serve/startups',
+  'who-we-serve/squat-dental-practices': 'who-we-serve/startups',
 }
 
 function getCanonicalKey(path: string): string | null {
@@ -709,19 +721,13 @@ async function generateSiteMap(
     }
   });
 
-  // Note: phone-system paths will be automatically transformed to dental-phones for en-AU locale
-  // in the buildUrl function, so we don't need to filter out en-AU here
+  // Note: phone-system paths will be automatically transformed to dental-phones for en-AU/en-GB
+  // in the buildUrl function, so we don't filter by locale for most paths.
 
-  // Filter out en-GB locale from all paths except root, system-requirements, feature pages, and who-we-serve single/site (region alternates)
-  const isAllowedEnGB = (p: string) =>
-    !shouldOmitEnGBUrl(p) &&
-    (p === '' || p === 'system-requirements' || p.startsWith('phone-system/features/') ||
-    p === 'dental-phones' || p.startsWith('dental-phones/') ||
-    p === 'who-we-serve/single-location-dental-practices' || p === 'who-we-serve/single-site-dental-practices' ||
-    p === 'who-we-serve/multi-location-dental-practices' || p === 'who-we-serve/multi-site-dental-practices' ||
-    p === 'who-we-serve/groups-and-enterprises' || p === 'who-we-serve/groups-and-dsos' || p === 'who-we-serve/dental-groups-dsos-corporates');
+  // Only remove en-GB for paths where the en-GB page does not exist (e.g. comparison, case-studies).
+  // All other paths get en-GB included like en-AU.
   allPathData.forEach((pathData, path) => {
-    if (!isAllowedEnGB(path)) {
+    if (shouldOmitEnGBUrl(path)) {
       pathData.locales = pathData.locales.filter(locale => locale !== 'en-GB');
     }
   });
@@ -788,17 +794,12 @@ async function generateSiteMap(
 
     const addAlternateUrl = (url: string, hreflang: string) => {
       if (url.includes('/en-AU/phone-system') || url.includes('/en-GB/phone-system')) return;
-      // Allow en-GB for root, system-requirements, feature pages, and single-location/single-site (region alternates)
+      // Omit en-GB only for paths where the page does not exist (e.g. comparison, case-studies)
       if (hreflang === 'en-GB' || url.includes('/en-GB')) {
         const enGBMatch = url.match(/\/en-GB(?:\/(.*))?$/);
         if (enGBMatch) {
           const urlPath = (enGBMatch[1] || '').replace(/\/$/, '');
           if (shouldOmitEnGBUrl(urlPath)) return;
-          const allowed = urlPath === '' || urlPath === 'system-requirements' || urlPath === 'dental-phones' || urlPath.startsWith('dental-phones/') ||
-            urlPath === 'who-we-serve/single-location-dental-practices' || urlPath === 'who-we-serve/single-site-dental-practices' ||
-            urlPath === 'who-we-serve/multi-location-dental-practices' || urlPath === 'who-we-serve/multi-site-dental-practices' ||
-            urlPath === 'who-we-serve/groups-and-enterprises' || urlPath === 'who-we-serve/groups-and-dsos' || urlPath === 'who-we-serve/dental-groups-dsos-corporates';
-          if (!allowed) return;
         }
       }
       const key = `${url}|${hreflang}`;
@@ -867,11 +868,6 @@ async function generateSiteMap(
             if (enGBMatch) {
               const urlPath = (enGBMatch[1] || '').replace(/\/$/, '');
               if (shouldOmitEnGBUrl(urlPath)) return;
-              const allowed = urlPath === '' || urlPath === 'system-requirements' || urlPath === 'dental-phones' || urlPath.startsWith('dental-phones/') ||
-                urlPath === 'who-we-serve/single-location-dental-practices' || urlPath === 'who-we-serve/single-site-dental-practices' ||
-                urlPath === 'who-we-serve/multi-location-dental-practices' || urlPath === 'who-we-serve/multi-site-dental-practices' ||
-                urlPath === 'who-we-serve/groups-and-enterprises' || urlPath === 'who-we-serve/groups-and-dsos' || urlPath === 'who-we-serve/dental-groups-dsos-corporates';
-              if (!allowed) return;
             }
           }
           const k = `${url}|${hreflang}`;
