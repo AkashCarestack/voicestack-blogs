@@ -66,12 +66,10 @@ export default function MultiLocationPractices({
           ?.tabsListingComponent
       }
     />
-      {pageData['testimonial-video-section']?.componentData?.refData
-        ?.testimonialListing && (
+      {pageData['testimonial-video-section']?.componentData && (
           <VerticalTestimonialListingv2
             data={
-              pageData['testimonial-video-section']?.componentData?.refData
-                ?.testimonialListing
+              pageData['testimonial-video-section']?.componentData
             }
           />
         )}
