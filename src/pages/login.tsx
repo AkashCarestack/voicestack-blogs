@@ -6,7 +6,7 @@ export default function LoginPage() {
   const  metadescptn="Login securely to your VoiceStack® account. Owners, managers, & team members can login to their VoiceStack® user account or reset their password."
   const router = useRouter();
   const locale = router.locale;
-  const loginUrl = locale === 'en' ? 'https://id.voicestack.com/Account/Login' : locale === 'en-AU' ? 'https://id.voicestack.au/Account/Login' : 'https://id.voicestack.com/Account/Login';
+  const loginUrl = locale === 'en' ? 'https://id.voicestack.com/Account/Login' : locale === 'en-AU' ? 'https://id.voicestack.au/Account/Login' : locale === 'en-GB' ? 'https://id.voicestack.co.uk/Account/Login' : 'https://id.voicestack.com/Account/Login';
   return (
     <>
       <Head>
