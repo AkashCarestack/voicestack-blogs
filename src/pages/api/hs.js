@@ -59,7 +59,7 @@ export default async function handler(req, res) {
 
           var raw = JSON.stringify({
               "properties": {
-                  "leadsource": req.query.lead_source || "Website",
+                  "leadsource": req.query.lead_source === 'branding' ? "Website" : (req.query.lead_source || "Website"),
                   "utm_term":req.query.term || "",
                   "utm_medium":req.query.medium || "",
                   "utm_campaign":req.query.campaign || "",
