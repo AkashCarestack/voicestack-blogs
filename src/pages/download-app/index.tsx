@@ -11,6 +11,7 @@ import BannerSection from '~/components/BannerSection'
 import ContentSection from '~/components/ContentSection'
 import Head from 'next/head'
 import AppDownloadHero from '~/components/dynamic/AppDownloadHero'
+import { useRouter } from 'next/router'
 
 interface PageProps {
   homeSettings: any;
@@ -69,22 +70,25 @@ export default function AppDownload({ homeSettings, heroData, bannerData, footer
     setIsDemoPopUpShown(heroData);
   }, [heroData])
 
- const metadescriptn ="Download the Official VoiceStack® App from the Apple App Store for iOS & Google Play for Android. Use VoiceStack® with your mobile phone today!"
- const metaKeywords = "voicestack download, voicestack app, download app, voicestack for ios, voicestack for android, voicestack app store, voicestack google play"
+  const router = useRouter();
+  const notEnGB= router.locale =="en-AU" || router.locale =="en"
+  const title= notEnGB ? "Download VoiceStack® | VoiceStack® Mobile App Downloads":"Download VoiceStack | VoiceStack Mobile App Downloads"
+  const metadescriptn = notEnGB ? "Download the Official VoiceStack® App from the Apple App Store for iOS & Google Play for Android. Use VoiceStack® with your mobile phone today!":"Download the Official VoiceStack App from the Apple App Store for iOS & Google Play for Android. Use VoiceStack with your mobile phone today!"
+  const metaKeywords = "voicestack download, voicestack app, download app, voicestack for ios, voicestack for android, voicestack app store, voicestack google play"
 
   return (
     <>
     
     <Head>
       <title>Download VoiceStack® | VoiceStack® Mobile App Downloads</title>
-      <meta name="title" content="Download VoiceStack® | VoiceStack® Mobile App Downloads" />
-      <meta title="Download VoiceStack® | VoiceStack® Mobile App Downloads" />
+      <meta name="title" content={title} />
+      <meta title={title} />
       <meta name="robots" content="index, follow, archive" />
       <link rel="canonical" href="https://www.voicestack.com/download-app" />
       <meta name="description"  content={metadescriptn}></meta>
       <meta property="og:description" content={metadescriptn}></meta>
       <meta property="og:type" content="website" />
-      <meta property="og:title" content="Download VoiceStack® | VoiceStack® Mobile App Downloads" />
+      <meta property="og:title" content={title} />
       <meta property="og:url" content="https://www.voicestack.com/download-app" />
       <meta name="keywords" content={metaKeywords}></meta>
       <meta name="author" content="VoiceStack®"></meta>
