@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Anchor from '~/components/common/anchor'
 import Container from '~/components/structure/Container'
@@ -13,6 +13,23 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   className = '',
 }) => {
   const router = useRouter()
+  const [hasStripBanner, setHasStripBanner] = useState(false)
+
+  // Watch for stripbanner-active class on body
+  useEffect(() => {
+    const checkStripBanner = () => {
+      setHasStripBanner(document.body.classList.contains('stripbanner-active'))
+    }
+    
+    // Initial check
+    checkStripBanner()
+    
+    // Watch for class changes on body
+    const observer = new MutationObserver(checkStripBanner)
+    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] })
+    
+    return () => observer.disconnect()
+  }, [])
 
   // Parse breadcrumb items from URL or Sanity override
   const breadcrumbItems = useMemo(() => {
@@ -74,7 +91,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   }
 
   return (
-    <Container className={`py-0 ${className}`}>
+    <Container className={`py-0 ${hasStripBanner ? 'pt-[48px] md:pt-[48px]' : ''} ${className}`}>
       <style dangerouslySetInnerHTML={{
         __html: `
           .breadcrumb-nav::-webkit-scrollbar {
