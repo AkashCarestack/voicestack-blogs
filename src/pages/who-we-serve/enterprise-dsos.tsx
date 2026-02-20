@@ -1,22 +1,15 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
+
 import SimpleHead from '~/components/common/SimpleHead'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
-import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import Queries from '~/components/revamp/queries'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
-import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
 import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 
 interface EnterpriseDsoProps {
@@ -55,11 +48,18 @@ export default function EnterpriseDso({ pageData, faq }: EnterpriseDsoProps) {
         }
       />
       {pageData['testimonial-video-section']?.componentData?.refData
-        ?.testimonialListing && (
+        ?.testimonialListing ? (
           <VerticalTestimonialListingv2
             data={
               pageData['testimonial-video-section']?.componentData?.refData
                 ?.testimonialListing
+            }
+          />
+        ):
+        (
+          <VerticalTestimonialListingv2
+            data={
+              pageData['testimonial-video-section']?.componentData
             }
           />
         )}
