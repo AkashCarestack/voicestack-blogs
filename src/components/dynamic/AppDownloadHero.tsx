@@ -26,7 +26,7 @@ const AppDownloadHero: React.FC<AppDownloadHeroProps> = ({ data }) => {
     heroImageSecondary,
     
   } = data
-  const appStoreLinks = data?.contentArea[0]?.appStoreLinks || null
+  const appStoreLinks = data?.contentArea?.[0]?.appStoreLinks || null
   return (
     <>
       <FeatureHero

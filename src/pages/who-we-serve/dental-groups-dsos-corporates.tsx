@@ -95,12 +95,16 @@ export default function EnterpriseDso({ pageData, faq }: EnterpriseDsoProps) {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const region = locale || 'en'
 
+  // This page is only for UK (en-GB)
+  if (region !== 'en-GB') {
+    return {
+      notFound: true,
+    }
+  }
+
   try {
     const queries = new Queries('whoWeServe', region)
-    const slug =
-      region === 'en'
-        ? 'enterprise-dsos'
-        : `enterprise-dsos-${region.toLowerCase()}`
+    const slug = "dental-groups-dsos-corporates";
     const pageData = await queries.getPageData('whoWeServe', slug)
 
     if (!pageData) {

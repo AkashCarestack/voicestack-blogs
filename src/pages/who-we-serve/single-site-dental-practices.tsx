@@ -69,12 +69,10 @@ export default function IndependentPractices({
   {tabsListingComponentData && (
     <SwitchableTabsV2 data={tabsListingComponentData} />
   )}
-  {pageData['testimonial-video-section']?.componentData?.refData
-    ?.testimonialListing && (
+  {pageData['testimonial-video-section']?.componentData && (
     <VerticalTestimonialListingv2
       data={
-        pageData['testimonial-video-section']?.componentData?.refData
-          ?.testimonialListing
+        pageData['testimonial-video-section']?.componentData
       }
     />
   )}

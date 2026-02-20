@@ -346,6 +346,37 @@ const VerticalTestimonialListing = ({
   showBookFeeBtn = true,
   hideTitle = false,
 }) => {
+
+  // console.log("ms data", data);
+  
+  // Normalize data structure to handle both cases:
+  // 1. Direct access: data.testimonial (when passing refData.testimonialListing)
+  // 2. Nested access: data.refData?.testimonialListing?.testimonial (when passing componentData)
+  const normalizedData = React.useMemo(() => {
+    const testimonial = 
+      data?.testimonial || 
+      data?.refData?.testimonialListing?.testimonial || 
+      null
+    
+    const heading = 
+      data?.heading || 
+      data?.title || 
+      data?.refData?.testimonialListing?.heading || 
+      data?.refData?.testimonialListing?.title || 
+      null
+    
+    const description = 
+      data?.description || 
+      data?.refData?.testimonialListing?.description || 
+      null
+    
+    return {
+      testimonial,
+      heading,
+      description,
+    }
+  }, [data])
+
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isUk, setIsUk] = useState(false)
   const [slidesToShow, setSlidesToShow] = useState(5) // Default to 5 slides
@@ -392,14 +423,14 @@ const VerticalTestimonialListing = ({
 
   // Check if we need to show arrows based on slide count
   useEffect(() => {
-    if (data?.testimonial?.length <= slidesToShow) {
+    if (normalizedData?.testimonial?.length <= slidesToShow) {
       setShowArrows(false)
     } else {
       setShowArrows(true)
     }
-  }, [data?.testimonial?.length, slidesToShow])
+  }, [normalizedData?.testimonial?.length, slidesToShow])
 
-  if (!data?.testimonial?.length) {
+  if (!normalizedData?.testimonial?.length) {
     return null
   }
 
@@ -420,7 +451,7 @@ const VerticalTestimonialListing = ({
     nextArrow: (
       <NextArrow
         currentSlide={currentSlide}
-        slideCount={data?.testimonial?.length || 0}
+        slideCount={normalizedData?.testimonial?.length || 0}
       />
     ),
     responsive: [
@@ -472,8 +503,8 @@ const VerticalTestimonialListing = ({
         <div className="flex flex-col items-center w-full gap-16">
           <SectionHeaderV2
             className='xl:px-12 md:px-6 px-4'
-            heading={data?.heading || data?.title}
-            description={data?.description}
+            heading={normalizedData?.heading}
+            description={normalizedData?.description}
           />
           <div
             className="lg:px-12 px-6 lg:pb-12 pb-6 border-t border-gray-200"
@@ -493,7 +524,7 @@ const VerticalTestimonialListing = ({
               backgroundSize: '14.14px 14.14px',
             }}
           >
-            <TestimonialSlider data={data} settings={settings2} />
+            <TestimonialSlider data={normalizedData} settings={settings2} />
           </div>
         </div>
       </Container>

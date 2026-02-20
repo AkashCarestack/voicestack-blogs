@@ -22,7 +22,7 @@ const STATISTICS_US_AU = [
 
 const STATISTICS_UK = [
   { heading: 'Used in', value: '1500+', label: 'Practices Globally' },
-  { heading: 'Average', value: '£80,000', label: 'Additional Revenue Per Location' },
+  { heading: 'Average', value: '$80,000', label: 'Additional Revenue Per Location' },
   { heading: 'Average', value: '84%', label: 'Call Conversion Rate' },
   { heading: 'Every Day', value: '100,000+', label: 'Calls Handled' },
 ]
