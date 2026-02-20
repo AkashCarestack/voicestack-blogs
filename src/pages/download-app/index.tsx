@@ -80,7 +80,7 @@ export default function AppDownload({ homeSettings, heroData, bannerData, footer
     <>
     
     <Head>
-      <title>Download VoiceStack® | VoiceStack® Mobile App Downloads</title>
+      <title>{title}</title>
       <meta name="title" content={title} />
       <meta title={title} />
       <meta name="robots" content="index, follow, archive" />
@@ -91,7 +91,7 @@ export default function AppDownload({ homeSettings, heroData, bannerData, footer
       <meta property="og:title" content={title} />
       <meta property="og:url" content="https://www.voicestack.com/download-app" />
       <meta name="keywords" content={metaKeywords}></meta>
-      <meta name="author" content="VoiceStack®"></meta>
+      <meta name="author" content={notEnGB ? "VoiceStack®" : "VoiceStack"}></meta>
       <meta name="canonical" content="https://voicestack.com/download-app"></meta>
     </Head>
     <AppDownloadHero data={miscellaneousData}/>
