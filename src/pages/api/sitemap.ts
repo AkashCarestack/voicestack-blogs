@@ -165,6 +165,24 @@ function formatLastmod(date: string | Date | null | undefined): string {
 }
 
 /**
+ * Sanitizes a path for use in URLs: lowercase, spaces to hyphens, collapse multiple hyphens.
+ */
+function sanitizePathForUrl(path: string): string {
+  return path
+    .split('/')
+    .map((segment) =>
+      segment
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '')
+    )
+    .filter(Boolean)
+    .join('/');
+}
+
+/**
  * Normalizes a path for a specific locale.
  * - en (en-US): dental-phones -> phone-system; optimisation -> optimization
  * - en-AU / en-GB: phone-system -> dental-phones; optimization -> optimisation
@@ -185,15 +203,16 @@ function normalizePathForLocale(path: string, locale: string): string {
 
 function buildUrl(path: string, locale: string): string {
   const cleanedPath = path.replace(/^\/+/, '').replace(/\/+$/, '');
-  
   // Normalize path for locale (e.g., phone-system -> dental-phones for en-AU)
   const normalizedPath = normalizePathForLocale(cleanedPath, locale);
-  
+  // Sanitize for URL (e.g. "AI Receptionist" -> "ai-receptionist")
+  const urlPath = sanitizePathForUrl(normalizedPath);
+
   if (locale === 'en' || !locale) {
-    return normalizedPath ? `${BASE_URL}/${normalizedPath}` : BASE_URL;
+    return urlPath ? `${BASE_URL}/${urlPath}` : BASE_URL;
   }
-  
-  return normalizedPath ? `${BASE_URL}/${locale}/${normalizedPath}` : `${BASE_URL}/${locale}`;
+
+  return urlPath ? `${BASE_URL}/${locale}/${urlPath}` : `${BASE_URL}/${locale}`;
 }
 
 function escapeXml(unsafe: string): string {
@@ -381,10 +400,10 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
   
   // Group features by normalized slug to detect multi-locale features
   features.forEach((feature: any) => {
-   
     if (!feature.slug) return;
-    
-    const normalizedPath = `phone-system/features/${feature.slug}`;
+
+    const slug = typeof feature.slug === 'string' ? sanitizePathForUrl(feature.slug) : feature.slug;
+    const normalizedPath = `phone-system/features/${slug}`;
     
     // Skip excluded paths
     if (shouldExcludePath(normalizedPath)) return;
