@@ -1048,6 +1048,9 @@ class Queries {
                       "logo": logo.asset-> {
                         ${this.IMAGE_METADATA_FIELDS}
                       },
+                      "secondaryLogo": secondaryLogo.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
                       
                       // Testimonial image
                       "testimonialImage": testimonialImage.asset-> {
