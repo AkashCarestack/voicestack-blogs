@@ -5,19 +5,18 @@ import HeroAU from './common/HeroSection/HeroAu'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import ContentVideoTabsSection from '~/v2/sections/ContentVideoTabsSection'
 import CardsGridSection from '~/v2/sections/CardsGridSection'
-// import AboutCoachingPartners from './common/AboutCoachingPartners'
-// import IntegrationsShowcaseSection from './common/IntegrationsShowcaseSection'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import IntegrationCloudSection from '~/v2/sections/IntegrationCloudSection'
 import FooterBottom from './common/FooterBottom'
 import AboutCoachingPartners from '~/v2/sections/AboutCoachingPartnersSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
-import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import SimpleHead from '~/components/common/SimpleHead'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 
-export default function 
+export default function
 HomeGB({
   data,
   featuresData,
@@ -52,55 +51,60 @@ HomeGB({
         description={heroSectionData?.heroDescription}
         buttons={heroSectionData?.bookBtnContent}
       />
-      {pageData['logos-listing']?.componentData && (
-        <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
-      )}
-      {data['voicestack-solution']?.componentData && (
-        <ContentVideoTabsSection data={data['voicestack-solution']?.componentData} />
-      )}
+      {/* {featuresData && <CategoryFeatureTabs features={featuresData || []} />} */}
 
+      {data['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={data['logos-listing']?.componentData.blocksListingData}
+        />
+      )}
+         {data['how-voicestack-works'] && (
+        <GroupedCardsGridSection
+          data={data['how-voicestack-works']?.componentData?.blocksListingData}
+          sectionBorder="b"
+        />
+      )}
+      {/* {data['voicestack-solution']?.componentData && (
+        <ContentVideoTabsSection data={data['voicestack-solution']?.componentData} />
+      )} */}
+
+      {data['power-of-ai'] && (
+        <GroupedCardsGridSection
+          data={data['power-of-ai']?.componentData}
+          theme="dark"
+          aiSection={true}
+        />
+      )}
       {data['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={data['integrations-listing']?.componentData}
           theme="dark"
         />
       )}
-
-      {pageData['hidden-cost-of-missed-calls']?.componentData && (
-        <CardsGridSection variant="V2" colCount={3}
-          data={pageData['hidden-cost-of-missed-calls'].componentData}
-        />
-      )}
-
-      {pageData['testimonial-video-section']?.componentData?.refData
+      <CategoryFeatureTabsSection
+        features={featuresData}
+        variant="carousel"
+        sectionHeading={
+          data['category-feature-tabs']?.componentData?.sectionHeading
+        }
+      />
+      {data['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
-        <VerticalTestimonialListing
+        <VerticalTestimonialListingv2
           data={
-            pageData['testimonial-video-section']?.componentData?.refData
+            data['testimonial-video-section']?.componentData?.refData
               ?.testimonialListing
           }
-        
         />
       )}
-
-      {pageData['total-freedom']?.componentData && (
-        <CardsGridSection variant="V2" colCount={2} bottomSpace={true}
-          data={pageData['total-freedom'].componentData}
-        />
-      )}
-
+   
       <StatisticsSection />
-     
-      {comparisonTableData && (
+      {/* {comparisonLegendData && (
         <SiteComparisonSection
           data={comparisonSectionData}
-          legendData={comparisonLegendData || []}
+          legendData={comparisonLegendData}
         />
-      )}
-      
-    {/* {pageData['about-coach-partners']?.componentData && (
-      <AboutCoachingPartners data={pageData['about-coach-partners']?.componentData} />
-    )} */}
+      )} */}
       {data.faqData && <FaqSection faqItems={data.faqData[0]} />}
     </>
   )

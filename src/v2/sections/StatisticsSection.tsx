@@ -13,31 +13,24 @@ interface StatisticsSectionProps {
   slug?: string
 }
 
+const STATISTICS_US_AU = [
+  { heading: 'Used in', value: '1500+', label: 'Practices Globally' },
+  { heading: 'Average', value: '$80,000', label: 'Additional Revenue Per Location' },
+  { heading: 'Average', value: '84%', label: 'Call Conversion Rate' },
+  { heading: 'Every Day', value: '100,000+', label: 'Calls Handled' },
+]
+
+const STATISTICS_UK = [
+  { heading: 'Used in', value: '1500+', label: 'Practices Globally' },
+  { heading: 'Average', value: '£80,000', label: 'Additional Revenue Per Location' },
+  { heading: 'Average', value: '84%', label: 'Call Conversion Rate' },
+  { heading: 'Every Day', value: '100,000+', label: 'Calls Handled' },
+]
+
 const StatisticsSection = ({ bgColor, slug }: StatisticsSectionProps = {}) => {
-  const statistics = [
-    {
-      heading: "Used in",
-      value: "1500+",
-      label: "Practices Globally"
-    },
-    {
-      heading: "Average",
-      value: "$80,000",
-      label: "Additional Revenue Per Location"
-    },
-    {
-      heading: "Average",
-      value: "84%",
-      label: "Call Conversion Rate"
-    },
-    {
-      heading: "Every Day",
-      value: "100,000+",
-      label: "Calls Handled"
-    }
-  ]
-  
   const router = useRouter()
+  const statistics =
+    router.locale === 'en-GB' ? STATISTICS_UK : STATISTICS_US_AU
 
   return (
     <Section className='bg-gray-50 relative overflow-hidden' border="b">
@@ -51,12 +44,19 @@ const StatisticsSection = ({ bgColor, slug }: StatisticsSectionProps = {}) => {
                   heading={createRotatingWordHeading("The Most Advanced AI Phone System Designed For Practices")}
                   description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused practices across the US, UK, and AU. From single offices to practices with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
                 />
-              ) : (
-                <SectionHeaderV2 isLeftAlign={true} className=''
-                  heading={"The Most Advanced AI Phone System for Dentists Globally."}
-                  description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused dental practices across the US, UK, and Australia! From single practices to DSOs with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to "}
-                />
-              )}     
+              )
+                : router.locale === 'au' ? (
+                  <SectionHeaderV2 isLeftAlign={true} className=''
+                    heading={"The Most Advanced AI Phone System for Dentists Globally."}
+                    description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused dental practices across the US, UK, and Australia! From single practices to DSOs with hundreds of locations, brands rely upon VoiceStack's superior AI models, guaranteed reliability, and ease of use to create delightful patient experiences and sustained growth."}
+                  />
+                ) :
+                  (
+                    <SectionHeaderV2 isLeftAlign={true} className=''
+                      heading={"The Most Advanced AI Phone System for Dentists Globally."}
+                      description={"VoiceStack is the fastest-growing AI phone system preferred by growth-focused dental practices across the UK, USA, and Australia. From single practices to DSOs with hundreds of locations, brands rely upon VoiceStack’s superior AI models, guaranteed reliability, and ease of use to create exceptional patient experiences and sustained growth."}
+                    />
+                  )}
               {/* <SectionHeaderV2 isLeftAlign={true} className=''
                 // heading={"The Most Advanced AI Phone System for Practices Globally."}
                 heading={createRotatingWordHeading("The Most Advanced AI Phone System Designed For Practices")}

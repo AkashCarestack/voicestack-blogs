@@ -59,17 +59,17 @@ const CustomComponent = {
         {
           type: 'reference',
           to: [{ type: 'testimonialSection' }],
-          options: {
-            filter: ({ document }) => {
-              // Filter testimonials based on the current document's language
-              const currentLanguage = document?.language || 'en'
+          // options: {
+          //   filter: ({ document }) => {
+          //     // Filter testimonials based on the current document's language
+          //     const currentLanguage = document?.language || 'en'
 
-              return {
-                filter: `language == "${currentLanguage}"`,
-                params: { language: currentLanguage },
-              }
-            },
-          },
+          //     return {
+          //       filter: `language == "${currentLanguage}"`,
+          //       params: { language: currentLanguage },
+          //     }
+          //   },
+          // },
         }
       ],
     },
