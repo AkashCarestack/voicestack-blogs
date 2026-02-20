@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 interface RegionStripProps {
   locale: string
@@ -18,6 +18,14 @@ const getRegionName = (locale: string): string => {
 
 export default function RegionStrip({ locale, setRegionSwitcherTop, className }: RegionStripProps) {
   const regionName = getRegionName(locale)
+
+  // Add class to body when strip is active
+  useEffect(() => {
+    document.body.classList.add('stripbanner-active')
+    return () => {
+      document.body.classList.remove('stripbanner-active')
+    }
+  }, [])
   
   const getOtherRegions = () => {
     if (regionName === 'USA') {
