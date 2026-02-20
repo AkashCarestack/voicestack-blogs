@@ -1,18 +1,13 @@
-// system-requirements/index.tsx
 import { GetStaticProps } from 'next'
 import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
-import Header from '~/components/common/Header'
 import type { SanityClient } from 'next-sanity'
 import {getMiscellaneousData, getFooterData, getBannerData, getHeaderData } from '~/lib/sanity.queries'
 import { getHeroSectionData } from '~/lib/sanity.queries'
 import { useContext, useEffect } from 'react'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
-import Footer from '~/components/common/Footer'
-import BannerSection from '~/components/BannerSection'
 import ContentSection from '~/components/ContentSection'
 import Head from 'next/head'
-import { notFound } from 'next/navigation'
 import { useRouter } from 'next/router'
 
 interface PageProps {
@@ -72,7 +67,7 @@ export default function SystemRequirements({ homeSettings, heroData, bannerData,
   useEffect(() => {
     setIsDemoPopUpShown(heroData);
   }, [heroData])
-  
+
   const router = useRouter();
   const notEnGB= router.locale =="en-AU" || router.locale =="en"
   const  title= notEnGB ? "System Requirements | Requirements For Using VoiceStack®":"System Requirements | Requirements For Using VoiceStack"
