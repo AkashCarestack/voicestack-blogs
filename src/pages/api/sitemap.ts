@@ -20,7 +20,9 @@ const EXCLUDED_PATHS = [
   'onboarding',
   'demo/thank-you',
   'pricing/thank-you',
-  'en-AU/phone-system'
+  'en-AU/phone-system',
+  'who-we-serve/single-location-dental-practices',
+  'who-we-serve/multi-location-dental-practices'
 ];
 
 // Locale-aware alternate mapping: canonical key -> path per locale (only include locales where this path exists)
@@ -678,12 +680,11 @@ async function generateSiteMap(
   // Note: phone-system paths will be automatically transformed to dental-phones for en-AU locale
   // in the buildUrl function, so we don't need to filter out en-AU here
 
-  // Filter out en-GB locale from all paths except root ('') and 'system-requirements'
-  // Only these two paths should have en-GB URLs in the sitemap
-  const allowedEnGBPaths = ['', 'system-requirements'];
+  // Filter out en-GB locale from all paths except root, system-requirements, and feature pages (UK feature children)
+  const isAllowedEnGB = (p: string) =>
+    p === '' || p === 'system-requirements' || p.startsWith('phone-system/features/');
   allPathData.forEach((pathData, path) => {
-    if (!allowedEnGBPaths.includes(path)) {
-      // Remove en-GB from locales for this path
+    if (!isAllowedEnGB(path)) {
       pathData.locales = pathData.locales.filter(locale => locale !== 'en-GB');
     }
   });
@@ -749,12 +750,13 @@ async function generateSiteMap(
 
     const addAlternateUrl = (url: string, hreflang: string) => {
       if (url.includes('/en-AU/phone-system') || url.includes('/en-GB/phone-system')) return;
-      // Only allow en-GB for root and system-requirements
+      // Only allow en-GB for root, system-requirements, and feature pages (dental-phones/features/ for UK)
       if (hreflang === 'en-GB' || url.includes('/en-GB')) {
         const enGBMatch = url.match(/\/en-GB(?:\/(.*))?$/);
         if (enGBMatch) {
           const urlPath = (enGBMatch[1] || '').replace(/\/$/, '');
-          if (urlPath !== '' && urlPath !== 'system-requirements') return;
+          const allowed = urlPath === '' || urlPath === 'system-requirements' || urlPath.startsWith('dental-phones/features/');
+          if (!allowed) return;
         }
       }
       const key = `${url}|${hreflang}`;
@@ -820,7 +822,8 @@ async function generateSiteMap(
             const enGBMatch = url.match(/\/en-GB(?:\/(.*))?$/);
             if (enGBMatch) {
               const urlPath = (enGBMatch[1] || '').replace(/\/$/, '');
-              if (urlPath !== '' && urlPath !== 'system-requirements') return;
+              const allowed = urlPath === '' || urlPath === 'system-requirements' || urlPath.startsWith('dental-phones/features/');
+              if (!allowed) return;
             }
           }
           const k = `${url}|${hreflang}`;
