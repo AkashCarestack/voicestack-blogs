@@ -91,8 +91,8 @@ const NavigationMenu = ({
           if (link.highlight) {
             return (
               <li key={`menu-${i}`} className="list-none">
-                <Anchor href={link.href} className="relative group self-start block">
-                  <span className="flex lg:my-0 my-4 items-center gap-2 text-white xl:text-sm md:text-xs text-sm py-[4px] pl-[10px] pr-4 rounded-[6px] border-2 border-white/80 bg-gradient-to-r from-[#4A3CE1] to-[#FF708C] shadow-[0_4px_4px_0_rgba(200,200,200,0.20)] justify-center">
+                <Anchor href={link.href} className="relative group self-start flex justify-center">
+                  <span className="flex lg:my-0 my-4 items-center min-w-[175px] lg:min-w-0 gap-2 text-white h-[42px] lg:h-auto xl:text-sm lg:text-xs text-base py-[4px] pl-[10px] pr-4 rounded-[8px] lg:rounded-[6px] lg:border-2 border-white/80 bg-gradient-to-r from-[#4A3CE1] to-[#FF708C] shadow-[0_4px_4px_0_rgba(200,200,200,0.20)] justify-center">
                     <SparklesIconFill className="w-4 h-4" />
                     <span>{link.label}</span>
                   </span>
