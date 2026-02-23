@@ -74,7 +74,9 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
   const topPaddingSm = sectionSpacing && sectionSpacing == "pt-sm";
   const pyNoPadding = sectionSpacing && sectionSpacing == "py-0";
   // console.log('displayData GroupedCardsGridSection',displayData);
+  const customDescription = data.description || ''
   
+console.log("customDescription", customDescription);
 
   return (
     <Section className={bgColor} border={sectionBorder} isDark={isDark}>
@@ -100,7 +102,7 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
                 )}
                 <SectionHeaderV2
                   heading={displayData.sectionHeadingDynamic || displayData.heading}
-                  description={displayData.description || ''}
+                  description={customDescription || displayData.description || ''}
                   className="xl:px-12 md:px-6 px-4"
                   isWhite={isDark}
                   ctaListItems={displayData.ctaListItems}
