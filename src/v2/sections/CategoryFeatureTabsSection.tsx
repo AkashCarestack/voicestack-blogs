@@ -60,6 +60,7 @@ interface CategoryFeatureTabsSectionProps {
   sectionBorder?: "b" | "t" | "y" | "none";
   isGridListing?: boolean;
   columnCount?: number;
+  customType?: string;
 }
 
 export default function CategoryFeatureTabsSection({
@@ -70,6 +71,7 @@ export default function CategoryFeatureTabsSection({
   variant = 'default',
   sectionBorder = 'none',
   isGridListing = false,
+  customType,
 }: CategoryFeatureTabsSectionProps) {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>('');

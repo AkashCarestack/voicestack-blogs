@@ -84,6 +84,7 @@ export default function PartnerSlugPage({
         <CategoryFeatureTabsSection
           features={features}
           variant="carousel"
+          customType="partner"
           sectionHeading={
             pageData['category-feature-tabs']?.componentData?.sectionHeading
           }
