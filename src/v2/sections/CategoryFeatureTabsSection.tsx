@@ -654,7 +654,7 @@ export default function CategoryFeatureTabsSection({
         className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
         border={sectionBorder}
       >
-        <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
+        <Container className='w-full py-sm md:py-sm lg:py-md' type="V2" border="y-0">
           {/* Header Section */}
           <div className="flex-col gap-16 relative w-full flex items-center justify-center">
             <div className="flex flex-col gap-3 items-center text-center max-w-[712px]">
