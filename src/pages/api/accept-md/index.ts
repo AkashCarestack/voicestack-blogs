@@ -66,6 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       baseUrl,
       config,
       cache: config.cache !== false ? cache : undefined,
+      // @ts-ignore - headers may not be in type definition but is supported at runtime
       headers,
     });
     res.setHeader('Content-Type', 'text/markdown; charset=utf-8');

@@ -787,7 +787,7 @@ export default function CategoryFeatureTabsSection({
                       const isActive = category.name === activeCategory;
                       const slug = router.query?.slug as string;
                       
-                      const shouldUseSecondaryImage = slug.includes('vetcelerator');
+                      const shouldUseSecondaryImage = slug && typeof slug === 'string' && slug.includes('vetcelerator');
                       
                       let imageToDisplay = category?.mainImage;
                       if (shouldUseSecondaryImage && category?.categorySecondaryImage && Array.isArray(category.categorySecondaryImage) && category.categorySecondaryImage.length > 0) {
