@@ -82,6 +82,7 @@ export default function PartnerSlugPage({
 
       {features && features.length > 0 && pageData['category-feature-tabs'] && (
         <CategoryFeatureTabsSection
+        
           features={features}
           variant="carousel"
           sectionHeading={
@@ -117,7 +118,7 @@ export default function PartnerSlugPage({
         />
       )}
 
-      <StatisticsSection category="Veterinarians"/>
+      <StatisticsSection {...(slug === 'vetcelerator' && { category: 'Veterinarians' })} />
     </>
   )
 }
