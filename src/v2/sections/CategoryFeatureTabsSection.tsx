@@ -71,7 +71,7 @@ export default function CategoryFeatureTabsSection({
   variant = 'default',
   sectionBorder = 'none',
   isGridListing = false,
-  customType,
+  ...props
 }: CategoryFeatureTabsSectionProps) {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>('');
@@ -186,6 +186,7 @@ export default function CategoryFeatureTabsSection({
           subheading: tab.tabSubHeading || '',
           description: descriptionText,
           mainImage: tab.image || null,
+          categorySecondaryImage: tab.categorySecondaryImage || null,
           icon: tab.icon || null,
           iconSvgCode: tab.icon || '',
           featureOrder: tab.featureOrder || tab.order,
@@ -223,6 +224,7 @@ export default function CategoryFeatureTabsSection({
         subheading: categoryData.category.subheading,
         description: categoryData.category.description || categoryName,
         mainImage: categoryData.category.mainImage,
+        categorySecondaryImage: categoryData.category.categorySecondaryImage,
         icon: categoryData.category.icon,
         iconSvgCode: categoryData.category.iconSvgCode,
         featureOrder: categoryData.category.featureOrder,
@@ -412,7 +414,6 @@ export default function CategoryFeatureTabsSection({
   if (variant === 'singlecard' && allCategories.length > 0) {
     const firstCategory = allCategories[0];
     const pillItems = firstCategory.features || [];
-    // console.log(firstCategory,'firstCategory');
 
 
     return (
@@ -784,8 +785,16 @@ export default function CategoryFeatureTabsSection({
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const isActive = category.name === activeCategory;
+                      const slug = router.query?.slug as string;
+                      
+                      const shouldUseSecondaryImage = slug.includes('vetcelerator');
+                      
+                      let imageToDisplay = category?.mainImage;
+                      if (shouldUseSecondaryImage && category?.categorySecondaryImage && Array.isArray(category.categorySecondaryImage) && category.categorySecondaryImage.length > 0) {
+                        imageToDisplay = category.categorySecondaryImage[0]?.image;
+                      }
 
-                      if (!isActive || !category?.mainImage) return null;
+                      if (!isActive || !imageToDisplay) return null;
 
                       return (
                         <motion.div
@@ -797,9 +806,9 @@ export default function CategoryFeatureTabsSection({
                           className="w-full relative flex items-end justify-center h-full"
                         >
                           <ImageLoader
-                            image={category.mainImage}
+                            image={imageToDisplay}
                             alt={`${category.name} feature illustration`}
-                            title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
+                            title={`${category.name || imageToDisplay?.title || imageToDisplay?.altText || ''}`}
                             fixed={true}
                             className="rounded-lg object-contain w-full h-full"
                           />
@@ -936,7 +945,6 @@ export default function CategoryFeatureTabsSection({
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const isActive = category.name === activeCategory;
-
                       if (!isActive || !category?.mainImage) return null;
 
                       return (
@@ -949,7 +957,7 @@ export default function CategoryFeatureTabsSection({
                           className="w-full h-full relative flex items-center justify-center"
                         >
                           <div className="w-full h-full relative flex items-center justify-center">
-                            <Image
+                          <Image
                               src={category.mainImage.url}
                               alt={`${category.name} feature illustration`}
                               title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
@@ -1083,7 +1091,7 @@ export default function CategoryFeatureTabsSection({
           {/* Category Sections with line dividers */}
           <div className="flex flex-col w-full">
             {allCategories.map((category, index) => {
-              return (
+                  return (
                 <React.Fragment key={category.name}>
                   {index > 0 && <div className={`${category?.features.length > 0 ? 'border-b border-gray-200' : 'border-y'}`}><SectionDivider height={isMobile ? "60px" : "130px"} /></div>}
                   <article
@@ -1163,8 +1171,8 @@ export default function CategoryFeatureTabsSection({
                           </div>
                         </div>
 
-                        {/* Right: Category Image */}
-                        {category?.mainImage && <div className="bg-gray-50 flex flex-col items-center justify-end px-4 md:px-px py-4 md:py-0  overflow-hidden relative">
+             {/* Right: Category Image */}
+             {category?.mainImage && <div className="bg-gray-50 flex flex-col items-center justify-end px-4 md:px-px py-4 md:py-0  overflow-hidden relative">
                           {/* Grid Pattern Background */}
                 
                           {category?.mainImage && (

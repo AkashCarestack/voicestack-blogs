@@ -82,7 +82,7 @@ export default function PartnerSlugPage({
 
       {features && features.length > 0 && pageData['category-feature-tabs'] && (
         <CategoryFeatureTabsSection
-        
+        {...(slug === 'vetcelerator' && { category: 'Veterinarians' })}
           features={features}
           variant="carousel"
           customType="partner"
