@@ -104,6 +104,32 @@ export default defineType({
       initialValue: 'en',
     }),
 
+    defineField({
+      name: 'categorySecondaryImage',
+      title: 'Category Secondary Images',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+            },
+            {
+              name: 'name',
+              title: 'Name',
+              type: 'string',
+            },
+          ],
+        },
+      ],
+    }),
+
   ],
   orderings: [
     {

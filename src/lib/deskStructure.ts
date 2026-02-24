@@ -98,7 +98,7 @@ const customTitleMap: Record<string, string> = {
   homePage: 'Home Page',
   whoWeServe: 'Who We Serve',
   dentalSoftware: 'Dental Software',
-  dentalPhones: 'Phone System',
+  dentalPhones: 'Phone System / Dental Phones',
   whyVoicestack: 'Why Voicestack',
     company: 'Company Page',
     partner: 'Partner Page',
