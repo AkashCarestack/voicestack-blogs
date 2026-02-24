@@ -53,7 +53,6 @@ import Platforms from './Platforms/index'
 import portableContent from './portableContent'
 import SiteSettings from './SiteSettings'
 import testimonialSection from './testimonial'
-import TestimonialHighlight from './TestimonialHighlight'
 import HtmlCode from './Utilis/HtmlCode'
 import VerticalTestimonialListing from './VerticalTestimonialListing'
 import WhoWeServeListing from './WhoWeServeListing'
@@ -82,7 +81,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     faq,
     customBlockContent,
     customListingContent,
-    TestimonialHighlight,
     Miscellaneous,
     page,
     ...DynamicComponent,

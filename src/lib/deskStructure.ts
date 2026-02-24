@@ -41,8 +41,6 @@ const schemaIconMap: Record<string, any> = {
   // Content Types
   testimonial: StarIcon,
   testimonialSection: CommentIcon,
-  testimonialHighlightSection: CommentIcon,
-  
   // Features & Components
   Features: BoltIcon,
   feature: BoltIcon,
@@ -106,7 +104,6 @@ const customTitleMap: Record<string, string> = {
     globalData: 'Global Data',
   testimonial: 'Feature Main',
   testimonialSection: 'Testimonial Section',
-  testimonialHighlightSection: 'Testimonial Highlight Section',
   DynamicComponent: 'Dynamic Components',
   featureCategory: 'Feature Categories',
   featureCategoryOld: 'Feature Categories (Old)',
@@ -165,9 +162,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     // Content Management - Centralized Data
     contentManagement: ['author', 'centralizedTestimonial', 'featureItem'],
     
-    // Content Management (existing)
-    content: ['testimonialHighlightSection'],
-    
+
     // Features & Components
     features: ['featureList', 'featureSubSection', 'heroSubFeature', 'testimonial'],
     
@@ -734,8 +729,8 @@ function getCategoryIcon(category: string) {
     contentManagement: UsersIcon,
     content: DocumentIcon,
     features: BoltIcon,
-    testimonialSection: CommentIcon,
-    legal: DocumentTextIcon,
+testimonialSection: CommentIcon,
+  legal: DocumentTextIcon,
     comparisons: StackIcon,
     platforms: EarthGlobeIcon,
     blocks: OlistIcon,
