@@ -13,7 +13,7 @@ export default function LeadershipList({ data }: { data: any }) {
     <Section className="relative py-sm md:py-md  bg-[#F9F9F9]" border='b'>
       <Container className="w-full justify-center">
         <div className="font-sans flex flex-col gap-16">
-          <SectionHeaderV2 heading={data?.heading} />
+          <SectionHeaderV2 heading={data?.heading || data?.title} />
           <div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
             style={{ columnGap: '1.5rem' }}

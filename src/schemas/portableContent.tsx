@@ -1,7 +1,6 @@
 import React from 'react';
 import { defineArrayMember, defineType } from 'sanity';
 import { HighlightIcon } from '@sanity/icons';
-import htmlCode from './Utilis/HtmlCode';
 
 const HighlightDecorator = (props) => (
   <span style={{ backgroundColor: 'yellow' }}>{props.children}</span>
@@ -32,6 +31,9 @@ export default defineType({
         spellCheck: true,
       },
     }),
-    defineArrayMember(htmlCode),
+    defineArrayMember({
+      type: 'htmlCode',
+      name: 'portableHtmlCodeBlock',
+    }),
   ],
 });
