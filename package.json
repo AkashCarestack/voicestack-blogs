@@ -33,8 +33,10 @@
     "@supabase/supabase-js": "^2.33.1",
     "@vercel/edge": "^1.1.4",
     "@vercel/functions": "^3.1.0",
+    "accept-md-runtime": "4.0.5",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "cs_posthog": "^1.1.0",
     "cs-tracker": "^0.0.12",
     "dotenv": "^16.4.7",
     "framer-motion": "^11.13.5",
@@ -55,8 +57,7 @@
     "styled-components": "6.1.8",
     "tailwind-merge": "^2.5.4",
     "tailwindcss": "^3.4.14",
-    "tailwindcss-animate": "^1.0.7",
-    "accept-md-runtime": "4.0.5"
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
