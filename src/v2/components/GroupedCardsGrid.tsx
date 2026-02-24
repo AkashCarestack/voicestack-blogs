@@ -20,6 +20,7 @@ interface CardItemMainProps {
   createSpecialtyCardComponents: (listIconSvgCode?: string) => Partial<PortableTextReactComponents>
   onlyImage: boolean
   cardWithGraph?: boolean
+  isIntegrationSection?: boolean
 }
 
 const CardItemMain: React.FC<CardItemMainProps> = ({
@@ -34,7 +35,8 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
   numberedCardComponents,
   createSpecialtyCardComponents,
   onlyImage,
-  cardWithGraph = false
+  cardWithGraph = false,
+  isIntegrationSection = false
 }) => {
   const imageUrl = item.image?.url || urlForImage(item.image)
   const hasImage = !!imageUrl
@@ -64,6 +66,20 @@ const CardItemMain: React.FC<CardItemMainProps> = ({
               />
             )}
 
+            {(isIntegrationSection && !item.dynamicSvg) && item.heading && (
+              <div className="flex flex-col gap-3 items-start justify-end w-12 h-12">
+                <span
+                  className="flex items-center justify-center w-12 h-12 rounded-lg bg-vs-blue/10 text-vs-blue font-bold text-2xl shrink-0"
+                  aria-hidden
+                >
+                  {(item.heading || '')
+                    .replace(/<[^>]*>/g, '')
+                    .trim()
+                    .charAt(0)
+                    .toUpperCase() || '?'}
+                </span>
+              </div>
+            )}
 
             <div className="flex flex-col gap-3 items-start justify-end w-full">
               {/* Heading */}
@@ -197,9 +213,10 @@ export interface GroupedCardsGridProps {
   columnCount?: number
   showBorderBottom?: boolean
   cardWithGraph?: boolean
+  isIntegrationSection?: boolean
 }
 
-export default function GroupedCardsGrid({ customListingItems = [], theme, showBorderBottom = false, simpleListingData = false, columnCount, cardWithGraph = false }: GroupedCardsGridProps) {
+export default function GroupedCardsGrid({ customListingItems = [], theme, showBorderBottom = false, simpleListingData = false, columnCount, cardWithGraph = false, isIntegrationSection = false }: GroupedCardsGridProps) {
   if (!customListingItems || customListingItems.length === 0) return null
 
   const isDark = theme === 'dark'
@@ -370,6 +387,7 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
         createSpecialtyCardComponents={createSpecialtyCardComponents}
         onlyImage={onlyImage}
         cardWithGraph={cardWithGraph}
+        isIntegrationSection={isIntegrationSection}
       />
     )
 
