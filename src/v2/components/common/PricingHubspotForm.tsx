@@ -8,10 +8,12 @@ const PricingHubspotForm: React.FC<{
   id?: string
   eventName?: string
   formDetails?: string
+  followUpMeetingLink?: string
 }> = ({
   id,
   eventName,
-  formDetails
+  formDetails,
+  followUpMeetingLink
 }) => {
 
   const { trackEvent } = useTracking({}, {});
@@ -130,6 +132,11 @@ const PricingHubspotForm: React.FC<{
                     urlParams.delete("meeting");
                   }
                   var wholeUrl = redirectBase + "?" + redirectParams.toString();
+                  if (followUpMeetingLink) {
+                    // Append form values to the meeting link URL
+                    const meetingUrlWithParams = `${followUpMeetingLink}${followUpMeetingLink.includes('?') ? '&' : '?'}${params.toString()}`;
+                    wholeUrl += "&meeting_link=" + encodeURIComponent(meetingUrlWithParams);
+                  }
                   router.push(wholeUrl);
                    
                 }, 2000)
@@ -150,7 +157,7 @@ const PricingHubspotForm: React.FC<{
       )
       if (hubspotScript) hubspotScript.remove()
     }
-  }, [id, eventName, router, formDetails])
+  }, [id, eventName, router, formDetails, followUpMeetingLink])
 
   return (
     <>

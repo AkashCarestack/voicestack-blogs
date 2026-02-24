@@ -50,6 +50,16 @@ export default function ThankYouPage() {
     }
   }, [])
 
+  useEffect(() => {
+    const meetingLink = router.query.meeting_link as string
+    if (meetingLink) {
+      const decodedMeetingLink = decodeURIComponent(meetingLink)
+      setTimeout(() => {
+        window.location.href = decodedMeetingLink
+      }, 1500)
+    }
+  }, [router.query.meeting_link])
+
   const handleMeetingClick = () => {
     if (demoData?.meetingLink) {
       router.push(demoData.meetingLink)
