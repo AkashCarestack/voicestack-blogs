@@ -1938,9 +1938,78 @@ export const getFeaturesListQuery = groq`
         mainImage {
           asset-> {
             _id,
-            url
-          }
+            url,
+            metadata {
+              dimensions {
+                width,
+                height,
+                aspectRatio
+              }
+            }
+          },
+          altText,
+          title
         },
+        // Use coalesce to try current language first, then fallback to en-AU, then en
+        "categorySecondaryImage": coalesce(
+          categorySecondaryImage[] {
+            _key,
+            image {
+              asset-> {
+                _id,
+                url,
+                metadata {
+                  dimensions {
+                    width,
+                    height,
+                    aspectRatio
+                  }
+                }
+              },
+              altText,
+              title
+            },
+            name
+          },
+          *[_type == "featureCategory" && name == ^.name && language == "en-AU"][0].categorySecondaryImage[] {
+            _key,
+            image {
+              asset-> {
+                _id,
+                url,
+                metadata {
+                  dimensions {
+                    width,
+                    height,
+                    aspectRatio
+                  }
+                }
+              },
+              altText,
+              title
+            },
+            name
+          },
+          *[_type == "featureCategory" && name == ^.name && language == "en"][0].categorySecondaryImage[] {
+            _key,
+            image {
+              asset-> {
+                _id,
+                url,
+                metadata {
+                  dimensions {
+                    width,
+                    height,
+                    aspectRatio
+                  }
+                }
+              },
+              altText,
+              title
+            },
+            name
+          }
+        ),
         icon {
           asset-> {
             _id,
@@ -1987,6 +2056,66 @@ export const getFeatureBySlugQuery = groq`
             url
           }
         },
+        // Use coalesce to try current language first, then fallback to en-AU, then en
+        "categorySecondaryImage": coalesce(
+          categorySecondaryImage[] {
+            _key,
+            image {
+              asset-> {
+                _id,
+                url,
+                metadata {
+                  dimensions {
+                    width,
+                    height,
+                    aspectRatio
+                  }
+                }
+              },
+              altText,
+              title
+            },
+            name
+          },
+          *[_type == "featureCategory" && name == ^.name && language == "en-AU"][0].categorySecondaryImage[] {
+            _key,
+            image {
+              asset-> {
+                _id,
+                url,
+                metadata {
+                  dimensions {
+                    width,
+                    height,
+                    aspectRatio
+                  }
+                }
+              },
+              altText,
+              title
+            },
+            name
+          },
+          *[_type == "featureCategory" && name == ^.name && language == "en"][0].categorySecondaryImage[] {
+            _key,
+            image {
+              asset-> {
+                _id,
+                url,
+                metadata {
+                  dimensions {
+                    width,
+                    height,
+                    aspectRatio
+                  }
+                }
+              },
+              altText,
+              title
+            },
+            name
+          }
+        ),
         icon {
           asset-> {
             _id,
@@ -2011,7 +2140,150 @@ export const getFeatureBySlugQuery = groq`
 
 // Features query functions
 export async function getFeaturesList(client: SanityClient, language: string = 'en'): Promise<any[]> {
-  return await client.fetch(getFeaturesListQuery, { language })
+  // First, let's test fetching the category directly to see if data exists
+  // Try without language filter first, then with language filter
+  const testCategoryQueryNoLang = groq`
+    *[_type == "featureCategory" && name == "Attribution Analytics"] {
+      _id,
+      name,
+      language,
+      categorySecondaryImage[] {
+        _key,
+        image {
+          asset-> {
+            _id,
+            url,
+            metadata {
+              dimensions {
+                width,
+                height,
+                aspectRatio
+              }
+            }
+          },
+          altText,
+          title
+        },
+        name
+      }
+    }
+  `;
+  
+  const testCategoryQueryWithLang = groq`
+    *[_type == "featureCategory" && name == "Attribution Analytics" && (language == $language || language == null)] {
+      _id,
+      name,
+      language,
+      categorySecondaryImage[] {
+        _key,
+        image {
+          asset-> {
+            _id,
+            url,
+            metadata {
+              dimensions {
+                width,
+                height,
+                aspectRatio
+              }
+            }
+          },
+          altText,
+          title
+        },
+        name
+      }
+    }
+  `;
+  
+  try {
+    console.log('🔍 Testing direct category query without language filter...');
+    const testResultNoLang = await client.fetch(testCategoryQueryNoLang);
+    console.log('🔍 DIRECT CATEGORY QUERY (no lang filter) RESULT:', testResultNoLang);
+    
+    console.log('🔍 Testing direct category query with language filter...');
+    const testResultWithLang = await client.fetch(testCategoryQueryWithLang, { language });
+    console.log('🔍 DIRECT CATEGORY QUERY (with lang filter) RESULT:', testResultWithLang);
+    
+    // Also query ALL categories to see which ones have categorySecondaryImage
+    const allCategoriesQuery = groq`
+      *[_type == "featureCategory"] {
+        _id,
+        name,
+        language,
+        "hasSecondaryImages": defined(categorySecondaryImage) && count(categorySecondaryImage) > 0,
+        "secondaryImageCount": count(categorySecondaryImage),
+        categorySecondaryImage[] {
+          _key,
+          name,
+          image {
+            asset-> {
+              _id,
+              url
+            }
+          }
+        }
+      }
+    `;
+    const allCategories = await client.fetch(allCategoriesQuery);
+    console.log('🔍 ALL CATEGORIES WITH SECONDARY IMAGES:', allCategories.filter((c: any) => c.hasSecondaryImages));
+    console.log('🔍 Total categories:', allCategories.length);
+    
+    if (testResultNoLang && testResultNoLang.length > 0) {
+      const cat = testResultNoLang[0];
+      console.log('🔍 Category "Attribution Analytics" found:', cat);
+      console.log('🔍 Language:', cat.language);
+      console.log('🔍 categorySecondaryImage in direct query:', cat.categorySecondaryImage);
+      console.log('🔍 categorySecondaryImage count:', cat.categorySecondaryImage?.length || 0);
+    } else {
+      console.log('🔍 Category "Attribution Analytics" NOT FOUND in Sanity (no language filter)');
+    }
+  } catch (error) {
+    console.error('🔍 Error fetching category directly:', error);
+  }
+  
+  const result = await client.fetch(getFeaturesListQuery, { language });
+  
+  // Debug: Log categorySecondaryImage data
+  if (result && result.length > 0) {
+    console.log('🔍 Query Result - Total features:', result.length);
+    
+    // Check ALL features with categories for categorySecondaryImage
+    const featuresWithCategories = result.filter((f: any) => f.featureCategory);
+    console.log('🔍 Features with categories:', featuresWithCategories.length);
+    
+    // Find Attribution Analytics specifically
+    const attributionFeature = result.find((f: any) => 
+      f.featureCategory?.name === 'Attribution Analytics' || 
+      f.basicInfo?.title === 'Attribution Analytics'
+    );
+    
+    if (attributionFeature) {
+      console.log('🔍 FOUND Attribution Analytics feature:', attributionFeature);
+      console.log('🔍 Feature category:', attributionFeature.featureCategory);
+      console.log('🔍 categorySecondaryImage:', attributionFeature.featureCategory?.categorySecondaryImage);
+      console.log('🔍 Full featureCategory object keys:', Object.keys(attributionFeature.featureCategory || {}));
+    }
+    
+    featuresWithCategories.forEach((feature: any, index: number) => {
+      const category = feature.featureCategory;
+      if (category && category.name === 'Attribution Analytics') {
+        console.log(`🔍 Attribution Analytics Category - Full object:`, JSON.stringify(category, null, 2));
+        console.log(`🔍 Attribution Analytics - categorySecondaryImage:`, category.categorySecondaryImage);
+        console.log(`🔍 Attribution Analytics - categorySecondaryImage type:`, typeof category.categorySecondaryImage);
+        console.log(`🔍 Attribution Analytics - categorySecondaryImage isArray:`, Array.isArray(category.categorySecondaryImage));
+      }
+    });
+    
+    // Check if ANY feature has categorySecondaryImage
+    const hasSecondaryImage = result.some((f: any) => {
+      const cat = f.featureCategory;
+      return cat && cat.categorySecondaryImage && Array.isArray(cat.categorySecondaryImage) && cat.categorySecondaryImage.length > 0;
+    });
+    console.log('🔍 Any feature has categorySecondaryImage?', hasSecondaryImage);
+  }
+  
+  return result;
 }
 
 // Get features for layout (header/footer) - simple query with just title and slug
@@ -2081,6 +2353,25 @@ export const getFeatureListQuery = groq`
             url
           }
         },
+        categorySecondaryImage[] {
+          _key,
+          image {
+            asset-> {
+              _id,
+              url,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                }
+              }
+            },
+            altText,
+            title
+          },
+          name
+        },
         icon {
           asset-> {
             _id,
@@ -2145,6 +2436,25 @@ export const getGlobalDataFeatureListQuery = groq`
                 url
               }
             },
+            categorySecondaryImage[] {
+              _key,
+              image {
+                asset-> {
+                  _id,
+                  url,
+                  metadata {
+                    dimensions {
+                      width,
+                      height,
+                      aspectRatio
+                    }
+                  }
+                },
+                altText,
+                title
+              },
+              name
+            },
             icon {
               asset-> {
                 _id,
@@ -2197,6 +2507,25 @@ export const getAllFeaturesQuery = groq`
           url
         }
       },
+      categorySecondaryImage[] {
+        _key,
+        image {
+          asset-> {
+            _id,
+            url,
+            metadata {
+              dimensions {
+                width,
+                height,
+                aspectRatio
+              }
+            }
+          },
+          altText,
+          title
+        },
+        name
+      },
       icon {
         asset-> {
           _id,
@@ -2241,6 +2570,25 @@ export const getFeatureCategoriesWithCountQuery = groq`
         _id,
         url
       }
+    },
+    categorySecondaryImage[] {
+      _key,
+      image {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            }
+          }
+        },
+        altText,
+        title
+      },
+      name
     },
     icon {
       asset-> {
@@ -2297,6 +2645,25 @@ export const getFeatureListBySlugQuery = groq`
             _id,
             url
           }
+        },
+        categorySecondaryImage[] {
+          _key,
+          image {
+            asset-> {
+              _id,
+              url,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                }
+              }
+            },
+            altText,
+            title
+          },
+          name
         },
         icon {
           asset-> {

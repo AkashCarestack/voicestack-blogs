@@ -20,20 +20,119 @@ const EXCLUDED_PATHS = [
   'onboarding',
   'demo/thank-you',
   'pricing/thank-you',
-  'en-AU/phone-system'
+  'en-AU/phone-system',
+  'en/who-we-serve/multi-location-dental-practices'
 ];
 
-const SIMILAR_ALTERNATES: Record<string, string[]> = {
-  'phone-system': ['/en-AU/dental-phones'],
-  'dental-phones': ['/phone-system'],
-  'phone-system/features': ['/en-AU/dental-phones/features'],
-  'phone-system/reviews': ['/en-AU/dental-phones/reviews'],
-  'phone-system/integrations': ['/en-AU/dental-phones/integrations'],
-  'phone-system/comparison': ['/en-AU/dental-phones/comparison'],
-  'phone-system/case-studies': ['/en-AU/dental-phones/case-studies'],
-  'phone-system/phones': ['/en-AU/dental-phones/phones'],
-  'phone-system/features/ai-receptionist': ['/en-AU/dental-phones/ai-receptionist'],
+// Paths that must not have their en (root) URL in sitemap; en-AU and en-GB versions still included
+const PATHS_NO_EN_URL = [
+  'who-we-serve/single-location-dental-practices',
+  'who-we-serve/multi-location-dental-practices',
+  'who-we-serve/groups-and-enterprises'
+];
 
+function shouldOmitEnUrl(path: string, locale: string): boolean {
+  return locale === 'en' && PATHS_NO_EN_URL.includes(path);
+}
+
+// Paths that must not have en-GB URL in sitemap (pages don't exist for en-GB); en and en-AU still included
+const PATHS_NO_EN_GB_URL = [
+  'dental-phones/comparison',
+  'dental-phones/case-studies',
+  'phone-system/comparison',
+  'phone-system/case-studies',
+];
+
+function shouldOmitEnGBUrl(path: string): boolean {
+  return PATHS_NO_EN_GB_URL.includes(path);
+}
+
+// Locale-aware alternate mapping: canonical key -> path per locale (only include locales where this path exists)
+const LOCALE_ALTERNATE_MAP: Record<string, Record<string, string>> = {
+  'phone-system': {
+    'en': 'phone-system',
+    'en-AU': 'dental-phones',
+    'en-GB': 'dental-phones',
+  },
+  'phone-system/features': {
+    'en': 'phone-system/features',
+    'en-AU': 'dental-phones/features',
+    'en-GB': 'dental-phones/features',
+  },
+  'phone-system/reviews': { 'en': 'phone-system/reviews', 'en-AU': 'dental-phones/reviews', 'en-GB': 'dental-phones/reviews' },
+  'phone-system/integrations': { 'en': 'phone-system/integrations', 'en-AU': 'dental-phones/integrations', 'en-GB': 'dental-phones/integrations' },
+  'phone-system/comparison': { 'en': 'phone-system/comparison', 'en-AU': 'dental-phones/comparison', 'en-GB': 'dental-phones/comparison' },
+  'phone-system/case-studies': { 'en': 'phone-system/case-studies', 'en-AU': 'dental-phones/case-studies', 'en-GB': 'dental-phones/case-studies' },
+  'phone-system/phones': { 'en': 'phone-system/phones', 'en-AU': 'dental-phones/phones', 'en-GB': 'dental-phones/phones' },
+  'ai-receptionist': {
+    'en': 'phone-system/features/ai-receptionist',
+    'en-AU': 'dental-phones/ai-receptionist',
+    'en-GB': 'dental-phones/features/ai-receptionist',
+  },
+  'marketing-spend-optimization': {
+    'en': 'phone-system/features/marketing-spend-optimization',
+    'en-AU': 'dental-phones/features/marketing-spend-optimisation',
+    'en-GB': 'dental-phones/features/marketing-spend-optimisation',
+  },
+  'who-we-serve/multi-location-dental-practices': {
+    'en': 'who-we-serve/multi-location-dental-practices',
+    'en-AU': 'who-we-serve/multi-location-dental-practices',
+    'en-GB': 'who-we-serve/multi-site-dental-practices',
+  },
+  'who-we-serve/single-location-dental-practices': {
+    'en': 'who-we-serve/single-location-dental-practices',
+    'en-AU': 'who-we-serve/single-location-dental-practices',
+    'en-GB': 'who-we-serve/single-site-dental-practices',
+  },
+  'who-we-serve/groups-dsos': {
+    'en': 'who-we-serve/groups-and-enterprises',
+    'en-AU': 'who-we-serve/groups-and-dsos',
+    'en-GB': 'who-we-serve/dental-groups-dsos-corporates',
+  },
+  'who-we-serve/startups': {
+    'en': 'who-we-serve/startups',
+    'en-AU': 'who-we-serve/startups',
+    'en-GB': 'who-we-serve/squat-dental-practices',
+  },
+}
+
+// Path -> canonical key for resolving alternates (multiple paths can map to same key)
+const PATH_TO_CANONICAL: Record<string, string> = {
+  'phone-system': 'phone-system',
+  'dental-phones': 'phone-system',
+  'phone-system/features': 'phone-system/features',
+  'dental-phones/features': 'phone-system/features',
+  'phone-system/reviews': 'phone-system/reviews',
+  'dental-phones/reviews': 'phone-system/reviews',
+  'phone-system/integrations': 'phone-system/integrations',
+  'dental-phones/integrations': 'phone-system/integrations',
+  'phone-system/comparison': 'phone-system/comparison',
+  'dental-phones/comparison': 'phone-system/comparison',
+  'phone-system/case-studies': 'phone-system/case-studies',
+  'dental-phones/case-studies': 'phone-system/case-studies',
+  'phone-system/phones': 'phone-system/phones',
+  'dental-phones/phones': 'phone-system/phones',
+  'phone-system/features/ai-receptionist': 'ai-receptionist',
+  'phone-system/ai-receptionist': 'ai-receptionist',
+  'dental-phones/ai-receptionist': 'ai-receptionist',
+  'dental-phones/features/ai-receptionist': 'ai-receptionist',
+  'phone-system/features/marketing-spend-optimization': 'marketing-spend-optimization',
+  'phone-system/features/marketing-spend-optimisation': 'marketing-spend-optimization',
+  'dental-phones/features/marketing-spend-optimisation': 'marketing-spend-optimization',
+  'dental-phones/features/marketing-spend-optimization': 'marketing-spend-optimization',
+  'who-we-serve/multi-location-dental-practices': 'who-we-serve/multi-location-dental-practices',
+  'who-we-serve/multi-site-dental-practices': 'who-we-serve/multi-location-dental-practices',
+  'who-we-serve/single-location-dental-practices': 'who-we-serve/single-location-dental-practices',
+  'who-we-serve/single-site-dental-practices': 'who-we-serve/single-location-dental-practices',
+  'who-we-serve/dental-groups-dsos-corporates': 'who-we-serve/groups-dsos',
+  'who-we-serve/groups-and-dsos': 'who-we-serve/groups-dsos',
+  'who-we-serve/groups-and-enterprises': 'who-we-serve/groups-dsos',
+  'who-we-serve/startups': 'who-we-serve/startups',
+  'who-we-serve/squat-dental-practices': 'who-we-serve/startups',
+}
+
+function getCanonicalKey(path: string): string | null {
+  return PATH_TO_CANONICAL[path] ?? null;
 }
 
 // Static pages that should be included in sitemap (pages not managed in Sanity)
@@ -97,30 +196,54 @@ function formatLastmod(date: string | Date | null | undefined): string {
 }
 
 /**
+ * Sanitizes a path for use in URLs: lowercase, spaces to hyphens, collapse multiple hyphens.
+ */
+function sanitizePathForUrl(path: string): string {
+  return path
+    .split('/')
+    .map((segment) =>
+      segment
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '')
+    )
+    .filter(Boolean)
+    .join('/');
+}
+
+/**
  * Normalizes a path for a specific locale.
- * For en-AU locale, replaces 'phone-system' with 'dental-phones' in the path.
- * Handles all cases: 'phone-system', 'phone-system/features', 'phone-system/features/ai-receptionist', etc.
+ * - en (en-US): dental-phones -> phone-system; optimisation -> optimization
+ * - en-AU / en-GB: phone-system -> dental-phones; optimization -> optimisation
  */
 function normalizePathForLocale(path: string, locale: string): string {
-  if (locale === 'en-AU' && path.includes('phone-system')) {
-    // Replace phone-system with dental-phones for en-AU locale
-    // Match phone-system as a path segment (at start, after /, or before / or end)
-    return path.replace(/(^|\/)phone-system(\/|$)/g, '$1dental-phones$2');
+  let result = path;
+  if (locale === 'en' || !locale) {
+    // en-US: show phone-system, not dental-phones
+    result = result.replace(/(^|\/)dental-phones(\/|$)/g, '$1phone-system$2');
+    result = result.replace(/optimisation/g, 'optimization');
   }
-  return path;
+  if (locale === 'en-AU' || locale === 'en-GB') {
+    result = result.replace(/(^|\/)phone-system(\/|$)/g, '$1dental-phones$2');
+    result = result.replace(/optimization/g, 'optimisation');
+  }
+  return result;
 }
 
 function buildUrl(path: string, locale: string): string {
   const cleanedPath = path.replace(/^\/+/, '').replace(/\/+$/, '');
-  
   // Normalize path for locale (e.g., phone-system -> dental-phones for en-AU)
   const normalizedPath = normalizePathForLocale(cleanedPath, locale);
-  
+  // Sanitize for URL (e.g. "AI Receptionist" -> "ai-receptionist")
+  const urlPath = sanitizePathForUrl(normalizedPath);
+
   if (locale === 'en' || !locale) {
-    return normalizedPath ? `${BASE_URL}/${normalizedPath}` : BASE_URL;
+    return urlPath ? `${BASE_URL}/${urlPath}` : BASE_URL;
   }
-  
-  return normalizedPath ? `${BASE_URL}/${locale}/${normalizedPath}` : `${BASE_URL}/${locale}`;
+
+  return urlPath ? `${BASE_URL}/${locale}/${urlPath}` : `${BASE_URL}/${locale}`;
 }
 
 function escapeXml(unsafe: string): string {
@@ -305,17 +428,28 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
   `;
   
   const features = await client.fetch(featuresQuery);
+  // console.log({features});
+
+  // features.forEach((slug: any) => {
+  //   const featureDate = slug._updatedAt || new Date().toISOString();
+  //   const enPath = `phone-system/features/${slug.slug}`;
+  //   const enAUPath = `dental-phones/features/${slug.slug}`;
+  //   const enGBPath = `dental-phones/features/${slug.slug}`;
+  //   if(slug =='en'){
+  //     pathData.set(enPath, { date: featureDate, locales: new Set([slug.language]) });
+  //   }else if(slug =='en-AU'){
+  //     pathData.set(enAUPath, { date: featureDate, locales: new Set([slug.language]) });
+  //   }else if(slug =='en-GB'){
+  //     pathData.set(enGBPath, { date: featureDate, locales: new Set([slug.language]) });
+  //   }
+  // });
   
   // Group features by normalized slug to detect multi-locale features
   features.forEach((feature: any) => {
-   
     if (!feature.slug) return;
-    
-    
-    // Exclude 'track' feature
-    if (feature.slug === 'track') return;
-    
-    const normalizedPath = `phone-system/features/${feature.slug}`;
+
+    const slug = typeof feature.slug === 'string' ? sanitizePathForUrl(feature.slug) : feature.slug;
+    const normalizedPath = `phone-system/features/${slug}`;
     
     // Skip excluded paths
     if (shouldExcludePath(normalizedPath)) return;
@@ -597,15 +731,13 @@ async function generateSiteMap(
     }
   });
 
-  // Note: phone-system paths will be automatically transformed to dental-phones for en-AU locale
-  // in the buildUrl function, so we don't need to filter out en-AU here
+  // Note: phone-system paths will be automatically transformed to dental-phones for en-AU/en-GB
+  // in the buildUrl function, so we don't filter by locale for most paths.
 
-  // Filter out en-GB locale from all paths except root ('') and 'system-requirements'
-  // Only these two paths should have en-GB URLs in the sitemap
-  const allowedEnGBPaths = ['', 'system-requirements'];
+  // Only remove en-GB for paths where the en-GB page does not exist (e.g. comparison, case-studies).
+  // All other paths get en-GB included like en-AU.
   allPathData.forEach((pathData, path) => {
-    if (!allowedEnGBPaths.includes(path)) {
-      // Remove en-GB from locales for this path
+    if (shouldOmitEnGBUrl(path)) {
       pathData.locales = pathData.locales.filter(locale => locale !== 'en-GB');
     }
   });
@@ -641,68 +773,43 @@ async function generateSiteMap(
         xml += `    <xhtml:link rel="alternate" hreflang="${formatHreflang(altLocale)}" href="${escapeXml(buildUrl(path, altLocale))}"/>\n`;
       });
 
-      // Add x-default pointing to 'en' version
-      xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(buildUrl(path, 'en'))}"/>\n`;
+      // x-default same as loc (this URL)
+      xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(currentUrl)}"/>\n`;
 
       xml += '  </url>\n';
     });
   });
 
   // 2. Generate entries for other pages
-  // If a path exists in multiple locales, add hreflang alternates
-  const processedAlternatePaths = new Set<string>(); // Track alternate paths to avoid duplicates
-  const processedPathsWithAlternates = new Set<string>(); // Track paths that have been processed with their alternates
-  
+  // If a path has a canonical key, only the first path we see for that key is processed; others are skipped (already generated as alternates).
+  const processedCanonicalKeys = new Set<string>();
+  const processedAlternatePathLocales = new Set<string>(); // "path:locale" to avoid duplicate <url> for same (path, locale)
+
   allPathData.forEach((pathData, path) => {
-    // Skip paths that already have alternates
     if (PATHS_WITH_ALTERNATES.includes(path)) return;
-    
-    // Check if this path is an alternate target of another path that has already been processed
-    // If so, skip it to avoid duplicates (it was already generated as an alternate)
-    let isAlternateTarget = false;
-    for (const [sourcePath, alternates] of Object.entries(SIMILAR_ALTERNATES)) {
-      if (sourcePath !== path && processedPathsWithAlternates.has(sourcePath)) {
-        for (const alternate of alternates) {
-          const cleanAlternatePath = alternate.replace(/^\/+/, '').replace(/^(en-GB|en-AU)\//, '');
-          if (cleanAlternatePath === path) {
-            isAlternateTarget = true;
-            break;
-          }
-        }
-        if (isAlternateTarget) break;
-      }
-    }
-    if (isAlternateTarget) return;
-    
+    if (shouldExcludePath(path)) return;
+
+    const canonicalKey = getCanonicalKey(path);
+    if (canonicalKey && processedCanonicalKeys.has(canonicalKey)) return;
+    if (canonicalKey) processedCanonicalKeys.add(canonicalKey);
+
     const formattedLastmod = formatLastmod(pathData.date);
     const pathLocales = pathData.locales.length > 0 ? pathData.locales : ['en'];
-    
-    // Check if this path has similar alternates
-    const similarAlternates = SIMILAR_ALTERNATES[path];
-    const hasSimilarAlternates = similarAlternates && similarAlternates.length > 0;
-    
-    // If path exists in multiple locales, add hreflang alternates
+    const localeMap = canonicalKey ? LOCALE_ALTERNATE_MAP[canonicalKey] : null;
+    const hasLocaleAlternates = Boolean(localeMap);
     const hasMultipleLocales = pathLocales.length > 1;
-    
-    // Collect all URLs for hreflang alternates ONCE (before the loop to avoid duplicates)
-    const allAlternateUrlsSet = new Set<string>(); // Track unique URL+hreflang combinations
+
+    const allAlternateUrlsSet = new Set<string>();
     const allAlternateUrls: Array<{ url: string; hreflang: string }> = [];
-    
-    // Helper function to add alternate URL if not already added
+
     const addAlternateUrl = (url: string, hreflang: string) => {
-      // Prevent /en-AU/phone-system URLs (it doesn't exist)
-      if (url.includes('/en-AU/phone-system')) {
-        return;
-      }
-      // Prevent en-GB URLs for paths that aren't allowed (only root and system-requirements allowed)
+      if (url.includes('/en-AU/phone-system') || url.includes('/en-GB/phone-system')) return;
+      // Omit en-GB only for paths where the page does not exist (e.g. comparison, case-studies)
       if (hreflang === 'en-GB' || url.includes('/en-GB')) {
-        // Extract the path after /en-GB
         const enGBMatch = url.match(/\/en-GB(?:\/(.*))?$/);
         if (enGBMatch) {
-          const urlPath = (enGBMatch[1] || '').replace(/\/$/, ''); // Remove trailing slash
-          if (urlPath !== '' && urlPath !== 'system-requirements') {
-            return;
-          }
+          const urlPath = (enGBMatch[1] || '').replace(/\/$/, '');
+          if (shouldOmitEnGBUrl(urlPath)) return;
         }
       }
       const key = `${url}|${hreflang}`;
@@ -711,164 +818,93 @@ async function generateSiteMap(
         allAlternateUrls.push({ url, hreflang });
       }
     };
-    
-    // Collect alternate URLs for this path's locales
+
     if (hasMultipleLocales) {
       pathLocales.forEach(altLocale => {
-        const altUrl = buildUrl(path, altLocale);
-        const altHreflang = formatHreflang(altLocale);
-        addAlternateUrl(altUrl, altHreflang);
+        addAlternateUrl(buildUrl(path, altLocale), formatHreflang(altLocale));
       });
     }
-    
-    // Add similar alternate paths to hreflang alternates
-    if (hasSimilarAlternates) {
-      similarAlternates.forEach(alternatePath => {
-        // Extract locale from alternate path if present
-        const alternateLocale = alternatePath.match(/^\/(en-GB|en-AU)\//)?.[1] || 'en';
-        // Clean the alternate path (remove leading slash and locale prefix) before building URL
-        const cleanAlternatePath = alternatePath.replace(/^\/+/, '').replace(/^(en-GB|en-AU)\//, '');
-        const alternateUrl = buildUrl(cleanAlternatePath, alternateLocale);
-        const alternateHreflang = formatHreflang(alternateLocale);
-        addAlternateUrl(alternateUrl, alternateHreflang);
+
+    // Allow dental-phones/features/ as alternates (en-AU/en-GB form of phone-system/features)
+    const allowLocalePathForAlternate = (p: string) => !shouldExcludePath(p) || p.startsWith('dental-phones/features/');
+    if (hasLocaleAlternates && localeMap) {
+      locales.forEach(locale => {
+        const localePath = localeMap[locale];
+        if (localePath != null && allowLocalePathForAlternate(localePath) && !shouldOmitEnUrl(localePath, locale) && !(locale === 'en-GB' && shouldOmitEnGBUrl(localePath))) {
+          const url = buildUrl(localePath, locale);
+          addAlternateUrl(url, formatHreflang(locale));
+        }
       });
     }
-    
-    // Generate entries for each locale that has this path
+
     pathLocales.forEach(locale => {
+      if (shouldOmitEnUrl(path, locale)) return;
       const currentUrl = buildUrl(path, locale);
-      
-      // Skip if this URL has already been generated
-      if (generatedUrls.has(currentUrl)) {
-        return;
-      }
+      if (generatedUrls.has(currentUrl)) return;
       generatedUrls.add(currentUrl);
-      
+
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(currentUrl)}</loc>\n`;
       xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
-      
-      // Add all hreflang alternates (already deduplicated)
       if (allAlternateUrls.length > 0) {
         allAlternateUrls.forEach(({ url, hreflang }) => {
           xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
         });
-        // Add x-default pointing to 'en' version if 'en' exists, otherwise first locale
-        const defaultLocale = pathLocales.includes('en') ? 'en' : pathLocales[0];
-        const defaultUrl = buildUrl(path, defaultLocale);
-        xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(defaultUrl)}"/>\n`;
+        // x-default same as loc (this URL)
+        xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(currentUrl)}"/>\n`;
       }
-      
       xml += '  </url>\n';
     });
-    
-    // Generate entries for similar alternate paths
-    if (hasSimilarAlternates) {
-      similarAlternates.forEach(alternatePath => {
-        // Clean the alternate path (remove leading slash and locale prefix)
-        const cleanAlternatePath = alternatePath.replace(/^\/+/, '').replace(/^(en-GB|en-AU)\//, '');
-        // Extract locale from alternate path if present
-        const alternateLocale = alternatePath.match(/^\/(en-GB|en-AU)\//)?.[1] || 'en';
-        
-        // Skip if already processed
-        const alternatePathKey = `${cleanAlternatePath}:${alternateLocale}`;
-        if (processedAlternatePaths.has(alternatePathKey)) return;
-        processedAlternatePaths.add(alternatePathKey);
-        
-        // Check if alternate path exists in allPathData
-        const alternatePathData = allPathData.get(cleanAlternatePath);
-        const alternateLocales = alternatePathData?.locales || [alternateLocale];
-        const alternateLastmod = alternatePathData?.date || pathData.date;
+
+    if (hasLocaleAlternates && localeMap) {
+      locales.forEach(locale => {
+        const localePath = localeMap[locale];
+        if (localePath == null || shouldExcludePath(localePath) || shouldOmitEnUrl(localePath, locale) || (locale === 'en-GB' && shouldOmitEnGBUrl(localePath))) return;
+        const pathLocaleKey = `${localePath}:${locale}`;
+        if (processedAlternatePathLocales.has(pathLocaleKey)) return;
+        if (generatedUrls.has(buildUrl(localePath, locale))) return;
+        processedAlternatePathLocales.add(pathLocaleKey);
+
+        const alternatePathData = allPathData.get(localePath);
+        const alternateLastmod = alternatePathData?.date ?? pathData.date;
         const formattedAlternateLastmod = formatLastmod(alternateLastmod);
-        
-        // Collect hreflang alternates ONCE (before the loop to avoid duplicates)
-        const allAlternateUrlsForAlternateSet = new Set<string>();
-        const allAlternateUrlsForAlternate: Array<{ url: string; hreflang: string }> = [];
-        
-        const addAlternateUrlForAlternate = (url: string, hreflang: string) => {
-          // Prevent /en-AU/phone-system URLs (it doesn't exist)
-          if (url.includes('/en-AU/phone-system')) {
-            return;
-          }
-          // Prevent en-GB URLs for paths that aren't allowed (only root and system-requirements allowed)
+
+        const alternateUrlsSet = new Set<string>();
+        const alternateUrlsList: Array<{ url: string; hreflang: string }> = [];
+        const addAlt = (url: string, hreflang: string) => {
+          if (url.includes('/en-AU/phone-system') || url.includes('/en-GB/phone-system')) return;
           if (hreflang === 'en-GB' || url.includes('/en-GB')) {
-            // Extract the path after /en-GB
             const enGBMatch = url.match(/\/en-GB(?:\/(.*))?$/);
             if (enGBMatch) {
-              const urlPath = (enGBMatch[1] || '').replace(/\/$/, ''); // Remove trailing slash
-              if (urlPath !== '' && urlPath !== 'system-requirements') {
-                return;
-              }
+              const urlPath = (enGBMatch[1] || '').replace(/\/$/, '');
+              if (shouldOmitEnGBUrl(urlPath)) return;
             }
           }
-          const key = `${url}|${hreflang}`;
-          if (!allAlternateUrlsForAlternateSet.has(key)) {
-            allAlternateUrlsForAlternateSet.add(key);
-            allAlternateUrlsForAlternate.push({ url, hreflang });
+          const k = `${url}|${hreflang}`;
+          if (!alternateUrlsSet.has(k)) {
+            alternateUrlsSet.add(k);
+            alternateUrlsList.push({ url, hreflang });
           }
         };
-        
-        // Add original path locales
-        pathLocales.forEach(origLocale => {
-          const origUrl = buildUrl(path, origLocale);
-          const origHreflang = formatHreflang(origLocale);
-          addAlternateUrlForAlternate(origUrl, origHreflang);
+        locales.forEach(l => {
+          const p = localeMap[l];
+          if (p != null && allowLocalePathForAlternate(p) && !shouldOmitEnUrl(p, l) && !(l === 'en-GB' && shouldOmitEnGBUrl(p))) addAlt(buildUrl(p, l), formatHreflang(l));
         });
-        
-        // Add other alternate path locales
-        if (alternateLocales.length > 1) {
-          alternateLocales.forEach(altLocale => {
-            const altUrl = buildUrl(cleanAlternatePath, altLocale);
-            const altHreflang = formatHreflang(altLocale);
-            addAlternateUrlForAlternate(altUrl, altHreflang);
+
+        const alternateUrl = buildUrl(localePath, locale);
+        generatedUrls.add(alternateUrl);
+        xml += '  <url>\n';
+        xml += `    <loc>${escapeXml(alternateUrl)}</loc>\n`;
+        xml += `    <lastmod>${formattedAlternateLastmod}</lastmod>\n`;
+        if (alternateUrlsList.length > 0) {
+          alternateUrlsList.forEach(({ url, hreflang }) => {
+            xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
           });
+          // x-default same as loc (this URL)
+          xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(alternateUrl)}"/>\n`;
         }
-        
-        // Add other similar alternates
-        if (hasSimilarAlternates) {
-          similarAlternates.forEach(otherAlternatePath => {
-            if (otherAlternatePath === alternatePath) return; // Skip self
-            const cleanOtherPath = otherAlternatePath.replace(/^\/+/, '').replace(/^(en-GB|en-AU)\//, '');
-            const otherLocale = otherAlternatePath.match(/^\/(en-GB|en-AU)\//)?.[1] || 'en';
-            const otherUrl = buildUrl(cleanOtherPath, otherLocale);
-            const otherHreflang = formatHreflang(otherLocale);
-            addAlternateUrlForAlternate(otherUrl, otherHreflang);
-          });
-        }
-        
-        // Generate entries for alternate path
-        alternateLocales.forEach(locale => {
-          const alternateUrl = buildUrl(cleanAlternatePath, locale);
-          
-          // Skip if this URL has already been generated
-          if (generatedUrls.has(alternateUrl)) {
-            return;
-          }
-          generatedUrls.add(alternateUrl);
-          
-          xml += '  <url>\n';
-          xml += `    <loc>${escapeXml(alternateUrl)}</loc>\n`;
-          xml += `    <lastmod>${formattedAlternateLastmod}</lastmod>\n`;
-          
-          // Add all hreflang alternates (already deduplicated)
-          if (allAlternateUrlsForAlternate.length > 0) {
-            allAlternateUrlsForAlternate.forEach(({ url, hreflang }) => {
-              xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
-            });
-            // Add x-default
-            const defaultLocale = pathLocales.includes('en') ? 'en' : pathLocales[0];
-            const defaultUrl = buildUrl(path, defaultLocale);
-            xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(defaultUrl)}"/>\n`;
-          }
-          
-          xml += '  </url>\n';
-        });
+        xml += '  </url>\n';
       });
-    }
-    
-    // Mark this path as processed (including its alternates) to prevent duplicate processing
-    if (hasSimilarAlternates) {
-      processedPathsWithAlternates.add(path);
     }
   });
 

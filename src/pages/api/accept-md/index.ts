@@ -11,16 +11,54 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
   const pathFromHeader = req.headers['x-accept-md-path'];
   const pathFromQuery = Array.isArray(req.query.path) ? req.query.path[0] : req.query.path;
-  const pathRaw = (pathFromHeader || pathFromQuery) || '/';
-  const path = typeof pathRaw === 'string' ? pathRaw : (pathRaw[0] || '/');
+  const pathFromMatchedHeader =
+    req.headers['x-matched-path'] ||
+    req.headers['x-vercel-original-path'] ||
+    req.headers['x-original-path'] ||
+    req.headers['x-rewrite-path'];
+  // Determine raw path in priority order: header, internal matched-path header, query, then fallback
+  let pathRaw = pathFromHeader || pathFromMatchedHeader || pathFromQuery || '/';
+  // Handle placeholder values like ":path*" that can appear from Next.js rewrite configs
+  let path;
+  if (typeof pathRaw === 'string') {
+    path = (pathRaw === '' || pathRaw.includes(':path')) ? '/' : pathRaw;
+  } else {
+    path = pathRaw[0] || '/';
+  }
+  // Ensure path starts with /
+  if (!path.startsWith('/')) {
+    path = '/' + path;
+  }
+  // Exclude /api and /_next paths - return 404 for these
+  if (path.startsWith('/api/') || path.startsWith('/_next/')) {
+    return res.status(404).json({ error: 'Not found' });
+  }
   const config = loadConfig(process.cwd());
-  const baseUrl = config.baseUrl || (req.headers.origin || req.headers.referer || '').replace(/\/?$/, '') || ('http://localhost:' + (process.env.PORT || 3000));
+  // Construct baseUrl reliably on Vercel: use host header with protocol, fall back to origin/referer, then VERCEL_URL, then localhost
+  let baseUrl = config.baseUrl;
+  if (!baseUrl) {
+    const host = req.headers.host;
+    if (host) {
+      const protocol = req.headers['x-forwarded-proto'] || (process.env.VERCEL_URL ? 'https' : 'http');
+      baseUrl = protocol + '://' + host;
+    } else {
+      const originOrReferer = (req.headers.origin || req.headers.referer || '').replace(/\/?$/, '');
+      if (originOrReferer) {
+        baseUrl = originOrReferer;
+      } else if (process.env.VERCEL_URL) {
+        baseUrl = process.env.VERCEL_URL.startsWith('http') ? process.env.VERCEL_URL : 'https://' + process.env.VERCEL_URL;
+      } else {
+        baseUrl = 'http://localhost:' + (process.env.PORT || 3000);
+      }
+    }
+  }
   // Convert req.headers to Headers for forwarding (e.g., for Vercel deployment protection)
   const headers = new Headers();
   for (const [key, value] of Object.entries(req.headers)) {
-    if (value) {
-      headers.set(key, Array.isArray(value) ? value[0] : value);
-    }
+    if (!value) continue;
+    // Do not forward markdown Accept header to the upstream page fetch
+    if (key.toLowerCase() === 'accept') continue;
+    headers.set(key, Array.isArray(value) ? value[0] : value);
   }
   try {
     const markdown = await getMarkdownForPath({
@@ -28,6 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       baseUrl,
       config,
       cache: config.cache !== false ? cache : undefined,
+      // @ts-ignore - headers may not be in type definition but is supported at runtime
       headers,
     });
     res.setHeader('Content-Type', 'text/markdown; charset=utf-8');

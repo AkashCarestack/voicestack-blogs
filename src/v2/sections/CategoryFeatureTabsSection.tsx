@@ -60,6 +60,7 @@ interface CategoryFeatureTabsSectionProps {
   sectionBorder?: "b" | "t" | "y" | "none";
   isGridListing?: boolean;
   columnCount?: number;
+  customType?: string;
 }
 
 export default function CategoryFeatureTabsSection({
@@ -70,6 +71,7 @@ export default function CategoryFeatureTabsSection({
   variant = 'default',
   sectionBorder = 'none',
   isGridListing = false,
+  ...props
 }: CategoryFeatureTabsSectionProps) {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<string>('');
@@ -184,6 +186,7 @@ export default function CategoryFeatureTabsSection({
           subheading: tab.tabSubHeading || '',
           description: descriptionText,
           mainImage: tab.image || null,
+          categorySecondaryImage: tab.categorySecondaryImage || null,
           icon: tab.icon || null,
           iconSvgCode: tab.icon || '',
           featureOrder: tab.featureOrder || tab.order,
@@ -221,6 +224,7 @@ export default function CategoryFeatureTabsSection({
         subheading: categoryData.category.subheading,
         description: categoryData.category.description || categoryName,
         mainImage: categoryData.category.mainImage,
+        categorySecondaryImage: categoryData.category.categorySecondaryImage,
         icon: categoryData.category.icon,
         iconSvgCode: categoryData.category.iconSvgCode,
         featureOrder: categoryData.category.featureOrder,
@@ -410,7 +414,6 @@ export default function CategoryFeatureTabsSection({
   if (variant === 'singlecard' && allCategories.length > 0) {
     const firstCategory = allCategories[0];
     const pillItems = firstCategory.features || [];
-    // console.log(firstCategory,'firstCategory');
 
 
     return (
@@ -654,7 +657,7 @@ export default function CategoryFeatureTabsSection({
         className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
         border={sectionBorder}
       >
-        <Container className='w-full py-sm md:py-sm lg:py-sm' type="V2" border="y-0">
+        <Container className='w-full py-sm md:py-sm lg:py-md' type="V2" border="y-0">
           {/* Header Section */}
           <div className="flex-col gap-16 relative w-full flex items-center justify-center">
             <div className="flex flex-col gap-3 items-center text-center max-w-[712px]">
@@ -782,8 +785,16 @@ export default function CategoryFeatureTabsSection({
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const isActive = category.name === activeCategory;
+                      const slug = router.query?.slug as string;
+                      
+                      const shouldUseSecondaryImage = slug && typeof slug === 'string' && slug.includes('vetcelerator');
+                      
+                      let imageToDisplay = category?.mainImage;
+                      if (shouldUseSecondaryImage && category?.categorySecondaryImage && Array.isArray(category.categorySecondaryImage) && category.categorySecondaryImage.length > 0) {
+                        imageToDisplay = category.categorySecondaryImage[0]?.image;
+                      }
 
-                      if (!isActive || !category?.mainImage) return null;
+                      if (!isActive || !imageToDisplay) return null;
 
                       return (
                         <motion.div
@@ -795,9 +806,9 @@ export default function CategoryFeatureTabsSection({
                           className="w-full relative flex items-end justify-center h-full"
                         >
                           <ImageLoader
-                            image={category.mainImage}
+                            image={imageToDisplay}
                             alt={`${category.name} feature illustration`}
-                            title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
+                            title={`${category.name || imageToDisplay?.title || imageToDisplay?.altText || ''}`}
                             fixed={true}
                             className="rounded-lg object-contain w-full h-full"
                           />
@@ -934,7 +945,6 @@ export default function CategoryFeatureTabsSection({
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const isActive = category.name === activeCategory;
-
                       if (!isActive || !category?.mainImage) return null;
 
                       return (
@@ -947,7 +957,7 @@ export default function CategoryFeatureTabsSection({
                           className="w-full h-full relative flex items-center justify-center"
                         >
                           <div className="w-full h-full relative flex items-center justify-center">
-                            <Image
+                          <Image
                               src={category.mainImage.url}
                               alt={`${category.name} feature illustration`}
                               title={`${category.name || category?.mainImage?.title || category?.mainImage?.altText || ''}`}
@@ -1081,7 +1091,7 @@ export default function CategoryFeatureTabsSection({
           {/* Category Sections with line dividers */}
           <div className="flex flex-col w-full">
             {allCategories.map((category, index) => {
-              return (
+                  return (
                 <React.Fragment key={category.name}>
                   {index > 0 && <div className={`${category?.features.length > 0 ? 'border-b border-gray-200' : 'border-y'}`}><SectionDivider height={isMobile ? "60px" : "130px"} /></div>}
                   <article
@@ -1161,8 +1171,8 @@ export default function CategoryFeatureTabsSection({
                           </div>
                         </div>
 
-                        {/* Right: Category Image */}
-                        {category?.mainImage && <div className="bg-gray-50 flex flex-col items-center justify-end px-4 md:px-px py-4 md:py-0  overflow-hidden relative">
+             {/* Right: Category Image */}
+             {category?.mainImage && <div className="bg-gray-50 flex flex-col items-center justify-end px-4 md:px-px py-4 md:py-0  overflow-hidden relative">
                           {/* Grid Pattern Background */}
                 
                           {category?.mainImage && (

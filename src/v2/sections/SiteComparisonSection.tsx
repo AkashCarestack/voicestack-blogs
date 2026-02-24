@@ -44,7 +44,7 @@ function SiteComparisonSection({
     <></>
   ) : (
      (
-      <Section className="bg-[#ffffff]" border="b">
+      <Section className="bg-[#ffffff]" border="b" id="comparison">
         <Container
           className="w-full py-sm md:py-md lg:py-lg"
           type="V2"

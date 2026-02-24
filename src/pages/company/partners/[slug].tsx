@@ -80,10 +80,12 @@ export default function PartnerSlugPage({
         <OfferSection data={pageData['offer']?.componentData} />
       )}
 
-      {features && features.length > 0 && (
+      {features && features.length > 0 && pageData['category-feature-tabs'] && (
         <CategoryFeatureTabsSection
+        {...(slug === 'vetcelerator' && { category: 'Veterinarians' })}
           features={features}
           variant="carousel"
+          customType="partner"
           sectionHeading={
             pageData['category-feature-tabs']?.componentData?.sectionHeading
           }
@@ -117,7 +119,7 @@ export default function PartnerSlugPage({
         />
       )}
 
-      <StatisticsSection />
+      <StatisticsSection {...(slug === 'vetcelerator' && { category: 'Veterinarians' })} />
     </>
   )
 }

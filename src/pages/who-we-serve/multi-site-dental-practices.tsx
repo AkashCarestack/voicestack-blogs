@@ -1,49 +1,60 @@
-import React from 'react'
 import { GetStaticProps } from 'next'
-import Queries from '~/components/revamp/queries'
-import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
+import React from 'react'
+
+import SimpleHead from '~/components/common/SimpleHead'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
-import FaqSection from '~/components/revamp/components/common/faqSection'
+import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
+import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
-import SimpleHead from '~/components/common/SimpleHead'
-import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
-import FeatureHero from '~/v2/sections/FeatureHero'
-import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import Queries from '~/components/revamp/queries'
+import { getClient } from '~/lib/sanity.client'
+import { getFeaturesList } from '~/lib/sanity.queries'
 import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
-import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 
-interface SquatDentalPracticesProps {
+interface MultiLocationPracticesProps {
   pageData: any
   faq: any
+  region: string
+  features: any[]
 }
 
-export default function SquatDentalPractices({
+export default function MultiLocationPractices({
   pageData,
   faq,
-}: SquatDentalPracticesProps) {
+  region,
+  features,
+}: MultiLocationPracticesProps) {
+  const tabsListingData =
+    pageData?.['manage-every-calls']?.componentData?.refData
+      ?.tabsListingComponent
+  const tabsListingComponentData =
+    pageData['smarter-systems']?.componentData?.refData?.tabsListingComponent
 
-  return (
+  return  (
     <>
       {pageData?.seo && <SimpleHead data={pageData?.seo} />}
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-      {pageData['startup-practices-hero']?.componentData && (
-        <FeatureHero data={pageData['startup-practices-hero'].componentData} type="feature" />
+      {pageData['multi-locations-hero']?.componentData && (
+        <FeatureHero data={pageData['multi-locations-hero']?.componentData} type="feature" />
       )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
-
-      <CategoryFeatureTabsSection
+        <CategoryFeatureTabsSection
       columnCount={4}
       features={
         pageData['grow-your-practice']?.componentData?.refData
@@ -89,6 +100,7 @@ export default function SquatDentalPractices({
       )}
     </>
   )
+ 
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
@@ -97,36 +109,42 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const queries = new Queries('whoWeServe', region)
 
-    const slug =
-      region === 'en'
-        ? 'squat-dental-practices'
-        : `squat-dental-practices-${region.toLowerCase()}`
-    const pageData = await queries.getPageData('whoWeServe', slug)
-    if (!pageData) {
-      console.error(`pageData not found for ${slug}`)
+    // This page is only for UK (en-GB)
+    if (region !== 'en-GB') {
       return {
         notFound: true,
       }
     }
+    
+    const slug = 'multi-site-dental-practices';
+    const pageData = await queries.getPageData('whoWeServe', slug)
+    if (!pageData) {
+      console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true
+      }
+    }
     pageData.slug = slug
-    // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+    const features = await getFeaturesList(getClient(), region)
 
     return {
       props: {
         pageData: pageData || null,
         region: region,
         faq: faqData,
+        features: features || [],
       },
     }
   } catch (error) {
-    console.error('Error fetching Startup Practices page:', error)
+    console.error('Error fetching Single Locations page:', error)
     return {
       props: {
         pageData: null,
         region: region,
         faq: null,
+        features: [],
       },
     }
   }

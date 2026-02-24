@@ -1041,8 +1041,14 @@ class Queries {
                       designation,
                       practiceName,
                       keyStatement,
+                      "imageThumbnail": imageThumbnail.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
                       // Testimonial logo
                       "logo": logo.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      "secondaryLogo": secondaryLogo.asset-> {
                         ${this.IMAGE_METADATA_FIELDS}
                       },
                       
@@ -1676,10 +1682,15 @@ class Queries {
                       designation,
                       thumbnail,
                       testimonialdescription,
-                      logo {
-                        asset-> {
-                          ${this.IMAGE_METADATA_FIELDS}
-                        }
+                      keyStatement,
+                      "imageThumbnail": imageThumbnail.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      "logo": logo.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
+                      },
+                      "secondaryLogo": secondaryLogo.asset-> {
+                        ${this.IMAGE_METADATA_FIELDS}
                       },
                       video[] {
                         ${this.VIDEO_FIELDS}
@@ -2441,10 +2452,20 @@ class Queries {
                   testimonialdescription,
                   keyNoteHeading,
                   keyNoteStatement,
+                  keyStatement,
+                  "imageThumbnail": imageThumbnail.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
                   "logo": logo.asset-> {
                     ${this.IMAGE_METADATA_FIELDS}
                   },
+                  "secondaryLogo": secondaryLogo.asset-> {
+                    ${this.IMAGE_METADATA_FIELDS}
+                  },
                   video[] {
+                    ${this.VIDEO_FIELDS}
+                  },
+                  secondaryVideo[] {
                     ${this.VIDEO_FIELDS}
                   },
                   testimonialImage {

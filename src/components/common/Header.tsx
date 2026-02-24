@@ -347,11 +347,11 @@ const Header = ({ data, refer = null }) => {
         <link rel="alternate" hrefLang="en-au" href="https://www.voicestack.com/en-AU" />
         <link rel="alternate" hrefLang="x-default" href="https://www.voicestack.com" /> */}
         {/* organization schema */}
-        {OrganizationSchemaData && (
+        <meta name="author" content="VoiceStack®"></meta>
+        <meta property="og:image" content={urlForImage(siteSettings?.ogImage)} />
+        <meta name="twitter:image" content={urlForImage(siteSettings?.ogImage)} />
+        {OrganizationSchemaData && router.locale !== 'en-GB' && (
           <>
-          <meta name="author" content="VoiceStack®"></meta>
-          <meta property="og:image" content={urlForImage(siteSettings?.ogImage)} />
-          <meta name="twitter:image" content={urlForImage(siteSettings?.ogImage)} />
           <script
               type="application/ld+json"
               id={`organization-schema-${router.locale}`}

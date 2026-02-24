@@ -91,7 +91,7 @@ const LogoListingV2 = ({ data }: LogoListingV2Props) => {
                 title={logo.altText}
                 width={logo?.metadata?.dimensions?.width}
                 height={logo?.metadata?.dimensions?.height}
-                className="md:h-10 h-auto max-w-full w-auto grayscale opacity-60"
+                className="md:h-10 max-h-[60px] h-auto max-w-full w-auto grayscale opacity-60"
               />
             </div>
           </div>
@@ -110,7 +110,7 @@ const LogoListingV2 = ({ data }: LogoListingV2Props) => {
                 title={logo.altText}
                 width={logo?.metadata?.dimensions?.width}
                 height={logo?.metadata?.dimensions?.height}
-                className="md:h-10 h-auto max-w-full w-auto grayscale opacity-60"
+                className="md:h-10 max-h-[60px] h-auto max-w-full w-auto grayscale opacity-60"
               />
             </div>
           </div>
@@ -122,9 +122,9 @@ const LogoListingV2 = ({ data }: LogoListingV2Props) => {
   return (
     <Section className="bg-white" border="b">
       <Container type="V2" border="y-0" className="w-full">
-        <div className="flex flex-wrap gap-px bg-white w-full items-center xl:px-12 md:px-6">
+        <div className="flex flex-wrap gap-px bg-white w-full items-center ">
           {/* Heading Section */}
-          <div className="bg-white flex flex-col gap-1.5 items-start px-6 py-6 md:flex-1 flex-auto md:border-r border-gray-200 md:w-auto w-full md:px-0 md:border-b-0 border-b">
+          <div className="bg-white flex flex-col gap-1.5 items-start px-6 xl:pl-12 py-6 md:flex-1 flex-auto md:border-r border-gray-200 md:w-auto w-full md:border-b-0 border-b">
             <div className="h-6 w-[30px] flex items-center">
               {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#FBBF24" className="w-[30px] h-6">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />

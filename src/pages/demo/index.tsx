@@ -30,10 +30,10 @@ export default function DemoPage({}: DemoPageProps) {
   const router = useRouter()
   const { formData, region } = useDemoFormData()
   
-  // For en-AU, remove only practiceType query param from URL if present, preserve others
-  // This ensures practiceType is not shown in URL for AU (since only one is available)
+  // For en-AU and en-GB, remove only practiceType query param from URL if present, preserve others
+  // This ensures practiceType is not shown in URL for AU and UK (since only one is available)
   useEffect(() => {
-    if (region === 'en-AU' && router.query.practiceType) {
+    if ((region === 'en-AU' || region === 'en-GB') && router.query.practiceType) {
       const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
       const basePath = `${localePrefix}/demo`
       

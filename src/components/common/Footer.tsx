@@ -446,7 +446,24 @@ const Footer = ({ data }) => {
                       Terms of Service
                     </Anchor>
                   </>
-                ):(
+                ): isUk ? (
+                  <>
+                    <Anchor
+                      href="/legal/uk/2024-11/privacy-policy"
+                      className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                      locale={false}
+                    >
+                      Privacy Policy
+                    </Anchor>
+                    <Anchor
+                      href="/legal/uk/2024-11/terms-and-conditions"
+                      className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
+                      locale={false}
+                    >
+                      Terms of Service
+                    </Anchor>
+                  </>
+                ): (
 
                 <>
                   <Anchor
