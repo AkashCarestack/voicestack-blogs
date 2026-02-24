@@ -48,7 +48,6 @@ const schemaIconMap: Record<string, any> = {
   featureSubSection: BoltIcon,
   heroSubFeature: BoltIcon,
   featureCategory: TagIcon,
-  featureCategoryOld: TagIcon,
   
   // Integration Components
   integrationCategory: TagIcon,
@@ -106,7 +105,6 @@ const customTitleMap: Record<string, string> = {
   testimonialSection: 'Testimonial Section',
   DynamicComponent: 'Dynamic Components',
   featureCategory: 'Feature Categories',
-  featureCategoryOld: 'Feature Categories (Old)',
   integrationCategory: 'Integration Categories',
   integrationList: 'Integration List',
   faqRevamp: 'Page Faqs'
@@ -190,7 +188,7 @@ export function createDeskStructure(S: StructureBuilder, schemaTypes: string[]) 
     dynamic: ['DynamicComponent'],
     
     // Utilities
-    utilities: ['featureCategoryOld']
+    utilities: []
   }
 
   const items = []

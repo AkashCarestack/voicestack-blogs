@@ -18,9 +18,7 @@ import faq from './faq'
 import faqRevamp from './faqRevamp'
 import Testimonials from './Feature'
 import feature from './Feature'
-import FeatureCategory from './FeatureCategory'
 import FeatureCategoryNew from './FeatureCategory/featureCategoryNew'
-import FeatureCategoryOld from './FeatureCategory/index'
 import FeatureList from './FeatureList'
 import Features from './Features'
 import IntegrationCategory from './IntegrationCategory'
@@ -91,7 +89,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     browserList,
     footer,
     banner,
-    FeatureCategoryOld,
     FeatureCategoryNew,
     FeatureList,
     IntegrationCategory,
