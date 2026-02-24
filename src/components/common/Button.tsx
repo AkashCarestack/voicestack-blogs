@@ -13,6 +13,7 @@ import replaceUrl from '~/helpers/replaceUrl'
 import { PracticeTypeModal } from '~/v2/components/common/PracticeTypeModal'
 import { useDemoFormData } from '~/providers/BookDemoProvider'
 import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
+import { tracker } from 'cs_posthog';
 
 interface ButtonProps {
   type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
@@ -123,6 +124,9 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   // Handle click - if it's a "book free demo" button, show practice type modal
   // BUT on partner pages, allow anchor links to work (scroll to #demo)
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    if (typeof window !== 'undefined' && window.location) {
+      tracker.trackEvent(window.location)
+    }
     // On partner child pages, don't show modal - let anchor links (#demo) work normally
     // The finalLink logic will convert links to #demo, which should scroll to the form
     if (isPartnerChildPage) {
