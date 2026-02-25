@@ -2,7 +2,6 @@ import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
-import { tracker } from 'cs_posthog';
 
 interface DemoFormProps {
   formId?: string
@@ -99,22 +98,7 @@ const DemoForm = ({
             destination_url: null,
             referrer_url: window.document.referrer,
           });
-          
-          tracker.trackConversion({
-            e_name: eventName || 'demo_submission',
-            e_type: "form-submission",
-            e_time: new Date(),
-            e_path: window?.location.href,
-            user_segment: getCookie("__cs_vs"),
-            url_params: { email, ...params },
-            current_path: window?.location.href,
-            base_path: window.location.origin + window.location.pathname,
-            domain: window.location.origin,
-            destination_url: null,
-            referrer_url: window.document.referrer,
-          });
-
-        
+                  
           // Redirect after 3 seconds
           setTimeout(async () => {
             const urlParams = new URLSearchParams(window.location.search);

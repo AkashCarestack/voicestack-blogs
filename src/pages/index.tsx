@@ -13,7 +13,6 @@ import {
   getComparisonTableData,
   getFeaturesList,
 } from '~/lib/sanity.queries'
-import { tracker } from 'cs_posthog';
 
 interface IndexPageProps {
   pageData: any
@@ -125,16 +124,6 @@ export default function IndexPage({
     }
   }, [])
 
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.location) {
-    tracker.init(
-      'phc_kQTRQallCa3E6zs1HdsVbvKLxOEXYFPfUKD0z5u5xtz',
-       window.location.host,
-      'https://us.i.posthog.com',
-      true
-    );
-  }
-  }, []);
 
   const comparisonSectionData = {
     strip:
