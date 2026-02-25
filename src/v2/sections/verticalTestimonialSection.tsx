@@ -54,13 +54,13 @@ const NextArrow = ({ onClick, currentSlide, slideCount, slidesToShow = 1 }: any)
 interface TestimonialSliderProps {
   data: any
   settings: any
-
+  hideLogo?: boolean
 }
 
 const TestimonialSlider = ({
   data,
   settings,
-
+  hideLogo = false,
 }: TestimonialSliderProps) => {
   // Video state management
   const [activeVideoIndex, setActiveVideoIndex] = useState<number | null>(null)
@@ -268,7 +268,8 @@ const TestimonialSlider = ({
                       <div className="w-full">
                         {/* Content that shows by default and hides on hover */}
                         <div className="flex flex-col gap-3 group-hover:opacity-0 group-hover:pointer-events-none transition-opacity duration-300">
-                          <div
+                          {!hideLogo && (
+                            <div
                             className=""
                             style={{
                               height: `48px`,
@@ -284,7 +285,8 @@ const TestimonialSlider = ({
                               alt="Company Logo"
                               imageClassName=" filter brightness-[132%] "
                             />
-                          </div>
+                            </div>
+                          )}
 
                           <h3 className="text-base xl:text-lg !leading-[140%] !font-medium line-clamp-4">
                             &ldquo;
@@ -345,6 +347,7 @@ const VerticalTestimonialListing = ({
   data,
   showBookFeeBtn = true,
   hideTitle = false,
+  hideLogo = false,
 }) => {
 
   // console.log("ms data", data);
@@ -525,7 +528,7 @@ const VerticalTestimonialListing = ({
               backgroundSize: '14.14px 14.14px',
             }}
           >
-            <TestimonialSlider data={normalizedData} settings={settings2} />
+            <TestimonialSlider data={normalizedData} settings={settings2} hideLogo={hideLogo} />
           </div>
         </div>
       </Container>

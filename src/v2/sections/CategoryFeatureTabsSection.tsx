@@ -61,6 +61,7 @@ interface CategoryFeatureTabsSectionProps {
   isGridListing?: boolean;
   columnCount?: number;
   customType?: string;
+  noLinks?: boolean;
 }
 
 export default function CategoryFeatureTabsSection({
@@ -71,6 +72,7 @@ export default function CategoryFeatureTabsSection({
   variant = 'default',
   sectionBorder = 'none',
   isGridListing = false,
+  noLinks = false,
   ...props
 }: CategoryFeatureTabsSectionProps) {
   const router = useRouter();
@@ -745,6 +747,18 @@ export default function CategoryFeatureTabsSection({
                         {/* Pill Items Grid */}
                         <div className="flex flex-wrap gap-3 items-start w-full">
                           {pillItems.map((item, index) => (
+                            noLinks ? (
+                              <div
+                                key={`${category.name}-${index}`}
+                                className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white transition-all duration-200 shadow-sm"
+                              >
+                                <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
+                                  {item.heading}
+                                </span>
+                               
+                              </div>    
+                            ):(
+
                             <Link
                               key={`${category.name}-${index}`}
                               href={item.href}
@@ -760,6 +774,7 @@ export default function CategoryFeatureTabsSection({
                                 />
                               )}
                             </Link>
+                            )
                           ))}
                         </div>
                       </div>
