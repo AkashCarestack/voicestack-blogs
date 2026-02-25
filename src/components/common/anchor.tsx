@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from "react";
 import { getCookie } from '~/utils/tracker/cookie';
 import { useTrackUser } from '~/utils/tracker/intitialize';
+import { usePostHog } from 'posthog-js/react'
 
 
 interface CustomLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -24,6 +25,7 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
   ({ href, locale, elementId, passHref = true, replace = false, prefetch = true, children, ...rest }) => {
 
     const router = useRouter();
+    const posthog = usePostHog();
 
     const { Track, trackEvent } = useTracking({}, {})
     const [newLink, setNewLink] = useState("#");
@@ -118,6 +120,26 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
           trackEvent({
             e_type: 'click',
             e_name,
+            e_time: new Date(),
+            element,
+            element_id: dataId,
+            user_segment:abSegment,
+            destination_url: newLink,
+            current_path: window.location.href,
+            utm_campaign,
+            utm_content,
+            utm_source,
+            utm_term,
+            utm_medium,
+            url_params: params,
+            base_path: window.location.origin + window.location.pathname,
+            domain: window.location.origin,
+            referrer_url: window.document.referrer
+          });
+
+          posthog.capture('button_click', {
+            e_name,
+            e_type: 'click',
             e_time: new Date(),
             element,
             element_id: dataId,

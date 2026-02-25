@@ -76,7 +76,6 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
   // console.log('displayData GroupedCardsGridSection',displayData);
   const customDescription = data.description || ''
   
-console.log("customDescription", customDescription);
 
   return (
     <Section className={bgColor} border={sectionBorder} isDark={isDark}>

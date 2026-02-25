@@ -114,7 +114,6 @@ export default defineConfig({
         'whoWeServeListing',
         'genericItemsListing',
         'platform',
-        'testimonialHighlightSection',
         'banner',
         'footer',
         'page',

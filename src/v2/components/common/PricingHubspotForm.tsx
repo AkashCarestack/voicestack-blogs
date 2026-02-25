@@ -3,6 +3,7 @@ import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
+import { usePostHog } from 'posthog-js/react'
 
 const PricingHubspotForm: React.FC<{
   id?: string
@@ -17,6 +18,7 @@ const PricingHubspotForm: React.FC<{
 }) => {
 
   const { trackEvent } = useTracking({}, {});
+  const posthog = usePostHog();
   const router = useRouter();
   useEffect(() => {
     const window2: any = window
@@ -66,8 +68,19 @@ const PricingHubspotForm: React.FC<{
                   "firstname",
                   "lastname",
                   "mobilephone"
-                ]; // List of valid form field names
+                ]; 
+                const emailValue = form.querySelector('input[name="email"]').value;
+                const paramsValue = new URLSearchParams();
                 const params = new URLSearchParams();
+                posthog.capture(eventName, {
+                  email: emailValue,
+                  ...paramsValue,
+                  formDetails,
+                  base_path: window.location.origin + window.location.pathname,
+                  domain: window.location.origin,
+                  
+                  referrer_url: window.document.referrer,
+                });
               
                 // Filter only the allowed fields from the formData
                 for (const [key, value] of formData.entries()) {
