@@ -3,6 +3,7 @@ import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
+import { usePostHog } from 'posthog-js/react'
 
 const HubSpotForm = ({
   id,
@@ -18,6 +19,7 @@ const HubSpotForm = ({
   followUpMeetingLink?: string
 }) => {
   const { trackEvent } = useTracking({}, {});
+  const posthog = usePostHog();
   const router = useRouter();
   useEffect(() => {
     const window2: any = window
@@ -59,6 +61,7 @@ const HubSpotForm = ({
                 }
               },
               onFormSubmit: function (form) {
+                const emailValue = form.querySelector('input[name="email"]').value;
                 const formData = new FormData(form); // Extract all form values
                 const allowedFields = [
                   "email",
@@ -68,6 +71,16 @@ const HubSpotForm = ({
                   "mobilephone"
                 ]; // List of valid form field names
                 const params = new URLSearchParams();
+               
+                posthog.capture(eventName, {
+                  email: emailValue,
+                  formDetails,
+                  ...params,
+                  base_path: window.location.origin + window.location.pathname,
+                  domain: window.location.origin,
+                  destination_url: null,
+                  referrer_url: window.document.referrer,
+                });
               
                 // Filter only the allowed fields from the formData
                 for (const [key, value] of formData.entries()) {

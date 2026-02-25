@@ -18,9 +18,7 @@ import faq from './faq'
 import faqRevamp from './faqRevamp'
 import Testimonials from './Feature'
 import feature from './Feature'
-import FeatureCategory from './FeatureCategory'
 import FeatureCategoryNew from './FeatureCategory/featureCategoryNew'
-import FeatureCategoryOld from './FeatureCategory/index'
 import FeatureList from './FeatureList'
 import Features from './Features'
 import IntegrationCategory from './IntegrationCategory'
@@ -53,7 +51,6 @@ import Platforms from './Platforms/index'
 import portableContent from './portableContent'
 import SiteSettings from './SiteSettings'
 import testimonialSection from './testimonial'
-import TestimonialHighlight from './TestimonialHighlight'
 import HtmlCode from './Utilis/HtmlCode'
 import VerticalTestimonialListing from './VerticalTestimonialListing'
 import WhoWeServeListing from './WhoWeServeListing'
@@ -82,7 +79,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     faq,
     customBlockContent,
     customListingContent,
-    TestimonialHighlight,
     Miscellaneous,
     page,
     ...DynamicComponent,
@@ -93,7 +89,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     browserList,
     footer,
     banner,
-    FeatureCategoryOld,
     FeatureCategoryNew,
     FeatureList,
     IntegrationCategory,
