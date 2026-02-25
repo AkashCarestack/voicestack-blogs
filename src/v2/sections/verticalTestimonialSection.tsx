@@ -19,7 +19,7 @@ const PrevArrow = ({ onClick, currentSlide }: any) => {
       onClick={onClick}
       disabled={isDisabled}
       className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white  border border-gray-200 flex items-center justify-center absolute top-1/2 -translate-y-1/2 left-[-35px] xl:left-[-78px] z-10
-        ${isDisabled ? ' cursor-not-allowed' : ' bg-white hover:bg-gray-100 transition-colors'}`}
+        ${isDisabled ? 'pointer-events-none ' : ' bg-white hover:bg-gray-100 transition-colors'}`}
       aria-label="Previous"
     >
       <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -31,15 +31,15 @@ const PrevArrow = ({ onClick, currentSlide }: any) => {
 }
 
 // NextArrow.tsx
-const NextArrow = ({ onClick, currentSlide, slideCount }: any) => {
-  const isDisabled = currentSlide >= slideCount - 1.85
+const NextArrow = ({ onClick, currentSlide, slideCount, slidesToShow = 1 }: any) => {
+  const isDisabled = slideCount <= slidesToShow || currentSlide >= slideCount - slidesToShow
 
   return (
     <button
       onClick={onClick}
       disabled={isDisabled}
       className={`w-8 h-8 sm:w-12 sm:h-12 xl:w-16 xl:h-16 bg-white flex items-center justify-center absolute top-1/2 -translate-y-1/2 right-[-35px] xl:right-[-78px] z-10 border border-gray-200
-        ${isDisabled ? ' cursor-not-allowed ' : 'bg-white hover:bg-gray-100 transition-colors'}`}
+        ${isDisabled ? 'pointer-events-none' : 'bg-white hover:bg-gray-100 transition-colors'}`}
       aria-label="Next"
     >
       <svg className={`${isDisabled ? 'opacity-50' : 'opacity-100'}`} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -452,6 +452,7 @@ const VerticalTestimonialListing = ({
       <NextArrow
         currentSlide={currentSlide}
         slideCount={normalizedData?.testimonial?.length || 0}
+        slidesToShow={slidesToShow}
       />
     ),
     responsive: [

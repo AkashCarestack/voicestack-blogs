@@ -9,15 +9,15 @@ const HubSpotForm = ({
   id,
   eventName,
   meetingLink,
-  formDetails
+  formDetails,
+  followUpMeetingLink
 }: {
   id?: string
   eventName?: string
   meetingLink?: string
   formDetails?: string
+  followUpMeetingLink?: string
 }) => {
-
-
   const { trackEvent } = useTracking({}, {});
   const posthog = usePostHog();
   const router = useRouter();
@@ -145,6 +145,11 @@ const HubSpotForm = ({
                   // }
                   var redirectBase = "/demo/thank-you/";
                   var wholeUrl = redirectBase + "?email=" + email;
+                  if (followUpMeetingLink) {
+                    // Append form values to the meeting link URL
+                    const meetingUrlWithParams = `${followUpMeetingLink}${followUpMeetingLink.includes('?') ? '&' : '?'}${params.toString()}`;
+                    wholeUrl += "&meeting_link=" + encodeURIComponent(meetingUrlWithParams);
+                  }
                   router.push(wholeUrl);
                   // router.push('/demo/thank-you');
                    

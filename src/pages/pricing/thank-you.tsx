@@ -49,6 +49,16 @@ export default function PricingThankYouPage() {
     }
   }, [])
 
+  useEffect(() => {
+    const meetingLink = router.query.meeting_link as string
+    if (meetingLink) {
+      const decodedMeetingLink = decodeURIComponent(meetingLink)
+      setTimeout(() => {
+        window.location.href = decodedMeetingLink
+      }, 1500)
+    }
+  }, [router.query.meeting_link])
+
   const handleMeetingClick = () => {
     if (pricingData?.meetingLink) {
       router.push(pricingData.meetingLink)
