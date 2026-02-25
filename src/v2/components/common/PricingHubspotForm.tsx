@@ -3,7 +3,7 @@ import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
-import { usePostHog } from 'posthog-js/react'
+import { capturePosthogEvent } from '~/components/utils/common'
 
 const PricingHubspotForm: React.FC<{
   id?: string
@@ -18,7 +18,6 @@ const PricingHubspotForm: React.FC<{
 }) => {
 
   const { trackEvent } = useTracking({}, {});
-  const posthog = usePostHog();
   const router = useRouter();
   useEffect(() => {
     const window2: any = window
@@ -72,7 +71,7 @@ const PricingHubspotForm: React.FC<{
                 const emailValue = form.querySelector('input[name="email"]').value;
                 const paramsValue = new URLSearchParams();
                 const params = new URLSearchParams();
-                posthog.capture(eventName, {
+                capturePosthogEvent(eventName, {
                   email: emailValue,
                   ...paramsValue,
                   formDetails,

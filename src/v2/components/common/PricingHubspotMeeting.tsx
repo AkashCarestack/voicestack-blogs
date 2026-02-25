@@ -3,7 +3,7 @@ import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
-import { usePostHog } from 'posthog-js/react'
+import { capturePosthogEvent } from '~/components/utils/common'
 
 const PricingHubspotMeeting: React.FC<{
   meetingLink?: string
@@ -16,7 +16,6 @@ const PricingHubspotMeeting: React.FC<{
 }) => {
   const { trackEvent } = useTracking({}, {})
   const router = useRouter()
-  const posthog = usePostHog();
   useEffect(() => {
     const window2: any = window
     const script = document.createElement("script");
@@ -35,7 +34,7 @@ const PricingHubspotMeeting: React.FC<{
         let time = meetingData.event.dateTime;
         let email = meetingData.postResponse.contact.email;
         const urlParams = new URLSearchParams(window.location.search);
-        posthog.capture(eventName, {
+        capturePosthogEvent(eventName, {
           email: email,
           formDetails,
           ...urlParams,
