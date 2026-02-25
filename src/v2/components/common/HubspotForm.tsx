@@ -43,8 +43,8 @@ const HubSpotForm = ({
             window.hbspt.forms.create({
               portalId: '4832409',
               region: 'na1',
-              // formId: id ,
-              formId: "f2fbfea3-a1e5-4e17-a506-a9d341a45458",
+              formId: id ,
+              // formId: "f2fbfea3-a1e5-4e17-a506-a9d341a45458",
               
               target: '#hubspotForm',
               inlineMessage:
@@ -72,8 +72,9 @@ const HubSpotForm = ({
                 ]; // List of valid form field names
                 const params = new URLSearchParams();
                
-                posthog.capture('demo_submission', {
+                posthog.capture(eventName, {
                   email: emailValue,
+                  formDetails,
                   ...params,
                   base_path: window.location.origin + window.location.pathname,
                   domain: window.location.origin,
