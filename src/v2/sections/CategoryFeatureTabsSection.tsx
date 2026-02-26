@@ -74,7 +74,7 @@ export default function CategoryFeatureTabsSection({
   sectionBorder = 'none',
   isGridListing = false,
   noLinks = false,
-  category: partnerCategory,
+  category: partnerCategory = "",
   ...props
 }: CategoryFeatureTabsSectionProps) {
   const router = useRouter();
@@ -806,8 +806,13 @@ export default function CategoryFeatureTabsSection({
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const isActive = category.name === activeCategory;
-                      const useSecondary = partnerCategory === 'Veterinarians' && category?.categorySecondaryImage?.[0]?.image;
-                      const imageToDisplay = useSecondary ? category.categorySecondaryImage[0].image : category?.mainImage;
+                      // const useSecondary = partnerCategory === 'Veterinarians' && category?.categorySecondaryImage?.[0]?.image;
+                      const secondaryImageItem = category.categorySecondaryImage?.find(
+                        (item: any) => item.name === partnerCategory
+                      );
+                      
+                      const imageToDisplay =
+                        secondaryImageItem?.image || category?.mainImage;
 
                       if (!isActive || !imageToDisplay) return null;
 
