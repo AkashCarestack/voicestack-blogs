@@ -53,6 +53,7 @@ studio/.env.development
 .github
 
 backup/production.tar.gz
+*.tar.gz
 # /src/migrations
 /backups/
 /seo-checker/

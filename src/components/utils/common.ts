@@ -1,6 +1,7 @@
 import enGb from '../../../public/assets/countryFlags/EN-GB.png'
 import en from '../../../public/assets/countryFlags/EN-usa.png'
 import enAu from '../../../public/assets/countryFlags/EN-AU.png'
+import posthog from 'posthog-js'
 
 export const fetchAuthor = (post) => {
   let authorData: any = []
@@ -875,4 +876,13 @@ export default function showCountryFlag(region: string) {
   } else if (region === 'en-AU') {
     return enAu.src
   }
+}
+
+
+export function capturePosthogEvent(eventName: string, event: Record<string, unknown>) {
+  if (typeof window === 'undefined' || !posthog) return
+  if (window.location.host.startsWith('localhost')) {
+    posthog.debug()
+  }
+  posthog.capture(eventName, event)
 }

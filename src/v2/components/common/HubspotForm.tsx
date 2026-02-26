@@ -3,20 +3,21 @@ import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
+import { capturePosthogEvent } from '~/components/utils/common'
 
 const HubSpotForm = ({
   id,
   eventName,
   meetingLink,
-  formDetails
+  formDetails,
+  followUpMeetingLink
 }: {
   id?: string
   eventName?: string
   meetingLink?: string
   formDetails?: string
+  followUpMeetingLink?: string
 }) => {
-
-
   const { trackEvent } = useTracking({}, {});
   const router = useRouter();
   useEffect(() => {
@@ -59,6 +60,7 @@ const HubSpotForm = ({
                 }
               },
               onFormSubmit: function (form) {
+                const emailValue = form.querySelector('input[name="email"]').value;
                 const formData = new FormData(form); // Extract all form values
                 const allowedFields = [
                   "email",
@@ -68,6 +70,16 @@ const HubSpotForm = ({
                   "mobilephone"
                 ]; // List of valid form field names
                 const params = new URLSearchParams();
+               
+                capturePosthogEvent(eventName, {
+                  email: emailValue,
+                  formDetails,
+                  ...params,
+                  base_path: window.location.origin + window.location.pathname,
+                  domain: window.location.origin,
+                  destination_url: null,
+                  referrer_url: window.document.referrer,
+                });
               
                 // Filter only the allowed fields from the formData
                 for (const [key, value] of formData.entries()) {
@@ -133,6 +145,11 @@ const HubSpotForm = ({
                   // }
                   var redirectBase = "/demo/thank-you/";
                   var wholeUrl = redirectBase + "?email=" + email;
+                  if (followUpMeetingLink) {
+                    // Append form values to the meeting link URL
+                    const meetingUrlWithParams = `${followUpMeetingLink}${followUpMeetingLink.includes('?') ? '&' : '?'}${params.toString()}`;
+                    wholeUrl += "&meeting_link=" + encodeURIComponent(meetingUrlWithParams);
+                  }
                   router.push(wholeUrl);
                   // router.push('/demo/thank-you');
                    

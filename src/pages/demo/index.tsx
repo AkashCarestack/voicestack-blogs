@@ -30,6 +30,7 @@ export default function DemoPage({}: DemoPageProps) {
   const router = useRouter()
   const { formData, region } = useDemoFormData()
   
+  
   // For en-AU and en-GB, remove only practiceType query param from URL if present, preserve others
   // This ensures practiceType is not shown in URL for AU and UK (since only one is available)
   useEffect(() => {
@@ -107,6 +108,7 @@ export default function DemoPage({}: DemoPageProps) {
                   id={formId} 
                   eventName={eventName} 
                   formDetails={formDetails}
+                  followUpMeetingLink={formData?.demoMeetingLink || ''}
                 />
             </div>
           )}

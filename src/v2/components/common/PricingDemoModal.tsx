@@ -122,7 +122,7 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
                               id={formId.trim()} 
                               eventName={eventName} 
                               formDetails={formDetails}
-                              // meetingLink={meetingLink}
+                              followUpMeetingLink={formData?.demoMeetingLink || ''}
                             />
                           </div>
                         )
