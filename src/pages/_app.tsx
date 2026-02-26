@@ -82,9 +82,7 @@ function App({
     }
   }, []);
   
-  useEffect(() => { 
-   console.log('isVoicestackDomain', isVoicestackDomain, window.location.origin);
-  }, [isVoicestackDomain]);
+
 
   // Global UTM parameter capture - runs on every page load
   useEffect(() => {
@@ -110,14 +108,15 @@ function App({
 
 
   useEffect(() => {
-    posthog.init(config.NEXT_PUBLIC_POSTHOG_KEY as string, {
+    if (typeof window === 'undefined' || !config.NEXT_PUBLIC_POSTHOG_KEY) return
+
+    const origin = window.location.origin
+    const isProduction =
+      origin === 'https://voicestack.com' || origin === 'https://www.voicestack.com'
+    if (!isProduction) return
+
+    posthog.init(config.NEXT_PUBLIC_POSTHOG_KEY, {
       api_host: config.NEXT_PUBLIC_POSTHOG_HOST,
-      defaults: '2026-01-30',
-      loaded: (posthog) => {
-        if((Window !=undefined && window.location.host.startsWith('localhost'))) {
-          posthog.debug()
-        }
-      }
     })
   }, [])
   
