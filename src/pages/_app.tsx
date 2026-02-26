@@ -117,6 +117,8 @@ function App({
 
     posthog.init(config.NEXT_PUBLIC_POSTHOG_KEY, {
       api_host: config.NEXT_PUBLIC_POSTHOG_HOST,
+      autocapture: true,
+      capture_pageview: true,
     })
   }, [])
   
