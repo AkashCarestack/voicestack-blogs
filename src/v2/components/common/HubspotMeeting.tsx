@@ -2,7 +2,7 @@ import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
-import { usePostHog } from 'posthog-js/react'
+import { capturePosthogEvent } from '~/components/utils/common'
 // import { usePricingModal } from './PricingModalContext'
 
 const HubSpotMeeting = ({
@@ -16,8 +16,6 @@ const HubSpotMeeting = ({
 }) => {
   const { trackEvent } = useTracking({}, {})
   const router = useRouter()
-  const posthog = usePostHog();
-
   useEffect(() => {
     // Store UTM params from current URL to sessionStorage on mount (for future use)
     const currentParams = new URLSearchParams(window.location.search);
@@ -51,7 +49,7 @@ const HubSpotMeeting = ({
         let time = meetingData.event.dateTime;
         let email = meetingData.postResponse.contact.email;
         const params = new URLSearchParams();
-        posthog.capture(eventName, {
+        capturePosthogEvent(eventName, {
           email: email,
           formDetails,
           ...params,

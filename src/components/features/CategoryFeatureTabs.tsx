@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { PortableText } from '@portabletext/react'
 import Button from '../common/Button'
@@ -94,6 +95,7 @@ export default function CategoryFeatureTabs({
   features,
   sectionHeading,
 }: CategoryFeatureTabsProps) {
+  const router = useRouter()
   const [activeCategory, setActiveCategory] = useState<string>('')
   const [isUserScrolling, setIsUserScrolling] = useState(false)
 
@@ -452,7 +454,11 @@ export default function CategoryFeatureTabs({
       >
         <Container className="flex flex-col items-center gap-16">
           <SectionHeader
-            heading="Feature-Packed to Improve <br/>Every Front Office Workflow"
+            heading={
+              router.locale === 'en-GB'
+                ? 'Feature-Packed to Improve <br/>Every Practice Workflow'
+                : 'Feature-Packed to Improve <br/>Every Front Office Workflow'
+            }
             description="Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice."
           />
         </Container>
@@ -470,7 +476,9 @@ export default function CategoryFeatureTabs({
           heading={
             sectionHeading?.headline
               ? sectionHeading?.headline
-              : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+              : router.locale === 'en-GB'
+                ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
           }
           description={
             sectionHeading?.subheadline

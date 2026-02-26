@@ -3,7 +3,7 @@ import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
-import { usePostHog } from 'posthog-js/react'
+import { capturePosthogEvent } from '~/components/utils/common'
 
 const HubSpotForm = ({
   id,
@@ -19,7 +19,6 @@ const HubSpotForm = ({
   followUpMeetingLink?: string
 }) => {
   const { trackEvent } = useTracking({}, {});
-  const posthog = usePostHog();
   const router = useRouter();
   useEffect(() => {
     const window2: any = window
@@ -72,7 +71,7 @@ const HubSpotForm = ({
                 ]; // List of valid form field names
                 const params = new URLSearchParams();
                
-                posthog.capture(eventName, {
+                capturePosthogEvent(eventName, {
                   email: emailValue,
                   formDetails,
                   ...params,
