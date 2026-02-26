@@ -1,4 +1,5 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import Button from '~/components/common/Button'
 import Section from '~/components/structure/Section'
 import Container from '~/components/structure/Container'
@@ -90,6 +91,8 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
   className = '',
   showTickIcon = true,
 }) => {
+  const router = useRouter()
+
   // Helper function to get value from field mapping
   const getFieldValue = (
     item: any,
@@ -310,7 +313,11 @@ const FeatureCategoryGrid: React.FC<FeatureCategoryGridProps> = ({
       >
         <div className="flex flex-col gap-16">
           <SectionHeaderV2
-            heading="Feature-Packed to Improve <br/> Every Front Office Workflow"
+            heading={
+              router.locale === 'en-GB'
+                ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+            }
             description="Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice."
           />
 

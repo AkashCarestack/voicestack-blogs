@@ -394,7 +394,9 @@ export default function CategoryFeatureTabsSection({
                 ? sectionHeading?.sectionHeadingDynamic
                 : sectionHeading?.headline
                   ? sectionHeading?.headline
-                  : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+                  : router.locale === 'en-GB'
+                    ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                    : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
             }
             description={
               sectionHeading?.subheadline
@@ -668,7 +670,9 @@ export default function CategoryFeatureTabsSection({
                     ? sectionHeading?.sectionHeadingDynamic
                     : sectionHeading?.headline
                       ? sectionHeading?.headline
-                      : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+                      : router.locale === 'en-GB'
+                        ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                        : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
                 }
                 description={
                   sectionHeading?.subheadline
@@ -846,7 +850,9 @@ export default function CategoryFeatureTabsSection({
                     ? sectionHeading?.sectionHeadingDynamic
                     : sectionHeading?.headline
                       ? sectionHeading?.headline
-                      : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+                      : router.locale === 'en-GB'
+                        ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                        : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
                 }
                 description={
                   sectionHeading?.subheadline
@@ -1052,7 +1058,9 @@ export default function CategoryFeatureTabsSection({
                 ? sectionHeading?.sectionHeadingDynamic
                 : sectionHeading?.headline
                   ? sectionHeading?.headline
-                  : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+                  : router.locale === 'en-GB'
+                    ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                    : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
             }
             description={
               sectionHeading?.subheadline
