@@ -886,3 +886,11 @@ export function capturePosthogEvent(eventName: string, event: Record<string, unk
   }
   posthog.capture(eventName, event)
 }
+
+export function capturePosthogDemoPage(eventName: string, event: Record<string, unknown>) {
+  if (typeof window === 'undefined' || !posthog) return
+  if (window.location.host.startsWith('localhost')) {
+    posthog.debug()
+  }
+  posthog.capture(eventName, event)
+}

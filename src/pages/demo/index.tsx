@@ -7,6 +7,7 @@ import Head from 'next/head'
 import HubSpotMeeting from '~/v2/components/common/HubspotMeeting'
 import demoTrackingNames from '~/v2/data/demoTrackingNames.json'
 import { useDemoFormData } from '~/providers/BookDemoProvider'
+import { capturePosthogDemoPage } from '~/components/utils/common'
 
 interface DemoPageProps {
   draftMode: boolean
@@ -58,6 +59,17 @@ export default function DemoPage({}: DemoPageProps) {
       router.replace(finalUrl, undefined, { shallow: true })
     }
   }, [region, router])
+
+
+  useEffect(() => {
+    capturePosthogDemoPage('demo_page_view', {
+      practiceType: practiceType,
+      region: region,
+      formId: formId,
+      meetingLink: meetingLink,
+      formDetails: formDetails,
+    })
+  }, [])
   
   // Work exactly like US version: read practiceType from query params, default to "Dental"
   const practiceType = (router.query.practiceType as string) || 'Dental'
@@ -82,7 +94,7 @@ export default function DemoPage({}: DemoPageProps) {
   const regionKey = region === 'en-GB' ? 'uk' : region === 'en-AU' ? 'au' : 'us'
   const eventName = demoTrackingNames[regionKey as keyof typeof demoTrackingNames] || demoTrackingNames.us
   const formDetails = `${practiceTypeSlug}_${router.locale}`; 
-  
+
   return (
     <>
       <Head>
