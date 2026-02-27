@@ -79,6 +79,7 @@ const HubSpotForm = ({
                   domain: window.location.origin,
                   destination_url: null,
                   referrer_url: window.document.referrer,
+                  form_submission: 'form_submission',
                 });
               
                 // Filter only the allowed fields from the formData
