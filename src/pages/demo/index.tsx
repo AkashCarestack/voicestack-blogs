@@ -62,7 +62,7 @@ export default function DemoPage({}: DemoPageProps) {
 
 
   useEffect(() => {
-    capturePosthogDemoPage('demo_page_view', {
+    capturePosthogDemoPage('demo_page_viewed', {
       practiceType: practiceType,
       region: region,
       formId: formId,
