@@ -350,7 +350,7 @@ const Header = ({ data, refer = null }) => {
         <meta name="author" content="VoiceStack®"></meta>
         <meta property="og:image" content={urlForImage(siteSettings?.ogImage)} />
         <meta name="twitter:image" content={urlForImage(siteSettings?.ogImage)} />
-        {OrganizationSchemaData && router.locale !== 'en-GB' && (
+        {OrganizationSchemaData && (
           <>
           <script
               type="application/ld+json"
