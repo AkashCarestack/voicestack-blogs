@@ -15,8 +15,8 @@ export default function LeadershipList({ data }: { data: any }) {
         <div className="font-sans flex flex-col gap-16">
           <SectionHeaderV2 heading={data?.heading || data?.title} />
           <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            style={{ columnGap: '1.5rem' }}
+            className="flex flex-wrap justify-center gap-6"
+            style={{ columnGap: '1.5rem', rowGap: '1.5rem' }}
           >
             {data?.testimonial?.map((item: any) => (
               <div key={item._key} className="break-inside-avoid mb-6 flex flex-col">
