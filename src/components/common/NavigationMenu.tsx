@@ -87,12 +87,12 @@ const NavigationMenu = ({
           
           {/* Desktop: Split layout with left (items grouped by header) and right (special menu) */}
           {!isMobile && (
-            <div className="lg:absolute static top-full left-0 mt-2 w-full lg:w-auto bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-              <div className="flex flex-row p-4 gap-6">
+            <div className="lg:absolute static top-full left-0 mt-2 w-full lg:w-auto bg-white rounded-[16px] shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div className="flex flex-row gap-6">
                 {/* Left Side: Items grouped by submenuHeader */}
-                <div className="flex flex-col lg:flex-row min-w-[280px]">
+                <div className="flex flex-col lg:flex-row min-w-[280px] p-[26px]">
                   {link?.submenu && Array.isArray(link.submenu) && link.submenu.map((group: any, groupIndex: number) => (
-                    <div key={`group-${i}-${groupIndex}`} className={'mt-4 min-w-[280px]'}>
+                    <div key={`group-${i}-${groupIndex}`} className={'min-w-[280px]'}>
                       {group.submenuHeader && (
                         <div className="text-base font-semibold text-gray-900 mb-2">
                           {group.submenuHeader}
@@ -118,63 +118,70 @@ const NavigationMenu = ({
                     </div>
                   ))}
                   
-                  {/* Bottom Custom Links - Desktop */}
-                  {link?.bottomCustomLinks && Array.isArray(link.bottomCustomLinks) && link.bottomCustomLinks.length > 0 && (
-                    <div className="flex flex-row items-center justify-between gap-4 mt-4 pt-4 border-t border-gray-200">
-                      {link.bottomCustomLinks.map((customLink: any, index: number) => (
-                        <Anchor
-                          key={`custom-link-${i}-${index}`}
-                          href={customLink.href}
-                          target={customLink.href?.includes('http') ? '_blank' : '_self'}
-                          className={`text-sm text-gray-600 hover:text-gray-900 transition-colors ${
-                            index === 0 ? '' : 'ml-auto'
-                          }`}
-                          onClick={onCloseMenu}
-                        >
-                          {customLink.label}
-                        </Anchor>
-                      ))}
-                    </div>
-                  )}
+                 
                 </div>
 
                 {/* Right Side: Special Menu */}
                 {link.specialMenu && link.specialMenu.length > 0 && (
-                  <div className="flex flex-col gap-4 border-l border-gray-200 pl-6 min-w-[280px]">
-                    {link.specialMenu.map((specialItem: any, specialIndex: number) => {
-                      const imageUrl = urlForImage(specialItem.image);
-                      return (
-                        <Anchor
-                          key={`special-${i}-${specialIndex}`}
-                          href={specialItem.link}
-                          target={specialItem.link?.includes('http') ? '_blank' : '_self'}
-                          className="flex flex-col gap-2 group/item hover:opacity-90 transition-opacity"
-                          onClick={onCloseMenu}
-                        >
-                          {imageUrl && (
-                            <div className="w-full h-32 relative rounded overflow-hidden">
-                              <Image
-                                src={imageUrl}
-                                alt={specialItem.heading || ''}
-                                fill
-                                className="object-cover"
-                              />
+                  <div className="flex border-l border-gray-200 min-w-[280px] p-2">
+                    <div className="flex flex-col gap-4 rounded-[10px] bg-gray-50 w-full">
+                      {link.specialMenu.map((specialItem: any, specialIndex: number) => {
+                        // const imageUrl = urlForImage(specialItem.image);
+                        const imageUrl = specialItem.image?.asset?.url;
+                        return (
+                          <Anchor
+                            key={`special-${i}-${specialIndex}`}
+                            href={specialItem.link}
+                            target={specialItem.link?.includes('http') ? '_blank' : '_self'}
+                            className="h-full flex flex-col gap-2 group/item hover:opacity-90 transition-opacity justify-between"
+                            onClick={onCloseMenu}
+                          >
+                           
+                            <div className="flex flex-col gap-1 p-[18px]">
+                              <div className="font-semibold text-sm text-gray-900 group-hover/item:text-gray-700">
+                                {specialItem.heading}
+                              </div>
+                              {specialItem.description && (
+                                <div className="text-xs text-gray-500">{specialItem.description}</div>
+                              )}
                             </div>
-                          )}
-                          <div className="flex flex-col gap-1">
-                            <div className="font-semibold text-sm text-gray-900 group-hover/item:text-gray-700">
-                              {specialItem.heading}
-                            </div>
-                            {specialItem.description && (
-                              <div className="text-xs text-gray-500">{specialItem.description}</div>
+                            
+                            {imageUrl && (
+                              <div className="w-full h-32 relative rounded overflow-hidden">
+                                <Image
+                                  src={imageUrl}
+                                  alt={specialItem.heading || ''}
+                                  fill
+                                  className="object-cover"
+                                />
+                              </div>
                             )}
-                          </div>
-                        </Anchor>
-                      );
-                    })}
+                          </Anchor>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
               </div>
+               {/* Bottom Custom Links - Desktop */}
+               {link?.bottomCustomLinks && Array.isArray(link.bottomCustomLinks) && link.bottomCustomLinks.length > 0 && (
+                  <div className="flex flex-row items-center gap-4 px-[28px] py-[10px] border-t border-gray-200">
+                    {link.bottomCustomLinks.map((customLink: any, index: number) => (
+                      // index === 0 &&
+                      <Anchor
+                        key={`custom-link-${i}-${index}`}
+                        href={customLink.href}
+                        target={customLink.href?.includes('http') ? '_blank' : '_self'}
+                        className={`text-sm text-gray-600 hover:text-gray-900 transition-colors ${
+                          index === 1 ? 'ml-auto' : 'ml-0'
+                        }`}
+                        onClick={onCloseMenu}
+                      >
+                        {customLink.label}
+                      </Anchor>
+                    ))}
+                  </div>
+                )}
             </div>
           )}
 
