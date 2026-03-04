@@ -83,15 +83,15 @@ export default function DemoPage({}: DemoPageProps) {
   const referrer = router.query.referrer as string | undefined
   let activeFormData = null
 
-  console.log('referrer', referrer)
-  console.log('formData?.overrideDemoForms', formData?.overrideDemoForms)
+  // console.log('referrer', referrer)
+  // console.log('formData?.overrideDemoForms', formData?.overrideDemoForms)
   
   if (referrer && formData?.overrideDemoForms) {
     // Search for matching override form by referralName
     const overrideForm = formData.overrideDemoForms.find(
       (form) => form.referralName === referrer
     )
-    console.log('overrideForm', overrideForm)
+    // console.log('overrideForm', overrideForm)
     if (overrideForm) {
       // Use override form - it should have either demoFormId OR demoMeetingLink (not both)
       activeFormData = overrideForm
@@ -118,7 +118,7 @@ export default function DemoPage({}: DemoPageProps) {
   // Use activeFormData if found, otherwise fall back to default formData
   const formId = activeFormData?.demoFormId
   const meetingLink = activeFormData?.demoMeetingLink
-  console.log('formId', formId, 'meetingLink', meetingLink, 'activeFormData', activeFormData)
+  // console.log('formId', formId, 'meetingLink', meetingLink, 'activeFormData', activeFormData)
   const practiceType = activeFormData?.practiceType || (router.query.practiceType as string) || 'Dental'
   const practiceTypeSlug = practiceType?.toLowerCase().replace(' ', '_')
   
