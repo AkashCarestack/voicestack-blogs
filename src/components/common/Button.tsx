@@ -138,6 +138,36 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     if (isBookFreeDemoButton) {
       e.preventDefault()
       
+      // Check for referrer query param and override demo forms
+      const referrer = router.query.referrer as string | undefined
+      if (referrer && formData?.overrideDemoForms) {
+        const overrideForm = formData.overrideDemoForms.find(
+          (form) => form.referralName === referrer
+        )
+        
+        if (overrideForm) {
+          // Found matching override form - skip modal and navigate directly
+          const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
+          const basePath = `${localePrefix}/demo`
+          
+          // Get current query params from URL
+          const currentSearch = router.asPath.includes('?') 
+            ? router.asPath.split('?')[1].split('#')[0] 
+            : ''
+          const currentParams = new URLSearchParams(currentSearch)
+          
+          // Preserve referrer param and remove internal params
+          currentParams.set('referrer', referrer)
+          currentParams.delete('flag')
+          currentParams.delete('slug')
+          
+          const queryString = currentParams.toString()
+          const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
+          router.push(finalUrl)
+          return
+        }
+      }
+      
       // If only one practice type is available, skip modal and proceed directly
       if (availablePracticeTypes.length === 1) {
         const singlePracticeType = availablePracticeTypes[0]
@@ -165,6 +195,10 @@ const Button: React.FunctionComponent<ButtonProps> = ({
         
         // Add practiceType param (for all regions, including AU)
         currentParams.set('practiceType', singlePracticeType)
+        // Preserve referrer param if it exists
+        if (router.query.referrer) {
+          currentParams.set('referrer', router.query.referrer as string)
+        }
         currentParams.delete('flag')
         currentParams.delete('slug')
         

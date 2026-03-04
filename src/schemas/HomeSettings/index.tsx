@@ -42,6 +42,7 @@ export default defineType({
       name: 'pricingDemoForms',
       title: 'Pricing Demo Forms',
     },
+   
     {
       name: 'schema',
       title: 'Schema',
@@ -165,6 +166,67 @@ export default defineType({
             {
               name: 'demoMeetingLink',
               title: 'Demo Meeting Link',
+              type: 'string',
+              // validation: (Rule: any) => Rule.required(),
+            },
+          ],
+          preview: {
+            select: {
+              title: 'practiceType',
+              subtitle: 'demoFormId',
+            },
+            prepare(selection: any) {
+              const { title, subtitle } = selection
+              return {
+                title: title || 'Untitled Demo Form',
+                // subtitle: subtitle || 'No Form ID',
+              }
+            },
+          },
+        },
+      ],
+    }),
+
+    defineField({
+      name: 'overrideDemoForms',
+      title: 'Override Demo Forms',
+      type: 'array',
+      group: 'demoForms',
+      of: [
+        {
+          type: 'object',
+          name: 'demoFormItem',
+          title: 'Demo Form',
+          fields: [
+            {
+              name: 'practiceType',
+              title: 'Practice Type',
+              type: 'string',
+              options: {
+                list: [
+                  { title: 'Dental', value: 'Dental' },
+                  { title: 'Optometry', value: 'Optometry' },
+                  { title: 'Physical Therapy', value: 'Physical Therapy' },
+                  { title: 'Veterinary', value: 'Veterinary' },
+                ],
+              },
+              validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'demoFormId',
+              title: 'Demo Form Id',
+              type: 'string',
+              // validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'demoMeetingLink',
+              title: 'Demo Meeting Link',
+              type: 'string',
+              // validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'referralName',
+              title: 'Referral Name',
               type: 'string',
               // validation: (Rule: any) => Rule.required(),
             },

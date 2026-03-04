@@ -30,6 +30,24 @@ export const getStaticProps: GetStaticProps<any> = async ({
 export default function DemoPage({}: DemoPageProps) {
   const router = useRouter()
   const { formData, region } = useDemoFormData()
+
+  // if (!router.isReady) {
+  //   return null; // or loader
+  // }
+
+  if (!router.isReady) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+  }
+  
+  useEffect(() => {
+    capturePosthogDemoPage('demo_page_viewed', {
+      practiceType: practiceType,
+      region: region,
+      formId: formId,
+      meetingLink: meetingLink,
+      formDetails: formDetails,
+    })
+  }, []) 
   
   
   // For en-AU and en-GB, remove only practiceType query param from URL if present, preserve others
@@ -61,39 +79,54 @@ export default function DemoPage({}: DemoPageProps) {
   }, [region, router])
 
 
-  useEffect(() => {
-    capturePosthogDemoPage('demo_page_viewed', {
-      practiceType: practiceType,
-      region: region,
-      formId: formId,
-      meetingLink: meetingLink,
-      formDetails: formDetails,
-    })
-  }, [])
+  // Check for referrer query param and override demo forms
+  const referrer = router.query.referrer as string | undefined
+  let activeFormData = null
+
+  console.log('referrer', referrer)
+  console.log('formData?.overrideDemoForms', formData?.overrideDemoForms)
   
-  // Work exactly like US version: read practiceType from query params, default to "Dental"
-  const practiceType = (router.query.practiceType as string) || 'Dental'
-  // Find the matching form data based on practiceType
-  let activeFormData = formData?.demoForms?.find((form) => form.practiceType === practiceType)
+  if (referrer && formData?.overrideDemoForms) {
+    // Search for matching override form by referralName
+    const overrideForm = formData.overrideDemoForms.find(
+      (form) => form.referralName === referrer
+    )
+    console.log('overrideForm', overrideForm)
+    if (overrideForm) {
+      // Use override form - it should have either demoFormId OR demoMeetingLink (not both)
+      activeFormData = overrideForm
+    }
+  }
   
-  // Fallback: if no match found, use first form or default
+  // If no override form found, use normal demoForms logic
   if (!activeFormData) {
-    activeFormData = formData?.demoForms?.[0] || (formData?.demoFormId ? {
-      demoFormId: formData.demoFormId,
-      demoMeetingLink: formData.demoMeetingLink,
-      practiceType: 'Dental'
-    } : null)
+    // Work exactly like US version: read practiceType from query params, default to "Dental"
+    const practiceType = (router.query.practiceType as string) || 'Dental'
+    // Find the matching form data based on practiceType
+    activeFormData = formData?.demoForms?.find((form) => form.practiceType === practiceType)
+    
+    // Fallback: if no match found, use first form or default
+    if (!activeFormData) {
+      activeFormData = formData?.demoForms?.[0] || (formData?.demoFormId ? {
+        demoFormId: formData.demoFormId,
+        demoMeetingLink: formData.demoMeetingLink,
+        practiceType: 'Dental'
+      } : null)
+    }
   }
   
   // Use activeFormData if found, otherwise fall back to default formData
   const formId = activeFormData?.demoFormId
   const meetingLink = activeFormData?.demoMeetingLink
-  const practiceTypeSlug = activeFormData?.practiceType?.toLowerCase().replace(' ', '_')
+  console.log('formId', formId, 'meetingLink', meetingLink, 'activeFormData', activeFormData)
+  const practiceType = activeFormData?.practiceType || (router.query.practiceType as string) || 'Dental'
+  const practiceTypeSlug = practiceType?.toLowerCase().replace(' ', '_')
   
   // Map region to tracking name key
   const regionKey = region === 'en-GB' ? 'uk' : region === 'en-AU' ? 'au' : 'us'
   const eventName = demoTrackingNames[regionKey as keyof typeof demoTrackingNames] || demoTrackingNames.us
-  const formDetails = `${practiceTypeSlug}_${router.locale}`; 
+  const formDetails = `${practiceTypeSlug}_${router.locale}`
+  
 
   return (
     <>

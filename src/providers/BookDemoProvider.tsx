@@ -16,6 +16,12 @@ interface DemoFormData {
     demoFormId?: string
     demoMeetingLink?: string
   }>
+  overrideDemoForms?: Array<{
+    practiceType?: string
+    demoFormId?: string
+    demoMeetingLink?: string
+    referralName?: string
+  }>
 }
 
 interface BookDemoContextType {
