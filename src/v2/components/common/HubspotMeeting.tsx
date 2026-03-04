@@ -2,6 +2,7 @@ import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
+import { capturePosthogEvent } from '~/components/utils/common'
 // import { usePricingModal } from './PricingModalContext'
 
 const HubSpotMeeting = ({
@@ -15,8 +16,6 @@ const HubSpotMeeting = ({
 }) => {
   const { trackEvent } = useTracking({}, {})
   const router = useRouter()
-  
-
   useEffect(() => {
     // Store UTM params from current URL to sessionStorage on mount (for future use)
     const currentParams = new URLSearchParams(window.location.search);
@@ -49,6 +48,16 @@ const HubSpotMeeting = ({
         let date = meetingData.event.dateString;
         let time = meetingData.event.dateTime;
         let email = meetingData.postResponse.contact.email;
+        const params = new URLSearchParams();
+        capturePosthogEvent(eventName, {
+          email: email,
+          formDetails,
+          ...params,
+          base_path: window.location.origin + window.location.pathname,
+          domain: window.location.origin,
+          destination_url: null,
+          referrer_url: window.document.referrer,
+        });
         const urlParams = new URLSearchParams(window.location.search);
 
         window2.dataLayer.push({
@@ -66,7 +75,7 @@ const HubSpotMeeting = ({
           })
         );
 
-        const params = new URLSearchParams();
+       
         // const eventName = `demo_meeting_submission_${router.locale}`
         trackEvent({
           e_name: eventName,

@@ -1,9 +1,7 @@
 import { useTracking } from 'cs-tracker'
-import { isEmpty } from 'lodash'
 import type { GetStaticProps } from 'next'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import SimpleHead from '~/components/common/SimpleHead'
 import Home from '~/components/revamp/components/home'
 import HomeAU from '~/components/revamp/components/homeAU'
 import HomeGB from '~/components/revamp/components/homeGB'
@@ -34,20 +32,11 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
     const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
      const queries1 = new Queries('landing-v2', region)
     const slug1 = region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
-    
-    console.log('Fetching home page data:', { region, slug, slug1 })
-    
+        
     const pageData = await queries.getPageData('homePage', slug)
     const pageData1 = await queries1.getPageData('homePage', slug1)
     const client = getClient()
 
-    console.log('Page data results:', { 
-      pageData: !!pageData, 
-      pageData1: !!pageData1,
-      slug,
-      slug1,
-      region 
-    })
     if (!pageData1) {
       return {
         notFound: true,
@@ -135,13 +124,6 @@ export default function IndexPage({
     }
   }, [])
 
-  // if (isEmpty(pageData)) {
-  //   return (
-  //     <>
-  //       <p className="p-5">Loading ... </p>
-  //     </>
-  //   )
-  // }
 
   const comparisonSectionData = {
     strip:
@@ -152,9 +134,6 @@ export default function IndexPage({
     table: comparisonTableData,
   }
 
-
-// console.log("hoem",pageData)
-// console.log("featuresData", featuresData)
   return (
     <Track>
       {region === 'en' && (

@@ -82,9 +82,10 @@ export default function PartnerSlugPage({
 
       {features && features.length > 0 && pageData['category-feature-tabs'] && (
         <CategoryFeatureTabsSection
-        {...(slug === 'vetcelerator' && { category: 'Veterinarians' })}
+          {...(slug === 'vetcelerator' && { category: 'veterinary' })}
           features={features}
           variant="carousel"
+          noLinks={true}
           customType="partner"
           sectionHeading={
             pageData['category-feature-tabs']?.componentData?.sectionHeading
@@ -116,6 +117,7 @@ export default function PartnerSlugPage({
             pageData['testimonial-video-section']?.componentData?.refData
               ?.testimonialListing
           }
+          hideLogo={true}
         />
       )}
 

@@ -407,7 +407,9 @@ export default function FaqSection({ faqItems }: any) {
                         </div>
                       </button>
                       <AnimatePresence initial={false}>
-                        {isQuestionOpen && (
+                        {/* {isQuestionOpen && ( */}
+                        <div className={`${isQuestionOpen ? 'block' : 'hidden'} transition-all duration-300`}>
+
                           <motion.div
                             initial={{ height: 0, opacity: 0 }}
                             animate={{ height: 'auto', opacity: 1 }}
@@ -428,7 +430,8 @@ export default function FaqSection({ faqItems }: any) {
                              null
                             )}
                           </motion.div>
-                        )}
+                        </div>
+                        {/* )} */}
                       </AnimatePresence>
                     </motion.div>
                   )

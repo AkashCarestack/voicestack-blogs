@@ -33,8 +33,8 @@ export default function LeadershipTeamPage({
       {pageData['leadership-team-hero']?.componentData && (
         <FeatureHero data={pageData['leadership-team-hero']} isCentered={true}/>
       )}
-      {pageData['leadership-team-list']?.componentData && (
-        <LeadershipList data={pageData['leadership-team-list']?.componentData} />
+        {pageData['leadership-team-list']?.componentData?.refData?.testimonialListing && (         
+        <LeadershipList data={pageData['leadership-team-list']?.componentData?.refData?.testimonialListing} />
       )}
 
     </>

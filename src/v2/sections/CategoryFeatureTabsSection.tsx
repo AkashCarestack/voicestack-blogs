@@ -61,6 +61,8 @@ interface CategoryFeatureTabsSectionProps {
   isGridListing?: boolean;
   columnCount?: number;
   customType?: string;
+  noLinks?: boolean;
+  category?: string;
 }
 
 export default function CategoryFeatureTabsSection({
@@ -71,6 +73,8 @@ export default function CategoryFeatureTabsSection({
   variant = 'default',
   sectionBorder = 'none',
   isGridListing = false,
+  noLinks = false,
+  category: partnerCategory = "",
   ...props
 }: CategoryFeatureTabsSectionProps) {
   const router = useRouter();
@@ -394,7 +398,9 @@ export default function CategoryFeatureTabsSection({
                 ? sectionHeading?.sectionHeadingDynamic
                 : sectionHeading?.headline
                   ? sectionHeading?.headline
-                  : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+                  : router.locale === 'en-GB'
+                    ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                    : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
             }
             description={
               sectionHeading?.subheadline
@@ -668,7 +674,9 @@ export default function CategoryFeatureTabsSection({
                     ? sectionHeading?.sectionHeadingDynamic
                     : sectionHeading?.headline
                       ? sectionHeading?.headline
-                      : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+                      : router.locale === 'en-GB'
+                        ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                        : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
                 }
                 description={
                   sectionHeading?.subheadline
@@ -745,6 +753,18 @@ export default function CategoryFeatureTabsSection({
                         {/* Pill Items Grid */}
                         <div className="flex flex-wrap gap-3 items-start w-full">
                           {pillItems.map((item, index) => (
+                            noLinks ? (
+                              <div
+                                key={`${category.name}-${index}`}
+                                className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white transition-all duration-200 shadow-sm"
+                              >
+                                <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
+                                  {item.heading}
+                                </span>
+                               
+                              </div>    
+                            ):(
+
                             <Link
                               key={`${category.name}-${index}`}
                               href={item.href}
@@ -760,6 +780,7 @@ export default function CategoryFeatureTabsSection({
                                 />
                               )}
                             </Link>
+                            )
                           ))}
                         </div>
                       </div>
@@ -785,14 +806,13 @@ export default function CategoryFeatureTabsSection({
                   <AnimatePresence mode="wait">
                     {allCategories.map((category) => {
                       const isActive = category.name === activeCategory;
-                      const slug = router.query?.slug as string;
+                      // const useSecondary = partnerCategory === 'Veterinarians' && category?.categorySecondaryImage?.[0]?.image;
+                      const secondaryImageItem = category.categorySecondaryImage?.find(
+                        (item: any) => item.name === partnerCategory
+                      );
                       
-                      const shouldUseSecondaryImage = slug && typeof slug === 'string' && slug.includes('vetcelerator');
-                      
-                      let imageToDisplay = category?.mainImage;
-                      if (shouldUseSecondaryImage && category?.categorySecondaryImage && Array.isArray(category.categorySecondaryImage) && category.categorySecondaryImage.length > 0) {
-                        imageToDisplay = category.categorySecondaryImage[0]?.image;
-                      }
+                      const imageToDisplay =
+                        secondaryImageItem?.image || category?.mainImage;
 
                       if (!isActive || !imageToDisplay) return null;
 
@@ -846,7 +866,9 @@ export default function CategoryFeatureTabsSection({
                     ? sectionHeading?.sectionHeadingDynamic
                     : sectionHeading?.headline
                       ? sectionHeading?.headline
-                      : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+                      : router.locale === 'en-GB'
+                        ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                        : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
                 }
                 description={
                   sectionHeading?.subheadline
@@ -1052,7 +1074,9 @@ export default function CategoryFeatureTabsSection({
                 ? sectionHeading?.sectionHeadingDynamic
                 : sectionHeading?.headline
                   ? sectionHeading?.headline
-                  : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+                  : router.locale === 'en-GB'
+                    ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                    : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
             }
             description={
               sectionHeading?.subheadline

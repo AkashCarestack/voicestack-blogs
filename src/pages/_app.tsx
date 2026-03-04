@@ -1,8 +1,5 @@
 /* globals.css */
 import '~/styles/global.css'  
-
-
-
 import track, { getDeviceData } from 'cs-tracker'
 import { GeistSans } from 'geist/font/sans';
 import type { AppProps } from 'next/app'
@@ -23,10 +20,11 @@ import { getUser } from '~/utils/tracker/user'
 import { getClient } from '~/lib/sanity.client'
 import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData, getSchemaData, getFeaturesForLayout } from '~/lib/sanity.queries'
 import type { AppContext } from 'next/app'
-
 import Layout from '../components/Layout'
 import ProgressLoader from '../components/common/ProgressLoader'
-// import GlobalHead from '../components/common/GlobalHead'
+import posthog from 'posthog-js'
+import { PostHogProvider } from 'posthog-js/react'
+import { config } from '~/config/config'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -84,9 +82,7 @@ function App({
     }
   }, []);
   
-  useEffect(() => { 
-   console.log('isVoicestackDomain', isVoicestackDomain, window.location.origin);
-  }, [isVoicestackDomain]);
+
 
   // Global UTM parameter capture - runs on every page load
   useEffect(() => {
@@ -104,6 +100,27 @@ function App({
       });
     }
   }, [router.asPath]); // Run on every route change
+
+
+
+
+  /* ************** posthog Installation code ************** */
+
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !config.NEXT_PUBLIC_POSTHOG_KEY) return
+
+    const origin = window.location.origin
+    const isProduction =
+      origin === 'https://voicestack.com' || origin === 'https://www.voicestack.com'
+    if (!isProduction) return
+
+    posthog.init(config.NEXT_PUBLIC_POSTHOG_KEY, {
+      api_host: config.NEXT_PUBLIC_POSTHOG_HOST,
+      autocapture: true,
+      capture_pageview: true,
+    })
+  }, [])
   
   return (
     <main className={`${inter.variable} ${manrope.variable} font-geist ${GeistSans.variable}`}>
@@ -253,7 +270,9 @@ function App({
                       <Component {...pageProps}/>
                     </PreviewProvider>
                   ) : (
-                    <Component {...pageProps}/>
+                    <PostHogProvider client={posthog}>
+                      <Component {...pageProps}/>
+                    </PostHogProvider>
                   )}
                 </Layout>
               </LayoutDataProvider>
@@ -261,6 +280,7 @@ function App({
           </PricingModalProvider>
         )}
       </TrackUserProvider>
+     
     </main>
   )
 }

@@ -1950,66 +1950,26 @@ export const getFeaturesListQuery = groq`
           altText,
           title
         },
-        // Use coalesce to try current language first, then fallback to en-AU, then en
-        "categorySecondaryImage": coalesce(
-          categorySecondaryImage[] {
-            _key,
-            image {
-              asset-> {
-                _id,
-                url,
-                metadata {
-                  dimensions {
-                    width,
-                    height,
-                    aspectRatio
-                  }
+        // Only current locale's secondary image (no cross-locale fallback so vetcelerator shows mainImage when locale has none)
+        categorySecondaryImage[] {
+          _key,
+          image {
+            asset-> {
+              _id,
+              url,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
                 }
-              },
-              altText,
-              title
+              }
             },
-            name
+            altText,
+            title
           },
-          *[_type == "featureCategory" && name == ^.name && language == "en-AU"][0].categorySecondaryImage[] {
-            _key,
-            image {
-              asset-> {
-                _id,
-                url,
-                metadata {
-                  dimensions {
-                    width,
-                    height,
-                    aspectRatio
-                  }
-                }
-              },
-              altText,
-              title
-            },
-            name
-          },
-          *[_type == "featureCategory" && name == ^.name && language == "en"][0].categorySecondaryImage[] {
-            _key,
-            image {
-              asset-> {
-                _id,
-                url,
-                metadata {
-                  dimensions {
-                    width,
-                    height,
-                    aspectRatio
-                  }
-                }
-              },
-              altText,
-              title
-            },
-            name
-          }
-        ),
+          name
+        },
         icon {
           asset-> {
             _id,
@@ -2056,66 +2016,26 @@ export const getFeatureBySlugQuery = groq`
             url
           }
         },
-        // Use coalesce to try current language first, then fallback to en-AU, then en
-        "categorySecondaryImage": coalesce(
-          categorySecondaryImage[] {
-            _key,
-            image {
-              asset-> {
-                _id,
-                url,
-                metadata {
-                  dimensions {
-                    width,
-                    height,
-                    aspectRatio
-                  }
+        // Only current locale's secondary image (no cross-locale fallback)
+        categorySecondaryImage[] {
+          _key,
+          image {
+            asset-> {
+              _id,
+              url,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
                 }
-              },
-              altText,
-              title
+              }
             },
-            name
+            altText,
+            title
           },
-          *[_type == "featureCategory" && name == ^.name && language == "en-AU"][0].categorySecondaryImage[] {
-            _key,
-            image {
-              asset-> {
-                _id,
-                url,
-                metadata {
-                  dimensions {
-                    width,
-                    height,
-                    aspectRatio
-                  }
-                }
-              },
-              altText,
-              title
-            },
-            name
-          },
-          *[_type == "featureCategory" && name == ^.name && language == "en"][0].categorySecondaryImage[] {
-            _key,
-            image {
-              asset-> {
-                _id,
-                url,
-                metadata {
-                  dimensions {
-                    width,
-                    height,
-                    aspectRatio
-                  }
-                }
-              },
-              altText,
-              title
-            },
-            name
-          }
-        ),
+          name
+        },
         icon {
           asset-> {
             _id,

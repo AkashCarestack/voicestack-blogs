@@ -108,6 +108,7 @@ const CategorySection: React.FC<CategorySectionProps> = ({
             simpleListingData={true}
             columnCount={3}
             showBorderBottom={false}
+            isIntegrationSection={true}
           />
         </div>
       )}

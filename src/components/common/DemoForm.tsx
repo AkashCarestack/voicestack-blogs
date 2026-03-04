@@ -98,7 +98,7 @@ const DemoForm = ({
             destination_url: null,
             referrer_url: window.document.referrer,
           });
-          
+                  
           // Redirect after 3 seconds
           setTimeout(async () => {
             const urlParams = new URLSearchParams(window.location.search);

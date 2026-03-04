@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 import React, { useEffect, useState } from "react";
 import { getCookie } from '~/utils/tracker/cookie';
 import { useTrackUser } from '~/utils/tracker/intitialize';
+import { capturePosthogEvent } from '../utils/common';
 
 
 interface CustomLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -24,7 +25,6 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
   ({ href, locale, elementId, passHref = true, replace = false, prefetch = true, children, ...rest }) => {
 
     const router = useRouter();
-
     const { Track, trackEvent } = useTracking({}, {})
     const [newLink, setNewLink] = useState("#");
     const trackCtx = useTrackUser();
@@ -134,6 +134,25 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
             domain: window.location.origin,
             referrer_url: window.document.referrer
           });
+          capturePosthogEvent('button_click', {
+            e_name,
+            e_type: 'click',
+            e_time: new Date(),
+            element,
+            element_id: dataId,
+            user_segment:abSegment,
+            destination_url: newLink,
+            current_path: window.location.href,
+            utm_campaign,
+            utm_content,
+            utm_source,
+            utm_term,
+            utm_medium,
+            url_params: params,
+            base_path: window.location.origin + window.location.pathname,
+            domain: window.location.origin,
+            referrer_url: window.document.referrer
+          })
 
           // Call external onClick if provided (from Button component, etc.)
           // This ensures both tracking AND button's onClick work

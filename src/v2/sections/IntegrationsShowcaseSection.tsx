@@ -74,11 +74,12 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   const sortedIntegrations = React.useMemo(() => {
     const integrations =
       data?.refData?.integrationListing?.integrationList || []
-    return [...integrations].sort((a: any, b: any) => {
+    const sorted = [...integrations].sort((a: any, b: any) => {
       const orderA = a.order ?? Number.MAX_SAFE_INTEGER
       const orderB = b.order ?? Number.MAX_SAFE_INTEGER
       return orderA - orderB
     })
+    return sorted.filter((item: any) => item?.colorImage?.url)
   }, [data])
 
   // Don't render if no integrations
@@ -87,8 +88,6 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   }
 
   // Grid configuration - dynamically sized based on integration count
-  const leftEmptyCols = 3 // Empty columns on left side
-  const rightEmptyCols = 3 // Empty columns on right side
   const emptyRowsTop = 1 // Empty row at top
   // Dynamic rows: 1 row if < 8 integrations, 2 rows if >= 8
   const integrationRows = sortedIntegrations.length < 8 ? 1 : 2
@@ -99,44 +98,48 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   const integrationsPerRow = Math.ceil(
     sortedIntegrations.length / integrationRows,
   )
-
-  // Center columns = number of integrations per row (dynamic based on logos)
   const centerCols = integrationsPerRow
-  const totalCols = leftEmptyCols + centerCols + rightEmptyCols
 
-  // Build the grid structure
-  const getGridCells = () => {
+  // Filler columns on left/right so grid extends to section max width (~1372px / 78px ≈ 18 per side; use 24 to be safe)
+  const sideFillerCols = 24
+  const totalSideCells = sideFillerCols * totalRows
+
+  const emptyCellStyle = {
+    borderRadius: '8px',
+    border: '1px solid rgba(255,255,255,0.20)',
+    background: 'rgba(255,255,255,0.10)',
+    width: '70px',
+    height: '70px',
+  }
+
+  // Build left filler cells (same style as empty grid cells)
+  const leftFillerCells = Array.from({ length: totalSideCells }, (_, i) => (
+    <div key={`left-${i}`} style={emptyCellStyle} className="flex items-center justify-center shrink-0" />
+  ))
+
+  // Build right filler cells
+  const rightFillerCells = Array.from({ length: totalSideCells }, (_, i) => (
+    <div key={`right-${i}`} style={emptyCellStyle} className="flex items-center justify-center shrink-0" />
+  ))
+
+  // Build the center grid structure (integrations only, with empty rows top/bottom)
+  const getCenterGridCells = () => {
     const cells = []
     let integrationIndex = 0
 
     for (let row = 0; row < totalRows; row++) {
-      // Check if this is an integration row
       const isIntegrationRow =
         row >= emptyRowsTop && row < emptyRowsTop + integrationRows
 
-      for (let col = 0; col < totalCols; col++) {
-        const cellKey = `cell-${row}-${col}`
+      for (let col = 0; col < centerCols; col++) {
+        const cellKey = `center-${row}-${col}`
 
-        // Top empty row or bottom empty row - all cells are empty
         if (row < emptyRowsTop || row >= emptyRowsTop + integrationRows) {
           cells.push({ type: 'empty', key: cellKey })
           continue
         }
 
-        // Left empty columns (first 3)
-        if (col < leftEmptyCols) {
-          cells.push({ type: 'empty', key: cellKey })
-          continue
-        }
-
-        // Right empty columns (last 3)
-        if (col >= totalCols - rightEmptyCols) {
-          cells.push({ type: 'empty', key: cellKey })
-          continue
-        }
-
-        // Center columns - place integration icons
-        if (isIntegrationRow && integrationIndex < sortedIntegrations.length) {
+        if (integrationIndex < sortedIntegrations.length) {
           cells.push({
             type: 'integration',
             data: sortedIntegrations[integrationIndex],
@@ -151,7 +154,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
     return cells
   }
 
-  const gridCells = getGridCells()
+  const gridCells = getCenterGridCells()
   const isDark = theme === 'dark'
   const borderColor = isDark ? 'border-gray-800' : 'border-gray-200'
   const bgColor = isDark ? 'bg-gray-950' : 'bg-white'
@@ -251,8 +254,8 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
               ))}
             </div>
 
-            {/* Desktop Grid - Full layout (md and above) */}
-            <div className="relative mx-auto hidden md:block">
+            {/* Desktop Grid - Full width: left grid | center integrations | right grid (md and above) */}
+            <div className="relative w-full hidden md:flex items-start overflow-hidden gap-2">
               {/* Top gradient overlay */}
               <div
                 className="pointer-events-none absolute inset-x-0 top-0 h-[80px] z-[3]"
@@ -269,12 +272,28 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                     'linear-gradient(to top, #030712 0%, rgba(3, 7, 18, 0) 100%)',
                 }}
               />
+
+              {/* Left grid - extends to section left edge */}
+              <div className="flex-1 min-w-0 overflow-hidden flex justify-end">
+                <div
+                  className="grid shrink-0"
+                  style={{
+                    gridTemplateColumns: `repeat(${sideFillerCols}, 70px)`,
+                    gridTemplateRows: `repeat(${totalRows}, 70px)`,
+                    gap: '8px',
+                  }}
+                >
+                  {leftFillerCells}
+                </div>
+              </div>
+
+              {/* Center - integration icons */}
               <div
-                className="grid"
+                className="grid shrink-0"
                 style={{
-                  gridTemplateColumns: `repeat(${totalCols}, 70px)`,
+                  gridTemplateColumns: `repeat(${centerCols}, 70px)`,
+                  gridTemplateRows: `repeat(${totalRows}, 70px)`,
                   gap: '8px',
-                  justifyContent: 'center',
                 }}
               >
                 {gridCells.map((cell) => (
@@ -284,13 +303,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                         ? 'group relative transition-all duration-300'
                         : ''
                       }`}
-                    style={{
-                      borderRadius: '8px',
-                      border: '1px solid rgba(255,255,255,0.20)',
-                      background: 'rgba(255,255,255,0.10)',
-                      width: '70px',
-                      height: '70px',
-                    }}
+                    style={emptyCellStyle}
                   >
                     {cell.type === 'integration' && cell.data?.colorImage?.url && (
                       <>
@@ -301,7 +314,6 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                           height={70}
                           className="w-full h-full object-contain rounded-[8px]"
                         />
-                        {/* Tooltip - only for integration cells */}
                         <div className="absolute bg-[#efeeea] bottom-0 px-2 py-1 rounded-sm align-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap z-10">
                           <p className="font-['Geist',_sans-serif] font-normal text-xs text-[#52525c] text-center">
                             {cell.data.title}
@@ -311,6 +323,20 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
                     )}
                   </div>
                 ))}
+              </div>
+
+              {/* Right grid - extends to section right edge */}
+              <div className="flex-1 min-w-0 overflow-hidden flex justify-start">
+                <div
+                  className="grid shrink-0"
+                  style={{
+                    gridTemplateColumns: `repeat(${sideFillerCols}, 70px)`,
+                    gridTemplateRows: `repeat(${totalRows}, 70px)`,
+                    gap: '8px',
+                  }}
+                >
+                  {rightFillerCells}
+                </div>
               </div>
             </div>
 
