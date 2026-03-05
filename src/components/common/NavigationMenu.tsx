@@ -87,14 +87,14 @@ const NavigationMenu = ({
           
           {/* Desktop: Split layout with left (items grouped by header) and right (special menu) */}
           {!isMobile && (
-            <div className="lg:absolute static top-full left-0 mt-2 w-full lg:w-auto bg-white rounded-[16px] shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-              <div className="flex flex-row gap-6">
+            <div className="lg:absolute static top-full left-0 mt-2 w-full lg:w-auto bg-white rounded-[16px] shadow-2xl border  opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div className="flex flex-row">
                 {/* Left Side: Items grouped by submenuHeader */}
-                <div className="flex flex-col lg:flex-row min-w-[280px] p-[26px]">
+                <div className="flex flex-col lg:flex-row min-w-[256px] p-[26px]">
                   {link?.submenu && Array.isArray(link.submenu) && link.submenu.map((group: any, groupIndex: number) => (
-                    <div key={`group-${i}-${groupIndex}`} className={'min-w-[280px]'}>
+                    <div key={`group-${i}-${groupIndex}`} className={'min-w-[180px]'}>
                       {group.submenuHeader && (
-                        <div className="text-base font-semibold text-gray-900 mb-2">
+                        <div className="text-base font-medium text-gray-950 mb-2">
                           {group.submenuHeader}
                         </div>
                       )}
@@ -104,7 +104,7 @@ const NavigationMenu = ({
                             <Anchor
                               href={subItem.href}
                               target={subItem.href?.includes('http') ? '_blank' : '_self'}
-                              className="block px-0 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150 rounded"
+                              className="block py-[6px] px-2 text-sm text-zinc-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
                               onClick={onCloseMenu}
                             >
                               <div className="font-medium">{subItem.label}</div>
@@ -123,8 +123,8 @@ const NavigationMenu = ({
 
                 {/* Right Side: Special Menu */}
                 {link.specialMenu && link.specialMenu.length > 0 && (
-                  <div className="flex border-l border-gray-200 min-w-[280px] p-2">
-                    <div className="flex flex-col gap-4 rounded-[10px] bg-gray-50 w-full">
+                  <div className="flex border-l border-gray-200 min-w-[256px] p-2">
+                    <div className="flex flex-col gap-4 rounded-[10px] bg-[linear-gradient(180deg,_#EACCFF_0.03%,_#FFECFA_62.74%)] w-full">
                       {link.specialMenu.map((specialItem: any, specialIndex: number) => {
                         // const imageUrl = urlForImage(specialItem.image);
                         const imageUrl = specialItem.image?.asset?.url;
@@ -138,12 +138,13 @@ const NavigationMenu = ({
                           >
                            
                             <div className="flex flex-col gap-1 p-[18px]">
-                              <div className="font-semibold text-sm text-gray-900 group-hover/item:text-gray-700">
+                              <div className="font-medium text-base text-gray-950 group-hover/item:text-gray-900">
                                 {specialItem.heading}
                               </div>
                               {specialItem.description && (
-                                <div className="text-xs text-gray-500">{specialItem.description}</div>
+                                <p className="text-sm text-gray-950 leading-[1.42]">{specialItem.description}</p>
                               )}
+                              <span className="text-sm text-gray-950 hover:text-gray-900 underline decoration-dotted">Learn More</span>
                             </div>
                             
                             {imageUrl && (
@@ -172,7 +173,7 @@ const NavigationMenu = ({
                         key={`custom-link-${i}-${index}`}
                         href={customLink.href}
                         target={customLink.href?.includes('http') ? '_blank' : '_self'}
-                        className={`text-sm text-gray-600 hover:text-gray-900 transition-colors ${
+                        className={`block py-[6px] px-2 text-sm text-zinc-700  hover:text-gray-900 transition-colors duration-150 ${
                           index === 1 ? 'ml-auto' : 'ml-0'
                         }`}
                         onClick={onCloseMenu}
