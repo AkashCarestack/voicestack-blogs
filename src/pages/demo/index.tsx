@@ -1,13 +1,14 @@
 import { GetStaticProps } from 'next'
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-import { readToken } from '~/lib/sanity.api'
-import HubSpotForm from '~/v2/components/common/HubspotForm'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { useEffect, useMemo } from 'react'
+
+import { capturePosthogDemoPage } from '~/components/utils/common'
+import { readToken } from '~/lib/sanity.api'
+import { useDemoFormData } from '~/providers/BookDemoProvider'
+import HubSpotForm from '~/v2/components/common/HubspotForm'
 import HubSpotMeeting from '~/v2/components/common/HubspotMeeting'
 import demoTrackingNames from '~/v2/data/demoTrackingNames.json'
-import { useDemoFormData } from '~/providers/BookDemoProvider'
-import { capturePosthogDemoPage } from '~/components/utils/common'
 
 interface DemoPageProps {
   draftMode: boolean
@@ -30,7 +31,52 @@ export const getStaticProps: GetStaticProps<any> = async ({
 export default function DemoPage({}: DemoPageProps) {
   const router = useRouter()
   const { formData, region } = useDemoFormData()
+
+  // Check for referrer query param and override demo forms
+  // Use useMemo to recalculate when router.query or formData changes
+  const activeFormData = useMemo(() => {
+    const referrer = router.query.referrer as string | undefined
+    
+    // Check for override form first
+    if (referrer && formData?.overrideDemoForms) {
+      // Search for matching override form by referralName
+      const overrideForm = formData.overrideDemoForms.find(
+        (form) => form.referralName === referrer
+      )
+      if (overrideForm) {
+        // Use override form - it should have either demoFormId OR demoMeetingLink (not both)
+        return overrideForm
+      }
+    }
+    
+    // If no override form found, use normal demoForms logic
+    // Work exactly like US version: read practiceType from query params, default to "Dental"
+    const practiceType = (router.query.practiceType as string) || 'Dental'
+    // Find the matching form data based on practiceType
+    let form = formData?.demoForms?.find((form) => form.practiceType === practiceType)
+    
+    // Fallback: if no match found, use first form or default
+    if (!form) {
+      form = formData?.demoForms?.[0] || (formData?.demoFormId ? {
+        demoFormId: formData.demoFormId,
+        demoMeetingLink: formData.demoMeetingLink,
+        practiceType: 'Dental'
+      } : null)
+    }
+    
+    return form
+  }, [router.query.referrer, router.query.practiceType, formData])
   
+  // Use activeFormData if found, otherwise fall back to default formData
+  const formId = activeFormData?.demoFormId
+  const meetingLink = activeFormData?.demoMeetingLink
+  const practiceType = activeFormData?.practiceType || (router.query.practiceType as string) || 'Dental'
+  const practiceTypeSlug = practiceType?.toLowerCase().replace(' ', '_')
+  
+  // Map region to tracking name key
+  const regionKey = region === 'en-GB' ? 'uk' : region === 'en-AU' ? 'au' : 'us'
+  const eventName = demoTrackingNames[regionKey as keyof typeof demoTrackingNames] || demoTrackingNames.us
+  const formDetails = `${practiceTypeSlug}_${router.locale}`
   
   // For en-AU and en-GB, remove only practiceType query param from URL if present, preserve others
   // This ensures practiceType is not shown in URL for AU and UK (since only one is available)
@@ -60,7 +106,6 @@ export default function DemoPage({}: DemoPageProps) {
     }
   }, [region, router])
 
-
   useEffect(() => {
     capturePosthogDemoPage('demo_page_viewed', {
       practiceType: practiceType,
@@ -69,31 +114,13 @@ export default function DemoPage({}: DemoPageProps) {
       meetingLink: meetingLink,
       formDetails: formDetails,
     })
-  }, [])
-  
-  // Work exactly like US version: read practiceType from query params, default to "Dental"
-  const practiceType = (router.query.practiceType as string) || 'Dental'
-  // Find the matching form data based on practiceType
-  let activeFormData = formData?.demoForms?.find((form) => form.practiceType === practiceType)
-  
-  // Fallback: if no match found, use first form or default
-  if (!activeFormData) {
-    activeFormData = formData?.demoForms?.[0] || (formData?.demoFormId ? {
-      demoFormId: formData.demoFormId,
-      demoMeetingLink: formData.demoMeetingLink,
-      practiceType: 'Dental'
-    } : null)
+  }, [practiceType, region, formId, meetingLink, formDetails])
+
+  // Show loading state if router is not ready
+  if (!router.isReady) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>
   }
   
-  // Use activeFormData if found, otherwise fall back to default formData
-  const formId = activeFormData?.demoFormId
-  const meetingLink = activeFormData?.demoMeetingLink
-  const practiceTypeSlug = activeFormData?.practiceType?.toLowerCase().replace(' ', '_')
-  
-  // Map region to tracking name key
-  const regionKey = region === 'en-GB' ? 'uk' : region === 'en-AU' ? 'au' : 'us'
-  const eventName = demoTrackingNames[regionKey as keyof typeof demoTrackingNames] || demoTrackingNames.us
-  const formDetails = `${practiceTypeSlug}_${router.locale}`; 
 
   return (
     <>
