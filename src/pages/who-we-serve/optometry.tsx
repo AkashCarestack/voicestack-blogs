@@ -53,7 +53,7 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
       />
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {pageData['optometry-hero']?.componentData && (
-        <FeatureHero data={pageData['optometry-hero']} type="feature" />
+        <FeatureHero data={pageData['optometry-hero']?.componentData} type="feature" />
       )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
