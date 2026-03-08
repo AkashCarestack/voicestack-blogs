@@ -61,7 +61,7 @@ const NavigationMenu = ({
       const isSubmenuOpen = openSubmenus.has(i);
 
       return (
-        <li key={`menu-${i}`} className="relative group cursor-pointer w-full lg:w-auto list-none">
+        <li key={`menu-${i}`} className="relative group w-full lg:w-auto list-none">
           {isMobile ? (
             <div 
               className="flex items-center justify-between gap-1 text-gray-700 xl:text-sm lg:text-xs font-medium leading-[1.15] cursor-pointer"
@@ -90,11 +90,11 @@ const NavigationMenu = ({
             <div className="lg:absolute static top-full left-0 mt-2 w-full lg:w-auto bg-white rounded-[16px] shadow-2xl border  opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
               <div className="flex flex-row">
                 {/* Left Side: Items grouped by submenuHeader */}
-                <div className="flex flex-col lg:flex-row min-w-[256px] p-[26px]">
+                <div className="flex flex-col lg:flex-row">
                   {link?.submenu && Array.isArray(link.submenu) && link.submenu.map((group: any, groupIndex: number) => (
-                    <div key={`group-${i}-${groupIndex}`} className={'min-w-[180px]'}>
+                    <div key={`group-${i}-${groupIndex}`} className={'min-w-[250px] p-[26px]'}>
                       {group.submenuHeader && (
-                        <div className="text-base font-medium text-gray-950 mb-2">
+                        <div className="text-base font-medium text-gray-950 mb-2 cursor-default">
                           {group.submenuHeader}
                         </div>
                       )}
@@ -148,11 +148,13 @@ const NavigationMenu = ({
                             </div>
                             
                             {imageUrl && (
-                              <div className="w-full h-32 relative rounded overflow-hidden">
+                              <div className="w-full relative rounded overflow-hidden">
                                 <Image
                                   src={imageUrl}
                                   alt={specialItem.heading || ''}
-                                  fill
+                                  // fill
+                                  width={250}
+                                  height={250}
                                   className="object-cover"
                                 />
                               </div>
@@ -191,7 +193,7 @@ const NavigationMenu = ({
             <div className={`static top-full left-0 mt-0 w-full bg-white rounded-none ${isSubmenuOpen ? 'block' : 'hidden'} transition-all duration-200 z-50`}>
               {/* Overview link for mobile - only if hasSubmenu AND href exists */}
               {shouldShowOverview && (
-                <ul className="list-none m-0 py-2">
+                <ul className="list-none m-0 pt-2">
                   <li className="list-none">
                     <Anchor
                       href={link.href}
@@ -206,11 +208,11 @@ const NavigationMenu = ({
               {link?.submenu && Array.isArray(link.submenu) && link.submenu.map((group: any, groupIndex: number) => (
                 <div key={`mobile-group-${i}-${groupIndex}`}>
                   {group.submenuHeader && (
-                    <div className={`text-base font-semibold text-gray-900 px-4 ${groupIndex > 0 || shouldShowOverview ? 'pt-4' : 'pt-3'} pb-2`}>
+                    <div className={`lg:block hidden text-base font-semibold text-gray-900 px-4 ${groupIndex > 0 || shouldShowOverview ? 'pt-4' : 'pt-3'} pb-2`}>
                       {group.submenuHeader}
                     </div>
                   )}
-                  <ul className="list-none m-0 py-2">
+                  <ul className="list-none m-0 pb-2 lg:py-2">
                     {group.items && Array.isArray(group.items) && group.items.map((subItem: any, subIndex: number) => (
                       <li key={`submenu-${i}-${groupIndex}-${subIndex}`} className="list-none">
                         <Anchor
@@ -232,7 +234,7 @@ const NavigationMenu = ({
               
               {/* Bottom Custom Links - Mobile */}
               {link?.bottomCustomLinks && Array.isArray(link.bottomCustomLinks) && link.bottomCustomLinks.length > 0 && (
-                <div className="flex flex-col gap-4 mt-4 pt-4 border-t border-gray-200 px-4">
+                <div className="hidden lg:flex flex-col gap-4 mt-4 pt-4 border-t border-gray-200 px-4">
                   {link.bottomCustomLinks.map((customLink: any, index: number) => (
                     <Anchor
                       key={`custom-link-mobile-${i}-${index}`}
@@ -257,12 +259,18 @@ const NavigationMenu = ({
     if (link.highlight) {
       return (
         <li key={`menu-${i}`} className="list-none">
-          <Anchor href={link.href} className="relative group self-start block">
+          {/* <Anchor href={link.href} className="relative group self-start block">
             <span className="flex lg:my-0 my-4 items-center gap-2 text-white xl:text-sm md:text-xs text-sm py-[4px] pl-[10px] pr-4 rounded-[6px] border-2 border-white/80 bg-gradient-to-r from-[#4A3CE1] to-[#FF708C] shadow-[0_4px_4px_0_rgba(200,200,200,0.20)] justify-center">
               <SparklesIconFill className="w-4 h-4" />
               <span>{link.label}</span>
             </span>
-          </Anchor>
+          </Anchor> */}
+          <Anchor href={link.href} className="relative group self-start flex justify-center">
+                  <span className="flex lg:my-0 my-4 items-center min-w-[175px] lg:min-w-0 gap-2 text-white h-[42px] lg:h-auto xl:text-sm lg:text-xs text-base py-[4px] pl-[10px] pr-4 rounded-[8px] lg:rounded-[6px] lg:border-2 border-white/80 bg-gradient-to-r from-[#4A3CE1] to-[#FF708C] shadow-[0_4px_4px_0_rgba(200,200,200,0.20)] justify-center">
+                    <SparklesIconFill className="w-4 h-4" />
+                    <span>{link.label}</span>
+                  </span>
+                </Anchor>
         </li>
       );
     }
