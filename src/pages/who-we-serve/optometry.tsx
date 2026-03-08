@@ -13,7 +13,8 @@ import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
-import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
+
+import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 
 interface Feature {
   _id: string
@@ -66,7 +67,7 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
           data={pageData['card-with-image']?.genericListingComponent}
         />
       )}
-      {pageData['testimonial-video-section']?.componentData?.refData
+      {/* {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
         <VerticalTestimonialListing
           data={
@@ -75,7 +76,23 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
           }
          
         />
-      )}
+      )} */}
+      {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing ? (
+          <VerticalTestimonialListingv2
+            data={
+              pageData['testimonial-video-section']?.componentData?.refData
+                ?.testimonialListing
+            }
+          />
+        ):
+        (
+          <VerticalTestimonialListingv2
+            data={
+              pageData['testimonial-video-section']?.componentData
+            }
+          />
+        )}
       <CategoryFeatureTabsSection
           features={features} 
           variant="carousel"
