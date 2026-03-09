@@ -90,6 +90,11 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   )
   const currentTestimonial = data.tabs[validActiveIndex]
 
+  const sectionCta = data?.ctaListItems;
+  const ctaItems =
+    currentTestimonial?.ctaListItems ||
+    (sectionCta?.length ? sectionCta : null);
+
   // Early return if currentTestimonial is missing
   if (!currentTestimonial) {
     return null
@@ -172,8 +177,8 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
             )}
 
             {/* Regular Tabs - Only for non-case-studies */}
-            {page !== 'case-studies' && (
-              <div className="flex overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none border-y border-gray-200">
+            {page !== 'case-studies' && data?.tabs?.length > 1 && (
+              <div className={`flex overflow-x-auto whitespace-nowrap scrollbar-hide scrollbar-none border-y border-gray-200`}>
                 {data?.tabs?.map((testimonial, index) => (
                   <button
                     ref={(el) => {
@@ -438,7 +443,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                 </div>
               </>
             ) : (
-              <div className="flex flex-col lg:flex-row items-center lg:items-stretch border-b border-gray-200">
+              <div className={`flex flex-col lg:flex-row items-center lg:items-stretch ${data.tabs.length > 1 ? 'border-b ' : 'border-y'} border-gray-200`}>
                 <div className="xl:w-1/2 xl:max-w-[666px] w-full hidden lg:flex items-center justify-center border-r border-gray-200">
                   <div
                     className="flex items-center justify-center relative w-full h-full"
@@ -576,32 +581,26 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
 
 
                   {/* Button Section - Bottom with Border Top */}
-                  {currentTestimonial?.ctaListItems && (
+                  {ctaItems ? (
                     <div className="flex flex-col sm:flex-row gap-4  border-t border-gray-200 px-6 py-6 md:px-16 md:pt-8 md:pb-12  mt-auto">
                       <Button type="primary" className="w-fit" link="/demo">
                         <span>
                           {isPricingPage
                             ? 'Book Free Demo'
-                            : currentTestimonial?.ctaListItems[0]?.ctaText ||
-                            'Book Free Demo'}
+                            : ctaItems[0]?.ctaText || 'Book Free Demo'}
                         </span>
                       </Button>
                       {!isPricingPage && isUs && (
                         <Button
                           type="secondary"
                           className="w-fit"
-                          link={
-                            currentTestimonial?.ctaListItems?.[1]?.ctaLink
-                              ? currentTestimonial?.ctaListItems?.[1]?.ctaLink
-                              : '/pricing'
-                          }
+                          link={ctaItems[1]?.ctaLink || '/pricing'}
                         >
-                          {currentTestimonial?.ctaListItems?.[1]?.ctaText ||
-                            'See Pricing'}
+                          {ctaItems[1]?.ctaText || 'See Pricing'}
                         </Button>
                       )}
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </div>
             )}
