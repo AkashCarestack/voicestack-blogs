@@ -487,6 +487,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                             : currentTestimonial?.image?.title
                         }
                         className="w-full h-full object-contain"
+                        imageClassName='object-right'
                       />
                     </div>
                   </div>
