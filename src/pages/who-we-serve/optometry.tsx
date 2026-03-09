@@ -13,7 +13,9 @@ import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection
 import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
-import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
+
+import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
+import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 
 interface Feature {
   _id: string
@@ -53,7 +55,7 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
       />
       <Breadcrumb breadCrumb={pageData?.breadCrumb} />
       {pageData['optometry-hero']?.componentData && (
-        <FeatureHero data={pageData['optometry-hero']} type="feature" />
+        <FeatureHero data={pageData['optometry-hero']?.componentData} type="feature" />
       )}
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2
@@ -66,7 +68,7 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
           data={pageData['card-with-image']?.genericListingComponent}
         />
       )}
-      {pageData['testimonial-video-section']?.componentData?.refData
+      {/* {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
         <VerticalTestimonialListing
           data={
@@ -75,7 +77,23 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
           }
          
         />
-      )}
+      )} */}
+      {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing ? (
+          <VerticalTestimonialListingv2
+            data={
+              pageData['testimonial-video-section']?.componentData?.refData
+                ?.testimonialListing
+            }
+          />
+        ):
+        (
+          <VerticalTestimonialListingv2
+            data={
+              pageData['testimonial-video-section']?.componentData
+            }
+          />
+        )}
       <CategoryFeatureTabsSection
           features={features} 
           variant="carousel"
@@ -91,6 +109,11 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
           data={pageData['card-with-image3']?.genericListingComponent}
         />
       )}
+       {pageData['feature-testimonials-section']?.componentData && (
+              <FeatureTestimonialsSection
+                data={pageData['feature-testimonials-section']?.componentData}
+              />
+            )}
       <StatisticsSection />
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
