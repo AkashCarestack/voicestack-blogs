@@ -14,6 +14,7 @@ import FeatureHero from '~/v2/sections/FeatureHero'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
+import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 
 interface Feature {
   _id: string
@@ -91,6 +92,11 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
           data={pageData['card-with-image3']?.genericListingComponent}
         />
       )}
+       {pageData['feature-testimonials-section']?.componentData && (
+              <FeatureTestimonialsSection
+                data={pageData['feature-testimonials-section']?.componentData}
+              />
+            )}
       <StatisticsSection />
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
