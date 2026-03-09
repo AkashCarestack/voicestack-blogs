@@ -1,15 +1,12 @@
 /* globals.css */
 import '~/styles/global.css'  
-
-
-
 import track, { getDeviceData } from 'cs-tracker'
 import { GeistSans } from 'geist/font/sans';
 import type { AppProps } from 'next/app'
 import { Inter, Manrope } from 'next/font/google'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
-import { lazy } from 'react'
+import { lazy, useEffect, useState } from 'react'
 
 import { cookieSelector } from '~/helpers/cookieSelector'
 import BookDemoContextProvider from '~/providers/BookDemoProvider'
@@ -21,12 +18,13 @@ import { createObservedUser, createSession, createUser, getUserData, TrackUserPr
 import { getSession } from '~/utils/tracker/session'
 import { getUser } from '~/utils/tracker/user'
 import { getClient } from '~/lib/sanity.client'
-import { getHeaderData, getFooterData, getALLSiteSettings, getContactData } from '~/lib/sanity.queries'
+import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData, getSchemaData, getFeaturesForLayout } from '~/lib/sanity.queries'
 import type { AppContext } from 'next/app'
-
 import Layout from '../components/Layout'
 import ProgressLoader from '../components/common/ProgressLoader'
-import GlobalHead from '../components/common/GlobalHead'
+import posthog from 'posthog-js'
+import { PostHogProvider } from 'posthog-js/react'
+import { config } from '~/config/config'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -50,11 +48,15 @@ export interface SharedPageProps {
   draftMode: boolean
   token: string
   layoutData?: {
+    schemaData: unknown;
     headerData?: any
     footerData?: any
     siteSettings?: any
     contactData?: any
+    featuresData?: any[]
   }
+  demoFormData?: any
+  region?: string
 }
 
 const PreviewProvider = lazy(() => import('~/components/PreviewProvider'));
@@ -65,11 +67,60 @@ function App({
   Component,
   pageProps,
 }: AppProps<SharedPageProps>) {
-  const { draftMode, token, layoutData } = pageProps
+  const { draftMode, token, layoutData, demoFormData, region } = pageProps
   const router = useRouter();
   
   // Check if current page is studio page
   const isStudioPage = router.pathname.startsWith('/studio') || router.pathname.startsWith('/legal');
+  
+  // Only load GTM on voicestack.com production domain
+  const [isVoicestackDomain, setIsVoicestackDomain] = useState(false);
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const domain = window.location.origin;
+      setIsVoicestackDomain(domain === 'https://voicestack.com' || domain === 'https://www.voicestack.com');
+    }
+  }, []);
+  
+
+
+  // Global UTM parameter capture - runs on every page load
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const currentParams = new URLSearchParams(window.location.search);
+      const utmKeys = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'lead_source'];
+      
+      // Store UTM params in sessionStorage when present in URL
+      // Always update if new UTM params are in the URL (allows updating with new campaign)
+      utmKeys.forEach(key => {
+        const value = currentParams.get(key);
+        if (value) {
+          sessionStorage.setItem(key, value);
+        }
+      });
+    }
+  }, [router.asPath]); // Run on every route change
+
+
+
+
+  /* ************** posthog Installation code ************** */
+
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || !config.NEXT_PUBLIC_POSTHOG_KEY) return
+
+    const origin = window.location.origin
+    const isProduction =
+      origin === 'https://voicestack.com' || origin === 'https://www.voicestack.com'
+    if (!isProduction) return
+
+    posthog.init(config.NEXT_PUBLIC_POSTHOG_KEY, {
+      api_host: config.NEXT_PUBLIC_POSTHOG_HOST,
+      autocapture: true,
+      capture_pageview: true,
+    })
+  }, [])
   
   return (
     <main className={`${inter.variable} ${manrope.variable} font-geist ${GeistSans.variable}`}>
@@ -88,8 +139,10 @@ function App({
 
         {/* Start of HubSpot Embed Code */}
         <Script type="text/javascript" 
-          id="hs-script-loader" async defer 
-          src="//js.hs-scripts.com/4832409.js?businessUnitId=2351862"
+           id="hs-script-loader" 
+           async 
+           defer 
+           src="//js.hs-scripts.com/4832409.js?businessUnitId=2351862"
           strategy='lazyOnload'
           >
         </Script>
@@ -108,16 +161,18 @@ function App({
           `}
         </Script>
 
-        {/* Google Tag Manager */}
-        <Script id="google-tag-manager" strategy="afterInteractive">
-          {`
-            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-KCX7H59S');
-          `}
-        </Script>
+        {/* Google Tag Manager - only on voicestack.com */}
+        {isVoicestackDomain && (
+          <Script id="google-tag-manager" strategy="afterInteractive">
+            {`
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-KCX7H59S');
+            `}
+          </Script>
+        )}
 
         {/* Start cookieyes banner */}
         {countryCode && countryCode == "2" && (
@@ -156,10 +211,42 @@ function App({
           />
         </noscript>
 
-        {/* <!--[BEGIN Google Tag Manager (noscript)]--> */}
-        <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KCX7H59S" height="0" width="0"
-          style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
-        {/* <!--[END Google Tag Manager (noscript)]--> */}
+        {/* LinkedIn Insight Tag */}
+        <Script id="linkedin-insight-partner-id" strategy="afterInteractive">
+          {`
+            _linkedin_partner_id = "8476516";
+            window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || [];
+            window._linkedin_data_partner_ids.push(_linkedin_partner_id);
+          `}
+        </Script>
+        <Script id="linkedin-insight-loader" strategy="afterInteractive">
+          {`
+            (function(l) {
+              if (!l){window.lintrk = function(a,b){window.lintrk.q.push([a,b])};
+              window.lintrk.q=[]}
+              var s = document.getElementsByTagName("script")[0];
+              var b = document.createElement("script");
+              b.type = "text/javascript";b.async = true;
+              b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js";
+              s.parentNode.insertBefore(b, s);
+            })(window.lintrk);
+          `}
+        </Script>
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: 'none' }}
+            alt=""
+            src="https://px.ads.linkedin.com/collect/?pid=8476516&fmt=gif"
+          />
+        </noscript>
+
+        {/* Google Tag Manager (noscript) - only on voicestack.com */}
+        {isVoicestackDomain && (
+          <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KCX7H59S" height="0" width="0"
+            style={{ display: 'none', visibility: 'hidden' }}></iframe></noscript>
+        )}
       
         {isStudioPage ? (
           // Render studio page without layout
@@ -167,12 +254,14 @@ function App({
         ) : (
           // Render regular pages with layout
           <PricingModalProvider>
-            <BookDemoContextProvider>
+            <BookDemoContextProvider initialFormData={demoFormData} region={region || 'en'}>
               <LayoutDataProvider
                 initialHeaderData={layoutData?.headerData}
                 initialFooterData={layoutData?.footerData}
                 initialSiteSettings={layoutData?.siteSettings}
                 initialContactData={layoutData?.contactData}
+                initialSchemaData={layoutData?.schemaData}
+                initialFeaturesData={layoutData?.featuresData}
               >
                 {/* <GlobalHead /> */}
                 <Layout>
@@ -181,7 +270,9 @@ function App({
                       <Component {...pageProps}/>
                     </PreviewProvider>
                   ) : (
-                    <Component {...pageProps}/>
+                    <PostHogProvider client={posthog}>
+                      <Component {...pageProps}/>
+                    </PostHogProvider>
                   )}
                 </Layout>
               </LayoutDataProvider>
@@ -189,6 +280,7 @@ function App({
           </PricingModalProvider>
         )}
       </TrackUserProvider>
+     
     </main>
   )
 }
@@ -206,11 +298,14 @@ App.getInitialProps = async (appContext: AppContext) => {
   
   try {
     const client = getClient();
-    const [headerData, footerData, siteSettings, contactData] = await Promise.all([
+    const [headerData, footerData, siteSettings, contactData, formData, schemaData, featuresData] = await Promise.all([
       getHeaderData(client, locale),
       getFooterData(client, locale),
       client.fetch(getALLSiteSettings(locale)),
-      getContactData(client, locale)
+      getContactData(client, locale),
+      getDemoFormData(client, locale),
+      getSchemaData(client, locale),
+      getFeaturesForLayout(client, locale)
     ]);
 
     return {
@@ -221,7 +316,11 @@ App.getInitialProps = async (appContext: AppContext) => {
           footerData,
           siteSettings,
           contactData,
+          schemaData,
+          featuresData,
         },
+        demoFormData: formData || null,
+        region: locale,
       },
     };
   } catch (error) {
@@ -235,7 +334,10 @@ App.getInitialProps = async (appContext: AppContext) => {
           footerData: null,
           siteSettings: null,
           contactData: null,
+          featuresData: null,
         },
+        demoFormData: null,
+        region: locale,
       },
     };
   }

@@ -31,86 +31,91 @@ const HubSpotForm = ({
       const mainContainer = document.getElementById('hubspotForm');
       if (!mainContainer) return;
 
-      // Clear main container and create new unique container
       mainContainer.innerHTML = '';
       const formContainer = document.createElement('div');
       formContainer.id = targetId;
       mainContainer.appendChild(formContainer);
 
-      // Create the form with unique target
-      window.hbspt.forms.create({
+      (window as any).hbspt.forms.create({
         portalId: '4832409',
         region: 'na1',
         formId: id || '6b2d6906-028e-4d65-9cd1-34d528e0d5c0',
         target: `#${targetId}`,
         inlineMessage:
           'Thank you, a VoiceStack representative will reach out to you shortly.',
-        onFormReady: function ($form, ctx) {
-          // Prefill email from localStorage if available
-          const savedEmail = localStorage.getItem('email')
+        onFormReady: function ($form: HTMLElement) {
+          const savedEmail = localStorage.getItem('email');
           if (savedEmail) {
-            const emailInput = $form.querySelector('input[name="email"]')
+            const emailInput = $form.querySelector('input[name="email"]') as HTMLInputElement | null;
             if (emailInput) {
-              emailInput.value = savedEmail
-              emailInput.focus()
+              emailInput.value = savedEmail;
+              emailInput.focus();
             }
           }
         },
-        onFormSubmit: function (form) {
-          const formData = new FormData(form); // Extract all form values
+        onFormSubmit: function (form: HTMLFormElement) {
+          const formData = new FormData(form);
           const allowedFields = [
-            "email",
-            "company",
-            "firstname",
-            "lastname",
-            "mobilephone"
-          ]; // List of valid form field names
+            'email',
+            'company',
+            'firstname',
+            'lastname',
+            'mobilephone',
+          ];
           const params = new URLSearchParams();
-        
-          // Filter only the allowed fields from the formData
           for (const [key, value] of formData.entries()) {
             if (allowedFields.includes(key)) {
               params.append(key, value as string);
             }
           }
-
-          const email = form.querySelector('input[name="email"]').value;
+          const email = (form.querySelector('input[name="email"]') as HTMLInputElement)?.value ?? '';
 
           window.localStorage.setItem(
-            "demoData",
+            'demoData',
             JSON.stringify({
-              firstname: form.querySelector('input[name="firstname"]').value,
-              lastname: form.querySelector('input[name="lastname"]').value,
-              email: email,
+              firstname: (form.querySelector('input[name="firstname"]') as HTMLInputElement)?.value ?? '',
+              lastname: (form.querySelector('input[name="lastname"]') as HTMLInputElement)?.value ?? '',
+              email,
               meetingLink: meetingLink || null,
             })
           );
-          
-          document.getElementById("successMessage")!.style.display = "block";
-          
+
+          const successEl = document.getElementById('successMessage');
+          if (successEl) successEl.style.display = 'block';
+
           trackEvent({
             e_name: eventName || 'demo_submission_uk',
-            e_type: "form-submission",
+            e_type: 'form-submission',
             e_time: new Date(),
             e_path: window?.location.href,
-            user_segment:getCookie("__cs_vs"),
-            url_params: { email, ...params },
+            user_segment: getCookie('__cs_vs'),
+            url_params: { email, ...Object.fromEntries(params) },
             current_path: window?.location.href,
             base_path: window.location.origin + window.location.pathname,
             domain: window.location.origin,
             destination_url: null,
             referrer_url: window.document.referrer,
           });
-          
+
           setTimeout(async () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const responseData = await fetch(
-              `/api/hs?email=${email}&source=${urlParams.get("utm_source")}&campaign=${urlParams.get("utm_campaign")}&medium=${urlParams.get("utm_medium")}&term=${urlParams.get("utm_term")}&lead_source=${urlParams.get("lead_source")}`
-            ); 
-            router.push('/thank-you');
-          }, 3000)
+            const utmMap = {
+              utm_source: 'source',
+              utm_campaign: 'campaign',
+              utm_medium: 'medium',
+              utm_term: 'term',
+              lead_source: 'lead_source',
+            };
+            const apiParams = new URLSearchParams({ email });
+            Object.entries(utmMap).forEach(([key, param]) => {
+              const value = urlParams.get(key) || sessionStorage.getItem(key);
+              if (value) apiParams.append(param, value);
+            });
+            await fetch(`/api/hs?${apiParams.toString()}`);
+            router.push(`/demo/thank-you/?email=${encodeURIComponent(email)}`);
+          }, 3000);
         },
-      } as any)
+      });
     }
 
     // Check if script is already loaded

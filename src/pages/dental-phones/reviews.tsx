@@ -4,10 +4,12 @@ import SimpleHead from '~/components/common/SimpleHead'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import ReviewTestimonial from '~/components/revamp/components/common/ReviewTestimonial/ReviewTestimonial'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import Queries from '~/components/revamp/queries'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import ReviewTestimonialV2 from '~/v2/sections/ReviewTestimonialV2'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
+import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
 interface ReviewsProps {
   pageData: any
@@ -18,20 +20,15 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <div
-        className="py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+    
         <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        <HeroSection
+        {/* <HeroSection
           page=""
           showFullDescription={true}
           data={pageData['dental-phones-hero']?.componentData}
           isCentered={true}
-        />
+        /> */}
+        <FeatureHero data={pageData['dental-phones-hero']} type="feature"   isCentered={true} />
         {pageData['testimonial-video-section']?.componentData && (
           <VerticalTestimonialListing
             showBookFeeBtn={false}
@@ -42,10 +39,10 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
             hideTitle={true}
           />
         )}
-      </div>
+      
      
         {pageData['review-testimonial']?.componentData && (
-          <ReviewTestimonial data={pageData['review-testimonial']?.componentData} />
+          <ReviewTestimonialV2 data={pageData['review-testimonial']?.componentData} />
         )}
         <div className='w-full lg:mb-24 mb-12'>
         <StatisticsSection />
@@ -57,11 +54,25 @@ export default function Reviews({ pageData, faq }: ReviewsProps) {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const region = locale || 'en'
 
+  // dental-phones pages support 'en-AU' and 'en-GB' locales
+  if (region !== 'en-AU' && region !== 'en-GB') {
+    return {
+      notFound: true,
+    }
+  }
+
   try {
     const queries = new Queries('dentalPhones', region)
-
-    const slug = region === 'en' ? 'reviews' : `reviews-${region.toLowerCase()}`
+    // Convert region to slug format (en-AU -> en-au, en-GB -> en-gb)
+    const regionSlug = region.toLowerCase()
+    const slug = `reviews-${regionSlug}`
     const pageData = await queries.getPageData('dentalPhones', slug)
+
+    if(!pageData){
+      return {
+        notFound: true
+      }
+    }
 
     // Ensure FAQ data is serializable
     const faqData =

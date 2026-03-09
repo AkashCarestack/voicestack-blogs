@@ -4,8 +4,12 @@ import HeroSection from '~/components/revamp/components/common/HeroSection/heroS
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import SimpleHead from '~/components/common/SimpleHead'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
 import { useLayoutData } from '~/providers/LayoutDataProvider'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import { formatPhoneNumberWithCountryCode } from '~/components/utils/helper'
+import { useRouter } from 'next/router'
 
 interface SupportPageProps {
   supportPageData: any
@@ -20,38 +24,73 @@ export default function SupportPage({
   region,
   faq,
 }: SupportPageProps) {
-
+  const router = useRouter()
   const heroKey = Object.keys(supportPageData || {}).find(
     (key) => key.includes('hero') && supportPageData[key]?.componentData
   )
-  const heroData = heroKey ? supportPageData[heroKey]?.componentData : null
+  const baseHeroData = heroKey ? supportPageData[heroKey]?.componentData : null
   const { contactData } = useLayoutData()
+  
+  // Extract contact information
+  const supportEmail = contactData?.contactEmail || contactData?.supportEmail || 'support@voicestack.com'
+  const supportPhone = contactData?.supportPhoneNumber || contactData?.phoneNumber || ''
+  
+  // Create button data for email and phone
+  const contactButtons = []
+  
+  if (supportEmail) {
+    contactButtons.push({
+      _key: 'support-email-btn',
+      buttonText: supportEmail,
+      buttonLink: `mailto:${supportEmail}`,
+      buttonType: 'secondaryMail',
+    })
+  }
+  
+  if (supportPhone) {
+    const formattedPhone = formatPhoneNumberWithCountryCode(supportPhone, router.locale)
+    contactButtons.push({
+      _key: 'support-phone-btn',
+      buttonText: supportPhone,
+      buttonLink: `tel:${formattedPhone}`,
+      buttonType: 'secondaryTel',
+    })
+  }
+  
+  // Merge heroData with button data, email, and phone
+  const heroData = baseHeroData ? {
+    ...baseHeroData,
+    bookBtnContent: [
+      ...(baseHeroData.bookBtnContent || []),
+      ...contactButtons,
+    ],
+    supportEmail,
+    supportPhone,
+  } : null
   return (
     <>
       <SimpleHead data={supportPageData?.seo} />
-      <div style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}>
-        {/* <Breadcrumb breadCrumb={breadCrumb} /> */}
-        <div
-          className="py-12"
-          
-        >
-          {heroData && (
-            <HeroSection
-              page="support"
-              isCentered={true}
-              data={heroData}
-              contactData={contactData}
-              showFullDescription={true}
-            />
-          )}
-        </div>
+      
+      {heroData && (
+        <FeatureHero  data={heroData} type="feature" isCentered={true} />
+      )}
+
+
+      {/* <HeroWrapper>
+        {heroData && (
+          <HeroSection
+            page="support"
+            isCentered={true}
+            data={heroData}
+            contactData={contactData}
+            showFullDescription={true}
+          />
+        )}
+      </HeroWrapper> */}
+
+      <div className='w-full  '>
+        <StatisticsSection/>
       </div>
-      <div className='w-full lg:mb-24 mb-12 mt-12 lg:mt-32'>
-    <StatisticsSection/>
-    </div>
       
       {/* FAQ Section */}
       {faq && <FaqSection faqItems={faq} />}

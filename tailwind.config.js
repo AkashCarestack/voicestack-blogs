@@ -20,6 +20,7 @@ module.exports = {
 		backgroundColor: {
 			'custom-gradient': 'linear-gradient(180deg, #F4F3FA 31.25%, rgba(244, 243, 250, 0) 100%)',
 			'img-gray': '#DDDCDF',
+			'img-gray-secondary': '#A7A5A5',
 		  },
   		
 			fontFamily: {
@@ -100,6 +101,7 @@ module.exports = {
   		},
 			
 			backgroundImage: {
+			'revamp-purple-gradient':'linear-gradient(90deg, #512789 0%, #4A3CE1 100%);',
 			'vs-purple-logo-bg':'linear-gradient(180deg, #4A3CE1 0%, #191078 100%);',
 			'vs-minimal-bg':'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%);',
 			'vs-purple-gradient': 'linear-gradient(270deg, #4A3CE1 0%, #CAC5FF 100%)',
@@ -134,6 +136,7 @@ module.exports = {
       },
 	  boxShadow: {
         'custom-light': '0px 6px 20px 0px rgba(0, 0, 0, 0.05)',
+		glow: '-7px 0 10px 0 rgba(251,111,142,0.5), 7px 0 10px 0 rgba(74,60,225,0.5)',
       },
   	}
   },

@@ -41,24 +41,44 @@ export async function isUniqueAcrossAllDocuments(slug, context) {
 }
 
 
-export async function isUniqueOtherThanLanguage(slug: string, context: SlugValidationContext) {
+export async function isUniqueOtherThanLanguage(slug: string | {current?: string} | null, context: SlugValidationContext) {
   const {document, getClient} = context
   if (!document?.language) {
     return true
   }
+  // Handle slug as object or string (slug.current || slug)
+  const slugValue = (typeof slug === 'object' && slug !== null && slug.current) ? slug.current : (typeof slug === 'string' ? slug : '')
+  if (!slugValue) {
+    return true // If no slug value, consider it valid
+  }
+  
   const client = getClient({apiVersion: '2023-04-24'})
   const id = document._id.replace(/^drafts\./, '')
+  const docType = document._type
   const params = {
     draft: `drafts.${id}`,
     published: id,
     language: document.language,
-    slug,
+    slug: slugValue,
+    type: docType,
   }
   const query = `!defined(*[
     !(_id in [$draft, $published]) &&
-    slug.current == $slug &&
+    _type == $type &&
+    basicInfo.slug.current == $slug &&
     language == $language
   ][0]._id)`
-  const result = await client.fetch(query, params)
-  return result
+  
+  try {
+    const result = await client.fetch(query, params)
+    return result
+  } catch (error) {
+    console.error('Error checking slug uniqueness:', error)
+    return false
+  }
+}
+
+// Allows the same slug across all locales (non-unique)
+export async function allowDuplicateSlugs(slug: string, context: SlugValidationContext): Promise<boolean> {
+  return true
 }

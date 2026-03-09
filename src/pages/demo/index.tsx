@@ -1,20 +1,16 @@
 import { GetStaticProps } from 'next'
-import { getClient } from '~/lib/sanity.client'
-import { readToken } from '~/lib/sanity.api'
-import type { SanityClient } from 'next-sanity'
-import { getDemoFormData } from '~/lib/sanity.queries'
-import HubSpotForm from '~/components/common/HubspotForm'
 import Head from 'next/head'
-import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/router'
+import { useEffect, useMemo } from 'react'
+
+import { capturePosthogDemoPage } from '~/components/utils/common'
+import { readToken } from '~/lib/sanity.api'
+import { useDemoFormData } from '~/providers/BookDemoProvider'
+import HubSpotForm from '~/v2/components/common/HubspotForm'
+import HubSpotMeeting from '~/v2/components/common/HubspotMeeting'
+import demoTrackingNames from '~/v2/data/demoTrackingNames.json'
 
 interface DemoPageProps {
-  formData: {
-    dmeoFormId?: string
-    demoMeetingLink?: string
-    dmeoFormEventName?: string
-  }
-  region: string
   draftMode: boolean
   token: string
   initialMeetingsData?: {
@@ -28,152 +24,109 @@ export const getStaticProps: GetStaticProps<any> = async ({
   locale,
   draftMode = false,
 }) => {
-  const region = locale || 'en'
-  const currentLocale = locale || 'en'
-
-  const client = getClient(draftMode ? { token: readToken } : undefined) as SanityClient
-  const formData = await getDemoFormData(client, region)
-
-  // Fetch meetings data server-side
-  let initialMeetingsData = null
-  try {
-    // Use environment variable for API URL or default to localhost
-    const apiUrl = process.env.MEETINGS_API_URL || 'http://localhost:3001/api/meetings'
-    const response = await fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-
-    if (response.ok) {
-      const meetingsData = await response.json()
-      
-      if (meetingsData?.success && meetingsData?.data && Array.isArray(meetingsData.data)) {
-        // Find the meeting that matches the current locale
-        const matchedMeeting = meetingsData.data.find(
-          (meeting: any) => meeting.language === currentLocale
-        )
-        
-        if (matchedMeeting) {
-          initialMeetingsData = {
-            formId: matchedMeeting.formId || formData?.dmeoFormId,
-            redirectLink: matchedMeeting.redirectLink,
-            schedulerLink: matchedMeeting.schedulerLink,
-          }
-        } else if (meetingsData.data[0]) {
-          // Fallback to first item if no match found
-          initialMeetingsData = {
-            formId: meetingsData.data[0].formId || formData?.dmeoFormId,
-            redirectLink: meetingsData.data[0].redirectLink,
-            schedulerLink: meetingsData.data[0].schedulerLink,
-          }
-        }
-      }
-    }
-  } catch (error) {
-    console.error('Error fetching meetings in getStaticProps:', error)
-    // Continue with formData fallback
-  }
-
   return {
     props: {
-      formData: formData || {},
-      region,
       draftMode,
       token: draftMode ? readToken : '',
-      initialMeetingsData: initialMeetingsData || null,
+      initialMeetingsData: null,
     },
   }
 }
 
-export default function DemoPage({ formData, region, initialMeetingsData }: DemoPageProps) {
+
+export default function DemoPage({}: DemoPageProps) {
   const router = useRouter()
-  const currentLocale = router.locale || 'en'
-  const [meetingsData, setMeetingsData] = useState<any>(null)
-  const [meetingsLoading, setMeetingsLoading] = useState<boolean>(false)
-  const [meetingsError, setMeetingsError] = useState<string | null>(null)
-  useEffect(() => {
-    const fetchMeetings = async () => {
-      setMeetingsLoading(true)
-      setMeetingsError(null)
-      try {
-        const response = await fetch('http://localhost:3001/api/meetings', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        })
+  const { formData, region } = useDemoFormData()
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-
-        const data = await response.json()
-        console.log('Meetings data:', data)
-        setMeetingsData(data)
-      } catch (error) {
-        console.error('Error fetching meetings:', error)
-        setMeetingsError(
-          error instanceof Error ? error.message : 'Failed to fetch meetings',
-        )
-      } finally {
-        setMeetingsLoading(false)
-      }
-    }
-
-    fetchMeetings()
-  }, [])
-
-  const { formId, redirectLink, schedulerLink } = useMemo(() => {
-    // Use client-side fetched data if available (more up-to-date)
-    if (meetingsData?.success && meetingsData?.data && Array.isArray(meetingsData.data)) {
-      // Find the meeting that matches the current locale
-      const matchedMeeting = meetingsData.data.find(
-        (meeting: any) => meeting.language === currentLocale
+  // Check for referrer query param and override demo forms
+  // Use useMemo to recalculate when router.query or formData changes
+  const activeFormData = useMemo(() => {
+    const referrer = router.query.referrer as string | undefined
+    
+    // Check for override form first
+    if (referrer && formData?.overrideDemoForms) {
+      // Search for matching override form by referralName
+      const overrideForm = formData.overrideDemoForms.find(
+        (form) => form.referralName === referrer
       )
-      
-      if (matchedMeeting) {
-        return {
-          formId: matchedMeeting.formId || formData?.dmeoFormId,
-          redirectLink: matchedMeeting.redirectLink,
-          schedulerLink: matchedMeeting.schedulerLink,
-        }
-      }
-      
-      // Fallback to first item if no match found
-      if (meetingsData.data[0]) {
-        return {
-          formId: meetingsData.data[0].formId || formData?.dmeoFormId,
-          redirectLink: meetingsData.data[0].redirectLink,
-          schedulerLink: meetingsData.data[0].schedulerLink,
-        }
+      if (overrideForm) {
+        // Use override form - it should have either demoFormId OR demoMeetingLink (not both)
+        return overrideForm
       }
     }
     
-    // Use server-side fetched data (initial render)
-    if (initialMeetingsData) {
-      return {
-        formId: initialMeetingsData.formId || formData?.dmeoFormId,
-        redirectLink: initialMeetingsData.redirectLink || null,
-        schedulerLink: initialMeetingsData.schedulerLink || null,
-      }
+    // If no override form found, use normal demoForms logic
+    // Work exactly like US version: read practiceType from query params, default to "Dental"
+    const practiceType = (router.query.practiceType as string) || 'Dental'
+    // Find the matching form data based on practiceType
+    let form = formData?.demoForms?.find((form) => form.practiceType === practiceType)
+    
+    // Fallback: if no match found, use first form or default
+    if (!form) {
+      form = formData?.demoForms?.[0] || (formData?.demoFormId ? {
+        demoFormId: formData.demoFormId,
+        demoMeetingLink: formData.demoMeetingLink,
+        practiceType: 'Dental'
+      } : null)
     }
     
-    // Fallback to formData if no API data
-    return {
-      formId: formData?.dmeoFormId || null,
-      redirectLink: null,
-      schedulerLink: null,
+    return form
+  }, [router.query.referrer, router.query.practiceType, formData])
+  
+  // Use activeFormData if found, otherwise fall back to default formData
+  const formId = activeFormData?.demoFormId
+  const meetingLink = activeFormData?.demoMeetingLink
+  const practiceType = activeFormData?.practiceType || (router.query.practiceType as string) || 'Dental'
+  const practiceTypeSlug = practiceType?.toLowerCase().replace(' ', '_')
+  
+  // Map region to tracking name key
+  const regionKey = region === 'en-GB' ? 'uk' : region === 'en-AU' ? 'au' : 'us'
+  const eventName = demoTrackingNames[regionKey as keyof typeof demoTrackingNames] || demoTrackingNames.us
+  const formDetails = `${practiceTypeSlug}_${router.locale}`
+  
+  // For en-AU and en-GB, remove only practiceType query param from URL if present, preserve others
+  // This ensures practiceType is not shown in URL for AU and UK (since only one is available)
+  useEffect(() => {
+    if ((region === 'en-AU' || region === 'en-GB') && router.query.practiceType) {
+      const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
+      const basePath = `${localePrefix}/demo`
+      
+      // Get the current query string from the URL
+      const currentSearch = router.asPath.includes('?') 
+        ? router.asPath.split('?')[1].split('#')[0] 
+        : ''
+      
+      // Parse existing query params
+      const queryParams = new URLSearchParams(currentSearch)
+      
+      // Remove only practiceType
+      queryParams.delete('practiceType')
+      
+      // Build final URL with remaining query params
+      const queryString = queryParams.toString()
+      const finalUrl = queryString 
+        ? `${basePath}?${queryString}` 
+        : basePath
+      
+      router.replace(finalUrl, undefined, { shallow: true })
     }
-  }, [meetingsData, initialMeetingsData, currentLocale, formData?.dmeoFormId])
+  }, [region, router])
 
-  console.log('Current Locale:', currentLocale)
-  console.log('Meetings data:', meetingsData)
-  console.log('Form ID:', formId)
-  console.log('Redirect Link:', redirectLink)
-  console.log('Scheduler Link:', schedulerLink)
-  console.log('Meetings loading:', meetingsLoading)
+  useEffect(() => {
+    capturePosthogDemoPage('demo_page_viewed', {
+      practiceType: practiceType,
+      region: region,
+      formId: formId,
+      meetingLink: meetingLink,
+      formDetails: formDetails,
+    })
+  }, [practiceType, region, formId, meetingLink, formDetails])
+
+  // Show loading state if router is not ready
+  if (!router.isReady) {
+    return <div className="flex items-center justify-center h-screen">Loading...</div>
+  }
+  
 
   return (
     <>
@@ -194,20 +147,25 @@ export default function DemoPage({ formData, region, initialMeetingsData }: Demo
               </p>
             </div>
           </div>
-          <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-6 min-h-[500px]">
-            {(formId || formData?.dmeoFormId) ? (
-              <HubSpotForm 
-                key={formId || formData?.dmeoFormId} 
-                id={formId ? formId : formData?.dmeoFormId} 
-                eventName={formData?.dmeoFormEventName} 
-                meetingLink={schedulerLink ? schedulerLink : formData?.demoMeetingLink}
+          {formId && (
+            <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-6 min-h-[500px]">
+                <HubSpotForm 
+                  id={formId} 
+                  eventName={eventName} 
+                  formDetails={formDetails}
+                  followUpMeetingLink={formData?.demoMeetingLink || ''}
+                />
+            </div>
+          )}
+          {meetingLink && (
+            <div className="w-full min-h-[500px]">
+              <HubSpotMeeting 
+                meetingLink={meetingLink}
+                eventName={eventName}
+                formDetails={formDetails}
               />
-            ) : (
-              <div className="flex items-center justify-center h-[500px]">
-                <p className="text-gray-500">Loading form...</p>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </>

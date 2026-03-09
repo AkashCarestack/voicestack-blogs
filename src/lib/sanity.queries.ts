@@ -339,9 +339,22 @@ export async function getFooterData(client: SanityClient, region: string) {
     title,
     ctaBanner {
       title,
+      description,
       buttonText,
       buttonLink,
-      showBanner
+      showBanner,
+      "backgroundImage": backgroundImage.asset-> {
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          },
+          lqip
+        }
+      }
     },
     footerColumns[] {
       title,
@@ -772,11 +785,37 @@ export async function getContactData(client: SanityClient, region: string) {
 
 export async function getDemoFormData(client: SanityClient, region: string) {
   const query = groq`*[_type == "homeSettings" && language == $region][0]{
-    dmeoFormId,
+    demoFormId,
     demoMeetingLink,
     dmeoFormEventName,
     redirectLink,
-    schedulerLink
+    schedulerLink,
+    demoForms[]{
+      practiceType,
+      demoFormId,
+      demoMeetingLink
+    },
+    pricingDemoForms[]{
+      practiceType,
+      demoFormId,
+      demoMeetingLink
+    },
+    overrideDemoForms[]{
+      practiceType,
+      demoFormId,
+      demoMeetingLink,
+      referralName
+    }
+  }`
+  return await client.fetch(query, { region })
+}
+
+export async function getSchemaData(client: SanityClient, region: string) {
+  const query = groq`*[_type == "homeSettings" && language == $region][0]{
+    schema[]{
+      name,
+      value
+    }
   }`
   return await client.fetch(query, { region })
 }
@@ -785,7 +824,7 @@ export const getALLSiteSettings = (region) =>
   groq`*[_type == "siteSettings"] | order(_createdAt desc)[0]`
 
 export async function getComparisonTableData(client: SanityClient, region: string) {
-  const query = groq`*[_type == "comparisonTable" && language == $region] {
+  const query = groq`*[_type == "comparisonTable" && language == $region && slug.current == "global-comparison"] {
     ..., 
     "columns": columns[] {
         ..., "logo": logo.asset-> {
@@ -824,9 +863,12 @@ export async function getComparisonTableData(client: SanityClient, region: strin
     },
     
     "rowCategories": rowCategories[] { 
-      ..., "rows": rows[] {
-        ..., "comparisons": comparisons[] -> {
-          ..., "icon": icon.asset-> {
+      ..., 
+      "rows": rows[] {
+        ...,
+        "comparisons": comparisons[] -> {
+          ..., 
+          "icon": icon.asset-> {
             _id,
             url,
             metadata {
@@ -837,6 +879,11 @@ export async function getComparisonTableData(client: SanityClient, region: strin
               }
             }
           }
+        },
+        "comparisonsCustom": comparisonsCustom[] {
+          text,
+          language,
+          icon
         }
       }
     }
@@ -1034,6 +1081,7 @@ export const whoWeServeQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1178,6 +1226,7 @@ export const dentalPhonesQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1325,6 +1374,7 @@ export const dentalSoftwareQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1415,6 +1465,7 @@ export const dentalSoftwareQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1521,6 +1572,7 @@ export const whyVoicestackQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1611,6 +1663,7 @@ export const whyVoicestackQueries = {
                 tabHeading,
                 tabSubHeading,
                 description,
+                content,
                 image,
                 listItems[] {
                   subfeatureHeading,
@@ -1735,12 +1788,11 @@ export const contentSectionQueries = {
 
   // Features queries
   getFeaturesList: `
-    *[_type == "features" && (language == $language || language == null)] | order(language asc, order asc, title asc) {
+    *[_type == "features" && (language == $language || language == null)] | order(language asc,order asc, title asc) {
       _id,
       title,
       slug,
       language,
-      order,
       heroTitle,
       heroSubtitle,
       heroImage {
@@ -1777,35 +1829,28 @@ export const contentSectionQueries = {
   `,
 
   getFeatureBySlug: `
-    *[_type == "features" && slug.current == $slug && (language == $language || language == null)][0] {
+    *[_type == "features" && basicInfo.slug.current == $slug && (language == $language || language == null)][0] {
       _id,
-      title,
-      slug,
+      basicInfo {
+        title,
+        slug,
+        description,
+        icon {
+          asset-> {
+            _id,
+            url
+          }
+        }
+      },
       language,
       order,
-      heroTitle,
-      heroSubtitle,
-      heroImage {
-        asset-> {
-          _id,
-          url
+      content {
+        sections[] {
+          title,
+          slug,
+          component
         }
       },
-      mainImage {
-        asset-> {
-          _id,
-          url
-        }
-      },
-      secondaryImage {
-        asset-> {
-          _id,
-          url
-        }
-      },
-      overview,
-      description,
-      shortDescription,
       featureCategory-> {
         name,
         description,
@@ -1823,186 +1868,329 @@ export const contentSectionQueries = {
           isHighlighted
         }
       },
-      benefits[] {
-        title,
-        description,
-        icon {
-          asset-> {
-            _id,
-            url
-          }
-        }
+      seo {
+        metaTitle,
+        metaDescription,
+        keyWords,
+        canonical
       },
-      pricing {
-        isFree,
-        price,
-        billingPeriod,
-        trialAvailable,
-        trialPeriod
-      },
-      cta {
-        primaryText,
-        primaryLink,
-        secondaryText,
-        secondaryLink
-      },
-      relatedFeatures[]-> {
+      faqReferenced[]-> {
         _id,
-        title,
-        slug,
-        heroImage {
-          asset-> {
-            _id,
-            url
-          }
-        },
-        shortDescription
-      },
-      metaTitle,
-      metaDescription,
-      keywords,
-      canonicalUrl
+        question,
+        answer
+      }
     }
   `
 }
 
 // Features queries
 export const getFeaturesListQuery = groq`
-  *[_type == "features" && (language == $language || language == null)] | order(language asc, order asc, title asc) {
+  *[_type == "features" && (language == $language || language == null)] | order(language asc, basicInfo.title asc) {
     _id,
-    title,
-    slug,
-    language,
-    order,
-    heroTitle,
-    heroSubtitle,
-    heroImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    shortDescription,
-    featureCategory-> {
-      name,
+    basicInfo {
+      title,
       subheading,
+      slug,
       description,
-      mainImage {
-        asset-> {
-          _id,
-          url
-        }
-      },
+      dynamicSvg,
       icon {
         asset-> {
           _id,
           url
         }
-      },
-      iconSvgCode,
-    }
+      }
+    },
+    language,
+    order,
+      featureCategory-> {
+        name,
+        subheading,
+        description,
+        featureOrder,
+        mainImage {
+          asset-> {
+            _id,
+            url,
+            metadata {
+              dimensions {
+                width,
+                height,
+                aspectRatio
+              }
+            }
+          },
+          altText,
+          title
+        },
+        // Only current locale's secondary image (no cross-locale fallback so vetcelerator shows mainImage when locale has none)
+        categorySecondaryImage[] {
+          _key,
+          image {
+            asset-> {
+              _id,
+              url,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                }
+              }
+            },
+            altText,
+            title
+          },
+          name
+        },
+        icon {
+          asset-> {
+            _id,
+            url
+          }
+        },
+        iconSvgCode,
+      }
   }
 `
 
 export const getFeatureBySlugQuery = groq`
-  *[_type == "features" && slug.current == $slug && (language == $language || language == null)][0] {
+  *[_type == "features" && basicInfo.slug.current == $slug && (language == $language || language == null)][0] {
     _id,
-    title,
-    slug,
-    language,
-    order,
-    heroTitle,
-    heroSubtitle,
-    heroImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    secondaryImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    overview,
-    description,
-    shortDescription,
-    featureCategory-> {
-      name,
-      subheading,
-      description,
-      mainImage {
-        asset-> {
-          _id,
-          url
-        }
-      },
-      icon {
-        asset-> {
-          _id,
-          url
-        }
-      },
-      iconSvgCode,
-    },
-    benefits[] {
-      title,
-      description,
-      icon {
-        asset-> {
-          _id,
-          url
-        }
-      }
-    },
-    pricing {
-      isFree,
-      price,
-      billingPeriod,
-      trialAvailable,
-      trialPeriod
-    },
-    cta {
-      primaryText,
-      primaryLink,
-      secondaryText,
-      secondaryLink
-    },
-    relatedFeatures[]-> {
-      _id,
+    basicInfo {
       title,
       slug,
-      heroImage {
+      description,
+      dynamicSvg,
+      icon {
         asset-> {
           _id,
           url
         }
-      },
-      shortDescription
+      }
     },
-    metaTitle,
-    metaDescription,
-    keywords,
-    canonicalUrl
+    language,
+    order,
+    content {
+      sections[] {
+        title,
+        slug,
+        component
+      }
+    },
+      featureCategory-> {
+        name,
+        subheading,
+        description,
+        featureOrder,
+        mainImage {
+          asset-> {
+            _id,
+            url
+          }
+        },
+        // Only current locale's secondary image (no cross-locale fallback)
+        categorySecondaryImage[] {
+          _key,
+          image {
+            asset-> {
+              _id,
+              url,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                }
+              }
+            },
+            altText,
+            title
+          },
+          name
+        },
+        icon {
+          asset-> {
+            _id,
+            url
+          }
+        },
+        iconSvgCode,
+      },
+    seo {
+      metaTitle,
+      metaDescription,
+      keyWords,
+      canonical
+    },
+    faqReferenced[]-> {
+      _id,
+      question,
+      answer
+    }
   }
 `
 
 // Features query functions
 export async function getFeaturesList(client: SanityClient, language: string = 'en'): Promise<any[]> {
-  return await client.fetch(getFeaturesListQuery, { language })
+  // First, let's test fetching the category directly to see if data exists
+  // Try without language filter first, then with language filter
+  const testCategoryQueryNoLang = groq`
+    *[_type == "featureCategory" && name == "Attribution Analytics"] {
+      _id,
+      name,
+      language,
+      categorySecondaryImage[] {
+        _key,
+        image {
+          asset-> {
+            _id,
+            url,
+            metadata {
+              dimensions {
+                width,
+                height,
+                aspectRatio
+              }
+            }
+          },
+          altText,
+          title
+        },
+        name
+      }
+    }
+  `;
+  
+  const testCategoryQueryWithLang = groq`
+    *[_type == "featureCategory" && name == "Attribution Analytics" && (language == $language || language == null)] {
+      _id,
+      name,
+      language,
+      categorySecondaryImage[] {
+        _key,
+        image {
+          asset-> {
+            _id,
+            url,
+            metadata {
+              dimensions {
+                width,
+                height,
+                aspectRatio
+              }
+            }
+          },
+          altText,
+          title
+        },
+        name
+      }
+    }
+  `;
+  
+  try {
+    console.log('🔍 Testing direct category query without language filter...');
+    const testResultNoLang = await client.fetch(testCategoryQueryNoLang);
+    console.log('🔍 DIRECT CATEGORY QUERY (no lang filter) RESULT:', testResultNoLang);
+    
+    console.log('🔍 Testing direct category query with language filter...');
+    const testResultWithLang = await client.fetch(testCategoryQueryWithLang, { language });
+    console.log('🔍 DIRECT CATEGORY QUERY (with lang filter) RESULT:', testResultWithLang);
+    
+    // Also query ALL categories to see which ones have categorySecondaryImage
+    const allCategoriesQuery = groq`
+      *[_type == "featureCategory"] {
+        _id,
+        name,
+        language,
+        "hasSecondaryImages": defined(categorySecondaryImage) && count(categorySecondaryImage) > 0,
+        "secondaryImageCount": count(categorySecondaryImage),
+        categorySecondaryImage[] {
+          _key,
+          name,
+          image {
+            asset-> {
+              _id,
+              url
+            }
+          }
+        }
+      }
+    `;
+    const allCategories = await client.fetch(allCategoriesQuery);
+    console.log('🔍 ALL CATEGORIES WITH SECONDARY IMAGES:', allCategories.filter((c: any) => c.hasSecondaryImages));
+    console.log('🔍 Total categories:', allCategories.length);
+    
+    if (testResultNoLang && testResultNoLang.length > 0) {
+      const cat = testResultNoLang[0];
+      console.log('🔍 Category "Attribution Analytics" found:', cat);
+      console.log('🔍 Language:', cat.language);
+      console.log('🔍 categorySecondaryImage in direct query:', cat.categorySecondaryImage);
+      console.log('🔍 categorySecondaryImage count:', cat.categorySecondaryImage?.length || 0);
+    } else {
+      console.log('🔍 Category "Attribution Analytics" NOT FOUND in Sanity (no language filter)');
+    }
+  } catch (error) {
+    console.error('🔍 Error fetching category directly:', error);
+  }
+  
+  const result = await client.fetch(getFeaturesListQuery, { language });
+  
+  // Debug: Log categorySecondaryImage data
+  if (result && result.length > 0) {
+    console.log('🔍 Query Result - Total features:', result.length);
+    
+    // Check ALL features with categories for categorySecondaryImage
+    const featuresWithCategories = result.filter((f: any) => f.featureCategory);
+    console.log('🔍 Features with categories:', featuresWithCategories.length);
+    
+    // Find Attribution Analytics specifically
+    const attributionFeature = result.find((f: any) => 
+      f.featureCategory?.name === 'Attribution Analytics' || 
+      f.basicInfo?.title === 'Attribution Analytics'
+    );
+    
+    if (attributionFeature) {
+      console.log('🔍 FOUND Attribution Analytics feature:', attributionFeature);
+      console.log('🔍 Feature category:', attributionFeature.featureCategory);
+      console.log('🔍 categorySecondaryImage:', attributionFeature.featureCategory?.categorySecondaryImage);
+      console.log('🔍 Full featureCategory object keys:', Object.keys(attributionFeature.featureCategory || {}));
+    }
+    
+    featuresWithCategories.forEach((feature: any, index: number) => {
+      const category = feature.featureCategory;
+      if (category && category.name === 'Attribution Analytics') {
+        console.log(`🔍 Attribution Analytics Category - Full object:`, JSON.stringify(category, null, 2));
+        console.log(`🔍 Attribution Analytics - categorySecondaryImage:`, category.categorySecondaryImage);
+        console.log(`🔍 Attribution Analytics - categorySecondaryImage type:`, typeof category.categorySecondaryImage);
+        console.log(`🔍 Attribution Analytics - categorySecondaryImage isArray:`, Array.isArray(category.categorySecondaryImage));
+      }
+    });
+    
+    // Check if ANY feature has categorySecondaryImage
+    const hasSecondaryImage = result.some((f: any) => {
+      const cat = f.featureCategory;
+      return cat && cat.categorySecondaryImage && Array.isArray(cat.categorySecondaryImage) && cat.categorySecondaryImage.length > 0;
+    });
+    console.log('🔍 Any feature has categorySecondaryImage?', hasSecondaryImage);
+  }
+  
+  return result;
+}
+
+// Get features for layout (header/footer) - simple query with just title and slug
+export async function getFeaturesForLayout(client: SanityClient, region: string = 'en'): Promise<any[]> {
+  const query = groq`
+    *[_type == "features" && (language == $region || language == null)] | order(order asc, basicInfo.title asc) {
+      _id,
+      basicInfo {
+        title,
+        slug
+      },
+      language
+    }
+  `
+  return await client.fetch(query, { region })
 }
 
 export async function getFeatureBySlug(client: SanityClient, slug: string, language: string = 'en'): Promise<any> {
@@ -2050,11 +2238,31 @@ export const getFeatureListQuery = groq`
         name,
         subheading,
         description,
+        featureOrder,
         mainImage {
           asset-> {
             _id,
             url
           }
+        },
+        categorySecondaryImage[] {
+          _key,
+          image {
+            asset-> {
+              _id,
+              url,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                }
+              }
+            },
+            altText,
+            title
+          },
+          name
         },
         icon {
           asset-> {
@@ -2097,23 +2305,19 @@ export const getGlobalDataFeatureListQuery = groq`
         language,
         featureReferences[]-> {
           _id,
-          title,
-          slug,
-          heroTitle,
-          heroSubtitle,
-          heroImage {
-            asset-> {
-              _id,
-              url
+          basicInfo {
+            title,
+            slug,
+            description,
+            icon {
+              asset-> {
+                _id,
+                url
+              }
             }
           },
-          mainImage {
-            asset-> {
-              _id,
-              url
-            }
-          },
-          shortDescription,
+          language,
+          order,
           featureCategory-> {
             name,
             subheading,
@@ -2124,6 +2328,25 @@ export const getGlobalDataFeatureListQuery = groq`
                 url
               }
             },
+            categorySecondaryImage[] {
+              _key,
+              image {
+                asset-> {
+                  _id,
+                  url,
+                  metadata {
+                    dimensions {
+                      width,
+                      height,
+                      aspectRatio
+                    }
+                  }
+                },
+                altText,
+                title
+              },
+              name
+            },
             icon {
               asset-> {
                 _id,
@@ -2131,8 +2354,7 @@ export const getGlobalDataFeatureListQuery = groq`
               }
             },
             iconSvgCode
-          },
-          language
+          }
         },
         displaySettings {
           layout,
@@ -2151,25 +2373,22 @@ export const getGlobalDataFeatureListQuery = groq`
 
 // Query to get all features for bulk selection
 export const getAllFeaturesQuery = groq`
-  *[_type == "features" && (language == $language || language == null)] | order(title asc) {
+  *[_type == "features" && (language == $language || language == null)] | order(basicInfo.title asc) {
     _id,
-    title,
-    slug,
-    heroTitle,
-    heroSubtitle,
-    heroImage {
-      asset-> {
-        _id,
-        url
+    basicInfo {
+      title,
+      slug,
+      description,
+      dynamicSvg,
+      icon {
+        asset-> {
+          _id,
+          url
+        }
       }
     },
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    shortDescription,
+    language,
+    order,
     featureCategory-> {
       name,
       subheading,
@@ -2180,6 +2399,25 @@ export const getAllFeaturesQuery = groq`
           url
         }
       },
+      categorySecondaryImage[] {
+        _key,
+        image {
+          asset-> {
+            _id,
+            url,
+            metadata {
+              dimensions {
+                width,
+                height,
+                aspectRatio
+              }
+            }
+          },
+          altText,
+          title
+        },
+        name
+      },
       icon {
         asset-> {
           _id,
@@ -2187,33 +2425,28 @@ export const getAllFeaturesQuery = groq`
         }
       },
       iconSvgCode
-    },
-    language
+    }
   }
 `
 
 // Query to get features by category
 export const getFeaturesByCategoryQuery = groq`
-  *[_type == "features" && references($categoryId)] | order(title asc) {
+  *[_type == "features" && references($categoryId)] | order(basicInfo.title asc) {
     _id,
-    title,
-    slug,
-    heroTitle,
-    heroSubtitle,
-    heroImage {
-      asset-> {
-        _id,
-        url
+    basicInfo {
+      title,
+      slug,
+      description,
+      dynamicSvg,
+      icon {
+        asset-> {
+          _id,
+          url
+        }
       }
     },
-    mainImage {
-      asset-> {
-        _id,
-        url
-      }
-    },
-    shortDescription,
-    language
+    language,
+    order
   }
 `
 
@@ -2230,6 +2463,25 @@ export const getFeatureCategoriesWithCountQuery = groq`
         url
       }
     },
+    categorySecondaryImage[] {
+      _key,
+      image {
+        asset-> {
+          _id,
+          url,
+          metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            }
+          }
+        },
+        altText,
+        title
+      },
+      name
+    },
     icon {
       asset-> {
         _id,
@@ -2238,10 +2490,12 @@ export const getFeatureCategoriesWithCountQuery = groq`
     },
     iconSvgCode,
     "featuresCount": count(*[_type == "features" && references(^._id)]),
-    "features": *[_type == "features" && references(^._id)] | order(title asc) {
+    "features": *[_type == "features" && references(^._id)] | order(basicInfo.title asc) {
       _id,
-      title,
-      slug,
+      basicInfo {
+        title,
+        slug
+      },
       language
     }
   }
@@ -2277,11 +2531,31 @@ export const getFeatureListBySlugQuery = groq`
         name,
         subheading,
         description,
+        featureOrder,
         mainImage {
           asset-> {
             _id,
             url
           }
+        },
+        categorySecondaryImage[] {
+          _key,
+          image {
+            asset-> {
+              _id,
+              url,
+              metadata {
+                dimensions {
+                  width,
+                  height,
+                  aspectRatio
+                }
+              }
+            },
+            altText,
+            title
+          },
+          name
         },
         icon {
           asset-> {

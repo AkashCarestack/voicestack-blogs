@@ -98,7 +98,7 @@ const DemoForm = ({
             destination_url: null,
             referrer_url: window.document.referrer,
           });
-          
+                  
           // Redirect after 3 seconds
           setTimeout(async () => {
             const urlParams = new URLSearchParams(window.location.search);
@@ -107,7 +107,7 @@ const DemoForm = ({
             ); 
             
             // Use redirectLink from CMS if provided, otherwise default to thank-you page
-            const redirectUrl = redirectLink || '/thank-you';
+            const redirectUrl = redirectLink || 'demo/thank-you';
             router.push(redirectUrl);
           }, 3000)
         },

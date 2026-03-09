@@ -1,15 +1,19 @@
 import { GetStaticProps } from 'next'
+
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
+import FaqSection from '~/components/revamp/components/common/faqSection'
+import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
 import { getFeaturesList } from '~/lib/sanity.queries'
-import Layout from '~/components/Layout'
+import CallFlowAnalyticsSection from '~/v2/components/CallFlowAnalyticsSection'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import SimpleHead from '~/components/common/SimpleHead'
-import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import Queries from '~/components/revamp/queries'
-import Container from '~/components/structure/Container'
-import Section from '~/components/structure/Section'
-import FaqSection from '~/components/revamp/components/common/faqSection'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 
 interface Feature {
   _id: string
@@ -36,32 +40,53 @@ interface FeaturesPageProps {
   currentLanguage: string
   landingPage?: Feature | null
   data: any
+  faq: any
 }
 
 export default function FeaturesPage({
   features,
   data,
   landingPage,
-}: FeaturesPageProps) {  
+  faq,
+}: FeaturesPageProps) {
   const heroData = data['feature-landing']?.heroComponent
 
   return (
     <>
     <SimpleHead data={data?.seo} />
-      <div
-        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
-        <HeroSection data={heroData} refer={data} page="feature-landing"  showFullDescription={true}/>
-      </div>
-      <CategoryFeatureTabs
-        features={features.filter(
-          (feature) => feature.slug?.current !== 'landing',
-        )}
+      {data['feature-hero']?.componentData && (
+        <FeatureHero data={data['feature-hero']} type="feature" />
+      )}
+
+      {data['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={data['logos-listing']?.componentData.blocksListingData}
+        />
+      )}
+      
+      <CategoryFeatureTabsSection 
+          features={features} 
+          // sectionHeading={data['category-feature-tabs']?.componentData?.sectionHeading}
       />
+
+      {data['loosing-leads']?.componentData && (
+        <GroupedCardsGridSection
+          data={data['loosing-leads']?.componentData}
+          theme="dark"
+          sectionSpacing="pt-sm"
+        />
+      )}
+      {data['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={data['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
+      {data['feature-testimonials-section-single']?.componentData && (
+        <FeatureTestimonialsSection
+          data={data['feature-testimonials-section-single']?.componentData}
+        />
+      )}
        {data['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
@@ -74,7 +99,7 @@ export default function FeaturesPage({
           data={data['stack-card-tab-testimonial']?.componentData}
         />
       )}
-      {data?.faqData && <FaqSection faqItems={data?.faqData[0]} />}
+      {faq && <FaqSection faqItems={faq} />}
     </>
   )
 }
@@ -82,20 +107,31 @@ export default function FeaturesPage({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
-    const slug =
-      region === 'en'
-        ? 'feature-landing-page'
-        : `feature-landing-page-${region.toLowerCase()}`
-    const queries = new Queries('feature-landing', region)
+    
+    // dental-phones pages support 'en-AU' and 'en-GB' locales
+    if (region !== 'en-AU' && region !== 'en-GB') {
+      return {
+        notFound: true,
+      }
+    }
+    
+    // Convert region to slug format (en-AU -> en-au, en-GB -> en-gb)
+    const regionSlug = region.toLowerCase()
+    const slug = `feature-landing-page-v2-${regionSlug}`
+    const queries = new Queries('feature-landing-page-v2', region)
     const landingPageData = await queries.getPageData('featurePage', slug)
     const features = await getFeaturesList(getClient(), region)
-
+    const faqData =
+      landingPageData?.faqData?.[0] ||
+      landingPageData?.faqReferenced?.[0] ||
+      null
     return {
       props: {
         features: features || [],
         currentLanguage: region,
         landingPage: landingPageData || null,
         data: landingPageData || null,
+        faq: faqData,
       },
     }
   } catch (error) {

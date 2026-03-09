@@ -64,7 +64,7 @@ const TestimonialCard = forwardRef<HTMLDivElement, TestimonialCardProps>(
           <div className="md:hidden block px-4 pt-6">
             <p className="text-base text-gray-900 font-semibold leading-[140%]">{data?.name || ""}</p>
             <p className="text-sm text-gray-500 font-medium leading-[140%]">
-              {data?.designation}
+              {data?.designation} , {data?.practiceName}
             </p>
           </div>
           
@@ -146,7 +146,7 @@ const TestimonialCard = forwardRef<HTMLDivElement, TestimonialCardProps>(
           <div className="hidden md:block">
             <p className="text-base text-gray-900 font-semibold leading-[140%]">{data?.name || ""}</p>
             <p className="text-sm text-gray-500 font-medium leading-[140%]">
-              {data?.designation}
+              {data?.designation} , {data?.practiceName}
             </p>
           </div>
 

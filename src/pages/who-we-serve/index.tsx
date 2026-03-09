@@ -2,14 +2,24 @@ import { GetStaticProps } from 'next'
 
 import SimpleHead from '~/components/common/SimpleHead'
 import LogoListingSection from '~/components/LogoListingSection'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import CardListing from '~/components/revamp/components/cardListing'
-import CardsGridSection from '~/components/revamp/components/CardsGridSection'
+import CardsGridSection from '~/v2/sections/CardsGridSection'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import HoverTestimonial from '~/components/revamp/components/common/HoverTestimonial/HoverTestimonial'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import Queries from '~/components/revamp/queries'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import features from '../phone-system/features'
+import { getFeaturesList } from '~/lib/sanity.queries'
+import { getClient } from '~/lib/sanity.client'
 
 interface WhoWeServeIndexProps {
   pageData: any
@@ -17,6 +27,7 @@ interface WhoWeServeIndexProps {
   comparisonTableData: any
   comparisonLegendData: any[] | null
   faq: any
+  features: any[]
 }
 
 export default function WhoWeServeIndex({
@@ -25,23 +36,92 @@ export default function WhoWeServeIndex({
   comparisonTableData,
   comparisonLegendData,
   faq,
+  features,
 }: WhoWeServeIndexProps) {
 
-  return (
+  return pageData?.slug?.includes('v2') ? (
+    <>
+    {pageData?.seo && <SimpleHead data={pageData?.seo} />}
+      {pageData['dental-phones-hero']?.componentData && (
+        <FeatureHero
+          data={pageData['dental-phones-hero']?.componentData}
+          type="feature"
+        />
+      )}
+
+      {pageData['logo-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logo-listing']?.componentData.blocksListingData}
+        />
+      )}
+
+      {pageData['why-dentists-to-voicestack']?.componentData && (
+        <GroupedCardsGridSection
+          data={pageData['why-dentists-to-voicestack']?.componentData}
+        />
+      )}
+
+      {pageData['how-voicestack-works']?.componentData && (
+        <GroupedCardsGridSection
+          data={pageData['how-voicestack-works']?.componentData}
+        />
+      )}
+
+      {pageData['power-of-ai'] && (
+        <GroupedCardsGridSection
+          data={pageData['power-of-ai']?.componentData}
+          theme="dark"
+          aiSection={true}
+          sectionBorder="b"
+        />
+      )}
+
+      {pageData['stack-card-tab-testimonial'] && pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
+      )}
+
+      {pageData['category-feature-tabs']?.componentData && (
+        <CategoryFeatureTabsSection
+          features={features}
+          variant="carousel"
+          sectionHeading={pageData['category-feature-tabs']?.componentData?.sectionHeading}
+        />
+      )}
+
+      <StatisticsSection />
+      
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
+
+    {faq && (
+        <div>
+          <FaqSection faqItems={faq} />
+        </div>
+      )}
+    </>
+  ) : (
     <>
       <SimpleHead data={pageData?.seo} />
-      <div
-        className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+
+      <HeroWrapper>
         <HeroSection
           page=""
           data={pageData['dental-phones-hero']?.componentData}
         />
-      </div>
+      </HeroWrapper>
 
       {pageData['how-voicestack-works']?.componentData && (
         <CardsGridSection
@@ -62,6 +142,18 @@ export default function WhoWeServeIndex({
           data={pageData['hover-card-change-testimonial']?.componentData}
         />
       )}
+       {pageData['test-listing-3']?.componentData && (
+        <CardsGridSection variant="V2" colCount={3}
+          data={pageData['test-listing-3'].componentData}
+        />
+      )}
+      
+      {pageData['test-listing-3']?.componentData && (
+        <GroupedCardsGridSection
+          data={pageData['test-listing-3']?.componentData}
+          theme="dark"
+        />
+      )}
       {pageData['integrations-listing']?.componentData && (
         <div className="mt-12">
           <IntegrationsGrid
@@ -77,40 +169,38 @@ export default function WhoWeServeIndex({
           header={true}
         />
       )}
-
-      {/* FAQ Section */}
-      {/* {faq && (
-        <div>
-          <FaqSection faqItems={faq} />
-        </div>
-      )} */}
     </>
   )
 }
 
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const region = locale || 'en'
-
+  const client = getClient()
   try {
     // Get all pages
-    const queries = new Queries('landing', region)
-    const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
+    const queries = new Queries('landing-v2', region)
+    const slug =
+      region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
+    pageData.slug = slug
     // Ensure FAQ data is serializable
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
-    if (!pageData || Object.keys(pageData).length === 0) {
+    if (!pageData) {
       return {
         notFound: true,
       }
     }
+
+    const features = await getFeaturesList(client, region)
 
     return {
       props: {
         pageData: pageData,
         region: region,
         faq: faqData,
+        features: features || [],
       },
     }
   } catch (error) {

@@ -1,24 +1,21 @@
-import React from 'react'
 import { GetStaticProps } from 'next'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import CardsGridSection from '~/components/revamp/components/CardsGridSection'
-import SiteComparisonSection from '~/components/SiteComparisonSection'
-import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
+import React from 'react'
+import SimpleHead from '~/components/common/SimpleHead'
+
+import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
-import { readToken } from '~/lib/sanity.api'
-import {
-  getComparisonTableData,
-  getAllComparisonValues,
-  getFeaturesList,
-} from '~/lib/sanity.queries'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import FaqSection from '~/components/revamp/components/common/faqSection'
-import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
-import SimpleHead from '~/components/common/SimpleHead'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import { getAllComparisonValues, getFeaturesList } from '~/lib/sanity.queries'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import OfferSection from '~/v2/sections/OfferSection'
+import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
+import VerticalTestimonialListing from '~/v2/sections/verticalTestimonialSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -69,29 +66,35 @@ interface DentalPhonesIndexProps {
 export default function DentalPhonesIndex({
   pageData,
   region,
-  comparisonTableData,
   comparisonLegendData,
   faq,
   features,
 }: DentalPhonesIndexProps) {
+  // console.log("ppp",pageData)
 
+  const comparisonTableComponent = pageData['comparison-table']?.componentData
+  const comparisonTableData = comparisonTableComponent?.comparisonTable
+  
+  // const comparisonTableTitle = pageData['comparison-table']?.componentData
+  const comparisonSectionData = {
+    strip: comparisonTableComponent?.title,
+    header: comparisonTableComponent?.description,
+    columnDimensionName: 'Features',
+    table: comparisonTableData,
+  }
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-       <div
-         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-         style={{
-           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
-         }}
-       >
-      <HeroSection
-        page=""
-        data={pageData['dental-phones-hero']?.componentData}
-      />
+      {pageData['dental-phones-hero']?.componentData && (
+        <FeatureHero data={pageData['dental-phones-hero']} type="feature" />
+      )}
 
-       </div>
-     
-       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logos-listing']?.componentData.blocksListingData}
+        />
+      )}
+      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
             pageData['stack-card-tab-testimonial']?.componentData?.refData
@@ -103,36 +106,61 @@ export default function DentalPhonesIndex({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-      <CategoryFeatureTabs features={features} />
-      {pageData['how-voicestack-works']?.componentData && (
-        <CardsGridSection
-          data={pageData['how-voicestack-works'].componentData}
-          customText="Does VoiceStack fit your practice?"
+        <CategoryFeatureTabsSection
+          features={features}
+          variant="carousel"
+          sectionHeading={
+            pageData['category-feature-tabs']?.componentData?.sectionHeading
+          }
+        />
+      {pageData['card-with-image'] && (
+        <GroupedCardsGridSection
+          data={pageData['card-with-image']?.componentData}
         />
       )}
-      {pageData['testimonial-video-section']?.componentData && (
+
+      {pageData['how-voicestack-works'] && (
+        <GroupedCardsGridSection
+          data={pageData['how-voicestack-works']?.componentData}
+        />
+      )}
+      {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
         <VerticalTestimonialListing
-          data={pageData['testimonial-video-section']?.componentData?.refData?.testimonialListing}
+          data={
+            pageData['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
         />
       )}
 
-      {pageData['custom']?.componentData && (
-        <div className="mt-12">
-          <IntegrationsGrid data={pageData['custom']?.componentData} />
-        </div>
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
       )}
-      <StatisticsSection />
-      
-      {/* FAQ Section */}
-      {faq && (
-        <div>
-          <FaqSection faqItems={faq} />
-        </div>
+      {pageData['power-of-ai']?.componentData && (
+        <GroupedCardsGridSection
+          data={pageData['power-of-ai']?.componentData}
+          theme="dark"
+          aiSection={true}
+        />
       )}
 
-      {/* {pageData['comparison-cards']?.componentData && (
-        <ComparisonCardsSection data={pageData['comparison-cards']?.componentData} />
-      )} */}
+
+      {comparisonTableData && (
+        <SiteComparisonSection
+          data={comparisonSectionData}
+          legendData={comparisonLegendData || []}
+        />
+      )}
+      {pageData['offer']?.componentData && (
+        <OfferSection data={pageData['offer']?.componentData} spacingY={true} />
+      )}
+      <StatisticsSection  />
+
+      {faq && <FaqSection faqItems={faq} />}
     </>
   )
 }
@@ -140,20 +168,33 @@ export default function DentalPhonesIndex({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
-    const queries = new Queries('landing', region)
-    const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
+    
+    // dental-phones pages support 'en-AU' and 'en-GB' locales
+    if (region !== 'en-AU' && region !== 'en-GB') {
+      return {
+        notFound: true,
+      }
+    }
+    
+    const queries = new Queries('landing-v2', region)
+    // Convert region to slug format (en-AU -> en-au, en-GB -> en-gb)
+    const regionSlug = region.toLowerCase()
+    const slug = `landing-v2-${regionSlug}`
 
     const pageData = await queries.getPageData('dentalPhones', slug)
     const client = getClient()
 
-    if (!pageData || Object.keys(pageData).length === 0) {
+
+    if (!pageData ) {
       return {
         notFound: true,
       }
     }
 
+    const comparisonLegendData = (await getAllComparisonValues()) || []
     // Ensure FAQ data is serializable
-    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+    const faqData =
+      pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
     // Fetch features data for CategoryFeatureTabs
     const features = await getFeaturesList(client, region)
 
@@ -163,6 +204,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         region,
         faq: faqData,
         features: features || [],
+        comparisonLegendData,
       },
     }
   } catch (error) {

@@ -1,6 +1,6 @@
 import { createBasePageSchema } from '../basePageSchema'
 
-const baseSchema = createBasePageSchema('dentalPhones', 'Dental Phones')
+const baseSchema = createBasePageSchema('dentalPhones', 'Phone System')
 
 const DentalPhones = {
   ...baseSchema,

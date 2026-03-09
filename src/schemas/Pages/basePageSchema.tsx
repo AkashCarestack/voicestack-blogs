@@ -1,4 +1,5 @@
 import showCountryFlag from "~/components/utils/common"
+import { isUniqueOtherThanLanguage } from "~/lib/sanity";
 
 export const createBasePageSchema = (name: string, title: string) => ({
   name,
@@ -35,8 +36,10 @@ export const createBasePageSchema = (name: string, title: string) => ({
           options: {
             source: 'basicInfo.title',
             maxLength: 96,
+            isUnique: isUniqueOtherThanLanguage
           },
           validation: (Rule: any) => Rule.required(),
+          
         },
         {
           name: 'description',
@@ -159,6 +162,13 @@ export const createBasePageSchema = (name: string, title: string) => ({
           title: 'Key Words',
           type: 'string',
           description: 'Keywords for SEO purposes',
+        },
+        {
+          name: 'disableIndex',
+          title: 'Disable indexing',
+          type: 'boolean',
+          description: 'Disable indexing',
+          initialValue: false,
         },
         {
           name: 'canonical',

@@ -1,13 +1,19 @@
-import React from 'react'
 import { GetStaticProps } from 'next'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
-import FaqSection from '~/components/revamp/components/common/faqSection'
-import Queries from '~/components/revamp/queries'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import React from 'react'
+
 import SimpleHead from '~/components/common/SimpleHead'
+import IntegrationsSectionWithNavigation from '~/v2/sections/IntegrationsSectionWithNavigation'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import FaqSection from '~/components/revamp/components/common/faqSection'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
+import Queries from '~/components/revamp/queries'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 
 // Define proper TypeScript interfaces
 interface HeroComponentData {
@@ -70,12 +76,18 @@ export default function DentalPhonesIntegrations({
 }: DentalPhonesIntegrationsProps) {
   // Extract integration data from pageData instead of separate query
   const integrationData = React.useMemo(() => {
+    // Check both paths: v2 pages use 'integrations-listing', non-v2 use 'custom'
+    const v2Data = pageData['integrations-listing']?.componentData
     const customData = pageData['custom']?.componentData
-    if (!customData?.refData?.integrationListing?.integrationList) {
+    
+    // Try v2 path first, then fallback to custom path
+    const integrationListing = v2Data?.refData?.integrationListing || customData?.refData?.integrationListing
+    
+    if (!integrationListing?.integrationList) {
       return null
     }
 
-    const integrations = customData.refData.integrationListing.integrationList
+    const integrations = integrationListing.integrationList
 
     // Sort integrations by order field (ascending), with items without order at the end
     const sortedIntegrations = [...integrations].sort((a: any, b: any) => {
@@ -121,36 +133,34 @@ export default function DentalPhonesIntegrations({
       integrations: sortedIntegrations,
     }
   }, [pageData])
-  return (
+
+  return pageData?.slug?.includes('v2') ? (
     <>
-      <SimpleHead data={pageData?.seo} />
-      <div
-        className="py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
-        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        <HeroSection
-          page=""
-          data={pageData['dental-phones-hero']?.componentData}
+    <SimpleHead data={pageData?.seo} />
+      <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+      {pageData['integrations-hero']?.componentData && (
+        <FeatureHero data={pageData['integrations-hero']} type="feature" />
+      )}
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logos-listing']?.componentData.blocksListingData}
         />
-      </div>
-      {pageData['custom']?.componentData && (
-        <div className="">
-          <IntegrationsGrid showIntegrationBtn={false} data={pageData['custom']?.componentData} />
-        </div>
+      )}
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark" demoOnly={true}
+        />
       )}
       {integrationData && (
         <div>
-          <FeaturesSectionWithNavigation
+          <IntegrationsSectionWithNavigation
             categories={integrationData.categories}
             integrations={integrationData.integrations}
           />
         </div>
       )}
-      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+       {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
             pageData['stack-card-tab-testimonial']?.componentData?.refData
@@ -162,7 +172,49 @@ export default function DentalPhonesIntegrations({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-      
+         {faq && <FaqSection faqItems={faq} />}
+    </>
+  ) : (
+    <>
+      <SimpleHead data={pageData?.seo} />
+
+      <HeroWrapper>
+        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+        <HeroSection
+          page=""
+          data={pageData['dental-phones-hero']?.componentData}
+        />
+      </HeroWrapper>
+
+      {pageData['custom']?.componentData && (
+        <div className="">
+          <IntegrationsGrid
+            showIntegrationBtn={false}
+            data={pageData['custom']?.componentData}
+          />
+        </div>
+      )}
+      {integrationData && (
+        <div>
+          <IntegrationsSectionWithNavigation
+            categories={integrationData.categories}
+            integrations={integrationData.integrations}
+          />
+        </div>
+      )}
+      {/* {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
+      )} */}
+
       {/* FAQ Section */}
       {faq && (
         <div>
@@ -176,22 +228,28 @@ export default function DentalPhonesIntegrations({
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   try {
     const region = locale || 'en'
-    const queries = new Queries('integrations', region)
-    const slug =
-      region === 'en' ? 'integrations' : `integrations-${region.toLowerCase()}`
-
-    // Fetch page data for integrations
-    const pageData = await queries.getPageData('dentalPhones', slug)
-
-    const noPageData = Object.values(pageData).every(
-      (value) => value === null || value === undefined,
-    )
-
-    if (noPageData) {
+    
+    // dental-phones pages support 'en-AU' and 'en-GB' locales
+    if (region !== 'en-AU' && region !== 'en-GB') {
       return {
         notFound: true,
       }
     }
+    
+    const queries = new Queries('integrations-v2', region)
+    // Convert region to slug format (en-AU -> en-au, en-GB -> en-gb)
+    const regionSlug = region.toLowerCase()
+    const slug = `integrations-v2-${regionSlug}`
+
+    // Fetch page data for integrations
+    const pageData = await queries.getPageData('dentalPhones', slug)
+
+    if(!pageData){
+      return {
+        notFound: true
+      }
+    }
+    pageData.slug = slug
 
     // Ensure FAQ data is serializable
     const faqData =

@@ -4,78 +4,91 @@ import Queries from '~/components/revamp/queries'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
+import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
 import FaqSection from '~/components/revamp/components/common/faqSection'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 
 interface StartupPracticesProps {
   pageData: any
   faq: any
 }
 
-export default function StartupPractices({ pageData, faq }: StartupPracticesProps) {
-  const tabsListingComponentData = pageData["smarter-systems"]?.componentData?.refData?.tabsListingComponent
+export default function StartupPractices({
+  pageData,
+  faq,
+}: StartupPracticesProps) {
+
   return (
     <>
-      <SimpleHead data={pageData?.seo} />
-       <div
-         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-         style={{
-           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
-         }}
-       >
-        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        <HeroSection
-          page=""
-          data={pageData['dental-phones-hero']?.componentData}
-        />
-        
-       </div>
-      {/* {tabsListingComponentData &&
-        <SingleTabCardListing data={tabsListingComponentData}/>
-      } */}
-      {pageData['testimonial-video-section']?.componentData && (
-        <VerticalTestimonialListing
-          data={pageData['testimonial-video-section']?.componentData?.refData?.testimonialListing}
+      {pageData?.seo && <SimpleHead data={pageData?.seo} />}
+      <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+      {pageData['startup-practices-hero']?.componentData && (
+        <FeatureHero data={pageData['startup-practices-hero'].componentData} type="feature" />
+      )}
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logos-listing']?.componentData.blocksListingData}
         />
       )}
-          <StatisticsSection />
-          {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
-        <StackCardTestimonial
-          data={
-            pageData['stack-card-tab-testimonial']?.componentData?.refData
-              ?.tabsListingComponent
-          }
-        />
-      ) : (
-        <StackCardTestimonial
-          data={pageData['stack-card-tab-testimonial']?.componentData}
+
+      <CategoryFeatureTabsSection
+      columnCount={4}
+      features={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+      variant="carouselwithcards"
+      sectionHeading={
+        pageData['grow-your-practice']?.componentData?.refData
+          ?.tabsListingComponent
+      }
+    />
+      {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
+          <VerticalTestimonialListingv2
+            data={
+              pageData['testimonial-video-section']?.componentData?.refData
+                ?.testimonialListing
+            }
+          />
+        )}
+      <StatisticsSection />
+
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
         />
       )}
-       {pageData['integrations-listing']?.componentData && (
-        <div className="mt-12">
-          <IntegrationsGrid data={pageData['integrations-listing']?.componentData} />
+
+      <CategoryFeatureTabsSection
+        features={
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        variant="scrollcarousel"
+        sectionHeading={
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+      />
+      {faq && (
+        <div>
+          <FaqSection faqItems={faq} />
         </div>
       )}
-      {pageData?.['startup-practices']?.componentData &&
-        <TabCardsListing data={pageData?.['startup-practices']?.componentData} />
-      }
-      
-        {/* {
-          tabsListingData && (<TabCardsListing data={tabsListingData} />)
-        } */}
-      
-
-       {/* FAQ Section */}
-       {faq && (
-         <div>
-           <FaqSection faqItems={faq} />
-         </div>
-       )}
     </>
   )
 }
@@ -88,20 +101,25 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     const slug =
       region === 'en'
-        ? 'startup-practices'
-        : `startup-practices-${region.toLowerCase()}`
+        ? 'startup-practices-v2'
+        : `startup-practices-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
-    if(!pageData){
+    if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true,
+      }
     }
+    pageData.slug = slug
     // Ensure FAQ data is serializable
-    const faqData = pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+    const faqData =
+      pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
     return {
       props: {
         pageData: pageData || null,
         region: region,
-        faq: faqData
+        faq: faqData,
       },
     }
   } catch (error) {
@@ -110,7 +128,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       props: {
         pageData: null,
         region: region,
-        faq: null
+        faq: null,
       },
     }
   }

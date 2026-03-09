@@ -1,361 +1,105 @@
-import { defineField, defineType } from 'sanity'
-import { isUniqueOtherThanLanguage } from '~/lib/sanity'
+import { createBasePageSchema } from '../basePageSchema'
+import { defineField } from 'sanity'
 import showCountryFlag from '~/components/utils/common'
 
-export default defineType({
-  name: 'features',
-  title: 'Features',
-  type: 'document',
-  // This ensures the page works with document internationalization
-  // i18n: {
-  //   base: 'en',
-  //   languages: ['en', 'en-GB', 'en-AU'],
-  //   fieldNames: {
-  //     lang: 'language'
-  //   }
-  // },
+const baseSchema = createBasePageSchema('features', 'Features')
+
+// Add featureCategory group and field, and assign groups to base fields
+const Features = {
+  ...baseSchema,
+  fields: [
+    {
+      ...baseSchema.fields[0], // basicInfo
+      fields: [
+        ...baseSchema.fields[0].fields,
+        defineField({
+          name: 'dynamicSvg',
+          title: 'Dynamic SVG',
+          type: 'text',
+          rows: 8,
+          description: 'Paste SVG code here to override the image icon. This will be used in feature listings and cards.',
+          placeholder: '<svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">\n  <path d="..."/>\n</svg>',
+          validation: (Rule: any) => Rule.custom((value: string) => {
+            if (!value) return true; // SVG code is optional
+            // Basic validation to check if it looks like SVG
+            if (!value.includes('<svg') || !value.includes('</svg>')) {
+              return 'Please provide valid SVG code with opening and closing <svg> tags';
+            }
+            return true;
+          }),
+        }),
+      ],
+      group: 'basicInfo',
+    },
+    defineField({
+      name: 'order',
+      title: 'Order',
+      type: 'number',
+      description: 'Order for sorting features',
+      group: 'basicInfo',
+    }),
+    {
+      ...baseSchema.fields[1], // content
+      group: 'content',
+    },
+    {
+      name: 'featureCategory',
+      title: 'Feature Category',
+      type: 'reference',
+      to: [{ type: 'featureCategory' }],
+      options: {
+        disableNew: false,
+      },
+      description: 'Select an existing feature category or create a new one',
+      group: 'featureCategory',
+    },
+    {
+      ...baseSchema.fields[2], // seo
+      group: 'seo',
+    },
+    {
+      ...baseSchema.fields[4], // faqReferenced
+      group: 'seo',
+    },
+    baseSchema.fields[3], // language (hidden, no group needed)
+  ],
   groups: [
     {
-      name: 'basic',
+      name: 'basicInfo',
       title: 'Basic Information',
       default: true,
     },
     {
       name: 'content',
-      title: 'Feature Content',
+      title: 'Page Content',
     },
     {
-      name: 'categories',
-      title: 'Feature Categories',
-    },
-    {
-      name: 'benefits',
-      title: 'Benefits & Pricing',
-    },
-    {
-      name: 'related',
-      title: 'Related Features',
+      name: 'featureCategory',
+      title: 'Feature Category',
     },
     {
       name: 'seo',
-      title: 'SEO Settings',
+      title: 'SEO & Meta',
     },
   ],
-
-  fields: [
-    defineField({
-      name: 'title',
-      title: 'Feature Title',
-      group: 'basic',
-      type: 'string',
-      validation: (Rule: any) => Rule.required(),
-    }),
-    {
-      name: 'slug',
-      title: 'Slug',
-      group: 'basic',
-      type: 'slug',
-      options: {
-        source: 'title',
-        maxLength: 96,
-        isUnique: isUniqueOtherThanLanguage
-      },
-      validation: (Rule: any) => Rule.required().custom(async (value, context) => {
-        if (!value?.current) return true;
-        
-        const { document, getClient } = context;
-        const client = getClient({ apiVersion: '2023-01-01' });
-        
-        const language = document?.language || 'en';
-        const id = document?._id;
-        
-        const query = `*[_type == "features" && slug.current == $slug && language == $language && _id != $id][0]`;
-        const params = { slug: value.current, language, id };
-        
-        const duplicate = await client.fetch(query, params);
-        
-        if (duplicate) {
-          return `A feature with this slug already exists in ${language}. Please choose a different slug.`;
-        }
-        
-        return true;
-      }),
-    },
-    defineField({
-      name: 'order',
-      title: 'Order',
-      group: 'basic',
-      type: 'number',
-      description: 'Order for sorting features',
-    }),
-    defineField({
-      name: 'heroTitle',
-      title: 'Hero Title',
-      group: 'basic',
-      type: 'string',
-    }),
-    defineField({
-      name: 'heroSubtitle',
-      title: 'Hero Subtitle',
-      group: 'basic',
-      type: 'text',
-      rows: 3,
-    }),
-    defineField({
-      name: 'heroImage',
-      title: 'Hero Image',
-      group: 'basic',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    }),
-    defineField({
-      name: 'mainImage',
-      title: 'Main Feature Image',
-      group: 'basic',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    }),
-    defineField({
-      name: 'secondaryImage',
-      title: 'Secondary Image',
-      group: 'basic',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    }),
-    defineField({
-      name: 'heroTheme',
-      title: 'Hero Theme',
-      group: 'basic',
-      type: 'string',
-      options: {
-        list: [
-          { title: 'Blue', value: 'blue' },
-          { title: 'Green', value: 'green' },
-          { title: 'Purple', value: 'purple' },
-        ]
-      },
-      initialValue: 'blue'
-    }),
-
-    // Content Section
-    defineField({
-      name: 'overview',
-      title: 'Feature Overview',
-      group: 'content',
-      type: 'portableContent',
-    }),
-    defineField({
-      name: 'description',
-      title: 'Feature Description',
-      group: 'content',
-      type: 'portableContent',
-    }),
-    defineField({
-      name: 'shortDescription',
-      title: 'Short Description',
-      group: 'content',
-      type: 'portableContent',
-    }),
-
-    // Category Section - Single reference to Feature Category document
-    defineField({
-      name: 'featureCategory',
-      title: 'Feature Category',
-      group: 'categories',
-      type: 'reference',
-      to: [{ type: 'featureCategory' }],
-      options: {
-        disableNew: false, // Allow creating new categories
-      },
-      description: 'Select an existing feature category or create a new one',
-    }),
-
-    // Benefits & Pricing Section
-    defineField({
-      name: 'benefits',
-      title: 'Key Benefits',
-      group: 'benefits',
-      type: 'array',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {
-              name: 'title',
-              title: 'Benefit Title',
-              type: 'string',
-              validation: (Rule: any) => Rule.required(),
-            },
-            {
-              name: 'description',
-              title: 'Benefit Description',
-              type: 'text',
-              rows: 2,
-            },
-            {
-              name: 'icon',
-              title: 'Benefit Icon',
-              type: 'image',
-            },
-          ],
-        },
-      ],
-    }),
-    defineField({
-      name: 'pricing',
-      title: 'Pricing Information',
-      group: 'benefits',
-      type: 'object',
-      fields: [
-        {
-          name: 'isFree',
-          title: 'Is Free Feature',
-          type: 'boolean',
-          initialValue: false,
-        },
-        {
-          name: 'price',
-          title: 'Price',
-          type: 'string',
-          hidden: ({ parent }: any) => parent?.isFree,
-        },
-        {
-          name: 'billingPeriod',
-          title: 'Billing Period',
-          type: 'string',
-          options: {
-            list: [
-              { title: 'One-time', value: 'one-time' },
-              { title: 'Monthly', value: 'monthly' },
-              { title: 'Yearly', value: 'yearly' },
-            ],
-          },
-          hidden: ({ parent }: any) => parent?.isFree,
-        },
-        {
-          name: 'trialAvailable',
-          title: 'Free Trial Available',
-          type: 'boolean',
-          initialValue: false,
-        },
-        {
-          name: 'trialPeriod',
-          title: 'Trial Period',
-          type: 'string',
-          hidden: ({ parent }: any) => !parent?.trialAvailable,
-        },
-      ],
-    }),
-    defineField({
-      name: 'cta',
-      title: 'Call to Action',
-      group: 'benefits',
-      type: 'object',
-      fields: [
-        {
-          name: 'primaryText',
-          title: 'Primary CTA Text',
-          type: 'string',
-        },
-        {
-          name: 'primaryLink',
-          title: 'Primary CTA Link',
-          type: 'string',
-        },
-        {
-          name: 'secondaryText',
-          title: 'Secondary CTA Text',
-          type: 'string',
-        },
-        {
-          name: 'secondaryLink',
-          title: 'Secondary CTA Link',
-          type: 'string',
-        },
-      ],
-    }),
-
-    // Related Features Section
-    defineField({
-      name: 'relatedFeatures',
-      title: 'Related Features',
-      group: 'related',
-      type: 'array',
-      of: [
-        {
-          type: 'reference',
-          to: [{ type: 'features' }],
-          options: {
-            filter: '_type == "features" && _id != $id',
-            filterParams: { 
-              id: 'dummy-id' // This will be replaced by the actual document ID
-            },
-            disableNew: true,
-          },
-        },
-      ],
-    }),
-
-    // SEO Section
-    defineField({
-      name: 'metaTitle',
-      title: 'SEO Meta Title',
-      group: 'seo',
-      type: 'string',
-    }),
-    defineField({
-      name: 'metaDescription',
-      title: 'SEO Meta Description',
-      group: 'seo',
-      type: 'text',
-      rows: 3,
-    }),
-    defineField({
-      name: 'keywords',
-      title: 'SEO Keywords',
-      group: 'seo',
-      type: 'array',
-      of: [{ type: 'string' }],
-    }),
-    defineField({
-      name: 'canonicalUrl',
-      title: 'Canonical URL',
-      group: 'seo',
-      type: 'url',
-    }),
-
-    // Language field (hidden and read-only)
-    defineField({
-      name: 'language',
-      type: 'string',
-      readOnly: true,
-      hidden: true,
-    }),
-  ],
-
   preview: {
     select: {
-      title: 'title',
-      lang: 'language',
-      media: 'heroImage',
+      title: 'basicInfo.title',
+      description: 'basicInfo.description',
+      icon: 'basicInfo.icon',
+      slug: 'basicInfo.slug.current',
+      language: 'language',
+      category: 'featureCategory.name',
       order: 'order',
     },
     prepare(selection: any) {
-      const { lang, title, order } = selection
-      return { 
-        ...selection, 
-        subtitle: `${lang || 'en'}${order ? ` • Order: ${order}` : ''}`,
-        media: selection?.lang ? <img src={showCountryFlag(selection?.lang)} /> : selection?.media
-      }
+      return {
+        title: `${selection?.title || 'Untitled Feature'}`,
+        subtitle: `${selection?.description || 'No description'}${selection?.category ? ` • ${selection.category}` : ''}${selection?.order ? ` • Order: ${selection.order}` : ''} • /${selection?.slug?.current || ''}`,
+        media: selection?.language ? <img src={showCountryFlag(selection?.language)} /> : selection?.icon
+      };
     },
   },
-
   orderings: [
     {
       title: 'Language, Order Asc',
@@ -374,14 +118,6 @@ export default defineType({
       ],
     },
     {
-      title: 'Language, Title Asc',
-      name: 'languageTitleAsc',
-      by: [
-        { field: 'language', direction: 'asc' },
-        { field: 'title', direction: 'asc' }
-      ],
-    },
-    {
       title: 'Order, Asc',
       name: 'orderAsc',
       by: [{ field: 'order', direction: 'asc' }],
@@ -392,9 +128,14 @@ export default defineType({
       by: [{ field: 'order', direction: 'desc' }],
     },
     {
-      title: 'Title, Asc',
-      name: 'titleAsc',
-      by: [{ field: 'title', direction: 'asc' }],
+      title: 'Language, Title Asc',
+      name: 'languageTitleAsc',
+      by: [
+        { field: 'language', direction: 'asc' },
+        { field: 'basicInfo.title', direction: 'asc' }
+      ],
     },
   ],
-})
+}
+
+export default Features

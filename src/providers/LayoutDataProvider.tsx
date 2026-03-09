@@ -7,6 +7,8 @@ interface LayoutDataContextType {
   contactData: any;
   loading: boolean;
   error: string | null;
+  schemaData: any;
+  featuresData: any[];
 }
 
 const LayoutDataContext = createContext<LayoutDataContextType>({
@@ -16,6 +18,8 @@ const LayoutDataContext = createContext<LayoutDataContextType>({
   contactData: null,
   loading: true,
   error: null,
+  schemaData: null,
+  featuresData: [],
 });
 
 export const useLayoutData = () => {
@@ -32,6 +36,8 @@ interface LayoutDataProviderProps {
   initialFooterData?: any;
   initialSiteSettings?: any;
   initialContactData?: any;
+  initialSchemaData?: any;
+  initialFeaturesData?: any[];
 }
 
 export default function LayoutDataProvider({ 
@@ -40,12 +46,16 @@ export default function LayoutDataProvider({
   initialFooterData = null,
   initialSiteSettings = null,
   initialContactData = null,
+  initialSchemaData = null,
+  initialFeaturesData = [],
 }: LayoutDataProviderProps) {
   const [headerData, setHeaderData] = useState(initialHeaderData);
   const [footerData, setFooterData] = useState(initialFooterData);
   const [siteSettings, setSiteSettings] = useState(initialSiteSettings);
   const [contactData, setContactData] = useState(initialContactData);
   const [loading, setLoading] = useState(!initialHeaderData && !initialFooterData);
+  const [schemaData, setSchemaData] = useState(initialSchemaData);
+  const [featuresData, setFeaturesData] = useState(initialFeaturesData || []);
   const [error, setError] = useState<string | null>(null);
 
   // Sync props to state when they change (important for client-side navigation)
@@ -66,6 +76,12 @@ export default function LayoutDataProvider({
     if (initialContactData !== null && initialContactData !== undefined) {
       setContactData(initialContactData);
     }
+    if (initialSchemaData !== null && initialSchemaData !== undefined) {
+      setSchemaData(initialSchemaData);
+    }
+    if (initialFeaturesData !== null && initialFeaturesData !== undefined) {
+      setFeaturesData(initialFeaturesData);
+    }
     
     // Update loading state based on whether we have data
     if (initialHeaderData && initialFooterData) {
@@ -73,10 +89,10 @@ export default function LayoutDataProvider({
       setError(null);
     }
     // Don't set loading to true if props are null during navigation - preserve existing state
-  }, [initialHeaderData, initialFooterData, initialSiteSettings, initialContactData]);
+  }, [initialHeaderData, initialFooterData, initialSiteSettings, initialContactData, initialSchemaData, initialFeaturesData]);
 
   return (
-    <LayoutDataContext.Provider value={{ headerData, footerData, siteSettings, contactData, loading, error }}>
+    <LayoutDataContext.Provider value={{ headerData, footerData, siteSettings, contactData, loading, schemaData, featuresData, error }}>
       {children}
     </LayoutDataContext.Provider>
   );

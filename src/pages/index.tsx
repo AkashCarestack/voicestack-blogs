@@ -1,130 +1,98 @@
 import { useTracking } from 'cs-tracker'
-import { isEmpty } from 'lodash'
-import type { GetStaticProps, InferGetStaticPropsType } from 'next'
+import type { GetStaticProps } from 'next'
 import { useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
-
-import CustomHead from '~/components/common/CustomHead'
-import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
-import LogoListingSection from '~/components/LogoListingSection'
-import LogoSliderSection from '~/components/LogoSliderSection'
-import CardListing from '~/components/revamp/components/cardListing'
-import FaqSection from '~/components/revamp/components/common/faqSection'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import TablistSection from '~/components/revamp/components/common/TabListing/tablistingSection'
-import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import Home from '~/components/revamp/components/home'
+import HomeAU from '~/components/revamp/components/homeAU'
+import HomeGB from '~/components/revamp/components/homeGB'
 import Queries from '~/components/revamp/queries'
-import SiteComparisonSection from '~/components/SiteComparisonSection'
 import { getParams } from '~/helpers/getQueryParams'
-import { readToken } from '~/lib/sanity.api'
 import { getClient } from '~/lib/sanity.client'
 import {
-  featureSectionQuery,
-  fetchFaq,
   getAllComparisonValues,
-  getALLSiteSettings,
-  getBannerData,
-  getCardsSectionData,
   getComparisonTableData,
-  getContactAndVideoInfo,
-  getCsCardsSectionData,
   getFeaturesList,
-  getFounderDetails,
-  getHeaderData,
-  getIntegrationList,
-  getTestimonialHighlightSectionData,
-  logoSection,
 } from '~/lib/sanity.queries'
-import runQuery from '~/utils/runQuery'
 
-export const getStaticProps: GetStaticProps<any> = async ({
-  locale,
-  draftMode = process.env.NEXT_PUBLIC_NODE_ENV === 'development' ? true : false,
-}) => {
+interface IndexPageProps {
+  pageData: any
+  pageData1: any
+  region: string
+  faq: any
+  featuresData: any[]
+  comparisonLegendData: any[]
+  comparisonTableData: any[]
+}
+
+export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const region = locale || 'en'
+  try {
+    const region = locale || 'en'
+    const queries = new Queries('landing', region)
+    const slug = region === 'en' ? 'landing' : `landing-${region.toLowerCase()}`
+     const queries1 = new Queries('landing-v2', region)
+    const slug1 = region === 'en' ? 'landing-v2' : `landing-v2-${region.toLowerCase()}`
+        
+    const pageData = await queries.getPageData('homePage', slug)
+    const pageData1 = await queries1.getPageData('homePage', slug1)
+    const client = getClient()
 
-  // revamp queries
-  const queries = new Queries('home', region)
-  const fetchTabListingData = new Queries('easily-handle', region)
-  const homeCardData = await queries.fetchHomeCardData(region)
+    if (!pageData1) {
+      return {
+        notFound: true,
+      }
+    }
+    
+    // Only set slug if pageData exists (it may not exist for en-AU)
+    if (pageData) {
+      pageData.slug = slug
+    }
+    pageData1.slug = slug1
 
-  const tabListingData = await fetchTabListingData.getData()
-  const heroSectionData = await queries.getHeroData(region)
-  // Get vertical testimonial data from globalDataReference with dataSlug "testimonial-video"
-  const verticalTestimonialData = homeCardData?.globalDataReference?.find(
-    (item: any) => item?.dataSlug === 'testimonial-video',
-  )?.testimonialListing || null
-  const allTabsData = await queries.getAllTabsListingData(region)
-  const testimonialSecitonData = allTabsData?.find(
-    (item) => item.slug === 'testimonial-category-section',
-  )?.tabsListingComponent || null
+    const faqData =
+      pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
+    const featuresData = (await getFeaturesList(client, region)) || []
+    const comparisonLegendData = (await getAllComparisonValues()) || []
+    const comparisonTableData = await getComparisonTableData(client, region)
 
-  // old queries
-  const client = getClient(draftMode ? { token: readToken } : undefined)
-  const homeSettings = await getHeaderData(client, region)
-  const siteSettings = await runQuery(getALLSiteSettings(region))
-  const founderDetails = await runQuery(getFounderDetails(region))
-  const comparisonTableData = await getComparisonTableData(client, region)
-
-  const comparisonLegendData = await getAllComparisonValues()
-  const integrationPlatforms = await getIntegrationList(client, region)
-  const logoSectionData = await logoSection(client, region)
-  const featureSectionData = await featureSectionQuery(client, region)
-  const cardsListingData = await getCardsSectionData(client, region)
-  const cSCardsListingData = await getCsCardsSectionData(client, region)
-  const testimonialHighlightsData = await getTestimonialHighlightSectionData(
-    client,
-    region,
-  )
-  const bannerData = await getBannerData(client, region)
-  const contactAndVideoData = await getContactAndVideoInfo(client, region)
-  const faqSectionData =
-    (await queries.fetchFaqData('homeSettings', region)) || {}
-  const featuresData = (await getFeaturesList(client, region)) || []
-
-  return {
-    props: {
-      homeSettings,
-      siteSettings,
-      founderDetails,
-      comparisonTableData,
-      comparisonLegendData,
-      integrationPlatforms,
-      draftMode,
-      token: draftMode ? readToken : '',
-      region,
-      heroSectionData,
-      logoSectionData,
-      featureSectionData,
-      testimonialSecitonData,
-      verticalTestimonialData,
-      faqSectionData,
-      cardsListingData,
-      cSCardsListingData,
-      testimonialHighlightsData,
-      bannerData,
-      contactAndVideoData,
-      tabListingData,
-      homeCardData,
-      featuresData,
-    },
+    return {
+      props: {
+        pageData: pageData || null, // Ensure pageData is never undefined
+        pageData1,
+        region,
+        faq: faqData,
+        featuresData: featuresData || [],
+        comparisonLegendData: comparisonLegendData || [],
+        comparisonTableData: comparisonTableData || [],
+        locale,
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching page data:', error)
+    return {
+      notFound: true,
+    }
   }
 }
 
-export default function IndexPage(props: InferGetStaticPropsType<any>) {
+export default function IndexPage({
+  pageData,
+  region,
+  pageData1,
+  faq,
+  featuresData,
+  comparisonLegendData,
+  comparisonTableData,
+}: IndexPageProps) {
   const { Track, trackEvent } = useTracking({ page: 'home-page' }, {})
   const searchParams = useSearchParams()
-  // const source = searchParams.get("refer"); // Get 'refer' param from URL
   const [refer, setRefer] = useState(null)
 
   useEffect(() => {
     const sourceParam = searchParams.get('refer')
-    setRefer(sourceParam || '') // Set refer once available
+    setRefer(sourceParam || '')
   }, [searchParams])
 
-  const { className, ...rProps } = props
   useEffect(() => {
     const {
       utm_source = null,
@@ -134,7 +102,7 @@ export default function IndexPage(props: InferGetStaticPropsType<any>) {
       utm_medium = null,
       ...params
     } = getParams()
-    // window.scrollTo({ top: 0, behavior: 'smooth' });
+
     if (window) {
       trackEvent({
         e_name: 'home-page',
@@ -156,26 +124,6 @@ export default function IndexPage(props: InferGetStaticPropsType<any>) {
     }
   }, [])
 
-  if (isEmpty(rProps)) {
-    return (
-      <>
-        <p className="p-5">Loading ... </p>
-      </>
-    )
-  }
-
-  const {
-    heroSectionData,
-    testimonialSecitonData,
-    verticalTestimonialData,
-    logoSectionData,
-    comparisonTableData,
-    comparisonLegendData,
-    faqSectionData,
-    contactAndVideoData,
-    homeCardData,
-    featuresData,
-  } = props
 
   const comparisonSectionData = {
     strip:
@@ -185,83 +133,33 @@ export default function IndexPage(props: InferGetStaticPropsType<any>) {
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
-  const videoData = contactAndVideoData?.video
 
   return (
     <Track>
-      <CustomHead {...props} />
-      <div className="">
-        {heroSectionData && (
-          <div className="px-4 xl:px-12 pt-2">
-            <div
-              className="rounded-[12px] md:rounded-[24px] bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-              style={{
-                background:
-                  ' linear-gradient(270deg, #F0EFFA 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-              }}
-            >
-              <HeroSection
-                data={heroSectionData}
-                refer={refer}
-                page="home"
-              />
-            </div>
-          </div>
-        )}
-        {logoSectionData && (
-          <LogoSliderSection data={logoSectionData} refer={refer} />
-        )}
-        {homeCardData?.globalDataReference &&
-          (() => {
-            const testimonialVideoData = homeCardData.globalDataReference.find(
-              (item: any) => item?.dataSlug === 'testimonial-video',
-            )
-            return testimonialVideoData?.testimonialListing ? (
-              <VerticalTestimonialListing
-                data={testimonialVideoData.testimonialListing}
-              />
-            ) : null
-          })()}
-        {homeCardData?.globalDataReference &&
-          (() => {
-            const testimonialCategoryData =
-              homeCardData.globalDataReference.find(
-                (item: any) => item?.dataSlug === 'testimonial-category',
-              )
-            return testimonialCategoryData?.tabsListingComponent ? (
-              <Testimonials
-                data={testimonialCategoryData.tabsListingComponent}
-              />
-            ) : null
-          })()}
-        {/* {testimonialSecitonData && (
-          <Testimonials data={testimonialSecitonData} refer={refer} />
-        )} */}
-        {homeCardData?.globalDataReference &&
-          (() => {
-            const businessOutcomesData = homeCardData.globalDataReference.find(
-              (item: any) => item?.dataSlug === 'business-outcomes',
-            )
-            return businessOutcomesData?.tabsListingComponent ? (
-              <CardListing data={businessOutcomesData.tabsListingComponent} />
-            ) : null
-          })()}
-        {featuresData && <CategoryFeatureTabs features={featuresData || []} />}
-        {comparisonLegendData && (
-          <SiteComparisonSection
-            data={comparisonSectionData}
-            legendData={comparisonLegendData}
-            refer={refer}
-          />
-        )}
-        <StatisticsSection />
-        {logoSectionData && (
-          <LogoListingSection data={logoSectionData} refer={refer} />
-        )}
-        {faqSectionData?.faqData && (
-          <FaqSection faqItems={faqSectionData?.faqData || {}} />
-        )}
-      </div>
+      {region === 'en' && (
+        <Home
+          data={pageData1}
+          featuresData={featuresData}
+          comparisonLegendData={comparisonLegendData}
+          comparisonTableData={comparisonTableData}
+          comparisonSectionData={comparisonSectionData}
+        />
+      )}
+      {region === 'en-GB' && (
+        <HomeGB
+          featuresData={featuresData}
+          comparisonLegendData={comparisonLegendData}
+          data={pageData1}
+          pageData={pageData1}
+        />
+      )}
+   
+      {region === 'en-AU' && (
+        <HomeAU 
+          featuresData={featuresData}
+          comparisonLegendData={comparisonLegendData}
+          data={pageData1} pageData={pageData1} />  
+      )}
     </Track>
   )
 }

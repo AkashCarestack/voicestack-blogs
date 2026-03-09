@@ -1,18 +1,12 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
-import SimpleHead from '~/components/common/SimpleHead'
 
-import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
-import FaqSection from '~/components/revamp/components/common/faqSection'
+import SimpleHead from '~/components/common/SimpleHead'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import LeadershipList from '~/components/revamp/components/common/LeadershipList/leadershipList'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import Queries from '~/components/revamp/queries'
-import SiteComparisonSection from '~/components/SiteComparisonSection'
-import { getClient } from '~/lib/sanity.client'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import LeadershipList from '~/v2/sections/leadershipList'
 
 // Define proper TypeScript interfaces
 
@@ -26,13 +20,7 @@ export default function LeadershipTeamPage({
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <div
-        className="py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
+      {/* <HeroWrapper>
         {pageData['leadership-team-hero']?.componentData && (
           <HeroSection
             page=""
@@ -41,10 +29,13 @@ export default function LeadershipTeamPage({
             data={pageData['leadership-team-hero']?.componentData}
             />
         )} 
-            </div>
-        {pageData['leadership-team-list']?.componentData && (
-          <LeadershipList data={pageData['leadership-team-list']?.componentData} />
-        )}
+      </HeroWrapper> */}
+      {pageData['leadership-team-hero']?.componentData && (
+        <FeatureHero data={pageData['leadership-team-hero']} isCentered={true}/>
+      )}
+        {pageData['leadership-team-list']?.componentData?.refData?.testimonialListing && (         
+        <LeadershipList data={pageData['leadership-team-list']?.componentData?.refData?.testimonialListing} />
+      )}
 
     </>
   )

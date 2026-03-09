@@ -26,14 +26,14 @@ const LogoSliderSection = React.memo(({ data, refer = null }: { data: any, refer
         {/* First set of logos */}
         {memoizedLogos.map((logo: any, i) => (
           <div key={`first-${logo?._id}-${i}`} className="logo-slide">
-            <div className="flex justify-center items-center lg:px-8 px-4">
+            <div className="flex justify-center items-center lg:px-12 px-4">
               <Image
                 src={logo.url}
                 alt={logo.altText || 'organization Logo'}
                 title={logo.altText}
                 width={logo?.metadata?.dimensions?.width}
                 height={logo?.metadata?.dimensions?.height}
-                className={`lg:h-[48px] h-[36px] w-auto filter grayscale hover:filter-none transition-all duration-300`}
+                className={`lg:h-[42px] h-[36px] w-auto filter grayscale hover:filter-none transition-all duration-300`}
                 // priority={i < 4} // Prioritize first few images
               />
             </div>
@@ -42,14 +42,14 @@ const LogoSliderSection = React.memo(({ data, refer = null }: { data: any, refer
         {/* Second set of logos for seamless loop */}
         {memoizedLogos.map((logo: any, i) => (
           <div key={`second-${logo?._id}-${i}`} className="logo-slide">
-            <div className="flex justify-center items-center lg:px-8 px-4">
+            <div className="flex justify-center items-center lg:px-12 px-4">
               <Image
                 src={logo.url}
                 alt={logo.altText || 'organization Logo'}
                 title={logo.altText}
                 width={logo?.metadata?.dimensions?.width}
                 height={logo?.metadata?.dimensions?.height}
-                className={`lg:h-[48px] h-[36px] w-auto filter grayscale hover:filter-none transition-all duration-300`}
+                className={`lg:h-[42px] h-[36px] w-auto filter grayscale hover:filter-none transition-all duration-300`}
               />
             </div>
           </div>

@@ -1,14 +1,29 @@
 import Head from 'next/head'
+import { useRouter } from 'next/router';
 import Button from '~/components/common/Button'
 
 export default function LoginPage() {
+  
+  const router = useRouter();
+  const locale = router.locale;
+  const notEnGB= router.locale =="en-AU" || router.locale =="en"
+  const name= notEnGB ? "VoiceStack®" : "VoiceStack"
+  const  metadescptn= notEnGB ? "Login securely to your VoiceStack® account. Owners, managers, & team members can login to their VoiceStack® user account or reset their password.":"Login securely to your VoiceStack account. Owners, managers, & team members can login to their VoiceStack user account or reset their password."
+  const title= notEnGB ? "Login | VoiceStack® Login | VoiceStack® Secure Login":"Login | VoiceStack Login | VoiceStack Secure Login"
+  const loginUrl = locale === 'en' ? 'https://id.voicestack.com/Account/Login' : locale === 'en-AU' ? 'https://id.voicestack.au/Account/Login' : locale === 'en-GB' ? 'https://id.voicestack.co.uk/Account/Login' : 'https://id.voicestack.com/Account/Login';
   return (
     <>
       <Head>
-        <title>Login | VoiceStack® Login | VoiceStack® Practice Login</title>
-        <meta name="description" content="Login securely to your VoiceStack® account. Dentists, managers, &amp; team members can login to their VoiceStack® user account or reset their password." />
-        <meta name="keywords" content="login, voicestack login, voicestack log in, voicestack provider login" />
-        <meta name="author" content="VoiceStack®" />
+        <title>{title}</title>
+        <meta name="title" content={title} />
+        <meta name="description" content={metadescptn} />
+        <meta property="og:description" content={metadescptn} />
+        <meta name="keywords" content={title} />
+        <meta name="author" content={name} />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content={title}/>
+        <link rel="canonical" href="https://www.voicestack.com/login" />
+        <meta name="robots" content="index, follow, archive" />
         
       </Head>
       <div className="py-24 px-4">
@@ -26,7 +41,7 @@ export default function LoginPage() {
                 <Button
                   type="primary"
                   className="w-fit"
-                  link="https://id.voicestack.com/Account/Login"
+                  link={loginUrl}
                 >
                   <span>Log in to VoiceStack</span>
                 </Button>

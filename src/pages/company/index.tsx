@@ -2,16 +2,15 @@ import React from 'react'
 import { GetStaticProps } from 'next'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
-import AboutCompany from '~/components/revamp/components/common/AboutCompany'
-import MinimalCardList from '~/components/revamp/components/common/minimalCardList'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import Queries from '~/components/revamp/queries'
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
-import VoicestackLogo from 'public/assets/voicestack-logo.svg'
-import bg2 from 'public/background/upscalemedia-transformed-2.png'
-import bg3 from 'public/background/upscalemedia-transformed-3.png'
+import VoicestackLogo from 'public/assets/companyBG.png'
 import SimpleHead from '~/components/common/SimpleHead'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
+import GroupedCardsGrid from '~/v2/components/GroupedCardsGrid'
+
 
 
 
@@ -32,89 +31,51 @@ export default function CompanyPage({
   data,
   companyLandingData,
 }: CompanyPageProps) {
+  
   const items = pageData["our-impact"]?.componentData?.items;
 
 
   return (
     <>
       <SimpleHead data={pageData?.seo} />
-      <div
-        className="py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
-        {companyLandingData && (() => {
-          // Find the hero section - try common patterns
-          const heroKey = Object.keys(companyLandingData).find(
-            (key) => key.includes('hero') && companyLandingData[key]?.componentData
-          )
-          const heroData =  pageData["company-hero"]?.componentData 
-          
-          return heroData ? (
-            <HeroSection
-              page=""
-              showFullDescription={true}
-              data={heroData}
-            />
-          ) : null
-        })()}
-      </div>
+     
+      {pageData["company-hero"]?.componentData && (
+        <FeatureHero
+          data={pageData["company-hero"]?.componentData}
+        />
+      )}
       {/* <AboutCompany heading={heading} description={description} image={image} icon={icon} /> */}
-      <Section className="bg-white py-sm md:py-md">
-        <Container className="flex flex-col px-4">
-          <h2 className='text-2xl md:text-4xl font-manrope font-semibold leading-[120%] mb-2 text-gray-950'>Our Story</h2>
-      
-         {/* <Image 
+      <Section className="bg-white">
+        <Container type="V2" border ="t-0" className="flex flex-col px-6 md:px-12  py-sm md:py-md">
+         <Image
            src={VoicestackLogo} 
-           className='mt-8 md:mt-16' 
-           width={199} 
-           height={24} 
+           className='w-full h-full object-cover' 
+           width={1024} 
+           height={477} 
            alt="VoiceStack" 
            title="VoiceStack"
-         /> */}
+         />
+         <SectionHeaderV2 heading="Our Story"/>
           {pageData.description && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 py-6 md:py-8">
-              <div className="flex flex-col gap-4 md:gap-6 text-left">
+            <div className="max-w-[610px] md:pt-12 pt-4 md:pb-12 pb-6 mx-auto">
+          
+              <div className="flex flex-col gap-4 md:gap-6 text-center">
                 <PortableText 
                   value={Array.isArray(pageData.description) 
-                    ? pageData.description.slice(0, Math.ceil(pageData.description.length / 2))
-                    : pageData.description
-                  }
-                  components={{
-                    block: {
-                      normal: ({ children }) => (
-                        <p className="text-gray-700 text-base md:text-lg leading-[155.55%]">
-                          {children}
-                        </p>
-                      ),
-                    },
-                    marks: {
-                      strong: ({ children }) => (
-                        <strong className="font-semibold">{children}</strong>
-                      ),
-                    },
-                  }}
-                />
-              </div>
-              <div className="flex flex-col gap-4 md:gap-6 text-left">
-                <PortableText 
-                  value={Array.isArray(pageData.description) 
-                    ? pageData.description.slice(Math.ceil(pageData.description.length / 2))
+                    ? pageData.description
                     : []
                   }
                   components={{
                     block: {
                       normal: ({ children }) => (
-                        <p className="text-gray-700 text-base md:text-lg leading-[155.55%]">
+                        <p className="text-gray-500 text-base leading-[150%]">
                           {children}
                         </p>
                       ),
                     },
                     marks: {
                       strong: ({ children }) => (
-                        <strong className="font-semibold">{children}</strong>
+                        <strong className=" text-gray-950 font-medium leading-[155%] text-base md:text-lg">{children}</strong>
                       ),
                     },
                   }}
@@ -123,18 +84,28 @@ export default function CompanyPage({
             </div>
           )}
        
-          <div className='flex flex-col md:flex-row gap-4 md:gap-6 pt-8 md:pt-16'>
-            {data?.leaderShipTeam && (
-              <div className="flex-1">
-                <MinimalCardList data={data.leaderShipTeam} />
-              </div>
-            )}
-            {/* {data?.partners && (
-              <div className="flex-1">
-                <MinimalCardList data={data.partners} />
-              </div>
-            )} */}
-          </div>
+       <div className='border-x border-gray-200'>
+          {(region === 'en' || region === 'en-GB') && <GroupedCardsGrid 
+            customListingItems={[
+              {
+                heading: data?.leaderShipTeam?.title,
+                description: data?.leaderShipTeam?.description,
+                link: { url: data?.leaderShipTeam?.cta?.buttonLink },
+              },
+              // {
+              //   heading: data?.partners?.title,
+              //   description: data?.partners?.description,
+              //   link: { url: data?.partners?.cta?.buttonLink },
+              // },
+            ]} 
+            theme={'light'} 
+            simpleListingData={true}
+            columnCount={2}
+            showBorderBottom={true}
+          />
+          }
+
+       </div>
         </Container>
       </Section>
     </>
@@ -165,7 +136,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       leaderShipTeam: {
         title: 'Leadership Team',
         description:
-          'Meet the founders and leaders changing the dental software industry one practice at a time.',
+          'Meet the founders and leaders changing the healthcare software industry one practice at a time.',
         cta: {
           buttonText: 'Learn More',
           buttonLink: '/company/leadership-team',
@@ -189,7 +160,7 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         metaTitle: pageData?.metaTitle || null,
         metaDescription: pageData?.metaDescription || null,
         data: data,
-        companyLandingData: companyLandingData || null,
+        companyLandingData: JSON.parse(JSON.stringify(companyLandingData ?? null))
       },
     }
   } catch (error) {

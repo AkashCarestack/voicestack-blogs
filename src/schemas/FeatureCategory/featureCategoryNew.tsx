@@ -13,13 +13,14 @@ export default defineType({
       icon: 'icon',
       iconSvgCode: 'iconSvgCode',
       language: 'language',
+      featureOrder: 'featureOrder',
     },
     prepare(selection) {
-      const { title, subheading, icon, iconSvgCode, language } = selection
+      const { title, subheading, icon, iconSvgCode, language, featureOrder } = selection
 
       return {
         title: title || 'Untitled Category',
-        subtitle: subheading || 'No subheading',
+        subtitle: `${subheading || 'No subheading'}${featureOrder ? ` • Order: ${featureOrder}` : ''}`,
         media: language ? <img src={showCountryFlag(language)} /> : (icon || (iconSvgCode ? {
           _type: 'icon',
           icon: iconSvgCode
@@ -34,6 +35,13 @@ export default defineType({
       title: 'Category Name',
       type: 'string',
       validation: (Rule: any) => Rule.required(),
+    }),
+
+    defineField({
+      name: 'featureOrder',
+      title: 'Feature Order',
+      type: 'number',
+      description: 'Order for sorting feature categories',
     }),
 
     defineField({
@@ -96,5 +104,56 @@ export default defineType({
       initialValue: 'en',
     }),
 
+    defineField({
+      name: 'categorySecondaryImage',
+      title: 'Category Secondary Images',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {
+              name: 'image',
+              title: 'Image',
+              type: 'image',
+              options: {
+                hotspot: true,
+              },
+            },
+            {
+              name: 'name',
+              title: 'Name',
+              type: 'string',
+            },
+          ],
+        },
+      ],
+    }),
+
+  ],
+  orderings: [
+    {
+      title: 'Feature Order, Asc',
+      name: 'featureOrderAsc',
+      by: [{ field: 'featureOrder', direction: 'asc' }],
+    },
+    {
+      title: 'Feature Order, Desc',
+      name: 'featureOrderDesc',
+      by: [{ field: 'featureOrder', direction: 'desc' }],
+    },
+    {
+      title: 'Language, Feature Order Asc',
+      name: 'languageFeatureOrderAsc',
+      by: [
+        { field: 'language', direction: 'asc' },
+        { field: 'featureOrder', direction: 'asc' }
+      ],
+    },
+    {
+      title: 'Name, Asc',
+      name: 'nameAsc',
+      by: [{ field: 'name', direction: 'asc' }],
+    },
   ],
 })

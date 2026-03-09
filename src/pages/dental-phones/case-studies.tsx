@@ -1,23 +1,17 @@
-import React from 'react'
 import { GetStaticProps } from 'next'
-import { getClient } from '~/lib/sanity.client'
-import Queries from '~/components/revamp/queries'
-import ImageCardSection from '~/components/revamp/components/common/ImageCardSection'
-import SectionHeader from '~/components/revamp/components/common/sectionHeader'
-import Section from '~/components/structure/Section'
-import Button from '~/components/common/Button'
-import MasonryCardGridSection from '~/components/revamp/components/common/MasonryCardGridSection'
-import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import React from 'react'
+
 import SimpleHead from '~/components/common/SimpleHead'
-import Testimonials from '~/components/revamp/components/common/Testimonials/Testimonials'
-import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
-import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
-import LogoListingSection from '~/components/LogoListingSection'
 // import PracticeCards from '~/components/revamp/components/common/PracticeCards/practiceCards'
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
+import LogoListingSection from '~/components/LogoListingSection'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
+import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
+import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
+import Queries from '~/components/revamp/queries'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 
 export default function CustomerStories({ pageData }: any) {
   const data =
@@ -32,22 +26,11 @@ export default function CustomerStories({ pageData }: any) {
   return (
     data && (
       <>
-      <SimpleHead data={pageData?.seo} />
-       <div
-        className="py-12"
-        style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}
-      >
-        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        <HeroSection
-          page=""
-          data={pageData['dental-phones-hero']?.componentData}
-          isCentered={true}
-          showFullDescription={true}
-        />
-        </div>
+        <SimpleHead data={pageData?.seo} />
+        
+        {pageData['dental-phones-hero']?.componentData && (
+          <FeatureHero  data={pageData['dental-phones-hero']?.componentData} type="feature" isCentered={true} />
+        )}
 
 
         {pageData['testimonial-tabs']?.componentData && (
@@ -75,13 +58,25 @@ export default function CustomerStories({ pageData }: any) {
 export const getStaticProps: GetStaticProps = async ({ locale }) => {
   const region = locale || 'en'
 
+  // dental-phones pages support 'en-AU' and 'en-GB' locales
+  if (region !== 'en-AU' && region !== 'en-GB') {
+    return {
+      notFound: true,
+    }
+  }
+
   try {
     const queries = new Queries('dentalPhones', region)
-    const slug =
-      region === 'en'
-        ? 'case-studies'
-        : `case-studies-${region.toLowerCase()}`
+    // Convert region to slug format (en-AU -> en-au, en-GB -> en-gb)
+    const regionSlug = region.toLowerCase()
+    const slug = `case-studies-${regionSlug}`
     const pageData = await queries.getPageData('dentalPhones', slug)
+
+    if(!pageData){
+      return {
+        notFound: true
+      }
+    }
 
     return {
       props: {

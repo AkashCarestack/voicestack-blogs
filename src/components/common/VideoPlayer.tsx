@@ -12,11 +12,38 @@ export default function VideoPlayers({
   thumbnail: any
 }) {
 
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [showThumbnail, setShowThumbnail] = useState(true)
-
-  // Handle array case for video
   const videoData = Array.isArray(video) ? video[0] : video
+
+  // Priority 1: Check if uploadedVideo exists (uploaded file - play directly)
+  const hasUploadedVideo = !!videoData?.uploadedVideo
+
+  // Priority 2: Check if videoUrl exists (direct video URL - play directly)
+  // If videoUrl exists, always play it directly regardless of platform
+  const hasDirectVideoUrl = !!videoData?.videoUrl
+
+  // Priority 3: Check if video has a platform (youtube, vidyard, vimeo) with videoId - use embedded iframe
+  // Only use platform-based if no direct videoUrl or uploaded video exists
+  const hasVideoPlatform = !hasUploadedVideo && !hasDirectVideoUrl && 
+    videoData?.videoPlatform && 
+    videoData?.videoId && 
+    ['youtube', 'vidyard', 'vimeo'].includes(videoData.videoPlatform)
+
+  // Get uploaded video URL if available
+  const uploadedVideoUrl = hasUploadedVideo ? urlForVideo(videoData.uploadedVideo) : null
+
+  const [isPlaying, setIsPlaying] = useState(hasVideoPlatform || hasDirectVideoUrl || hasUploadedVideo)
+  const [showThumbnail, setShowThumbnail] = useState(!hasVideoPlatform && !hasDirectVideoUrl && !hasUploadedVideo)
+
+  // Auto-play when video changes
+  useEffect(() => {
+    if (hasVideoPlatform || hasDirectVideoUrl || hasUploadedVideo) {
+      setIsPlaying(true)
+      setShowThumbnail(false)
+    } else {
+      setIsPlaying(false)
+      setShowThumbnail(true)
+    }
+  }, [videoData?.videoPlatform, videoData?.videoId, videoData?.videoUrl, videoData?.uploadedVideo])
 
   const getVideoEmbedUrl = () => {
     if (!videoData) return null
@@ -24,11 +51,14 @@ export default function VideoPlayers({
 
     switch (videoPlatform) {
       case 'youtube':
-        return `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`
+        // Remove controls, enable autoplay, loop, mute, and minimal branding
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&rel=0&modestbranding=1&showinfo=0&iv_load_policy=3&playsinline=1`
       case 'vimeo':
-        return `https://player.vimeo.com/video/${videoId}?autoplay=1&title=0&byline=0&portrait=0`
+        // Remove controls, enable autoplay and loop
+        return `https://player.vimeo.com/video/${videoId}?autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0`
       case 'vidyard':
-        return `https://play.vidyard.com/${videoId}?autoplay=1`
+        // Enable autoplay and loop (Vidyard may have different parameters)
+        return `https://play.vidyard.com/${videoId}?autoplay=1&loop=1&muted=1`
       default:
         return null
     }
@@ -61,9 +91,7 @@ export default function VideoPlayers({
       script.innerHTML = JSON.stringify(jsonLd)
       document.head.appendChild(script)
       
-      if (process.env.NODE_ENV === 'development') {
-        console.log('Video JSON-LD added to head:', jsonLd)
-      }
+ 
       
       return () => {
         const scriptToRemove = document.getElementById(scriptId)
@@ -90,38 +118,48 @@ export default function VideoPlayers({
       className="relative w-full h-full group"
      
     >
-      {isPlaying ? (
-        <div className="relative w-full h-full cursor-pointer" onClick={handlePlay}>
-          <iframe
-            src={getVideoEmbedUrl()}
-            className="w-full h-full rounded-2xl"
-            frameBorder="0"
-            allow="autoplay; fullscreen; picture-in-picture"
-            allowFullScreen
+      {hasUploadedVideo && uploadedVideoUrl && (isPlaying || !thumbnail) ? (
+        // Uploaded video file playback (MP4, MOV, WebM from Sanity)
+        <video
+          src={uploadedVideoUrl}
+          muted
+          loop
+          playsInline
+          autoPlay
+          controls={false}
+          className="w-full h-full object-cover display-block"
+        />
+      ) : hasDirectVideoUrl && (isPlaying || !thumbnail) ? (
+        // Direct video URL playback (MP4, WebM, or any direct video URL)
+        <video
+          src={videoData.videoUrl}
+          muted
+          loop
+          playsInline
+          autoPlay
+          controls={false}
+          className="w-full h-full object-cover display-block"
+        />
+      ) : hasVideoPlatform ? (
+        // Platform-based embedded video (YouTube, Vimeo, Vidyard)
+        <iframe
+          src={getVideoEmbedUrl()}
+          className="w-full h-full rounded-2xl"
+          frameBorder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+        />
+      ) : thumbnail ? (
+        <div className="relative w-full h-full">
+          <img 
+            src={thumbnail}
+            alt=""
+            className="w-full h-full object-cover display-block"
           />
-          
         </div>
       ) : (
-        <>
-          {thumbnail ? (
-            <video
-              muted
-              loop
-              playsInline
-              autoPlay
-              className="w-full h-full object-cover"
-            >
-              <source
-                src={urlForVideo(thumbnail)}
-                // type="video/mp4"
-              />
-              Your browser does not support HTML5 video.
-            </video>
-          ) : (
-            // Fallback when no thumbnail
-            null
-          )}
-        </>
+        // Fallback when no thumbnail and no video
+        null
       )}
     </div>
     </>

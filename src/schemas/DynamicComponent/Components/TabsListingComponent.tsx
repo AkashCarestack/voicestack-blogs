@@ -1,3 +1,5 @@
+import { sectionHeadingDynamicSchema, ctaListItemSchema } from '~/schemas/Common/commonSchema'
+
 const TabsListingComponent = {
   name: 'tabsListingComponent',
   title: 'Tabs Listing Component',
@@ -9,8 +11,19 @@ const TabsListingComponent = {
         'Global Data (if not provided, data will be fetched from Selected global data)',
       type: 'reference',
       to: [{ type: 'globalData' }],
+      // options: {
+      //   filter: 'defined(_id)',
+      // },
       options: {
-        filter: 'defined(_id)',
+        filter: ({ document, parent }: any) => {
+          // Get the parent document's language by going up the tree
+          const currentLanguage = document?.language || 'en'
+          
+          return {
+            filter: 'language == $language',
+            params: { language: currentLanguage }
+          }
+        }
       },
     },
     {
@@ -29,6 +42,7 @@ const TabsListingComponent = {
       title: 'Heading',
       type: 'string',
     },
+    sectionHeadingDynamicSchema,
     {
       name: 'subheadline',
       title: 'Subheading',
@@ -49,6 +63,95 @@ const TabsListingComponent = {
       name:'cardImage',
       title: 'Card Image',
       type: 'image',
+    },
+    {
+      name: 'ctaListItems',
+      title: 'Call to Action List',
+      type: 'array',
+      of: [ctaListItemSchema],
+    },
+    {
+      name: 'overviewVideo',
+      title: 'Overview Video',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'videoDetails',
+          title: 'Video Details',
+          fields: [
+            {
+              name: 'videoPlatform',
+              title: 'Video Platform',
+              type: 'string',
+              description: 'vimeo, vidyard and youtube',
+              options: {
+                list: [
+                  { title: 'Vimeo', value: 'vimeo' },
+                  { title: 'Vidyard', value: 'vidyard' },
+                  { title: 'YouTube', value: 'youtube' },
+                ],
+                layout: 'dropdown',
+              },
+            },
+            {
+              name: 'videoId',
+              title: 'Video Id',
+              type: 'string',
+            },
+            {
+              name: 'videotitle',
+              title: 'Video Title',
+              type: 'string',
+            },
+            {
+              name: 'videoThumbnail',
+              title: 'Video Thumbnail',
+              type: 'file',
+            },
+            {
+              name: 'uploadVideos',
+              title: 'Upload Videos',
+              type: 'array',
+              of: [{
+                type: 'object',
+                name: 'uploadVideo',
+                title: 'Upload Video',
+                fields: [
+                  {
+                    name: 'type',
+                    title: 'File Type',
+                    type: 'string',
+                    options: {
+                      list: [
+                        { title: 'Mov', value: 'mov' }, 
+                        { title: 'Mp4', value: 'mp4' },
+                        { title: 'Webm', value: 'webm' },
+                      ],
+                    },
+                  },
+                  {
+                    name: 'url',
+                    title: 'URL',
+                    type: 'string',
+                  },
+                ],
+              }],
+            },
+          ],
+          preview: {
+            select: {
+              title: 'videotitle',
+            },
+            prepare(selection: any) {
+              const { title } = selection
+              return {
+                title: title || 'Untitled Video',
+              }
+            },
+          },
+        },
+      ],
     },
     {
       name: 'tabs',
@@ -74,9 +177,58 @@ const TabsListingComponent = {
               type: 'customBlockContent',
             },
             {
+              name: 'content',
+              title: 'Content',
+              type: 'customBlockContent',
+            },
+            {
               name: 'image',
               title: 'Image',
               type: 'image',
+            },
+            {
+              name: 'genericVideo',
+              title: 'Generic Video',
+              type: 'object',
+              options: {
+                collapsible: true,
+                collapsed: true,
+              },
+              fields: [
+                {
+                  name: 'videoId',
+                  title: 'Video ID',
+                  type: 'string',
+                  description: 'The ID of the video (e.g., YouTube video ID)',
+                },
+                {
+                  name: 'videoUrl',
+                  title: 'Video URL',
+                  type: 'url',
+                  description: 'The full URL of the video',
+                },
+                {
+                  name: 'videoPlatform',
+                  title: 'Video Platform',
+                  type: 'string',
+                  options: {
+                    list: [
+                      { title: 'YouTube', value: 'youtube' },
+                      { title: 'Vimeo', value: 'vimeo' },
+                      { title: 'Other', value: 'other' },
+                    ],
+                  },
+                },
+                {
+                  name: 'uploadedVideo',
+                  title: 'Upload Video',
+                  type: 'file',
+                  description: 'Upload a video file directly (MP4, MOV, WebM)',
+                  options: {
+                    accept: 'video/*',
+                  },
+                },
+              ],
             },
             {
               name: 'listItems',
@@ -119,33 +271,6 @@ const TabsListingComponent = {
               name: 'icon',
               title: 'Icon (SVG)',
               type: 'text',
-            },
-            {
-              name: 'ctaListItems',
-              title: 'Call to Action List',
-              type: 'array',
-              of: [
-                {
-                  type: 'object',
-                  fields: [
-                    {
-                      name: 'ctaText',
-                      title: 'CTA Text',
-                      type: 'string',
-                    },
-                    {
-                      name: 'ctaLink',
-                      title: 'CTA Link',
-                      type: 'string',
-                    },
-                    {
-                      name: 'ctaType',
-                      title: 'Button type',
-                      type: 'string',
-                    },
-                  ],
-                },
-              ],
             },
             {
               name: 'Link',

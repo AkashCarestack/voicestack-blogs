@@ -90,6 +90,11 @@ const GlobalData = {
                   type: 'blockContent',
                 },
                 {
+                  name: 'content',
+                  title: 'Content',
+                  type: 'blockContent',
+                },
+                {
                   name: 'image',
                   title: 'Image',
                   type: 'image',
@@ -406,15 +411,15 @@ const GlobalData = {
             {
               type: 'reference',
               to: [{ type: 'testimonialSection' }],
-              options: {
-                filter: ({ document }: any) => {
-                  const language = document?.language || 'en'
-                  return {
-                    filter: 'language == $language',
-                    params: { language }
-                  }
-                }
-              },
+              // options: {
+              //   filter: ({ document }: any) => {
+              //     const language = document?.language || 'en'
+              //     return {
+              //       filter: 'language == $language',
+              //       params: { language }
+              //     }
+              //   }
+              // },
             },
           ],
         },

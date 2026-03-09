@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { motion } from 'framer-motion'
 import { PortableText } from '@portabletext/react'
 import Button from '../common/Button'
@@ -16,8 +17,17 @@ import H3 from '../typography/H3'
 
 interface Feature {
   _id: string
-  title: string
-  slug: {
+  basicInfo?: {
+    title: string
+    slug?: {
+      current: string
+    }
+    description?: string
+    icon?: any
+  }
+  // Legacy support for old data structure
+  title?: string
+  slug?: {
     current: string
   }
   language: string
@@ -85,6 +95,7 @@ export default function CategoryFeatureTabs({
   features,
   sectionHeading,
 }: CategoryFeatureTabsProps) {
+  const router = useRouter()
   const [activeCategory, setActiveCategory] = useState<string>('')
   const [isUserScrolling, setIsUserScrolling] = useState(false)
 
@@ -137,7 +148,7 @@ export default function CategoryFeatureTabs({
       {} as Record<string, { category: any; features: Feature[] }>,
     )
 
-    return Object.keys(featuresByCategory).map((categoryName) => {
+    const categories = Object.keys(featuresByCategory).map((categoryName) => {
       const categoryData = featuresByCategory[categoryName]
       return {
         name: categoryName,
@@ -146,8 +157,22 @@ export default function CategoryFeatureTabs({
         mainImage: categoryData.category.mainImage,
         icon: categoryData.category.icon,
         iconSvgCode: categoryData.category.iconSvgCode,
+        featureOrder: categoryData.category.featureOrder,
         features: categoryData.features,
       }
+    })
+
+    // Sort categories by featureOrder (ascending), then by name if featureOrder is not set
+    return categories.sort((a, b) => {
+      const orderA = a.featureOrder ?? 9999 // Put items without order at the end
+      const orderB = b.featureOrder ?? 9999
+
+      if (orderA !== orderB) {
+        return orderA - orderB
+      }
+
+      // If featureOrder is the same or both are null, sort by name
+      return a.name.localeCompare(b.name)
     })
   }, [features, page])
 
@@ -429,7 +454,11 @@ export default function CategoryFeatureTabs({
       >
         <Container className="flex flex-col items-center gap-16">
           <SectionHeader
-            heading="Feature-Packed to Improve <br/>Every Front Office Workflow"
+            heading={
+              router.locale === 'en-GB'
+                ? 'Feature-Packed to Improve <br/>Every Practice Workflow'
+                : 'Feature-Packed to Improve <br/>Every Front Office Workflow'
+            }
             description="Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice."
           />
         </Container>
@@ -447,7 +476,9 @@ export default function CategoryFeatureTabs({
           heading={
             sectionHeading?.headline
               ? sectionHeading?.headline
-              : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+              : router.locale === 'en-GB'
+                ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
           }
           description={
             sectionHeading?.subheadline
@@ -478,11 +509,10 @@ export default function CategoryFeatureTabs({
                         aria-selected={isActive}
                         aria-controls={`desktop-category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                         id={`desktop-tab-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                        className={`w-full flex items-center self-stretch transition-all duration-300 ${
-                          isActive
+                        className={`w-full flex items-center self-stretch transition-all duration-300 ${isActive
                             ? '  bg-white rounded-full'
                             : ' rounded-full bg-transparent hover:bg-[#F3F4F6]'
-                        }`}
+                          }`}
                         style={{
                           gap: '16px',
                           padding:
@@ -500,9 +530,8 @@ export default function CategoryFeatureTabs({
                             </div>
                           )}
                         <span
-                          className={`text-lg font-normal transition-colors duration-300 font-geist leading-7 tracking-normal ${
-                            isActive ? 'text-black' : 'text-gray-500'
-                          }`}
+                          className={`text-lg font-normal transition-colors duration-300 font-geist leading-7 tracking-normal ${isActive ? 'text-black' : 'text-gray-500'
+                            }`}
                         >
                           {category.name}
                         </span>
@@ -612,7 +641,7 @@ export default function CategoryFeatureTabs({
                                   block: {
                                     normal: ({ children }: any) => (
                                       <p className="text-[#5F6368] font-geist text-lg font-medium leading-[28px] tracking-normal mb-4">
-                                        {children}
+                                        &ldquo;{children}&rdquo;
                                       </p>
                                     ),
                                   },
@@ -620,7 +649,7 @@ export default function CategoryFeatureTabs({
                               />
                             ) : (
                               <p className="text-[#5F6368] font-geist text-lg font-medium leading-[28px] tracking-normal">
-                                {testimonial.keyNoteStatement}
+                                &ldquo;{testimonial.keyNoteStatement}&rdquo;
                               </p>
                             )}
                           </div>
@@ -721,12 +750,12 @@ export default function CategoryFeatureTabs({
                         </div>
 
                         <div className="w-full inline-flex lg:w-1/2">
-                          {category.mainImage && (
+                          {category?.mainImage && (
                             <figure className="relative">
                               <Image
-                                src={category.mainImage.asset.url}
+                                src={category?.mainImage?.asset?.url}
                                 alt={`${category.name} feature illustration`}
-                                title={`${category.name || category.mainImage.asset.title}`}
+                                title={`${category.name || category?.mainImage?.asset?.title}`}
                                 width={800}
                                 height={400}
                                 className="rounded-lg object-cover w-full h-full"
@@ -790,7 +819,7 @@ export default function CategoryFeatureTabs({
                                 </svg>
                               </div>
                               <span className="text-gray-950 font-geist text-base font-normal leading-6 tracking-normal transition-colors">
-                                {feature.title}
+                                {feature.basicInfo?.title || feature.title}
                               </span>
                             </motion.li>
                           )
@@ -855,11 +884,10 @@ export default function CategoryFeatureTabs({
                           aria-selected={isActive}
                           aria-controls={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
                           id={`tab-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
-                          className={`flex-shrink-0 p-3 rounded-full transition-all duration-300 ${
-                            isActive
+                          className={`flex-shrink-0 p-3 rounded-full transition-all duration-300 ${isActive
                               ? 'text-gray-900 shadow-sm'
                               : 'bg-white text-gray-700 border border-gray-200 hover:bg-[#F3F4F6]'
-                          }`}
+                            }`}
                           style={{
                             backgroundColor: isActive
                               ? 'rgba(21, 45, 24, 0.05)'
@@ -1079,8 +1107,8 @@ export default function CategoryFeatureTabs({
                             {displayCategory?.mainImage && (
                               <figure className="relative w-full h-full overflow-hidden">
                                 <Image
-                                  src={displayCategory.mainImage.asset.url}
-                                  alt={`${displayCategory.name} feature illustration`}
+                                  src={displayCategory?.mainImage?.asset?.url}
+                                  alt={`${displayCategory?.name} feature illustration`}
                                   width={400}
                                   height={400}
                                   className="md:max-w-[430px]   w-full h-full object-cover"
@@ -1141,7 +1169,7 @@ export default function CategoryFeatureTabs({
                                         </svg>
                                       </div>
                                       <span className="text-gray-700 font-medium">
-                                        {feature.title}
+                                        {feature.basicInfo?.title || feature.title}
                                       </span>
                                     </motion.li>
                                   )

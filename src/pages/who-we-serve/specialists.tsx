@@ -1,18 +1,24 @@
 import { GetStaticProps } from 'next'
 import React from 'react'
-import SimpleHead from '~/components/common/SimpleHead'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 
+import SimpleHead from '~/components/common/SimpleHead'
+import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
 import StackCardTestimonial from '~/components/revamp/components/common/stackCardTestimonial/stackCardTestimonial'
 import SingleCardWithList from '~/components/revamp/components/common/TabListing/singleCardWithList'
-import SingleTabCardListing from '~/components/revamp/components/common/TabListing/singleTabCardListing'
 import TabCardsListing from '~/components/revamp/components/common/TabListing/tabCardsListing'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
-import StatisticsSection from '~/components/revamp/components/StatisticsSection'
+import StatisticsSection from '~/v2/sections/StatisticsSection'
 import Queries from '~/components/revamp/queries'
+import SwitchableTabsV2 from '~/v2/sections/SwitchableTabsV2'
+import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 
 interface SpecialityPracticesProps {
   pageData: any
@@ -23,34 +29,69 @@ export default function SpecialityPractices({
   pageData,
   faq,
 }: SpecialityPracticesProps) {
-  const tabsListingComponentData = pageData?.['smarter-system']?.componentData?.refData?.tabsListingComponent;
-  return (
+  return pageData?.slug?.includes('v2') ? 
+  <>
+     <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+      {pageData['specialists-hero']?.componentData && (
+        <FeatureHero data={pageData['specialists-hero']} type="feature" />
+      )}
+      {pageData['logos-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logos-listing']?.componentData.blocksListingData}
+        />
+      )}
+       <CategoryFeatureTabsSection
+          features={pageData['single-item']?.componentData}
+          variant="singlecard"
+          sectionHeading={pageData['single-item']?.componentData}
+        />
+      {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
+        <VerticalTestimonialListingv2
+          data={
+            pageData['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
+        />
+      )}
+      <StatisticsSection />
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+        />
+      )}
+       <CategoryFeatureTabsSection
+        features={
+          pageData['manage-every-calls']?.componentData?.refData
+            ?.tabsListingComponent
+        }
+        variant="scrollcarousel"
+        sectionHeading={
+          pageData['manage-every-calls']?.componentData
+        }
+      />
+  </>
+  :(
     <>
-      <div
-         className="bg-gradient-to-r from-[#CAC5FF] via-[#F2F1FA] to-[#F0EFFA] py-12"
-         style={{
-           background: 'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)'
-          }}
-       >
-          <SimpleHead data={pageData?.seo} />
-          <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-          {pageData['dental-phones-hero']?.componentData && (
-            <HeroSection
-              page=""
-              data={pageData['dental-phones-hero']?.componentData}
-            />
-          )}
-       </div>
+      <SimpleHead data={pageData?.seo} />
+
+      <HeroWrapper>
+        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
+
+        {pageData?.['dental-phones-hero']?.componentData && (
+          <HeroSection
+            page=""
+            data={pageData['dental-phones-hero']?.componentData}
+          />
+        )}
+      </HeroWrapper>
+      
       {pageData?.['effortlessly-handle-calls']?.componentData && (
         <SingleCardWithList
           data={pageData?.['effortlessly-handle-calls']?.componentData}
         />
       )}
-      {/* {tabsListingComponentData && (
-        <SingleTabCardListing
-          data={tabsListingComponentData}
-        />
-      )} */}
       {pageData['testimonial-video-section']?.componentData && (
         <VerticalTestimonialListing
           data={
@@ -108,12 +149,17 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
 
     const slug =
       region === 'en'
-        ? 'specialists'
-        : `specialists-${region.toLowerCase()}`
+        ? 'specialists-v2'
+        : `specialists-v2-${region.toLowerCase()}`
     const pageData = await queries.getPageData('whoWeServe', slug)
+    
     if (!pageData) {
       console.error(`pageData not found for ${slug}`)
+      return {
+        notFound: true
+      }
     }
+    pageData.slug = slug
 
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null

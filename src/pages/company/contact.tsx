@@ -5,15 +5,60 @@ import SimpleHead from '~/components/common/SimpleHead'
 import MailIcon from '~/components/icons/MailIcon'
 import PhoneIcon from '~/components/icons/PhoneIcon'
 import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
+import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import SectionHeader from '~/components/revamp/components/common/sectionHeader'
 import Queries from '~/components/revamp/queries'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
+import { formatPhoneNumberWithCountryCode } from '~/components/utils/helper'
 import { useLayoutData } from '~/providers/LayoutDataProvider'
+import FeatureHero from '~/v2/sections/FeatureHero'
+import { useRouter } from 'next/router'
 
 
 export default function ContactPage({ pageData }) {
   const { contactData } = useLayoutData()
+  const router = useRouter()
+  // Get base hero data
+  const baseHeroData = pageData['contact-hero']?.componentData || null
+  
+  // Extract contact information
+  const contactEmail = contactData?.contactEmail || contactData?.supportEmail || 'support@voicestack.com'
+  const contactPhone = contactData?.phoneNumber || contactData?.supportPhoneNumber || ''
+  
+  // Create button data for email and phone
+  const contactButtons = []
+  
+  if (contactEmail) {
+    contactButtons.push({
+      _key: 'contact-email-btn',
+      buttonText: contactEmail,
+      buttonLink: `mailto:${contactEmail}`,
+      buttonType: 'secondaryMail',
+    })
+  }
+  
+  if (contactPhone) {
+    const formattedPhone = formatPhoneNumberWithCountryCode(contactPhone, router.locale)
+    contactButtons.push({
+      _key: 'contact-phone-btn',
+      buttonText: contactPhone,
+      buttonLink: `tel:${formattedPhone}`,
+      buttonType: 'secondaryTel',
+    })
+  }
+  
+  // Merge heroData with button data, email, and phone
+  const heroData = baseHeroData ? {
+    ...baseHeroData,
+    bookBtnContent: [
+      ...(baseHeroData.bookBtnContent || []),
+      ...contactButtons,
+    ],
+    contactEmail,
+    contactPhone,
+  } : null
+  
   return (
     <>
       {/* <div
@@ -51,25 +96,18 @@ export default function ContactPage({ pageData }) {
         </Section>
       </div> */}
       <SimpleHead data={pageData?.seo} />
-      <div style={{
-          background:
-            'linear-gradient(270deg, #CAC5FF 0%, #F2F1FA 51.44%, #F0EFFA 100%)',
-        }}>
-        {/* <Breadcrumb breadCrumb={breadCrumb} /> */}
-        <div
-          className="py-12"
-        >
-          {pageData['contact-hero']?.componentData && (
-            <HeroSection
-              page="contact"
-              isCentered={true}
-              data={pageData['contact-hero']?.componentData}
-              showFullDescription={true}
-              contactData={contactData}
-            />
-          )}
-        </div>
-      </div>
+      {heroData && <FeatureHero data={heroData} type="feature" isCentered={true} />}
+      {/* <HeroWrapper>
+        {pageData['contact-hero']?.componentData && (
+          <HeroSection
+            page="contact"
+            isCentered={true}
+            data={pageData['contact-hero']?.componentData}
+            showFullDescription={true}
+            contactData={contactData}
+          />
+        )}
+      </HeroWrapper> */}
     </>
   )
 }

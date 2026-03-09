@@ -1,18 +1,14 @@
-// system-requirements/index.tsx
 import { GetStaticProps } from 'next'
 import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
-import Header from '~/components/common/Header'
 import type { SanityClient } from 'next-sanity'
 import {getMiscellaneousData, getFooterData, getBannerData, getHeaderData } from '~/lib/sanity.queries'
 import { getHeroSectionData } from '~/lib/sanity.queries'
 import { useContext, useEffect } from 'react'
 import { BookDemoContext } from '~/providers/BookDemoProvider'
-import Footer from '~/components/common/Footer'
-import BannerSection from '~/components/BannerSection'
 import ContentSection from '~/components/ContentSection'
 import Head from 'next/head'
-import { notFound } from 'next/navigation'
+import { useRouter } from 'next/router'
 
 interface PageProps {
   homeSettings: any;
@@ -72,13 +68,24 @@ export default function SystemRequirements({ homeSettings, heroData, bannerData,
     setIsDemoPopUpShown(heroData);
   }, [heroData])
 
+  const router = useRouter();
+  const notEnGB= router.locale =="en-AU" || router.locale =="en"
+  const  title= notEnGB ? "System Requirements | Requirements For Using VoiceStack®":"System Requirements | Requirements For Using VoiceStack"
+  const description = notEnGB ? "View the system requirements for running VoiceStack® at your dental practice. Ensure your hardware & network meet the specs for optimal performance.":"View the system requirements for running VoiceStack at your dental practice. Ensure your hardware & network meet the specs for optimal performance."
  
 
   return (
     <>
     <Head>
-      <title>System Requirements | Requirements For Using VoiceStack®</title>
-      <meta name="description"  content="View the system requirements for running VoiceStack® at your dental practice. Ensure your hardware & network meet the specs for optimal performance."></meta>
+      <title>{title}</title>
+      <meta name="title" content={title}/>
+      <meta property="og:title" content={title}/>
+      <link rel="canonical" href="https://www.voicestack.com/system-requirements" />
+      <meta name="robots" content="index, follow, archive" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://www.voicestack.com/system-requirements" />
+      <meta name="description"  content={description}></meta>
+      <meta property="og:description" content={description}></meta>
       <meta name="keywords" content="voicestack system requirements, hardware requirements, internet requirements" />
       <meta name="canonical" content="https://voicestack.com/system-requirements" />
     </Head>
