@@ -54,7 +54,8 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
 }) => {
   const router = useRouter()
   const locale = router.locale || 'en'
-  
+  const isIntegrationsPage = (router.asPath ?? '').endsWith('/integrations')
+
   // Default CTA items for the section - use dental-phones for en-AU, phone-system for others
   const defaultCtaListItems = React.useMemo(() => [
     {
@@ -68,6 +69,17 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
       ctaType: 'primary',
     },
   ], [locale])
+
+  // On the integrations page, hide "See All Integrations" button
+  const ctaListItems = React.useMemo(() => {
+    if (demoOnly) {
+      return [{ ctaText: 'Book Free Demo', ctaLink: '/demo', ctaType: 'primary' as const }]
+    }
+    if (isIntegrationsPage) {
+      return defaultCtaListItems.filter((cta) => cta.ctaText !== 'See All Integrations')
+    }
+    return defaultCtaListItems
+  }, [demoOnly, isIntegrationsPage, defaultCtaListItems])
   
   // Use CTA items from data or fall back to defaults
 
@@ -175,11 +187,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
             heading={data?.heading || heading}
             description={data?.description || description || 'VoiceStack seamlessly integrates with leading PMS, CRM, and analytics platforms, giving you effortless visibility across your operations.'}
             isWhite={true}
-            ctaListItems={demoOnly ? [{
-              ctaText: 'Book Free Demo',
-              ctaLink: '/demo',
-              ctaType: 'primary',
-            }] : defaultCtaListItems}
+            ctaListItems={ctaListItems}
             className="md:px-6 xl:px-12 px-4"
           />
 
