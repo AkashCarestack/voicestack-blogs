@@ -130,6 +130,18 @@ const config = {
         permanent: false,
       },
       {
+        source: '/en-GB/dental-phones/features/ai-receptionist',
+        destination: '/en-GB/dental-phones/features',
+        permanent: false,
+        locale: false,
+      },
+      {
+        source: '/en-GB/dental-phones/features/two-way-texting',
+        destination: '/en-GB/dental-phones/features',
+        permanent: false,
+        locale: false,
+      },
+      {
         source: '/',
         has: [
           { type: 'query', key: 's' }
