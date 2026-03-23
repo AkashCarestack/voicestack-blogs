@@ -42,7 +42,7 @@ export default function EmpowerEMR({ pageData, faq }: EmpowerEMRProps) {
       )} */}
 
       {pageData['review-testimonial']?.componentData && (
-        <ReviewTestimonial data={pageData['review-testimonial']?.componentData} buttonDemo={true}/>
+        <ReviewTestimonial data={pageData['review-testimonial']?.componentData} buttonDemo={true} hidePracticeName/>
       )}
 
       
