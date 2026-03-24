@@ -29,7 +29,8 @@ const GEO_PATH = '/api/geo';
 const REGIONS = [
   {
     flag: {
-      url: 'https://cdn.sanity.io/images/76tr0pyh/production/ae5158a9a8fd8ce578ee8df1ba1ffa1bcee41b84-24x24.svg',
+      // url: 'https://cdn.sanity.io/images/76tr0pyh/production/ae5158a9a8fd8ce578ee8df1ba1ffa1bcee41b84-24x24.svg',
+      url: 'https://cdn.sanity.io/images/76tr0pyh/develop/daab439c6790bcea631b120f536ad55fa234b9fa-24x24.svg',
       title: 'US',
     },
     url: './',
@@ -39,7 +40,8 @@ const REGIONS = [
   },
   {
     flag: {
-      url: 'https://cdn.sanity.io/images/76tr0pyh/production/a6e6286f1884de71a5c0f801fce92438c8e30aca-24x24.svg',
+      // url: 'https://cdn.sanity.io/images/76tr0pyh/production/a6e6286f1884de71a5c0f801fce92438c8e30aca-24x24.svg',
+      url: 'https://cdn.sanity.io/images/76tr0pyh/develop/c60e6fa4c2234b740e0cc9670857d94ff848c39b-24x24.svg',
       title: 'UK',
     },
     url: './en-GB',
@@ -49,7 +51,8 @@ const REGIONS = [
   },
   {
     flag: {
-      url: 'https://cdn.sanity.io/images/76tr0pyh/production/2aeef6cefdae34058558224d10484ea63763ef77-24x24.svg',
+      // url: 'https://cdn.sanity.io/images/76tr0pyh/production/2aeef6cefdae34058558224d10484ea63763ef77-24x24.svg',
+      url: 'https://cdn.sanity.io/images/76tr0pyh/develop/fcd2834be58498572ecd26e34966a4a7561d45fb-24x24.svg',
       title: 'AU',
     },
     url: './en-AU',
