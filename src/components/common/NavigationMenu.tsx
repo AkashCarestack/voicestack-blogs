@@ -123,43 +123,45 @@ const NavigationMenu = ({
 
                 {/* Right Side: Special Menu */}
                 {link.specialMenu && link.specialMenu.length > 0 && (
-                  <div className="flex border-l border-gray-200 min-w-[256px] p-2">
-                    <div className="flex flex-col gap-4 rounded-[10px] bg-[linear-gradient(180deg,_#EACCFF_0.03%,_#FFECFA_62.74%)] w-full">
+                  <div className="flex border-l border-gray-200 p-2">
+                    <div className="flex gap-4 w-full">
                       {link.specialMenu.map((specialItem: any, specialIndex: number) => {
                         // const imageUrl = urlForImage(specialItem.image);
                         const imageUrl = specialItem.image?.asset?.url;
                         return (
-                          <Anchor
-                            key={`special-${i}-${specialIndex}`}
-                            href={specialItem.link}
-                            target={specialItem.link?.includes('http') ? '_blank' : '_self'}
-                            className="h-full flex flex-col gap-2 group/item hover:opacity-90 transition-opacity justify-between"
-                            onClick={onCloseMenu}
-                          >
-                           
-                            <div className="flex flex-col gap-1 p-[18px]">
-                              <div className="font-medium text-base text-gray-950 group-hover/item:text-gray-900">
-                                {specialItem.heading}
-                              </div>
-                              {specialItem.description && (
-                                <p className="text-sm text-gray-950 leading-[1.42]">{specialItem.description}</p>
-                              )}
-                              <span className="text-sm text-gray-950 hover:text-gray-900 underline decoration-dotted">Learn More</span>
-                            </div>
+                          <div key={`special-${i}-${specialIndex}`} className="rounded-[10px] bg-[linear-gradient(180deg,_#EACCFF_0.03%,_#FFECFA_62.74%)]">
+                            <Anchor
                             
-                            {imageUrl && (
-                              <div className="w-full relative rounded overflow-hidden">
-                                <Image
-                                  src={imageUrl}
-                                  alt={specialItem.heading || ''}
-                                  // fill
-                                  width={250}
-                                  height={250}
-                                  className="object-cover"
-                                />
+                              href={specialItem.link}
+                              target={specialItem.link?.includes('http') ? '_blank' : '_self'}
+                              className="min-w-[256px] h-full flex flex-col gap-2 group/item hover:opacity-90 transition-opacity justify-between"
+                              onClick={onCloseMenu}
+                            >
+                            
+                              <div className="flex flex-col gap-1 p-[18px]">
+                                <div className="font-medium text-base text-gray-950 group-hover/item:text-gray-900">
+                                  {specialItem.heading}
+                                </div>
+                                {specialItem.description && (
+                                  <p className="text-sm text-gray-950 leading-[1.42]">{specialItem.description}</p>
+                                )}
+                                <span className="text-sm text-gray-950 hover:text-gray-900 underline decoration-dotted">Learn More</span>
                               </div>
-                            )}
-                          </Anchor>
+                              
+                              {imageUrl && (
+                                <div className="w-full relative rounded overflow-hidden">
+                                  <Image
+                                    src={imageUrl}
+                                    alt={specialItem.heading || ''}
+                                    // fill
+                                    width={250}
+                                    height={250}
+                                    className="object-cover"
+                                  />
+                                </div>
+                              )}
+                            </Anchor>
+                          </div>
                         );
                       })}
                     </div>
