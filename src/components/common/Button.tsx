@@ -64,6 +64,8 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     const pathname = router.pathname
     return pathname == '/pricing'
   }, [router.pathname])
+
+  const isDemoPage = useMemo(() => router.pathname === '/demo', [router.pathname])
   
   // Extract text from children to check for "get pricing"
   const buttonText = useMemo(() => {
@@ -137,6 +139,11 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     // If it's a "book free demo" button, check available practice types
     if (isBookFreeDemoButton) {
       e.preventDefault()
+
+      // Already on demo: header CTA should not reopen modal or change URL
+      // if (isDemoPage) {
+      //   return
+      // }
       
       // Check for referrer query param and override demo forms
       const referrer = router.query.referrer as string | undefined

@@ -16,6 +16,7 @@ import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSecti
 
 import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
+import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 
 interface Feature {
   _id: string
@@ -80,12 +81,13 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
       )} */}
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing ? (
-          <VerticalTestimonialListingv2
-            data={
-              pageData['testimonial-video-section']?.componentData?.refData
-                ?.testimonialListing
-            }
-          />
+          // <VerticalTestimonialListingv2
+          //   data={
+          //     pageData['testimonial-video-section']?.componentData?.refData
+          //       ?.testimonialListing
+          //   }
+          // />
+          <></>
         ):
         (
           <VerticalTestimonialListingv2
@@ -104,17 +106,33 @@ export default function Optometry({ pageData, faq, features }: OptometryProps) {
           data={pageData['card-with-image2']?.genericListingComponent}
         />
       )} */}
-        {pageData['card-with-image3'] && (
+      {pageData['card-with-image3'] && (
         <GroupedCardsGridSection
           data={pageData['card-with-image3']?.genericListingComponent}
         />
       )}
-       {pageData['feature-testimonials-section']?.componentData && (
-              <FeatureTestimonialsSection
-                data={pageData['feature-testimonials-section']?.componentData}
-              />
-            )}
+
+      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+        <StackCardTestimonial
+          data={
+            pageData['stack-card-tab-testimonial']?.componentData?.refData
+              ?.tabsListingComponent
+          }
+        />
+      ) : (
+        <StackCardTestimonial
+          data={pageData['stack-card-tab-testimonial']?.componentData}
+        />
+      )}
+
+      {/* {pageData['feature-testimonials-section']?.componentData && (
+        <FeatureTestimonialsSection
+          data={pageData['feature-testimonials-section']?.componentData}
+        />
+      )} */}
+
       <StatisticsSection />
+
       {pageData['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={pageData['integrations-listing']?.componentData}

@@ -180,13 +180,13 @@ function App({
             src="https://cdn-cookieyes.com/client_data/892b60d226bd40003a3303d6/script.js">
           </Script>
         )}    
+       
 
-        {/* Meta Pixel Code */}
-        <Script id='meta-pixel-code'
-          strategy="afterInteractive"
+        {/* <!-- Meta Pixel Code --> */}
+        <Script
+          id="meta-pixel-code"
           dangerouslySetInnerHTML={{
-            __html: `
-              !function(f,b,e,v,n,t,s)
+            __html: `!function(f,b,e,v,n,t,s)
               {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
               n.callMethod.apply(n,arguments):n.queue.push(arguments)};
               if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
@@ -194,22 +194,18 @@ function App({
               t.src=v;s=b.getElementsByTagName(e)[0];
               s.parentNode.insertBefore(t,s)}(window, document,'script',
               'https://connect.facebook.net/en_US/fbevents.js');
-              fbq('init', '474197578586490');
-              fbq('track', 'PageView');
-            `,
+              fbq('init', '2084124085767237');
+              fbq('track', 'PageView');`
           }}
-        />
+        >
+        </Script>
 
-        {/* Fallback for users with disabled JavaScript */}
         <noscript>
-          <img
-            height="1"
-            width="1"
-            style={{ display: 'none' }}
-            src="https://www.facebook.com/tr?id=474197578586490&ev=PageView&noscript=1"
-            alt="facebook pixel"
+          <img height="1" width="1" style={{display: 'none'}}
+            src="https://www.facebook.com/tr?id=2084124085767237&ev=PageView&noscript=1"
           />
         </noscript>
+        {/* <!-- End Meta Pixel Code --> */}
 
         {/* LinkedIn Insight Tag */}
         <Script id="linkedin-insight-partner-id" strategy="afterInteractive">

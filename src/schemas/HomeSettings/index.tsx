@@ -69,6 +69,14 @@ export default defineType({
       type: 'string',
       group: 'form',
     }),
+
+    defineField({
+      name: 'demoMeetingLink2',
+      title: 'Demo Meeting Link 2',
+      type: 'string',
+      group: 'form',
+      description: 'Currently used for DSOs with more than 15 locations.',
+    }),
     
     defineField({
       name: 'dmeoFormEventName',
@@ -113,6 +121,12 @@ export default defineType({
               title: 'Demo Meeting Link',
               type: 'string',
               // validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'demoMeetingLink2',
+              title: 'Demo Meeting Link 2',
+              type: 'string',
+              description: 'Currently used for DSOs with more than 15 locations.',
             },
           ],
           preview: {
@@ -169,6 +183,12 @@ export default defineType({
               type: 'string',
               // validation: (Rule: any) => Rule.required(),
             },
+            {
+              name: 'demoMeetingLink2',
+              title: 'Demo Meeting Link 2',
+              type: 'string',
+              description: 'Currently used for DSOs with more than 15 locations.',
+            },
           ],
           preview: {
             select: {
@@ -223,6 +243,12 @@ export default defineType({
               title: 'Demo Meeting Link',
               type: 'string',
               // validation: (Rule: any) => Rule.required(),
+            },
+            {
+              name: 'demoMeetingLink2',
+              title: 'Demo Meeting Link 2',
+              type: 'string',
+              description: 'Currently used for DSOs with more than 15 locations.',
             },
             {
               name: 'referralName',

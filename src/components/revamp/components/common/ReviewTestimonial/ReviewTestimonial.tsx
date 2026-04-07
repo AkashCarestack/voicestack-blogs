@@ -14,9 +14,10 @@ import { videoJsonLd } from '~/lib/jsonLd'
 interface ReviewTestimonialProps {
   data: any
   buttonDemo?: boolean
+  hidePracticeName?: boolean
 }
 
-export default function ReviewTestimonial({ data, buttonDemo = false }: ReviewTestimonialProps) {
+export default function ReviewTestimonial({ data, buttonDemo = false, hidePracticeName = false }: ReviewTestimonialProps) {
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
@@ -205,7 +206,7 @@ export default function ReviewTestimonial({ data, buttonDemo = false }: ReviewTe
                                 {testimonial?.name}
                               </p>
                               <p className="text-sm md:text-base text-gray-600">
-                                {testimonial?.designation} , {testimonial?.practiceName}
+                                {testimonial?.designation} {hidePracticeName ? '' : testimonial?.practiceName ? `, ${testimonial?.practiceName}` : ''}
                               </p>
                             </div>
                           </div>

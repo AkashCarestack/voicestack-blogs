@@ -110,7 +110,7 @@ export default function PartnerSlugPage({
         />
       )}
 
-      {pageData['testimonial-video-section']?.componentData?.refData
+      {/* {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
         <VerticalTestimonialListing
           data={
@@ -119,7 +119,7 @@ export default function PartnerSlugPage({
           }
           hideLogo={true}
         />
-      )}
+      )} */}
 
       <StatisticsSection {...(slug === 'vetcelerator' && { category: 'Veterinarians' })} />
     </>
