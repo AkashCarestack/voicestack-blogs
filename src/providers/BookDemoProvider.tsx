@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 interface DemoFormData {
   demoFormId?: string
   demoMeetingLink?: string
+  demoMeetingLink2?: string
   dmeoFormEventName?: string
   redirectLink?: string
   schedulerLink?: string
@@ -10,16 +11,19 @@ interface DemoFormData {
     practiceType?: string
     demoFormId?: string
     demoMeetingLink?: string
+    demoMeetingLink2?: string
   }>
   pricingDemoForms?: Array<{
     practiceType?: string
     demoFormId?: string
     demoMeetingLink?: string
+    demoMeetingLink2?: string
   }>
   overrideDemoForms?: Array<{
     practiceType?: string
     demoFormId?: string
     demoMeetingLink?: string
+    demoMeetingLink2?: string
     referralName?: string
   }>
 }

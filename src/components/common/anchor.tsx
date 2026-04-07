@@ -38,11 +38,17 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       // Check if destination is a thank-you page
       const hrefPath = href?.split('?')[0].split('#')[0];
       const isThankYouPage = hrefPath?.includes('/thank-you');
+      const isDemoDestination =
+        hrefPath === '/demo' || (hrefPath.length > 0 && hrefPath.endsWith('/demo'));
 
       const queryParams: Record<string, string> = Object.entries(query).reduce((acc: any, [key, value]) => {
         if (value !== undefined && key !== "flag" && key !== "slug") {
           // Exclude practiceType unless navigating to a thank-you page
           if (key === "practiceType" && !isThankYouPage) {
+            return acc;
+          }
+          // Exclude locations unless navigating to /demo (same idea as practiceType on non-demo pages)
+          if (key === "locations" && !isDemoDestination) {
             return acc;
           }
           acc[key] = value.toString();
@@ -59,6 +65,9 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       // Remove practiceType from existing params unless navigating to a thank-you page
       if (!isThankYouPage && mergedParams.has('practiceType')) {
         mergedParams.delete('practiceType');
+      }
+      if (!isDemoDestination && mergedParams.has('locations')) {
+        mergedParams.delete('locations');
       }
       
       // Add router query params (they will overwrite duplicates)

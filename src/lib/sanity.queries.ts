@@ -787,23 +787,27 @@ export async function getDemoFormData(client: SanityClient, region: string) {
   const query = groq`*[_type == "homeSettings" && language == $region][0]{
     demoFormId,
     demoMeetingLink,
+    demoMeetingLink2,
     dmeoFormEventName,
     redirectLink,
     schedulerLink,
     demoForms[]{
       practiceType,
       demoFormId,
-      demoMeetingLink
+      demoMeetingLink,
+      demoMeetingLink2
     },
     pricingDemoForms[]{
       practiceType,
       demoFormId,
-      demoMeetingLink
+      demoMeetingLink,
+      demoMeetingLink2
     },
     overrideDemoForms[]{
       practiceType,
       demoFormId,
       demoMeetingLink,
+      demoMeetingLink2,
       referralName
     }
   }`
