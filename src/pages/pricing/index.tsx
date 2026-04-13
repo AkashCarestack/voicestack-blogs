@@ -44,15 +44,18 @@ export default function Pricing({
   // Manage pricing demo modal state directly
   const [isPricingDemoModalOpen, setIsPricingDemoModalOpen] = useState(false)
   const [selectedPracticeType, setSelectedPracticeType] = useState<string | null>(null)
+  const [initialLocationCount, setInitialLocationCount] = useState<number | undefined>(undefined)
 
-  const openPricingDemoModal = (practiceType: string) => {
+  const openPricingDemoModal = (practiceType: string, locations?: number) => {
     setSelectedPracticeType(practiceType)
+    setInitialLocationCount(locations)
     setIsPricingDemoModalOpen(true)
   }
 
   const closePricingDemoModal = () => {
     setIsPricingDemoModalOpen(false)
     setSelectedPracticeType(null)
+    setInitialLocationCount(undefined)
   }
 
   // Set up callback for PracticeTypeModal to use
@@ -175,6 +178,7 @@ export default function Pricing({
         <PricingDemoModal
           onClose={closePricingDemoModal}
           initialPracticeType={selectedPracticeType}
+          initialLocationCount={initialLocationCount}
         />
       )}
     </>

@@ -4,7 +4,8 @@ import { useRouter } from 'next/router'
 import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
 import { X } from 'lucide-react'
 import { useDemoFormData } from '~/providers/BookDemoProvider'
-import { DSO_LOCATION_THRESHOLD, hasSecondaryMeetingLink } from '~/utils/resolveDemoMeetingLink'
+import { hasSecondaryMeetingLink } from '~/utils/resolveDemoMeetingLink'
+import Button from '~/components/common/Button'
 
 export interface PracticeTypeModalProps {
   className?: string
@@ -90,7 +91,16 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
       return
     }
 
-    // If on pricing page, try to use the global callback (PricingDemoModal handles DSO / link2)
+    const row = formsForPage.find((f) => f?.practiceType === practiceType)
+    if (hasSecondaryMeetingLink(row)) {
+      setSelectedPracticeType(practiceType)
+      setStep('locations')
+      setLocationsInput('')
+      setLocationsError(null)
+      return
+    }
+
+    // If on pricing page and no locations prompt is needed, trigger pricing demo modal.
     if (isPricingPage) {
       const pricingDemoCallback = getPricingDemoModalCallback()
       if (pricingDemoCallback) {
@@ -100,15 +110,6 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
         pricingDemoCallback(practiceType)
         return
       }
-    }
-
-    const row = formsForPage.find((f) => f?.practiceType === practiceType)
-    if (hasSecondaryMeetingLink(row)) {
-      setSelectedPracticeType(practiceType)
-      setStep('locations')
-      setLocationsInput('')
-      setLocationsError(null)
-      return
     }
 
     navigateToDemo(practiceType)
@@ -127,6 +128,18 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
       return
     }
     setLocationsError(null)
+
+    if (isPricingPage) {
+      const pricingDemoCallback = getPricingDemoModalCallback()
+      if (pricingDemoCallback) {
+        if (onClose) {
+          onClose()
+        }
+        pricingDemoCallback(selectedPracticeType, n)
+        return
+      }
+    }
+
     navigateToDemo(selectedPracticeType, n)
   }
 
@@ -160,7 +173,7 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
             <div className="bg-white px-4 pb-8 pt-5 sm:p-6">
               <div className="sm:flex sm:items-start">
                 <div className="mt-3 px-4 sm:mt-0 sm:text-left w-full flex flex-col gap-6">
-                  {step === 'practice' && (
+                  {/* {step === 'practice' && ( */}
                     <div className="flex mt-4 justify-between w-full">
                       
                       <div className="flex flex-col gap-2">
@@ -186,7 +199,7 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
                         </div>
                       </button>
                     </div>  
-                  )}
+                  {/* )} */}
 
                   {step === 'practice' && (
                     <div className="mt-2 w-full">
@@ -218,57 +231,53 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
                   )}
 
                   {step === 'locations' && (
-                    <div className="mt-2 w-full flex flex-col gap-4">
-                      <p className="text-base font-medium text-gray-900">Book A Demo  </p>
-                      <p className="text-sm text-gray-500">
-                      How many locations do you have?
+                    <div className="mt-2 w-full flex flex-col gap-2">
+                      {/* <p className="text-base font-medium text-gray-900">Book A Demo  </p> */}
+                      <p className="text-base font-medium text-gray-900">
+                        How many locations do you have?
                       </p>
-                      <label className="flex flex-col gap-1 text-left text-sm font-medium text-gray-700">
-                        {/* Number of locations */}
-                        <input
-                          type="number"
-                          min={1}
-                          step={1}
-                          inputMode="numeric"
-                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900"
-                          value={locationsInput}
-                          onChange={(e) => {
-                            setLocationsInput(e.target.value)
-                            setLocationsError(null)
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') handleLocationsContinue()
-                          }}
-                        />
-                      </label>
-                      {locationsError && (
-                        <p className="text-sm text-red-600">{locationsError}</p>
-                      )}
-                      <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
-                        {/* <button
-                          type="button"
+                      <div className="flex flex-col gap-1">
+                        <label className="flex flex-col gap-1 text-left text-sm font-medium text-gray-700">
+                          {/* Number of locations */}
+                          <input
+                            type="number"
+                            min={1}
+                            step={1}
+                            inputMode="numeric"
+                            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-3 text-gray-900"
+                            value={locationsInput}
+                            onChange={(e) => {
+                              setLocationsInput(e.target.value)
+                              setLocationsError(null)
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') handleLocationsContinue()
+                            }}
+                          />
+                        </label>
+                        {locationsError && (
+                          <p className="text-sm text-red-600">{locationsError}</p>
+                        )}  
+                      </div>
+                      
+                      <div className="flex gap-2 flex-row justify-between mt-4">
+                       
+                        <Button
+                          type="secondary"
+                          className="w-fit"
                           onClick={handleBackToPracticeTypes}
-                          className="w-full sm:w-auto rounded-lg border border-gray-300 px-4 py-3 text-gray-900 font-medium hover:bg-gray-50"
                         >
+                          <span>
                           Back
-                        </button> */}
-                        <button
-                          type="button"
-                          className="absolute top-6 right-6 w-10 h-10 flex justify-end items-start cursor-pointer hover:text-gray-950 text-gray-600"
-                          // onClick={handleBackToPracticeTypes}
-                          onClick={onClose}
-                          >
-                          <div className="w-5">
-                            <X className="w-6 h-6" />
-                          </div>
-                        </button>
-                        <button
-                          type="button"
+                          </span>
+                        </Button>
+                        <Button
+                          type="primary"
+                          className="w-fit"
                           onClick={handleLocationsContinue}
-                          className="w-full sm:w-auto rounded-lg bg-gray-900 px-4 py-3 text-white font-medium hover:bg-gray-800"
                         >
-                          Continue
-                        </button>
+                          <span>Continue</span>
+                        </Button>
                       </div>
                     </div>
                   )}

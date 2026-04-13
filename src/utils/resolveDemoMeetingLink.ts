@@ -43,3 +43,19 @@ export function resolveDemoMeetingLink(
   if (locations > DSO_LOCATION_THRESHOLD) return link2 || link1
   return link1 || link2
 }
+
+/**
+ * HubSpot meetings iframe: always `embed=true`; optional `locations` pre-fills the meeting form field.
+ * Preserves existing query params on the meeting URL.
+ */
+export function buildHubspotMeetingEmbedUrl(
+  meetingLink: string,
+  options?: { locations?: number }
+): string {
+  const url = new URL(meetingLink)
+  url.searchParams.set('embed', 'true')
+  if (options?.locations !== undefined) {
+    url.searchParams.set('locations', String(options.locations))
+  }
+  return url.toString()
+}

@@ -1,7 +1,7 @@
 // Simple module-level callback for pricing demo modal
 // This allows PracticeTypeModal to trigger the pricing demo modal without context
 
-type PricingDemoModalCallback = ((practiceType: string) => void) | null
+type PricingDemoModalCallback = ((practiceType: string, locations?: number) => void) | null
 
 let pricingDemoModalCallback: PricingDemoModalCallback = null
 

@@ -4,13 +4,17 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
 import { capturePosthogEvent } from '~/components/utils/common'
+import { buildHubspotMeetingEmbedUrl } from '~/utils/resolveDemoMeetingLink'
 
 const PricingHubspotMeeting: React.FC<{
   meetingLink?: string
+  /** Passed into the embed URL so HubSpot can pre-fill the locations field */
+  locations?: number
   eventName?: string
   formDetails?: string
 }> = ({
   meetingLink,
+  locations,
   eventName,
   formDetails,
 }) => {
@@ -96,6 +100,12 @@ const PricingHubspotMeeting: React.FC<{
     });
   }, [meetingLink, eventName, router]);
 
+  const dataSrc =
+    meetingLink?.trim() &&
+    buildHubspotMeetingEmbedUrl(meetingLink.trim(), {
+      locations,
+    });
+
   return (
     <>
       <div
@@ -106,7 +116,7 @@ const PricingHubspotMeeting: React.FC<{
       </div>
       <div
         className="meetings-iframe-container"
-        data-src={meetingLink ? `${meetingLink}?embed=true` : undefined}
+        data-src={dataSrc || undefined}
         // data-src="https://meetings.hubspot.com/marcomm-admin/test-link-harsha?embed=true"
       ></div>
     </>
