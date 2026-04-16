@@ -6,8 +6,10 @@ import { useEffect, useMemo, useState } from 'react'
 import { capturePosthogDemoPage } from '~/components/utils/common'
 import { readToken } from '~/lib/sanity.api'
 import { useDemoFormData } from '~/providers/BookDemoProvider'
+import Button from '~/components/common/Button'
 import HubSpotForm from '~/v2/components/common/HubspotForm'
 import HubSpotMeeting from '~/v2/components/common/HubspotMeeting'
+import { PracticeTypeModal } from '~/v2/components/common/PracticeTypeModal'
 import demoTrackingNames from '~/v2/data/demoTrackingNames.json'
 import {
   DSO_LOCATION_THRESHOLD,
@@ -37,8 +39,50 @@ export const getStaticProps: GetStaticProps<any> = async ({
 export default function DemoPage({}: DemoPageProps) {
   const router = useRouter()
   const { formData, region } = useDemoFormData()
+  const [showPracticeTypeModal, setShowPracticeTypeModal] = useState(false)
   const [locationsInput, setLocationsInput] = useState('')
   const [locationsError, setLocationsError] = useState<string | null>(null)
+
+  const availablePracticeTypes = useMemo(() => {
+    return (formData?.demoForms || [])
+      .map((form) => form?.practiceType?.trim())
+      .filter((practiceType): practiceType is string => Boolean(practiceType))
+  }, [formData?.demoForms])
+
+  const hasPracticeTypeQueryParam = useMemo(() => {
+    const practiceTypeQuery = router.query.practiceType
+    if (typeof practiceTypeQuery === 'string') {
+      return practiceTypeQuery.trim().length > 0
+    }
+    if (Array.isArray(practiceTypeQuery)) {
+      return practiceTypeQuery.some((value) => value.trim().length > 0)
+    }
+    return false
+  }, [router.query.practiceType])
+
+  const hasReferrerOverride = useMemo(() => {
+    const referrer = router.query.referrer
+    if (typeof referrer !== 'string' || !referrer || !formData?.overrideDemoForms) {
+      return false
+    }
+    return formData.overrideDemoForms.some((form) => form.referralName === referrer)
+  }, [router.query.referrer, formData?.overrideDemoForms])
+
+  const shouldAutoShowPracticeTypeModal = useMemo(() => {
+    if (!router.isReady) return false
+    if (hasPracticeTypeQueryParam) return false
+    if (hasReferrerOverride) return false
+    return availablePracticeTypes.length > 1
+  }, [
+    router.isReady,
+    hasPracticeTypeQueryParam,
+    hasReferrerOverride,
+    availablePracticeTypes.length,
+  ])
+
+  useEffect(() => {
+    setShowPracticeTypeModal(shouldAutoShowPracticeTypeModal)
+  }, [shouldAutoShowPracticeTypeModal])
 
   // Check for referrer query param and override demo forms
   // Use useMemo to recalculate when router.query or formData changes
@@ -108,9 +152,14 @@ export default function DemoPage({}: DemoPageProps) {
   const formDetails = `${practiceTypeSlug}_${router.locale}`
 
   const applyLocationsToUrl = () => {
-    const n = parseInt(locationsInput.trim(), 10)
-    if (!Number.isFinite(n) || n < 0 || !Number.isInteger(n)) {
-      setLocationsError('Please enter a valid whole number (0 or greater).')
+    const trimmed = locationsInput.trim()
+    if (!trimmed) {
+      setLocationsError('Please enter the number of locations.')
+      return
+    }
+    const n = parseInt(trimmed, 10)
+    if (!Number.isFinite(n) || n < 1 || !Number.isInteger(n)) {
+      setLocationsError('Please enter a valid whole number (1 or greater).')
       return
     }
     setLocationsError(null)
@@ -193,21 +242,25 @@ export default function DemoPage({}: DemoPageProps) {
             </div>
           </div>
 
-          {showLocationPrompt && (
-            <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-6 flex flex-col gap-4">
-              <h2 className="text-lg font-semibold text-gray-900">How many locations?</h2>
+          {!showPracticeTypeModal && showLocationPrompt && (
+            <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-6 md:p-8 flex flex-col gap-3">
+              {/* <h2 className="text-base font-medium text-gray-900">
+                How many locations do you have?
+              </h2>
               <p className="text-sm text-gray-500">
                 We use this to connect you with the right scheduling flow. Practices with more than{' '}
                 {DSO_LOCATION_THRESHOLD} locations use a dedicated calendar.
-              </p>
+              </p> */}
               <label className="flex flex-col gap-1 text-left text-sm font-medium text-gray-700">
-                Number of locations
+                <p className="text-base font-medium text-gray-900">
+                  How many locations do you have?
+                </p>
                 <input
                   type="number"
-                  min={0}
+                  min={1}
                   step={1}
                   inputMode="numeric"
-                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900"
+                  className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-3 text-gray-900"
                   value={locationsInput}
                   onChange={(e) => {
                     setLocationsInput(e.target.value)
@@ -219,17 +272,15 @@ export default function DemoPage({}: DemoPageProps) {
                 />
               </label>
               {locationsError && <p className="text-sm text-red-600">{locationsError}</p>}
-              <button
-                type="button"
-                onClick={applyLocationsToUrl}
-                className="w-full rounded-lg bg-gray-900 px-4 py-3 text-white font-medium hover:bg-gray-800"
-              >
-                Continue
-              </button>
+              <div className="flex w-full mt-2">
+                <Button type="primary" className="w-full" onClick={applyLocationsToUrl}>
+                  <span>Continue</span>
+                </Button>
+              </div>
             </div>
           )}
 
-          {!showLocationPrompt && formId && (
+          {!showPracticeTypeModal && !showLocationPrompt && formId && (
             <div className="w-full max-w-[500px] bg-white rounded-lg shadow-lg p-6 min-h-[500px]">
               <HubSpotForm
                 id={formId}
@@ -239,7 +290,7 @@ export default function DemoPage({}: DemoPageProps) {
               />
             </div>
           )}
-          {!showLocationPrompt && resolvedMeetingLink && (
+          {!showPracticeTypeModal && !showLocationPrompt && resolvedMeetingLink && (
             <div className="w-full min-h-[500px]">
               <HubSpotMeeting
                 meetingLink={resolvedMeetingLink}
@@ -247,6 +298,14 @@ export default function DemoPage({}: DemoPageProps) {
                 formDetails={formDetails}
               />
             </div>
+          )}
+
+          {showPracticeTypeModal && (
+            <PracticeTypeModal
+              // onClose={() => setShowPracticeTypeModal(false)}
+              locale={router.locale}
+              hideCloseButton={true}
+            />
           )}
         </div>
       </div>

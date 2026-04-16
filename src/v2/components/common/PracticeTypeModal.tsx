@@ -12,6 +12,7 @@ export interface PracticeTypeModalProps {
   onClose?: () => void
   locale?: string
   onPracticeTypeSelect?: (practiceType: string) => void
+  hideCloseButton?: boolean
 }
 
 export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
@@ -19,6 +20,7 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
   onClose,
   locale,
   onPracticeTypeSelect,
+  hideCloseButton = false,
 }) => {
   const router = useRouter()
   const { formData } = useDemoFormData()
@@ -189,7 +191,8 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
                         </p>
                       </div>
 
-                      <button
+                      {!hideCloseButton && (
+                        <button
                         type="button"
                         className="w-10 h-10 flex justify-end items-start cursor-pointer hover:text-gray-950 text-gray-600"
                         onClick={onClose}
@@ -198,6 +201,7 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
                           <X className="w-6 h-6" />
                         </div>
                       </button>
+                      )}
                     </div>  
                   {/* )} */}
 
