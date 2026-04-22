@@ -8,13 +8,10 @@ import { buildHubspotMeetingEmbedUrl } from '~/utils/resolveDemoMeetingLink'
 
 const PricingHubspotMeeting: React.FC<{
   meetingLink?: string
-  /** Passed into the embed URL so HubSpot can pre-fill the locations field */
-  locations?: number
   eventName?: string
   formDetails?: string
 }> = ({
   meetingLink,
-  locations,
   eventName,
   formDetails,
 }) => {
@@ -102,9 +99,7 @@ const PricingHubspotMeeting: React.FC<{
 
   const dataSrc =
     meetingLink?.trim() &&
-    buildHubspotMeetingEmbedUrl(meetingLink.trim(), {
-      locations,
-    });
+    buildHubspotMeetingEmbedUrl(meetingLink.trim());
 
   return (
     <>

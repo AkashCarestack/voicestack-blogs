@@ -1,61 +1,38 @@
-/** Above this count, use `demoMeetingLink2` when set (DSO / multi-location flow). */
-export const DSO_LOCATION_THRESHOLD = 14
+export const LOC_QUERY_PARAM = 'loc'
+export type LocCategory = 'lt15' | '15plus'
 
 export type DemoMeetingRow = {
   demoMeetingLink?: string
   demoMeetingLink2?: string
 } | null | undefined
 
-export function parseLocationsParam(value: unknown): number | undefined {
+export function parseLocParam(value: unknown): LocCategory | undefined {
   if (value === undefined || value === null || value === '') return undefined
   const raw = Array.isArray(value) ? value[0] : value
-  const n = typeof raw === 'number' ? raw : parseInt(String(raw), 10)
-  if (!Number.isFinite(n) || n < 0 || !Number.isInteger(n)) return undefined
-  return n
+  return raw === 'lt15' || raw === '15plus' ? raw : undefined
 }
 
 export function hasSecondaryMeetingLink(row: DemoMeetingRow): boolean {
   return Boolean(row?.demoMeetingLink2?.trim())
 }
 
-/** True when CMS has a second meeting link and we do not yet have a valid location count. */
-export function needsLocationPrompt(
-  row: DemoMeetingRow,
-  locations: number | undefined
-): boolean {
-  if (!hasSecondaryMeetingLink(row)) return false
-  return locations === undefined
-}
-
-/**
- * Picks HubSpot meeting URL. When `demoMeetingLink2` is set, requires `locations`;
- * otherwise returns primary link only.
- */
 export function resolveDemoMeetingLink(
   row: DemoMeetingRow,
-  locations: number | undefined
+  loc: LocCategory | undefined
 ): string | undefined {
   if (!row) return undefined
   const link1 = row.demoMeetingLink?.trim()
   const link2 = row.demoMeetingLink2?.trim()
   if (!link2) return link1 || undefined
-  if (locations === undefined) return undefined
-  if (locations > DSO_LOCATION_THRESHOLD) return link2 || link1
+  if (loc === '15plus') return link2 || link1
   return link1 || link2
 }
 
 /**
- * HubSpot meetings iframe: always `embed=true`; optional `locations` pre-fills the meeting form field.
- * Preserves existing query params on the meeting URL.
+ * HubSpot meetings iframe always uses `embed=true` and preserves existing query params.
  */
-export function buildHubspotMeetingEmbedUrl(
-  meetingLink: string,
-  options?: { locations?: number }
-): string {
+export function buildHubspotMeetingEmbedUrl(meetingLink: string): string {
   const url = new URL(meetingLink)
   url.searchParams.set('embed', 'true')
-  if (options?.locations !== undefined) {
-    url.searchParams.set('locations', String(options.locations))
-  }
   return url.toString()
 }

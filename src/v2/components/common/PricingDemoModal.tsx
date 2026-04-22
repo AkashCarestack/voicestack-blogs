@@ -5,29 +5,29 @@ import PricingHubspotMeeting from './PricingHubspotMeeting'
 import pricingDemoTrackingNames from '~/v2/data/pricingDemoTrackingNames.json'
 import { X } from 'lucide-react'
 import { useDemoFormData } from '~/providers/BookDemoProvider'
-import { resolveDemoMeetingLink } from '~/utils/resolveDemoMeetingLink'
+import { resolveDemoMeetingLink, type LocCategory } from '~/utils/resolveDemoMeetingLink'
 
 export interface PricingDemoModalProps {
   className?: string
   onClose?: () => void
   initialPracticeType: string
-  initialLocationCount?: number
+  initialLoc?: LocCategory
 }
 
 const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
   className,
   onClose,
   initialPracticeType,
-  initialLocationCount,
+  initialLoc,
 }) => {
   const router = useRouter()
   const { formData, region } = useDemoFormData()
 
-  const [locationCount, setLocationCount] = React.useState<number | undefined>(initialLocationCount)
+  const [loc, setLoc] = React.useState<LocCategory | undefined>(initialLoc)
 
   React.useEffect(() => {
-    setLocationCount(initialLocationCount)
-  }, [initialPracticeType, initialLocationCount])
+    setLoc(initialLoc)
+  }, [initialPracticeType, initialLoc])
 
   // Find the matching form data based on selected practice type
   const activeFormData = formData?.pricingDemoForms?.find(
@@ -43,7 +43,7 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
     pricingDemoTrackingNames.us
   const formDetails = practiceTypeSlug ? `${practiceTypeSlug}_${router.locale}` : undefined
 
-  const resolvedMeetingLink = resolveDemoMeetingLink(activeFormData, locationCount)
+  const resolvedMeetingLink = resolveDemoMeetingLink(activeFormData, loc)
 
   const hasMeetingLink =
     resolvedMeetingLink && typeof resolvedMeetingLink === 'string' && resolvedMeetingLink.trim()
@@ -78,7 +78,7 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
                 <div
                   className={`sm:mt-0 sm:text-left w-full flex flex-col gap-0
                 
-                ${hasMeetingLink ? 'px-1' : 'px-4'}
+                ${hasMeetingLink ? 'px-1' : 'px-2'}
                 `}
                 >
                   <div className={`flex mt-4 justify-between w-full ${hasMeetingLink ? 'px-4' : 'px-0'}`}>
@@ -102,7 +102,6 @@ const PricingDemoModal: React.FC<PricingDemoModalProps> = ({
                           <div className="w-full min-h-[500px]">
                             <PricingHubspotMeeting
                               meetingLink={resolvedMeetingLink.trim()}
-                              locations={locationCount}
                               eventName={eventName}
                               formDetails={formDetails}
                             />

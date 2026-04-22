@@ -18,6 +18,7 @@ import FeatureHero from '~/v2/sections/FeatureHero'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 import { setPricingDemoModalCallback, clearPricingDemoModalCallback } from '~/utils/pricingDemoModal'
+import { type LocCategory } from '~/utils/resolveDemoMeetingLink'
 
 // Define TypeScript interfaces
 interface PageData {
@@ -44,18 +45,18 @@ export default function Pricing({
   // Manage pricing demo modal state directly
   const [isPricingDemoModalOpen, setIsPricingDemoModalOpen] = useState(false)
   const [selectedPracticeType, setSelectedPracticeType] = useState<string | null>(null)
-  const [initialLocationCount, setInitialLocationCount] = useState<number | undefined>(undefined)
+  const [initialLoc, setInitialLoc] = useState<LocCategory | undefined>(undefined)
 
-  const openPricingDemoModal = (practiceType: string, locations?: number) => {
+  const openPricingDemoModal = (practiceType: string, loc?: LocCategory) => {
     setSelectedPracticeType(practiceType)
-    setInitialLocationCount(locations)
+    setInitialLoc(loc)
     setIsPricingDemoModalOpen(true)
   }
 
   const closePricingDemoModal = () => {
     setIsPricingDemoModalOpen(false)
     setSelectedPracticeType(null)
-    setInitialLocationCount(undefined)
+    setInitialLoc(undefined)
   }
 
   // Set up callback for PracticeTypeModal to use
@@ -178,7 +179,7 @@ export default function Pricing({
         <PricingDemoModal
           onClose={closePricingDemoModal}
           initialPracticeType={selectedPracticeType}
-          initialLocationCount={initialLocationCount}
+          initialLoc={initialLoc}
         />
       )}
     </>
