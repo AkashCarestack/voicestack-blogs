@@ -19,7 +19,7 @@ const HubSpotMeeting = ({
   useEffect(() => {
     // Store UTM params from current URL to sessionStorage on mount (for future use)
     const currentParams = new URLSearchParams(window.location.search);
-    const utmKeys = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'lead_source'];
+    const utmKeys = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'utm_content', 'lead_source'];
     utmKeys.forEach(key => {
       const value = currentParams.get(key);
       if (value) {
@@ -95,7 +95,7 @@ const HubSpotMeeting = ({
           // Read current URL params (in case user navigated) and sessionStorage
           const currentUrlParams = new URLSearchParams(window.location.search);
           const apiParams = new URLSearchParams({ email });
-          const utmMap = { utm_source: "source", utm_campaign: "campaign", utm_medium: "medium", utm_term: "term", lead_source: "lead_source" };
+          const utmMap = { utm_source: "source", utm_campaign: "campaign", utm_medium: "medium", utm_term: "term", utm_content: "content", lead_source: "lead_source" };
           
           Object.entries(utmMap).forEach(([key, param]) => {
             // Try current URL first, then sessionStorage (carry forward from any previous page)

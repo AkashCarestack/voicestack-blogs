@@ -129,7 +129,7 @@ const HubSpotForm = ({
                 setTimeout(async () => {
                   const urlParams = new URLSearchParams(window.location.search);
                   const apiParams = new URLSearchParams({ email });
-                  const utmMap = { utm_source: "source", utm_campaign: "campaign", utm_medium: "medium", utm_term: "term", lead_source: "lead_source" };
+                  const utmMap = { utm_source: "source", utm_campaign: "campaign", utm_medium: "medium", utm_term: "term", utm_content: "content", lead_source: "lead_source" };
                   
                   // Try URL first, then sessionStorage (same logic as HubspotMeeting)
                   Object.entries(utmMap).forEach(([key, param]) => {
