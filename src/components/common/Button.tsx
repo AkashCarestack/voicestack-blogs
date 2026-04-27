@@ -13,6 +13,7 @@ import replaceUrl from '~/helpers/replaceUrl'
 import { PracticeTypeModal } from '~/v2/components/common/PracticeTypeModal'
 import { useDemoFormData } from '~/providers/BookDemoProvider'
 import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
+import { hasSecondaryMeetingLink } from '~/utils/resolveDemoMeetingLink'
 
 interface ButtonProps {
   type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
@@ -183,6 +184,13 @@ const Button: React.FunctionComponent<ButtonProps> = ({
         if (isPricingPage) {
           const pricingDemoCallback = getPricingDemoModalCallback()
           if (pricingDemoCallback) {
+            const pricingRow = formData?.pricingDemoForms?.find(
+              (form) => form?.practiceType === singlePracticeType
+            )
+            if (hasSecondaryMeetingLink(pricingRow)) {
+              setShowPracticeTypeModal(true)
+              return
+            }
             pricingDemoCallback(singlePracticeType)
             return
           }

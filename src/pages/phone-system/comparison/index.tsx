@@ -19,6 +19,8 @@ import StatisticsSection from '~/v2/sections/StatisticsSection'
 import LogoListingSection from '~/components/LogoListingSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
+import { useRouter } from 'next/router'
+import CampaignOfferModal from '~/v2/components/common/CampaignOfferModal'
 // import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 // Define proper TypeScript interfaces
@@ -47,6 +49,8 @@ export default function ComparisonPage({
   // comparisonTableData,
   comparisonLegendData,
 }) {
+  const router = useRouter()
+  const [showCampaignOfferModal, setShowCampaignOfferModal] = React.useState(false)
 
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
@@ -58,6 +62,22 @@ export default function ComparisonPage({
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
+
+  React.useEffect(() => {
+    if (!router.isReady) return
+
+    const queryString = router.asPath.includes('?')
+      ? router.asPath.split('?')[1].split('#')[0]
+      : ''
+    const params = new URLSearchParams(queryString)
+    const hasUtmParams = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'utm_content']
+      .some((key) => Boolean(params.get(key)))
+
+    const utmContent = params.get('utm_content')?.toLowerCase() || ''
+    const isMangoCampaign = utmContent.includes('mango')
+
+    setShowCampaignOfferModal(hasUtmParams && isMangoCampaign)
+  }, [router.isReady, router.asPath])
 
   // Extract integration data from pageData instead of separate query
 // console.log('pageData cchild', pageData);
@@ -126,6 +146,10 @@ export default function ComparisonPage({
         <div>
           <FaqSection faqItems={faq} />
         </div>
+      )}
+
+      {showCampaignOfferModal && (
+        <CampaignOfferModal onClose={() => setShowCampaignOfferModal(false)} />
       )}
     </>
   )

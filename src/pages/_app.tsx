@@ -123,7 +123,7 @@ function App({
   }, [])
   
   return (
-    <main className={`${inter.variable} ${manrope.variable} font-geist ${GeistSans.variable}`}>
+    <main id="main" className={`${inter.variable} ${manrope.variable} font-geist ${GeistSans.variable}`}>
       <ProgressLoader />
       <TrackUserProvider>
       {/* <style jsx global>{`

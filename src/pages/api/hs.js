@@ -63,6 +63,7 @@ export default async function handler(req, res) {
                   "utm_term":req.query.term || "",
                   "utm_medium":req.query.medium || "",
                   "utm_campaign":req.query.campaign || "",
+                  "utm_content":req.query.content || "",
                   "utm_source":req.query.source || ""
               }
           });
@@ -74,6 +75,7 @@ export default async function handler(req, res) {
                   "utm_term":req.query.term || "",
                   "utm_medium":req.query.medium || "",
                   "utm_campaign":req.query.campaign || "",
+                  "utm_content":req.query.content || "",
                   "utm_source":req.query.source || ""
               }
           });

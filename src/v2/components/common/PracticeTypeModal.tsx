@@ -1,36 +1,48 @@
 import * as React from 'react'
 import { createPortal } from 'react-dom'
 import { useRouter } from 'next/router'
+import { GeistSans } from 'geist/font/sans'
+import { Manrope } from 'next/font/google'
 import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
 import { X } from 'lucide-react'
 import { useDemoFormData } from '~/providers/BookDemoProvider'
-import { DSO_LOCATION_THRESHOLD, hasSecondaryMeetingLink } from '~/utils/resolveDemoMeetingLink'
+import {
+  LOC_QUERY_PARAM,
+  type LocCategory,
+} from '~/utils/resolveDemoMeetingLink'
+import Button from '~/components/common/Button'
+import ButtonRadioGroup from './ButtonRadioGroup'
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
+  weight: ['200', '300', '400', '500', '600', '700', '800'],
+})
 
 export interface PracticeTypeModalProps {
   className?: string
   onClose?: () => void
   locale?: string
   onPracticeTypeSelect?: (practiceType: string) => void
+  hideCloseButton?: boolean
 }
 
 export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
   className,
   onClose,
-  locale,
   onPracticeTypeSelect,
+  hideCloseButton = false,
 }) => {
   const router = useRouter()
   const { formData } = useDemoFormData()
 
-  const [step, setStep] = React.useState<'practice' | 'locations'>('practice')
   const [selectedPracticeType, setSelectedPracticeType] = React.useState<string | null>(null)
-  const [locationsInput, setLocationsInput] = React.useState('')
-  const [locationsError, setLocationsError] = React.useState<string | null>(null)
+  const [selectedLoc, setSelectedLoc] = React.useState<LocCategory>('lt15')
 
-  // Check if we're on a pricing page
   const isPricingPage = React.useMemo(() => {
     const pathname = router.pathname
-    const asPath = router.asPath.split('?')[0] // Remove query params
+    const asPath = router.asPath.split('?')[0]
     return pathname === '/pricing' || asPath === '/pricing' || asPath.endsWith('/pricing')
   }, [router.pathname, router.asPath])
 
@@ -47,7 +59,17 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
       .filter((practiceType): practiceType is string => Boolean(practiceType))
   }, [formsForPage])
 
-  const navigateToDemo = (practiceType: string, locations?: number) => {
+  const defaultPracticeType = React.useMemo(() => {
+    if (!practiceTypes.length) return null
+    const dental = practiceTypes.find((practiceType) => practiceType === 'Dental')
+    return dental || practiceTypes[0]
+  }, [practiceTypes])
+
+  React.useEffect(() => {
+    setSelectedPracticeType(defaultPracticeType)
+  }, [defaultPracticeType])
+
+  const navigateToDemo = (practiceType: string, loc: LocCategory) => {
     const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
     const basePath = `${localePrefix}/demo`
 
@@ -59,12 +81,8 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
     currentParams.delete('flag')
     currentParams.delete('slug')
     currentParams.set('practiceType', practiceType)
-
-    if (locations !== undefined) {
-      currentParams.set('locations', String(locations))
-    } else {
-      currentParams.delete('locations')
-    }
+    currentParams.delete('locations')
+    currentParams.set(LOC_QUERY_PARAM, loc)
 
     if (router.query.referrer) {
       currentParams.set('referrer', router.query.referrer as string)
@@ -80,66 +98,34 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
     }
   }
 
-  const handlePracticeTypeSelect = (practiceType: string) => {
-    // If callback prop is provided, use it
+  const handleContinue = () => {
+    if (!selectedPracticeType) return
+
     if (onPracticeTypeSelect) {
       if (onClose) {
         onClose()
       }
-      onPracticeTypeSelect(practiceType)
+      onPracticeTypeSelect(selectedPracticeType)
       return
     }
 
-    // If on pricing page, try to use the global callback (PricingDemoModal handles DSO / link2)
     if (isPricingPage) {
       const pricingDemoCallback = getPricingDemoModalCallback()
       if (pricingDemoCallback) {
         if (onClose) {
           onClose()
         }
-        pricingDemoCallback(practiceType)
+        pricingDemoCallback(selectedPracticeType, selectedLoc)
         return
       }
     }
 
-    const row = formsForPage.find((f) => f?.practiceType === practiceType)
-    if (hasSecondaryMeetingLink(row)) {
-      setSelectedPracticeType(practiceType)
-      setStep('locations')
-      setLocationsInput('')
-      setLocationsError(null)
-      return
-    }
-
-    navigateToDemo(practiceType)
-  }
-
-  const handleLocationsContinue = () => {
-    if (!selectedPracticeType) return
-    const trimmed = locationsInput.trim()
-    if (!trimmed) {
-      setLocationsError('Please enter the number of locations.')
-      return
-    }
-    const n = parseInt(trimmed, 10)
-    if (!Number.isFinite(n) || n < 1 || !Number.isInteger(n)) {
-      setLocationsError('Please enter a valid whole number (1 or greater).')
-      return
-    }
-    setLocationsError(null)
-    navigateToDemo(selectedPracticeType, n)
-  }
-
-  const handleBackToPracticeTypes = () => {
-    setStep('practice')
-    setSelectedPracticeType(null)
-    setLocationsInput('')
-    setLocationsError(null)
+    navigateToDemo(selectedPracticeType, selectedLoc)
   }
 
   const modalContent = (
     <div
-      className={`fixed inset-0 z-[9999] ${className || ''}`}
+      className={`fixed inset-0 z-[9999] ${GeistSans.variable} ${manrope.variable} ${className || ''}`}
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"
@@ -155,125 +141,87 @@ export const PracticeTypeModal: React.FC<PracticeTypeModalProps> = ({
           className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0"
         >
           <div
-            className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-lg"
+            className="relative transform overflow-hidden rounded-xl bg-white text-left shadow-xl transition-all sm:my-8 w-full sm:max-w-[520px]"
           >
-            <div className="bg-white px-4 pb-8 pt-5 sm:p-6">
+            <div className="bg-white px-6 pt-8 pb-8 sm:px-8 font-geist">
               <div className="sm:flex sm:items-start">
-                <div className="mt-3 px-4 sm:mt-0 sm:text-left w-full flex flex-col gap-6">
-                  {step === 'practice' && (
-                    <div className="flex mt-4 justify-between w-full">
-                      
-                      <div className="flex flex-col gap-2">
-                        <h3
-                          className="text-2xl font-semibold leading-6 text-gray-900"
-                          id="modal-title"
-                        >
-                          Book Free Demo
-                        </h3>
+                <div className="sm:mt-0 sm:text-left w-full flex flex-col gap-9">
+                  <div className="flex justify-between w-full">
+                    <div className="flex flex-col gap-1.5">
+                      <h3 className="md:text-3xl text-2xl font-semibold leading-snug text-gray-900 font-manrope" id="modal-title">
+                        Book Free Demo
+                      </h3>
+                      <p className="text-lg leading-7 text-gray-700">
+                        Start your transition to VoiceStack.
+                        <br />
+                        Book a demo with us today.
+                      </p>
+                    </div>
 
-                        <p className="text-gray-500">
-                          Start your transition to VoiceStack. <br /> Book a demo with us today.
-                        </p>
-                      </div>
-
+                    {!hideCloseButton && (
                       <button
                         type="button"
-                        className="w-10 h-10 flex justify-end items-start cursor-pointer hover:text-gray-950 text-gray-600"
+                        className="w-10 h-10 flex justify-end items-start cursor-pointer hover:text-gray-950 text-gray-400"
                         onClick={onClose}
-                        >
+                      >
                         <div className="w-5">
                           <X className="w-6 h-6" />
                         </div>
                       </button>
-                    </div>  
-                  )}
+                    )}
+                  </div>
 
-                  {step === 'practice' && (
-                    <div className="mt-2 w-full">
-                      <p className="text-base font-medium text-gray-900 mb-4">
-                        Choose your practice type
-                      </p>
-
-                      {practiceTypes.length > 0 ? (
-                        <div className="flex flex-col gap-3">
-                          {practiceTypes.map((practiceType) => (
-                            <button
-                              key={practiceType}
-                              type="button"
-                              onClick={() => handlePracticeTypeSelect(practiceType)}
-                              className="w-full px-4 py-3 bg-gray-100 hover:bg-vs-lemon-green rounded-lg transition-colors text-gray-950 font-medium text-center"
-                            >
-                              {practiceType}
-                            </button>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-center py-8">
-                          <p className="text-gray-500">
-                            No practice types available at this time.
+                  {!selectedPracticeType ? (
+                    <div className="text-center py-6">
+                      <p className="text-gray-500">No practice types available at this time.</p>
+                    </div>
+                  ) : (
+                    <>
+                      {practiceTypes.length > 1 && (
+                        <div className="w-full flex flex-col gap-3">
+                          <p className="text-base font-geist font-medium text-gray-950">
+                            What is your practice type?
                           </p>
+                          <ButtonRadioGroup
+                            name="practiceType"
+                            value={selectedPracticeType}
+                            onChange={setSelectedPracticeType}
+                            options={practiceTypes.map((practiceType) => ({
+                              value: practiceType,
+                              label: practiceType,
+                            }))}
+                          />
                         </div>
                       )}
-                    </div>
-                  )}
 
-                  {step === 'locations' && (
-                    <div className="mt-2 w-full flex flex-col gap-4">
-                      <p className="text-base font-medium text-gray-900">Book A Demo  </p>
-                      <p className="text-sm text-gray-500">
-                      How many locations do you have?
-                      </p>
-                      <label className="flex flex-col gap-1 text-left text-sm font-medium text-gray-700">
-                        {/* Number of locations */}
-                        <input
-                          type="number"
-                          min={1}
-                          step={1}
-                          inputMode="numeric"
-                          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900"
-                          value={locationsInput}
-                          onChange={(e) => {
-                            setLocationsInput(e.target.value)
-                            setLocationsError(null)
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') handleLocationsContinue()
-                          }}
+                      <div className="w-full flex flex-col gap-3">
+                        <p className="text-base font-medium text-gray-950">
+                          How many locations do you have?
+                        </p>
+                        <ButtonRadioGroup
+                          name="locations"
+                          value={selectedLoc}
+                          onChange={(value) => setSelectedLoc(value as LocCategory)}
+                          options={[
+                            { value: 'lt15', label: 'Less than 15' },
+                            { value: '15plus', label: '15 or more' },
+                          ]}
                         />
-                      </label>
-                      {locationsError && (
-                        <p className="text-sm text-red-600">{locationsError}</p>
-                      )}
-                      <div className="flex flex-col gap-2 sm:flex-row sm:justify-end">
-                        {/* <button
-                          type="button"
-                          onClick={handleBackToPracticeTypes}
-                          className="w-full sm:w-auto rounded-lg border border-gray-300 px-4 py-3 text-gray-900 font-medium hover:bg-gray-50"
-                        >
-                          Back
-                        </button> */}
-                        <button
-                          type="button"
-                          className="absolute top-6 right-6 w-10 h-10 flex justify-end items-start cursor-pointer hover:text-gray-950 text-gray-600"
-                          // onClick={handleBackToPracticeTypes}
-                          onClick={onClose}
-                          >
-                          <div className="w-5">
-                            <X className="w-6 h-6" />
-                          </div>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={handleLocationsContinue}
-                          className="w-full sm:w-auto rounded-lg bg-gray-900 px-4 py-3 text-white font-medium hover:bg-gray-800"
-                        >
-                          Continue
-                        </button>
                       </div>
-                    </div>
+                    </>
                   )}
                 </div>
               </div>
+            </div>
+            <div className="bg-gray-100 border-t border-gray-100 px-6 py-8 flex justify-center">
+              <Button
+                type="primary"
+                className="w-full sm:w-auto"
+                disabled={!selectedPracticeType}
+                onClick={handleContinue}
+              >
+                <span>Continue &amp; Schedule Demo</span>
+              </Button>
             </div>
           </div>
         </div>

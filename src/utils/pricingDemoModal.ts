@@ -1,7 +1,9 @@
 // Simple module-level callback for pricing demo modal
 // This allows PracticeTypeModal to trigger the pricing demo modal without context
 
-type PricingDemoModalCallback = ((practiceType: string) => void) | null
+import { type LocCategory } from './resolveDemoMeetingLink'
+
+type PricingDemoModalCallback = ((practiceType: string, loc?: LocCategory) => void) | null
 
 let pricingDemoModalCallback: PricingDemoModalCallback = null
 

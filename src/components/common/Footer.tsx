@@ -467,14 +467,15 @@ const Footer = ({ data }) => {
 
                 <>
                   <Anchor
-                    href="/legal/2025-01/privacy-policy"
+                    // href="/legal/2025-01/privacy-policy"
+                    href="/legal/2026-1/privacy-policy"
                     className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
                     locale={false}
                   >
                     Privacy Policy
                   </Anchor>
                   <Anchor
-                    href="/legal/2024-10/terms-and-conditions"
+                    href="/legal/2026-2/terms-and-conditions"
                     className="text-zinc-600 font-inter text-sm font-medium leading-[115%] hover:text-white transition-colors duration-300"
                     locale={false}
                   >

@@ -51,6 +51,10 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
           if (key === "locations" && !isDemoDestination) {
             return acc;
           }
+          // Exclude loc unless navigating to /demo (new internal param for demo location bucket)
+          if (key === "loc" && !isDemoDestination) {
+            return acc;
+          }
           acc[key] = value.toString();
         }
         return acc;
@@ -68,6 +72,9 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       }
       if (!isDemoDestination && mergedParams.has('locations')) {
         mergedParams.delete('locations');
+      }
+      if (!isDemoDestination && mergedParams.has('loc')) {
+        mergedParams.delete('loc');
       }
       
       // Add router query params (they will overwrite duplicates)
