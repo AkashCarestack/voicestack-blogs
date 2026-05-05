@@ -9,6 +9,7 @@ import { BookDemoContext } from '~/providers/BookDemoProvider'
 import ContentSection from '~/components/ContentSection'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { buildUrl, getSiteBaseUrl } from '~/components/utils/alternatePaths'
 
 interface PageProps {
   homeSettings: any;
@@ -70,6 +71,7 @@ export default function SystemRequirements({ homeSettings, heroData, bannerData,
 
   const router = useRouter();
   const notEnGB= router.locale =="en-AU" || router.locale =="en"
+  const canonicalUrl = buildUrl('system-requirements', region || router.locale || 'en', getSiteBaseUrl())
   const  title= notEnGB ? "System Requirements | Requirements For Using VoiceStack®":"System Requirements | Requirements For Using VoiceStack"
   const description = notEnGB ? "View the system requirements for running VoiceStack® at your dental practice. Ensure your hardware & network meet the specs for optimal performance.":"View the system requirements for running VoiceStack at your dental practice. Ensure your hardware & network meet the specs for optimal performance."
  
@@ -80,14 +82,13 @@ export default function SystemRequirements({ homeSettings, heroData, bannerData,
       <title>{title}</title>
       <meta name="title" content={title}/>
       <meta property="og:title" content={title}/>
-      <link rel="canonical" href="https://www.voicestack.com/system-requirements" />
+      <link rel="canonical" href={canonicalUrl} />
       <meta name="robots" content="index, follow, archive" />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://www.voicestack.com/system-requirements" />
+      <meta property="og:url" content={canonicalUrl} />
       <meta name="description"  content={description}></meta>
       <meta property="og:description" content={description}></meta>
       <meta name="keywords" content="voicestack system requirements, hardware requirements, internet requirements" />
-      <meta name="canonical" content="https://voicestack.com/system-requirements" />
     </Head>
       <ContentSection content={miscellaneousData} draftMode={draftMode} token={token} slugData={miscellaneousData?.heroSectionSlug?.current}/>
     </>

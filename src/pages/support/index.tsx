@@ -4,6 +4,7 @@ import HeroSection from '~/components/revamp/components/common/HeroSection/heroS
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import SimpleHead from '~/components/common/SimpleHead'
+import { buildUrl, getSiteBaseUrl } from '~/components/utils/alternatePaths'
 import { useLayoutData } from '~/providers/LayoutDataProvider'
 import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
@@ -67,9 +68,16 @@ export default function SupportPage({
     supportEmail,
     supportPhone,
   } : null
+
+  const canonicalUrl = buildUrl('support', router.locale || region || 'en', getSiteBaseUrl())
+  const seoWithLocaleCanonical = {
+    ...supportPageData?.seo,
+    canonical: canonicalUrl,
+  }
+
   return (
     <>
-      <SimpleHead data={supportPageData?.seo} />
+      <SimpleHead data={seoWithLocaleCanonical} />
       
       {heroData && (
         <FeatureHero  data={heroData} type="feature" isCentered={true} />

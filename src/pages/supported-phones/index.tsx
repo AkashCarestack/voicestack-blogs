@@ -12,7 +12,8 @@ import Footer from '~/components/common/Footer'
 import BannerSection from '~/components/BannerSection'
 import ContentSection from '~/components/ContentSection'
 import Head from 'next/head'
-import { notFound } from 'next/navigation'
+import { useRouter } from 'next/router'
+import { buildUrl, getSiteBaseUrl } from '~/components/utils/alternatePaths'
 
 interface PageProps {
   homeSettings: any;
@@ -65,7 +66,8 @@ export const getStaticProps: GetStaticProps<any> = async ({
 
 export default function SupportedPhones({ homeSettings, heroData, bannerData, footerData, region ,miscellaneousData,draftMode,token}: PageProps) {
   const { isDemoPopUpShown, setIsDemoPopUpShown } = useContext(BookDemoContext);
-
+  const router = useRouter()
+  const canonicalUrl = buildUrl('supported-phones', region || router.locale || 'en', getSiteBaseUrl())
 
   useEffect(() => {
     setIsDemoPopUpShown(heroData);
@@ -78,6 +80,9 @@ export default function SupportedPhones({ homeSettings, heroData, bannerData, fo
     <Head>
       <title>VoiceStack® | Supported Phones</title>
       <meta name="description"  content="To ensure optimal performance of VoiceStack, your system should meet the following specifications"></meta>
+      <link rel="canonical" href={canonicalUrl} />
+      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:type" content="website" />
     </Head>
       <ContentSection content={miscellaneousData} draftMode={draftMode} token={token} slugData="supported-phones"/>
       
