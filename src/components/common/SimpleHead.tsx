@@ -14,6 +14,12 @@ export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
   const { alternatePaths, defaultUrl } = useAlternatePaths();
 
   const fullTitle = data?.metaTitle ? `${data?.metaTitle}` : 'VoiceStack® | AI Powered Enterprise Phone System'; 
+  const normalizeCanonical = (url) => {
+    if (!url) return "";
+    return url.replace(/\/$/, ""); // remove trailing slash
+  };
+  
+  const canonical = normalizeCanonical(data?.canonical);
   return (
     <Head>
       <title>{fullTitle}</title>
@@ -21,10 +27,10 @@ export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
       <meta name="description" content={data?.metaDescription || 'AI Powered Enterprise Phone System'} />
       {data?.keyWords && <meta name="keywords" content={typeof data?.keyWords === 'string' ? data?.keyWords : data?.keyWords?.join(',')} />}
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-      {data?.canonical && <link rel="canonical" href={data?.canonical} />}
+      {data?.canonical && <link rel="canonical" href={canonical} />}
       <meta property="og:type" content="website" />
       <meta property="og:title" content={fullTitle} />
-      <meta property="og:url" content={data?.canonical} />
+      <meta property="og:url" content={canonical} />
       <meta property="og:description" content={data?.metaDescription || 'AI Powered Enterprise Phone System'} />
       <meta name="title" content={fullTitle} />
       <meta name="robots" content={data?.disableIndex ? 'noindex, nofollow, noarchive' : 'index, follow'} />
