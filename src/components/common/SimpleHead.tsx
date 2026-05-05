@@ -49,7 +49,7 @@ export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
 
       
       
-      {alternatePaths.length > 0 && alternatePaths.map((item: AlternatePath) => (
+      {/* {alternatePaths.length > 0 && alternatePaths.map((item: AlternatePath) => (
         <link 
           key={item.path} 
           rel="alternate" 
@@ -58,14 +58,14 @@ export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
         />
       ))}
       
-      {/* x-default link */}
+      x-default link starts here
       {defaultUrl && (
         <link 
           rel="alternate" 
           href={defaultUrl.replace(/\/home$|\/$/, '').replace(/\/$/, '')} 
           hrefLang="x-default" 
         />
-      )}
+      )} */}
     </Head>
   )
 }
