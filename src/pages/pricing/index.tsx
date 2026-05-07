@@ -136,6 +136,7 @@ export default function Pricing({
           buttonLink: '/demo',
         }}
         // features={features} 
+        //please ignore this comment
           // sectionHeading={pricingPageData['category-feature-tabs']?.componentData?.sectionHeading}
       />
 

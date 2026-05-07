@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
 import { usePricingModal } from './PricingModalContext'
+import { capturePosthogEvent } from '~/components/utils/common'
 
 const PricingHubSpotForm = ({
   id,
@@ -94,6 +95,14 @@ const PricingHubSpotForm = ({
                   'block'
 
                 const eventName = `pricing_form_submission_${locale || 'en'}`
+                capturePosthogEvent(eventName, {
+                  email,
+                  base_path: window?.location?.href,
+                  path: window?.location?.pathname,
+                  domain: window?.location?.origin,
+                  referrer_url: window?.document?.referrer,
+                  form_submission: 'pricing_demo_submission',
+                })
 
                 trackEvent({
                   e_name: eventName,
