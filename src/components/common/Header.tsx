@@ -414,7 +414,6 @@ const Header = ({ data, refer = null }) => {
           <div className="flex justify-end w-full lg:px-12">           
             <div className="flex justify-end items-center gap-3">
               <TopNavigationMenu safeData={safeData} currentLocale={currentLocale} />
-
               {REGIONS.length > 0 && (
                 <RegionSwitcherDropdown
                   regions={REGIONS}
