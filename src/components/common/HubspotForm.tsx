@@ -1,8 +1,8 @@
-
 import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
+import { capturePosthogEvent } from '~/components/utils/common'
 
 const HubSpotForm = ({
   id,
@@ -90,9 +90,19 @@ const HubSpotForm = ({
                 // if(meetingLink){
                   document.getElementById("successMessage").style.display = "block";
                 // }
+
+                const eventNameFinal = eventName || 'demo_submission_uk'
+                capturePosthogEvent(eventNameFinal, {
+                  email,
+                  base_path: window?.location?.href,
+                  path: window?.location?.pathname,
+                  domain: window?.location?.origin,
+                  referrer_url: window?.document?.referrer,
+                  form_submission: 'demo_submission',
+                })
                 
                 trackEvent({
-                  e_name: eventName || 'demo_submission_uk',
+                  e_name: eventNameFinal,
                   e_type: "form-submission",
                   e_time: new Date(),
                   e_path: window?.location.href,
