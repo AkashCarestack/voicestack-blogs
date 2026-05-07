@@ -40,6 +40,24 @@ export default function DemoPage({}: DemoPageProps) {
   const { formData, region } = useDemoFormData()
   const [showPracticeTypeModal, setShowPracticeTypeModal] = useState(false)
 
+  const firstQueryValue = (value: unknown): string | undefined => {
+    if (typeof value === 'string') return value
+    if (Array.isArray(value)) {
+      const first = value[0]
+      return typeof first === 'string' ? first : undefined
+    }
+    return undefined
+  }
+
+  const isLinkedinPaidUS = useMemo(() => {
+    if (!router.isReady) return false
+    if ((router.locale ?? 'en') !== 'en') return false
+    return (
+      firstQueryValue(router.query.utm_source) === 'linkedin' &&
+      firstQueryValue(router.query.utm_medium) === 'paid'
+    )
+  }, [router.isReady, router.locale, router.query.utm_source, router.query.utm_medium])
+
   const availablePracticeTypes = useMemo(() => {
     return (formData?.demoForms || [])
       .map((form) => form?.practiceType?.trim())
@@ -110,9 +128,43 @@ export default function DemoPage({}: DemoPageProps) {
     [router.query]
   )
 
+  // LinkedIn paid traffic (US) should go straight to Dental demo with default loc
+  useEffect(() => {
+    if (!router.isReady) return
+    if (!isLinkedinPaidUS) return
+
+    const currentSearch = router.asPath.includes('?')
+      ? router.asPath.split('?')[1].split('#')[0]
+      : ''
+    const currentParams = new URLSearchParams(currentSearch)
+
+    const hasPracticeType =
+      typeof router.query.practiceType === 'string'
+        ? router.query.practiceType.trim().length > 0
+        : Array.isArray(router.query.practiceType)
+          ? router.query.practiceType.some((v) => v.trim().length > 0)
+          : false
+
+    const hasLoc = Boolean(parseLocParam(router.query[LOC_QUERY_PARAM]))
+
+    if (hasPracticeType && hasLoc) return
+
+    currentParams.delete('flag')
+    currentParams.delete('slug')
+    currentParams.delete('locations')
+
+    if (!hasPracticeType) currentParams.set('practiceType', 'Dental')
+    if (!hasLoc) currentParams.set(LOC_QUERY_PARAM, 'lt15')
+
+    const queryString = currentParams.toString()
+    const finalUrl = queryString ? `/demo?${queryString}` : '/demo'
+    router.replace(finalUrl, undefined, { shallow: true })
+  }, [router, isLinkedinPaidUS])
+
   const shouldAutoShowPracticeTypeModal = useMemo(() => {
     if (!router.isReady) return false
     if (hasReferrerOverride) return false
+    if (isLinkedinPaidUS) return false
     return (
       (!hasPracticeTypeQueryParam && availablePracticeTypes.length > 1) ||
       (hasSecondaryMeetingLink(activeFormData) && !parsedLoc)
@@ -120,6 +172,7 @@ export default function DemoPage({}: DemoPageProps) {
   }, [
     router.isReady,
     hasReferrerOverride,
+    isLinkedinPaidUS,
     hasPracticeTypeQueryParam,
     availablePracticeTypes.length,
     activeFormData,
