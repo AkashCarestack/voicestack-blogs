@@ -1,5 +1,6 @@
 import groq from 'groq'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { useRouter } from 'next/router'
 import React from 'react'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import FaqSection from '~/components/revamp/components/common/faqSection'
@@ -18,6 +19,7 @@ import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import { urlForImage } from '~/lib/sanity.image'
 import ComparisonHero from '~/v2/sections/ComparisonHero'
 import ComparisonBannerSection from '~/v2/sections/ComparsionBannerSection'
+import CampaignOfferModal from '~/v2/components/common/CampaignOfferModal'
 
 interface ComparisonPageProps {
   pageData: any
@@ -27,6 +29,8 @@ interface ComparisonPageProps {
   features: any[]
 }
 
+const MANGO_COMPARISON_SLUG = 'voicestack-vs-mango-voice'
+
 export default function ComparisonSlugPage({
   pageData,
   faq,
@@ -34,7 +38,29 @@ export default function ComparisonSlugPage({
   slug,
   features,
 }: ComparisonPageProps) {
+  const router = useRouter()
+  const [showCampaignOfferModal, setShowCampaignOfferModal] = React.useState(false)
 
+  React.useEffect(() => {
+    if (!router.isReady) return
+
+    if (slug !== MANGO_COMPARISON_SLUG) {
+      setShowCampaignOfferModal(false)
+      return
+    }
+
+    const queryString = router.asPath.includes('?')
+      ? router.asPath.split('?')[1].split('#')[0]
+      : ''
+    const params = new URLSearchParams(queryString)
+    const hasUtmParams = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'utm_content']
+      .some((key) => Boolean(params.get(key)))
+
+    const utmContent = params.get('utm_content')?.toLowerCase() || ''
+    const isMangoCampaign = utmContent.includes('mango')
+
+    setShowCampaignOfferModal(hasUtmParams && isMangoCampaign)
+  }, [router.isReady, router.asPath, slug])
 
   // Extract comparison table data from componentData
   const comparisonTableComponent = pageData['comparison-table']?.componentData
@@ -111,6 +137,10 @@ export default function ComparisonSlugPage({
       )}
 
       {faq && <FaqSection faqItems={faq} />}
+
+      {slug === MANGO_COMPARISON_SLUG && showCampaignOfferModal && (
+        <CampaignOfferModal onClose={() => setShowCampaignOfferModal(false)} />
+      )}
     </>
   )
 }
