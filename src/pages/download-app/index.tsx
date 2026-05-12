@@ -12,6 +12,7 @@ import ContentSection from '~/components/ContentSection'
 import Head from 'next/head'
 import AppDownloadHero from '~/components/dynamic/AppDownloadHero'
 import { useRouter } from 'next/router'
+import { buildUrl, getSiteBaseUrl } from '~/components/utils/alternatePaths'
 
 interface PageProps {
   homeSettings: any;
@@ -72,6 +73,7 @@ export default function AppDownload({ homeSettings, heroData, bannerData, footer
 
   const router = useRouter();
   const notEnGB= router.locale =="en-AU" || router.locale =="en"
+  const canonicalUrl = buildUrl('download-app', region || router.locale || 'en', getSiteBaseUrl())
   const title= notEnGB ? "Download VoiceStack® | VoiceStack® Mobile App Downloads":"Download VoiceStack | VoiceStack Mobile App Downloads"
   const metadescriptn = notEnGB ? "Download the Official VoiceStack® App from the Apple App Store for iOS & Google Play for Android. Use VoiceStack® with your mobile phone today!":"Download the Official VoiceStack App from the Apple App Store for iOS & Google Play for Android. Use VoiceStack with your mobile phone today!"
   const metaKeywords = "voicestack download, voicestack app, download app, voicestack for ios, voicestack for android, voicestack app store, voicestack google play"
@@ -84,15 +86,14 @@ export default function AppDownload({ homeSettings, heroData, bannerData, footer
       <meta name="title" content={title} />
       <meta title={title} />
       <meta name="robots" content="index, follow, archive" />
-      <link rel="canonical" href="https://www.voicestack.com/download-app" />
+      <link rel="canonical" href={canonicalUrl} />
       <meta name="description"  content={metadescriptn}></meta>
       <meta property="og:description" content={metadescriptn}></meta>
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
-      <meta property="og:url" content="https://www.voicestack.com/download-app" />
+      <meta property="og:url" content={canonicalUrl} />
       <meta name="keywords" content={metaKeywords}></meta>
       <meta name="author" content={notEnGB ? "VoiceStack®" : "VoiceStack"}></meta>
-      <meta name="canonical" content="https://voicestack.com/download-app"></meta>
     </Head>
     <AppDownloadHero data={miscellaneousData}/>
       {/* <ContentSection slugData={miscellaneousData?.heroSectionSlug?.current} content={miscellaneousData} draftMode={draftMode} token={token}/> */}

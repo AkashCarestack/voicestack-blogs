@@ -2,6 +2,7 @@ import { useTracking } from 'cs-tracker'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import { getCookie } from '~/utils/tracker/cookie'
+import { capturePosthogEvent } from '~/components/utils/common'
 
 interface DemoFormProps {
   formId?: string
@@ -84,9 +85,17 @@ const DemoForm = ({
             successMessageEl.style.display = "block";
           }
           
-          // Track the form submission event
+          const eventNameFinal = eventName || 'demo_submission'
+          capturePosthogEvent(eventNameFinal, {
+            email,
+            base_path: window?.location?.href,
+            path: window?.location?.pathname,
+            domain: window?.location?.origin,
+            referrer_url: window?.document?.referrer,
+            form_submission: 'demo_submission',
+          })
           trackEvent({
-            e_name: eventName || 'demo_submission',
+            e_name: eventNameFinal,
             e_type: "form-submission",
             e_time: new Date(),
             e_path: window?.location.href,

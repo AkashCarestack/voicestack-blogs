@@ -1,6 +1,7 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import Button from '~/components/common/Button'
+import { buildUrl, getSiteBaseUrl } from '~/components/utils/alternatePaths'
 
 export default function LoginPage() {
   
@@ -10,7 +11,9 @@ export default function LoginPage() {
   const name= notEnGB ? "VoiceStack®" : "VoiceStack"
   const  metadescptn= notEnGB ? "Login securely to your VoiceStack® account. Owners, managers, & team members can login to their VoiceStack® user account or reset their password.":"Login securely to your VoiceStack account. Owners, managers, & team members can login to their VoiceStack user account or reset their password."
   const title= notEnGB ? "Login | VoiceStack® Login | VoiceStack® Secure Login":"Login | VoiceStack Login | VoiceStack Secure Login"
+  const canonicalUrl = buildUrl('login', locale || 'en', getSiteBaseUrl())
   const loginUrl = locale === 'en' ? 'https://id.voicestack.com/Account/Login' : locale === 'en-AU' ? 'https://id.voicestack.au/Account/Login' : locale === 'en-GB' ? 'https://id.voicestack.co.uk/Account/Login' : 'https://id.voicestack.com/Account/Login';
+  const canonical = locale === 'en' ? 'https://voicestack.com/login' : locale === 'en-AU' ? 'https://voicestack.com/en-AU/login' : locale === 'en-GB' ? 'https://voicestack.com/en-GB/login' : 'https://voicestack.com/login';
   return (
     <>
       <Head>
@@ -22,7 +25,7 @@ export default function LoginPage() {
         <meta name="author" content={name} />
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title}/>
-        <link rel="canonical" href="https://www.voicestack.com/login" />
+        <link rel="canonical" href={canonical} />
         <meta name="robots" content="index, follow, archive" />
         
       </Head>

@@ -55,33 +55,29 @@ export function buildUrl(path: string, locale: string, baseUrl: string): string 
   return cleanPath ? `${baseUrl}/${locale}/${cleanPath}` : `${baseUrl}/${locale}`;
 }
 
+/** Same origin resolution as useAlternatePaths (SSR-safe when window is undefined). */
+export function getSiteBaseUrl(origin?: string): string {
+  let url: string;
+
+  if (origin) {
+    url = origin;
+  } else if (process.env.NEXT_PUBLIC_BASE_URL) {
+    url = process.env.NEXT_PUBLIC_BASE_URL;
+  } else if (typeof window !== 'undefined') {
+    url = window.location.origin;
+  } else {
+    const isProduction = process.env.NODE_ENV === 'production';
+    url = isProduction ? 'https://www.voicestack.com' : 'http://localhost:3000';
+  }
+
+  return url.replace(/\/+$/, '');
+}
+
 export function useAlternatePaths(origin?: string) {
   const router = useRouter();
   const locales = siteConfig.locales || ['en', 'en-GB', 'en-AU'];
-  
-  // Determine base URL - prioritize origin param, then env var, then current origin, then fallback
-  const getBaseUrl = () => {
-    let url: string;
-    
-    if (origin) {
-      url = origin;
-    } else if (process.env.NEXT_PUBLIC_BASE_URL) {
-      // Use NEXT_PUBLIC_BASE_URL if set
-      url = process.env.NEXT_PUBLIC_BASE_URL;
-    } else if (typeof window !== 'undefined') {
-      // In browser, use current origin (works for both dev and prod)
-      url = window.location.origin;
-    } else {
-      // Server-side fallback
-      const isProduction = process.env.NODE_ENV === 'production';
-      url = isProduction ? 'https://www.voicestack.com' : 'http://localhost:3000';
-    }
-    
-    // Remove trailing slash
-    return url.replace(/\/+$/, '');
-  };
-  
-  const baseUrl = getBaseUrl();
+
+  const baseUrl = getSiteBaseUrl(origin);
 
   return useMemo(() => {
     const paths: AlternatePath[] = [];

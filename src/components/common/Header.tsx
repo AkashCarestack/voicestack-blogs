@@ -411,12 +411,9 @@ const Header = ({ data, refer = null }) => {
         <div
           className={`hidden z-20 lg:flex justify-center w-full bg-gray-100 relative transition-transform duration-300 ease-in-out h-[42px]`}
         >
-          
-          <div className="flex justify-end w-full lg:px-12">
-           
+          <div className="flex justify-end w-full lg:px-12">           
             <div className="flex justify-end items-center gap-3">
               <TopNavigationMenu safeData={safeData} currentLocale={currentLocale} />
-
               {REGIONS.length > 0 && (
                 <RegionSwitcherDropdown
                   regions={REGIONS}

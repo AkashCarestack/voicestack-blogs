@@ -13,7 +13,7 @@ import replaceUrl from '~/helpers/replaceUrl'
 import { PracticeTypeModal } from '~/v2/components/common/PracticeTypeModal'
 import { useDemoFormData } from '~/providers/BookDemoProvider'
 import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
-import { hasSecondaryMeetingLink } from '~/utils/resolveDemoMeetingLink'
+import { hasSecondaryMeetingLink, LOC_QUERY_PARAM } from '~/utils/resolveDemoMeetingLink'
 
 interface ButtonProps {
   type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
@@ -140,6 +140,43 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     // If it's a "book free demo" button, check available practice types
     if (isBookFreeDemoButton) {
       e.preventDefault()
+
+      const firstQueryValue = (value: unknown): string | undefined => {
+        if (typeof value === 'string') return value
+        if (Array.isArray(value)) {
+          const first = value[0]
+          return typeof first === 'string' ? first : undefined
+        }
+        return undefined
+      }
+
+      const isUSLocale = (router.locale ?? 'en') === 'en'
+      const utmSource = firstQueryValue(router.query.utm_source)
+      const utmMedium = firstQueryValue(router.query.utm_medium)
+      const isLinkedinPaid =
+        utmSource === 'linkedin' && utmMedium === 'paid'
+
+      if (isUSLocale && isLinkedinPaid) {
+        const localePrefix = router.locale && router.locale !== 'en' ? `/${router.locale}` : ''
+        const basePath = `${localePrefix}/demo`
+
+        const currentSearch = router.asPath.includes('?')
+          ? router.asPath.split('?')[1].split('#')[0]
+          : ''
+        const currentParams = new URLSearchParams(currentSearch)
+
+        currentParams.delete('flag')
+        currentParams.delete('slug')
+        currentParams.delete('locations')
+
+        currentParams.set('practiceType', 'Dental')
+        currentParams.set(LOC_QUERY_PARAM, 'lt15')
+
+        const queryString = currentParams.toString()
+        const finalUrl = queryString ? `${basePath}?${queryString}` : basePath
+        router.push(finalUrl)
+        return
+      }
 
       // Already on demo: header CTA should not reopen modal or change URL
       // if (isDemoPage) {

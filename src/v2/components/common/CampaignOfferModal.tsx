@@ -91,7 +91,7 @@ const CampaignOfferModal: React.FC<CampaignOfferModalProps> = ({ onClose }) => {
                 <div className="border-t border-gray-100 px-6 pb-10 pt-8 md:px-12">
                   <Button type="primary" onClick={handleCtaClick}>
                   {/* <Button type="primary" link="/demo?practiceType=Dental&loc=lt15"> */}
-                    <span>Unlock Free Month Subscription</span>
+                    <span>Unlock Free 2 Months Subscription</span>
                   </Button>
                   <p className="mt-3 text-sm leading-5 text-gray-500">
                     Just schedule a demo and purchase to unlock your first two months at no cost.

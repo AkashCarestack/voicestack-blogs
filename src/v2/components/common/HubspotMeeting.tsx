@@ -49,6 +49,7 @@ const HubSpotMeeting = ({
         let time = meetingData.event.dateTime;
         let email = meetingData.postResponse.contact.email;
         const params = new URLSearchParams();
+
         capturePosthogEvent(eventName, {
           email: email,
           formDetails,
@@ -59,6 +60,10 @@ const HubSpotMeeting = ({
           referrer_url: window.document.referrer,
         });
         const urlParams = new URLSearchParams(window.location.search);
+
+        if (eventName === 'demo_submission' && window2.lintrk) {
+          window2.lintrk('track', { conversion_id: 25412508 });
+        }
 
         window2.dataLayer.push({
           email: email,
