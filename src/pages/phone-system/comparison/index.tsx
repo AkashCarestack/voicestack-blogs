@@ -113,10 +113,12 @@ export default function ComparisonPage({
       {pageData['comparison-cards']?.componentData && (
         <ComparisonCardsSection
           data={pageData['comparison-cards']?.componentData}
+          colCount={3}
+          minimal={true}
         />
       )}
 
-{pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
             pageData['stack-card-tab-testimonial']?.componentData?.refData
