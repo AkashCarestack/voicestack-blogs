@@ -8,6 +8,18 @@ var requestOptionsGET = {
     redirect: 'follow'
 };
 
+function utmField(query, key) {
+    const v = query[key];
+    if (v == null) return undefined;
+    const s = Array.isArray(v) ? v[0] : v;
+    if (typeof s !== 'string') return undefined;
+    const t = s.trim();
+    if (!t) return undefined;
+    const lower = t.toLowerCase();
+    if (lower === 'null' || lower === 'undefined') return undefined;
+    return t;
+}
+
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         // Process a POST request
@@ -57,29 +69,31 @@ export default async function handler(req, res) {
             });
           }
 
-          var raw = JSON.stringify({
-              "properties": {
-                  "leadsource": req.query.lead_source === 'branding' ? "Website" : (req.query.lead_source || "Website"),
-                  "utm_term":req.query.term || "",
-                  "utm_medium":req.query.medium || "",
-                  "utm_campaign":req.query.campaign || "",
-                  "utm_content":req.query.content || "",
-                  "utm_source":req.query.source || ""
-              }
-          });
+          const properties = {
+              leadsource:
+                  req.query.lead_source === 'deploy_marketing'
+                      ? 'Deploy Marketing'
+                      : req.query.lead_source === 'branding'
+                        ? 'Website'
+                        : (req.query.lead_source || 'Website'),
+          };
 
-          if(req.query.lead_source == "deploy_marketing"){
-            raw = JSON.stringify({
-              "properties": {
-                  "leadsource": "Deploy Marketing",
-                  "utm_term":req.query.term || "",
-                  "utm_medium":req.query.medium || "",
-                  "utm_campaign":req.query.campaign || "",
-                  "utm_content":req.query.content || "",
-                  "utm_source":req.query.source || ""
-              }
-          });
-          }
+          const term = utmField(req.query, 'term');
+          if (term) properties.utm_term = term;
+
+          const medium = utmField(req.query, 'medium');
+          if (medium) properties.utm_medium = medium;
+
+          const campaign = utmField(req.query, 'campaign');
+          if (campaign) properties.utm_campaign = campaign;
+
+          const content = utmField(req.query, 'content');
+          if (content) properties.utm_content = content;
+
+          const source = utmField(req.query, 'source');
+          if (source) properties.utm_source = source;
+
+          var raw = JSON.stringify({ properties });
 
           console.log('Updating contact with UTM params:', JSON.parse(raw).properties);
 
