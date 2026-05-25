@@ -29,9 +29,13 @@ interface FeatureHeroProps {
   isCentered?: boolean
   pageType?: 'download-app' | string
   appStoreLinks?: any
+  cta?: {
+    text?: string
+    link?: string
+  }
 }
 
-export default function FeatureHero({ data, type, hideBg = false, isCentered = false, pageType = '', appStoreLinks = "", isVertical = false }: FeatureHeroProps) {
+export default function FeatureHero({ data, type, hideBg = false, isCentered = false, pageType = '', appStoreLinks = "", isVertical = false, cta }: FeatureHeroProps) {
 
   const hubspotFormId = data?.componentData?.hubspotFormId || data?.hubspotFormId
   const meetingLink = data?.componentData?.meetingLink || data?.meetingLink || data?.demoMeetingLink
@@ -335,7 +339,8 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                 </div>
               )}
               <div className={`flex flex-col md:flex-row md:gap-[18px] items-center md:mt-5 mt-4 gap-3 ${pageType === 'download-app' ? 'justify-center' : ''}`}>
-                {buttons &&
+                {
+                  buttons &&
                   buttons.length &&
                   buttons.map((button: any) => (
                     <Button
@@ -345,7 +350,8 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                     >
                       <span>{button?.buttonText}</span>
                     </Button>
-                  ))}
+                  ))
+                }
               </div>
 
               {/*  */}

@@ -25,20 +25,22 @@ const LpHeader = ({ data, logo, logoAlt, logoText }: LpHeaderProps) => {
           {logoText ? (
             <span className="text-center md:text-left text-base font-geist font-medium leading-[150%] tracking-[0.8px] text-gray-950 uppercase">{logoText}</span>
           ) : (
-            // <Image
-            //   src={logo || VoicestackLogo}
-            //   alt={logoAlt || "VoiceStack"}
-            //   title={logoAlt || "VoiceStack"}
-            //   className={`${logo ? 'md:h-[45px] h-[36px] w-auto' : 'h-[26px] md:h-[26px] w-auto'}`}
-            //   width={200}
-            //   height={52}
-            // />
-            <></>
+            <Image
+              src={logo || VoicestackLogo}
+              alt={logoAlt || "VoiceStack"}
+              title={logoAlt || "VoiceStack"}
+              className={`${logo ? 'md:h-[45px] h-[36px] w-auto' : 'h-[26px] md:h-[36px] w-auto'}`}
+              width={200}
+              height={52}
+            />
+            // <></>
           )}
         {/* </Anchor> */}
-        <Button type="primary" link="#demo" className="md:block hidden">
-          <span className="text-sm font-medium">{safeData?.ctabutton || 'Book Free Demo'}</span>
-        </Button>
+
+       
+          <Button type="primary" link="#demo" className="md:block hidden">
+            <span className="text-sm font-medium">{safeData?.ctabutton || 'Book Free Demo'}</span>
+          </Button>
       </Container>
     </header>
   )
