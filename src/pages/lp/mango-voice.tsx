@@ -19,6 +19,8 @@ import { useRouter } from 'next/router'
 import OfferSection from '~/v2/sections/OfferSection'
 import LpHeader from '~/components/common/LpHeader'
 import LpDemoLinkProvider from '~/providers/LpDemoLinkProvider'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 // import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 // Define proper TypeScript interfaces
@@ -68,17 +70,12 @@ export default function MangoVoiceLPPage({
       ? router.asPath.split('?')[1].split('#')[0]
       : ''
     const params = new URLSearchParams(queryString)
-    const hasUtmParams = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'utm_content']
-      .some((key) => Boolean(params.get(key)))
 
     const utmContent = params.get('utm_content')?.toLowerCase() || ''
-    const isMangoCampaign = utmContent.includes('mango')
-
-    setShowCampaignOfferModal(hasUtmParams && isMangoCampaign)
   }, [router.isReady, router.asPath])
 
   // Extract integration data from pageData instead of separate query
-  console.log('pageData comparison-hero', pageData['comparison-hero']?.componentData);
+  // console.log('pageData comparison-hero', pageData['comparison-hero']?.componentData);
 
 
   const meetingLink = pageData['comparison-hero']?.componentData?.meetingLink;
@@ -88,6 +85,7 @@ export default function MangoVoiceLPPage({
     <LpDemoLinkProvider demoLink={demoUrl}>
       {/* <SimpleHead data={pageData?.seo} /> */}
       <LpHeader />
+      
       {pageData['comparison-hero']?.componentData && (
         <FeatureHero
           data={pageData['comparison-hero']?.componentData}
@@ -95,22 +93,17 @@ export default function MangoVoiceLPPage({
         />
       )}
 
-      
       {pageData['logo-listing']?.componentData && (
         <LogoListingV2
           data={pageData['logo-listing']?.componentData?.blocksListingData}
         />
       )}
 
-      {pageData['offer-section']?.componentData && (
-        <OfferSection data={pageData['offer-section']?.componentData} spacingY={true}/>
-      )}
-
-      {comparisonTableData && (
-        <SiteComparisonSection
-          data={comparisonSectionData}
-          legendData={comparisonLegendData || []}
-          
+      {pageData['how-voicestack-works'] && (
+        <GroupedCardsGridSection
+          data={pageData['how-voicestack-works']?.componentData}
+          noLink={true}
+          demoCta={true}
         />
       )}
 
@@ -121,7 +114,21 @@ export default function MangoVoiceLPPage({
             pageData['testimonial-video-section']?.componentData?.refData
               ?.testimonialListing
           }
+          demoCta={true}
         />
+      )}
+
+      {comparisonTableData && (
+        <SiteComparisonSection
+          data={comparisonSectionData}
+          legendData={comparisonLegendData || []}
+          demoCta={true}
+        />
+      )}
+
+      
+      {pageData['offer-section']?.componentData && (
+        <OfferSection data={pageData['offer-section']?.componentData} spacingY={true}/>
       )}
 
       {/* VoiceStack Comparison Cards Section */}
@@ -145,18 +152,16 @@ export default function MangoVoiceLPPage({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-      {pageData['integrations-listing']?.componentData && (
-        <IntegrationsGrid data={pageData['integrations-listing']?.componentData}/>
-      )}
 
       <StatisticsSection/>
-{/*       
-      {pageData['logo-listing']?.componentData && (
-          <LogoListingSection
-            data={pageData['logo-listing']?.componentData?.blocksListingData}
-            header={false}
-          />
-        )} */}
+      
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+          demoOnly={true}
+        />
+      )}
       
       {/* FAQ Section */}
       {faq && (

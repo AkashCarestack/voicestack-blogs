@@ -28,7 +28,7 @@ export default function LpDemoPage() {
       <Head>
         <title>Book Demo | VoiceStack</title>
       </Head>
-      <div className="py-24 px-4">
+      <div className="pb-24 px-4">
         <div className="w-full gap-4 flex flex-col items-center">
           <div className="flex flex-col w-full items-center max-w-[780px] text-center gap-4 pb-8">
             <div className="max-w-[620px] flex flex-col gap-4">

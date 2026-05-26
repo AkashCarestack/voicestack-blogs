@@ -34,6 +34,9 @@ const SectionH2: React.FC<SectionH2Props> = ({
       normal: ({ children }) => (
         <span className="[&_br]:hidden md:[&_br]:block">{children}</span>
       ),
+      blockquote: ({ children }) => (
+        <span className="mt-4 font-geist block text-xl md:text-3xl font-medium leading-tight tracking-normal">{children}</span>
+      ),
     },
     marks: {
       highlight: ({ children }) => (
@@ -47,6 +50,7 @@ const SectionH2: React.FC<SectionH2Props> = ({
           }
         > {children} </span>
       ),
+     
       strong: ({ children }) => <strong>{children}</strong>,
       underline: ({ children }) => <span className="underline">{children}</span>,
       link: ({ value, children }) => {

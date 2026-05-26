@@ -53,11 +53,13 @@ interface GroupedCardsGridSectionProps {
   aiSection?: boolean
   sectionBorder?: 'b' | 't' | 'y' | 'none'
   sectionSpacing?: 'pt-sm' | 'pt-md' | 'pt-lg' | 'py-0'
+  noLink?: boolean
+  demoCta?: boolean
 }
 
 
 
-export default function GroupedCardsGridSection({ data, theme, aiSection=false, sectionBorder='y', sectionSpacing}: GroupedCardsGridSectionProps) {
+export default function GroupedCardsGridSection({ data, theme, aiSection=false, sectionBorder='y', sectionSpacing, noLink=false, demoCta=false}: GroupedCardsGridSectionProps) {
 
   // console.log('data GroupedCardsGridSection', data)
   if (!data) return null
@@ -106,6 +108,7 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
                   isWhite={isDark}
                   ctaListItems={displayData.ctaListItems}
                   aiSection={aiSection} 
+                  demoButton={demoCta}
                 />
               </div>
             ):(
@@ -117,6 +120,7 @@ export default function GroupedCardsGridSection({ data, theme, aiSection=false, 
                 <GroupedCardsGrid
                   customListingItems={displayData.customListingItems}
                   theme={theme}
+                  noLink={noLink}
                 />
 
                 {/* To show data from listItems or for feature child card */}

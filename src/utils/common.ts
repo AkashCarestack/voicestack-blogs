@@ -1,6 +1,8 @@
 import React from 'react'
 import siteConfig from 'config/siteConfig'
 import WordRotate from '~/components/ui/word-rotate'
+import FireIcon from '~/v2/icons/FireIcon'
+import WarningIcon from '~/v2/icons/WarningIcon'
 
 export const fetchAuthor = (post) => {
   let authorData: any = []
@@ -390,6 +392,15 @@ export const descriptionComponents: any = {
         },
         children
       ),
+    highlight: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'span',
+        {
+          className: 'font-medium text-gray-950 inline-flex items-center gap-2 py-2 pl-2 pr-4 rounded-[4px] bg-yellow-100',
+        },
+        React.createElement(FireIcon, { className: 'w-[16px] h-[16px] text-vs-purple' }),
+        children
+      ),
   },
   list: {
     bullet: ({ children }: { children: React.ReactNode }) =>
@@ -397,6 +408,14 @@ export const descriptionComponents: any = {
         'ul',
         {
           className: 'text-base text-gray-950 leading-[24px] self-stretch  list-inside font-normal text-left',
+        },
+        children
+      ),
+     number: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'ul',
+        {
+          className: 'list-inside font-normal text-left',
         },
         children
       ),
@@ -430,6 +449,21 @@ export const descriptionComponents: any = {
               fill: '#030712',
             })
           )
+        ),
+        React.createElement('span', null, children)
+      ),
+    number: ({ children }: { children: React.ReactNode }) =>
+      React.createElement(
+        'li',
+        {
+          className: 'flex justify-start gap-3 py-[10px] md:py-[14px] text-base md:text-lg text-gray-950 leading-[150%] border-b',
+          style: { borderColor: '#0307121A' },
+        },
+        React.createElement(
+          WarningIcon,
+          {
+            className: '',
+          }
         ),
         React.createElement('span', null, children)
       ),
