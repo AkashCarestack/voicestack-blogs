@@ -31,7 +31,7 @@ export default function LoginPage() {
       </Head>
       <div className="py-24 px-4">
         <div className="w-full gap-16 flex flex-col justify-center items-center min-h-[500px]">
-          <div className="flex flex-col w-full items-center text-center gap-4 pb-8 max-w-[1020px]">
+          <div className="flex flex-col w-full items-center text-center gap-4 pb-8 m\ax-w-[1020px]">
             <div className="flex flex-col gap-4 w-full">
               <h1 className="text-2xl font-semibold leading-6 text-gray-900">
                 VoiceStack Login

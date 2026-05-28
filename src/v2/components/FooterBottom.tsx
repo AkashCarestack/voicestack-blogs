@@ -49,7 +49,7 @@ export default function FooterBottom({ data }: FooterBottomProps) {
 
   // Use Sanity content or fallback defaults
   const title = ctaBanner?.title || 'Grow Your Practice with VoiceStack'
-  const description = ctaBanner?.description || 'Join leading Australian dental practices who never miss a patient call. See how VoiceStack can transform your front desk in just 15 minutes.'
+  const description = ctaBanner?.description || 'Smarter call management, automated follow-ups, and actionable insights designed to grow your practice.'
   const buttonText = ctaBanner?.buttonText || 'Book Free Demo'
   const buttonLink = ctaBanner?.buttonLink || '/demo'
 
@@ -75,7 +75,12 @@ export default function FooterBottom({ data }: FooterBottomProps) {
             <p className="pt-3 pb-6 text-base md:text-lg !leading-[160%]">
               {description}
             </p>
-            <Button type="primary" link="/demo" className="w-fit mx-auto">
+            <Button
+              type="primary"
+              link={buttonLink}
+              disableLpDemoLinkOverride={true}
+              className="w-fit mx-auto"
+            >
               <span>{buttonText}</span>
             </Button>
           </div>

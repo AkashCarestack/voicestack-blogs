@@ -18,6 +18,7 @@ import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import { useRouter } from 'next/router'
 import OfferSection from '~/v2/sections/OfferSection'
 import LpHeader from '~/components/common/LpHeader'
+import LpFooterV2 from '~/components/common/LpFooterV2'
 import LpDemoLinkProvider from '~/providers/LpDemoLinkProvider'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
@@ -169,6 +170,8 @@ export default function MangoVoiceLPPage({
           <FaqSection faqItems={faq} />
         </div>
       )}
+
+      <LpFooterV2 data={pageData?.footer?.componentData} />
 
     </LpDemoLinkProvider>
   )

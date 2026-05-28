@@ -27,6 +27,7 @@ interface ButtonProps {
   [x: string]: any
   className?: string
   locale?: string | false
+  disableLpDemoLinkOverride?: boolean
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
@@ -39,6 +40,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   className,
   locale,
   buttonVariant,
+  disableLpDemoLinkOverride = false,
   onClick,
   ...rest
 }) => {
@@ -343,6 +345,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     // if (isPricingButton) return undefined
     const shouldUseLpDemoLink =
       isLpPage &&
+      !disableLpDemoLinkOverride &&
       lpDemoLink &&
       (!formattedLink ||
         formattedLink === '#demo' ||
@@ -396,7 +399,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     // }
     
     return formattedLink
-  }, [isPricingButton, formattedLink, isPartnerChildPage, isLpPage, isBookFreeDemoButton, lpDemoLink, router])
+  }, [isPricingButton, formattedLink, isPartnerChildPage, isLpPage, isBookFreeDemoButton, lpDemoLink, router, disableLpDemoLinkOverride])
 
   const combinedClasses = clsx(baseClasses, customClasses, className)
   if (finalLink) {
