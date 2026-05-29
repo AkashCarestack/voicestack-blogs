@@ -83,6 +83,7 @@ module.exports = {
   		animation: {
   			'shiny-text': 'shiny-text 8s infinite',
 				pullUp: 'pullUp 0.3s ease-in forwards',
+				'shine': 'shine 4s ease-in-out infinite',
   		},
   		keyframes: {
   			'shiny-text': {
@@ -98,6 +99,10 @@ module.exports = {
           '50%': { opacity: '1' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
+				shine: {
+					'0%': { transform: 'translateX(-100%) skewX(-20deg)' },
+					 '100%': { transform: 'translateX(400%) skewX(-20deg)' },
+				},
   		},
 			
 			backgroundImage: {

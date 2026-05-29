@@ -1,6 +1,7 @@
 import React from 'react';
 import Anchor from './anchor';
 import { formatPhoneNumberWithCountryCode } from '../utils/helper';
+import PhoneIcon from '../icons/PhoneIcon';
 
 const TopNavigationMenu = ({ safeData, currentLocale }: { safeData: any; currentLocale?: string | null }) => {
   const phoneNumberWithCountryCode = safeData?.phoneNumber 
@@ -10,8 +11,9 @@ const TopNavigationMenu = ({ safeData, currentLocale }: { safeData: any; current
   return (
     <>
       {safeData?.phoneNumber && (
-        <div className="flex items-center gap-2 text-gray-900 text-sm mr-3">
-          <span>Talk to an expert</span>
+        <div className="flex items-center gap-1 text-gray-900 text-sm mr-3">
+          {/* <span>Talk to an expert</span> */}
+          <PhoneIcon className='size-4 text-gray-900' />
           <Anchor
             href={`tel:${phoneNumberWithCountryCode}`}
             className="text-gray-900 text-sm font-semibold flex items-center gap-2 hover:text-gray-800 transition-colors"
