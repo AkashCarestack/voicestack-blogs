@@ -7,6 +7,8 @@ import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
 import { urlForImage } from '~/lib/sanity.image'
 import Button from '~/components/common/Button'
+import { useLpMangoCopyEnabled } from '~/providers/LpMangoCopyProvider'
+import { resolveLpCtaText } from '~/utils/lpMangoCta'
 import { cn } from '~/lib/utils'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 
@@ -53,6 +55,7 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
   demoOnly = false,
 }) => {
   const router = useRouter()
+  const mangoCopyEnabled = useLpMangoCopyEnabled()
   const locale = router.locale || 'en'
   const isIntegrationsPage = (router.asPath ?? '').endsWith('/integrations')
 
@@ -72,14 +75,24 @@ const IntegrationsShowcaseSection: React.FC<IntegrationsGridProps> = ({
 
   // On the integrations page, hide "See All Integrations" button
   const ctaListItems = React.useMemo(() => {
+    const mapCtaText = (items: typeof defaultCtaListItems) =>
+      items.map((cta) => ({
+        ...cta,
+        ctaText: resolveLpCtaText(cta.ctaText, mangoCopyEnabled),
+      }))
+
     if (demoOnly) {
-      return [{ ctaText: 'Book Free Demo', ctaLink: '/demo', ctaType: 'primary' as const }]
+      return mapCtaText([
+        { ctaText: 'Book Free Demo', ctaLink: '/demo', ctaType: 'primary' as const },
+      ])
     }
     if (isIntegrationsPage) {
-      return defaultCtaListItems.filter((cta) => cta.ctaText !== 'See All Integrations')
+      return mapCtaText(
+        defaultCtaListItems.filter((cta) => cta.ctaText !== 'See All Integrations'),
+      )
     }
-    return defaultCtaListItems
-  }, [demoOnly, isIntegrationsPage, defaultCtaListItems])
+    return mapCtaText(defaultCtaListItems)
+  }, [demoOnly, isIntegrationsPage, defaultCtaListItems, mangoCopyEnabled])
   
   // Use CTA items from data or fall back to defaults
 

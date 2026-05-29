@@ -2,9 +2,14 @@ import React from 'react'
 import { SectionHeaderPropsV2 } from '../../../components/revamp/components/common/interface/common'
 import SectionH2 from '~/components/typography/revamp/SectionH2'
 import Button from '~/components/common/Button'
+import LpCtaLabel from '~/components/common/LpCtaLabel'
+import { useLpMangoCopyEnabled } from '~/providers/LpMangoCopyProvider'
+import { resolveLpCtaText } from '~/utils/lpMangoCta'
 import { PortableText, PortableTextReactComponents } from '@portabletext/react'
 
 export default function SectionHeaderV2({ showFullLength = false, demoButton = false, headingMd = false, aiSection = false, ...data }: SectionHeaderPropsV2) {
+  const mangoCopyEnabled = useLpMangoCopyEnabled()
+
   // Check if heading is portable text (array) or string  
   const components: Partial<PortableTextReactComponents> = {
     block: {
@@ -46,8 +51,12 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
             <div className='flex flex-col md:flex-row justify-center gap-4 items-center mt-8'>
               {data.ctaListItems?.map((btn: any, key: number) => {
                 return (
-                  <Button link={btn.ctaLink} key={`${btn.ctaText}-${key}`} type={btn?.ctaType || 'primary'}>
-                    <span>{btn.ctaText}</span>
+                  <Button
+                    link={btn.ctaLink}
+                    key={`${btn.ctaText}-${key}`}
+                    type={btn?.ctaType || 'primary'}
+                  >
+                    <span>{resolveLpCtaText(btn.ctaText, mangoCopyEnabled)}</span>
                   </Button>
                 )
               })}
@@ -56,7 +65,7 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
           {demoButton && (
             <div className={`flex mt-8 ${data.isLeftAlign ? 'justify-start' : 'justify-center'}`}>
               <Button type="primary" link="/demo">
-                <span className="">Book Free Demo</span>
+                <LpCtaLabel>Book Free Demo</LpCtaLabel>
               </Button>
             </div>
           )}

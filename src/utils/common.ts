@@ -456,13 +456,13 @@ export const descriptionComponents: any = {
       React.createElement(
         'li',
         {
-          className: 'flex justify-start gap-3 py-[10px] md:py-[14px] text-base md:text-lg text-gray-950 leading-[150%] border-b',
+          className: 'flex justify-start gap-3  py-[10px] md:py-[14px] text-base md:text-lg text-gray-950 leading-[150%] border-b',
           style: { borderColor: '#0307121A' },
         },
         React.createElement(
           WarningIcon,
           {
-            className: '',
+            className: 'md:h-[20px] md:w-[20px] h-[16px] w-[16px] mt-1 flex-shrink-0',
           }
         ),
         React.createElement('span', null, children)

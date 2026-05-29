@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from '~/components/common/Button'
+import LpCtaLabel from '~/components/common/LpCtaLabel'
 import Container from '~/components/structure/Container'
 import Image from 'next/image'
 import WorldMapV2 from 'public/assets/world-map-v2.png'
@@ -78,9 +79,7 @@ const StatisticsSection = ({ bgColor, slug, category }: StatisticsSectionProps =
                   className="w-fit"
                   link="/demo"
                 >
-                  <span>
-                    {'Book Free Demo'}
-                  </span>
+                  <LpCtaLabel>Book Free Demo</LpCtaLabel>
                 </Button>
               </div>
 

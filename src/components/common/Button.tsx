@@ -15,9 +15,12 @@ import { PracticeTypeModal } from '~/v2/components/common/PracticeTypeModal'
 import { useDemoFormData } from '~/providers/BookDemoProvider'
 import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
 import { hasSecondaryMeetingLink, LOC_QUERY_PARAM } from '~/utils/resolveDemoMeetingLink'
+import PrimarySwitchButton, {
+  isPrimarySwitchButtonType,
+} from '~/components/common/PrimarySwitchButton'
 
 interface ButtonProps {
-  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
+  type?: 'primary' | 'primarySm' | 'primarySwitch' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
   alter?: 'bgWhite' | 'borderWhite' | 'disabled' | 'default'
   children?: React.ReactNode
   link?: any
@@ -402,6 +405,27 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   }, [isPricingButton, formattedLink, isPartnerChildPage, isLpPage, isBookFreeDemoButton, lpDemoLink, router, disableLpDemoLinkOverride])
 
   const combinedClasses = clsx(baseClasses, customClasses, className)
+
+  if (isPrimarySwitchButtonType(type)) {
+    return (
+      <>
+        <PrimarySwitchButton
+          link={finalLink || formattedLink}
+          buttonText={buttonText}
+          className={className}
+          target={target}
+          locale={locale}
+        />
+        {showPracticeTypeModal && (
+          <PracticeTypeModal
+            onClose={() => setShowPracticeTypeModal(false)}
+            locale={locale || router.locale}
+          />
+        )}
+      </>
+    )
+  }
+
   if (finalLink) {
     return (
       <>

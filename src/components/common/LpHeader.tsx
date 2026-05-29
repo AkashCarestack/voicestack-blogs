@@ -3,6 +3,7 @@ import { useRouter } from 'next/router'
 import VoicestackLogo from 'public/assets/voicestack-logo.svg'
 import Anchor from './anchor'
 import Button from './Button'
+import { useLpCtaText } from '~/providers/LpMangoCopyProvider'
 import Container from '../structure/Container'
 
 interface LpHeaderProps {
@@ -17,6 +18,7 @@ const LpHeader = ({ data, logo, logoAlt, logoText }: LpHeaderProps) => {
   const safeData = data || {
     ctabutton: 'Book Free Demo',
   }
+  const headerCtaText = useLpCtaText(safeData?.ctabutton || 'Book Free Demo')
 
   return (
     <header className="bg-[#F9F9F9] py-4 fixed top-0 left-0 right-0 z-50">
@@ -29,7 +31,7 @@ const LpHeader = ({ data, logo, logoAlt, logoText }: LpHeaderProps) => {
               src={logo || VoicestackLogo}
               alt={logoAlt || "VoiceStack"}
               title={logoAlt || "VoiceStack"}
-              className={`${logo ? 'md:h-[45px] h-[36px] w-auto' : 'h-[26px] md:h-[36px] w-auto'}`}
+              className={`${logo ? 'md:h-[26px] h-[26px] w-auto' : 'h-[26px] md:h-[26px] w-auto'}`}
               width={200}
               height={52}
             />
@@ -39,7 +41,7 @@ const LpHeader = ({ data, logo, logoAlt, logoText }: LpHeaderProps) => {
 
        
           <Button type="primary" link="#demo" className="md:block hidden">
-            <span className="text-sm font-medium">{safeData?.ctabutton || 'Book Free Demo'}</span>
+            <span className="text-sm font-medium">{headerCtaText}</span>
           </Button>
       </Container>
     </header>

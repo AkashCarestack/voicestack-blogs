@@ -539,7 +539,7 @@ export default function CategoryFeatureTabs({
                     )
                   })}
                 </div>
-                <div className="flex flex-col gap-[20px] pt-[24px] border-t border-gray-200">
+                <div className="flex flex-col gap-[30px] pt-[24px] border-t border-gray-200">
                   {/* <p className='block text-zinc-500 font-sans text-base font-normal leading-[150%] tracking-normal'>For Smarter Patient Call Management</p> */}
                   <div>
                     <Button type="primary" link="/demo">
