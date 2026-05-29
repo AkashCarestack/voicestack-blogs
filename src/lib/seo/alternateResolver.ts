@@ -6,7 +6,7 @@ export const PATHS_WITH_ALTERNATES = ['', 'system-requirements'] as const
 export const PATHS_NO_EN_URL = [
   'who-we-serve/single-location-dental-practices',
   'who-we-serve/multi-location-dental-practices',
-  'who-we-serve/groups-and-enterprises',
+  'who-we-serve/squat-dental-practices',
 ]
 
 export const PATHS_NO_EN_GB_URL = [
@@ -63,7 +63,6 @@ export const LOCALE_ALTERNATE_MAP: Record<string, Record<string, string>> = {
   'ai-receptionist': {
     en: 'phone-system/features/ai-receptionist',
     'en-AU': 'dental-phones/ai-receptionist',
-    'en-GB': 'dental-phones/features/ai-receptionist',
   },
   'phone-system/features/marketing-spend-optimization': {
     en: 'phone-system/features/marketing-spend-optimization',
@@ -71,12 +70,10 @@ export const LOCALE_ALTERNATE_MAP: Record<string, Record<string, string>> = {
     'en-GB': 'dental-phones/features/marketing-spend-optimisation',
   },
   'who-we-serve/multi-location-dental-practices': {
-    en: 'who-we-serve/multi-location-dental-practices',
     'en-AU': 'who-we-serve/multi-location-dental-practices',
     'en-GB': 'who-we-serve/multi-site-dental-practices',
   },
   'who-we-serve/single-location-dental-practices': {
-    en: 'who-we-serve/single-location-dental-practices',
     'en-AU': 'who-we-serve/single-location-dental-practices',
     'en-GB': 'who-we-serve/single-site-dental-practices',
   },
@@ -86,7 +83,6 @@ export const LOCALE_ALTERNATE_MAP: Record<string, Record<string, string>> = {
     'en-GB': 'who-we-serve/dental-groups-dsos-corporates',
   },
   'who-we-serve/startups': {
-    en: 'who-we-serve/startups',
     'en-AU': 'who-we-serve/startups',
     'en-GB': 'who-we-serve/squat-dental-practices',
   },
@@ -103,19 +99,22 @@ export const PATH_TO_CANONICAL: Record<string, string> = {
   'dental-phones/comparison': 'phone-system/comparison',
   'dental-phones/case-studies': 'phone-system/case-studies',
   'dental-phones/phones': 'phone-system/phones',
-  // ai-receptionist: all locale slugs → canonical key
+  // ai-receptionist: shipped/legacy slugs → canonical key
+  'phone-system/features/ai-receptionist': 'ai-receptionist',
   'phone-system/ai-receptionist': 'ai-receptionist',
   'dental-phones/ai-receptionist': 'ai-receptionist',
-  'dental-phones/features/ai-receptionist': 'ai-receptionist',
   // marketing-spend: AU/GB spelling alias
+  'phone-system/features/marketing-spend-optimisation':
+    'phone-system/features/marketing-spend-optimization',
   'dental-phones/features/marketing-spend-optimisation':
     'phone-system/features/marketing-spend-optimization',
   // who-we-serve GB/AU aliases
   'who-we-serve/multi-site-dental-practices': 'who-we-serve/multi-location-dental-practices',
   'who-we-serve/single-site-dental-practices': 'who-we-serve/single-location-dental-practices',
+  'who-we-serve/squat-dental-practices': 'who-we-serve/startups',
   'who-we-serve/dental-groups-dsos-corporates': 'who-we-serve/groups-dsos',
   'who-we-serve/groups-and-dsos': 'who-we-serve/groups-dsos',
-  'who-we-serve/squat-dental-practices': 'who-we-serve/startups',
+  'who-we-serve/groups-and-enterprises': 'who-we-serve/groups-dsos',
 }
 
 export interface AlternateLink {

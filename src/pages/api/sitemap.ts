@@ -663,7 +663,7 @@ async function generateSiteMap(
     if (hasLocaleAlternates && localeMap) {
       locales.forEach(locale => {
         const localePath = localeMap[locale];
-        if (localePath == null || shouldExcludePath(localePath) || shouldOmitEnUrl(localePath, locale) || (locale === 'en-GB' && shouldOmitEnGBUrl(localePath))) return;
+        if (localePath == null || !allowLocalePathForAlternate(localePath) || shouldOmitEnUrl(localePath, locale) || (locale === 'en-GB' && shouldOmitEnGBUrl(localePath))) return;
         const pathLocaleKey = `${localePath}:${locale}`;
         if (processedAlternatePathLocales.has(pathLocaleKey)) return;
         if (generatedUrls.has(buildUrl(localePath, locale))) return;
