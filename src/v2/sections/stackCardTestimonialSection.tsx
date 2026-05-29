@@ -2,6 +2,9 @@ import { PortableText } from '@portabletext/react'
 import React, { useRef, useState } from 'react'
 
 import Button from '~/components/common/Button'
+import LpCtaLabel from '~/components/common/LpCtaLabel'
+import { useLpCtaText, useLpMangoCopyEnabled } from '~/providers/LpMangoCopyProvider'
+import { resolveLpCtaText } from '~/utils/lpMangoCta'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
@@ -50,6 +53,8 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
 
   const router = useRouter();
   const isUs = router.locale === 'en';
+  const mangoCopyEnabled = useLpMangoCopyEnabled()
+  const demoCtaText = useLpCtaText('Book Free Demo')
   const components: any = {
     block: {
       normal: ({ children }: { children: React.ReactNode }) => (
@@ -94,6 +99,10 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
   const ctaItems =
     currentTestimonial?.ctaListItems ||
     (sectionCta?.length ? sectionCta : null);
+  const sectionCtaText = resolveLpCtaText(
+    ctaItems?.[0]?.ctaText || 'Book Free Demo',
+    mangoCopyEnabled,
+  )
 
   // Early return if currentTestimonial is missing
   if (!currentTestimonial) {
@@ -428,13 +437,13 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                           className="w-fit"
                         >
                           <span className="text-base font-medium">
-                            {'Book Free Demo'}
+                            <LpCtaLabel>Book Free Demo</LpCtaLabel>
                           </span>
                         </Button>
                       ) : (
                         <Button type="primary" link="/demo" className="w-fit">
                           <span className="text-base font-medium">
-                            Book Free Demo
+                            <LpCtaLabel>Book Free Demo</LpCtaLabel>
                           </span>
                         </Button>
                       )}
@@ -586,9 +595,7 @@ const StackCardTestimonial: React.FC<StackCardTestimonialProps> = ({
                     <div className="flex flex-col sm:flex-row gap-4  border-t border-gray-200 px-6 py-6 md:px-16 md:pt-8 md:pb-12  mt-auto">
                       <Button type="primary" className="w-fit" link="/demo">
                         <span>
-                          {isPricingPage
-                            ? 'Book Free Demo'
-                            : ctaItems[0]?.ctaText || 'Book Free Demo'}
+                          {isPricingPage ? demoCtaText : sectionCtaText}
                         </span>
                       </Button>
                       {!isPricingPage && isUs && (

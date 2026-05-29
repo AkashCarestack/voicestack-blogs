@@ -1,6 +1,7 @@
 import Section from '~/components/structure/Section'
 import FooterBottomBg from '../../../public/assets/Bg/image2.png'
 import Button from '~/components/common/Button'
+import { useLpCtaText } from '~/providers/LpMangoCopyProvider'
 import Image from 'next/image'
 import { urlForImage } from '~/lib/sanity.image'
 
@@ -50,7 +51,7 @@ export default function FooterBottom({ data }: FooterBottomProps) {
   // Use Sanity content or fallback defaults
   const title = ctaBanner?.title || 'Grow Your Practice with VoiceStack'
   const description = ctaBanner?.description || 'Smarter call management, automated follow-ups, and actionable insights designed to grow your practice.'
-  const buttonText = ctaBanner?.buttonText || 'Book Free Demo'
+  const buttonText = useLpCtaText(ctaBanner?.buttonText || 'Book Free Demo')
   const buttonLink = ctaBanner?.buttonLink || '/demo'
 
   return (

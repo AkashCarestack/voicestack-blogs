@@ -20,6 +20,7 @@ import OfferSection from '~/v2/sections/OfferSection'
 import LpHeader from '~/components/common/LpHeader'
 import LpFooterV2 from '~/components/common/LpFooterV2'
 import LpDemoLinkProvider from '~/providers/LpDemoLinkProvider'
+import LpMangoCopyProvider from '~/providers/LpMangoCopyProvider'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 // import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
@@ -84,6 +85,7 @@ export default function MangoVoiceLPPage({
 
   return (
     <LpDemoLinkProvider demoLink={demoUrl}>
+      <LpMangoCopyProvider slug="mango-voice">
       {/* <SimpleHead data={pageData?.seo} /> */}
       <LpHeader />
       
@@ -108,6 +110,17 @@ export default function MangoVoiceLPPage({
         />
       )}
 
+{pageData['offer-section']?.componentData && (
+        <OfferSection data={pageData['offer-section']?.componentData} spacingY={true}/>
+      )}
+
+{comparisonTableData && (
+        <SiteComparisonSection
+          data={comparisonSectionData}
+          legendData={comparisonLegendData || []}
+          demoCta={true}
+        />
+      )}
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
         <VerticalTestimonialListingv2
@@ -119,18 +132,6 @@ export default function MangoVoiceLPPage({
         />
       )}
 
-      {comparisonTableData && (
-        <SiteComparisonSection
-          data={comparisonSectionData}
-          legendData={comparisonLegendData || []}
-          demoCta={true}
-        />
-      )}
-
-      
-      {pageData['offer-section']?.componentData && (
-        <OfferSection data={pageData['offer-section']?.componentData} spacingY={true}/>
-      )}
 
       {/* VoiceStack Comparison Cards Section */}
       {pageData['comparison-cards']?.componentData && (
@@ -173,6 +174,7 @@ export default function MangoVoiceLPPage({
 
       <LpFooterV2 data={pageData?.footer?.componentData} />
 
+      </LpMangoCopyProvider>
     </LpDemoLinkProvider>
   )
 }

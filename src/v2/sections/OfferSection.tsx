@@ -44,9 +44,7 @@ const OfferSection = ({ data, variant = 'default', spacingY=false }: OfferSectio
                         className="w-fit"
                         link={cta?.ctaLink || '#'}
                       >
-                        <span>
-                          {cta?.ctaText || 'Button'}
-                        </span>
+                        <span>{cta?.ctaText || 'Button'}</span>
                       </Button>
                     ))}
                   </div>
