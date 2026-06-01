@@ -72,21 +72,43 @@ interface FooterData {
   bottomLinks?: NavigationLink[]
 }
 
-function formatLastmod(date: string | Date | null | undefined): string {
-  if (!date) {
-    // Default to current date/time if no date provided
-    return new Date().toISOString();
-  }
-  
+interface PathEntry {
+  locales: string[]
+  date?: string
+}
+
+function formatLastmod(date: string | Date | null | undefined): string | null {
+  if (!date) return null;
+
   const dateObj = typeof date === 'string' ? new Date(date) : date;
-  
-  if (isNaN(dateObj.getTime())) {
-    return new Date().toISOString();
-  }
-  
-  // Format as YYYY-MM-DDThh:mm:ss+00:00 (sitemap standard with time)
-  // ISO 8601 format is accepted by sitemap protocol
+
+  if (isNaN(dateObj.getTime())) return null;
+
   return dateObj.toISOString();
+}
+
+function mergeContentDate(existing?: string, incoming?: string): string | undefined {
+  if (!incoming) return existing;
+  if (!existing) return incoming;
+  return incoming > existing ? incoming : existing;
+}
+
+function appendLastmodLine(xml: string, date?: string): string {
+  const formattedLastmod = formatLastmod(date);
+
+  if (!formattedLastmod) return xml;
+
+  return xml + `    <lastmod>${formattedLastmod}</lastmod>\n`;
+}
+
+function mergePathEntry(existing: PathEntry, incoming: PathEntry): PathEntry {
+  const combinedLocales = new Set([...existing.locales, ...incoming.locales]);
+  const date = mergeContentDate(existing.date, incoming.date);
+
+  return {
+    locales: Array.from(combinedLocales),
+    ...(date && { date }),
+  };
 }
 
 function escapeXml(unsafe: string): string {
@@ -259,8 +281,8 @@ function extractFooterPaths(footers: FooterData[]): Map<string, Set<string>> {
   return paths;
 }
 
-async function getFeaturePaths(client: any): Promise<Map<string, { date: string; locales: string[] }>> {
-  const pathData = new Map<string, { date: string; locales: Set<string> }>();
+async function getFeaturePaths(client: any): Promise<Map<string, PathEntry>> {
+  const pathData = new Map<string, { date?: string; locales: Set<string> }>();
   
   const featuresQuery = groq`
     *[_type == "features" && !(_id in path("drafts.**")) && defined(basicInfo.slug.current)] {
@@ -271,21 +293,6 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
   `;
   
   const features = await client.fetch(featuresQuery);
-  // console.log({features});
-
-  // features.forEach((slug: any) => {
-  //   const featureDate = slug._updatedAt || new Date().toISOString();
-  //   const enPath = `phone-system/features/${slug.slug}`;
-  //   const enAUPath = `dental-phones/features/${slug.slug}`;
-  //   const enGBPath = `dental-phones/features/${slug.slug}`;
-  //   if(slug =='en'){
-  //     pathData.set(enPath, { date: featureDate, locales: new Set([slug.language]) });
-  //   }else if(slug =='en-AU'){
-  //     pathData.set(enAUPath, { date: featureDate, locales: new Set([slug.language]) });
-  //   }else if(slug =='en-GB'){
-  //     pathData.set(enGBPath, { date: featureDate, locales: new Set([slug.language]) });
-  //   }
-  // });
   
   // Group features by normalized slug to detect multi-locale features
   features.forEach((feature: any) => {
@@ -298,34 +305,35 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
     if (shouldExcludePath(normalizedPath)) return;
     
     const featureLocale = feature.language || 'en';
-    const featureDate = feature._updatedAt || new Date().toISOString();
     
     const existing = pathData.get(normalizedPath);
     if (existing) {
       existing.locales.add(featureLocale);
-      // Use the most recent date if multiple features match
-      if (featureDate > existing.date) {
-        existing.date = featureDate;
-      }
+      existing.date = mergeContentDate(existing.date, feature._updatedAt);
     } else {
-      pathData.set(normalizedPath, { date: featureDate, locales: new Set([featureLocale]) });
+      pathData.set(normalizedPath, {
+        locales: new Set([featureLocale]),
+        ...(feature._updatedAt && { date: feature._updatedAt }),
+      });
     }
   });
   
   // Convert Set to Array for return
-  const result = new Map<string, { date: string; locales: string[] }>();
+  const result = new Map<string, PathEntry>();
   pathData.forEach((value, path) => {
-    result.set(path, { date: value.date, locales: Array.from(value.locales) });
+    result.set(path, {
+      locales: Array.from(value.locales),
+      ...(value.date && { date: value.date }),
+    });
   });
   
   return result;
 }
 
-async function getNavigationPaths(client: any): Promise<Map<string, { date: string; locales: string[] }>> {
+async function getNavigationPaths(client: any): Promise<Map<string, PathEntry>> {
   const headerQuery = groq`
     *[_type == "homeSettings" && !(_id in path("drafts.**")) && language in ["en", "en-AU", "en-GB"]] {
       language,
-      _updatedAt,
       navigationMenu[] {
         label,
         href,
@@ -344,7 +352,6 @@ async function getNavigationPaths(client: any): Promise<Map<string, { date: stri
   const footerQuery = groq`
     *[_type == "footer" && !(_id in path("drafts.**")) && language in ["en", "en-AU", "en-GB"]] {
       language,
-      _updatedAt,
       footerColumns[] {
         title,
         titleLink,
@@ -368,40 +375,17 @@ async function getNavigationPaths(client: any): Promise<Map<string, { date: stri
   const headerPaths = extractHeaderPaths(headers);
   const footerPaths = extractFooterPaths(footers);
   
-  // Get the most recent update date from headers/footers (all locales)
-  const enHeader = headers.find((h: any) => h.language === 'en' || !h.language);
-  const enAUHeader = headers.find((h: any) => h.language === 'en-AU');
-  const enGBHeader = headers.find((h: any) => h.language === 'en-GB');
-  const enFooter = footers.find((f: any) => f.language === 'en' || !f.language);
-  const enAUFooter = footers.find((f: any) => f.language === 'en-AU');
-  const enGBFooter = footers.find((f: any) => f.language === 'en-GB');
-  
-  // Get the most recent date from all header/footer locales
-  const headerDates = [
-    enHeader?._updatedAt,
-    enAUHeader?._updatedAt,
-    enGBHeader?._updatedAt,
-    enFooter?._updatedAt,
-    enAUFooter?._updatedAt,
-    enGBFooter?._updatedAt
-  ].filter(Boolean) as string[];
-  
-  const headerDate = headerDates.length > 0 
-    ? headerDates.reduce((latest, date) => date > latest ? date : latest)
-    : new Date().toISOString();
-  const footerDate = headerDate; // Use same date since we're combining them
-
-  // Combine paths with dates and locales
-  const pathData = new Map<string, { date: string; locales: Set<string> }>();
+  // Navigation only discovers sitemap URLs/locales. It must not contribute lastmod dates.
+  const pathData = new Map<string, Set<string>>();
   
   // Process header paths
   headerPaths.forEach((locales, path) => {
     const existing = pathData.get(path);
     if (existing) {
       // Merge locales
-      locales.forEach(locale => existing.locales.add(locale));
+      locales.forEach(locale => existing.add(locale));
     } else {
-      pathData.set(path, { date: headerDate, locales: new Set(locales) });
+      pathData.set(path, new Set(locales));
     }
   });
   
@@ -410,28 +394,24 @@ async function getNavigationPaths(client: any): Promise<Map<string, { date: stri
     const existing = pathData.get(path);
     if (existing) {
       // Merge locales
-      locales.forEach(locale => existing.locales.add(locale));
-      // Use most recent date if path exists in both
-      if (footerDate > existing.date) {
-        existing.date = footerDate;
-      }
+      locales.forEach(locale => existing.add(locale));
     } else {
-      pathData.set(path, { date: footerDate, locales: new Set(locales) });
+      pathData.set(path, new Set(locales));
     }
   });
   
   // Convert Set to Array for return
-  const result = new Map<string, { date: string; locales: string[] }>();
-  pathData.forEach((value, path) => {
-    result.set(path, { date: value.date, locales: Array.from(value.locales) });
+  const result = new Map<string, PathEntry>();
+  pathData.forEach((locales, path) => {
+    result.set(path, { locales: Array.from(locales) });
   });
   
   return result;
 }
 
 // Fetch ALL page documents to detect multi-locale pages
-async function getAllPageDocuments(client: any): Promise<Map<string, { date: string; locales: string[] }>> {
-  const pathData = new Map<string, { date: string; locales: Set<string> }>();
+async function getAllPageDocuments(client: any): Promise<Map<string, PathEntry>> {
+  const pathData = new Map<string, { date?: string; locales: Set<string> }>();
   
   // Query for ALL page documents (not just those matching navigation paths)
   const pageQuery = groq`
@@ -462,9 +442,7 @@ async function getAllPageDocuments(client: any): Promise<Map<string, { date: str
       if (existing) {
         existing.locales.add(pageLocale);
         // Use most recent date if multiple pages match
-        if (page._updatedAt > existing.date) {
-          existing.date = page._updatedAt;
-        }
+        existing.date = mergeContentDate(existing.date, page._updatedAt);
       } else {
         pathData.set(normalizedPath, { date: page._updatedAt, locales: new Set([pageLocale]) });
       }
@@ -472,32 +450,20 @@ async function getAllPageDocuments(client: any): Promise<Map<string, { date: str
   });
   
   // Convert Set to Array for return
-  const result = new Map<string, { date: string; locales: string[] }>();
+  const result = new Map<string, PathEntry>();
   pathData.forEach((value, path) => {
-    result.set(path, { date: value.date, locales: Array.from(value.locales) });
-  });
-  
-  return result;
-}
-
-// Fetch page document dates and locales for paths that might have corresponding page documents
-async function getPageDocumentDates(client: any, paths: Set<string>): Promise<Map<string, { date: string; locales: string[] }>> {
-  const allPages = await getAllPageDocuments(client);
-  
-  // Filter to only pages that match our navigation paths
-  const result = new Map<string, { date: string; locales: string[] }>();
-  allPages.forEach((data, path) => {
-    if (paths.has(path)) {
-      result.set(path, data);
-    }
+    result.set(path, {
+      locales: Array.from(value.locales),
+      ...(value.date && { date: value.date }),
+    });
   });
   
   return result;
 }
 
 async function generateSiteMap(
-  navigationPaths: Map<string, { date: string; locales: string[] }>, 
-  featurePaths: Map<string, { date: string; locales: string[] }>,
+  navigationPaths: Map<string, PathEntry>, 
+  featurePaths: Map<string, PathEntry>,
   client: any
 ) {
   const locales = siteConfig.locales;
@@ -506,26 +472,23 @@ async function generateSiteMap(
   const allPageDocuments = await getAllPageDocuments(client);
   
   // Combine all paths and dates
-  const allPathData = new Map<string, { date: string; locales: string[] }>();
+  const allPathData = new Map<string, PathEntry>();
   
   // Add navigation paths with their locales
   navigationPaths.forEach((data, path) => {
-    allPathData.set(path, data);
+    allPathData.set(path, { locales: [...data.locales] });
   });
   
   // Add feature paths with their locales
   featurePaths.forEach((featureData, path) => {
     const existing = allPathData.get(path);
     if (existing) {
-      // Merge locales from features
-      const combinedLocales = new Set([...existing.locales, ...featureData.locales]);
-      existing.locales = Array.from(combinedLocales);
-      // Use most recent date if path exists in both
-      if (featureData.date > existing.date) {
-        existing.date = featureData.date;
-      }
+      allPathData.set(path, mergePathEntry(existing, featureData));
     } else {
-      allPathData.set(path, featureData);
+      allPathData.set(path, {
+        locales: [...featureData.locales],
+        ...(featureData.date && { date: featureData.date }),
+      });
     }
   });
   
@@ -533,16 +496,13 @@ async function generateSiteMap(
   allPageDocuments.forEach((pageData, path) => {
     const existing = allPathData.get(path);
     if (existing) {
-      // Merge locales from page documents
-      const combinedLocales = new Set([...existing.locales, ...pageData.locales]);
-      existing.locales = Array.from(combinedLocales);
-      // Use most recent date
-      if (pageData.date > existing.date) {
-        existing.date = pageData.date;
-      }
+      allPathData.set(path, mergePathEntry(existing, pageData));
     } else {
       // Add page document paths that aren't in navigation
-      allPathData.set(path, pageData);
+      allPathData.set(path, {
+        locales: [...pageData.locales],
+        ...(pageData.date && { date: pageData.date }),
+      });
     }
   });
 
@@ -552,15 +512,14 @@ async function generateSiteMap(
     if (shouldExcludePath(path)) return;
     
     const existing = allPathData.get(path);
-    const currentDate = new Date().toISOString();
     
     if (existing) {
       // Merge locales from static pages
       const combinedLocales = new Set([...existing.locales, ...locales]);
       existing.locales = Array.from(combinedLocales);
     } else {
-      // Add static page with specified locales
-      allPathData.set(path, { date: currentDate, locales });
+      // Add static page with specified locales, but no guessed lastmod.
+      allPathData.set(path, { locales });
     }
   });
 
@@ -585,8 +544,6 @@ async function generateSiteMap(
   // 1. Generate entries for paths WITH hreflang alternates (home, system-requirements)
   PATHS_WITH_ALTERNATES.forEach(path => {
     const pathData = allPathData.get(path);
-    const lastmod = pathData?.date || new Date().toISOString();
-    const formattedLastmod = formatLastmod(lastmod);
     
     locales.forEach(locale => {
       const currentUrl = buildUrl(path, locale);
@@ -599,7 +556,7 @@ async function generateSiteMap(
       
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(currentUrl)}</loc>\n`;
-      xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
+      xml = appendLastmodLine(xml, pathData?.date);
 
       const clusterAlternates = locales.map((altLocale) => ({
         url: buildUrl(path, altLocale),
@@ -629,7 +586,6 @@ async function generateSiteMap(
     if (canonicalKey && processedCanonicalKeys.has(canonicalKey)) return;
     if (canonicalKey) processedCanonicalKeys.add(canonicalKey);
 
-    const formattedLastmod = formatLastmod(pathData.date);
     const pathLocales = pathData.locales.length > 0 ? pathData.locales : ['en'];
     const localeMap = canonicalKey ? LOCALE_ALTERNATE_MAP[canonicalKey] : null;
     const hasLocaleAlternates = Boolean(localeMap);
@@ -650,7 +606,7 @@ async function generateSiteMap(
 
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(currentUrl)}</loc>\n`;
-      xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
+      xml = appendLastmodLine(xml, pathData.date);
       if (allAlternateUrls.length > 0) {
         allAlternateUrls.forEach(({ url, hreflang }) => {
           xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
@@ -670,8 +626,6 @@ async function generateSiteMap(
         processedAlternatePathLocales.add(pathLocaleKey);
 
         const alternatePathData = allPathData.get(localePath);
-        const alternateLastmod = alternatePathData?.date ?? pathData.date;
-        const formattedAlternateLastmod = formatLastmod(alternateLastmod);
 
         const alternateUrlsList = collectAlternateUrls(path, {
           baseUrl: BASE_URL,
@@ -684,7 +638,7 @@ async function generateSiteMap(
         generatedUrls.add(alternateUrl);
         xml += '  <url>\n';
         xml += `    <loc>${escapeXml(alternateUrl)}</loc>\n`;
-        xml += `    <lastmod>${formattedAlternateLastmod}</lastmod>\n`;
+        xml = appendLastmodLine(xml, alternatePathData?.date);
         if (alternateUrlsList.length > 0) {
           alternateUrlsList.forEach(({ url, hreflang }) => {
             xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
@@ -710,30 +664,6 @@ export default async function handler(
       getNavigationPaths(client),
       getFeaturePaths(client)
     ]);
-    
-    // Get page document dates and locales for paths that might have corresponding page documents
-    const allPathsSet = new Set<string>();
-    navigationPaths.forEach((_, p) => allPathsSet.add(p));
-    featurePaths.forEach((_, p) => allPathsSet.add(p));
-    
-    const pageDates = await getPageDocumentDates(client, allPathsSet);
-    
-    // Merge page dates and locales into navigation paths (prefer page document dates if available)
-    pageDates.forEach((pageData, path) => {
-      const existing = navigationPaths.get(path);
-      if (existing) {
-        // Merge locales
-        const combinedLocales = new Set([...existing.locales, ...pageData.locales]);
-        existing.locales = Array.from(combinedLocales);
-        // Use most recent date
-        if (pageData.date > existing.date) {
-          existing.date = pageData.date;
-        }
-      } else {
-        navigationPaths.set(path, { date: pageData.date, locales: pageData.locales });
-      }
-    });
-    
     const sitemap = await generateSiteMap(navigationPaths, featurePaths, client);
     
     // Set headers explicitly before sending response
