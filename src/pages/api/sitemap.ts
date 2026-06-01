@@ -18,8 +18,7 @@ import {
 
 const PATHS_WITH_HREFLANG = [...PATHS_WITH_ALTERNATES] as string[]
 
-// const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://voicestack.com"
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://voicestack-sanity-shakir-git-hreflang-shakirmsrs-projects.vercel.app"
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://voicestack.com"
 
 function buildUrl(path: string, locale: string): string {
   return buildAlternateUrl(path, locale, BASE_URL)
