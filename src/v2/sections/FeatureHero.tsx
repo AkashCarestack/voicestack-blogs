@@ -2,7 +2,9 @@ import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Button from '~/components/common/Button'
+import LpCtaLabel from '~/components/common/LpCtaLabel'
 import Container from '~/components/structure/Container'
+import { useLpMangoCopyEnabled } from '~/providers/LpMangoCopyProvider'
 import bgStyle from '~/assets/Bg/image 682.png'
 import { ComparisonHeroH1, descriptionComponents, HeroFeatureComponents, HeroFeatureHeadingComponents, HeroHeadingComponents } from '~/utils/common'
 import { urlForImage } from '~/lib/sanity.image'
@@ -36,7 +38,7 @@ interface FeatureHeroProps {
 }
 
 export default function FeatureHero({ data, type, hideBg = false, isCentered = false, pageType = '', appStoreLinks = "", isVertical = false, cta }: FeatureHeroProps) {
-
+  const mangoCopyEnabled = useLpMangoCopyEnabled()
   const hubspotFormId = data?.componentData?.hubspotFormId || data?.hubspotFormId
   const meetingLink = data?.componentData?.meetingLink || data?.meetingLink || data?.demoMeetingLink
   const value = data?.heroComponent
@@ -240,7 +242,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
         return React.createElement(
           headingLevel,
           {
-            className: `text-gray-950 text-center font-manrope xl:text-[56px] md:text-5xl  text-3xl font-bold !leading-[107.143%] max-w-3xl ${isCentered ? 'md:text-center' : ' md:text-left'} [&>span]:text-vs-blue`,
+            className: `text-gray-950 text-balance text-center font-manrope xl:text-[56px] md:text-5xl  text-3xl font-bold !leading-[107.143%] max-w-3xl ${isCentered ? 'md:text-center' : ' md:text-left'} [&>span]:text-vs-blue`,
           },
           children
         )
@@ -252,7 +254,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
         return React.createElement(
           headingLevel,
           {
-            className: `text-gray-950 text-center font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px] ${isCentered ? 'md:text-center' : ' md:text-left'}`,
+            className: `text-gray-950 text-balance text-center font-manrope xl:text-[56px] md:text-5xl text-3xl font-bold leading-[111.111%] max-w-[711px] ${isCentered ? 'md:text-center' : ' md:text-left'}`,
           },
           children
         )
@@ -331,14 +333,14 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                 />
               )}
               {description && (
-                <div className={`${isCentered ? 'text-center [&>p]:text-center' : ''} flex flex-col gap-3`}>
+                <div className={`${isCentered ? 'text-center [&>p]:text-center' : ''} flex flex-col gap-3 ${mangoCopyEnabled ? 'md:gap-[40px] gap-[20px]' : ''} `}>
                   <PortableText
                     value={description}
                     components={descriptionComponents}
                   />
                 </div>
               )}
-              <div className={`flex flex-col md:flex-row md:gap-[18px] items-center md:mt-5 mt-4 gap-3 ${pageType === 'download-app' ? 'justify-center' : ''}`}>
+              <div className={`flex flex-col md:flex-row md:gap-[18px] items-center gap-3 ${pageType === 'download-app' ? 'justify-center' : ''}`}>
                 {
                   buttons &&
                   buttons.length &&
@@ -348,7 +350,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                       type={button.buttonType}
                       link={button.buttonLink}
                     >
-                      <span>{button?.buttonText}</span>
+                      <LpCtaLabel>{button?.buttonText}</LpCtaLabel>
                     </Button>
                   ))
                 }
