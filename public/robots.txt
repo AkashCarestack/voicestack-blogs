@@ -1,5 +1,4 @@
 User-agent: *
 Disallow: /lp/
 Disallow: /legal/
-# Sitemap: https://voicestack.com/sitemap.xml
 Sitemap: https://voicestack-sanity-shakir-git-hreflang-shakirmsrs-projects.vercel.app/sitemap.xml
