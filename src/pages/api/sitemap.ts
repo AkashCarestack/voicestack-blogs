@@ -461,6 +461,31 @@ async function getAllPageDocuments(client: any): Promise<Map<string, PathEntry>>
   return result;
 }
 
+async function getHomePageDates(client: any): Promise<Map<string, string>> {
+  const homePageQuery = groq`
+    *[_type == "homePage" && !(_id in path("drafts.**")) && defined(basicInfo.slug.current) && basicInfo.slug.current match "*v2*"] {
+      "slug": basicInfo.slug.current,
+      language,
+      _updatedAt
+    }
+  `;
+
+  const homePages = await client.fetch(homePageQuery);
+  const result = new Map<string, string>();
+
+  homePages.forEach((page: any) => {
+    if (!page._updatedAt) return;
+
+    const locale = page.language || 'en';
+    const existingDate = result.get(locale);
+    if (!existingDate || page._updatedAt > existingDate) {
+      result.set(locale, page._updatedAt);
+    }
+  });
+
+  return result;
+}
+
 async function generateSiteMap(
   navigationPaths: Map<string, PathEntry>, 
   featurePaths: Map<string, PathEntry>,
@@ -468,8 +493,10 @@ async function generateSiteMap(
 ) {
   const locales = siteConfig.locales;
   
-  // Get ALL page documents to detect multi-locale pages
-  const allPageDocuments = await getAllPageDocuments(client);
+  const [allPageDocuments, homePageDates] = await Promise.all([
+    getAllPageDocuments(client),
+    getHomePageDates(client)
+  ]);
   
   // Combine all paths and dates
   const allPathData = new Map<string, PathEntry>();
@@ -547,6 +574,7 @@ async function generateSiteMap(
     
     locales.forEach(locale => {
       const currentUrl = buildUrl(path, locale);
+      const lastmodDate = path === '' ? homePageDates.get(locale) : pathData?.date;
       
       // Skip if this URL has already been generated
       if (generatedUrls.has(currentUrl)) {
@@ -556,7 +584,7 @@ async function generateSiteMap(
       
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(currentUrl)}</loc>\n`;
-      xml = appendLastmodLine(xml, pathData?.date);
+      xml = appendLastmodLine(xml, lastmodDate);
 
       const clusterAlternates = locales.map((altLocale) => ({
         url: buildUrl(path, altLocale),
