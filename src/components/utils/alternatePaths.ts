@@ -41,8 +41,7 @@ export function getSiteBaseUrl(origin?: string): string {
 export function useAlternatePaths(origin?: string) {
   const router = useRouter()
   const locales = siteConfig.locales || ['en', 'en-GB', 'en-AU']
-  // const baseUrl = getSiteBaseUrl(origin)
-  const baseUrl = 'https://voicestack-sanity-shakir-git-hreflang-shakirmsrs-projects.vercel.app'
+  const baseUrl = getSiteBaseUrl(origin)
 
   return useMemo(() => {
     const currentPath = router.asPath.split('?')[0].split('#')[0]
