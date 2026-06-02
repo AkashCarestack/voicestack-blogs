@@ -29,8 +29,7 @@ export function getSiteBaseUrl(origin?: string): string {
   } else if (process.env.NEXT_PUBLIC_BASE_URL) {
     url = process.env.NEXT_PUBLIC_BASE_URL
   } else if (typeof window !== 'undefined') {
-    // url = window.location.origin
-    url = 'https://voicestack-sanity-shakir-git-hreflang-shakirmsrs-projects.vercel.app'
+    url = window.location.origin
   } else {
     const isProduction = process.env.NODE_ENV === 'production'
     url = isProduction ? 'https://www.voicestack.com' : 'http://localhost:3000'
@@ -42,7 +41,8 @@ export function getSiteBaseUrl(origin?: string): string {
 export function useAlternatePaths(origin?: string) {
   const router = useRouter()
   const locales = siteConfig.locales || ['en', 'en-GB', 'en-AU']
-  const baseUrl = getSiteBaseUrl(origin)
+  // const baseUrl = getSiteBaseUrl(origin)
+  const baseUrl = 'https://voicestack-sanity-shakir-git-hreflang-shakirmsrs-projects.vercel.app'
 
   return useMemo(() => {
     const currentPath = router.asPath.split('?')[0].split('#')[0]
