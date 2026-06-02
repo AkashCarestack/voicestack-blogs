@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import VoicestackLogo from 'public/assets/voicestack-logo.svg'
+// import VoicestackLogo from 'public/assets/voicestack-logo.svg'
+import VoicestackLogo from 'public/assets/voicestack-logo-white.svg'
 import MacIcon from 'public/assets/reactive/macIcon'
 import PlayIcon from 'public/assets/reactive/playIcon'
 import Anchor from '~/components/common/anchor'
@@ -37,7 +38,7 @@ const LpFooterV2 = ({ data }) => {
               <div className="w-full rounded-xl bg-zinc-900 mt-3 md:pt-8 pt-3 md:pb-3 pb-3 ">
               <Container className="flex flex-col gap-3 justify-center   md:px-0 px-4 border-t border-dotted border-white/10">
 
-                <div className="flex flex-col md:flex-row items-center justify-between gap-5 md:py-6 py-4  border-b border-dotted border-white/10">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-5 md:py-6 py-4 px-4 md:px-8 border-b border-dotted border-white/10">
                   <Anchor href="/" className="flex-shrink-0">
                     {logoUrl ? (
                       <Image

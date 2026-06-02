@@ -109,11 +109,6 @@ export default function MangoVoiceLPPage({
           demoCta={true}
         />
       )}
-
-{pageData['offer-section']?.componentData && (
-        <OfferSection data={pageData['offer-section']?.componentData} spacingY={true}/>
-      )}
-
 {comparisonTableData && (
         <SiteComparisonSection
           data={comparisonSectionData}
@@ -121,6 +116,11 @@ export default function MangoVoiceLPPage({
           demoCta={true}
         />
       )}
+
+{pageData['offer-section']?.componentData && (
+        <OfferSection data={pageData['offer-section']?.componentData} spacingY={true}/>
+      )}
+
       {pageData['testimonial-video-section']?.componentData?.refData
         ?.testimonialListing && (
         <VerticalTestimonialListingv2
