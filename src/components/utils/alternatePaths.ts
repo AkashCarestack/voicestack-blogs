@@ -29,7 +29,8 @@ export function getSiteBaseUrl(origin?: string): string {
   } else if (process.env.NEXT_PUBLIC_BASE_URL) {
     url = process.env.NEXT_PUBLIC_BASE_URL
   } else if (typeof window !== 'undefined') {
-    url = window.location.origin
+    // url = window.location.origin
+    url = 'https://voicestack-sanity-shakir-git-hreflang-shakirmsrs-projects.vercel.app'
   } else {
     const isProduction = process.env.NODE_ENV === 'production'
     url = isProduction ? 'https://www.voicestack.com' : 'http://localhost:3000'
