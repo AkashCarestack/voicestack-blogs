@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import VoicestackLogo from 'public/assets/voicestack-logo.svg'
-import VoicestackLogoWhite from 'public/assets/voicestack-logo-white.svg'
+// import VoicestackLogo from 'public/assets/voicestack-logo.svg'
+import VoicestackLogo from 'public/assets/voicestack-logo-white.svg'
 import MacIcon from 'public/assets/reactive/macIcon'
 import PlayIcon from 'public/assets/reactive/playIcon'
 import Anchor from '~/components/common/anchor'
@@ -42,7 +42,7 @@ const LpFooterV2 = ({ data }) => {
                   <Anchor href="/" className="flex-shrink-0">
                     
                       <Image
-                        src={VoicestackLogoWhite}
+                        src={VoicestackLogo}
                         alt="VoiceStack"
                         className="h-8 w-auto"
                       />
