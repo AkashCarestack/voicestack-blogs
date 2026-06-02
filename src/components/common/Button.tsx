@@ -10,7 +10,7 @@ import Anchor from './anchor'
 import { usePricingModal } from './PricingModalContext'
 import ArrowIcon from '../revamp/icons/arrowIcon'
 import replaceUrl from '~/helpers/replaceUrl'
-import { useLpDemoLink } from '~/providers/LpDemoLinkProvider'
+import { useLpCtaTextResolver, useLpDemoLink } from '~/providers/LpDemoLinkProvider'
 import { PracticeTypeModal } from '~/v2/components/common/PracticeTypeModal'
 import { useDemoFormData } from '~/providers/BookDemoProvider'
 import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
@@ -49,6 +49,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
 }) => {
   const router = useRouter()
   const lpDemoLink = useLpDemoLink()
+  const getLpCtaText = useLpCtaTextResolver()
   // Get pricing modal context (may be undefined if provider is not available)
   const pricingModal = usePricingModal()
   const openPricingModal = pricingModal?.openPricingModal
@@ -120,6 +121,31 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   const isBookFreeDemoButton = useMemo(() => {
     return buttonText.toLowerCase().includes('book free demo')
   }, [buttonText])
+
+  const resolvedButtonText = useMemo(
+    () => getLpCtaText(buttonText),
+    [buttonText, getLpCtaText],
+  )
+
+  const displayChildren = useMemo(() => {
+    const replaceText = (node: React.ReactNode): React.ReactNode => {
+      if (typeof node === 'string') {
+        return getLpCtaText(node)
+      }
+      if (typeof node === 'number' || node === null || node === undefined) {
+        return node
+      }
+      if (Array.isArray(node)) {
+        return node.map(replaceText)
+      }
+      if (React.isValidElement(node) && 'children' in node.props) {
+        return React.cloneElement(node, undefined, replaceText(node.props.children))
+      }
+      return node
+    }
+
+    return replaceText(children)
+  }, [children, getLpCtaText])
   
   // Get available practice types from form data
   const availablePracticeTypes = useMemo(() => {
@@ -411,17 +437,11 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       <>
         <PrimarySwitchButton
           link={finalLink || formattedLink}
-          buttonText={buttonText}
+          buttonText={resolvedButtonText}
           className={className}
           target={target}
           locale={locale}
         />
-        {showPracticeTypeModal && (
-          <PracticeTypeModal
-            onClose={() => setShowPracticeTypeModal(false)}
-            locale={locale || router.locale}
-          />
-        )}
       </>
     )
   }
@@ -439,7 +459,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
         >
           {type === 'secondaryMail' && <MailIcon className='size-6'/>}
           {type === 'secondaryTel' && <PhoneIcon className='size-6'/>}
-          {children}
+          {displayChildren}
         </Anchor>
         {showPracticeTypeModal && (
           <PracticeTypeModal
@@ -454,7 +474,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   return (
     <>
       <button className={combinedClasses} onClick={handleClick} {...rest}>
-        {children}
+        {displayChildren}
       </button>
       {showPracticeTypeModal && (
         <PracticeTypeModal

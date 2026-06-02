@@ -1,7 +1,6 @@
 import Section from '~/components/structure/Section'
 import FooterBottomBg from '../../../public/assets/Bg/image2.png'
 import Button from '~/components/common/Button'
-import { useLpCtaText } from '~/providers/LpMangoCopyProvider'
 import Image from 'next/image'
 import { urlForImage } from '~/lib/sanity.image'
 
@@ -23,7 +22,7 @@ interface FooterBottomProps {
 
 export default function FooterBottom({ data }: FooterBottomProps) {
   const ctaBanner = data?.ctaBanner
-  const buttonText = useLpCtaText(ctaBanner?.buttonText || 'Book Free Demo')
+  const buttonText = ctaBanner?.buttonText || 'Book Free Demo'
 
   // Don't render if showBanner is explicitly false
   if (ctaBanner && ctaBanner.showBanner === false) {
@@ -76,12 +75,15 @@ export default function FooterBottom({ data }: FooterBottomProps) {
             <p className="pt-3 pb-6 text-base md:text-lg !leading-[160%]">
               {description}
             </p>
-            <Button
+            {/* <Button
               type="primary"
               link={buttonLink}
               disableLpDemoLinkOverride={true}
               className="w-fit mx-auto"
             >
+              <span>{buttonText}</span>
+            </Button> */}
+            <Button type="primary" link="/demo" className="w-fit mx-auto">
               <span>{buttonText}</span>
             </Button>
           </div>

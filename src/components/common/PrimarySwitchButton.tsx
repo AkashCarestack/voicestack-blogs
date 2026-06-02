@@ -5,7 +5,6 @@ import { useMemo } from 'react'
 
 import Anchor from '~/components/common/anchor'
 import replaceUrl from '~/helpers/replaceUrl'
-import { useLpCtaText } from '~/providers/LpMangoCopyProvider'
 import { useLpDemoLink } from '~/providers/LpDemoLinkProvider'
 import sparkleIcon from 'public/assets/primary-switch/sparkle.svg'
 
@@ -32,7 +31,7 @@ export default function PrimarySwitchButton({
 }: PrimarySwitchButtonProps) {
   const router = useRouter()
   const lpDemoLink = useLpDemoLink()
-  const primaryLabel = useLpCtaText(buttonText)
+  const primaryLabel = buttonText
 
   const finalLink = useMemo(() => {
     const linkUrl = typeof link === 'string' ? link : ''
