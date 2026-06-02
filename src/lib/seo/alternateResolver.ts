@@ -22,6 +22,10 @@ export const PATHS_EN_ONLY = [
   'who-we-serve/groups-and-enterprises/veterinary-service-organizations-vso',
   'who-we-serve/groups-and-enterprises/physical-therapy-groups-mso',
   'who-we-serve/groups-and-enterprises/vision-groups-mso',
+  'who-we-serve/physical-therapy',
+  'who-we-serve/optometry',
+  'who-we-serve/veterinary',
+  'who-we-serve/groups-and-enterprises',
 ]
 
 export const LOCALE_ALTERNATE_MAP: Record<string, Record<string, string>> = {
