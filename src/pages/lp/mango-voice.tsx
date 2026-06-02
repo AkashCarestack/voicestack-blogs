@@ -84,7 +84,7 @@ export default function MangoVoiceLPPage({
 
   return (
     <LpDemoLinkProvider demoLink={demoUrl} buttonText="Make the Switch">
-      {/* <SimpleHead data={pageData?.seo} /> */}
+      <SimpleHead data={pageData?.seo} />
       <LpHeader />
       
       {pageData['comparison-hero']?.componentData && (
@@ -171,6 +171,7 @@ export default function MangoVoiceLPPage({
       )}
 
       <LpFooterV2 data={pageData?.footer?.componentData} />
+
     </LpDemoLinkProvider>
   )
 }
