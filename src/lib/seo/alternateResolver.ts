@@ -14,6 +14,8 @@ export const PATHS_NO_EN_GB_URL = [
   'dental-phones/case-studies',
   'phone-system/comparison',
   'phone-system/case-studies',
+  'dental-phones/features/two-way-texting',
+  'dental-phones/features/cloud-fax',
 ]
 
 /** US (en) only — no en-AU / en-GB versions; omit hreflang cluster (matches single-locale sitemap entries) */
@@ -26,6 +28,11 @@ export const PATHS_EN_ONLY = [
   'who-we-serve/optometry',
   'who-we-serve/veterinary',
   'who-we-serve/groups-and-enterprises',
+]
+
+/** AU (en-AU) only - omit hreflang cluster for pages without US / GB versions */
+export const PATHS_AU_ONLY = [
+  'dental-phones/dental-crm',
 ]
 
 export const LOCALE_ALTERNATE_MAP: Record<string, Record<string, string>> = {
@@ -170,6 +177,11 @@ export function shouldOmitEnGBUrl(path: string): boolean {
 export function isEnOnlyPath(path: string): boolean {
   const clean = path.replace(/^\/+/, '').replace(/\/+$/, '')
   return PATHS_EN_ONLY.includes(clean)
+}
+
+export function isAuOnlyPath(path: string): boolean {
+  const clean = path.replace(/^\/+/, '').replace(/\/+$/, '')
+  return PATHS_AU_ONLY.includes(clean)
 }
 
 export function formatHreflang(locale: string): string {
@@ -364,8 +376,8 @@ export function getAlternatesForPage(
     return null
   }
 
-  // US-only pages: no hreflang cluster (same as sitemap when pathLocales is ['en'] only).
-  if (isEnOnlyPath(cleanPath)) {
+  // Locale-only pages: no hreflang cluster (same as single-locale sitemap entries).
+  if (isEnOnlyPath(cleanPath) || isAuOnlyPath(cleanPath)) {
     return null
   }
 

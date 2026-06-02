@@ -12,7 +12,7 @@ import ContentSection from '~/components/ContentSection'
 import Head from 'next/head'
 import AppDownloadHero from '~/components/dynamic/AppDownloadHero'
 import { useRouter } from 'next/router'
-import { buildUrl, getSiteBaseUrl } from '~/components/utils/alternatePaths'
+import { AlternatePath, buildUrl, getSiteBaseUrl, useAlternatePaths } from '~/components/utils/alternatePaths'
 
 interface PageProps {
   homeSettings: any;
@@ -74,6 +74,7 @@ export default function AppDownload({ homeSettings, heroData, bannerData, footer
   const router = useRouter();
   const notEnGB= router.locale =="en-AU" || router.locale =="en"
   const canonicalUrl = buildUrl('download-app', region || router.locale || 'en', getSiteBaseUrl())
+  const { alternatePaths, defaultUrl } = useAlternatePaths()
   const title= notEnGB ? "Download VoiceStack® | VoiceStack® Mobile App Downloads":"Download VoiceStack | VoiceStack Mobile App Downloads"
   const metadescriptn = notEnGB ? "Download the Official VoiceStack® App from the Apple App Store for iOS & Google Play for Android. Use VoiceStack® with your mobile phone today!":"Download the Official VoiceStack App from the Apple App Store for iOS & Google Play for Android. Use VoiceStack with your mobile phone today!"
   const metaKeywords = "voicestack download, voicestack app, download app, voicestack for ios, voicestack for android, voicestack app store, voicestack google play"
@@ -94,6 +95,21 @@ export default function AppDownload({ homeSettings, heroData, bannerData, footer
       <meta property="og:url" content={canonicalUrl} />
       <meta name="keywords" content={metaKeywords}></meta>
       <meta name="author" content={notEnGB ? "VoiceStack®" : "VoiceStack"}></meta>
+      {alternatePaths.length > 0 && alternatePaths.map((item: AlternatePath) => (
+        <link
+          key={`${item.locale}-${item.path}`}
+          rel="alternate"
+          href={item.path}
+          hrefLang={item.locale}
+        />
+      ))}
+      {defaultUrl && (
+        <link
+          rel="alternate"
+          href={defaultUrl}
+          hrefLang="x-default"
+        />
+      )}
     </Head>
     <AppDownloadHero data={miscellaneousData}/>
       {/* <ContentSection slugData={miscellaneousData?.heroSectionSlug?.current} content={miscellaneousData} draftMode={draftMode} token={token}/> */}

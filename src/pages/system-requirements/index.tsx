@@ -9,7 +9,7 @@ import { BookDemoContext } from '~/providers/BookDemoProvider'
 import ContentSection from '~/components/ContentSection'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { buildUrl, getSiteBaseUrl } from '~/components/utils/alternatePaths'
+import { AlternatePath, buildUrl, getSiteBaseUrl, useAlternatePaths } from '~/components/utils/alternatePaths'
 
 interface PageProps {
   homeSettings: any;
@@ -72,6 +72,7 @@ export default function SystemRequirements({ homeSettings, heroData, bannerData,
   const router = useRouter();
   const notEnGB= router.locale =="en-AU" || router.locale =="en"
   const canonicalUrl = buildUrl('system-requirements', region || router.locale || 'en', getSiteBaseUrl())
+  const { alternatePaths, defaultUrl } = useAlternatePaths()
   const  title= notEnGB ? "System Requirements | Requirements For Using VoiceStack®":"System Requirements | Requirements For Using VoiceStack"
   const description = notEnGB ? "View the system requirements for running VoiceStack® at your dental practice. Ensure your hardware & network meet the specs for optimal performance.":"View the system requirements for running VoiceStack at your dental practice. Ensure your hardware & network meet the specs for optimal performance."
  
@@ -89,6 +90,21 @@ export default function SystemRequirements({ homeSettings, heroData, bannerData,
       <meta name="description"  content={description}></meta>
       <meta property="og:description" content={description}></meta>
       <meta name="keywords" content="voicestack system requirements, hardware requirements, internet requirements" />
+      {alternatePaths.length > 0 && alternatePaths.map((item: AlternatePath) => (
+        <link
+          key={`${item.locale}-${item.path}`}
+          rel="alternate"
+          href={item.path}
+          hrefLang={item.locale}
+        />
+      ))}
+      {defaultUrl && (
+        <link
+          rel="alternate"
+          href={defaultUrl}
+          hrefLang="x-default"
+        />
+      )}
     </Head>
       <ContentSection content={miscellaneousData} draftMode={draftMode} token={token} slugData={miscellaneousData?.heroSectionSlug?.current}/>
     </>
