@@ -168,7 +168,7 @@ export default function MangoVoiceLPPage({
       {/* FAQ Section */}
       {faq && (
         <div>
-          <FaqSection faqItems={faq} />
+          <FaqSection faqItems={faq} showContactInfo={false}/>
         </div>
       )}
 

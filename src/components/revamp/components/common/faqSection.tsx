@@ -9,7 +9,7 @@ import { faqJsonLd } from '~/components/utils/jsonld'
 import { useLayoutData } from '~/providers/LayoutDataProvider'
 import SectionHeaderV2 from '../../../../v2/components/common/sectionHeaderV2'
 import SectionH2 from '~/components/typography/revamp/SectionH2'
-export default function FaqSection({ faqItems }: any) {
+export default function FaqSection({ faqItems, showContactInfo = true }: any) {
   const { contactData } = useLayoutData()
   // All hooks must be called before any early returns
   const [hideCategory, setHideCategory] = useState(faqItems?.hideCategory)
@@ -277,7 +277,7 @@ export default function FaqSection({ faqItems }: any) {
       <div className='flex lg:flex-row flex-col gap-8 md:justify-between justify-start items-center md:items-start'>
        <div className='flex-1 lg:max-w-[370px]'> <SectionH2 content='Frequently Asked Questions' /> </div>
         {/* <h2 className='font-manrope flex-1 max-w-[369px] md:text-5xl text-2xl md:font-semibold font-medium  leading-tight tracking-tight text-gray-950'>Frequently Asked Questions</h2> */}
-        <div className='flex md:flex-row flex-col w-full flex-1 max-w-[712px]  overflow-auto'>
+        {showContactInfo && <div className='flex md:flex-row flex-col w-full flex-1 max-w-[712px]  overflow-auto'>
         <div className=' hidden  flex-col md:max-w-[200px] w-full bg-[#F9FAFB] xl:px-6 px-3 xl:py-3 py-2'>
             <p className="font-geist xl:text-base text-sm font-normal leading-[150%] tracking-normal text-gray-700">For further queries contact:</p>
           </div>
@@ -293,7 +293,7 @@ export default function FaqSection({ faqItems }: any) {
             emailTextSize="xl:text-base"
             className="border-l border-r md:rounded-r-[6px] md:rounded-l-none rounded-[6px]"
           />
-        </div>
+        </div>}
       </div>
 
       <div className='flex lg:flex-row flex-col md:justify-between gap-8'>
