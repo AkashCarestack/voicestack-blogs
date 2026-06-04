@@ -20,6 +20,7 @@ import StatisticsSection from '~/v2/sections/StatisticsSection'
 import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import SimpleHead from '~/components/common/SimpleHead'
+import PromoBannerButtonSection from '~/v2/sections/PromoBannerButtonSection'
 
 export default function Home({
   data,
@@ -48,6 +49,7 @@ export default function Home({
         description={heroSectionData?.heroDescription}
         buttons={heroSectionData?.bookBtnContent}
       />
+      <PromoBannerButtonSection />
       {/* {featuresData && <CategoryFeatureTabs features={featuresData || []} />} */}
 
       {data['logos-listing']?.componentData && (
@@ -67,12 +69,16 @@ export default function Home({
       <CategoryFeatureTabsSection
         features={featuresData}
         variant="carousel"
+        layoutDynamic
         sectionHeading={
           data['category-feature-tabs']?.componentData?.sectionHeading
         }
       />
       {data['voicestack-solution']?.componentData && (
-        <ContentVideoTabsSection data={data['voicestack-solution']?.componentData} />
+        <ContentVideoTabsSection
+          data={data['voicestack-solution']?.componentData}
+          layoutDynamic
+        />
       )}
 
       {data['power-of-ai'] && (

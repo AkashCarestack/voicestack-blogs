@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { PortableText } from '@portabletext/react';
 import { cn } from "~/lib/utils";
 import VideoPlayers from '~/components/common/VideoPlayer';
@@ -77,6 +78,8 @@ interface ContentVideoTabsProps {
   className?: string;
   containerClassName?: string;
   data: any;
+  /** When true, uses in-place tab swap layout (like CategoryFeatureTabsSection carousel) */
+  layoutDynamic?: boolean;
 }
 
 export default function ContentVideoTabsSection({
@@ -85,6 +88,7 @@ export default function ContentVideoTabsSection({
   tabs: manualTabs,
   className,
   containerClassName,
+  layoutDynamic = false,
 }: ContentVideoTabsProps) {
   const activeTabRef = useRef<string>('');
   const previousActiveTabRef = useRef<string>('');
@@ -285,11 +289,12 @@ export default function ContentVideoTabsSection({
         clearTimeout(scrollTimeoutRef.current);
       }
 
-      setIsScrolling(true);
       activeTabRef.current = tabKey;
       setActiveTab(tabKey);
 
-      // Small delay to ensure layout has settled, especially on mobile
+      if (layoutDynamic) return;
+
+      setIsScrolling(true);
       setTimeout(() => {
         requestAnimationFrame(() => {
           scrollToSection(tabKey);
@@ -299,12 +304,12 @@ export default function ContentVideoTabsSection({
         });
       }, 50);
     },
-    [scrollToSection]
+    [scrollToSection, layoutDynamic]
   );
 
   // Intersection Observer to detect active section
   useEffect(() => {
-    if (isScrolling) return;
+    if (layoutDynamic || isScrolling) return;
 
     const observerOptions = {
       root: null,
@@ -346,7 +351,7 @@ export default function ContentVideoTabsSection({
       clearTimeout(timeoutId);
       observer.disconnect();
     };
-  }, [tabs, isScrolling]);
+  }, [tabs, isScrolling, layoutDynamic]);
 
   useEffect(() => {
     return () => {
@@ -547,6 +552,253 @@ export default function ContentVideoTabsSection({
       normal: ({ children }: any) => <p className="text-gray-900 md:text-xl text-lg font-manrope font-semibold leading-tight tracking-normal">{children}</p>,
     },
   };
+
+  const renderTabPanel = (tab: TabItem) => (
+    <>
+      <div className="flex flex-col gap-[6px] items-start w-full">
+        {tab.subHeading ? (
+          <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
+            {tab.heading}
+          </span>
+        ) : (
+          <span className="text-vs-purple text-base font-geist font-normal leading-6 tracking-normal">
+            {tab.category}
+          </span>
+        )}
+        {tab.subHeading && (
+          <h3 className="text-gray-900 md:text-4xl text-2xl font-manrope font-semibold leading-[133.33%] tracking-normal">
+            {tab.subHeading}
+          </h3>
+        )}
+        {tab.description && Array.isArray(tab.description) && tab.description.length > 0 ? (
+          <div className="text-gray-500 md:text-lg text-base font-geist font-normal leading-[155.55%] tracking-normal">
+            <PortableText value={tab.description} components={portableTextComponents} />
+          </div>
+        ) : null}
+      </div>
+
+      {tab.content && Array.isArray(tab.content) && tab.content.length > 0 ? (
+        (() => {
+          const hasLinks = tab.content.some((block: any) => block.markDefs?.some((def: any) => def._type === 'link'));
+
+          if (hasLinks) {
+            return (
+              <div className="flex flex-wrap gap-4 items-start w-full">
+                {tab.content.map((block: any, idx: number) => {
+                  if (!block.children) return null;
+                  const text = block.children.map((c: any) => c.text).join('').trim();
+                  if (!text) return null;
+
+                  const linkDef = block.markDefs?.find((def: any) => def._type === 'link');
+                  const href = linkDef?.href;
+                  const isBlank = linkDef?.blank;
+
+                  const content = (
+                    <div className={`flex items-center gap-2 w-full rounded-[500px] bg-white ${href ? 'cursor-pointer' : ''}`}>
+                      <span className="font-geist font-medium text-base text-gray-950 group-hover:text-vs-purple transition-colors leading-6 whitespace-nowrap">
+                        {text}
+                      </span>
+                      {href && (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[#6A7282] group-hover:text-vs-purple">
+                          <path d="M4.66675 4.66675H11.3334V11.3334" stroke="currentColor" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M4.66675 11.3334L11.3334 4.66675" stroke="currentColor" strokeWidth="1.66667" strokeLinecap="round" strokeLinejoin="round" />
+                        </svg>
+                      )}
+                    </div>
+                  );
+
+                  if (href) {
+                    return (
+                      <Link
+                        key={block._key || idx}
+                        href={href}
+                        target={isBlank ? "_blank" : undefined}
+                        rel={isBlank ? "noopener noreferrer" : undefined}
+                        className="block group"
+                      >
+                        {content}
+                      </Link>
+                    );
+                  }
+                  return <div key={block._key || idx}>{content}</div>;
+                })}
+              </div>
+            );
+          }
+
+          return (
+            <div>
+              <PortableText value={tab.content} components={contentTextComponents} />
+            </div>
+          );
+        })()
+      ) : tab.features && tab.features.length > 0 ? (
+        <div className="flex flex-col gap-0">
+          {tab.features.map((feature, idx) => (
+            <div key={idx} className="flex gap-2 items-start px-0 py-1.5">
+              <div className="flex items-center px-0 py-1 shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
+                  <path fillRule="evenodd" clipRule="evenodd" d="M13.363 3.32248C13.4259 3.37018 13.4787 3.4298 13.5184 3.49794C13.5582 3.56607 13.5841 3.64138 13.5948 3.71955C13.6054 3.79772 13.6005 3.87722 13.5804 3.9535C13.5602 4.02977 13.5252 4.10133 13.4774 4.16408L7.07743 12.5641C7.02552 12.6321 6.95965 12.6883 6.88424 12.7288C6.80884 12.7692 6.72565 12.7931 6.64025 12.7988C6.55486 12.8045 6.46923 12.7918 6.38913 12.7617C6.30903 12.7316 6.2363 12.6846 6.17583 12.6241L2.57583 9.02408C2.46984 8.91034 2.41215 8.7599 2.41489 8.60446C2.41763 8.44902 2.4806 8.30071 2.59053 8.19078C2.70046 8.08085 2.84877 8.01788 3.00421 8.01513C3.15965 8.01239 3.31009 8.07009 3.42383 8.17608L6.53903 11.2905L12.523 3.43688C12.6193 3.31044 12.7619 3.22738 12.9194 3.20593C13.0769 3.18448 13.2364 3.2264 13.363 3.32248Z" fill="#030712" />
+                </svg>
+              </div>
+              <div className="flex flex-1 flex-col font-geist font-normal justify-center leading-6 text-gray-700 text-base tracking-normal">
+                <p className="leading-6 whitespace-pre-wrap">{feature}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : null}
+
+      {tab.ctaListItems && tab.ctaListItems.length > 0 ? (
+        <div className="flex flex-col md:flex-row align-start justify-start gap-4">
+          {tab.ctaListItems.map((btn: any, key: number) => (
+            <Button
+              key={`${btn.ctaText}-${key}`}
+              type={btn?.ctaType || 'primary'}
+              link={btn.ctaLink || '/demo'}
+            >
+              <span className="text-sm font-medium">{btn.ctaText}</span>
+            </Button>
+          ))}
+        </div>
+      ) : tab.ctaText ? (
+        <Button type="primary" link={tab.ctaLink || '/demo'}>
+          <span className="text-sm font-medium">{tab.ctaText}</span>
+        </Button>
+      ) : (
+        <Button type="primary" link="/demo">
+          <span className="text-sm font-medium">Book Free Demo</span>
+        </Button>
+      )}
+    </>
+  );
+
+  const activeTabData = tabs.find((tab) => tab.key === activeTab);
+
+  if (layoutDynamic) {
+    return (
+      <Section className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className, containerClassName)}>
+        <Container className='w-full py-sm md:py-sm lg:py-md' type="V2" border="y-0">
+          <div className="flex-col gap-16 relative w-full flex items-center justify-center">
+            <div className="flex flex-col gap-3 items-center text-center max-w-[712px] w-full">
+              <SectionHeaderV2
+                heading={data?.sectionHeadingDynamic}
+                description={data?.description || data?.subDescription}
+                className='md:px-12 px-4'
+              />
+            </div>
+            {overviewVideo && (
+              <div className="w-full mb-8 overflow-hidden h-[300px] md:h-[600px]">
+                <div className="relative w-full h-full">
+                  <VideoPlayers
+                    video={overviewVideo}
+                    thumbnail={data?.overviewVideo?.[0]?.videoThumbnail}
+                  />
+                </div>
+              </div>
+            )}
+
+            <div
+              ref={stickyTabsRef}
+              className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
+              style={{
+                background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
+              }}
+            >
+              <SwitchableTabs
+                data={tabs.map(tab => ({
+                  id: tab.key,
+                  key: tab.key,
+                  title: tab?.category,
+                  testimonial: null,
+                  setActiveTab: handleTabClick,
+                })) as IdataProps[]}
+                setActiveTab={handleTabClick}
+                activeTab={activeTab}
+                isSticky={false}
+                className="md:py-2 bg-transparent !shadow-none !border-none"
+                isShowImage={false}
+                shadow={false}
+              />
+            </div>
+
+            <div className="relative w-full">
+              <div className="grid lg:grid-cols-2 grid-cols-1 w-full border border-x-0 border-gray-200 relative">
+                <div className="bg-white flex flex-col gap-6 items-start justify-start md:p-12 p-6 lg:min-h-[500px] relative overflow-hidden border-r border-gray-200 w-full">
+                  {activeTabData && (
+                    <div className="flex flex-col gap-6 items-start w-full">
+                      {renderTabPanel(activeTabData)}
+                    </div>
+                  )}
+
+                  <div className="lg:hidden w-full mt-8">
+                    {activeTabData && (
+                      <div className="w-full h-full lg:h-[400px] rounded-2xl overflow-hidden relative">
+                        {activeTabData.video ? (
+                          <VideoPlayers
+                            key={`mobile-video-${activeTabData.key}`}
+                            video={activeTabData.video}
+                            thumbnail={activeTabData.thumbnail}
+                          />
+                        ) : activeTabData.thumbnail ? (
+                          <div className="w-full h-full relative min-h-[300px]">
+                            <Image
+                              src={activeTabData.thumbnail as string}
+                              alt={activeTabData.heading}
+                              fill
+                              className="object-cover rounded-2xl"
+                            />
+                          </div>
+                        ) : null}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="hidden lg:flex flex-col items-center justify-center w-full h-full overflow-hidden relative bg-transparent">
+                  <div className="relative w-full h-full min-h-[500px] max-h-[500px] overflow-hidden">
+                    {tabs.map((tab) => (
+                      <div
+                        key={tab.key}
+                        className={cn(
+                          "absolute inset-0 w-full h-full overflow-hidden",
+                          activeTab === tab.key ? "block" : "hidden"
+                        )}
+                      >
+                        {tab.video ? (
+                          <div className="w-full h-full">
+                            <VideoPlayers
+                              key={`video-${tab.key}-${tabActivationCount[tab.key] || 0}`}
+                              video={tab.video}
+                              thumbnail={tab.thumbnail}
+                            />
+                          </div>
+                        ) : tab.thumbnail || tab.image ? (
+                          <div className="w-full h-full relative flex items-end justify-center">
+                            <ImageLoader
+                              image={tab.image || tab.thumbnail}
+                              alt={tab.heading}
+                              fixed={true}
+                              imageClassName="!object-contain !object-bottom"
+                              className="w-full h-full"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <p className="text-gray-400">No media available</p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Section>
+    );
+  }
 
   return (
     <Section className={cn("w-full flex flex-col !bg-white", containerClassName)}>

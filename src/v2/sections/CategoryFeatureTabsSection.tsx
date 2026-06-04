@@ -63,6 +63,8 @@ interface CategoryFeatureTabsSectionProps {
   customType?: string;
   noLinks?: boolean;
   category?: string;
+  /** When true, uses scroll-synced sticky media layout (like ContentVideoTabsSection) */
+  layoutDynamic?: boolean;
 }
 
 export default function CategoryFeatureTabsSection({
@@ -75,6 +77,7 @@ export default function CategoryFeatureTabsSection({
   isGridListing = false,
   noLinks = false,
   category: partnerCategory = "",
+  layoutDynamic = false,
   ...props
 }: CategoryFeatureTabsSectionProps) {
   const router = useRouter();
@@ -82,6 +85,7 @@ export default function CategoryFeatureTabsSection({
   const [isScrolling, setIsScrolling] = useState(false);
   const stickyTopHeader = useStickyTop();
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
+  const stickyTabsRef = useRef<HTMLDivElement | null>(null);
   const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const activeCategoryRef = useRef<string>('');
   const isMobile = useMediaQuery(767);
@@ -259,24 +263,42 @@ export default function CategoryFeatureTabsSection({
   // Smooth scroll to section
   const scrollToSection = useCallback((categoryName: string) => {
     const section = sectionRefs.current[categoryName];
-    if (section) {
-      // Calculate offset for header and tabs
-      const headerHeight = 100; // Adjust based on your actual header height
-      const tabsHeight = 80; // Approximate tabs height
-      const extraSpacing = 20; // Extra spacing
-      const totalOffset = headerHeight + tabsHeight + extraSpacing;
+    if (!section) return;
 
-      // Get element position relative to document
-      const elementTop = section.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementTop - totalOffset;
+    if (layoutDynamic && variant === 'carousel') {
+      const stickyTabsHeight = stickyTabsRef.current?.offsetHeight || 0;
+      const isMobileView = window.innerWidth < 1024;
+      const stickyTopOffset = isMobileView ? 80 : 70;
+      const headerHeight = stickyTopOffset + stickyTabsHeight;
+      const rect = section.getBoundingClientRect();
+      const elementPosition = rect.top + window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const sectionHeight = section.offsetHeight;
+      const availableSpace = viewportHeight - headerHeight;
+      const targetTopPosition = isMobileView
+        ? headerHeight
+        : headerHeight + (availableSpace - sectionHeight) / 2;
+      const scrollPosition = elementPosition - targetTopPosition;
 
-      // Scroll to calculated position
       window.scrollTo({
-        top: Math.max(0, offsetPosition),
+        top: Math.max(0, scrollPosition),
         behavior: 'smooth',
       });
+      return;
     }
-  }, []);
+
+    const headerHeight = 100;
+    const tabsHeight = 80;
+    const extraSpacing = 20;
+    const totalOffset = headerHeight + tabsHeight + extraSpacing;
+    const elementTop = section.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = elementTop - totalOffset;
+
+    window.scrollTo({
+      top: Math.max(0, offsetPosition),
+      behavior: 'smooth',
+    });
+  }, [layoutDynamic, variant]);
 
 
   // Handle category click - override SwitchableTabs default behavior
@@ -289,10 +311,10 @@ export default function CategoryFeatureTabsSection({
       activeCategoryRef.current = categoryName;
       setActiveCategory(categoryName);
 
-      // Scroll for default and scrollcarousel variants
-      if (variant === 'default' || variant === 'scrollcarousel') {
+      // Scroll for default, scrollcarousel, and layoutDynamic carousel
+      if (variant === 'default' || variant === 'scrollcarousel' || (layoutDynamic && variant === 'carousel')) {
         setIsScrolling(true);
-        // Use a small delay to ensure DOM is ready
+        const delay = layoutDynamic && variant === 'carousel' ? 50 : 100;
         setTimeout(() => {
           requestAnimationFrame(() => {
             scrollToSection(categoryName);
@@ -300,34 +322,60 @@ export default function CategoryFeatureTabsSection({
               setIsScrolling(false);
             }, 1500);
           });
-        }, 100);
+        }, delay);
       }
     },
-    [scrollToSection, variant]
+    [scrollToSection, variant, layoutDynamic]
   );
 
 
   // Intersection Observer to detect active section
   useEffect(() => {
-    if (isScrolling || (variant !== 'default' && variant !== 'scrollcarousel')) return;
+    const usesScrollSync =
+      variant === 'default' ||
+      variant === 'scrollcarousel' ||
+      (layoutDynamic && variant === 'carousel');
 
-    const observerOptions = {
-      root: null,
-      rootMargin: '-15% 0px -70% 0px', // More focused detection band
-      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5],
-    };
+    if (isScrolling || !usesScrollSync) return;
+
+    const observerOptions =
+      layoutDynamic && variant === 'carousel'
+        ? {
+            root: null,
+            rootMargin: '-80px 0px -30% 0px',
+            threshold: [0.3],
+          }
+        : {
+            root: null,
+            rootMargin: '-15% 0px -70% 0px',
+            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5],
+          };
 
     const observer = new IntersectionObserver((entries) => {
       if (isScrolling) return;
 
-      // We want to find the section that is currently most "active"
-      // Instead of just ratio, we look at the top position for better accuracy on varying section heights
-      let bestEntry = null;
-      let minTopDistance = Infinity;
+      if (layoutDynamic && variant === 'carousel') {
+        let mostVisibleEntry: IntersectionObserverEntry | null = null;
+        let highestRatio = 0;
 
-      // Filter all observed entries (some might not be in this batch of changes)
-      // but IntersectionObserver gives us what changed.
-      // To be safe, we can look at the current state of all observed elements.
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > highestRatio) {
+            highestRatio = entry.intersectionRatio;
+            mostVisibleEntry = entry;
+          }
+        });
+
+        if (mostVisibleEntry && highestRatio > 0.2) {
+          const categoryName = mostVisibleEntry.target.getAttribute('data-category');
+          if (categoryName && categoryName !== activeCategoryRef.current) {
+            activeCategoryRef.current = categoryName;
+            setActiveCategory(categoryName);
+          }
+        }
+        return;
+      }
+
+      let bestEntry: string | null = null;
 
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -335,11 +383,8 @@ export default function CategoryFeatureTabsSection({
           if (!categoryName) return;
 
           const { top, bottom } = entry.boundingClientRect;
-          // Trigger point is around 20% from the top of the viewport
           const triggerLine = window.innerHeight * 0.2;
 
-          // If the section's top is above the trigger line and its bottom is below it,
-          // it's the section currently occupying the "active" space.
           if (top <= triggerLine && bottom > triggerLine) {
             bestEntry = categoryName;
           }
@@ -357,13 +402,13 @@ export default function CategoryFeatureTabsSection({
         const ref = sectionRefs.current[key];
         if (ref) observer.observe(ref);
       });
-    }, 500); // Slightly longer delay to ensure full render
+    }, layoutDynamic && variant === 'carousel' ? 100 : 500);
 
     return () => {
       clearTimeout(timeoutId);
       observer.disconnect();
     };
-  }, [allCategories, isScrolling, variant]);
+  }, [allCategories, isScrolling, variant, layoutDynamic]);
 
   useEffect(() => {
     return () => {
@@ -630,6 +675,224 @@ export default function CategoryFeatureTabsSection({
                   </React.Fragment>
                 );
               })}
+            </div>
+          </div>
+        </Container>
+      </Section>
+    );
+  }
+
+  // Carousel variant with scroll-synced sticky media (ContentVideoTabs-style)
+  if (variant === 'carousel' && layoutDynamic) {
+    const getPillItems = (category: typeof allCategories[0]) => {
+      const defaultPillIcon = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M5.83398 5.8335H14.1673V14.1668" stroke="#030712" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.83398 14.1668L14.1673 5.8335" stroke="#030712" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      const basePath = getBasePath();
+
+      return category.features.map((feature) => {
+        const featureSlug = feature.basicInfo?.slug?.current || feature.slug?.current;
+        return {
+          heading: feature.basicInfo?.title || feature.title || 'Untitled Feature',
+          description: feature.basicInfo?.description || feature.shortDescription || feature.heroSubtitle || '',
+          dynamicSvg: defaultPillIcon,
+          href: featureSlug ? `${basePath}/${featureSlug}`.replace(/\/+/g, '/') : '#',
+        };
+      });
+    };
+
+    return (
+      <Section
+        id="features"
+        className={cn("w-full flex flex-col !bg-white relative scroll-m-16", className)}
+        border={sectionBorder}
+      >
+        <Container className='w-full py-sm md:py-sm lg:py-md' type="V2" border="y-0">
+          <div className="flex-col gap-16 relative w-full flex items-center justify-center">
+            <div className="flex flex-col gap-3 items-center text-center max-w-[712px]">
+              <SectionHeaderV2 className='md:px-12 px-4'
+                heading={
+                  sectionHeading?.sectionHeadingDynamic
+                    ? sectionHeading?.sectionHeadingDynamic
+                    : sectionHeading?.headline
+                      ? sectionHeading?.headline
+                      : router.locale === 'en-GB'
+                        ? 'Feature-Packed to Improve <br/> Every Practice Workflow'
+                        : 'Feature-Packed to Improve <br/> Every Front Office Workflow'
+                }
+                description={
+                  sectionHeading?.subheadline
+                    ? sectionHeading?.subheadline
+                    : localizeText('Empower team members with AI-powered calls, messages, and analytics across devices. Measure, analyze, and optimize team performance through every touch point in your practice.')
+                }
+                demoButton={true}
+              />
+            </div>
+
+            <div
+              ref={stickyTabsRef}
+              className={`sticky ${stickyTopHeader} py-4 md:my-8 z-[10] w-full bg-transparent overflow-visible justify-center items-center mx-auto pl-3 md:px-0`}
+              style={{
+                background: 'linear-gradient(180deg, #FFF 50%, rgba(255, 255, 255, 0.00) 100%)',
+              }}
+            >
+              <SwitchableTabs
+                data={allCategories.map(category => ({
+                  id: category.name,
+                  key: category.name,
+                  title: category.name,
+                  testimonial: null,
+                  setActiveTab: handleCategoryClick,
+                })) as IdataProps[]}
+                setActiveTab={handleCategoryClick}
+                activeTab={activeCategory}
+                isSticky={false}
+                className="md:py-2 bg-transparent !shadow-none !border-none"
+                isShowImage={false}
+                shadow={false}
+                isSkip={true}
+              />
+            </div>
+
+            <div className="relative w-full">
+              <div className="grid lg:grid-cols-2 grid-cols-1 w-full relative">
+                <div className="bg-white">
+                  {allCategories.map((category, categoryIndex) => {
+                  const pillItems = getPillItems(category);
+
+                  return (
+                    <section
+                      key={category.name}
+                      className={cn(
+                        "min-h-auto py-6 md:py-12",
+                        categoryIndex === 0 ? "lg:min-h-[60vh]" : "lg:min-h-[80vh]"
+                      )}
+                    >
+                      <div
+                        ref={(el) => {
+                          sectionRefs.current[category.name] = el;
+                        }}
+                        data-category={category.name}
+                        className="flex flex-col lg:flex-row md:p-12 p-6 scroll-mt-[200px]"
+                      >
+                        <div className="flex flex-col justify-center gap-[6px] w-full ">
+                          {category.name && (
+                            <span className="flex flex-col font-geist font-normal justify-center text-vs-purple text-base w-full">
+                              <span className="leading-6 whitespace-pre-wrap">{category.name}</span>
+                            </span>
+                          )}
+                          <div className="flex flex-col gap-[6px] items-start w-full">
+                          {category.subheading && (
+                            <h3
+                              className="flex flex-col font-manrope font-semibold justify-center text-gray-900 w-full"
+                            >
+                              <span
+                                className="leading-[133.33%] tracking-normal whitespace-pre-wrap md:text-4xl text-xl"
+                                dangerouslySetInnerHTML={{ __html: category.subheading }}
+                              />
+                            </h3>
+                          )}
+                          {category.description && (
+                            <p className="font-geist leading-[150%] font-normal text-gray-700 text-base whitespace-pre-wrap">
+                              {category.description}
+                            </p>
+                          )}
+                          </div>
+                          <div className="flex flex-wrap gap-3 items-start w-full md:mt-6">
+                            {pillItems.map((item, index) => (
+                              noLinks ? (
+                                <div
+                                  key={`${category.name}-${index}`}
+                                  className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white shadow-sm"
+                                >
+                                  <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
+                                    {item.heading}
+                                  </span>
+                                </div>
+                              ) : (
+                                <Link
+                                  key={`${category.name}-${index}`}
+                                  href={item.href}
+                                  className="flex items-center gap-2 border border-gray-200 px-4 py-2 rounded-[500px] bg-white hover:border-[rgba(255,255,255,0.60)] hover:bg-[#E5E7EB] transition-all duration-200 shadow-sm cursor-pointer"
+                                >
+                                  <span className="font-geist font-normal text-sm text-gray-950 leading-6 whitespace-nowrap">
+                                    {item.heading}
+                                  </span>
+                                  {item.dynamicSvg && (
+                                    <div
+                                      className="flex items-center justify-center w-5 h-5 flex-shrink-0 [&_svg]:w-5 [&_svg]:h-5"
+                                      dangerouslySetInnerHTML={{ __html: item.dynamicSvg }}
+                                    />
+                                  )}
+                                </Link>
+                              )
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="lg:hidden w-full mt-8">
+                          {(() => {
+                            const secondaryImageItem = category.categorySecondaryImage?.find(
+                              (item: any) => item.name === partnerCategory
+                            );
+                            const imageToDisplay = secondaryImageItem?.image || category?.mainImage;
+                            if (!imageToDisplay) return null;
+                            return (
+                              <div className="w-full relative bg-transparent">
+                                <ImageLoader
+                                  image={imageToDisplay}
+                                  alt={`${category.name} feature illustration`}
+                                  title={category.name}
+                                  fixed={false}
+                                  className="w-full h-auto object-contain bg-transparent"
+                                />
+                              </div>
+                            );
+                          })()}
+                        </div>
+                      </div>
+                    </section>
+                  );
+                })}
+                </div>
+
+                <div
+                  className="hidden lg:flex flex-col items-end justify-end w-full bg-transparent overflow-visible relative lg:sticky lg:top-[200px] lg:self-start"
+                  style={{
+                    backfaceVisibility: 'hidden',
+                    WebkitBackfaceVisibility: 'hidden',
+                    transform: 'translateZ(0)',
+                  }}
+                >
+                  <AnimatePresence mode="wait">
+                    {allCategories.map((category) => {
+                      const isActive = category.name === activeCategory;
+                      const secondaryImageItem = category.categorySecondaryImage?.find(
+                        (item: any) => item.name === partnerCategory
+                      );
+                      const imageToDisplay = secondaryImageItem?.image || category?.mainImage;
+                      if (!isActive || !imageToDisplay) return null;
+
+                      return (
+                        <motion.div
+                          key={category.name}
+                          initial={false}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                          className="w-full relative flex items-end justify-center bg-transparent"
+                        >
+                          <ImageLoader
+                            image={imageToDisplay}
+                            alt={`${category.name} feature illustration`}
+                            title={`${category.name || imageToDisplay?.title || imageToDisplay?.altText || ''}`}
+                            fixed={false}
+                            className="w-full h-auto max-h-[500px] object-contain bg-transparent"
+                          />
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
+              </div>
             </div>
           </div>
         </Container>
