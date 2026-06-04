@@ -20,6 +20,7 @@ import { urlForImage } from '~/lib/sanity.image'
 import ComparisonHero from '~/v2/sections/ComparisonHero'
 import ComparisonBannerSection from '~/v2/sections/ComparsionBannerSection'
 import CampaignOfferModal from '~/v2/components/common/CampaignOfferModal'
+import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
 
 interface ComparisonPageProps {
   pageData: any
@@ -111,9 +112,10 @@ export default function ComparisonSlugPage({
         />
       )} */}
 
-      {pageData['offer-v2']?.componentData && (
-        <ComparisonBannerSection data={pageData['offer-v2']?.componentData}/>
-      )}
+        {/* {pageData['comparison-cards']?.componentData && (
+          <ComparisonCardsSection data={pageData['comparison-cards']?.componentData} />
+        )} */}
+
 
       <CategoryFeatureTabsSection
           features={features} 
@@ -134,6 +136,11 @@ export default function ComparisonSlugPage({
             pageData['stack-card-tab-testimonial']?.componentData.refData.tabsListingComponent
           }
         />
+      )}
+
+      
+      {pageData['offer-v2']?.componentData && (
+        <ComparisonBannerSection data={pageData['offer-v2']?.componentData}/>
       )}
 
       {faq && <FaqSection faqItems={faq} />}

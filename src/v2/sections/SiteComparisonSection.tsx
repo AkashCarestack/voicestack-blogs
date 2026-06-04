@@ -12,12 +12,14 @@ interface SiteComparisonSectionProps {
   data: any
   legendData?: any
   refer?: any
+  demoCta?: boolean
 }
 
 function SiteComparisonSection({
   data,
   legendData = null,
   refer = null,
+  demoCta = false,
 }: SiteComparisonSectionProps) {
   // console.log('data comparison section', data)
   const [currentIndex, setCurrentIndex] = useState<number>(0)
@@ -55,6 +57,7 @@ function SiteComparisonSection({
               className="xl:px-12 md:px-6 px-4"
               heading={data?.strip}
               description={data?.header}
+              demoButton={demoCta}
             />
 
             <div className="flex flex-col items-center w-full mt-12">

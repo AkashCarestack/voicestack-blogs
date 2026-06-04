@@ -91,12 +91,12 @@ export default function ComparisonPage({
 
       {/* VoiceStack Comparison Cards Section */}
       {pageData['comparison-cards']?.componentData && (
-        <ComparisonCardsSection
+        <ComparisonCardsSection colCount={3} minimal
           data={pageData['comparison-cards']?.componentData}
         />
       )}
 
-{pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
+      {pageData['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
             pageData['stack-card-tab-testimonial']?.componentData?.refData

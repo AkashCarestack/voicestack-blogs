@@ -27,6 +27,7 @@ const OfferSection = ({ data, variant = 'default', spacingY=false }: OfferSectio
 
                   <SectionHeaderV2 isLeftAlign={true} className='' isWhite={true}
                     heading={data?.sectionHeadingDynamic}
+                    subheading={data?.subheadline}
                     // heading={pageData['how-voicestack-works2'].componentData.heading}
                     description={data?.subDescription}
                     headingMd={compact ? true : false}
@@ -43,9 +44,7 @@ const OfferSection = ({ data, variant = 'default', spacingY=false }: OfferSectio
                         className="w-fit"
                         link={cta?.ctaLink || '#'}
                       >
-                        <span>
-                          {cta?.ctaText || 'Button'}
-                        </span>
+                        <span>{cta?.ctaText || 'Button'}</span>
                       </Button>
                     ))}
                   </div>

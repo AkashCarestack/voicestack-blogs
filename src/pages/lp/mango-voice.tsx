@@ -1,26 +1,28 @@
 import React from 'react'
 import { GetStaticProps } from 'next'
-import HeroSection from '~/components/revamp/components/common/HeroSection/heroSection'
 import IntegrationsGrid from '~/components/revamp/components/common/IntegrationsGrid'
-import FeaturesSectionWithNavigation from '~/components/FeaturesSectionWithNavigation'
 import FaqSection from '~/components/revamp/components/common/faqSection'
 import Queries from '~/components/revamp/queries'
 import StackCardTestimonial from '~/v2/sections/stackCardTestimonialSection'
 import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
 import SiteComparisonSection from '~/v2/sections/SiteComparisonSection'
+import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
 import {
   getAllComparisonValues,
   getComparisonTableData,
 } from '~/lib/sanity.queries'
-import { getClient } from '~/lib/sanity.client'
-import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import SimpleHead from '~/components/common/SimpleHead'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
-import LogoListingSection from '~/components/LogoListingSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import { useRouter } from 'next/router'
-import CampaignOfferModal from '~/v2/components/common/CampaignOfferModal'
+import OfferSection from '~/v2/sections/OfferSection'
+import LpHeader from '~/components/common/LpHeader'
+import LpFooterV2 from '~/components/common/LpFooterV2'
+import LpDemoLinkProvider from '~/providers/LpDemoLinkProvider'
+import LpMangoCopyProvider from '~/providers/LpMangoCopyProvider'
+import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
+import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 // import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 // Define proper TypeScript interfaces
@@ -42,7 +44,7 @@ interface PageData {
   [key: string]: any // For other page sections
 }
 
-export default function ComparisonPage({
+export default function MangoVoiceLPPage({
   pageData,
   region,
   faq,
@@ -70,44 +72,66 @@ export default function ComparisonPage({
       ? router.asPath.split('?')[1].split('#')[0]
       : ''
     const params = new URLSearchParams(queryString)
-    const hasUtmParams = ['utm_source', 'utm_campaign', 'utm_medium', 'utm_term', 'utm_content']
-      .some((key) => Boolean(params.get(key)))
 
     const utmContent = params.get('utm_content')?.toLowerCase() || ''
-    const isMangoCampaign = utmContent.includes('mango')
-
-    setShowCampaignOfferModal(hasUtmParams && isMangoCampaign)
   }, [router.isReady, router.asPath])
 
   // Extract integration data from pageData instead of separate query
-// console.log('pageData cchild', pageData);
+  // console.log('pageData comparison-hero', pageData['comparison-hero']?.componentData);
+
+
+  const meetingLink = pageData['comparison-hero']?.componentData?.meetingLink;
+  const demoUrl = '/lp/demo' + (meetingLink ? '?meetingLink=' + meetingLink : '');
 
   return (
-    <>
-      <SimpleHead data={pageData?.seo} />
-      {/* <HeroWrapper> */}
-        <Breadcrumb breadCrumb={pageData?.breadCrumb} />
-        {pageData['comparison-hero']?.componentData && (
-          <FeatureHero
-            data={pageData['comparison-hero']?.componentData}
-            // showFullDescription={true}
-          />
-        )}
-      {/* </HeroWrapper> */}
-
+    <LpDemoLinkProvider demoLink={demoUrl}>
+      <LpMangoCopyProvider slug="mango-voice">
+      {/* <SimpleHead data={pageData?.seo} /> */}
+      <LpHeader />
       
-      {pageData['logo-listing']?.componentData && (
-          <LogoListingV2
-            data={pageData['logo-listing']?.componentData?.blocksListingData}
-          />
-        )}
+      {pageData['comparison-hero']?.componentData && (
+        <FeatureHero
+          data={pageData['comparison-hero']?.componentData}
+          // showFullDescription={true}
+        />
+      )}
 
-      {comparisonTableData && (
+      {pageData['logo-listing']?.componentData && (
+        <LogoListingV2
+          data={pageData['logo-listing']?.componentData?.blocksListingData}
+        />
+      )}
+
+      {pageData['how-voicestack-works'] && (
+        <GroupedCardsGridSection
+          data={pageData['how-voicestack-works']?.componentData}
+          noLink={true}
+          demoCta={true}
+        />
+      )}
+{comparisonTableData && (
         <SiteComparisonSection
           data={comparisonSectionData}
           legendData={comparisonLegendData || []}
+          demoCta={true}
         />
       )}
+
+{pageData['offer-section']?.componentData && (
+        <OfferSection data={pageData['offer-section']?.componentData} spacingY={true}/>
+      )}
+
+      {pageData['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
+        <VerticalTestimonialListingv2
+          data={
+            pageData['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
+          demoCta={true}
+        />
+      )}
+
 
       {/* VoiceStack Comparison Cards Section */}
       {pageData['comparison-cards']?.componentData && (
@@ -130,30 +154,28 @@ export default function ComparisonPage({
           data={pageData['stack-card-tab-testimonial']?.componentData}
         />
       )}
-      {pageData['integrations-listing']?.componentData && (
-        <IntegrationsGrid data={pageData['integrations-listing']?.componentData}/>
-      )}
 
       <StatisticsSection/>
-{/*       
-      {pageData['logo-listing']?.componentData && (
-          <LogoListingSection
-            data={pageData['logo-listing']?.componentData?.blocksListingData}
-            header={false}
-          />
-        )} */}
+      
+      {pageData['integrations-listing']?.componentData && (
+        <IntegrationsShowcaseSection
+          data={pageData['integrations-listing']?.componentData}
+          theme="dark"
+          demoOnly={true}
+        />
+      )}
       
       {/* FAQ Section */}
       {faq && (
         <div>
-          <FaqSection faqItems={faq} />
+          <FaqSection faqItems={faq} showContactInfo={false}/>
         </div>
       )}
 
-      {showCampaignOfferModal && (
-        <CampaignOfferModal onClose={() => setShowCampaignOfferModal(false)} />
-      )}
-    </>
+      <LpFooterV2 data={pageData?.footer?.componentData} />
+
+      </LpMangoCopyProvider>
+    </LpDemoLinkProvider>
   )
 }
 
@@ -168,12 +190,12 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
       }
     }
     
-    const queries = new Queries('comparison', region)
+    const queries = new Queries('lp', region)
     // Hardcode slug since phone-system pages only support 'en' locale
-    const slug = 'comparison'
+    const slug = 'mango-voice'
 
     // Fetch page data for integrations
-    const pageData = await queries.getPageData('dentalPhones', slug)
+    const pageData = await queries.getPageData('lp', slug)
 
     if (!pageData || Object.keys(pageData).length === 0) {
       return {

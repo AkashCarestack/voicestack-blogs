@@ -214,9 +214,10 @@ export interface GroupedCardsGridProps {
   showBorderBottom?: boolean
   cardWithGraph?: boolean
   isIntegrationSection?: boolean
+  noLink?: boolean
 }
 
-export default function GroupedCardsGrid({ customListingItems = [], theme, showBorderBottom = false, simpleListingData = false, columnCount, cardWithGraph = false, isIntegrationSection = false }: GroupedCardsGridProps) {
+export default function GroupedCardsGrid({ customListingItems = [], theme, showBorderBottom = false, simpleListingData = false, columnCount, cardWithGraph = false, isIntegrationSection = false, noLink = false }: GroupedCardsGridProps) {
   if (!customListingItems || customListingItems.length === 0) return null
 
   const isDark = theme === 'dark'
@@ -430,8 +431,8 @@ export default function GroupedCardsGrid({ customListingItems = [], theme, showB
         className={`${cardBgColor} ${flexBasis} relative flex flex-grow flex-col items-start pt-0 px-0 min-h-0 min-w-0`}
       >
         <>
-          {linkUrl && <TickIcon />}
-          {linkUrl ? (
+          {linkUrl && !noLink && <TickIcon />}
+          {linkUrl && !noLink ? (
             <>
               <Anchor href={linkUrl} className="block h-full w-full group">
                 <div className={`${cardHoverColor} transition-all duration-200 h-full`}>

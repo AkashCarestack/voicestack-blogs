@@ -10,13 +10,17 @@ import Anchor from './anchor'
 import { usePricingModal } from './PricingModalContext'
 import ArrowIcon from '../revamp/icons/arrowIcon'
 import replaceUrl from '~/helpers/replaceUrl'
+import { useLpDemoLink } from '~/providers/LpDemoLinkProvider'
 import { PracticeTypeModal } from '~/v2/components/common/PracticeTypeModal'
 import { useDemoFormData } from '~/providers/BookDemoProvider'
 import { getPricingDemoModalCallback } from '~/utils/pricingDemoModal'
 import { hasSecondaryMeetingLink, LOC_QUERY_PARAM } from '~/utils/resolveDemoMeetingLink'
+import PrimarySwitchButton, {
+  isPrimarySwitchButtonType,
+} from '~/components/common/PrimarySwitchButton'
 
 interface ButtonProps {
-  type?: 'primary' | 'primarySm' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
+  type?: 'primary' | 'primarySm' | 'primarySwitch' | 'secondary' | 'underline'  | 'video' | 'borderless' | 'secondaryMail' | 'secondaryTel' | 'borderlessIcon' | 'secondaryWhite'
   alter?: 'bgWhite' | 'borderWhite' | 'disabled' | 'default'
   children?: React.ReactNode
   link?: any
@@ -26,6 +30,7 @@ interface ButtonProps {
   [x: string]: any
   className?: string
   locale?: string | false
+  disableLpDemoLinkOverride?: boolean
 }
 
 const Button: React.FunctionComponent<ButtonProps> = ({
@@ -38,10 +43,12 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   className,
   locale,
   buttonVariant,
+  disableLpDemoLinkOverride = false,
   onClick,
   ...rest
 }) => {
   const router = useRouter()
+  const lpDemoLink = useLpDemoLink()
   // Get pricing modal context (may be undefined if provider is not available)
   const pricingModal = usePricingModal()
   const openPricingModal = pricingModal?.openPricingModal
@@ -64,6 +71,12 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   const isPricingPage = useMemo(() => {
     const pathname = router.pathname
     return pathname == '/pricing'
+  }, [router.pathname])
+
+  // Check if we're on a lp page
+  const isLpPage = useMemo(() => {
+    const pathname = router.pathname
+    return pathname.startsWith('/lp/')
   }, [router.pathname])
 
   const isDemoPage = useMemo(() => router.pathname === '/demo', [router.pathname])
@@ -126,11 +139,8 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   // Handle click - if it's a "book free demo" button, show practice type modal
   // BUT on partner pages, allow anchor links to work (scroll to #demo)
   const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
-    // On partner child pages, don't show modal - let anchor links (#demo) work normally
-    // The finalLink logic will convert links to #demo, which should scroll to the form
-    if (isPartnerChildPage) {
-      // Allow default anchor behavior (scrolling to #demo)
-      // Don't prevent default or show modal
+    // On partner child/LP pages, keep default link behavior and skip demo modal overrides.
+    if (isPartnerChildPage || isLpPage) {
       if (onClick) {
         onClick(e)
       }
@@ -336,6 +346,19 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   const finalLink = useMemo(() => {
     // Pricing buttons should open modal, not navigate
     // if (isPricingButton) return undefined
+    const shouldUseLpDemoLink =
+      isLpPage &&
+      !disableLpDemoLinkOverride &&
+      lpDemoLink &&
+      (!formattedLink ||
+        formattedLink === '#demo' ||
+        formattedLink === '/demo' ||
+        formattedLink === '/demo/')
+
+    if (shouldUseLpDemoLink) {
+      return lpDemoLink
+    }
+
     if (!formattedLink) return formattedLink
     
     // Don't override if already #demo
@@ -363,6 +386,11 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     if (isPartnerChildPage && formattedLink) {
       return '#demo'
     }
+
+    // On lp pages, override buttons to the link
+    if (isLpPage && formattedLink) {
+      return formattedLink
+    }
     
     // For "book free demo" buttons, link to /demo (unless on partner page, handled above)
     // Next.js Link with locale prop will handle locale-aware routing automatically
@@ -374,9 +402,30 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     // }
     
     return formattedLink
-  }, [isPricingButton, formattedLink, isPartnerChildPage, isBookFreeDemoButton, router])
+  }, [isPricingButton, formattedLink, isPartnerChildPage, isLpPage, isBookFreeDemoButton, lpDemoLink, router, disableLpDemoLinkOverride])
 
   const combinedClasses = clsx(baseClasses, customClasses, className)
+
+  if (isPrimarySwitchButtonType(type)) {
+    return (
+      <>
+        <PrimarySwitchButton
+          link={finalLink || formattedLink}
+          buttonText={buttonText}
+          className={className}
+          target={target}
+          locale={locale}
+        />
+        {showPracticeTypeModal && (
+          <PracticeTypeModal
+            onClose={() => setShowPracticeTypeModal(false)}
+            locale={locale || router.locale}
+          />
+        )}
+      </>
+    )
+  }
+
   if (finalLink) {
     return (
       <>

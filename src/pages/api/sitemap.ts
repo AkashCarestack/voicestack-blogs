@@ -178,16 +178,15 @@ function formatHreflang(locale: string): string {
   return localeMap[locale] || 'en';
 }
 
-function formatLastmod(date: string | Date | null | undefined): string {
+function formatLastmod(date: string | Date | null | undefined): string | null {
   if (!date) {
-    // Default to current date/time if no date provided
-    return new Date().toISOString();
+    return null;
   }
   
   const dateObj = typeof date === 'string' ? new Date(date) : date;
   
   if (isNaN(dateObj.getTime())) {
-    return new Date().toISOString();
+    return null;
   }
   
   // Format as YYYY-MM-DDThh:mm:ss+00:00 (sitemap standard with time)
@@ -431,7 +430,7 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
   // console.log({features});
 
   // features.forEach((slug: any) => {
-  //   const featureDate = slug._updatedAt || new Date().toISOString();
+  //   const featureDate = slug._updatedAt;
   //   const enPath = `phone-system/features/${slug.slug}`;
   //   const enAUPath = `dental-phones/features/${slug.slug}`;
   //   const enGBPath = `dental-phones/features/${slug.slug}`;
@@ -455,7 +454,7 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
     if (shouldExcludePath(normalizedPath)) return;
     
     const featureLocale = feature.language || 'en';
-    const featureDate = feature._updatedAt || new Date().toISOString();
+    const featureDate = feature._updatedAt || '';
     
     const existing = pathData.get(normalizedPath);
     if (existing) {
@@ -553,9 +552,9 @@ async function getNavigationPaths(client: any): Promise<Map<string, { date: stri
     enGBFooter?._updatedAt
   ].filter(Boolean) as string[];
   
-  const headerDate = headerDates.length > 0 
+  const headerDate = headerDates.length > 0
     ? headerDates.reduce((latest, date) => date > latest ? date : latest)
-    : new Date().toISOString();
+    : '';
   const footerDate = headerDate; // Use same date since we're combining them
 
   // Combine paths with dates and locales
@@ -662,6 +661,31 @@ async function getPageDocumentDates(client: any, paths: Set<string>): Promise<Ma
   return result;
 }
 
+async function getHomePageDates(client: any): Promise<Map<string, string>> {
+  const homePageQuery = groq`
+    *[_type == "homePage" && !(_id in path("drafts.**")) && defined(basicInfo.slug.current) && basicInfo.slug.current match "*v2*"] {
+      "slug": basicInfo.slug.current,
+      language,
+      _updatedAt
+    }
+  `;
+
+  const homePages = await client.fetch(homePageQuery);
+  const result = new Map<string, string>();
+
+  homePages.forEach((page: any) => {
+    if (!page._updatedAt) return;
+
+    const locale = page.language || 'en';
+    const existingDate = result.get(locale);
+    if (!existingDate || page._updatedAt > existingDate) {
+      result.set(locale, page._updatedAt);
+    }
+  });
+
+  return result;
+}
+
 async function generateSiteMap(
   navigationPaths: Map<string, { date: string; locales: string[] }>, 
   featurePaths: Map<string, { date: string; locales: string[] }>,
@@ -669,8 +693,10 @@ async function generateSiteMap(
 ) {
   const locales = siteConfig.locales;
   
-  // Get ALL page documents to detect multi-locale pages
-  const allPageDocuments = await getAllPageDocuments(client);
+  const [allPageDocuments, homePageDates] = await Promise.all([
+    getAllPageDocuments(client),
+    getHomePageDates(client)
+  ]);
   
   // Combine all paths and dates
   const allPathData = new Map<string, { date: string; locales: string[] }>();
@@ -719,15 +745,14 @@ async function generateSiteMap(
     if (shouldExcludePath(path)) return;
     
     const existing = allPathData.get(path);
-    const currentDate = new Date().toISOString();
     
     if (existing) {
       // Merge locales from static pages
       const combinedLocales = new Set([...existing.locales, ...locales]);
       existing.locales = Array.from(combinedLocales);
     } else {
-      // Add static page with specified locales
-      allPathData.set(path, { date: currentDate, locales });
+      // Add static page with specified locales and no generated lastmod.
+      allPathData.set(path, { date: '', locales });
     }
   });
 
@@ -752,11 +777,11 @@ async function generateSiteMap(
   // 1. Generate entries for paths WITH hreflang alternates (home, system-requirements)
   PATHS_WITH_ALTERNATES.forEach(path => {
     const pathData = allPathData.get(path);
-    const lastmod = pathData?.date || new Date().toISOString();
-    const formattedLastmod = formatLastmod(lastmod);
     
     locales.forEach(locale => {
       const currentUrl = buildUrl(path, locale);
+      const lastmodDate = path === '' ? homePageDates.get(locale) : pathData?.date;
+      const formattedLastmod = formatLastmod(lastmodDate);
       
       // Skip if this URL has already been generated
       if (generatedUrls.has(currentUrl)) {
@@ -766,7 +791,9 @@ async function generateSiteMap(
       
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(currentUrl)}</loc>\n`;
-      xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
+      if (formattedLastmod) {
+        xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
+      }
 
       // Add hreflang alternates for all locales
       locales.forEach(altLocale => {
@@ -845,7 +872,9 @@ async function generateSiteMap(
 
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(currentUrl)}</loc>\n`;
-      xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
+      if (formattedLastmod) {
+        xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
+      }
       if (allAlternateUrls.length > 0) {
         allAlternateUrls.forEach(({ url, hreflang }) => {
           xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
@@ -895,7 +924,9 @@ async function generateSiteMap(
         generatedUrls.add(alternateUrl);
         xml += '  <url>\n';
         xml += `    <loc>${escapeXml(alternateUrl)}</loc>\n`;
-        xml += `    <lastmod>${formattedAlternateLastmod}</lastmod>\n`;
+        if (formattedAlternateLastmod) {
+          xml += `    <lastmod>${formattedAlternateLastmod}</lastmod>\n`;
+        }
         if (alternateUrlsList.length > 0) {
           alternateUrlsList.forEach(({ url, hreflang }) => {
             xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;

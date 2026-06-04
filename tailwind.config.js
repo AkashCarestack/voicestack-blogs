@@ -13,6 +13,7 @@ module.exports = {
     'bg-[#4A3CE1]',
     'text-[#4A3CE1]',
     'border-[#4A3CE1]',
+    'animate-primary-switch-glare',
 	
   ],
   theme: {
@@ -83,6 +84,8 @@ module.exports = {
   		animation: {
   			'shiny-text': 'shiny-text 8s infinite',
 				pullUp: 'pullUp 0.3s ease-in forwards',
+				'shine': 'shine 4s ease-in-out infinite',
+				'primary-switch-glare': 'primary-switch-glare 4s ease-in infinite',
   		},
   		keyframes: {
   			'shiny-text': {
@@ -97,6 +100,14 @@ module.exports = {
           '0%': { transform: 'translateY(10%)', opacity: '0' },
           '50%': { opacity: '1' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+				shine: {
+					'0%': { transform: 'translateX(-100%) skewX(-20deg)' },
+					 '100%': { transform: 'translateX(400%) skewX(-20deg)' },
+				},
+				'primary-switch-glare': {
+          '0%': { transform: 'translateY(-50%) rotate(-200deg) translateX(-120%)' },
+          '100%': { transform: 'translateY(-50%) rotate(-200deg) translateX(120%)' },
         },
   		},
 			
