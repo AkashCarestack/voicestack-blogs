@@ -8,7 +8,6 @@
 
 
 
-
 ## Choose NEXT JS  as framework in Vercel
 
 ## Required ENV variables
