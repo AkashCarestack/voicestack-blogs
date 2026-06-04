@@ -3,6 +3,7 @@ import siteConfig from 'config/siteConfig'
 import WordRotate from '~/components/ui/word-rotate'
 import FireIcon from '~/v2/icons/FireIcon'
 import WarningIcon from '~/v2/icons/WarningIcon'
+import { portableTextCustomTypes } from '~/utils/portableTextCustomTypes'
 
 export const fetchAuthor = (post) => {
   let authorData: any = []
@@ -468,6 +469,7 @@ export const descriptionComponents: any = {
         React.createElement('span', null, children)
       ),
   },
+  types: portableTextCustomTypes,
 }
 export const ComparisonHeroDescriptionComponents: any = {
   block: {

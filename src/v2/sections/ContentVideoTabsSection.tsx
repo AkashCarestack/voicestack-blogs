@@ -14,6 +14,7 @@ import { IdataProps } from '~/components/revamp/components/common/interface/comm
 import { urlForImage } from '~/lib/sanity.image';
 import ImageLoader from '~/components/common/imageLoader/imageLoader';
 import ListingBlock from '~/components/blockEditor/ListingBlock';
+import { portableTextCustomTypes } from '~/utils/portableTextCustomTypes';
 import { useStickyTop } from '~/hooks/useStickyTop';
 import Image from 'next/image';
 
@@ -532,6 +533,7 @@ export default function ContentVideoTabsSection({
       },
     },
     types: {
+      ...portableTextCustomTypes,
       listingBlock: ({ value }: any) => {
         if (!value) return null;
         return (
