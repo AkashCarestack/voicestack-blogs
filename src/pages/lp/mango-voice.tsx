@@ -13,14 +13,13 @@ import {
 } from '~/lib/sanity.queries'
 import SimpleHead from '~/components/common/SimpleHead'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
-import FeatureHero from '~/v2/sections/FeatureHero'
+import LpHero from '~/v2/sections/LpHero'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import { useRouter } from 'next/router'
 import OfferSection from '~/v2/sections/OfferSection'
 import LpHeader from '~/components/common/LpHeader'
 import LpFooterV2 from '~/components/common/LpFooterV2'
 import LpDemoLinkProvider from '~/providers/LpDemoLinkProvider'
-import LpMangoCopyProvider from '~/providers/LpMangoCopyProvider'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 // import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
@@ -85,14 +84,13 @@ export default function MangoVoiceLPPage({
 
   return (
     <LpDemoLinkProvider demoLink={demoUrl}>
-      <LpMangoCopyProvider slug="mango-voice">
       {/* <SimpleHead data={pageData?.seo} /> */}
       <LpHeader />
       
       {pageData['comparison-hero']?.componentData && (
-        <FeatureHero
+        <LpHero
           data={pageData['comparison-hero']?.componentData}
-          // showFullDescription={true}
+          variant="mango"
         />
       )}
 
@@ -174,7 +172,6 @@ export default function MangoVoiceLPPage({
 
       <LpFooterV2 data={pageData?.footer?.componentData} />
 
-      </LpMangoCopyProvider>
     </LpDemoLinkProvider>
   )
 }

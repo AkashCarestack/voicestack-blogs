@@ -1,11 +1,8 @@
 export const LP_MANGO_CTA_LABEL = 'Make the Switch'
 export const DEFAULT_LP_DEMO_CTA = 'Book Free Demo'
 
-export function isMangoLpSlug(slugOrPath?: string) {
-  if (!slugOrPath) return false
-
-  const normalized = slugOrPath.toLowerCase()
-  return normalized.includes('mango-voice') || normalized.includes('mango')
+export function isMangoLpSlug(_slugOrPath?: string) {
+  return false
 }
 
 export function shouldUseMangoLpCopy(slugOrPath?: string) {

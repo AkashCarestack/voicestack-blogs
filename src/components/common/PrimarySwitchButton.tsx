@@ -34,10 +34,6 @@ export default function PrimarySwitchButton({
   const lpDemoLink = useLpDemoLink()
   const primaryLabel = useLpCtaText(buttonText)
 
-  if (!primaryLabel?.trim()) {
-    return null
-  }
-
   const finalLink = useMemo(() => {
     const linkUrl = typeof link === 'string' ? link : ''
     const processedLink = linkUrl ? replaceUrl(linkUrl) : linkUrl
@@ -56,6 +52,10 @@ export default function PrimarySwitchButton({
 
     return processedLink || '/demo'
   }, [link, lpDemoLink, router.pathname])
+
+  if (!primaryLabel?.trim()) {
+    return null
+  }
 
   return (
     <Anchor

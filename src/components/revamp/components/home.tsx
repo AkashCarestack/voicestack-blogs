@@ -55,6 +55,22 @@ export default function Home({
           data={data['logos-listing']?.componentData.blocksListingData}
         />
       )}
+      {data['testimonial-video-section']?.componentData?.refData
+        ?.testimonialListing && (
+        <VerticalTestimonialListingv2
+          data={
+            data['testimonial-video-section']?.componentData?.refData
+              ?.testimonialListing
+          }
+        />
+      )}
+      <CategoryFeatureTabsSection
+        features={featuresData}
+        variant="carousel"
+        sectionHeading={
+          data['category-feature-tabs']?.componentData?.sectionHeading
+        }
+      />
       {data['voicestack-solution']?.componentData && (
         <ContentVideoTabsSection data={data['voicestack-solution']?.componentData} />
       )}
@@ -70,22 +86,6 @@ export default function Home({
         <IntegrationsShowcaseSection
           data={data['integrations-listing']?.componentData}
           theme="dark"
-        />
-      )}
-      <CategoryFeatureTabsSection
-        features={featuresData}
-        variant="carousel"
-        sectionHeading={
-          data['category-feature-tabs']?.componentData?.sectionHeading
-        }
-      />
-      {data['testimonial-video-section']?.componentData?.refData
-        ?.testimonialListing && (
-        <VerticalTestimonialListingv2
-          data={
-            data['testimonial-video-section']?.componentData?.refData
-              ?.testimonialListing
-          }
         />
       )}
       {data['how-voicestack-works'] && (

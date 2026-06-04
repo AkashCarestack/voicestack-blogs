@@ -23,6 +23,7 @@ interface FooterBottomProps {
 
 export default function FooterBottom({ data }: FooterBottomProps) {
   const ctaBanner = data?.ctaBanner
+  const buttonText = useLpCtaText(ctaBanner?.buttonText || 'Book Free Demo')
 
   // Don't render if showBanner is explicitly false
   if (ctaBanner && ctaBanner.showBanner === false) {
@@ -51,7 +52,6 @@ export default function FooterBottom({ data }: FooterBottomProps) {
   // Use Sanity content or fallback defaults
   const title = ctaBanner?.title || 'Grow Your Practice with VoiceStack'
   const description = ctaBanner?.description || 'Smarter call management, automated follow-ups, and actionable insights designed to grow your practice.'
-  const buttonText = useLpCtaText(ctaBanner?.buttonText || 'Book Free Demo')
   const buttonLink = ctaBanner?.buttonLink || '/demo'
 
   return (
