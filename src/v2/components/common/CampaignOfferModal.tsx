@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { X } from 'lucide-react'
 import Button from '~/components/common/Button'
 import Image from 'next/image'
+import { useLpDemoLink } from '~/providers/LpDemoLinkProvider'
 
 const MANGO_IMAGE_URL = '/assets/offers/mango-voice-offer.png'
 
@@ -13,8 +14,20 @@ export interface CampaignOfferModalProps {
 
 const CampaignOfferModal: React.FC<CampaignOfferModalProps> = ({ onClose }) => {
   const router = useRouter()
+  const lpDemoLink = useLpDemoLink()
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleCtaClick = () => {
+    if (lpDemoLink) {
+      router.push(lpDemoLink)
+      onClose()
+      return
+    }
+
     const currentSearch = router.asPath.includes('?')
       ? router.asPath.split('?')[1].split('#')[0]
       : ''
@@ -105,11 +118,16 @@ const CampaignOfferModal: React.FC<CampaignOfferModalProps> = ({ onClose }) => {
     </div>
   )
 
-  if (typeof window !== 'undefined') {
-    return createPortal(modalContent, document.getElementById('main') as HTMLElement)
+  if (!mounted) {
+    return null
   }
 
-  return null
+  const portalRoot = document.getElementById('main')
+  if (!portalRoot) {
+    return null
+  }
+
+  return createPortal(modalContent, portalRoot)
 }
 
 export default CampaignOfferModal

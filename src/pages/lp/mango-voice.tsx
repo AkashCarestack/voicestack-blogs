@@ -15,8 +15,8 @@ import SimpleHead from '~/components/common/SimpleHead'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
 import LpHero from '~/v2/sections/LpHero'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
-import { useRouter } from 'next/router'
 import OfferSection from '~/v2/sections/OfferSection'
+import CampaignOfferModal from '~/v2/components/common/CampaignOfferModal'
 import LpHeader from '~/components/common/LpHeader'
 import LpFooterV2 from '~/components/common/LpFooterV2'
 import LpDemoLinkProvider from '~/providers/LpDemoLinkProvider'
@@ -50,8 +50,11 @@ export default function MangoVoiceLPPage({
   // comparisonTableData,
   comparisonLegendData,
 }) {
-  const router = useRouter()
   const [showCampaignOfferModal, setShowCampaignOfferModal] = React.useState(false)
+
+  React.useEffect(() => {
+    setShowCampaignOfferModal(true)
+  }, [])
 
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
@@ -63,17 +66,6 @@ export default function MangoVoiceLPPage({
     columnDimensionName: 'Features',
     table: comparisonTableData,
   }
-
-  React.useEffect(() => {
-    if (!router.isReady) return
-
-    const queryString = router.asPath.includes('?')
-      ? router.asPath.split('?')[1].split('#')[0]
-      : ''
-    const params = new URLSearchParams(queryString)
-
-    const utmContent = params.get('utm_content')?.toLowerCase() || ''
-  }, [router.isReady, router.asPath])
 
   // Extract integration data from pageData instead of separate query
   // console.log('pageData comparison-hero', pageData['comparison-hero']?.componentData);
@@ -172,6 +164,9 @@ export default function MangoVoiceLPPage({
 
       <LpFooterV2 data={pageData?.footer?.componentData} />
 
+      {showCampaignOfferModal && (
+        <CampaignOfferModal onClose={() => setShowCampaignOfferModal(false)} />
+      )}
     </LpDemoLinkProvider>
   )
 }
