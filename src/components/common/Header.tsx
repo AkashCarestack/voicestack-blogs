@@ -25,6 +25,8 @@ import { RegionFlag, RegionSwitcherDropdown, MobileRegionSwitcher, RegionPopup, 
 import USFlag from '../../../public/assets/flags/us.svg';
 import UKFlag from '../../../public/assets/flags/uk.svg';
 import AUFlag from '../../../public/assets/flags/au.svg';
+import IcLogoSm from '~/v2/icons/icLogoSm';
+import EventStrip from '~/v2/components/common/eventStrip';
 // import RegionStrip from '../revamp/components/regionStrip';
 
 // Constants
@@ -139,6 +141,8 @@ const Header = ({ data, refer = null }) => {
 
   const country = getCookie('__vs_ver');
   const safeData = data || DEFAULT_DATA;
+
+  const ICBanner = router.locale === 'en';
 
   // Geo location detection
   useEffect(() => {
@@ -411,8 +415,17 @@ const Header = ({ data, refer = null }) => {
         <div
           className={`hidden z-20 lg:flex justify-center w-full bg-gray-100 relative transition-transform duration-300 ease-in-out h-[42px]`}
         >
-          <div className="flex justify-end w-full lg:px-12">           
-            <div className="flex justify-end items-center gap-3">
+          <div className={`flex w-full lg:px-12 ${ICBanner ? 'justify-between gap-5' : 'justify-end'}`}>           
+            {router.locale === 'en' ? (
+              <EventStrip
+              href={"https://events.carestack.com/inner-circle-2027"}
+              target={"_blank"}
+              logo={<IcLogoSm className="" />}
+              variant="white"
+              className=""
+            />
+            ): null }
+            <div className="flex items-center gap-3">
               <TopNavigationMenu safeData={safeData} currentLocale={currentLocale} />
               {REGIONS.length > 0 && (
                 <RegionSwitcherDropdown
@@ -462,13 +475,25 @@ const Header = ({ data, refer = null }) => {
                     >
                       <NavigationMenu menuItems={safeData?.navigationMenu || []} onToggleMenu={toggleMenu} onCloseMenu={closeMenu} />
 
-                      <div className="flex flex-col gap-8 pb-8 lg:pb-0">
+                      <div className="flex flex-col items-center gap-8 pb-8 lg:pb-0">
+                        
                         <div className="flex flex-col lg:flex-row gap-3 md:gap-5 items-center lg:hidden">
                           <Button type="primary" link="/demo">
                             <span>{safeData?.ctabutton || 'Book Free Demo'}</span>
                           </Button>
                         </div>
 
+                        {router.locale === 'en' ? (
+                          <EventStrip
+                          href={"https://events.carestack.com/inner-circle-2027"}
+                          target={"_blank"}
+                          logo={<IcLogoSm className="w-[40px] h-[40px]" />}
+                          variant="white"
+                          className="lg:hidden"
+                          isMobile={true}
+                        />
+                        ): null }
+                        
                         <MobileRegionSwitcher regions={REGIONS} currentLocale={currentLocale} queryString={queryParam} onClose={closeMenu} />
                         <div className="flex flex-wrap justify-center items-center gap-2 lg:hidden">
                           <TopNavigationMenu safeData={safeData} currentLocale={currentLocale} />

@@ -84,6 +84,7 @@ module.exports = {
   		animation: {
   			'shiny-text': 'shiny-text 8s infinite',
 				pullUp: 'pullUp 0.3s ease-in forwards',
+				'shine': 'shine 4s ease-in-out infinite',
 				'primary-switch-glare': 'primary-switch-glare 4s ease-in infinite',
   		},
   		keyframes: {
@@ -100,6 +101,10 @@ module.exports = {
           '50%': { opacity: '1' },
           '100%': { transform: 'translateY(0)', opacity: '1' },
         },
+				shine: {
+					'0%': { transform: 'translateX(-100%) skewX(-20deg)' },
+					 '100%': { transform: 'translateX(400%) skewX(-20deg)' },
+				},
 				'primary-switch-glare': {
           '0%': { transform: 'translateY(-50%) rotate(-200deg) translateX(-120%)' },
           '100%': { transform: 'translateY(-50%) rotate(-200deg) translateX(120%)' },

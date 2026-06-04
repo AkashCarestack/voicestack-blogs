@@ -63,24 +63,24 @@ const LpHubspotMeeting = ({
           referrer_url: window.document.referrer,
         })
 
-        if (eventName === 'demo_submission' && window2.lintrk) {
-          window2.lintrk('track', { conversion_id: 25412508 })
-        }
+        // if (eventName === 'demo_submission' && window2.lintrk) {
+        //   window2.lintrk('track', { conversion_id: 25412508 })
+        // }
 
         window2.dataLayer.push({
           email: email,
           event: eventName,
-          form: formDetails,
+          // form: formDetails,
         })
 
-        window.localStorage.setItem(
-          'demoMeetingData',
-          JSON.stringify({
-            organizer,
-            dateString: date,
-            dateTime: time,
-          })
-        )
+        // window.localStorage.setItem(
+        //   'demoMeetingData',
+        //   JSON.stringify({
+        //     organizer,
+        //     dateString: date,
+        //     dateTime: time,
+        //   })
+        // )
 
         trackEvent({
           e_name: eventName,
@@ -117,8 +117,8 @@ const LpHubspotMeeting = ({
           await fetch(`/api/hs?${apiParams.toString()}`)
           const redirectBase = '/demo/thank-you/'
           const wholeUrl = redirectBase + '?email=' + email + '&meeting=true'
-          router.push(wholeUrl)
-        }, 3000)
+          // router.push(wholeUrl)
+        }, 2000)
       }
     })
   }, [eventName, formDetails, router, trackEvent])

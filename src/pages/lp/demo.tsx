@@ -45,7 +45,7 @@ export default function LpDemoPage() {
             <div className="w-full min-h-[500px]">
               <LpHubspotMeeting
                 meetingLink={meetingLink}
-                eventName="demo_submission"
+                eventName="lp_demo_submission"
                 formDetails={`lp_demo_${router.locale || 'en'}`}
               />
             </div>
