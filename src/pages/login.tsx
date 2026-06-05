@@ -26,6 +26,10 @@ export default function LoginPage() {
         <meta property="og:type" content="website" />
         <meta property="og:title" content={title}/>
         <link rel="canonical" href={canonical} />
+        <link rel="alternate" href="https://voicestack.com/login" hrefLang="en-US" />
+        <link rel="alternate" href="https://voicestack.com/en-AU/login" hrefLang="en-AU" />
+        <link rel="alternate" href="https://voicestack.com/en-GB/login" hrefLang="en-GB" />
+        <link rel="alternate" href="https://voicestack.com/login" hrefLang="x-default" />
         <meta name="robots" content="index, follow, archive" />
         
       </Head>

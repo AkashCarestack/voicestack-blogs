@@ -836,4 +836,3 @@ export default function LpHero({ data, type, hideBg = false, isCentered = false,
     </>
   )
 }
-
