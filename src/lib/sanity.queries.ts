@@ -2127,13 +2127,13 @@ export async function getFeaturesList(client: SanityClient, language: string = '
   `;
   
   try {
-    console.log('🔍 Testing direct category query without language filter...');
-    const testResultNoLang = await client.fetch(testCategoryQueryNoLang);
-    console.log('🔍 DIRECT CATEGORY QUERY (no lang filter) RESULT:', testResultNoLang);
+    // console.log('🔍 Testing direct category query without language filter...');
+    // const testResultNoLang = await client.fetch(testCategoryQueryNoLang);
+    // console.log('🔍 DIRECT CATEGORY QUERY (no lang filter) RESULT:', testResultNoLang);
     
-    console.log('🔍 Testing direct category query with language filter...');
-    const testResultWithLang = await client.fetch(testCategoryQueryWithLang, { language });
-    console.log('🔍 DIRECT CATEGORY QUERY (with lang filter) RESULT:', testResultWithLang);
+    // console.log('🔍 Testing direct category query with language filter...');
+    // const testResultWithLang = await client.fetch(testCategoryQueryWithLang, { language });
+    // console.log('🔍 DIRECT CATEGORY QUERY (with lang filter) RESULT:', testResultWithLang);
     
     // Also query ALL categories to see which ones have categorySecondaryImage
     const allCategoriesQuery = groq`
@@ -2155,19 +2155,19 @@ export async function getFeaturesList(client: SanityClient, language: string = '
         }
       }
     `;
-    const allCategories = await client.fetch(allCategoriesQuery);
-    console.log('🔍 ALL CATEGORIES WITH SECONDARY IMAGES:', allCategories.filter((c: any) => c.hasSecondaryImages));
-    console.log('🔍 Total categories:', allCategories.length);
+    // const allCategories = await client.fetch(allCategoriesQuery);
+    // console.log('🔍 ALL CATEGORIES WITH SECONDARY IMAGES:', allCategories.filter((c: any) => c.hasSecondaryImages));
+    // console.log('🔍 Total categories:', allCategories.length);
     
-    if (testResultNoLang && testResultNoLang.length > 0) {
-      const cat = testResultNoLang[0];
-      console.log('🔍 Category "Attribution Analytics" found:', cat);
-      console.log('🔍 Language:', cat.language);
-      console.log('🔍 categorySecondaryImage in direct query:', cat.categorySecondaryImage);
-      console.log('🔍 categorySecondaryImage count:', cat.categorySecondaryImage?.length || 0);
-    } else {
-      console.log('🔍 Category "Attribution Analytics" NOT FOUND in Sanity (no language filter)');
-    }
+    // if (testResultNoLang && testResultNoLang.length > 0) {
+    //   const cat = testResultNoLang[0];
+    //   console.log('🔍 Category "Attribution Analytics" found:', cat);
+    //   console.log('🔍 Language:', cat.language);
+    //   console.log('🔍 categorySecondaryImage in direct query:', cat.categorySecondaryImage);
+    //   console.log('🔍 categorySecondaryImage count:', cat.categorySecondaryImage?.length || 0);
+    // } else {
+    //   // console.log('🔍 Category "Attribution Analytics" NOT FOUND in Sanity (no language filter)');
+    // }
   } catch (error) {
     console.error('🔍 Error fetching category directly:', error);
   }
@@ -2188,21 +2188,21 @@ export async function getFeaturesList(client: SanityClient, language: string = '
       f.basicInfo?.title === 'Attribution Analytics'
     );
     
-    if (attributionFeature) {
-      console.log('🔍 FOUND Attribution Analytics feature:', attributionFeature);
-      console.log('🔍 Feature category:', attributionFeature.featureCategory);
-      console.log('🔍 categorySecondaryImage:', attributionFeature.featureCategory?.categorySecondaryImage);
-      console.log('🔍 Full featureCategory object keys:', Object.keys(attributionFeature.featureCategory || {}));
-    }
+    // if (attributionFeature) {
+    //   console.log('🔍 FOUND Attribution Analytics feature:', attributionFeature);
+    //   console.log('🔍 Feature category:', attributionFeature.featureCategory);
+    //   console.log('🔍 categorySecondaryImage:', attributionFeature.featureCategory?.categorySecondaryImage);
+    //   console.log('🔍 Full featureCategory object keys:', Object.keys(attributionFeature.featureCategory || {}));
+    // }
     
     featuresWithCategories.forEach((feature: any, index: number) => {
       const category = feature.featureCategory;
-      if (category && category.name === 'Attribution Analytics') {
-        console.log(`🔍 Attribution Analytics Category - Full object:`, JSON.stringify(category, null, 2));
-        console.log(`🔍 Attribution Analytics - categorySecondaryImage:`, category.categorySecondaryImage);
-        console.log(`🔍 Attribution Analytics - categorySecondaryImage type:`, typeof category.categorySecondaryImage);
-        console.log(`🔍 Attribution Analytics - categorySecondaryImage isArray:`, Array.isArray(category.categorySecondaryImage));
-      }
+      // if (category && category.name === 'Attribution Analytics') {
+      //   console.log(`🔍 Attribution Analytics Category - Full object:`, JSON.stringify(category, null, 2));
+      //   console.log(`🔍 Attribution Analytics - categorySecondaryImage:`, category.categorySecondaryImage);
+      //   console.log(`🔍 Attribution Analytics - categorySecondaryImage type:`, typeof category.categorySecondaryImage);
+      //   console.log(`🔍 Attribution Analytics - categorySecondaryImage isArray:`, Array.isArray(category.categorySecondaryImage));
+      // }
     });
     
     // Check if ANY feature has categorySecondaryImage

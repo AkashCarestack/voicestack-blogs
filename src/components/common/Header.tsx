@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { CloseIcon, MenuIcon } from '@sanity/icons';
@@ -113,6 +113,68 @@ const getLocaleFromCountry = (country: string): string | null => {
   return null;
 };
 
+const getFeaturesBasePath = (locale?: string | null) => {
+  if (locale === 'en-AU' || locale === 'en-GB') return '/dental-phones/features';
+  return '/phone-system/features';
+};
+
+const getFeatureSlug = (feature: any): string => {
+  const slug = feature?.basicInfo?.slug;
+  if (!slug) return '';
+  return typeof slug === 'string' ? slug : slug.current || '';
+};
+
+const normalizeMenuHref = (href: string) => href.replace(/\/$/, '').toLowerCase();
+
+const isAiReceptionistMenuItem = (menuItem: any) => {
+  const label = (menuItem?.label || '').toLowerCase().trim();
+  const href = normalizeMenuHref(menuItem?.href || '');
+  return (
+    label.includes('ai receptionist') ||
+    label.includes('ai-receptionist') ||
+    href.includes('ai-receptionist')
+  );
+};
+
+const isFeaturesMenuItem = (menuItem: any, locale?: string | null) => {
+  if (isAiReceptionistMenuItem(menuItem)) return false;
+
+  const label = (menuItem?.label || '').toLowerCase().trim();
+  const href = normalizeMenuHref(menuItem?.href || '');
+  const featuresIndexPath = normalizeMenuHref(getFeaturesBasePath(locale));
+
+  // Only the Features index — not individual feature pages (e.g. ai-receptionist)
+  return label === 'features' || href === featuresIndexPath;
+};
+
+const buildFeaturesSubmenu = (
+  featuresByCategory: Record<string, { category: any; features: any[] }>,
+  locale?: string | null,
+) => {
+  return Object.values(featuresByCategory)
+    .sort((a, b) => {
+      const orderA = a.category?.featureOrder ?? 9999;
+      const orderB = b.category?.featureOrder ?? 9999;
+      if (orderA !== orderB) return orderA - orderB;
+      return (a.category?.name || '').localeCompare(b.category?.name || '');
+    })
+    .map(({ category, features }) => ({
+      submenuHeader: category.name,
+      items: [...features]
+        .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999))
+        .map((feature) => {
+          const slug = getFeatureSlug(feature);
+          const title = feature?.basicInfo?.title || '';
+          
+          return {
+            label: title,
+            href: slug ? `${getFeaturesBasePath(locale)}/${slug}` : getFeaturesBasePath(locale),
+            // description,
+          };
+        }),
+    }));
+};
+
 const Header = ({ data, refer = null }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [headerFixed, setHeaderFixed] = useState(false);
@@ -128,11 +190,12 @@ const Header = ({ data, refer = null }) => {
   const [showMainHeader, setShowMainHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
+
   const router = useRouter();
   const matchedRegion = REGIONS.find((region) => region.locale === router.locale);
   const toggleRef = useRef<HTMLSpanElement>(null);
   const isMobile = useMediaQuery(767);
-  const { siteSettings,schemaData } = useLayoutData();
+  const { siteSettings,schemaData,footerData,featuresData ,featureDataWithCategory} = useLayoutData();
   const { setShowTopStrip: setContextShowTopStrip, setShowMainHeader: setContextShowMainHeader } = useHeaderContext();
 
   const { query } = router;
@@ -141,6 +204,57 @@ const Header = ({ data, refer = null }) => {
 
   const country = getCookie('__vs_ver');
   const safeData = data || DEFAULT_DATA;
+
+  const featuresByCategory = useMemo(
+    () =>
+      (featureDataWithCategory || []).reduce(
+        (acc, feature) => {
+          if (feature.featureCategory && feature.featureCategory.name) {
+            const category = feature.featureCategory;
+            if (!acc[category.name]) {
+              acc[category.name] = {
+                category: category,
+                features: [],
+              };
+            }
+            acc[category.name].features.push(feature);
+          }
+          return acc;
+        },
+        {} as Record<string, { category: any; features: any[] }>,
+      ),
+    [featureDataWithCategory],
+  );
+
+  const navigationMenu = useMemo(() => {
+    const menu = safeData?.navigationMenu || [];
+    const featuresSubmenu = buildFeaturesSubmenu(
+      featuresByCategory,
+      currentLocale || router.locale,
+    );
+
+    if (!featuresSubmenu.length) return menu;
+
+    return menu.map((menuItem: any) => {
+      const locale = currentLocale || router.locale;
+
+      if (isAiReceptionistMenuItem(menuItem)) {
+        return {
+          ...menuItem,
+          hasSubmenu: false,
+          submenu: [],
+        };
+      }
+
+      if (!isFeaturesMenuItem(menuItem, locale)) return menuItem;
+
+      return {
+        ...menuItem,
+        hasSubmenu: true,
+        submenu: featuresSubmenu,
+      };
+    });
+  }, [safeData?.navigationMenu, featuresByCategory, currentLocale, router.locale]);
 
   const ICBanner = router.locale === 'en';
 
@@ -474,7 +588,7 @@ const Header = ({ data, refer = null }) => {
                       className={`lg:flex-row h-full overflow-y-auto absolute top-0 lg:overflow-visible  right-0 px-4 pt-4 pb-8 w-full lg:w-auto lg:p-0 bg-white lg:bg-transparent left-0 lg:static flex-col gap-2 justify-between lg:items-center flex`}
                     >
                       <NavigationMenu 
-                        menuItems={safeData?.navigationMenu || []} 
+                        menuItems={navigationMenu} 
                         onToggleMenu={toggleMenu} 
                         onCloseMenu={closeMenu} 
                       />
