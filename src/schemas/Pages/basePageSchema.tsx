@@ -176,6 +176,27 @@ export const createBasePageSchema = (name: string, title: string) => ({
           type: 'url',
           description: 'Canonical URL for SEO purposes',
         },
+        {
+          name: 'ogTitle',
+          title: 'OG Title',
+          type: 'string',
+          description: 'Open Graph title for social sharing. Falls back to Meta Title if empty.',
+        },
+        {
+          name: 'ogDescription',
+          title: 'OG Description',
+          type: 'text',
+          description: 'Open Graph description for social sharing. Falls back to Meta Description if empty.',
+        },
+        {
+          name: 'ogImage',
+          title: 'OG Image',
+          type: 'image',
+          description: 'Open Graph image for social sharing (recommended 1200x630).',
+          options: {
+            hotspot: true,
+          },
+        },
 
       ],
     },

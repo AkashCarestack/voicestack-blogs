@@ -2,6 +2,7 @@
 
 ## Tech Stack
 
+
 **Client:** Next JS, TailwindCSS
 
 **CMS:** Sanity v3.70

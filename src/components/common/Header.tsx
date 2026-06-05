@@ -19,6 +19,7 @@ import { useHeaderContext } from '~/providers/HeaderContextProvider';
 import { urlForImage } from '~/lib/sanity.image';
 import RegionStrip from '../revamp/components/regionStrip';
 import { formatOrganizationSchema, formatSoftwareSchema } from '../utils/common';
+import { parseSchemaJson } from '~/utils/portableTextCustomTypes';
 import TopNavigationMenu from './TopNavigationMenu';
 import NavigationMenu from './NavigationMenu';
 import { RegionFlag, RegionSwitcherDropdown, MobileRegionSwitcher, RegionPopup, type Region } from './HeaderRegionComponents';
@@ -333,10 +334,13 @@ const Header = ({ data, refer = null }) => {
   const schemaDataObject = schemaData?.schema?.reduce((acc: any, item: any) => {
     acc[item.name] = item.value;
     return acc;
-  }, {});
-  // console.log({schemaDataObject: schemaDataObject});
-  const OrganizationSchemaData = JSON.parse(schemaDataObject['OrganizationSchema']);
-  const SoftwareSchemaData = JSON.parse(schemaDataObject['SoftwareApplicationSchema']);
+  }, {} as Record<string, string>);
+  const OrganizationSchemaData = parseSchemaJson(
+    schemaDataObject?.OrganizationSchema,
+  )
+  const SoftwareSchemaData = parseSchemaJson(
+    schemaDataObject?.SoftwareApplicationSchema,
+  )
   // Show software schema for:
   // - All /dental-phones pages but NOT comparison pages (/voicestack-vs-*)
   // - All who-we-serve/ pages but NOT the landing page (/who-we-serve) and NOT who-we-serve/why-voicestack

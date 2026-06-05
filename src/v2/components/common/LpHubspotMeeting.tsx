@@ -70,7 +70,7 @@ const LpHubspotMeeting = ({
         window2.dataLayer.push({
           email: email,
           event: eventName,
-          form: formDetails,
+          // form: formDetails,
         })
 
         // window.localStorage.setItem(

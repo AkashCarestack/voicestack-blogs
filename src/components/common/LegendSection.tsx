@@ -1,7 +1,7 @@
 import React from 'react';
 import Section from '../structure/Section';
 import ImageLoader from './imageLoader/imageLoader';
-import Image from 'next/image';
+import SanityImage from '~/components/common/SanityImage';
 
 function LegendSection() {
 
@@ -19,7 +19,7 @@ function LegendSection() {
                 <div className="flex flex-wrap pt-2  justify-start items-center border border-gray-300 rounded-md">
                     {Object.entries(Icons).map(([label, url]) => (
                         <div key={label} className="flex gap-1 items-center px-[7px] py-1 flex-shrink-0">
-                            <Image alt={label} width={12} height={12} className="w-3 h-3" src={url} />
+                            <SanityImage alt={label} width={12} height={12} className="w-3 h-3" src={url} />
                             <span className="text-black text-[10px]">{label}</span>
                         </div>
                     ))}

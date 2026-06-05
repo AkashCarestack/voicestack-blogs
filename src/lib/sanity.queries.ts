@@ -1029,7 +1029,10 @@ export const whoWeServeQueries = {
       content,
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }[0]
@@ -1048,7 +1051,10 @@ export const whoWeServeQueries = {
       content,
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }
@@ -1124,7 +1130,10 @@ export const whoWeServeQueries = {
       },
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }[0]
@@ -1152,7 +1161,10 @@ export const whoWeServeQueries = {
       content,
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }
@@ -1174,7 +1186,10 @@ export const dentalPhonesQueries = {
       content,
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }[0]
@@ -1193,7 +1208,10 @@ export const dentalPhonesQueries = {
       content,
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }
@@ -1309,7 +1327,10 @@ export const dentalPhonesQueries = {
       },
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }[0]
@@ -1337,7 +1358,10 @@ export const dentalPhonesQueries = {
       content,
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }
@@ -1417,7 +1441,10 @@ export const dentalSoftwareQueries = {
       },
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }[0]
@@ -1508,7 +1535,10 @@ export const dentalSoftwareQueries = {
       },
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }[0]
@@ -1536,7 +1566,10 @@ export const dentalSoftwareQueries = {
       content,
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }
@@ -1615,7 +1648,10 @@ export const whyVoicestackQueries = {
       },
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }[0]
@@ -1706,7 +1742,10 @@ export const whyVoicestackQueries = {
       },
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }[0]
@@ -1734,7 +1773,10 @@ export const whyVoicestackQueries = {
       content,
       seo {
         metaTitle,
-        metaDescription
+        metaDescription,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       language
     }
@@ -1876,7 +1918,10 @@ export const contentSectionQueries = {
         metaTitle,
         metaDescription,
         keyWords,
-        canonical
+        canonical,
+        ogTitle,
+        ogDescription,
+        "ogImage": ogImage.asset->url
       },
       faqReferenced[]-> {
         _id,
@@ -2024,7 +2069,10 @@ export const getFeatureBySlugQuery = groq`
       metaTitle,
       metaDescription,
       keyWords,
-      canonical
+      canonical,
+      ogTitle,
+      ogDescription,
+      "ogImage": ogImage.asset->url
     },
     faqReferenced[]-> {
       _id,
