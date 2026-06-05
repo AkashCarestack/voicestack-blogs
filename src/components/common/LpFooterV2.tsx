@@ -40,21 +40,12 @@ const LpFooterV2 = ({ data }) => {
 
                 <div className="flex flex-col md:flex-row items-center justify-between gap-5 px-4 md:px-8 ">
                   <Anchor href="/" className="flex-shrink-0">
-                    {logoUrl ? (
-                      <Image
-                        src={logoUrl}
-                        alt={logoAlt}
-                        width={120}
-                        height={40}
-                        className="h-8 w-auto"
-                      />
-                    ) : (
+                    
                       <Image
                         src={VoicestackLogo}
                         alt="VoiceStack"
                         className="h-8 w-auto"
                       />
-                    )}
                   </Anchor>
 
                   {/* <div className="flex flex-wrap items-center justify-center gap-3">

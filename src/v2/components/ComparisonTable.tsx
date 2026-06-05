@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import SanityImage from '~/components/common/SanityImage'
 import Logo from 'public/assets/voicestack-logo-black.png'
 import LogoSm from 'public/assets/voicestack-logo-sm.svg'
 import React, { useState } from 'react'
@@ -114,7 +115,7 @@ function ComparisonRichIcon({ comparisonValue, showBoth = false }) {
           title={text}
         />
       ) : icon?.url ? (
-        <Image
+        <SanityImage
           className="w-5 h-5 object-contain"
           src={icon.url}
           alt={`${text} icon`}
@@ -258,7 +259,7 @@ export default function ComparisonTable({ data, legendData = [], demoLink }: Com
           <div className="flex flex-wrap items-center gap-6">
             {legendData?.map((legendItem, index) => (
               <div key={legendItem._id || index} className="flex items-center gap-2">
-                <Image
+                <SanityImage
                   className="w-4 h-4"
                   src={legendItem.icon?.url}
                   alt={legendItem?.text}

@@ -43,7 +43,7 @@ export default function HeroAU({
     <Section  className='border-b bg-gray-50 overflow-hidden'>
       <Container type="V2" className=" md:py-[136px] py-[64px] md:pl-12 gap-12">
         <div className='flex md:flex-row relative '>
-          <video
+          {/* <video
             className='hidden lg:block absolute w-full h-full object-cover z-0'
             autoPlay
             loop
@@ -58,7 +58,7 @@ export default function HeroAU({
             } as React.CSSProperties}
           >
             <source src="https://cdn.sanity.io/files/76tr0pyh/develop/afbf5be56052d1634405ab6b95302674d38298c8.mp4" type="video/mp4" />
-          </video>
+          </video> */}
           
           <div className='flex flex-col gap-4 flex-1 md:max-w-[606px] relative '>
           <div className='flex justify-center items-center md:justify-start'>
@@ -85,9 +85,9 @@ export default function HeroAU({
               </div>
           </div>
           <div className='hidden md:block md:relative flex-1 z-10'>
-        <div className='flex-1 md:ml-auto md:absolute w-[1002px] h-[738px]'>
+        <div className='flex-1 md:ml-auto md:absolute w-[1024px] h-[679px] left-[20px]'>
           {/* Image overlay */}
-          {image?.url && <Image className='relative w-full h-full flex-1 object-contain z-10' alt={heading} width={1000} height={1000} src={image.url} />}
+          {image?.url && <Image className='relative w-full h-full flex-1 object-contain z-10' alt={heading} width={1024} height={679} src={image.url} />}
         </div>
       </div>
       </div>

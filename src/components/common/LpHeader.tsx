@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import VoicestackLogo from 'public/assets/voicestack-logo.svg'
 import Anchor from './anchor'
 import Button from './Button'
-import { useLpCtaText } from '~/providers/LpMangoCopyProvider'
 import Container from '../structure/Container'
 
 interface LpHeaderProps {
@@ -18,7 +17,6 @@ const LpHeader = ({ data, logo, logoAlt, logoText }: LpHeaderProps) => {
   const safeData = data || {
     ctabutton: 'Book Free Demo',
   }
-  const headerCtaText = useLpCtaText(safeData?.ctabutton || 'Book Free Demo')
 
   return (
     <header className="bg-[#F9F9F9] py-4 fixed top-0 left-0 right-0 z-50">
@@ -41,7 +39,7 @@ const LpHeader = ({ data, logo, logoAlt, logoText }: LpHeaderProps) => {
 
        
           <Button type="primary" link="#demo" className="md:block hidden">
-            <span className="text-sm font-medium">{headerCtaText}</span>
+            <span className="text-sm font-medium">{safeData?.ctabutton || 'Book Free Demo'}</span>
           </Button>
       </Container>
     </header>

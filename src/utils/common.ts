@@ -3,6 +3,8 @@ import siteConfig from 'config/siteConfig'
 import WordRotate from '~/components/ui/word-rotate'
 import FireIcon from '~/v2/icons/FireIcon'
 import WarningIcon from '~/v2/icons/WarningIcon'
+import { portableTextCustomTypes } from '~/utils/portableTextCustomTypes'
+import { decodePortableTextChildren } from '~/utils/decodePortableTextChildren'
 
 export const fetchAuthor = (post) => {
   let authorData: any = []
@@ -376,7 +378,7 @@ export const descriptionComponents: any = {
           className: 'text-gray-950 font-normal text-center md:text-left md:max-w-[711px] w-full font-geist md:text-lg text-base leading-[155.55%] [&_strong]:!font-semibold',
         },
         
-        children
+        decodePortableTextChildren(children)
       ),
 
   },
@@ -390,7 +392,7 @@ export const descriptionComponents: any = {
           target: value?.href?.startsWith('http') ? '_blank' : undefined,
           rel: value?.href?.startsWith('http') ? 'noopener noreferrer' : undefined,
         },
-        children
+        decodePortableTextChildren(children)
       ),
     highlight: ({ children }: { children: React.ReactNode }) =>
       React.createElement(
@@ -399,7 +401,7 @@ export const descriptionComponents: any = {
           className: 'font-medium text-gray-950 inline-flex items-center gap-2 py-2 pl-2 pr-4 rounded-[4px] bg-yellow-100',
         },
         React.createElement(FireIcon, { className: 'w-[16px] h-[16px] text-vs-purple' }),
-        children
+        decodePortableTextChildren(children)
       ),
   },
   list: {
@@ -450,7 +452,11 @@ export const descriptionComponents: any = {
             })
           )
         ),
-        React.createElement('span', null, children)
+        React.createElement(
+          'span',
+          { className: 'flex-1 min-w-0 text-pretty' },
+          decodePortableTextChildren(children, { preventWidows: true }),
+        )
       ),
     number: ({ children }: { children: React.ReactNode }) =>
       React.createElement(
@@ -465,9 +471,14 @@ export const descriptionComponents: any = {
             className: 'md:h-[20px] md:w-[20px] h-[16px] w-[16px] mt-1 flex-shrink-0',
           }
         ),
-        React.createElement('span', null, children)
+        React.createElement(
+          'span',
+          { className: 'flex-1 min-w-0 text-pretty' },
+          decodePortableTextChildren(children, { preventWidows: true }),
+        )
       ),
   },
+  types: portableTextCustomTypes,
 }
 export const ComparisonHeroDescriptionComponents: any = {
   block: {

@@ -39,7 +39,7 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       const hrefPath = href?.split('?')[0].split('#')[0];
       const isThankYouPage = hrefPath?.includes('/thank-you');
       const isDemoDestination =
-        hrefPath === '/demo' || (hrefPath.length > 0 && hrefPath.endsWith('/demo'));
+        hrefPath === '/demo' || (hrefPath?.length > 0 && hrefPath?.endsWith('/demo'));
 
       const queryParams: Record<string, string> = Object.entries(query).reduce((acc: any, [key, value]) => {
         if (value !== undefined && key !== "flag" && key !== "slug") {

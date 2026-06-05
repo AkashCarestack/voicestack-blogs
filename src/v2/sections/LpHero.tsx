@@ -11,6 +11,7 @@ import Section from '~/components/structure/Section'
 import HubspotGenericForm from '~/components/revamp/components/common/hubspotGeneric'
 import LightningIcon from '../icons/LightningIcon'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
+import SanityImage from '~/components/common/SanityImage'
 import Anchor from '~/components/common/anchor'
 import PartnerHubspotForm from '../components/common/PartnerHubspotForm'
 import Link from 'next/link'
@@ -18,10 +19,11 @@ import AppleIcon from '~/assets/AppleIcon'
 import PlayIcon from '~/assets/PlayIcon'
 import AiIcon from '~/assets/aiIcon.svg'
 import VoicestackLogo from 'public/assets/voicestack-logo.svg'
+import MangoLpHeroBelowDescription from '~/v2/sections/MangoLpHeroBelowDescription'
 
 
 
-export interface FeatureHeroProps {
+interface LpHeroProps {
   data: any
   isVertical?: boolean
   type?: 'form' | 'feature' | 'partner' | 'comparison'
@@ -29,14 +31,15 @@ export interface FeatureHeroProps {
   isCentered?: boolean
   pageType?: 'download-app' | string
   appStoreLinks?: any
-  mangoLayout?: boolean
+  variant?: 'mango'
   cta?: {
     text?: string
     link?: string
   }
 }
 
-export default function FeatureHero({ data, type, hideBg = false, isCentered = false, pageType = '', appStoreLinks = "", isVertical = false, mangoLayout = false, cta }: FeatureHeroProps) {
+export default function LpHero({ data, type, hideBg = false, isCentered = false, pageType = '', appStoreLinks = "", isVertical = false, variant, cta }: LpHeroProps) {
+  const isMangoLayout = variant === 'mango'
   const hubspotFormId = data?.componentData?.hubspotFormId || data?.hubspotFormId
   const meetingLink = data?.componentData?.meetingLink || data?.meetingLink || data?.demoMeetingLink
   const value = data?.heroComponent
@@ -274,7 +277,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
 
   return (
     <>
-      <Section className={`relative overflow-hidden ${isVertical ? 'bg-white' : ''}`} id="FeatureHero" border="b">
+      <Section className={`relative overflow-hidden ${isVertical ? 'bg-white' : ''}`} id="LpHero" border="b">
         <Container type="V2" className={`md:py-24 py-16 overflow-hidden ${pageType === 'download-app' ? 'flex flex-col items-center justify-center' : 'justify-center flex'}`}>
           <div className={`${isVertical ? '!flex-col-reverse' : ''} flex ${pageType === 'download-app' ? 'flex-col' : 'lg:flex-row flex-col'} md:gap-12 w-full ${pageType === 'download-app' ? 'max-w-[800px] mx-auto' : 'max-w-[1240px]'} gap-6 relative z-10 items-center`}>
             <div className={`flex flex-col gap-3 relative z-10 ${pageType === 'download-app' ? 'w-full' : 'flex-1'} ${type === 'form' ? 'max-w-[606px]' : ''} ${isCentered || pageType === 'download-app' ? 'text-center items-center' : ''}`}>
@@ -302,7 +305,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
               {type === 'partner' && (
                 data?.heroImageSecondary?.url ? (
                   <div className="flex mb-4 md:justify-start justify-center">
-                    <Image
+                    <SanityImage
                       src={data?.heroImageSecondary?.url}
                       alt={data?.heroImageSecondary?.alt || "VoiceStack"}
                       title={data?.heroImageSecondary?.title || "VoiceStack"}
@@ -331,32 +334,37 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                 />
               )}
               {description && (
-                <div className={`${isCentered ? 'text-center [&>p]:text-center' : ''} flex flex-col ${mangoLayout ? 'md:gap-[40px] gap-[20px]' : 'gap-3'} `}>
+                <div className={`${isCentered ? 'text-center [&>p]:text-center' : ''} flex flex-col gap-3 ${isMangoLayout ? 'md:gap-[40px] gap-[20px] [&_li>span:last-child]:text-pretty' : ''}`}>
                   <PortableText
                     value={description}
                     components={descriptionComponents}
                   />
                 </div>
               )}
-              <div className={`flex flex-col md:flex-row md:gap-[18px] items-center md:mt-5 mt-4 gap-3 ${pageType === 'download-app' ? 'justify-center' : ''}`}>
-                {
-                  buttons &&
-                  buttons.length &&
-                  buttons.map((button: any) => (
-                    <Button
-                      key={button._key}
-                      type={button.buttonType}
-                      link={button.buttonLink}
-                    >
-                      <span>{button?.buttonText}</span>
-                    </Button>
-                  ))
-                }
-              </div>
+              {isMangoLayout ? (
+                <MangoLpHeroBelowDescription
+                  buttons={buttons}
+                  demoLink={buttons?.[0]?.buttonLink || '#demo'}
+                />
+              ) : (
+                <div className={`flex flex-col md:flex-row md:gap-[18px] items-center gap-3 ${pageType === 'download-app' ? 'justify-center' : ''}`}>
+                  {buttons &&
+                    buttons.length &&
+                    buttons.map((button: any) => (
+                      <Button
+                        key={button._key}
+                        type={button.buttonType}
+                        link={button.buttonLink}
+                      >
+                        {button?.buttonText}
+                      </Button>
+                    ))}
+                </div>
+              )}
 
               {/*  */}
             </div>
-            {hubspotFormId &&
+            {hubspotFormId && !isMangoLayout &&
               <div id="demo" className="scroll-m-14 min-h-[610px] scroll-mt-28 sticky top-20 p-8 rounded-[12px] md:rounded-[24px] bg-white w-full max-w-[537px] md:p-12">
                 <h3 className="md:text-3xl text-2xl font-semibold mb-4 font-geist text-[#030712]">
                   Book a Demo
@@ -373,11 +381,11 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
             }
             {((image && !hasVideo && !hasTestimonial) && !isVertical) ? (
               <div className={`${pageType === 'download-app' ? 'w-full flex justify-center' : 'flex-1'} w-full h-full max-w-[550px] max-h-[550px]`}>
-                <Image className='max-w-[550px] max-h-[550px] w-full h-full object-cover' src={image} alt={headingAltText} title={headingAltText} width={1000} height={1000} />
+                <SanityImage className='max-w-[550px] max-h-[550px] w-full h-full object-cover' src={image} alt={headingAltText} title={headingAltText} width={1000} height={1000} />
               </div>
             ) : (
               isVertical && <div className='flex-1 w-full h-full'>
-                <Image className={`${isVertical ? 'w-full md:max-h-[500px] h-full' : 'max-w-[550px]'} w-full h-full object-cover`}
+                <SanityImage className={`${isVertical ? 'w-full md:max-h-[500px] h-full' : 'max-w-[550px]'} w-full h-full object-cover`}
                   src={image}
                   alt={headingAltText}
                   title={headingAltText}
@@ -595,7 +603,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                             Your browser does not support the video tag.
                           </video>
                         ) : image ? (
-                          <Image
+                          <SanityImage
                             className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]"
                             src={image}
                             alt={headingAltText}
@@ -668,7 +676,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                         Your browser does not support the video tag.
                       </video>
                     ) : image ? (
-                      <Image
+                      <SanityImage
                         className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]"
                         src={image}
                         alt={headingAltText}
@@ -828,4 +836,3 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
     </>
   )
 }
-

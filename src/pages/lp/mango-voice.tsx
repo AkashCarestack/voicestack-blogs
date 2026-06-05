@@ -13,14 +13,13 @@ import {
 } from '~/lib/sanity.queries'
 import SimpleHead from '~/components/common/SimpleHead'
 import StatisticsSection from '~/v2/sections/StatisticsSection'
-import FeatureHero from '~/v2/sections/FeatureHero'
+import LpHero from '~/v2/sections/LpHero'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
-import { useRouter } from 'next/router'
 import OfferSection from '~/v2/sections/OfferSection'
+import CampaignOfferExitIntent from '~/v2/components/common/CampaignOfferExitIntent'
 import LpHeader from '~/components/common/LpHeader'
 import LpFooterV2 from '~/components/common/LpFooterV2'
 import LpDemoLinkProvider from '~/providers/LpDemoLinkProvider'
-import LpMangoCopyProvider from '~/providers/LpMangoCopyProvider'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 // import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
@@ -51,9 +50,6 @@ export default function MangoVoiceLPPage({
   // comparisonTableData,
   comparisonLegendData,
 }) {
-  const router = useRouter()
-  const [showCampaignOfferModal, setShowCampaignOfferModal] = React.useState(false)
-
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
   
@@ -65,17 +61,6 @@ export default function MangoVoiceLPPage({
     table: comparisonTableData,
   }
 
-  React.useEffect(() => {
-    if (!router.isReady) return
-
-    const queryString = router.asPath.includes('?')
-      ? router.asPath.split('?')[1].split('#')[0]
-      : ''
-    const params = new URLSearchParams(queryString)
-
-    const utmContent = params.get('utm_content')?.toLowerCase() || ''
-  }, [router.isReady, router.asPath])
-
   // Extract integration data from pageData instead of separate query
   // console.log('pageData comparison-hero', pageData['comparison-hero']?.componentData);
 
@@ -84,15 +69,14 @@ export default function MangoVoiceLPPage({
   const demoUrl = '/lp/demo' + (meetingLink ? '?meetingLink=' + meetingLink : '');
 
   return (
-    <LpDemoLinkProvider demoLink={demoUrl}>
-      <LpMangoCopyProvider slug="mango-voice">
-      {/* <SimpleHead data={pageData?.seo} /> */}
+    <LpDemoLinkProvider demoLink={demoUrl} buttonText="Book Free Demo">
+      <SimpleHead data={pageData?.seo} />
       <LpHeader />
       
       {pageData['comparison-hero']?.componentData && (
-        <FeatureHero
+        <LpHero
           data={pageData['comparison-hero']?.componentData}
-          // showFullDescription={true}
+          variant="mango"
         />
       )}
 
@@ -174,7 +158,7 @@ export default function MangoVoiceLPPage({
 
       <LpFooterV2 data={pageData?.footer?.componentData} />
 
-      </LpMangoCopyProvider>
+      <CampaignOfferExitIntent />
     </LpDemoLinkProvider>
   )
 }
