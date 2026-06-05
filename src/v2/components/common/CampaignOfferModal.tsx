@@ -6,7 +6,8 @@ import Button from '~/components/common/Button'
 import Image from 'next/image'
 import { useLpDemoLink } from '~/providers/LpDemoLinkProvider'
 
-const MANGO_IMAGE_URL = '/assets/offers/mango-voice-offer.png'
+// const MANGO_IMAGE_URL = '/assets/offers/mango-voice-offer.png'
+const MANGO_IMAGE_URL = '/assets/offers/mango-voice-offer-v1.png'
 
 export interface CampaignOfferModalProps {
   onClose: () => void

@@ -414,6 +414,9 @@ class Queries {
         "keyWords": seo.keyWords,
         "canonical": seo.canonical,
         "disableIndex": seo.disableIndex,
+        "ogTitle": seo.ogTitle,
+        "ogDescription": seo.ogDescription,
+        "ogImage": seo.ogImage.asset->url,
         "icon": basicInfo.icon.asset-> {
           ${this.IMAGE_METADATA_FIELDS}
         },
@@ -2766,6 +2769,9 @@ class Queries {
         keyWords: result?.keyWords || null,
         canonical: result?.canonical || null,
         disableIndex: result?.disableIndex || null,
+        ogTitle: result?.ogTitle || null,
+        ogDescription: result?.ogDescription || null,
+        ogImage: result?.ogImage || null,
       },
       // metaTitle: result?.metaTitle || null,
       // metaDescription: result?.metaDescription || null,

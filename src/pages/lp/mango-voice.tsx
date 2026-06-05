@@ -16,7 +16,7 @@ import StatisticsSection from '~/v2/sections/StatisticsSection'
 import LpHero from '~/v2/sections/LpHero'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import OfferSection from '~/v2/sections/OfferSection'
-import CampaignOfferModal from '~/v2/components/common/CampaignOfferModal'
+import CampaignOfferExitIntent from '~/v2/components/common/CampaignOfferExitIntent'
 import LpHeader from '~/components/common/LpHeader'
 import LpFooterV2 from '~/components/common/LpFooterV2'
 import LpDemoLinkProvider from '~/providers/LpDemoLinkProvider'
@@ -50,12 +50,6 @@ export default function MangoVoiceLPPage({
   // comparisonTableData,
   comparisonLegendData,
 }) {
-  const [showCampaignOfferModal, setShowCampaignOfferModal] = React.useState(false)
-
-  React.useEffect(() => {
-    setShowCampaignOfferModal(true)
-  }, [])
-
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
   
@@ -164,9 +158,7 @@ export default function MangoVoiceLPPage({
 
       <LpFooterV2 data={pageData?.footer?.componentData} />
 
-      {showCampaignOfferModal && (
-        <CampaignOfferModal onClose={() => setShowCampaignOfferModal(false)} />
-      )}
+      <CampaignOfferExitIntent />
     </LpDemoLinkProvider>
   )
 }

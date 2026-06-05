@@ -11,6 +11,7 @@ import Section from '~/components/structure/Section'
 import HubspotGenericForm from '~/components/revamp/components/common/hubspotGeneric'
 import LightningIcon from '../icons/LightningIcon'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
+import SanityImage from '~/components/common/SanityImage'
 import Anchor from '~/components/common/anchor'
 import PartnerHubspotForm from '../components/common/PartnerHubspotForm'
 import Link from 'next/link'
@@ -304,7 +305,7 @@ export default function LpHero({ data, type, hideBg = false, isCentered = false,
               {type === 'partner' && (
                 data?.heroImageSecondary?.url ? (
                   <div className="flex mb-4 md:justify-start justify-center">
-                    <Image
+                    <SanityImage
                       src={data?.heroImageSecondary?.url}
                       alt={data?.heroImageSecondary?.alt || "VoiceStack"}
                       title={data?.heroImageSecondary?.title || "VoiceStack"}
@@ -333,7 +334,7 @@ export default function LpHero({ data, type, hideBg = false, isCentered = false,
                 />
               )}
               {description && (
-                <div className={`${isCentered ? 'text-center [&>p]:text-center' : ''} flex flex-col gap-3 ${isMangoLayout ? 'md:gap-[40px] gap-[20px]' : ''}`}>
+                <div className={`${isCentered ? 'text-center [&>p]:text-center' : ''} flex flex-col gap-3 ${isMangoLayout ? 'md:gap-[40px] gap-[20px] [&_li>span:last-child]:text-pretty' : ''}`}>
                   <PortableText
                     value={description}
                     components={descriptionComponents}
@@ -380,11 +381,11 @@ export default function LpHero({ data, type, hideBg = false, isCentered = false,
             }
             {((image && !hasVideo && !hasTestimonial) && !isVertical) ? (
               <div className={`${pageType === 'download-app' ? 'w-full flex justify-center' : 'flex-1'} w-full h-full max-w-[550px] max-h-[550px]`}>
-                <Image className='max-w-[550px] max-h-[550px] w-full h-full object-cover' src={image} alt={headingAltText} title={headingAltText} width={1000} height={1000} />
+                <SanityImage className='max-w-[550px] max-h-[550px] w-full h-full object-cover' src={image} alt={headingAltText} title={headingAltText} width={1000} height={1000} />
               </div>
             ) : (
               isVertical && <div className='flex-1 w-full h-full'>
-                <Image className={`${isVertical ? 'w-full md:max-h-[500px] h-full' : 'max-w-[550px]'} w-full h-full object-cover`}
+                <SanityImage className={`${isVertical ? 'w-full md:max-h-[500px] h-full' : 'max-w-[550px]'} w-full h-full object-cover`}
                   src={image}
                   alt={headingAltText}
                   title={headingAltText}
@@ -602,7 +603,7 @@ export default function LpHero({ data, type, hideBg = false, isCentered = false,
                             Your browser does not support the video tag.
                           </video>
                         ) : image ? (
-                          <Image
+                          <SanityImage
                             className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]"
                             src={image}
                             alt={headingAltText}
@@ -675,7 +676,7 @@ export default function LpHero({ data, type, hideBg = false, isCentered = false,
                         Your browser does not support the video tag.
                       </video>
                     ) : image ? (
-                      <Image
+                      <SanityImage
                         className="absolute h-full w-full object-cover max-w-[550px] max-h-[550px]"
                         src={image}
                         alt={headingAltText}
