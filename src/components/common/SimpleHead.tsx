@@ -53,23 +53,22 @@ export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
 
       
       
-      {/* {alternatePaths.length > 0 && alternatePaths.map((item: AlternatePath) => (
-        <link 
-          key={item.path} 
-          rel="alternate" 
-          href={item.path.replace(/\/home$|\/$/, '').replace(/\/$/, '')} 
-          hrefLang={item.locale} 
+      {alternatePaths.length > 0 && alternatePaths.map((item: AlternatePath) => (
+        <link
+          key={`${item.locale}-${item.path}`}
+          rel="alternate"
+          href={item.path}
+          hrefLang={item.locale}
         />
       ))}
-      
-      x-default link starts here
+
       {defaultUrl && (
-        <link 
-          rel="alternate" 
-          href={defaultUrl.replace(/\/home$|\/$/, '').replace(/\/$/, '')} 
-          hrefLang="x-default" 
+        <link
+          rel="alternate"
+          href={defaultUrl}
+          hrefLang="x-default"
         />
-      )} */}
+      )}
     </Head>
   )
 }

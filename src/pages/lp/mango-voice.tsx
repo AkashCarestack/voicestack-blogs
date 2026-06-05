@@ -69,8 +69,8 @@ export default function MangoVoiceLPPage({
   const demoUrl = '/lp/demo' + (meetingLink ? '?meetingLink=' + meetingLink : '');
 
   return (
-    <LpDemoLinkProvider demoLink={demoUrl}>
-      {/* <SimpleHead data={pageData?.seo} /> */}
+    <LpDemoLinkProvider demoLink={demoUrl} buttonText="Book Free Demo">
+      <SimpleHead data={pageData?.seo} />
       <LpHeader />
       
       {pageData['comparison-hero']?.componentData && (
