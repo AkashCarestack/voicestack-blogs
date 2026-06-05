@@ -20,7 +20,7 @@ import LogoListingSection from '~/components/LogoListingSection'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import { useRouter } from 'next/router'
-import CampaignOfferModal from '~/v2/components/common/CampaignOfferModal'
+import CampaignOfferExitIntent from '~/v2/components/common/CampaignOfferExitIntent'
 // import HeroWrapper from '~/components/revamp/components/common/HeroWrapper'
 
 // Define proper TypeScript interfaces
@@ -50,7 +50,7 @@ export default function ComparisonPage({
   comparisonLegendData,
 }) {
   const router = useRouter()
-  const [showCampaignOfferModal, setShowCampaignOfferModal] = React.useState(false)
+  const [isCampaignEligible, setIsCampaignEligible] = React.useState(false)
 
   const comparisonTableComponent = pageData['comparison-table']?.componentData
   const comparisonTableData = comparisonTableComponent?.comparisonTable
@@ -76,7 +76,7 @@ export default function ComparisonPage({
     const utmContent = params.get('utm_content')?.toLowerCase() || ''
     const isMangoCampaign = utmContent.includes('mango')
 
-    setShowCampaignOfferModal(hasUtmParams && isMangoCampaign)
+    setIsCampaignEligible(hasUtmParams && isMangoCampaign)
   }, [router.isReady, router.asPath])
 
   // Extract integration data from pageData instead of separate query
@@ -150,9 +150,7 @@ export default function ComparisonPage({
         </div>
       )}
 
-      {showCampaignOfferModal && (
-        <CampaignOfferModal onClose={() => setShowCampaignOfferModal(false)} />
-      )}
+      <CampaignOfferExitIntent enabled={isCampaignEligible} />
     </>
   )
 }

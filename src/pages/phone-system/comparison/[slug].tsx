@@ -19,7 +19,7 @@ import LogoListingV2 from '~/v2/sections/LogoListingV2'
 import { urlForImage } from '~/lib/sanity.image'
 import ComparisonHero from '~/v2/sections/ComparisonHero'
 import ComparisonBannerSection from '~/v2/sections/ComparsionBannerSection'
-import CampaignOfferModal from '~/v2/components/common/CampaignOfferModal'
+import CampaignOfferExitIntent from '~/v2/components/common/CampaignOfferExitIntent'
 import ComparisonCardsSection from '~/components/revamp/components/ComparisonCardsSection'
 
 interface ComparisonPageProps {
@@ -40,13 +40,13 @@ export default function ComparisonSlugPage({
   features,
 }: ComparisonPageProps) {
   const router = useRouter()
-  const [showCampaignOfferModal, setShowCampaignOfferModal] = React.useState(false)
+  const [isCampaignEligible, setIsCampaignEligible] = React.useState(false)
 
   React.useEffect(() => {
     if (!router.isReady) return
 
     if (slug !== MANGO_COMPARISON_SLUG) {
-      setShowCampaignOfferModal(false)
+      setIsCampaignEligible(false)
       return
     }
 
@@ -60,7 +60,7 @@ export default function ComparisonSlugPage({
     const utmContent = params.get('utm_content')?.toLowerCase() || ''
     const isMangoCampaign = utmContent.includes('mango')
 
-    setShowCampaignOfferModal(hasUtmParams && isMangoCampaign)
+    setIsCampaignEligible(hasUtmParams && isMangoCampaign)
   }, [router.isReady, router.asPath, slug])
 
   // Extract comparison table data from componentData
@@ -145,8 +145,8 @@ export default function ComparisonSlugPage({
 
       {faq && <FaqSection faqItems={faq} />}
 
-      {slug === MANGO_COMPARISON_SLUG && showCampaignOfferModal && (
-        <CampaignOfferModal onClose={() => setShowCampaignOfferModal(false)} />
+      {slug === MANGO_COMPARISON_SLUG && (
+        <CampaignOfferExitIntent enabled={isCampaignEligible} />
       )}
     </>
   )

@@ -13,7 +13,9 @@ export type { AlternatePath } from '~/components/utils/alternatePaths'
 export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
   const { alternatePaths, defaultUrl } = useAlternatePaths();
 
-  const fullTitle = data?.metaTitle ? `${data?.metaTitle}` : 'VoiceStack® | AI Powered Enterprise Phone System'; 
+  const fullTitle = data?.metaTitle ? `${data?.metaTitle}` : 'VoiceStack® | AI Powered Enterprise Phone System';
+  const ogTitle = data?.ogTitle || fullTitle;
+  const ogDescription = data?.ogDescription || data?.metaDescription || 'AI Powered Enterprise Phone System';
   const normalizeCanonical = (url) => {
     if (!url) return "";
     return url.replace(/\/$/, ""); // remove trailing slash
@@ -29,9 +31,10 @@ export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
       <link rel="icon" href="/favicon.ico" type="image/x-icon" />
       {data?.canonical && <link rel="canonical" href={canonical} />}
       <meta property="og:type" content="website" />
-      <meta property="og:title" content={fullTitle} />
+      <meta property="og:title" content={ogTitle} />
       <meta property="og:url" content={canonical} />
-      <meta property="og:description" content={data?.metaDescription || 'AI Powered Enterprise Phone System'} />
+      <meta property="og:description" content={ogDescription} />
+      {data?.ogImage && <meta property="og:image" content={data.ogImage} />}
       <meta name="title" content={fullTitle} />
       <meta name="robots" content={data?.disableIndex ? 'noindex, nofollow, noarchive' : 'index, follow'} />
 
@@ -42,8 +45,9 @@ export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
       <meta name="twitter:card" content="summary_large_image"/>
       <meta property="twitter:domain" content="voicestack.com"/>
       {data?.canonical && <meta property="twitter:url" content={data?.canonical}/>}
-      {fullTitle && <meta name="twitter:title" content={fullTitle}/>} 
-      {data?.metaDescription && <meta name="twitter:description" content={data?.metaDescription}/>}
+      {ogTitle && <meta name="twitter:title" content={ogTitle}/>} 
+      {ogDescription && <meta name="twitter:description" content={ogDescription}/>}
+      {data?.ogImage && <meta name="twitter:image" content={data.ogImage} />}
       {noindex && <meta name="robots" content="noindex, nofollow, noarchive" /> }
 
 
