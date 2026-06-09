@@ -212,7 +212,7 @@ const NavigationMenu = ({
               {link?.submenu && Array.isArray(link.submenu) && link.submenu.map((group: any, groupIndex: number) => (
                 <div key={`mobile-group-${i}-${groupIndex}`}>
                   {group.submenuHeader && (
-                    <div className={`${group.hideInMobile ? 'hidden lg:block' : 'block'} text-base font-medium lg:font-semibold text-gray-700 lg:text-gray-900 px-4 ${groupIndex > 0 || shouldShowOverview ? 'pt-4' : 'pt-3'} pb-2`}>
+                    <div className={`${group.hideInMobile ? 'hidden lg:block' : 'block'} text-base font-medium lg:font-semibold text-gray-700 lg:text-gray-900 border-b border-gray-200 mb-1 px-4 ${groupIndex > 0 || shouldShowOverview ? 'pt-4' : 'pt-3'} pb-2`}>
                       {group.submenuHeader}
                     </div>
                   )}
