@@ -155,7 +155,7 @@ export default function ContentVideoTabsSection({
         let video = null;
         if (tab.genericVideo) {
           // Debug: Log the raw genericVideo data
-          console.log(`Tab ${index + 1} raw genericVideo:`, tab.genericVideo);
+          // console.log(`Tab ${index + 1} raw genericVideo:`, tab.genericVideo);
 
           if (hasValidVideo(tab.genericVideo)) {
             video = { ...tab.genericVideo };
@@ -181,7 +181,7 @@ export default function ContentVideoTabsSection({
               }
             }
             // Debug: Log processed video data
-            console.log(`Tab ${index + 1} processed video data:`, video);
+            // console.log(`Tab ${index + 1} processed video data:`, video);
           } else {
             // Debug: Log why video was rejected
             console.warn(`Tab ${index + 1} video rejected - invalid data:`, {
@@ -431,12 +431,12 @@ export default function ContentVideoTabsSection({
   const overviewVideo = getOverviewVideo();
 
   // Debug: Log overview video data
-  if (data?.overviewVideo) {
-    console.log('Overview Video Data:', {
-      raw: data.overviewVideo,
-      processed: overviewVideo,
-    });
-  }
+  // if (data?.overviewVideo) {
+  //   console.log('Overview Video Data:', {
+  //     raw: data.overviewVideo,
+  //     processed: overviewVideo,
+  //   });
+  // }
 
   // Portable text components for description
   const portableTextComponents = {

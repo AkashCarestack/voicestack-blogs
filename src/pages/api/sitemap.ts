@@ -338,6 +338,16 @@ async function getNavigationPaths(client: any): Promise<Map<string, PathEntry>> 
         label,
         href,
         submenu[] {
+          submenuHeader,
+          items[] {
+            label,
+            href
+          }
+        },
+        specialMenu[] {
+          link
+        },
+        bottomCustomLinks[] {
           label,
           href
         }
