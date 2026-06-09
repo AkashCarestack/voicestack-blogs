@@ -392,6 +392,13 @@ export default defineType({
                       description: 'Header text for this group of submenu items',
                     },
                     {
+                      name: 'hideInMobile',
+                      title: 'Hide in Mobile',
+                      type: 'boolean',
+                      initialValue: false,
+                      description: 'Hide this header in mobile view',
+                    },
+                    {
                       name: 'items',
                       title: 'Submenu Items',
                       type: 'array',

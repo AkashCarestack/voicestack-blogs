@@ -772,6 +772,7 @@ export async function getHeaderData(client: SanityClient, region: string) {
       highlight,
       submenu[] {
         submenuHeader,
+        hideInMobile,
         items[] {
           label,
           href,

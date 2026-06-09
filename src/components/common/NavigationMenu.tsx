@@ -59,9 +59,11 @@ const NavigationMenu = ({
       const shouldShowOverview = isMobile && link.href && link.hasSubmenu;
       
       const isSubmenuOpen = openSubmenus.has(i);
+      const subMenuLength = link?.submenu && Array.isArray(link.submenu) && link.submenu.length;
+      const lengthySubmenu = subMenuLength > 3;
 
       return (
-        <li key={`menu-${i}`} className="relative group w-full lg:w-auto list-none">
+        <li key={`menu-${i}`} className={`${lengthySubmenu ? 'relative lg:static xl-1700:relative': 'relative'}  group w-full lg:w-auto list-none`}>
           {isMobile ? (
             <div 
               className="flex items-center justify-between gap-1 text-gray-700 xl:text-sm lg:text-xs font-medium leading-[1.15] cursor-pointer"
@@ -87,14 +89,14 @@ const NavigationMenu = ({
           
           {/* Desktop: Split layout with left (items grouped by header) and right (special menu) */}
           {!isMobile && (
-            <div className="lg:absolute static top-full left-0 mt-2 w-full lg:w-auto bg-white rounded-[16px] shadow-2xl border  opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div className={`${lengthySubmenu ? 'left-1/2 lg:-translate-x-1/2 xl-1700:left-0 xl-1700:-translate-x-0' : 'left-0'} lg:absolute static top-full mt-2 w-full lg:w-auto bg-white rounded-[16px] shadow-2xl border  opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50`}>
               <div className="flex flex-row">
                 {/* Left Side: Items grouped by submenuHeader */}
-                <div className="flex flex-col lg:flex-row">
+                <div className={`flex-col lg:flex-row ${lengthySubmenu ? 'lg:columns-3 xl:flex-row xl:flex' : 'lg:flex-row flex'}`}>
                   {link?.submenu && Array.isArray(link.submenu) && link.submenu.map((group: any, groupIndex: number) => (
-                    <div key={`group-${i}-${groupIndex}`} className={'min-w-[250px] p-[26px]'}>
+                    <div key={`group-${i}-${groupIndex}`} className={'min-w-[250px] p-[18px] break-inside-avoid'}>
                       {group.submenuHeader && (
-                        <div className="text-base font-medium text-gray-950 mb-2 cursor-default">
+                        <div className={`text-base font-medium text-gray-950 mb-2 p-2 border-b border-gray-200 cursor-default`}>
                           {group.submenuHeader}
                         </div>
                       )}
@@ -123,7 +125,7 @@ const NavigationMenu = ({
 
                 {/* Right Side: Special Menu */}
                 {link.specialMenu && link.specialMenu.length > 0 && (
-                  <div className="flex border-l border-gray-200 p-2">
+                  <div className={`${subMenuLength > 1 ? 'xl-1200:flex hidden' : 'flex'} border-l border-gray-200 p-2`}>
                     <div className="flex gap-4 w-full">
                       {link.specialMenu.map((specialItem: any, specialIndex: number) => {
                         // const imageUrl = urlForImage(specialItem.image);
@@ -210,7 +212,7 @@ const NavigationMenu = ({
               {link?.submenu && Array.isArray(link.submenu) && link.submenu.map((group: any, groupIndex: number) => (
                 <div key={`mobile-group-${i}-${groupIndex}`}>
                   {group.submenuHeader && (
-                    <div className={`lg:block hidden text-base font-semibold text-gray-900 px-4 ${groupIndex > 0 || shouldShowOverview ? 'pt-4' : 'pt-3'} pb-2`}>
+                    <div className={`${group.hideInMobile ? 'hidden lg:block' : 'block'} text-base font-medium lg:font-semibold text-gray-700 lg:text-gray-900 px-4 ${groupIndex > 0 || shouldShowOverview ? 'pt-4' : 'pt-3'} pb-2`}>
                       {group.submenuHeader}
                     </div>
                   )}
