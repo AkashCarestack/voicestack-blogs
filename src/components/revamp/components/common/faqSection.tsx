@@ -20,13 +20,20 @@ export default function FaqSection({ faqItems, showContactInfo = true }: any) {
   const categoryListboxId = `${faqInstanceId}-category-listbox`
 
   const categories = faqItems?.faqCategories || []
-  
-  // All useEffect hooks must be before early return
+  const faqContentKey = faqItems?._id ?? faqItems?._key
+
+  // Reset local state when FAQ content changes (e.g. client-side route to another page)
   React.useEffect(() => {
-    if (categories.length > 0 && !activeCategory) {
-      setActiveCategory(categories[0]._key)
+    setHideCategory(faqItems?.hideCategory)
+    const cats = faqItems?.faqCategories || []
+    if (cats.length > 0) {
+      setActiveCategory(cats[0]._key)
+    } else {
+      setActiveCategory(null)
     }
-  }, [categories, activeCategory])
+    setIsOpen({})
+    setIsDropdownOpen(false)
+  }, [faqContentKey, faqItems])
 
   // Initialize first question as open when category changes
   React.useEffect(() => {
