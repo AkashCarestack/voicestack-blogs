@@ -4,7 +4,7 @@ import SectionH2 from '~/components/typography/revamp/SectionH2'
 import Button from '~/components/common/Button'
 import { PortableText, PortableTextReactComponents } from '@portabletext/react'
 
-export default function SectionHeaderV2({ showFullLength = false, demoButton = false, headingMd = false, aiSection = false, ...data }: SectionHeaderPropsV2) {
+export default function SectionHeaderV2({ showFullLength = false, demoButton = false, headingMd = false, aiSection = false, headingBreakMobile = false, ...data }: SectionHeaderPropsV2) {
   // Check if heading is portable text (array) or string  
   const components: Partial<PortableTextReactComponents> = {
     block: {
@@ -36,6 +36,7 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
             headingSm={data.headingSm}
             headingMd={headingMd}
             aiSection={aiSection}
+            headingBreakMobile={headingBreakMobile}
           />
           {
             Array.isArray(data.description) ? <PortableText value={data.description} components={components} /> :

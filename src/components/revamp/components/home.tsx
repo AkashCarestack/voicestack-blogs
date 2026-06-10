@@ -64,6 +64,7 @@ export default function Home({
             data['testimonial-video-section']?.componentData?.refData
               ?.testimonialListing
           }
+          showRotatingWordsHeading={true}
         />
       )}
       <CategoryFeatureTabsSection
