@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 
 const MARKDOWN_ACCEPT = new RegExp('\\btext/markdown\\b', 'i');
-const EXCLUDED_PREFIXES = ['/api/', '/_next/'];
+const EXCLUDED_PREFIXES = ['/api/', '/_next/', '/studio'];
 
 /** @param {import('next/server').NextRequest} request */
 async function markdownMiddleware(request) {
