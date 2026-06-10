@@ -99,8 +99,8 @@ export default function FeatureDetailPage({
           data={pageData['better-decisions']?.genericListingComponent}
         />
       )}
-
-      {faq && <FaqSection faqItems={faq} />}
+      
+      {faq && <FaqSection key={`${slug}-${faq?._id ?? 'faq'}`} faqItems={faq} />}
 
       {relatedFeaturesList.length > 0 && (
         <RelatedFeature
