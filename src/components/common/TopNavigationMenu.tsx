@@ -30,7 +30,7 @@ const TopNavigationMenu = ({ safeData, currentLocale }: { safeData: any; current
               key={item._key}
               href={item.href}
               target={item.href?.includes('https') ? '_blank' : '_self'}
-              className="text-gray-900 text-sm font-normal flex items-center gap-2 hover:text-gray-800 transition-colors"
+              className="text-gray-900 text-sm font-normal flex items-center gap-2 hover:text-gray-800 transition-colors hover:underline"
             >
               {item.label}
             </Anchor>

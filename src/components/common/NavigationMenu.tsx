@@ -19,6 +19,7 @@ const NavigationMenu = ({
 }: NavigationMenuProps) => {
   const isMobile = useMediaQuery(1023);
   const [openSubmenus, setOpenSubmenus] = useState<Set<number>>(new Set());
+  const [dismissedDesktopSubmenu, setDismissedDesktopSubmenu] = useState<number | null>(null);
   
   const toggleSubmenu = (index: number) => {
     setOpenSubmenus((prev) => {
@@ -30,6 +31,14 @@ const NavigationMenu = ({
       }
       return newSet;
     });
+  };
+
+  const handleSubmenuLinkClick = (index: number) => {
+    if (!isMobile) {
+      setDismissedDesktopSubmenu(index);
+    }
+
+    onCloseMenu();
   };
 
   const renderMenuItem = (link: any, i: number) => {
@@ -61,9 +70,14 @@ const NavigationMenu = ({
       const isSubmenuOpen = openSubmenus.has(i);
       const subMenuLength = link?.submenu && Array.isArray(link.submenu) && link.submenu.length;
       const lengthySubmenu = subMenuLength > 3;
+      const isDesktopSubmenuDismissed = dismissedDesktopSubmenu === i;
 
       return (
-        <li key={`menu-${i}`} className={`${lengthySubmenu ? 'relative lg:static xl-1700:relative': 'relative'}  group w-full lg:w-auto list-none`}>
+        <li
+          key={`menu-${i}`}
+          className={`${lengthySubmenu ? 'relative lg:static xl-1700:relative': 'relative'}  group w-full lg:w-auto list-none`}
+          onMouseLeave={() => setDismissedDesktopSubmenu(null)}
+        >
           {isMobile ? (
             <div 
               className="flex items-center justify-between gap-1 text-gray-700 xl:text-sm lg:text-xs font-medium leading-[1.15] cursor-pointer"
@@ -82,14 +96,14 @@ const NavigationMenu = ({
                 <span>{link.label}</span>
               </Anchor>
               <ChevronDown 
-                className="w-4 h-4 text-gray-500 transition-transform duration-200 lg:rotate-0 lg:group-hover:rotate-180"
+                className={`w-4 h-4 text-gray-500 transition-transform duration-200 lg:rotate-0 ${isDesktopSubmenuDismissed ? '' : 'lg:group-hover:rotate-180'}`}
               />
             </div>
           )}
           
           {/* Desktop: Split layout with left (items grouped by header) and right (special menu) */}
           {!isMobile && (
-            <div className={`${lengthySubmenu ? 'left-1/2 lg:-translate-x-1/2 xl-1700:left-0 xl-1700:-translate-x-0' : 'left-0'} lg:absolute static top-full mt-2 w-full lg:w-auto bg-white rounded-[16px] shadow-2xl border  opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50`}>
+            <div className={`${lengthySubmenu ? 'left-1/2 lg:-translate-x-1/2 xl-1700:left-0 xl-1700:-translate-x-0' : 'left-0'} lg:absolute static top-full mt-2 w-full lg:w-auto bg-white rounded-[16px] shadow-2xl border opacity-0 invisible ${isDesktopSubmenuDismissed ? '' : 'group-hover:opacity-100 group-hover:visible'} transition-all duration-200 z-50`}>
               <div className="flex flex-row">
                 {/* Left Side: Items grouped by submenuHeader */}
                 <div className={`flex-col lg:flex-row ${lengthySubmenu ? 'lg:columns-3 xl:flex-row xl:flex' : 'lg:flex-row flex'}`}>
@@ -107,7 +121,7 @@ const NavigationMenu = ({
                               href={subItem.href}
                               target={subItem.href?.includes('http') ? '_blank' : '_self'}
                               className="block py-[6px] px-2 text-sm text-zinc-700 hover:bg-gray-50 hover:text-gray-900 transition-colors duration-150"
-                              onClick={onCloseMenu}
+                              onClick={() => handleSubmenuLinkClick(i)}
                             >
                               <div className="font-medium">{subItem.label}</div>
                               {subItem.description && (
@@ -137,7 +151,7 @@ const NavigationMenu = ({
                               href={specialItem.link}
                               target={specialItem.link?.includes('http') ? '_blank' : '_self'}
                               className="min-w-[256px] h-full flex flex-col gap-2 group/item hover:opacity-90 transition-opacity justify-between"
-                              onClick={onCloseMenu}
+                              onClick={() => handleSubmenuLinkClick(i)}
                             >
                             
                               <div className="flex flex-col gap-1 p-[18px]">
@@ -172,17 +186,17 @@ const NavigationMenu = ({
               </div>
                {/* Bottom Custom Links - Desktop */}
                {link?.bottomCustomLinks && Array.isArray(link.bottomCustomLinks) && link.bottomCustomLinks.length > 0 && (
-                  <div className="flex flex-row items-center gap-4 px-[28px] py-[10px] border-t border-gray-200">
+                  <div className="flex flex-row items-center gap-4 px-[18px] py-[10px] border-t border-gray-200">
                     {link.bottomCustomLinks.map((customLink: any, index: number) => (
                       // index === 0 &&
                       <Anchor
                         key={`custom-link-${i}-${index}`}
                         href={customLink.href}
                         target={customLink.href?.includes('http') ? '_blank' : '_self'}
-                        className={`block py-[6px] px-2 text-sm text-zinc-700  hover:text-gray-900 transition-colors duration-150 ${
+                        className={`block py-[6px] px-2 text-sm text-zinc-700  hover:text-gray-900 hover:bg-gray-50 transition-colors duration-150 ${
                           index === 1 ? 'ml-auto' : 'ml-0'
                         }`}
-                        onClick={onCloseMenu}
+                        onClick={() => handleSubmenuLinkClick(i)}
                       >
                         {customLink.label}
                       </Anchor>
