@@ -16,7 +16,7 @@ const PROMO_BANNER_COPY = {
   },
   AU: {
     prefix: "Unlock ",
-    highlight: "up to 50,000 AUD",
+    highlight: "up to $50,000",
     suffix: " in added revenue per location per month. ",
     cta: "Book a demo to learn how.",
   },
