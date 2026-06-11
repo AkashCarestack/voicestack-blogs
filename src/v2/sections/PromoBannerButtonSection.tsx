@@ -8,7 +8,7 @@ export interface PromoBannerButtonSectionProps {
 
 const HARDCODED_COPY = {
   prefix: "Unlock ",
-  highlight: "upto $50,000",
+  highlight: "up to $50,000",
   suffix: " in added revenue per location per month. ",
   cta: "Book a demo to learn how.",
 } as const;
