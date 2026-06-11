@@ -1,6 +1,7 @@
 
 import path from "path";
 import { fileURLToPath } from "url";
+import notFoundRedirects from "./404redirects.mjs";
 
 /** @type {import('next').NextConfig} */
 const __filename = fileURLToPath(import.meta.url);
@@ -54,9 +55,8 @@ const config = {
   },
 
   async redirects() {
-   
     return [
-      
+      ...notFoundRedirects,
       {
         source: '/legal/privacy-policy',
         destination: '/legal/2025-01/privacy-policy',
