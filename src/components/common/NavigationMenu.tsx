@@ -145,7 +145,14 @@ const NavigationMenu = ({
                         // const imageUrl = urlForImage(specialItem.image);
                         const imageUrl = specialItem.image?.asset?.url;
                         return (
-                          <div key={`special-${i}-${specialIndex}`} className="rounded-[10px] bg-[linear-gradient(180deg,_#EACCFF_0.03%,_#FFECFA_62.74%)]">
+                          <div
+                            key={`special-${i}-${specialIndex}`}
+                            className={`rounded-[10px] ${
+                              specialIndex % 2 === 1
+                              ? 'bg-[linear-gradient(180deg,_#C6C1F5_0.03%,_#E7E5FB_62.74%)]'
+                              : 'bg-[linear-gradient(180deg,_#EACCFF_0.03%,_#FFECFA_62.74%)]'
+                            }`}
+                          >
                             <Anchor
                             
                               href={specialItem.link}
@@ -161,7 +168,9 @@ const NavigationMenu = ({
                                 {specialItem.description && (
                                   <p className="text-sm text-gray-950 leading-[1.42]">{specialItem.description}</p>
                                 )}
-                                <span className="text-sm text-gray-950 hover:text-gray-900 underline decoration-dotted">Learn More</span>
+                                <span className="text-sm font-geist font-normal leading-5 tracking-normal text-gray-950 underline decoration-dotted decoration-[15%] underline-offset-[25%] underline-from-font [text-decoration-skip-ink:none]">
+                                  Learn More
+                                </span>
                               </div>
                               
                               {imageUrl && (
