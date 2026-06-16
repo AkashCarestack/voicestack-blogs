@@ -35,6 +35,7 @@ interface LatestBlogsProps {
   sectionType?: string
   uiType?: string
   compIndex?: number
+  locale?: string
 }
 
 const AllcontentSection: React.FC<LatestBlogsProps> = ({
@@ -50,14 +51,15 @@ const AllcontentSection: React.FC<LatestBlogsProps> = ({
   authorName,
   showCount = false,
   uiType,
-  compIndex
+  compIndex,
+  locale,
 }) => {
   const postsToShow = itemsPerPage || siteConfig.pagination.childItemsPerPage
   const [selectedTag, setSelectedTag] = useState('')
   const pathname = usePathname()
   const router = useRouter()
   const baseUrl = useBaseUrl()
-  const { locale } = router.query; 
+  const { locale: routerLocale } = router.query
   let { homeSettings } = useGlobalData()
 
 
@@ -141,7 +143,7 @@ const AllcontentSection: React.FC<LatestBlogsProps> = ({
   const renderPosts = () => {
     const posts = []
     const slicedContent = allContent.slice(0, postsToShow)
-    const isHomePage = pathname === `${siteConfig.pageURLs.home}` || pathname === `/${locale}`
+    const isHomePage = pathname === `${siteConfig.pageURLs.home}` || pathname === `/${routerLocale}`
 
     slicedContent.forEach((post, index) => {
       const isVaryingIndex =
@@ -166,6 +168,7 @@ const AllcontentSection: React.FC<LatestBlogsProps> = ({
             post={postContent}
             className=""
             baseUrl={baseUrl}
+            locale={locale}
           />
         </div>,
       )

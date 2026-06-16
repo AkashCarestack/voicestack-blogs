@@ -15,9 +15,10 @@ import Card from '../Card'
 interface CarouselProps {
   items: Post[]
   swiperRef?: React.MutableRefObject<any>
+  locale?: string
 }
 
-const Carousel: React.FC<CarouselProps> = ({ items }) => {
+const Carousel: React.FC<CarouselProps> = ({ items, locale }) => {
   const swiperRef = useRef(null)
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const Carousel: React.FC<CarouselProps> = ({ items }) => {
         
         {items.map((item, index) => (
           <SwiperSlide key={item._id+index} className="!h-auto">
-            <Card cardType="ebook-card" post={item} index={index} />
+            <Card cardType="ebook-card" post={item} index={index} locale={locale} />
           </SwiperSlide>
         ))}
 

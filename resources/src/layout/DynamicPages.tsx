@@ -35,6 +35,7 @@ const DynamicPages = ({
   ebooks,
   webinars,
   eventCards,
+  locale,
 }: DynamicProps) => {
   const featuredBlog = homeSettings?.FeaturedBlog || posts[0]
   const customBrowseContent = homeSettings?.customBrowseContent 
@@ -67,19 +68,21 @@ const DynamicPages = ({
       <BaseUrlProvider baseUrl={baseUrl}>
         <TagSelect tags={tags} tagLimit={7} />
          <EventCarousel allEventCards={uniqueEventCards} />
-        <LatestBlogs contents={latestPosts} />
+        <LatestBlogs contents={latestPosts} locale={locale} />
         <FeaturedAndPopularBlogs
           featuredBlog={featuredBlog}
           popularBlogs={featuredContents}
+          locale={locale}
         />
         {/* <BannerSubscribeSection /> */}
-        <SliderSection items={reorderedCarouselItems} />
+        <SliderSection items={reorderedCarouselItems} locale={locale} />
         <TestimonialSection testimonials={testimonialList} />
           <AllcontentSection
             customBrowseContent={customBrowseContent}
             allContent={posts}
             itemsPerPage={siteConfig.pagination.itemsHomePage}
             redirect={true}
+            locale={locale}
           />
         )
         <EventCarousel bgColor={'white'} allEventCards={uniqueEventCards} />

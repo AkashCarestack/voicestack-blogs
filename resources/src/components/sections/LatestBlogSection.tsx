@@ -13,6 +13,7 @@ interface LatestBlogsProps {
   className?: string
   showPlayIcon?: boolean
   page?: string
+  locale?: string
   contentType?:
     | 'ebook'
     | 'article'
@@ -27,6 +28,7 @@ const LatestBlogs: React.FC<LatestBlogsProps> = ({
   reverse,
   className,
   showPlayIcon,
+  locale,
 }) => {
   const baseUrl = useBaseUrl()
     const { homeSettings } = useGlobalData();
@@ -69,6 +71,7 @@ const LatestBlogs: React.FC<LatestBlogsProps> = ({
               key={firstBlog?._id}
               post={firstBlog}
               alignCard= {blogCount ? true : false}
+              locale={locale}
             />
           </div>
         </Wrapper>
@@ -94,6 +97,7 @@ const LatestBlogs: React.FC<LatestBlogsProps> = ({
               cardType="top-image-card"
               key={firstBlog?._id}
               post={otherBlogs[0]}
+              locale={locale}
             />
           </div>
           <div className="xl:w-6/12 w-full h-full flex-1">
@@ -106,6 +110,7 @@ const LatestBlogs: React.FC<LatestBlogsProps> = ({
               cardType="top-image-card"
               key={firstBlog?._id}
               post={firstBlog}
+              locale={locale}
             />
           </div>
         </Wrapper>
@@ -135,6 +140,7 @@ const LatestBlogs: React.FC<LatestBlogsProps> = ({
                   baseUrl={baseUrl}
                   isLast={i === otherBlogs.length - 1}
                   post={blog}
+                  locale={locale}
                 />
               ))}
             </div>
@@ -149,6 +155,7 @@ const LatestBlogs: React.FC<LatestBlogsProps> = ({
               cardType="top-image-card"
               key={firstBlog?._id}
               post={firstBlog}
+              locale={locale}
             />
           </div>
         </Wrapper>

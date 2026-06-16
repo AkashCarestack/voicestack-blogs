@@ -3,8 +3,7 @@ import siteConfig from '~/resources-config/siteConfig'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import router from 'next/router'
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/router'
 import React, { useEffect, useMemo, useState } from 'react'
 
 import ChordIcon from '~/resources/assets/reactiveAssets/ChordIcon'
@@ -58,6 +57,7 @@ interface CardProps {
   | 'press-release'
   minHeight?: number
   alignCard?: any
+  locale?: string
 }
 
 export default function Card({
@@ -73,8 +73,8 @@ export default function Card({
   baseUrl,
   minHeight,
   alignCard,
+  locale: localeProp,
 }: CardProps) {
-  const [linkUrl, setLinkUrl] = useState<string | null>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [color, setColor] = useState<string | null>(null)
   const [isPageUrl, setIsPageUrl] = useState<boolean>(false)
@@ -114,23 +114,24 @@ export default function Card({
     setIsPageUrl(isPageUrlLink ? isPageUrlLink : isRouterUrl)
   }, [pathname, baseUrl, pageURLs])
 
-  useEffect(() => {
-    if (router.isReady && post?.slug) {
-      const locale = getResourcesCmsLocale(router)
-      const contentTypePath = getBasePath(router, post.contentType)
+  const linkUrl = useMemo(() => {
+    if (!post) return ''
+    const locale = localeProp ?? getResourcesCmsLocale(router)
+    const contentTypePath = getBasePath(router, post.contentType)
 
-      const newLinkUrl = varyingIndex
-        ? generateHref(locale, contentTypePath)
-        : generateHref(
-            locale,
-            `${contentTypePath}/${post?.slug?.current || ''}`,
-          )
-
-      setLinkUrl(newLinkUrl)
+    if (varyingIndex) {
+      return generateHref(locale, contentTypePath)
     }
-  }, [router.isReady, post?.contentType, post?.slug, varyingIndex, router.query.locale, router])
 
-  if (!post || !linkUrl) {
+    if (!post.slug) return ''
+
+    return generateHref(
+      locale,
+      `${contentTypePath}/${post.slug.current || ''}`,
+    )
+  }, [localeProp, router, post, varyingIndex])
+
+  if (!post) {
     return null
   }
 

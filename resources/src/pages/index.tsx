@@ -47,6 +47,7 @@ interface IndexPageProps {
   tags: Array<any>
   testimonials: Array<any>
   homeSettings: any
+  locale?: string
 }
 
 export const getStaticProps: GetStaticProps<
@@ -88,6 +89,7 @@ export const getStaticProps: GetStaticProps<
       props: {
         draftMode,
         token: draftMode ? readToken : '',
+        locale: region,
         posts,
         latestPosts,
         tags,
@@ -108,6 +110,7 @@ export const getStaticProps: GetStaticProps<
       props: {
         draftMode,
         token: draftMode ? readToken : '',
+        locale: region,
         posts: [],
         tags: [],
         testimonials: [],
@@ -127,7 +130,7 @@ export default function IndexPage(props: IndexPageProps) {
   const siteSettings = props?.siteSettings
   const eventCards = props?.allEventCards
   const router = useRouter()
-  const cmsLocale = getResourcesCmsLocale(router) || 'en'
+  const cmsLocale = props.locale || getResourcesCmsLocale(router) || 'en'
   const canonical = buildResourcesHomeUrl(cmsLocale)
   const { alternatePaths, defaultUrl } = buildAlternatePathData(
     '/',
@@ -167,6 +170,7 @@ export default function IndexPage(props: IndexPageProps) {
           ebooks={props?.ebooks}
           webinars={props?.webinars}
           eventCards={eventCards}
+          locale={props.locale}
         />
       </Layout>
     </GlobalDataProvider>

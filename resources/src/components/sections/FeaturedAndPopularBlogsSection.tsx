@@ -9,11 +9,13 @@ import H2Large from '../typography/H2Large'
 interface FeaturedAndPopularBlogsProps {
   featuredBlog: Post
   popularBlogs: Post[]
+  locale?: string
 }
 
 const FeaturedAndPopularBlogs = ({
   featuredBlog,
   popularBlogs,
+  locale,
 }: FeaturedAndPopularBlogsProps) => {
 
   if([featuredBlog]?.length > 0 && (popularBlogs.length <= 10)) return null  
@@ -29,13 +31,14 @@ const FeaturedAndPopularBlogs = ({
             cardColor="bg-purple-800"
             cardType="top-image-card"
             post={featuredBlog}
+            locale={locale}
           />}
         </div>
         <div className="flex flex-col gap-12 xl:w-6/12 w-full  flex-1">
           <H2Large className="">Most Popular</H2Large>
           <div className=" flex gap-8  w-full flex-wrap items-stretch">
             {popularBlogs.map((blog, index) => (
-              <Card cardType="left-image-card" key={index} post={blog} />
+              <Card cardType="left-image-card" key={index} post={blog} locale={locale} />
             ))}
           </div>
         </div>

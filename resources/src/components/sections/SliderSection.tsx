@@ -9,9 +9,10 @@ import Carousel from './Carousel'
 
 interface BannerBlockProps {
   items?: any
+  locale?: string
 }
 
-const SliderSection: React.FC<BannerBlockProps> = ({ items }) => {
+const SliderSection: React.FC<BannerBlockProps> = ({ items, locale }) => {
   if (!items || items.length === 0)  return null
   return (
     <div className={` flex w-full justify-center px-4 `}>
@@ -30,7 +31,7 @@ const SliderSection: React.FC<BannerBlockProps> = ({ items }) => {
           </div>
         </div>
         <div>
-          <Carousel items={items} />
+          <Carousel items={items} locale={locale} />
         </div>
       </section>
     </div>

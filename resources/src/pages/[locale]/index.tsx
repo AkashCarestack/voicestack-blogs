@@ -48,26 +48,14 @@ interface IndexPageProps {
   tags: Array<any>
   testimonials: Array<any>
   homeSettings: any
+  locale?: string
 }
 
 
-export const getStaticPaths: GetStaticPaths = async () => {
-
-  const locales = siteConfig.locales
-
-  const paths = locales.map((locale) => {
-    if (locale === 'en') {
-      return { params: { slug: '', locale } } 
-    } else {
-      return { params: { slug: locale, locale } }
-    }
-  })
-
-  return {
-    paths,
-    fallback: false, // Changed from 'blocking' to prevent auto-generation
-  }
-}
+export const getStaticPaths: GetStaticPaths = async () => ({
+  paths: siteConfig.locales.map((locale) => ({ params: { locale } })),
+  fallback: false,
+})
 
 export const getStaticProps: GetStaticProps<
   SharedPageProps & { posts: Post[] }
@@ -114,6 +102,7 @@ export const getStaticProps: GetStaticProps<
       props: {
         draftMode,
         token: draftMode ? readToken : '',
+        locale: region,
         posts,
         latestPosts,
         tags,
@@ -134,6 +123,7 @@ export const getStaticProps: GetStaticProps<
       props: {
         draftMode,
         token: draftMode ? readToken : '',
+        locale: region,
         posts: [],
         tags: [],
         testimonials: [],
@@ -153,7 +143,7 @@ export default function IndexPage(props: IndexPageProps) {
   const siteSettings = props?.siteSettings
   const eventCards = props?.allEventCards
   const router = useRouter()
-  const cmsLocale = (router.query.locale as string) || 'en'
+  const cmsLocale = props.locale || (router.query.locale as string) || 'en'
   const canonical = buildResourcesHomeUrl(cmsLocale)
   const { alternatePaths, defaultUrl } = buildAlternatePathData(
     '/',
@@ -195,6 +185,7 @@ export default function IndexPage(props: IndexPageProps) {
           ebooks={props?.ebooks}
           webinars={props?.webinars}
           eventCards={eventCards}
+          locale={props.locale}
         />
       </Layout>
     </GlobalDataProvider>
