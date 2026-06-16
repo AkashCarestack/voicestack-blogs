@@ -21,7 +21,7 @@ module.exports = {
   ],
   theme: {
   	extend: {
-		backgroundColor: {
+			backgroundColor: {
 			'custom-gradient': 'linear-gradient(180deg, #F4F3FA 31.25%, rgba(244, 243, 250, 0) 100%)',
 			'img-gray': '#DDDCDF',
 			'img-gray-secondary': '#A7A5A5',
@@ -155,6 +155,9 @@ module.exports = {
 				tighterText: '-0.48px',
 			},
 			screens: {
+        'xxl': '1921px',
+        'xl-1700': '1700px',
+				'xl-1200': '1200px',
         'md-maxh-800': {'raw': '(min-width: 768px) and (max-height: 800px)'},
         'md-maxh-700': {'raw': '(min-width: 768px) and (max-height: 700px)'},
         'maxh-600': {'raw': '(max-height: 600px)'},

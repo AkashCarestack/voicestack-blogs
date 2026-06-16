@@ -2,9 +2,7 @@ import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Button from '~/components/common/Button'
-import LpCtaLabel from '~/components/common/LpCtaLabel'
 import Container from '~/components/structure/Container'
-import { useLpMangoCopyEnabled } from '~/providers/LpMangoCopyProvider'
 import bgStyle from '~/assets/Bg/image 682.png'
 import { ComparisonHeroH1, descriptionComponents, HeroFeatureComponents, HeroFeatureHeadingComponents, HeroHeadingComponents } from '~/utils/common'
 import { urlForImage } from '~/lib/sanity.image'
@@ -23,7 +21,7 @@ import VoicestackLogo from 'public/assets/voicestack-logo.svg'
 
 
 
-interface FeatureHeroProps {
+export interface FeatureHeroProps {
   data: any
   isVertical?: boolean
   type?: 'form' | 'feature' | 'partner' | 'comparison'
@@ -31,14 +29,14 @@ interface FeatureHeroProps {
   isCentered?: boolean
   pageType?: 'download-app' | string
   appStoreLinks?: any
+  mangoLayout?: boolean
   cta?: {
     text?: string
     link?: string
   }
 }
 
-export default function FeatureHero({ data, type, hideBg = false, isCentered = false, pageType = '', appStoreLinks = "", isVertical = false, cta }: FeatureHeroProps) {
-  const mangoCopyEnabled = useLpMangoCopyEnabled()
+export default function FeatureHero({ data, type, hideBg = false, isCentered = false, pageType = '', appStoreLinks = "", isVertical = false, mangoLayout = false, cta }: FeatureHeroProps) {
   const hubspotFormId = data?.componentData?.hubspotFormId || data?.hubspotFormId
   const meetingLink = data?.componentData?.meetingLink || data?.meetingLink || data?.demoMeetingLink
   const value = data?.heroComponent
@@ -333,14 +331,14 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                 />
               )}
               {description && (
-                <div className={`${isCentered ? 'text-center [&>p]:text-center' : ''} flex flex-col gap-3 ${mangoCopyEnabled ? 'md:gap-[40px] gap-[20px]' : ''} `}>
+                <div className={`${isCentered ? 'text-center [&>p]:text-center' : ''} flex flex-col ${mangoLayout ? 'md:gap-[40px] gap-[20px]' : 'gap-3'} `}>
                   <PortableText
                     value={description}
                     components={descriptionComponents}
                   />
                 </div>
               )}
-              <div className={`flex flex-col md:flex-row md:gap-[18px] items-center gap-3 ${pageType === 'download-app' ? 'justify-center' : ''}`}>
+              <div className={`flex flex-col md:flex-row md:gap-[18px] items-center md:mt-5 mt-4 gap-3 ${pageType === 'download-app' ? 'justify-center' : ''}`}>
                 {
                   buttons &&
                   buttons.length &&
@@ -350,7 +348,7 @@ export default function FeatureHero({ data, type, hideBg = false, isCentered = f
                       type={button.buttonType}
                       link={button.buttonLink}
                     >
-                      <LpCtaLabel>{button?.buttonText}</LpCtaLabel>
+                      <span>{button?.buttonText}</span>
                     </Button>
                   ))
                 }

@@ -5,7 +5,6 @@ import { useMemo } from 'react'
 
 import Anchor from '~/components/common/anchor'
 import replaceUrl from '~/helpers/replaceUrl'
-import { useLpCtaText } from '~/providers/LpMangoCopyProvider'
 import { useLpDemoLink } from '~/providers/LpDemoLinkProvider'
 import sparkleIcon from 'public/assets/primary-switch/sparkle.svg'
 
@@ -32,7 +31,7 @@ export default function PrimarySwitchButton({
 }: PrimarySwitchButtonProps) {
   const router = useRouter()
   const lpDemoLink = useLpDemoLink()
-  const primaryLabel = useLpCtaText(buttonText)
+  const primaryLabel = buttonText
 
   const finalLink = useMemo(() => {
     const linkUrl = typeof link === 'string' ? link : ''
@@ -67,7 +66,7 @@ export default function PrimarySwitchButton({
       <span
         className={clsx(
           'relative inline-flex w-full  f min-h-[62px] items-center justify-center sm:gap-6 gap-2 overflow-hidden rounded-[8px]',
-          'border border-solid border-white/10 bg-[#B5EB92] sm:px-8 px-6 py-3',
+          'border border-solid border-white/10 bg-[#B5EB92] sm:px-8 px-5 py-3',
           'shadow-[0_0_0_1px_#92D96A] transition-all duration-300 ease-linear',
           'hover:shadow-[0_0_0_2px_#92D96A]',
         )}

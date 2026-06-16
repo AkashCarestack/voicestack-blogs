@@ -3,3 +3,4 @@ Disallow: /lp/
 Disallow: /legal/
 
 Sitemap: https://voicestack.com/sitemap.xml
+Disallow: /*?*

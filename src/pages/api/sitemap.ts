@@ -3,11 +3,26 @@ import { getClient } from '~/lib/sanity.client'
 import { readToken } from '~/lib/sanity.api'
 import groq from 'groq'
 import siteConfig from 'config/siteConfig'
+import {
+  PATHS_WITH_ALTERNATES,
+  LOCALE_ALTERNATE_MAP,
+  collectAlternateUrls,
+  formatHreflang,
+  getCanonicalKey,
+  resolveXDefaultUrl,
+  shouldOmitEnGBUrl,
+  shouldOmitEnUrl,
+  buildAlternateUrl,
+  sanitizePathForUrl,
+} from '~/lib/seo/alternateResolver'
+
+const PATHS_WITH_HREFLANG = [...PATHS_WITH_ALTERNATES] as string[]
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://voicestack.com"
 
-// Paths with all locale variants and hreflang alternates
-const PATHS_WITH_ALTERNATES = ['', 'system-requirements'];
+function buildUrl(path: string, locale: string): string {
+  return buildAlternateUrl(path, locale, BASE_URL)
+}
 
 // Exclude list for test pages and patterns
 const EXCLUDED_PATHS = [
@@ -23,117 +38,6 @@ const EXCLUDED_PATHS = [
   'en-AU/phone-system',
   'en/who-we-serve/multi-location-dental-practices'
 ];
-
-// Paths that must not have their en (root) URL in sitemap; en-AU and en-GB versions still included
-const PATHS_NO_EN_URL = [
-  'who-we-serve/single-location-dental-practices',
-  'who-we-serve/multi-location-dental-practices',
-  'who-we-serve/groups-and-enterprises'
-];
-
-function shouldOmitEnUrl(path: string, locale: string): boolean {
-  return locale === 'en' && PATHS_NO_EN_URL.includes(path);
-}
-
-// Paths that must not have en-GB URL in sitemap (pages don't exist for en-GB); en and en-AU still included
-const PATHS_NO_EN_GB_URL = [
-  'dental-phones/comparison',
-  'dental-phones/case-studies',
-  'phone-system/comparison',
-  'phone-system/case-studies',
-];
-
-function shouldOmitEnGBUrl(path: string): boolean {
-  return PATHS_NO_EN_GB_URL.includes(path);
-}
-
-// Locale-aware alternate mapping: canonical key -> path per locale (only include locales where this path exists)
-const LOCALE_ALTERNATE_MAP: Record<string, Record<string, string>> = {
-  'phone-system': {
-    'en': 'phone-system',
-    'en-AU': 'dental-phones',
-    'en-GB': 'dental-phones',
-  },
-  'phone-system/features': {
-    'en': 'phone-system/features',
-    'en-AU': 'dental-phones/features',
-    'en-GB': 'dental-phones/features',
-  },
-  'phone-system/reviews': { 'en': 'phone-system/reviews', 'en-AU': 'dental-phones/reviews', 'en-GB': 'dental-phones/reviews' },
-  'phone-system/integrations': { 'en': 'phone-system/integrations', 'en-AU': 'dental-phones/integrations', 'en-GB': 'dental-phones/integrations' },
-  'phone-system/comparison': { 'en': 'phone-system/comparison', 'en-AU': 'dental-phones/comparison', 'en-GB': 'dental-phones/comparison' },
-  'phone-system/case-studies': { 'en': 'phone-system/case-studies', 'en-AU': 'dental-phones/case-studies', 'en-GB': 'dental-phones/case-studies' },
-  'phone-system/phones': { 'en': 'phone-system/phones', 'en-AU': 'dental-phones/phones', 'en-GB': 'dental-phones/phones' },
-  'ai-receptionist': {
-    'en': 'phone-system/features/ai-receptionist',
-    'en-AU': 'dental-phones/ai-receptionist',
-    'en-GB': 'dental-phones/features/ai-receptionist',
-  },
-  'marketing-spend-optimization': {
-    'en': 'phone-system/features/marketing-spend-optimization',
-    'en-AU': 'dental-phones/features/marketing-spend-optimisation',
-    'en-GB': 'dental-phones/features/marketing-spend-optimisation',
-  },
-  'who-we-serve/multi-location-dental-practices': {
-    'en': 'who-we-serve/multi-location-dental-practices',
-    'en-AU': 'who-we-serve/multi-location-dental-practices',
-    'en-GB': 'who-we-serve/multi-site-dental-practices',
-  },
-  'who-we-serve/single-location-dental-practices': {
-    'en': 'who-we-serve/single-location-dental-practices',
-    'en-AU': 'who-we-serve/single-location-dental-practices',
-    'en-GB': 'who-we-serve/single-site-dental-practices',
-  },
-  'who-we-serve/groups-dsos': {
-    'en': 'who-we-serve/groups-and-enterprises',
-    'en-AU': 'who-we-serve/groups-and-dsos',
-    'en-GB': 'who-we-serve/dental-groups-dsos-corporates',
-  },
-  'who-we-serve/startups': {
-    'en': 'who-we-serve/startups',
-    'en-AU': 'who-we-serve/startups',
-    'en-GB': 'who-we-serve/squat-dental-practices',
-  },
-}
-
-// Path -> canonical key for resolving alternates (multiple paths can map to same key)
-const PATH_TO_CANONICAL: Record<string, string> = {
-  'phone-system': 'phone-system',
-  'dental-phones': 'phone-system',
-  'phone-system/features': 'phone-system/features',
-  'dental-phones/features': 'phone-system/features',
-  'phone-system/reviews': 'phone-system/reviews',
-  'dental-phones/reviews': 'phone-system/reviews',
-  'phone-system/integrations': 'phone-system/integrations',
-  'dental-phones/integrations': 'phone-system/integrations',
-  'phone-system/comparison': 'phone-system/comparison',
-  'dental-phones/comparison': 'phone-system/comparison',
-  'phone-system/case-studies': 'phone-system/case-studies',
-  'dental-phones/case-studies': 'phone-system/case-studies',
-  'phone-system/phones': 'phone-system/phones',
-  'dental-phones/phones': 'phone-system/phones',
-  'phone-system/features/ai-receptionist': 'ai-receptionist',
-  'phone-system/ai-receptionist': 'ai-receptionist',
-  'dental-phones/ai-receptionist': 'ai-receptionist',
-  'dental-phones/features/ai-receptionist': 'ai-receptionist',
-  'phone-system/features/marketing-spend-optimization': 'marketing-spend-optimization',
-  'phone-system/features/marketing-spend-optimisation': 'marketing-spend-optimization',
-  'dental-phones/features/marketing-spend-optimisation': 'marketing-spend-optimization',
-  'dental-phones/features/marketing-spend-optimization': 'marketing-spend-optimization',
-  'who-we-serve/multi-location-dental-practices': 'who-we-serve/multi-location-dental-practices',
-  'who-we-serve/multi-site-dental-practices': 'who-we-serve/multi-location-dental-practices',
-  'who-we-serve/single-location-dental-practices': 'who-we-serve/single-location-dental-practices',
-  'who-we-serve/single-site-dental-practices': 'who-we-serve/single-location-dental-practices',
-  'who-we-serve/dental-groups-dsos-corporates': 'who-we-serve/groups-dsos',
-  'who-we-serve/groups-and-dsos': 'who-we-serve/groups-dsos',
-  'who-we-serve/groups-and-enterprises': 'who-we-serve/groups-dsos',
-  'who-we-serve/startups': 'who-we-serve/startups',
-  'who-we-serve/squat-dental-practices': 'who-we-serve/startups',
-}
-
-function getCanonicalKey(path: string): string | null {
-  return PATH_TO_CANONICAL[path] ?? null;
-}
 
 // Static pages that should be included in sitemap (pages not managed in Sanity)
 // Format: { path: string[], locales: string[] }
@@ -168,81 +72,43 @@ interface FooterData {
   bottomLinks?: NavigationLink[]
 }
 
-function formatHreflang(locale: string): string {
-  const localeMap: { [key: string]: string } = {
-    'en': 'en-US',
-    'en-GB': 'en-GB',
-    'en-AU': 'en-AU',
-    '': 'en'
-  };
-  return localeMap[locale] || 'en';
+interface PathEntry {
+  locales: string[]
+  date?: string
 }
 
 function formatLastmod(date: string | Date | null | undefined): string | null {
-  if (!date) {
-    return null;
-  }
-  
+  if (!date) return null;
+
   const dateObj = typeof date === 'string' ? new Date(date) : date;
-  
-  if (isNaN(dateObj.getTime())) {
-    return null;
-  }
-  
-  // Format as YYYY-MM-DDThh:mm:ss+00:00 (sitemap standard with time)
-  // ISO 8601 format is accepted by sitemap protocol
+
+  if (isNaN(dateObj.getTime())) return null;
+
   return dateObj.toISOString();
 }
 
-/**
- * Sanitizes a path for use in URLs: lowercase, spaces to hyphens, collapse multiple hyphens.
- */
-function sanitizePathForUrl(path: string): string {
-  return path
-    .split('/')
-    .map((segment) =>
-      segment
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '')
-    )
-    .filter(Boolean)
-    .join('/');
+function mergeContentDate(existing?: string, incoming?: string): string | undefined {
+  if (!incoming) return existing;
+  if (!existing) return incoming;
+  return incoming > existing ? incoming : existing;
 }
 
-/**
- * Normalizes a path for a specific locale.
- * - en (en-US): dental-phones -> phone-system; optimisation -> optimization
- * - en-AU / en-GB: phone-system -> dental-phones; optimization -> optimisation
- */
-function normalizePathForLocale(path: string, locale: string): string {
-  let result = path;
-  if (locale === 'en' || !locale) {
-    // en-US: show phone-system, not dental-phones
-    result = result.replace(/(^|\/)dental-phones(\/|$)/g, '$1phone-system$2');
-    result = result.replace(/optimisation/g, 'optimization');
-  }
-  if (locale === 'en-AU' || locale === 'en-GB') {
-    result = result.replace(/(^|\/)phone-system(\/|$)/g, '$1dental-phones$2');
-    result = result.replace(/optimization/g, 'optimisation');
-  }
-  return result;
+function appendLastmodLine(xml: string, date?: string): string {
+  const formattedLastmod = formatLastmod(date);
+
+  if (!formattedLastmod) return xml;
+
+  return xml + `    <lastmod>${formattedLastmod}</lastmod>\n`;
 }
 
-function buildUrl(path: string, locale: string): string {
-  const cleanedPath = path.replace(/^\/+/, '').replace(/\/+$/, '');
-  // Normalize path for locale (e.g., phone-system -> dental-phones for en-AU)
-  const normalizedPath = normalizePathForLocale(cleanedPath, locale);
-  // Sanitize for URL (e.g. "AI Receptionist" -> "ai-receptionist")
-  const urlPath = sanitizePathForUrl(normalizedPath);
+function mergePathEntry(existing: PathEntry, incoming: PathEntry): PathEntry {
+  const combinedLocales = new Set([...existing.locales, ...incoming.locales]);
+  const date = mergeContentDate(existing.date, incoming.date);
 
-  if (locale === 'en' || !locale) {
-    return urlPath ? `${BASE_URL}/${urlPath}` : BASE_URL;
-  }
-
-  return urlPath ? `${BASE_URL}/${locale}/${urlPath}` : `${BASE_URL}/${locale}`;
+  return {
+    locales: Array.from(combinedLocales),
+    ...(date && { date }),
+  };
 }
 
 function escapeXml(unsafe: string): string {
@@ -279,7 +145,7 @@ function shouldExcludePath(path: string): boolean {
   }
   
   if (path.startsWith('dental-phones/features/')) return true;
-  if (path.startsWith('test') || path.includes('/test')) return true;
+  if (path.startsWith('test') || path.includes('/test') || path.includes('/lp')) return true;
   
   // Exclude paths containing '-v2' in any segment
   const pathSegments = path.split('/');
@@ -415,8 +281,8 @@ function extractFooterPaths(footers: FooterData[]): Map<string, Set<string>> {
   return paths;
 }
 
-async function getFeaturePaths(client: any): Promise<Map<string, { date: string; locales: string[] }>> {
-  const pathData = new Map<string, { date: string; locales: Set<string> }>();
+async function getFeaturePaths(client: any): Promise<Map<string, PathEntry>> {
+  const pathData = new Map<string, { date?: string; locales: Set<string> }>();
   
   const featuresQuery = groq`
     *[_type == "features" && !(_id in path("drafts.**")) && defined(basicInfo.slug.current)] {
@@ -427,21 +293,6 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
   `;
   
   const features = await client.fetch(featuresQuery);
-  // console.log({features});
-
-  // features.forEach((slug: any) => {
-  //   const featureDate = slug._updatedAt;
-  //   const enPath = `phone-system/features/${slug.slug}`;
-  //   const enAUPath = `dental-phones/features/${slug.slug}`;
-  //   const enGBPath = `dental-phones/features/${slug.slug}`;
-  //   if(slug =='en'){
-  //     pathData.set(enPath, { date: featureDate, locales: new Set([slug.language]) });
-  //   }else if(slug =='en-AU'){
-  //     pathData.set(enAUPath, { date: featureDate, locales: new Set([slug.language]) });
-  //   }else if(slug =='en-GB'){
-  //     pathData.set(enGBPath, { date: featureDate, locales: new Set([slug.language]) });
-  //   }
-  // });
   
   // Group features by normalized slug to detect multi-locale features
   features.forEach((feature: any) => {
@@ -454,38 +305,49 @@ async function getFeaturePaths(client: any): Promise<Map<string, { date: string;
     if (shouldExcludePath(normalizedPath)) return;
     
     const featureLocale = feature.language || 'en';
-    const featureDate = feature._updatedAt || '';
     
     const existing = pathData.get(normalizedPath);
     if (existing) {
       existing.locales.add(featureLocale);
-      // Use the most recent date if multiple features match
-      if (featureDate > existing.date) {
-        existing.date = featureDate;
-      }
+      existing.date = mergeContentDate(existing.date, feature._updatedAt);
     } else {
-      pathData.set(normalizedPath, { date: featureDate, locales: new Set([featureLocale]) });
+      pathData.set(normalizedPath, {
+        locales: new Set([featureLocale]),
+        ...(feature._updatedAt && { date: feature._updatedAt }),
+      });
     }
   });
   
   // Convert Set to Array for return
-  const result = new Map<string, { date: string; locales: string[] }>();
+  const result = new Map<string, PathEntry>();
   pathData.forEach((value, path) => {
-    result.set(path, { date: value.date, locales: Array.from(value.locales) });
+    result.set(path, {
+      locales: Array.from(value.locales),
+      ...(value.date && { date: value.date }),
+    });
   });
   
   return result;
 }
 
-async function getNavigationPaths(client: any): Promise<Map<string, { date: string; locales: string[] }>> {
+async function getNavigationPaths(client: any): Promise<Map<string, PathEntry>> {
   const headerQuery = groq`
     *[_type == "homeSettings" && !(_id in path("drafts.**")) && language in ["en", "en-AU", "en-GB"]] {
       language,
-      _updatedAt,
       navigationMenu[] {
         label,
         href,
         submenu[] {
+          submenuHeader,
+          items[] {
+            label,
+            href
+          }
+        },
+        specialMenu[] {
+          link
+        },
+        bottomCustomLinks[] {
           label,
           href
         }
@@ -500,7 +362,6 @@ async function getNavigationPaths(client: any): Promise<Map<string, { date: stri
   const footerQuery = groq`
     *[_type == "footer" && !(_id in path("drafts.**")) && language in ["en", "en-AU", "en-GB"]] {
       language,
-      _updatedAt,
       footerColumns[] {
         title,
         titleLink,
@@ -524,40 +385,17 @@ async function getNavigationPaths(client: any): Promise<Map<string, { date: stri
   const headerPaths = extractHeaderPaths(headers);
   const footerPaths = extractFooterPaths(footers);
   
-  // Get the most recent update date from headers/footers (all locales)
-  const enHeader = headers.find((h: any) => h.language === 'en' || !h.language);
-  const enAUHeader = headers.find((h: any) => h.language === 'en-AU');
-  const enGBHeader = headers.find((h: any) => h.language === 'en-GB');
-  const enFooter = footers.find((f: any) => f.language === 'en' || !f.language);
-  const enAUFooter = footers.find((f: any) => f.language === 'en-AU');
-  const enGBFooter = footers.find((f: any) => f.language === 'en-GB');
-  
-  // Get the most recent date from all header/footer locales
-  const headerDates = [
-    enHeader?._updatedAt,
-    enAUHeader?._updatedAt,
-    enGBHeader?._updatedAt,
-    enFooter?._updatedAt,
-    enAUFooter?._updatedAt,
-    enGBFooter?._updatedAt
-  ].filter(Boolean) as string[];
-  
-  const headerDate = headerDates.length > 0
-    ? headerDates.reduce((latest, date) => date > latest ? date : latest)
-    : '';
-  const footerDate = headerDate; // Use same date since we're combining them
-
-  // Combine paths with dates and locales
-  const pathData = new Map<string, { date: string; locales: Set<string> }>();
+  // Navigation only discovers sitemap URLs/locales. It must not contribute lastmod dates.
+  const pathData = new Map<string, Set<string>>();
   
   // Process header paths
   headerPaths.forEach((locales, path) => {
     const existing = pathData.get(path);
     if (existing) {
       // Merge locales
-      locales.forEach(locale => existing.locales.add(locale));
+      locales.forEach(locale => existing.add(locale));
     } else {
-      pathData.set(path, { date: headerDate, locales: new Set(locales) });
+      pathData.set(path, new Set(locales));
     }
   });
   
@@ -566,28 +404,24 @@ async function getNavigationPaths(client: any): Promise<Map<string, { date: stri
     const existing = pathData.get(path);
     if (existing) {
       // Merge locales
-      locales.forEach(locale => existing.locales.add(locale));
-      // Use most recent date if path exists in both
-      if (footerDate > existing.date) {
-        existing.date = footerDate;
-      }
+      locales.forEach(locale => existing.add(locale));
     } else {
-      pathData.set(path, { date: footerDate, locales: new Set(locales) });
+      pathData.set(path, new Set(locales));
     }
   });
   
   // Convert Set to Array for return
-  const result = new Map<string, { date: string; locales: string[] }>();
-  pathData.forEach((value, path) => {
-    result.set(path, { date: value.date, locales: Array.from(value.locales) });
+  const result = new Map<string, PathEntry>();
+  pathData.forEach((locales, path) => {
+    result.set(path, { locales: Array.from(locales) });
   });
   
   return result;
 }
 
 // Fetch ALL page documents to detect multi-locale pages
-async function getAllPageDocuments(client: any): Promise<Map<string, { date: string; locales: string[] }>> {
-  const pathData = new Map<string, { date: string; locales: Set<string> }>();
+async function getAllPageDocuments(client: any): Promise<Map<string, PathEntry>> {
+  const pathData = new Map<string, { date?: string; locales: Set<string> }>();
   
   // Query for ALL page documents (not just those matching navigation paths)
   const pageQuery = groq`
@@ -618,9 +452,7 @@ async function getAllPageDocuments(client: any): Promise<Map<string, { date: str
       if (existing) {
         existing.locales.add(pageLocale);
         // Use most recent date if multiple pages match
-        if (page._updatedAt > existing.date) {
-          existing.date = page._updatedAt;
-        }
+        existing.date = mergeContentDate(existing.date, page._updatedAt);
       } else {
         pathData.set(normalizedPath, { date: page._updatedAt, locales: new Set([pageLocale]) });
       }
@@ -628,27 +460,32 @@ async function getAllPageDocuments(client: any): Promise<Map<string, { date: str
   });
   
   // Convert Set to Array for return
-  const result = new Map<string, { date: string; locales: string[] }>();
+  const result = new Map<string, PathEntry>();
   pathData.forEach((value, path) => {
-    result.set(path, { date: value.date, locales: Array.from(value.locales) });
+    result.set(path, {
+      locales: Array.from(value.locales),
+      ...(value.date && { date: value.date }),
+    });
   });
   
   return result;
 }
 
-// Fetch page document dates and locales for paths that might have corresponding page documents
-async function getPageDocumentDates(client: any, paths: Set<string>): Promise<Map<string, { date: string; locales: string[] }>> {
-  const allPages = await getAllPageDocuments(client);
-  
-  // Filter to only pages that match our navigation paths
-  const result = new Map<string, { date: string; locales: string[] }>();
-  allPages.forEach((data, path) => {
-    if (paths.has(path)) {
-      result.set(path, data);
+async function getPageDocumentDates(
+  client: any,
+  paths: Set<string>,
+): Promise<Map<string, PathEntry>> {
+  const allPages = await getAllPageDocuments(client)
+  const result = new Map<string, PathEntry>()
+
+  paths.forEach((path) => {
+    const pageData = allPages.get(path)
+    if (pageData) {
+      result.set(path, pageData)
     }
-  });
-  
-  return result;
+  })
+
+  return result
 }
 
 async function getHomePageDates(client: any): Promise<Map<string, string>> {
@@ -677,8 +514,8 @@ async function getHomePageDates(client: any): Promise<Map<string, string>> {
 }
 
 async function generateSiteMap(
-  navigationPaths: Map<string, { date: string; locales: string[] }>, 
-  featurePaths: Map<string, { date: string; locales: string[] }>,
+  navigationPaths: Map<string, PathEntry>, 
+  featurePaths: Map<string, PathEntry>,
   client: any
 ) {
   const locales = siteConfig.locales;
@@ -689,26 +526,23 @@ async function generateSiteMap(
   ]);
   
   // Combine all paths and dates
-  const allPathData = new Map<string, { date: string; locales: string[] }>();
+  const allPathData = new Map<string, PathEntry>();
   
   // Add navigation paths with their locales
   navigationPaths.forEach((data, path) => {
-    allPathData.set(path, data);
+    allPathData.set(path, { locales: [...data.locales] });
   });
   
   // Add feature paths with their locales
   featurePaths.forEach((featureData, path) => {
     const existing = allPathData.get(path);
     if (existing) {
-      // Merge locales from features
-      const combinedLocales = new Set([...existing.locales, ...featureData.locales]);
-      existing.locales = Array.from(combinedLocales);
-      // Use most recent date if path exists in both
-      if (featureData.date > existing.date) {
-        existing.date = featureData.date;
-      }
+      allPathData.set(path, mergePathEntry(existing, featureData));
     } else {
-      allPathData.set(path, featureData);
+      allPathData.set(path, {
+        locales: [...featureData.locales],
+        ...(featureData.date && { date: featureData.date }),
+      });
     }
   });
   
@@ -716,16 +550,13 @@ async function generateSiteMap(
   allPageDocuments.forEach((pageData, path) => {
     const existing = allPathData.get(path);
     if (existing) {
-      // Merge locales from page documents
-      const combinedLocales = new Set([...existing.locales, ...pageData.locales]);
-      existing.locales = Array.from(combinedLocales);
-      // Use most recent date
-      if (pageData.date > existing.date) {
-        existing.date = pageData.date;
-      }
+      allPathData.set(path, mergePathEntry(existing, pageData));
     } else {
       // Add page document paths that aren't in navigation
-      allPathData.set(path, pageData);
+      allPathData.set(path, {
+        locales: [...pageData.locales],
+        ...(pageData.date && { date: pageData.date }),
+      });
     }
   });
 
@@ -741,8 +572,8 @@ async function generateSiteMap(
       const combinedLocales = new Set([...existing.locales, ...locales]);
       existing.locales = Array.from(combinedLocales);
     } else {
-      // Add static page with specified locales and no generated lastmod.
-      allPathData.set(path, { date: '', locales });
+      // Add static page with specified locales, but no guessed lastmod.
+      allPathData.set(path, { locales });
     }
   });
 
@@ -771,7 +602,6 @@ async function generateSiteMap(
     locales.forEach(locale => {
       const currentUrl = buildUrl(path, locale);
       const lastmodDate = path === '' ? homePageDates.get(locale) : pathData?.date;
-      const formattedLastmod = formatLastmod(lastmodDate);
       
       // Skip if this URL has already been generated
       if (generatedUrls.has(currentUrl)) {
@@ -781,17 +611,18 @@ async function generateSiteMap(
       
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(currentUrl)}</loc>\n`;
-      if (formattedLastmod) {
-        xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
-      }
+      xml = appendLastmodLine(xml, lastmodDate);
 
-      // Add hreflang alternates for all locales
-      locales.forEach(altLocale => {
-        xml += `    <xhtml:link rel="alternate" hreflang="${formatHreflang(altLocale)}" href="${escapeXml(buildUrl(path, altLocale))}"/>\n`;
+      const clusterAlternates = locales.map((altLocale) => ({
+        url: buildUrl(path, altLocale),
+        hreflang: formatHreflang(altLocale),
+      }));
+
+      clusterAlternates.forEach(({ url, hreflang }) => {
+        xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
       });
 
-      // x-default same as loc (this URL)
-      xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(currentUrl)}"/>\n`;
+      xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(resolveXDefaultUrl(clusterAlternates, currentUrl))}"/>\n`;
 
       xml += '  </url>\n';
     });
@@ -803,56 +634,24 @@ async function generateSiteMap(
   const processedAlternatePathLocales = new Set<string>(); // "path:locale" to avoid duplicate <url> for same (path, locale)
 
   allPathData.forEach((pathData, path) => {
-    if (PATHS_WITH_ALTERNATES.includes(path)) return;
+    if (PATHS_WITH_HREFLANG.includes(path)) return;
     if (shouldExcludePath(path)) return;
 
     const canonicalKey = getCanonicalKey(path);
     if (canonicalKey && processedCanonicalKeys.has(canonicalKey)) return;
     if (canonicalKey) processedCanonicalKeys.add(canonicalKey);
 
-    const formattedLastmod = formatLastmod(pathData.date);
     const pathLocales = pathData.locales.length > 0 ? pathData.locales : ['en'];
     const localeMap = canonicalKey ? LOCALE_ALTERNATE_MAP[canonicalKey] : null;
     const hasLocaleAlternates = Boolean(localeMap);
-    const hasMultipleLocales = pathLocales.length > 1;
 
-    const allAlternateUrlsSet = new Set<string>();
-    const allAlternateUrls: Array<{ url: string; hreflang: string }> = [];
-
-    const addAlternateUrl = (url: string, hreflang: string) => {
-      if (url.includes('/en-AU/phone-system') || url.includes('/en-GB/phone-system')) return;
-      // Omit en-GB only for paths where the page does not exist (e.g. comparison, case-studies)
-      if (hreflang === 'en-GB' || url.includes('/en-GB')) {
-        const enGBMatch = url.match(/\/en-GB(?:\/(.*))?$/);
-        if (enGBMatch) {
-          const urlPath = (enGBMatch[1] || '').replace(/\/$/, '');
-          if (shouldOmitEnGBUrl(urlPath)) return;
-        }
-      }
-      const key = `${url}|${hreflang}`;
-      if (!allAlternateUrlsSet.has(key)) {
-        allAlternateUrlsSet.add(key);
-        allAlternateUrls.push({ url, hreflang });
-      }
-    };
-
-    if (hasMultipleLocales) {
-      pathLocales.forEach(altLocale => {
-        addAlternateUrl(buildUrl(path, altLocale), formatHreflang(altLocale));
-      });
-    }
-
-    // Allow dental-phones/features/ as alternates (en-AU/en-GB form of phone-system/features)
     const allowLocalePathForAlternate = (p: string) => !shouldExcludePath(p) || p.startsWith('dental-phones/features/');
-    if (hasLocaleAlternates && localeMap) {
-      locales.forEach(locale => {
-        const localePath = localeMap[locale];
-        if (localePath != null && allowLocalePathForAlternate(localePath) && !shouldOmitEnUrl(localePath, locale) && !(locale === 'en-GB' && shouldOmitEnGBUrl(localePath))) {
-          const url = buildUrl(localePath, locale);
-          addAlternateUrl(url, formatHreflang(locale));
-        }
-      });
-    }
+    const allAlternateUrls = collectAlternateUrls(path, {
+      baseUrl: BASE_URL,
+      locales,
+      availableLocales: pathLocales,
+      allowLocalePathForAlternate,
+    });
 
     pathLocales.forEach(locale => {
       if (shouldOmitEnUrl(path, locale)) return;
@@ -862,15 +661,12 @@ async function generateSiteMap(
 
       xml += '  <url>\n';
       xml += `    <loc>${escapeXml(currentUrl)}</loc>\n`;
-      if (formattedLastmod) {
-        xml += `    <lastmod>${formattedLastmod}</lastmod>\n`;
-      }
+      xml = appendLastmodLine(xml, pathData.date);
       if (allAlternateUrls.length > 0) {
         allAlternateUrls.forEach(({ url, hreflang }) => {
           xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
         });
-        // x-default same as loc (this URL)
-        xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(currentUrl)}"/>\n`;
+        xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(resolveXDefaultUrl(allAlternateUrls, currentUrl))}"/>\n`;
       }
       xml += '  </url>\n';
     });
@@ -878,51 +674,31 @@ async function generateSiteMap(
     if (hasLocaleAlternates && localeMap) {
       locales.forEach(locale => {
         const localePath = localeMap[locale];
-        if (localePath == null || shouldExcludePath(localePath) || shouldOmitEnUrl(localePath, locale) || (locale === 'en-GB' && shouldOmitEnGBUrl(localePath))) return;
+        if (localePath == null || !allowLocalePathForAlternate(localePath) || shouldOmitEnUrl(localePath, locale) || (locale === 'en-GB' && shouldOmitEnGBUrl(localePath))) return;
         const pathLocaleKey = `${localePath}:${locale}`;
         if (processedAlternatePathLocales.has(pathLocaleKey)) return;
         if (generatedUrls.has(buildUrl(localePath, locale))) return;
         processedAlternatePathLocales.add(pathLocaleKey);
 
         const alternatePathData = allPathData.get(localePath);
-        const alternateLastmod = alternatePathData?.date ?? pathData.date;
-        const formattedAlternateLastmod = formatLastmod(alternateLastmod);
 
-        const alternateUrlsSet = new Set<string>();
-        const alternateUrlsList: Array<{ url: string; hreflang: string }> = [];
-        const addAlt = (url: string, hreflang: string) => {
-          if (url.includes('/en-AU/phone-system') || url.includes('/en-GB/phone-system')) return;
-          if (hreflang === 'en-GB' || url.includes('/en-GB')) {
-            const enGBMatch = url.match(/\/en-GB(?:\/(.*))?$/);
-            if (enGBMatch) {
-              const urlPath = (enGBMatch[1] || '').replace(/\/$/, '');
-              if (shouldOmitEnGBUrl(urlPath)) return;
-            }
-          }
-          const k = `${url}|${hreflang}`;
-          if (!alternateUrlsSet.has(k)) {
-            alternateUrlsSet.add(k);
-            alternateUrlsList.push({ url, hreflang });
-          }
-        };
-        locales.forEach(l => {
-          const p = localeMap[l];
-          if (p != null && allowLocalePathForAlternate(p) && !shouldOmitEnUrl(p, l) && !(l === 'en-GB' && shouldOmitEnGBUrl(p))) addAlt(buildUrl(p, l), formatHreflang(l));
+        const alternateUrlsList = collectAlternateUrls(path, {
+          baseUrl: BASE_URL,
+          locales,
+          availableLocales: [],
+          allowLocalePathForAlternate,
         });
 
         const alternateUrl = buildUrl(localePath, locale);
         generatedUrls.add(alternateUrl);
         xml += '  <url>\n';
         xml += `    <loc>${escapeXml(alternateUrl)}</loc>\n`;
-        if (formattedAlternateLastmod) {
-          xml += `    <lastmod>${formattedAlternateLastmod}</lastmod>\n`;
-        }
+        xml = appendLastmodLine(xml, alternatePathData?.date);
         if (alternateUrlsList.length > 0) {
           alternateUrlsList.forEach(({ url, hreflang }) => {
             xml += `    <xhtml:link rel="alternate" hreflang="${hreflang}" href="${escapeXml(url)}"/>\n`;
           });
-          // x-default same as loc (this URL)
-          xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(alternateUrl)}"/>\n`;
+          xml += `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(resolveXDefaultUrl(alternateUrlsList, alternateUrl))}"/>\n`;
         }
         xml += '  </url>\n';
       });
@@ -951,11 +727,12 @@ export async function buildVoiceStackSitemapXml(client: any): Promise<string> {
     if (existing) {
       const combinedLocales = new Set([...existing.locales, ...pageData.locales])
       existing.locales = Array.from(combinedLocales)
-      if (pageData.date > existing.date) {
-        existing.date = pageData.date
-      }
+      existing.date = mergeContentDate(existing.date, pageData.date)
     } else {
-      navigationPaths.set(path, { date: pageData.date, locales: pageData.locales })
+      navigationPaths.set(path, {
+        locales: pageData.locales,
+        ...(pageData.date && { date: pageData.date }),
+      })
     }
   })
 

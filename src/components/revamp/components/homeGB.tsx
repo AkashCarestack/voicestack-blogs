@@ -15,6 +15,7 @@ import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSecti
 import SimpleHead from '~/components/common/SimpleHead'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
 import VerticalTestimonialListingv2 from '~/v2/sections/verticalTestimonialSection'
+import PromoBannerButtonSection from '~/v2/sections/PromoBannerButtonSection'
 
 export default function
 HomeGB({
@@ -51,6 +52,7 @@ HomeGB({
         description={heroSectionData?.heroDescription}
         buttons={heroSectionData?.bookBtnContent}
       />
+      <PromoBannerButtonSection region="GB" />
       {/* {featuresData && <CategoryFeatureTabs features={featuresData || []} />} */}
 
       {data['logos-listing']?.componentData && (

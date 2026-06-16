@@ -16,6 +16,7 @@ import CategoryFeatureTabsSection from '~/v2/sections/CategoryFeatureTabsSection
 import CategoryFeatureTabs from '~/components/features/CategoryFeatureTabs'
 import IntegrationsShowcaseSection from '~/v2/sections/IntegrationsShowcaseSection'
 import SimpleHead from '~/components/common/SimpleHead'
+import PromoBannerButtonSection from '~/v2/sections/PromoBannerButtonSection'
 
 export default function 
 HomeAU({
@@ -52,6 +53,7 @@ HomeAU({
         description={heroSectionData?.heroDescription}
         buttons={heroSectionData?.bookBtnContent}
       />
+      <PromoBannerButtonSection region="AU" />
       {pageData['logos-listing']?.componentData && (
         <LogoListingV2 data={pageData['logos-listing']?.componentData.blocksListingData} />
       )}

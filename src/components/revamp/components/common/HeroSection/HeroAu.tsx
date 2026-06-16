@@ -1,5 +1,6 @@
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import React from 'react'
 import Button from '~/components/common/Button'
 import ImageLoader from '~/components/common/imageLoader/imageLoader'
@@ -20,6 +21,9 @@ export default function HeroAU({
   description: any
   buttons: Array<any>
 }) {
+  const router = useRouter()
+  const isUSLocale = router.locale === 'en'
+
   const ThunderSvg = () => {
     return (
       <svg
@@ -67,8 +71,29 @@ export default function HeroAU({
             </h1>
             </div>
             <div className='flex flex-col gap-4 flex-1'>
-            <PortableText value={heading} components={HeroHeadingComponents} />
-            <PortableText value={description} components={descriptionComponents} />
+              {isUSLocale ? (
+                <>
+                  <h2 className="text-gray-950  md:max-w-[607px] w-full font-manrope xl:text-6xl md:text-5xl text-center md:text-left text-3xl font-bold !leading-[116.667%] md:tracking-[-1.8px] tracking-normal">
+                    <span className="block">Did You Know?</span>
+                    <p className='xl:text-[40px] md:text-3xl text-2xl !leading-[120%]'>
+                      <span className=" text-vs-purple">
+                        3 out of 10 Incoming Calls <br />
+                      </span>
+                      <span className="">
+                        Are Missed At Dental Offices
+                      </span>
+                    </p>
+                  </h2>
+                  <p className="md:text-left text-center md:text-lg text-base text-gray-950 leading-normal max-w-[470px] font-normal">
+                    VoiceStack helps you reduce missed calls, re-engage lost opportunities, and measure your staff performance, unlocking up to $50,000 every month.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <PortableText value={heading} components={HeroHeadingComponents} />
+                  <PortableText value={description} components={descriptionComponents} />
+                </>
+              )}
             </div>
             <div className='flex flex-col md:flex-row md:gap-[18px] items-center md:mt-8 mt-6 gap-3'>
             {buttons &&

@@ -41,7 +41,7 @@ const Anchor: React.FunctionComponent<CustomLinkProps> =
       const hrefPath = href.split('?')[0].split('#')[0]
       const isThankYouPage = hrefPath.includes('/thank-you')
       const isDemoDestination =
-        hrefPath === '/demo' || (hrefPath.length > 0 && hrefPath.endsWith('/demo'))
+        hrefPath === '/demo' || (hrefPath?.length > 0 && hrefPath?.endsWith('/demo'));
 
       const queryParams = filterInternalLinkQuery(query, {
         isThankYouPage,

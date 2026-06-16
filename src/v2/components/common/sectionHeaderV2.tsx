@@ -2,14 +2,9 @@ import React from 'react'
 import { SectionHeaderPropsV2 } from '../../../components/revamp/components/common/interface/common'
 import SectionH2 from '~/components/typography/revamp/SectionH2'
 import Button from '~/components/common/Button'
-import LpCtaLabel from '~/components/common/LpCtaLabel'
-import { useLpMangoCopyEnabled } from '~/providers/LpMangoCopyProvider'
-import { resolveLpCtaText } from '~/utils/lpMangoCta'
 import { PortableText, PortableTextReactComponents } from '@portabletext/react'
 
-export default function SectionHeaderV2({ showFullLength = false, demoButton = false, headingMd = false, aiSection = false, ...data }: SectionHeaderPropsV2) {
-  const mangoCopyEnabled = useLpMangoCopyEnabled()
-
+export default function SectionHeaderV2({ showFullLength = false, demoButton = false, headingMd = false, aiSection = false, headingBreakMobile = false, ...data }: SectionHeaderPropsV2) {
   // Check if heading is portable text (array) or string  
   const components: Partial<PortableTextReactComponents> = {
     block: {
@@ -41,6 +36,7 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
             headingSm={data.headingSm}
             headingMd={headingMd}
             aiSection={aiSection}
+            headingBreakMobile={headingBreakMobile}
           />
           {
             Array.isArray(data.description) ? <PortableText value={data.description} components={components} /> :
@@ -56,7 +52,7 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
                     key={`${btn.ctaText}-${key}`}
                     type={btn?.ctaType || 'primary'}
                   >
-                    <span>{resolveLpCtaText(btn.ctaText, mangoCopyEnabled)}</span>
+                    <span>{btn.ctaText}</span>
                   </Button>
                 )
               })}
@@ -65,7 +61,7 @@ export default function SectionHeaderV2({ showFullLength = false, demoButton = f
           {demoButton && (
             <div className={`flex mt-8 ${data.isLeftAlign ? 'justify-start' : 'justify-center'}`}>
               <Button type="primary" link="/demo">
-                <LpCtaLabel>Book Free Demo</LpCtaLabel>
+                <span>Book Free Demo</span>
               </Button>
             </div>
           )}

@@ -66,19 +66,22 @@ export default function SimpleHead({ data, noindex = false }: SimpleHeadProps) {
       {ogDescription && <meta name="twitter:description" content={ogDescription}/>}
       {data?.ogImage && <meta name="twitter:image" content={data.ogImage} />}
 
-      {isIndexable && alternatePaths.length > 0 && alternatePaths.map((item: AlternatePath) => (
+
+      
+      
+      {alternatePaths.length > 0 && alternatePaths.map((item: AlternatePath) => (
         <link
           key={`${item.locale}-${item.path}`}
           rel="alternate"
-          href={stripTrackingParams(item.path)}
+          href={item.path}
           hrefLang={item.locale}
         />
       ))}
 
-      {isIndexable && defaultUrl && (
+      {defaultUrl && (
         <link
           rel="alternate"
-          href={stripTrackingParams(defaultUrl)}
+          href={defaultUrl}
           hrefLang="x-default"
         />
       )}

@@ -152,7 +152,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
               {/* Breadcrumb Item */}
               {isLast ? (
                 <span className="text-gray-950/60 font-medium text-sm whitespace-nowrap">
-                  {item.label}
+                  {item.label?.includes('Ai') ? item.label.replace('Ai', 'AI') : item.label}
                 </span>
               ) : (
                 <Anchor

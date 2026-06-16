@@ -10,6 +10,7 @@ interface SectionH2Props {
   headingMd?: boolean
   showFullLength?: boolean
   aiSection?: boolean
+  headingBreakMobile?: boolean
 }
 
 const SectionH2: React.FC<SectionH2Props> = ({
@@ -19,7 +20,8 @@ const SectionH2: React.FC<SectionH2Props> = ({
   headingSm = false,
   headingMd = false,
   showFullLength = false,
-  aiSection = false
+  aiSection = false,
+  headingBreakMobile = false
 }) => {
 
   const textStyle = {
@@ -67,7 +69,7 @@ const SectionH2: React.FC<SectionH2Props> = ({
 
   // Base classes matching sectionHeaderV2 h2 styling
   // Note: width constraint removed from h2 as parent div handles it
-  const baseClasses = `[&_br]:hidden md:[&_br]:block !leading-[116%] mb-3 tracking-tight font-manrope font-semibold `
+  const baseClasses = `${headingBreakMobile ? '[&_br]:block' : '[&_br]:hidden'} md:[&_br]:block !leading-[116%] mb-3 tracking-tight font-manrope font-semibold `
   
   const sizeClasses = headingSm 
     ? 'text-xl lg:text-2xl font-medium' 

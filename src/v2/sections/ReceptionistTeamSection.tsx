@@ -150,7 +150,7 @@ export default function ReceptionistTeamSection({ data }: ReceptionistTeamSectio
         slidesToShow: 3,
         slidesToScroll: 1,
         autoplaySpeed: 2000,
-        autoplay: true,
+        autoplay: false,
         pauseOnHover: false,
         arrows: true,
         cssEase: "linear",

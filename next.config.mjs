@@ -1,5 +1,6 @@
 import path from "path";
 import { fileURLToPath } from "url";
+import notFoundRedirects from "./404redirects.mjs";
 
 import {
   resourcesTurbopackAliases,
@@ -66,9 +67,8 @@ const config = {
   },
 
   async redirects() {
-   
     return [
-      
+      ...notFoundRedirects,
       {
         source: '/legal/privacy-policy',
         destination: '/legal/2025-01/privacy-policy',

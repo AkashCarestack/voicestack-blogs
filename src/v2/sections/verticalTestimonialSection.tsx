@@ -9,6 +9,23 @@ import { VideoItem, VideoModal } from '~/components/common/VideoModal'
 import SectionHeaderV2 from '~/v2/components/common/sectionHeaderV2'
 import Container from '~/components/structure/Container'
 import Section from '~/components/structure/Section'
+import WordRotate from '~/components/ui/word-rotate'
+
+const TESTIMONIAL_ROTATING_WORDS = ['Groups and Enterprises', 'Dentists', 'Physical Therapists', 'Veterinarians', 'Optometrists']
+
+const createTestimonialRotatingHeading = () => (
+  <>
+    <span>The Trusted Phone System For</span>
+    <br />
+    <span>
+      {' '}
+      <WordRotate
+        words={TESTIMONIAL_ROTATING_WORDS}
+        asSpan={true}
+      />
+    </span>
+  </>
+)
 
 // PrevArrow.tsx
 const PrevArrow = ({ onClick, currentSlide }: any) => {
@@ -349,6 +366,7 @@ const VerticalTestimonialListing = ({
   hideTitle = false,
   hideLogo = false,
   demoCta = false,
+  showRotatingWordsHeading = false,
 }) => {
 
   // console.log("ms data", data);
@@ -377,18 +395,20 @@ const VerticalTestimonialListing = ({
     return {
       testimonial,
       heading,
-      description,
+      description
     }
   }, [data])
 
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isUk, setIsUk] = useState(false)
+  const [isUs, setIsUs] = useState(false)
   const [slidesToShow, setSlidesToShow] = useState(5) // Default to 5 slides
   const [showArrows, setShowArrows] = useState(true)
   const router = useRouter()
 
   useEffect(() => {
     setIsUk(router.locale == 'en-GB')
+    setIsUs(router.locale == 'en')
   }, [router.locale])
 
   const [isOpen, setIsOpen] = useState(false)
@@ -508,7 +528,12 @@ const VerticalTestimonialListing = ({
         <div className="flex flex-col items-center w-full gap-16">
           <SectionHeaderV2
             className='xl:px-12 md:px-6 px-4'
-            heading={normalizedData?.heading}
+            heading={
+              showRotatingWordsHeading
+                ? createTestimonialRotatingHeading()
+                : normalizedData?.heading
+            }
+            headingBreakMobile= {true}
             description={normalizedData?.description}
             demoButton={showBookFeeBtn || demoCta}
           />
