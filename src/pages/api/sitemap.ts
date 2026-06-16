@@ -933,53 +933,54 @@ async function generateSiteMap(
   return xml;
 }
 
+/** Public entry for regional sitemap merge — generator logic unchanged. */
+export async function buildVoiceStackSitemapXml(client: any): Promise<string> {
+  const [navigationPaths, featurePaths] = await Promise.all([
+    getNavigationPaths(client),
+    getFeaturePaths(client),
+  ])
+
+  const allPathsSet = new Set<string>()
+  navigationPaths.forEach((_, p) => allPathsSet.add(p))
+  featurePaths.forEach((_, p) => allPathsSet.add(p))
+
+  const pageDates = await getPageDocumentDates(client, allPathsSet)
+
+  pageDates.forEach((pageData, path) => {
+    const existing = navigationPaths.get(path)
+    if (existing) {
+      const combinedLocales = new Set([...existing.locales, ...pageData.locales])
+      existing.locales = Array.from(combinedLocales)
+      if (pageData.date > existing.date) {
+        existing.date = pageData.date
+      }
+    } else {
+      navigationPaths.set(path, { date: pageData.date, locales: pageData.locales })
+    }
+  })
+
+  return generateSiteMap(navigationPaths, featurePaths, client)
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
 ) {
   try {
-    const client = getClient(req.preview ? { token: readToken } : undefined);
-    const [navigationPaths, featurePaths] = await Promise.all([
-      getNavigationPaths(client),
-      getFeaturePaths(client)
-    ]);
-    
-    // Get page document dates and locales for paths that might have corresponding page documents
-    const allPathsSet = new Set<string>();
-    navigationPaths.forEach((_, p) => allPathsSet.add(p));
-    featurePaths.forEach((_, p) => allPathsSet.add(p));
-    
-    const pageDates = await getPageDocumentDates(client, allPathsSet);
-    
-    // Merge page dates and locales into navigation paths (prefer page document dates if available)
-    pageDates.forEach((pageData, path) => {
-      const existing = navigationPaths.get(path);
-      if (existing) {
-        // Merge locales
-        const combinedLocales = new Set([...existing.locales, ...pageData.locales]);
-        existing.locales = Array.from(combinedLocales);
-        // Use most recent date
-        if (pageData.date > existing.date) {
-          existing.date = pageData.date;
-        }
-      } else {
-        navigationPaths.set(path, { date: pageData.date, locales: pageData.locales });
-      }
-    });
-    
-    const sitemap = await generateSiteMap(navigationPaths, featurePaths, client);
+    const client = getClient(req.preview ? { token: readToken } : undefined)
+    const sitemap = await buildVoiceStackSitemapXml(client)
     
     // Set headers explicitly before sending response
     res.writeHead(200, {
       'Content-Type': 'text/xml; charset=utf-8',
       'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400'
-    });
+    })
     
     // Send XML response
-    res.end(sitemap);
-    return;
+    res.end(sitemap)
+    return
   } catch (error) {
-    console.error('Sitemap generation error:', error);
-    res.status(500).json({ error: 'Failed to generate sitemap', details: error instanceof Error ? error.message : 'Unknown error' });
+    console.error('Sitemap generation error:', error)
+    res.status(500).json({ error: 'Failed to generate sitemap', details: error instanceof Error ? error.message : 'Unknown error' })
   }
 }

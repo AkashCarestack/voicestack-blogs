@@ -3,6 +3,8 @@ import Anchor from './anchor';
 import useMediaQuery from '~/utils/mediaQuery';
 import SparklesIconFill from '../revamp/icons/SparklesIconFill';
 import { ChevronDown } from 'lucide-react';
+import FeaturesMegaMenu, { isFeaturesMegaMenuLink } from './FeaturesMegaMenu';
+import { useLayoutData } from '~/providers/LayoutDataProvider';
 
 const NavigationMenu = ({
   menuItems,
@@ -14,6 +16,7 @@ const NavigationMenu = ({
   onCloseMenu: () => void;
 }) => {
   const isMobile = useMediaQuery(1023);
+  const { featuresData } = useLayoutData();
   const [openSubmenus, setOpenSubmenus] = useState<Set<number>>(new Set());
   
   const toggleSubmenu = (index: number) => {
@@ -38,8 +41,10 @@ const NavigationMenu = ({
           const hasSubmenu = link?.hasSubmenu && link?.submenu?.length > 0;
 
           if (hasSubmenu) {
+            const isFeaturesMenu = isFeaturesMegaMenuLink(link);
+
             // In mobile, add "Overview" link as first submenu item
-            const submenuItems = isMobile && link.href 
+            const submenuItems = isMobile && link.href && !isFeaturesMenu
               ? [{ label: 'Overview', href: link.href, description: null }, ...link.submenu]
               : link.submenu;
             // console.log(submenuItems);
@@ -69,6 +74,25 @@ const NavigationMenu = ({
                     />
                   </div>
                 )}
+                {isFeaturesMenu && featuresData?.length > 0 ? (
+                  isMobile ? (
+                    isSubmenuOpen ? (
+                      <FeaturesMegaMenu
+                        features={featuresData}
+                        overviewHref={link.href}
+                        onNavigate={onCloseMenu}
+                        variant="mobile"
+                      />
+                    ) : null
+                  ) : (
+                    <FeaturesMegaMenu
+                      features={featuresData}
+                      overviewHref={link.href}
+                      onNavigate={onCloseMenu}
+                      variant="desktop"
+                    />
+                  )
+                ) : (
                 <ul className={`lg:absolute static top-full left-0 ${isMobile ? 'mt-0' : 'mt-2'} w-full lg:w-80 bg-white ${isMobile ? 'rounded-none' : 'rounded-lg'} lg:shadow-lg lg:border border-gray-200 ${isMobile ? (isSubmenuOpen ? 'block' : 'hidden') : 'opacity-0 invisible group-hover:opacity-100 group-hover:visible'} transition-all duration-200 z-50 list-none m-0 py-2`}>
                   {submenuItems.map((subItem: any, subIndex: number) => (
                     <li key={`submenu-${i}-${subIndex}`} className="list-none">
@@ -84,6 +108,7 @@ const NavigationMenu = ({
                     </li>
                   ))}
                 </ul>
+                )}
               </li>
             );
           }

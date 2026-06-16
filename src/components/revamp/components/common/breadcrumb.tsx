@@ -1,7 +1,9 @@
 import React, { useMemo, useState, useEffect } from 'react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Anchor from '~/components/common/anchor'
 import Container from '~/components/structure/Container'
+import { buildBreadcrumbListJsonLd } from '~/lib/jsonLd'
 
 interface BreadcrumbProps {
   breadCrumb?: any
@@ -85,6 +87,11 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     })
   }, [router.asPath.split('?')[0].split('#')[0], breadCrumb])
 
+  const breadcrumbJsonLd = useMemo(
+    () => buildBreadcrumbListJsonLd(breadcrumbItems),
+    [breadcrumbItems],
+  )
+
   // Don't render if we're on the home page
   if (breadcrumbItems.length === 0) {
     return null
@@ -92,6 +99,13 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
   return (
     <Container className={`py-0 ${hasStripBanner ? 'pt-[48px] md:pt-[48px]' : ''} ${className}`}>
+      <Head>
+        <script
+          type="application/ld+json"
+          id="breadcrumb-jsonld"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        />
+      </Head>
       <style dangerouslySetInnerHTML={{
         __html: `
           .breadcrumb-nav::-webkit-scrollbar {

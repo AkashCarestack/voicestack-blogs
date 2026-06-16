@@ -1,0 +1,1 @@
+../../../../resources/src/pages/api/content.ts

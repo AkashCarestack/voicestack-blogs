@@ -21,10 +21,13 @@
       }
     ],
     "paths": {
+      "~/resources/*": ["./resources/src/*"],
+      "~/resources/integration/*": ["./resources/integration/*"],
+      "~/resources-config/*": ["./resources/config/*"],
       "~/assets/*": ["./public/assets/*"],
       "~/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts","src", "global.d.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts","src", "resources/src", "resources/integration", "global.d.ts"],
   "exclude": ["node_modules"]
 }

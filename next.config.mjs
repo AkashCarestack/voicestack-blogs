@@ -1,6 +1,14 @@
-
 import path from "path";
 import { fileURLToPath } from "url";
+
+import {
+  resourcesTurbopackAliases,
+  resourcesWebpackAliases,
+} from './resources/integration/aliases.mjs'
+import { resourceRedirects } from './resources/integration/redirects.mjs'
+import {
+  resourceRewritesBeforeFiles,
+} from './resources/integration/rewrites.mjs'
 
 /** @type {import('next').NextConfig} */
 const __filename = fileURLToPath(import.meta.url);
@@ -11,6 +19,9 @@ const config = {
   },
   turbopack:{
     root: path.resolve(__dirname),
+    resolveAlias: {
+      ...resourcesTurbopackAliases,
+    },
   },
   images: {
     remotePatterns: [
@@ -44,6 +55,7 @@ const config = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '~/assets': path.resolve(__dirname, 'public/assets'),
+      ...resourcesWebpackAliases,
     };
     return config;
   },
@@ -141,6 +153,7 @@ const config = {
         permanent: false,
         locale: false,
       },
+      ...resourceRedirects,
       {
         source: '/',
         has: [
@@ -153,65 +166,26 @@ const config = {
   },
 
   async rewrites() {
-   
-    return [
-      {
-        source: '/sitemap.xml',
-        destination: '/api/sitemap',
-      },
-      // {
-      //   source: '/en-gb',
-      //   destination: 'https://voicestack-engb.vercel.app/en-GB',
-      // },
-      // {
-      //   source: '/en-gb/:path*',
-      //   destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
-      // },
-      // {
-      //   source: '/en-GB',
-      //   destination: 'https://voicestack-engb.vercel.app/en-GB',
-      // },
-      // {
-      //   source: '/en-GB/:path*',
-      //   destination:'https://voicestack-engb.vercel.app/en-GB/:path*',
-      // },
-      
-      {
-        source: '/en-gb',
-        destination: '/en-GB',
-        locale: false,
-      },
-      {
-        source: '/en-gb/:path*',
-        destination: '/en-GB/:path*',
-        locale: false,
-      },
-      {
-        source: '/en-au/:path*',
-        destination: '/en-AU/:path*',
-        locale: false,
-      },
-      // {
-      //   source: '/en-au',
-      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
-        
-      // },
-      // {
-      //   source: '/en-AU',
-      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU',
-      
-      // },
-      // {
-      //   source: '/en-au/:path',
-      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path',
-      
-      // },
-      // {
-      //   source: '/en-AU/:path*',
-      //   destination: 'https://voicestack-sanity-hkz4.vercel.app/en-AU/:path*',
-       
-      // }
-    ];
+    return {
+      beforeFiles: [
+        ...resourceRewritesBeforeFiles,
+        {
+          source: '/en-gb',
+          destination: '/en-GB',
+          locale: false,
+        },
+        {
+          source: '/en-gb/:path*',
+          destination: '/en-GB/:path*',
+          locale: false,
+        },
+        {
+          source: '/en-au/:path*',
+          destination: '/en-AU/:path*',
+          locale: false,
+        },
+      ],
+    }
   },
   
 }

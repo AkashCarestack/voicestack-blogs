@@ -1,77 +1,49 @@
-import React from 'react';
-import Image from 'next/image';
-import Link from 'next/link';
-import Anchor from './anchor';
+import React from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import Anchor from './anchor'
 
-// Region type definition
 export type Region = {
   flag: {
-    url: string;
-    title: string;
-  };
-  url: string;
-  title: string;
-  locale: string;
-  regionName: string;
-};
-
-// Helper function to remove slug and practiceType from query string
-const removeSlugFromQuery = (queryString: string): string => {
-  if (!queryString) {
-    return '';
+    url: string
+    title: string
   }
-  const queryParams = queryString.startsWith('?') ? queryString.substring(1) : queryString;
-  const params = new URLSearchParams(queryParams);
-  params.delete('slug');
-  params.delete('practiceType'); // Exclude practiceType from region switcher links
-  return params.toString() ? `?${params.toString()}` : '';
-};
+  url: string
+  title: string
+  locale: string
+  regionName: string
+}
 
-// Helper function to safely add flag=true without duplication and remove slug
-const getHrefWithFlag = (queryString: string): string => {
-  const cleanQueryString = removeSlugFromQuery(queryString);
-  
-  if (!cleanQueryString) {
-    return '/?flag=true';
-  }
-  
-  const params = new URLSearchParams(cleanQueryString.substring(1));
-  if (params.has('flag') && params.get('flag') === 'true') {
-    return `/${cleanQueryString}`;
-  }
-  // Add flag=true to existing query string
-  return `/${cleanQueryString}&flag=true`;
-};
+const getHrefWithFlag = (): string => '/?flag=true'
 
-// Sub-components
 export const RegionFlag = ({
   region,
   size = 18,
   className = '',
 }: {
-  region: Region;
-  size?: number;
-  className?: string;
+  region: Region
+  size?: number
+  className?: string
 }) => (
   <Image src={region.flag.url} alt={region.flag.title} title={region.flag.title} width={size} height={size} className={className} />
-);
+)
 
 export const RegionSwitcherDropdown = ({
   regions,
   currentLocale,
-  queryString,
+  queryString: _queryString,
   toggleRef,
   openSwitcher,
   setOpenSwitcher,
 }: {
-  regions: Region[];
-  currentLocale: string | null;
-  queryString: string;
-  toggleRef: React.RefObject<HTMLSpanElement>;
-  openSwitcher: boolean;
-  setOpenSwitcher: (open: boolean) => void;
+  regions: Region[]
+  currentLocale: string | null
+  queryString: string
+  toggleRef: React.RefObject<HTMLSpanElement>
+  openSwitcher: boolean
+  setOpenSwitcher: (open: boolean) => void
 }) => {
-  const matchedRegion = regions.find((r) => r.locale === currentLocale);
+  const matchedRegion = regions.find((r) => r.locale === currentLocale)
 
   return (
     <div className="relative hidden lg:flex">
@@ -101,7 +73,7 @@ export const RegionSwitcherDropdown = ({
           ) : (
             <Anchor
               key={`${index}-${region.flag.url}`}
-              href={getHrefWithFlag(queryString)}
+              href={getHrefWithFlag()}
               locale={region.locale}
               className="flex gap-2 items-center py-[6px] pl-[12px] border-b border-gray-200 last:border-none hover:bg-gray-200 transition-all duration-300 ease-linea"
             >
@@ -112,19 +84,19 @@ export const RegionSwitcherDropdown = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 export const MobileRegionSwitcher = ({
   regions,
   currentLocale,
-  queryString,
+  queryString: _queryString,
   onClose,
 }: {
-  regions: Region[];
-  currentLocale: string | null;
-  queryString: string;
-  onClose: () => void;
+  regions: Region[]
+  currentLocale: string | null
+  queryString: string
+  onClose: () => void
 }) => {
   return (
     <div className="bg-white flex gap-5 justify-center items-center lg:hidden">
@@ -136,7 +108,7 @@ export const MobileRegionSwitcher = ({
         ) : (
           <Anchor
             key={`${index}-${region.flag.url}`}
-            href={getHrefWithFlag(queryString)}
+            href={getHrefWithFlag()}
             locale={region.locale}
             className="flex gap-2 items-center"
             onClick={onClose}
@@ -146,21 +118,21 @@ export const MobileRegionSwitcher = ({
         )
       )}
     </div>
-  );
-};
+  )
+}
 
 export const RegionPopup = ({
   currentRegion,
   preferredLocale,
-  queryString,
+  queryString: _queryString,
   regions,
   onClose,
 }: {
-  currentRegion: string;
-  preferredLocale: string;
-  queryString: string;
-  regions: Region[];
-  onClose: () => void;
+  currentRegion: string
+  preferredLocale: string
+  queryString: string
+  regions: Region[]
+  onClose: () => void
 }) => (
   <div className="fixed bg-[hsla(0,0%,9%,0.6)] h-screen w-screen z-[999] top-0 left-0 flex justify-center items-center">
     <div className="bg-white mx-auto pt-10 p-6 rounded-lg flex items-center flex-col gap-6 relative w-[310px]">
@@ -169,7 +141,7 @@ export const RegionPopup = ({
       </p>
       <Anchor
         className="bg-vs-blue hover:bg-vs-blue text-white border border-vs-blue px-[17px] py-[10px] rounded-[7px] font-inter text-base font-medium leading-6 flex items-center whitespace-nowrap gap-[8px]"
-        href={queryString ? `/${queryString}` : '/'}
+        href="/"
         locale={preferredLocale}
         onClick={onClose}
       >
@@ -185,7 +157,7 @@ export const RegionPopup = ({
             .map((region, index) => (
               <Link
                 key={`${index}-${region.regionName}`}
-                href={queryString ? `/${queryString}` : '/'}
+                href="/"
                 locale={region.locale}
                 className="flex py-[6px] px-3 rounded-[4px] text-xs font-medium text-gray-400 hover:bg-gray-100"
                 onClick={onClose}
@@ -197,5 +169,4 @@ export const RegionPopup = ({
       </div>
     </div>
   </div>
-);
-
+)

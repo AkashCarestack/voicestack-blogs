@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const { RESOURCES_TAILWIND_CONTENT } = require('./resources/integration/constants.js')
+
 module.exports = {
     darkMode: ["class"],
     content: [
@@ -8,6 +10,7 @@ module.exports = {
  
 
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    RESOURCES_TAILWIND_CONTENT,
   ],
   safelist: [
     'bg-[#4A3CE1]',
@@ -80,6 +83,14 @@ module.exports = {
 				'vs-purple': '#4a3ce1',
 				'vs-purple-50': '#E0DDFF',
 				'vs-lemon-green': '#B5EB92',
+				'cs-black': '#151515',
+				'cs-gray-900': '#18181B',
+				'cs-gray-500': '#52525B',
+				'cs-gray-400': '#A1A1AA',
+				'cs-dark-500': '#202124',
+				'cs-darkBlack': '#000',
+				'cs-primary': '#42BA78',
+				'cs-zinc': '#1a1d23',
   		},
   		animation: {
   			'shiny-text': 'shiny-text 8s infinite',
@@ -121,32 +132,36 @@ module.exports = {
 			'blur-pattern':'linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.50) 100%)',
 			'vs-blue-purple':'linear-gradient(90deg, #4A3CE1 -0.5%, #FF708C 99.96%)',
 			'tab-hover-gradient': 'linear-gradient(0deg, #FFF 0%, #FFF 100%), linear-gradient(90deg, #2F14C9 0%, #4A3CE1 100%)',
+			'gradient-text': 'linear-gradient(90deg, #FEF08A 0%, #60A5FA 100%)',
+			'gradient-text2': 'linear-gradient(90deg, #854D0E 0%, #3730A3 100%)',
 			},
 			spacing: {
         'lg': '130px',
 				'md': '96px',
 				'sm': '64px',
-				'xs': '48px' 
+				'xs': '48px',
+				headerSpacer: '115px',
+				headerSpacerMob: '64px',
       },
 			maxWidth: {
-        '7xl': '1272px', // Define a custom max-width value
+        '7xl': '1272px',
+				'9xl': '82rem',
       },
+			fontSize: {
+				h1: '3.5rem',
+				h2: '2.5rem',
+			},
+			letterSpacing: {
+				tighterText: '-0.48px',
+			},
 			screens: {
         'md-maxh-800': {'raw': '(min-width: 768px) and (max-height: 800px)'},
         'md-maxh-700': {'raw': '(min-width: 768px) and (max-height: 700px)'},
         'maxh-600': {'raw': '(max-height: 600px)'},
       },
-			spacing: {
-        'lg': '130px',
-				'md': '96px',
-				'sm': '64px',
-				'xs': '48px' 
-      },
-			maxWidth: {
-        '7xl': '1272px', // Define a custom max-width value
-      },
 	  boxShadow: {
         'custom-light': '0px 6px 20px 0px rgba(0, 0, 0, 0.05)',
+				custom: '0px 10px 70px 0px rgba(0, 0, 0, 0.15)',
 		glow: '-7px 0 10px 0 rgba(251,111,142,0.5), 7px 0 10px 0 rgba(74,60,225,0.5)',
       },
   	}

@@ -113,7 +113,6 @@ const BannerSection = ({data, refer=null, cta=false}) => {
             </div>
         </div>
       </Container>
-      {/* <div className='absolute h-[100px] bg-[url("../../public/assets/dome.svg")]'></div> */}
       <div className='absolute h-[80px] md:h-[205px] bg-[url(/assets/wave.svg)] w-full left-0 bottom-0 bg-cover bg-repeat-x bg-left-bottom'></div>
       <Image src={Dome} alt='dome' className='absolute left-[50%] bottom-0 -translate-x-[50%] w-[100%] max-w-[1002px]'></Image>
       <div>

@@ -1,8 +1,9 @@
 /* globals.css */
-import '~/styles/global.css'  
+import '~/styles/global.css'
+import '~/resources/styles/global.scss'
 import track, { getDeviceData } from 'cs-tracker'
 import { GeistSans } from 'geist/font/sans';
-import type { AppProps } from 'next/app'
+import type { AppProps, AppContext } from 'next/app'
 import { Inter, Manrope } from 'next/font/google'
 import { useRouter } from 'next/router'
 import Script from 'next/script'
@@ -19,7 +20,11 @@ import { getSession } from '~/utils/tracker/session'
 import { getUser } from '~/utils/tracker/user'
 import { getClient } from '~/lib/sanity.client'
 import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData, getSchemaData, getFeaturesForLayout } from '~/lib/sanity.queries'
-import type { AppContext } from 'next/app'
+import {
+  isResourcesRoute,
+  ResourcesApp,
+  resourcesGetInitialProps,
+} from '~/resources/integration/appBridge'
 import Layout from '../components/Layout'
 import ProgressLoader from '../components/common/ProgressLoader'
 import posthog from 'posthog-js'
@@ -349,7 +354,22 @@ const TrackWrapper = track(
   // }
 )(App);
 
-export default TrackWrapper;
+function RootApp(props: AppProps<SharedPageProps>) {
+  const router = useRouter()
+  if (isResourcesRoute(router.pathname)) {
+    return <ResourcesApp {...props} />
+  }
+  return <TrackWrapper {...props} />
+}
+
+RootApp.getInitialProps = async (appContext: AppContext) => {
+  if (isResourcesRoute(appContext.router.pathname)) {
+    return resourcesGetInitialProps(appContext)
+  }
+  return App.getInitialProps!(appContext)
+}
+
+export default RootApp;
 
 
 function dispatchEvent(data: any) {      

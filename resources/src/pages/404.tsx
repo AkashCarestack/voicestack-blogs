@@ -1,0 +1,111 @@
+import { GetStaticProps } from 'next';
+import React from 'react';
+
+import Button from '~/resources/components/commonSections/Button';
+import { GlobalDataProvider } from '~/resources/components/Context/GlobalDataContext';
+import Layout from '~/resources/components/Layout';
+import Section from '~/resources/components/Section';
+import Wrapper from '~/resources/layout/Wrapper';
+import { readToken } from '~/resources/lib/sanity.api'
+import { getClient } from '~/resources/lib/sanity.client'
+import {
+  getCategories,
+  getFooterData,
+  getHomeSettings,
+  getSiteSettings,
+  getTags,
+  getTagsByOrder,
+} from '~/resources/lib/sanity.queries'
+import type { SharedPageProps } from '~/resources/pages/_app'
+
+// import { GlobalDataProvider } from '../context/GlobalDataProvider';
+import Header from '../layout/Header';
+
+interface IndexPageProps {
+  footerData: unknown;
+  categories: any;
+  tags: Array<any>
+  homeSettings: any
+}
+
+export const getStaticProps: GetStaticProps<
+  SharedPageProps
+> = async ({ draftMode = false }) => {
+  const client = getClient(draftMode ? { token: readToken } : undefined)
+
+  try {
+    const [
+      tags,
+      tagsByOrder,
+      homeSettings,
+      siteSettings,
+      categories,
+      footerData
+    ] = await Promise.all([
+      getTags(client),
+      getTagsByOrder(client),
+      getHomeSettings(client),
+      getSiteSettings(client),
+      getCategories(client),
+      getFooterData(client)
+    ])
+
+    return {
+      props: {
+        draftMode,
+        token: draftMode ? readToken : '',
+        tags,
+        tagsByOrder,
+        homeSettings,
+        siteSettings,
+        categories,
+        footerData
+      },
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    return {
+      props: {
+        draftMode,
+        token: draftMode ? readToken : '',
+        posts: [],
+        tags: [],
+        homeSettings: [],
+        error: true,
+      },
+    }
+  }
+}
+
+const Custom404 = (props: IndexPageProps) => {
+  const homeSettings = props?.homeSettings
+  
+  
+
+   return (
+    <GlobalDataProvider
+      data={props?.categories}
+      featuredTags={homeSettings?.featuredTags}
+      homeSettings={homeSettings}
+      footerData={props?.footerData}
+    >
+    
+      <Layout >
+        <Section className="justify-center ">
+          <Wrapper className={`flex-col `}>
+          <div className='min-h-[40vh] flex flex-col justify-center  items-center text-center gap-10'>
+              <h1 className='text-xl md:text-2xl text-zinc-800'><span className='font-bold md:text-3xl'>404</span> - This page could not be found.</h1>
+              <div className='self-center flex justify-center'>
+                <Button className='bg-zinc-900  hover:bg-zinc-700 !no-underline' link="/">
+                  <span className='text-base font-medium'>Go to Home Page</span>
+                </Button>
+              </div>
+          </div>
+          </Wrapper>
+        </Section>
+      </Layout>
+    </GlobalDataProvider>
+   );
+};
+
+export default Custom404;

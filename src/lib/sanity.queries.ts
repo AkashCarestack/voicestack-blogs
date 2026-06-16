@@ -2254,6 +2254,54 @@ export async function getFeaturesByCategory(client: SanityClient, categoryId: st
   return await client.fetch(getFeaturesByCategoryQuery, { categoryId })
 }
 
+export const getFeatureRelatedFeaturesQuery = groq`
+  *[_type == "features" && basicInfo.slug.current == $slug && language == $language][0] {
+    _id,
+    "categoryId": featureCategory._ref,
+    "cmsRelated": content.sections[].component.genericListingComponent.relatedFeatures[]->{
+      _id,
+      basicInfo {
+        title,
+        slug,
+        description
+      }
+    }
+  }
+`
+
+export async function getRelatedFeaturesForFeaturePage(
+  client: SanityClient,
+  slug: string,
+  language: string = 'en',
+): Promise<any[]> {
+  const result = await client.fetch(getFeatureRelatedFeaturesQuery, { slug, language })
+  if (!result) return []
+
+  const cmsRelated = (result.cmsRelated || [])
+    .flat()
+    .filter((feature: any) => feature?._id && feature._id !== result._id)
+
+  const uniqueCms = cmsRelated.filter(
+    (feature: any, index: number, arr: any[]) =>
+      arr.findIndex((item) => item._id === feature._id) === index,
+  )
+
+  if (uniqueCms.length > 0) {
+    return uniqueCms.slice(0, 6)
+  }
+
+  if (!result.categoryId) return []
+
+  const byCategory = await getFeaturesByCategory(client, result.categoryId)
+  return byCategory
+    .filter((feature: any) => {
+      const featureSlug =
+        feature?.basicInfo?.slug?.current || feature?.basicInfo?.slug || ''
+      return featureSlug && featureSlug !== slug
+    })
+    .slice(0, 4)
+}
+
 // Get all feature categories with their associated features
 export async function getFeatureCategoriesWithCount(client: SanityClient): Promise<any[]> {
   return await client.fetch(getFeatureCategoriesWithCountQuery)

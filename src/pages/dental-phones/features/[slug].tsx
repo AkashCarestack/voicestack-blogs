@@ -7,9 +7,11 @@ import CallFlowAnalyticsSection from '~/v2/components/CallFlowAnalyticsSection'
 import Breadcrumb from '~/components/revamp/components/common/breadcrumb'
 import CardWIthGraph from '~/components/revamp/components/common/cardWIthGraph'
 import FaqSection from '~/components/revamp/components/common/faqSection'
+import RelatedFeaturesSection from '~/components/revamp/components/common/RelatedFeaturesSection'
 import VerticalTestimonialListing from '~/components/revamp/components/common/VerticalTestimonialListing/VerticalTestimonialListing'
 import Queries from '~/components/revamp/queries'
 import { getClient } from '~/lib/sanity.client'
+import { getRelatedFeaturesForFeaturePage } from '~/lib/sanity.queries'
 import FeatureHero from '~/v2/sections/FeatureHero'
 import FeatureTestimonialsSection from '~/v2/sections/FeatureTestimonialsSection'
 import GroupedCardsGridSection from '~/v2/sections/GroupedCardsGridSection'
@@ -21,6 +23,7 @@ interface FeaturePageProps {
   faq: any
   region: string
   slug: string
+  relatedFeatures: any[]
 }
 
 export default function FeaturePage({
@@ -28,6 +31,7 @@ export default function FeaturePage({
   faq,
   region,
   slug,
+  relatedFeatures,
 }: FeaturePageProps) {
   return (
     <>
@@ -90,6 +94,9 @@ export default function FeaturePage({
         <CardWIthGraph
           data={pageData['better-decisions']?.genericListingComponent}
         />
+      )}
+      {relatedFeatures?.length > 0 && (
+        <RelatedFeaturesSection features={relatedFeatures} />
       )}
       {faq && <FaqSection faqItems={faq} />}
     </>
@@ -168,12 +175,20 @@ export const getStaticProps: GetStaticProps = async ({ params, locale }) => {
     const faqData =
       pageData?.faqData?.[0] || pageData?.faqReferenced?.[0] || null
 
+    const client = getClient()
+    const relatedFeatures = await getRelatedFeaturesForFeaturePage(
+      client,
+      slug,
+      region,
+    )
+
     return {
       props: {
         pageData: pageData || null,
         region: region,
         faq: faqData,
         slug: slug,
+        relatedFeatures,
       },
     }
   } catch (error) {

@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.tags-slider {
+  .swiper-slide {
+    width: fit-content !important;
+  }
+}
+
+@layer utilities {
+  html {
+    background-color: #fff;
+    font-family: 'Inter';
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body,
+  #__next {
+    display: block;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'Inter';
+    color: #151515;
+  }
+
+  .slider-mask {
+    &::before {
+      content: '';
+      position: absolute;
+      left: 32px;
+      top: 0;
+      height: 100%;
+      width: 40px;
+      z-index: 2;
+      background: linear-gradient(90deg, #18181b 0%, rgba(24, 24, 27, 0) 100%);
+
+      @media (min-width: 768px) {
+        width: 10px;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      right: 32px;
+      top: 0;
+      height: 100%;
+      width: 40px;
+      z-index: 2;
+      background: linear-gradient(90deg, rgba(24, 24, 27, 0) 0%, #18181b 100%);
+
+      @media (min-width: 768px) {
+        width: 10px;
+      }
+    }
+  }
+
+  .post__container {
+    @apply mb-9;
+  }
+
+  .post__content {
+    @apply prose prose-sm md:prose-base lg:prose-lg prose-h2:font-manrope prose-h3:font-manrope;
+
+    counter-reset: pt-ordered;
+
+    ol:not(li ol) {
+      list-style-type: none;
+      padding-inline-start: 0;
+    }
+
+    ol:not(li ol) > li {
+      counter-increment: pt-ordered;
+      position: relative;
+      padding-left: 1.75rem;
+    }
+
+    ol:not(li ol) > li::before {
+      content: counter(pt-ordered) '. ';
+      position: absolute;
+      left: 0;
+      font-weight: 400;
+      color: #71717a;
+    }
+
+    li ol {
+      list-style-type: decimal;
+      padding-inline-start: 1.625em;
+    }
+
+    li ol > li {
+      padding-left: 0;
+      position: static;
+    }
+
+    li ol > li::before {
+      content: none;
+    }
+
+    h2 {
+      counter-reset: pt-ordered;
+    }
+
+    // Custom h2 spacing for desktop
+    @media (min-width: 768px) {
+      h2 {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+      }
+    }
+  }
+
+  .post__content blockquote {
+    @apply border-l-4 border-zinc-900;
+  }
+}
+
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeSlideIn {
+  animation: fadeSlideIn 0.3s ease-out forwards;
+}

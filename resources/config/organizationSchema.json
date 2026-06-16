@@ -1,0 +1,87 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://voicestack.com/#organization",
+      "name": "VoiceStack",
+      "url": "https://voicestack.com/",
+      "logo": "https://voicestack.com/assets/schema/schema-logo-voicestack-1200x1200.jpg",
+      "image": "https://voicestack.com/assets/schema/schema-logo-voicestack-1200x1200.jpg",
+      "description": "VoiceStack® is an award-winning, AI-powered phone system that's trusted by thousands of dentists & dental practices.",
+      "slogan": "The Most Advanced AI-Powered Dental Phone System.",
+      "foundingDate": "2024",
+
+      "founder": {
+        "@type": "Person",
+        "@id": "https://voicestack.com/#founder",
+        "name": "Krishnan RV",
+        "jobTitle": "Founder",
+        "url": "https://voicestack.com/company/leadership-team",
+        "sameAs": [
+          "https://www.linkedin.com/company/voice-stack/"
+        ]
+      },
+
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "2954 Mallory Cir #209",
+        "addressLocality": "Kissimmee",
+        "addressRegion": "FL",
+        "postalCode": "34747",
+        "addressCountry": "US"
+      },
+
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "(407) 833-6436",
+          "email": "support@voicestack.com",
+          "contactType": "Customer Service",
+          "areaServed": "US",
+          "availableLanguage": "en",
+          "url": "https://voicestack.com/support"
+        },
+        {
+          "@type": "ContactPoint",
+          "telephone": "(407) 559-6068",
+          "email": "sales.us@voicestack.com",
+          "contactType": "Sales",
+          "areaServed": "US",
+          "availableLanguage": "en",
+          "url": "https://voicestack.com/sales"
+        }
+      ],
+
+      "hasProduct": {
+      "@id": "https://voicestack.com/#software"
+      },
+
+      "sameAs": [
+        "https://www.facebook.com/voicestack/",
+        "https://www.instagram.com/voicestack.ai/",
+        "https://www.linkedin.com/company/voice-stack/",
+        "https://www.youtube.com/@VoiceStack"
+      ],
+
+      "mainEntityOfPage": {
+        "@id": "https://voicestack.com/#website"
+      }
+    },
+
+    {
+      "@type": "WebSite",
+      "@id": "https://voicestack.com/#website",
+      "url": "https://voicestack.com/",
+      "name": "VoiceStack",
+      "publisher": {
+        "@id": "https://voicestack.com/#organization"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://voicestack.com/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+  ]
+}

@@ -337,7 +337,7 @@ const Header = ({ data, refer = null }) => {
   }, {} as Record<string, string>);
   const OrganizationSchemaData = parseSchemaJson(
     schemaDataObject?.OrganizationSchema,
-  )
+  ) || formatOrganizationSchema(null)
   const SoftwareSchemaData = parseSchemaJson(
     schemaDataObject?.SoftwareApplicationSchema,
   )

@@ -1,0 +1,44 @@
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+  height: 3px;
+  width: 100%;
+  z-index: 2147483647;
+  -moz-border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-radius: 1px;
+  -moz-transition:
+    width 500ms ease-out,
+    opacity 400ms linear;
+  -ms-transition:
+    width 500ms ease-out,
+    opacity 400ms linear;
+  -o-transition:
+    width 500ms ease-out,
+    opacity 400ms linear;
+  -webkit-transition:
+    width 500ms ease-out,
+    opacity 400ms linear;
+  transition:
+    width 500ms ease-out,
+    opacity 400ms linear;
+}
+
+.indicator {
+  background-color: #3b82f6;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  transition:
+    all 0.1s linear,
+    opacity 0.3s linear 0.2s,
+    width 0.3s ease;
+  -moz-box-shadow: rgba(59, 130, 246, 0.2) 1px 0 6px 2px;
+  -ms-box-shadow: rgba(59, 130, 246, 0.2) 1px 0 6px 2px;
+  -webkit-box-shadow: rgba(59, 130, 246, 0.2) 1px 0 6px 2px;
+  box-shadow: rgba(59, 130, 246, 0.2) 1px 0 6px 2px;
+}
