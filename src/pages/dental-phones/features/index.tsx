@@ -49,16 +49,14 @@ export default function FeaturesPage({
   landingPage,
   faq,
 }: FeaturesPageProps) {
-  const heroData = data['feature-landing']?.heroComponent
-
   return (
     <>
     <SimpleHead data={data?.seo} />
-      {data['feature-hero']?.componentData && (
+      {data?.['feature-hero']?.componentData && (
         <FeatureHero data={data['feature-hero']} type="feature" />
       )}
 
-      {data['logos-listing']?.componentData && (
+      {data?.['logos-listing']?.componentData && (
         <LogoListingV2
           data={data['logos-listing']?.componentData.blocksListingData}
         />
@@ -66,28 +64,28 @@ export default function FeaturesPage({
       
       <CategoryFeatureTabsSection 
           features={features} 
-          // sectionHeading={data['category-feature-tabs']?.componentData?.sectionHeading}
+          // sectionHeading={data?.['category-feature-tabs']?.componentData?.sectionHeading}
       />
 
-      {data['loosing-leads']?.componentData && (
+      {data?.['loosing-leads']?.componentData && (
         <GroupedCardsGridSection
           data={data['loosing-leads']?.componentData}
           theme="dark"
           sectionSpacing="pt-sm"
         />
       )}
-      {data['integrations-listing']?.componentData && (
+      {data?.['integrations-listing']?.componentData && (
         <IntegrationsShowcaseSection
           data={data['integrations-listing']?.componentData}
           theme="dark"
         />
       )}
-      {data['feature-testimonials-section-single']?.componentData && (
+      {data?.['feature-testimonials-section-single']?.componentData && (
         <FeatureTestimonialsSection
           data={data['feature-testimonials-section-single']?.componentData}
         />
       )}
-       {data['stack-card-tab-testimonial']?.componentData?.refData ? (
+       {data?.['stack-card-tab-testimonial']?.componentData?.refData ? (
         <StackCardTestimonial
           data={
             data['stack-card-tab-testimonial']?.componentData?.refData
@@ -95,9 +93,11 @@ export default function FeaturesPage({
           }
         />
       ) : (
+        data?.['stack-card-tab-testimonial']?.componentData && (
         <StackCardTestimonial
           data={data['stack-card-tab-testimonial']?.componentData}
         />
+        )
       )}
       {faq && <FaqSection faqItems={faq} />}
     </>
@@ -141,6 +141,8 @@ export const getStaticProps: GetStaticProps = async ({ locale }) => {
         features: [],
         currentLanguage: locale || 'en',
         landingPage: null,
+        data: null,
+        faq: null,
       },
     }
   }
