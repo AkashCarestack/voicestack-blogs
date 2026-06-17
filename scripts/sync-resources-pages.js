@@ -22,6 +22,7 @@ function detectExports(srcPath) {
 function walk(rel = '') {
   const abs = path.join(srcRoot, rel)
   for (const name of fs.readdirSync(abs)) {
+    // Exclude studio (use main site /studio), api, and resources-only app shell
     if (['_app.tsx', 'studio', 'api', 'index.tsx'].includes(name) && rel === '') continue
     const relPath = path.join(rel, name)
     const srcPath = path.join(srcRoot, relPath)
