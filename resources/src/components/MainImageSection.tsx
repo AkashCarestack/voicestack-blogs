@@ -48,10 +48,10 @@ const MainImageSection = ({
  let hrefTemplate = tag?.slug?.current ? `/${siteConfig.paginationBaseUrls.base}/${tag?.slug?.current} `: ''
 
   return (
-    <div className="w-full flex gap-1 items-center bg-zinc-900 relative overflow-hidden pt-headerSpacerMob">
+    <div className="w-full flex gap-1 items-center bg-white relative overflow-hidden border-b border-gray-200">
       <Section className={`justify-center w-full !py-0 relative`}>
         <Wrapper className="z-10 flex h-auto flex-col md:flex-row">
-          <div className="flex flex-col items-start  gap-32 text-white md:max-w-[46%] max-w-lg h-full justify-center py-8 md:py-12 md:min-h-[550px]">
+          <div className="flex flex-col items-start gap-32 text-zinc-900 md:max-w-[46%] max-w-lg h-full justify-center py-8 md:py-12 md:min-h-[550px]">
             <div
               className={`flex flex-col items-start ${landing ? 'justify-center' : 'justify-between'} h-full gap-6 md:gap-24`}
             >
@@ -68,12 +68,13 @@ const MainImageSection = ({
                     {post?.tagName ? post?.tagName : ''}
                   </SubText>
                 )}
-                <h1 className="text-white font-manrope leading-tight lg:text-4xl text-2xl font-bold  mb-[10px]">
+                <h1 className="text-zinc-900 font-manrope leading-tight lg:text-4xl text-2xl font-bold mb-[10px]">
                   {post.title ? post.title : 'Post Title'}
                 </h1>
                 {enableDate && (
                   <DurationSection
                     isAudio={isAudio}
+                    className="!text-zinc-600"
                     duration={
                       post?.estimatedReadingTime
                         ? post.estimatedReadingTime
@@ -84,7 +85,7 @@ const MainImageSection = ({
                   />
                 )}
                 {landing && post.description && (
-                  <p className="text-base font-medium text-white opacity-50 leading-[1.5] pt-4">
+                  <p className="text-base font-medium text-zinc-600 leading-[1.5] pt-4">
                     {post.description}
                   </p>
                 )}

@@ -7,19 +7,15 @@ import {
 } from '@sanity/icons'
 import siteConfig from '~/resources-config/siteConfig'
 import Link from 'next/link'
-import Router, { useRouter } from 'next/router'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useRouter } from 'next/router'
+import React, { useEffect, useRef, useState } from 'react'
 
 import GrowthClubLogo from '~/resources/assets/reactiveAssets/GrowthClubLogo'
 import VoiceStackResources from '~/resources/assets/reactiveAssets/VoiceStackResources'
 import Anchor from '~/resources/components/commonSections/Anchor'
-import ImageLoader from '~/resources/components/commonSections/ImageLoader'
 import { useGlobalData } from '~/resources/components/Context/GlobalDataContext'
-import { regions } from '~/resources/components/RegionSwitcher'
-import { getResourcesRegionHref } from '~/resources/components/utils/alternatePaths'
 import Section from '~/resources/components/Section'
 import { generateHref, getResourcesCmsLocale, normalizePath } from '~/resources/utils/common'
-import { navigateToResourcesRegion } from '~/resources/utils/resourcesPublicPath'
 
 import { navigationLinks } from '../Header'
 import Wrapper from '../Wrapper'
@@ -45,14 +41,6 @@ export const NavPopover = ({
   const navPopoverRef = useRef(null)
   const router = useRouter()
   const cmsLocale = getResourcesCmsLocale(router)
-  const regionLinks = useMemo(
-    () =>
-      regions.map((region) => ({
-        ...region,
-        href: getResourcesRegionHref(region.locale, router),
-      })),
-    [],
-  )
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -143,23 +131,23 @@ export const NavPopover = ({
             <TruncateIcon width={40} height={40} />
           </button> */}
           <div
-            className={`lg:hidden  transition-all ease-out duration-200 flex fixed top-0 left-0 w-full py-4 px-4 z-20 border-b  h-[56px] items-center justify-between`}
+            className={`lg:hidden transition-all ease-out duration-200 flex fixed top-0 left-0 w-full py-4 px-4 z-20 bg-white border-b border-zinc-200 h-[56px] items-center justify-between`}
           >
             {showTags ? (
               <div className="flex items-center gap-0">
                 <ChevronLeftIcon
                   width={25}
                   height={25}
-                  className="text-white"
+                  className="text-zinc-900"
                 />
-                <span onClick={hideTagsMob} className="text-white text-base">
+                <span onClick={hideTagsMob} className="text-zinc-900 text-base">
                   Back
                 </span>
               </div>
             ) : (
               <Anchor
                 href={generateHref(cmsLocale, '')}
-                className="text-2xl font-extrabold bg-gradient-text bg-clip-text text-transparent font-monrope tracking-tighterText"
+                className="text-zinc-900 font-monrope tracking-tighterText"
               >
                 <VoiceStackResources/> 
               </Anchor>
@@ -180,13 +168,16 @@ export const NavPopover = ({
               ref={contentRef}
               className={`w-full transform transition-all duration-200}`}
             >
-              <nav className="flex flex-col lg:flex-row gap-y-6 gap-x-6 lg:gap-x-10 flex-wrap rounded-[6px] py-[17px] lg:px-[20px] lg:bg-zinc-100">
+              <nav className="flex flex-col lg:flex-row gap-y-3 gap-x-2 lg:gap-x-2 flex-wrap rounded-[6px] py-[17px] lg:px-[20px] lg:bg-zinc-100">
                 {navigationLinks?.map((link, i) => {
+                  const isActive = router.pathname.startsWith(link.href) || router.asPath.includes(link.href)
                   return(
                   <Anchor
                     key={link.href}
                     href={generateHref(cmsLocale, link.href)}
-                    className={`hover:text-zinc-500 self-start font-medium text-base lg:text-sm flex items-center gap-2 ${router.pathname.startsWith(link.href) ? 'text-zinc-600' : 'text-zinc-600'}`}
+                    className={`self-start font-medium text-base lg:text-sm flex items-center gap-2 rounded-full px-4 py-2 transition-all duration-200 hover:bg-white hover:text-zinc-900 ${
+                      isActive ? 'text-zinc-900 bg-white' : 'text-zinc-600'
+                    }`}
                   >
                     {link.icon && <link.icon />}
                     {link.label}
@@ -228,49 +219,6 @@ export const NavPopover = ({
                 />
               </div> */}
             </div>
-          </div>
-          {/* mob region switcher */}
-          <div id='mob-region' className={`bg-white flex gap-5 justify-center items-center lg:hidden`}>
-            {regionLinks.map((region) => {
-              return cmsLocale === region.locale ? (
-                  <div className='flex gap-2 items-center' key={region.locale}>
-                    <ImageLoader
-                      image={region.flag.url}
-                      alt={region.flag.title}
-                      title={region.flag.title}
-                      width={32}
-                      height={32}
-                      className='border-2 rounded-full border-black/20 !w-[23px] !h-[23px]'
-                    >
-                    </ImageLoader>
-                  </div>
-                ) : (
-
-                  <a
-                    key={region.locale}
-                    href={region.href}
-                    className='flex gap-2 items-center'
-                    onMouseEnter={() => {
-                      void Router.prefetch(region.href)
-                    }}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      closeMenu()
-                      navigateToResourcesRegion(region.href)
-                    }}
-                  >
-                    <ImageLoader
-                      image={region.flag.url}
-                      alt={region.flag.title}
-                      title={region.flag.title}
-                      width={32}
-                      height={32}
-                      className='border-2 rounded-full border-white !w-[23px] !h-[23px]'
-                    >
-                    </ImageLoader>
-                  </a>
-                )
-            })}
           </div>
           </div>
           {/* this duplicate is for mobile only */}

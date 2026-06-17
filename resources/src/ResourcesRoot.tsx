@@ -1,12 +1,16 @@
 import track, { getDeviceData } from 'cs-tracker'
+import { GeistSans } from 'geist/font/sans'
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import { Manrope } from 'next/font/google'
 import Router, { useRouter } from 'next/router'
 import { usePathname } from 'next/navigation'
 import Script from 'next/script'
 import { lazy, useEffect, useLayoutEffect } from 'react'
 
 import BookDemoContextProvider from '~/resources/components/Context/BookDemoProvider'
+import HeaderContextProvider from '~/providers/HeaderContextProvider'
+import LayoutDataProvider from '~/providers/LayoutDataProvider'
 import { capturePageview, initPosthog } from '~/resources/helpers/utils'
 import { cookieSelector, getResourcesCmsLocale, slugToCapitalized } from '~/resources/utils/common'
 import {
@@ -31,15 +35,32 @@ export interface ResourcesSharedPageProps {
   draftMode?: boolean
   token?: string
   locale?: string
+  region?: string
+  layoutData?: {
+    headerData?: unknown
+    footerData?: unknown
+    siteSettings?: unknown
+    contactData?: unknown
+    schemaData?: unknown
+    featuresData?: unknown[]
+    featureDataWithCategory?: unknown[]
+  }
 }
 
 const PreviewProvider = lazy(() => import('~/resources/components/PreviewProvider'))
+
+const manrope = Manrope({
+  subsets: ['latin'],
+  variable: '--font-manrope',
+  display: 'swap',
+  weight: ['200', '300', '400', '500', '600', '700', '800'],
+})
 
 function ResourcesApp({
   Component,
   pageProps,
 }: AppProps<ResourcesSharedPageProps>) {
-  const { draftMode, token, locale: pageLocale } = pageProps
+  const { draftMode, token, locale: pageLocale, layoutData, region: pageRegion } = pageProps
   const router = useRouter()
   const pathname: any = usePathname()
   const currentWindow = pathname && pathname?.split('/') || []
@@ -133,9 +154,23 @@ function ResourcesApp({
   }, [])
 
   return (
-    <>
+    <main
+      id="main"
+      className={`${manrope.variable} font-geist ${GeistSans.variable}`}
+    >
       <TrackUserProvider>
         <BookDemoContextProvider>
+          <HeaderContextProvider>
+            <LayoutDataProvider
+              initialHeaderData={layoutData?.headerData}
+              initialFooterData={layoutData?.footerData}
+              initialSiteSettings={layoutData?.siteSettings}
+              initialContactData={layoutData?.contactData}
+              initialSchemaData={layoutData?.schemaData}
+              initialFeaturesData={layoutData?.featuresData}
+              initialFeatureDataWithCategory={layoutData?.featureDataWithCategory}
+              initialRegion={pageRegion || pageLocale || 'en'}
+            >
           <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-YY0CHYH7EY"
             strategy="afterInteractive"
@@ -194,9 +229,11 @@ function ResourcesApp({
           ) : (
             <Component {...pageProps} />
           )}
+            </LayoutDataProvider>
+          </HeaderContextProvider>
         </BookDemoContextProvider>
       </TrackUserProvider>
-    </>
+    </main>
   )
 }
 

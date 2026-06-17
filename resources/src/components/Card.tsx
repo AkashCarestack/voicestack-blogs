@@ -57,6 +57,7 @@ interface CardProps {
   | 'press-release'
   minHeight?: number
   alignCard?: any
+  lightTheme?: boolean
   locale?: string
 }
 
@@ -74,6 +75,7 @@ export default function Card({
   minHeight,
   alignCard,
   locale: localeProp,
+  lightTheme = false,
 }: CardProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [color, setColor] = useState<string | null>(null)
@@ -275,13 +277,13 @@ export default function Card({
           <Anchor href={linkUrl}>
             <AnimatingWrapper transitionType="slide-in" delay={0.8} immediate={index < 2}>
               <div
-                className={`${!isLast && `border-b-2`} pb-6 flex flex-col gap-3  border-zinc-800`}
+                className={`${!isLast && `border-b-2`} pb-6 flex flex-col gap-3 ${lightTheme ? 'border-zinc-200' : 'border-zinc-800'}`}
               >
                 {post.contentType && (
                   <SubText>{isPageUrl ? tag?.tagName : post.contentType}</SubText>
                 )}
                 <H3Medium
-                  className={`group-hover: group-hover:underline underline-offset-4 tracking-[-0.72px] md:!text-[1.8rem]`}
+                  className={`group-hover: group-hover:underline underline-offset-4 tracking-[-0.72px] md:!text-[1.8rem] ${lightTheme ? '!text-zinc-900' : ''}`}
                 >
                   {post.title}
                 </H3Medium>

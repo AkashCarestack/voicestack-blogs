@@ -118,16 +118,16 @@ export const ShortNavPopover = ({
         <div className={`${className} w-full lg:pt-0 pt-14`}>
 
           <div
-            className={`lg:hidden flex fixed top-0 left-0 w-full py-4 px-4 z-20 bg-zinc-900 h-[56px] items-center justify-between`}
+            className={`lg:hidden flex fixed top-0 left-0 w-full py-4 px-4 z-20 bg-white border-b border-zinc-200 h-[56px] items-center justify-between`}
           >
             {showTags ? (
               <div className="flex items-center gap-0">
                 <ChevronLeftIcon
                   width={25}
                   height={25}
-                  className="text-white"
+                  className="text-zinc-900"
                 />
-                <span onClick={hideTagsMob} className="text-white text-base">
+                <span onClick={hideTagsMob} className="text-zinc-900 text-base">
                   Back
                 </span>
               </div>
@@ -144,7 +144,7 @@ export const ShortNavPopover = ({
               width={40}
               height={40}
               onClick={closeMenu}
-              className="text-white"
+              className="text-zinc-900"
             />
           </div>
 

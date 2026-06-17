@@ -10,6 +10,7 @@ interface LayoutDataContextType {
   schemaData: any;
   featuresData: any[];
   featureDataWithCategory: any[];
+  region: string;
 }
 
 const LayoutDataContext = createContext<LayoutDataContextType>({
@@ -22,6 +23,7 @@ const LayoutDataContext = createContext<LayoutDataContextType>({
   schemaData: null,
   featuresData: [],
   featureDataWithCategory: [],
+  region: 'en',
 });
 
 export const useLayoutData = () => {
@@ -41,6 +43,7 @@ interface LayoutDataProviderProps {
   initialSchemaData?: any;
   initialFeaturesData?: any[];
   initialFeatureDataWithCategory?: any[];
+  initialRegion?: string;
 }
 
 export default function LayoutDataProvider({ 
@@ -52,6 +55,7 @@ export default function LayoutDataProvider({
   initialSchemaData = null,
   initialFeaturesData = [],
   initialFeatureDataWithCategory = [],
+  initialRegion = 'en',
 }: LayoutDataProviderProps) {
   const [headerData, setHeaderData] = useState(initialHeaderData);
   const [footerData, setFooterData] = useState(initialFooterData);
@@ -62,6 +66,7 @@ export default function LayoutDataProvider({
   const [featuresData, setFeaturesData] = useState(initialFeaturesData || []);
   const [error, setError] = useState<string | null>(null);
   const [featureDataWithCategory, setFeatureDataWithCategory] = useState(initialFeatureDataWithCategory || []);
+  const [region, setRegion] = useState(initialRegion);
 
   // Sync props to state when they change (important for client-side navigation)
   // This ensures that when getInitialProps provides new data during navigation, we update state
@@ -90,6 +95,9 @@ export default function LayoutDataProvider({
     if (initialFeatureDataWithCategory !== null && initialFeatureDataWithCategory !== undefined) {
       setFeatureDataWithCategory(initialFeatureDataWithCategory);
     }
+    if (initialRegion) {
+      setRegion(initialRegion);
+    }
     
     // Update loading state based on whether we have data
     if (initialHeaderData && initialFooterData) {
@@ -97,10 +105,10 @@ export default function LayoutDataProvider({
       setError(null);
     }
     // Don't set loading to true if props are null during navigation - preserve existing state
-  }, [initialHeaderData, initialFooterData, initialSiteSettings, initialContactData, initialSchemaData, initialFeaturesData, initialFeatureDataWithCategory]);
+  }, [initialHeaderData, initialFooterData, initialSiteSettings, initialContactData, initialSchemaData, initialFeaturesData, initialFeatureDataWithCategory, initialRegion]);
 
   return (
-    <LayoutDataContext.Provider value={{ headerData, footerData, siteSettings, contactData, loading, schemaData, featuresData, error , featureDataWithCategory}}>
+    <LayoutDataContext.Provider value={{ headerData, footerData, siteSettings, contactData, loading, schemaData, featuresData, error , featureDataWithCategory, region}}>
       {children}
     </LayoutDataContext.Provider>
   );

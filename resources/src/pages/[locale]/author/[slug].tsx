@@ -149,7 +149,7 @@ export default function AuthorPage({
         />
         <Layout>
           <Section className="justify-center">
-            <Wrapper className={`flex-col md:pt-headerSpacer pt-headerSpacerMob`}>
+            <Wrapper className="flex-col">
               <div className="flex md:flex-row justify-between flex-col gap-8 md:gap-16">
                 <div className="md:min-w-[360px] md:h-full min-h-[370px]  ">
                   {author.picture && (
@@ -164,7 +164,7 @@ export default function AuthorPage({
                   <h2 className="md:text-6xl text-2xl text-zinc-900  font-extrabold font-manrope ">
                     {author.name}
                   </h2>
-                  <p className="md:text-4xl text-xl text-cs-dark-500 font-manrope font-semibold pb-6 border-b-2 border-cs-darkBlack">
+                  <p className="font-geist md:text-4xl text-xl text-cs-dark-500 font-semibold pb-6 border-b-2 border-cs-darkBlack">
                     {author.role}
                   </p>
                   <p className="max-w-3xl text-xl text-zinc-900  font-normal">

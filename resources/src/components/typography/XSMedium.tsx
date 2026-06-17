@@ -6,7 +6,7 @@ interface XSMediumProps {
 }
 function XSMedium({ className, children }: XSMediumProps) {
   return (
-    <span className={`text-white text-xs font-medium ${className}`}>
+    <span className={`font-geist text-white text-xs font-medium ${className}`}>
       {children}
     </span>
   )

@@ -6,7 +6,7 @@ interface DescriptionTextProps {
 }
 function DescriptionText({ className, children }: DescriptionTextProps) {
   return (
-    <p className={`text-white text-base font-medium ${className}`}>
+    <p className={`font-geist text-white text-base font-medium ${className}`}>
       {children}
     </p>
   )

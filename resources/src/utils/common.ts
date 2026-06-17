@@ -258,37 +258,50 @@ export function normalizeSiteLocale(locale: string | undefined | null): string {
 }
 
 const REGIONAL_PUBLIC_PATH = /^\/(en-GB|en-AU)\/resources(?:\/|$)/
+const REGIONAL_INTERNAL_PATH = /^\/resources\/(en-GB|en-AU)(?:\/|$)/
+
+export function resolveResourcesCmsLocale(options: {
+  pageLocale?: string | null
+  asPath?: string
+  queryLocale?: string | string[] | undefined
+  fallbackLocale?: string | null
+}): string {
+  if (options.pageLocale) return normalizeSiteLocale(options.pageLocale)
+
+  const asPath = (options.asPath || '').split('?')[0].split('#')[0]
+
+  const publicMatch = asPath.match(REGIONAL_PUBLIC_PATH)
+  if (publicMatch) return normalizeSiteLocale(publicMatch[1])
+
+  const internalMatch = asPath.match(REGIONAL_INTERNAL_PATH)
+  if (internalMatch) return normalizeSiteLocale(internalMatch[1])
+
+  const qLocale = options.queryLocale
+  const raw = Array.isArray(qLocale) ? qLocale[0] : qLocale
+  if (raw) return normalizeSiteLocale(raw)
+
+  return normalizeSiteLocale(options.fallbackLocale || 'en')
+}
 
 /**
- * CMS locale for resources routes. Next.js i18n sets router.query.locale to the i18n
- * locale (often "en" after middleware), not the [locale] dynamic segment (en-GB/en-AU).
+ * CMS locale for resources routes. Next.js i18n sets router.locale to "en" after
+ * middleware rewrites; regional locale comes from the URL or [locale] segment.
  */
 export function getResourcesCmsLocale(
   router: Pick<NextRouter, 'query' | 'asPath'>,
   pageLocale?: string | null,
 ): string {
-  if (pageLocale) return normalizeSiteLocale(pageLocale)
+  const asPath =
+    typeof window !== 'undefined'
+      ? window.location.pathname
+      : (router.asPath || '')
 
-  if (typeof window !== 'undefined') {
-    const path = window.location.pathname
-    // US default resources paths (/resources, /resources/article/...) — not regional
-    if (path === '/resources' || path.startsWith('/resources/')) {
-      return 'en'
-    }
-    const publicMatch = path.match(REGIONAL_PUBLIC_PATH)
-    if (publicMatch) return normalizeSiteLocale(publicMatch[1])
-  }
-
-  const asPath = (router.asPath || '').split('?')[0].split('#')[0]
-  const internalMatch = asPath.match(/^\/resources\/(en-GB|en-AU)(?:\/|$)/)
-  if (internalMatch) return normalizeSiteLocale(internalMatch[1])
-
-  const qLocale = router.query?.locale
-  const raw = Array.isArray(qLocale) ? qLocale[0] : qLocale
-  const normalized = normalizeSiteLocale(raw)
-  if (raw && normalized !== 'en') return normalized
-
-  return 'en'
+  return resolveResourcesCmsLocale({
+    pageLocale,
+    asPath,
+    queryLocale: router.query?.locale,
+    fallbackLocale: 'en',
+  })
 }
 
 /** Prefix /resources/... links with regional locale when the current page is regional. */

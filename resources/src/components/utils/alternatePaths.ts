@@ -151,13 +151,28 @@ function isPathAvailableForLocale(
 }
 
 /**
- * Builds the resources region-switch target URL — always the locale landing page.
+ * Builds the resources region-switch target URL, preserving the current page path when available.
  */
 export function getResourcesRegionHref(
   targetLocale: string,
-  _router?: Pick<NextRouter, 'asPath' | 'pathname' | 'query'>,
+  router?: Pick<NextRouter, 'asPath' | 'pathname' | 'query'>,
 ): string {
-  return generateHref(targetLocale, '')
+  if (!router) {
+    return generateHref(targetLocale, '')
+  }
+
+  const locales = siteConfig.locales || []
+  const pathname = pathnameForAlternateTags(router)
+  const basePath = removeLocale(pathname, locales)
+
+  if (!isPathAvailableForLocale(basePath, targetLocale, locales)) {
+    return generateHref(targetLocale, '')
+  }
+
+  const contentPathWithoutLeading =
+    basePath === '/' ? '' : basePath.replace(/^\//, '')
+
+  return generateHref(targetLocale, contentPathWithoutLeading)
 }
 
 /**

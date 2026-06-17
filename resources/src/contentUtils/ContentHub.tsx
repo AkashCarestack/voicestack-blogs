@@ -1,11 +1,9 @@
 import { ArrowTopRightIcon } from '@sanity/icons'
 import siteConfig from '~/resources-config/siteConfig'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo,useState } from 'react'
 
-import TrapezIcon from '~/resources/assets/reactiveAssets/trapezIcon'
 import Anchor from '~/resources/components/commonSections/Anchor'
 import Section from '~/resources/components/Section'
 import DescriptionText from '~/resources/components/typography/DescriptionText'
@@ -30,17 +28,20 @@ export default function ContentHub({ contentCount, categories, featuredDescripti
   const { locale } = router.query;
 
   useEffect(() => {
-    const allTopic = { 'slug': `${siteConfig.categoryBaseUrls.base}`, 'categoryName': 'All Topics' }
-    let finalCategories = categoriesCopy;
-    
-    // Always add "All Topics" button if it doesn't exist
-    if (!finalCategories || !finalCategories?.find(category => category.categoryName === 'All Topics')) {
-      finalCategories = finalCategories || [];
+    if (!categoriesCopy?.length) {
+      setCategories([]);
+      return;
+    }
+
+    const allTopic = { slug: `${siteConfig.categoryBaseUrls.base}`, categoryName: 'All Topics' }
+    const finalCategories = [...categoriesCopy];
+
+    if (!finalCategories.find((category) => category.categoryName === 'All Topics')) {
       finalCategories.unshift(allTopic);
     }
-    
+
     setCategories(finalCategories);
-  }, [categories, categoriesCopy]);
+  }, [categoriesCopy]);
 
   useEffect(() => {
     const currentCategory = categoriesData && categoriesData.find(category => pathname.includes(category?.slug?.current));
@@ -57,15 +58,16 @@ export default function ContentHub({ contentCount, categories, featuredDescripti
 
 
   return (
-    <Section className={`bg-zinc-900 relative h-full justify-center ${categoriesData ? 'md:pt-24 pb-16' : 'md:pt-12 pb-6'} md:pt-headerSpacer pt-headerSpacerMob`}>
-      {categoriesData && <div className='absolute top-0 right-0 h-full 2xl:visible invisible   '>
-      <TrapezIcon/>
-      </div>}
-      <Wrapper className={`flex-col ${categoriesData ? 'gap-12' : 'gap-3'}   w-full`}>
+    <Section
+      className={`bg-white text-zinc-900 relative h-full justify-center ${
+        categoriesData?.length ? '!pt-8 !pb-16' : '!py-6'
+      }`}
+    >
+      <Wrapper className={`flex-col ${categoriesData?.length ? 'gap-12' : 'gap-3'} w-full browse-content`}>
         <div className='flex flex-col gap-3'>
-          <H2Large className="text-zinc-100">{categoriesData?.length > 0 && isMainPage ? 'All Topics' : categoriesData?.length > 0 && !isMainPage ? currentCategory?.categoryName : 'Browse Content'}</H2Large>
+          <H2Large className="text-zinc-900">{categoriesData?.length > 0 && isMainPage ? 'All Topics' : categoriesData?.length > 0 && !isMainPage ? currentCategory?.categoryName : 'Browse Content'}</H2Large>
           {(featuredDescription || currentCategory) && (
-            <DescriptionText className='text-white opacity-70 md:max-w-[598px] w-full'>
+            <DescriptionText className='!text-zinc-600 md:max-w-[598px] w-full'>
               {featuredDescription || currentCategory.categoryDescription}
             </DescriptionText>
           )}
@@ -79,8 +81,8 @@ export default function ContentHub({ contentCount, categories, featuredDescripti
                  : siteConfig.categoryBaseUrls.base}`
             return (
               <Anchor
-              className={`text-zinc-300 flex items-center  text-sm font-normal py-2 px-3 
-                rounded-full bg-zinc-800 hover:bg-zinc-700 transition-all ease-out duration-300 ${pathname.endsWith(`/${siteConfig.categoryBaseUrls.base}`) && index === 0 ? '!bg-zinc-600 !text-zinc-50' : pathname.includes(category?.slug?.current) ? '!bg-zinc-600 !text-zinc-50' : ''}`}
+              className={`text-zinc-700 flex items-center text-sm font-normal py-2 px-3 
+                rounded-full bg-zinc-100 hover:bg-zinc-200 transition-all ease-out duration-300 ${pathname.endsWith(`/${siteConfig.categoryBaseUrls.base}`) && index === 0 ? '!bg-zinc-900 !text-white' : pathname.includes(category?.slug?.current) ? '!bg-zinc-900 !text-white' : ''}`}
               href={generateHref(locale as string, hrefTemplate)}
               key={index}
               >
@@ -90,34 +92,24 @@ export default function ContentHub({ contentCount, categories, featuredDescripti
           </div>
 
         ) : (
-          <div className="flex-1 overflow-hidden">
-            <div className={`flex md:gap-x-8 relative md:justify-between flex-wrap gap-6 justify-center`}>
-              <div className="text-zinc-400 flex flex-wrap gap-3">
-                {Object.entries(contentCount).length > 0 ? ( 
-                  Object.entries(contentCount).map(([key, count], index) => {
-                    const singularKey = key.endsWith('s') ? key.slice(0, -1) : key
-                    const url = siteConfig.pageURLs[singularKey] || '/'
-                    return (
-                      <Anchor href={generateHref(locale as string, url)} key={index} className="hover:text-zinc-300 text-sm md:text-base">
-                        {count}{' '}
-                        {key.charAt(0).toUpperCase() + key.slice(1)}
-                        <span className="hidden md:inline ml-3 ">
-                          {index < Object.entries(contentCount).length - 1 && ' • '}
-                        </span>
-                      </Anchor>
-                    )
-                  })
+          <div className="flex-1 overflow-hidden w-full">
+            <div className="flex md:gap-x-8 relative md:justify-between flex-wrap gap-6 justify-between items-center w-full">
+              <div className="article-count text-zinc-600 text-sm md:text-base">
+                {contentCount?.articles != null ? (
+                  <span>
+                    {contentCount.articles}{' '}
+                    {contentCount.articles === 1 ? 'Article' : 'Articles'}
+                  </span>
                 ) : (
-                  <div>No content available</div>
+                  <span>No articles available</span>
                 )}
               </div>
               <Anchor
-                href={ generateHref(locale as string, siteConfig.paginationBaseUrls.base)}
-                className=" text-[14px] group font-medium leading-[1.5] justify-center  flex items-center gap-x-1 group"
+                href={generateHref(locale as string, siteConfig.paginationBaseUrls.base)}
+                className="browse-all text-[14px] group font-medium leading-[1.5] justify-center flex items-center gap-x-1 shrink-0"
               >
-                <span className="hidden md:inline mr-3">{' • '}</span>
-                <span className="text-[14px] md:text-[16px] cursor-pointer text-zinc-400 font-medium text-sm hover:text-zinc-300 inline-flex items-center gap-1">
-                  {'Browse All'}
+                <span className="text-[14px] md:text-[16px] cursor-pointer text-zinc-600 font-medium text-sm hover:text-zinc-900 inline-flex items-center gap-1">
+                  Browse All
                   <ArrowTopRightIcon
                     className="group-hover:translate-y-[-2px] transition-transform duration-300"
                     height={20}

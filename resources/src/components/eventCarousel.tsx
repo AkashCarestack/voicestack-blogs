@@ -36,7 +36,7 @@ const EventCarousel = ({ allEventCards,bgColor }: { allEventCards?: any, bgColor
   if(!allEventCards) return null 
 
   return homeSettings?.eventCarousel && (
-    <Section className={`justify-center ${bgColor ? bgColor : 'bg-zinc-900'}  px-4`}>
+    <Section className={`justify-center ${bgColor ? bgColor : 'bg-white'} px-4`}>
       <Wrapper className='w-full relative '>
         <Swiper
           className='w-full h-full'
@@ -60,7 +60,7 @@ const EventCarousel = ({ allEventCards,bgColor }: { allEventCards?: any, bgColor
               key={events._id}
               className='!flex items-center justify-center '
             >
-              <div className={`w-full ${bgColor ? bgColor : 'bg-zinc-900'} `}>
+              <div className={`w-full ${bgColor ? bgColor : 'bg-white'}`}>
                 <div
                   style={{ backgroundColor: `${events.bgColor ? events.bgColor : '#000000'}` }}
                   className={`flex flex-col md:flex-row gap-3 xl:gap-6 relative group hover:transition duration-500 rounded-lg overflow-hidden`}

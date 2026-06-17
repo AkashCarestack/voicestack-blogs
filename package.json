@@ -2,7 +2,7 @@
   "private": true,
   "name": "voicestack-sanity",
   "scripts": {
-    "build": "npm run lint && next build",
+    "build": "npm run lint && NODE_OPTIONS=--max-old-space-size=8192 next build",
     "sync:resources-pages": "node scripts/sync-resources-pages.js",
     "dev": "next dev -p 3003 --turbopack",
     "format": "npx prettier --write . --ignore-path .gitignore",

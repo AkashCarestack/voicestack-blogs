@@ -142,6 +142,8 @@ module.exports = {
 				'xs': '48px',
 				headerSpacer: '115px',
 				headerSpacerMob: '64px',
+				resourcesStackSpacer: 'var(--resources-stack-spacer, 180px)',
+				resourcesStackSpacerMob: 'var(--resources-stack-spacer-mob, 112px)',
       },
 			maxWidth: {
         '7xl': '1272px',

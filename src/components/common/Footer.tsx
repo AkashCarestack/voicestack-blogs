@@ -13,11 +13,15 @@ import Container from '../structure/Container'
 import Section from '../structure/Section'
 import FooterBottom from '~/v2/components/FooterBottom'
 import { useLayoutData } from '~/providers/LayoutDataProvider'
+import { getResourcesCmsLocale } from '~/resources/utils/common'
 
 const Footer = ({ data }) => {
-  const { featuresData } = useLayoutData()
+  const { featuresData, region: layoutRegion } = useLayoutData()
   const CopyrightYear = new Date().getFullYear()
   const router = useRouter()
+  const activeLocale = router.pathname.startsWith('/resources')
+    ? getResourcesCmsLocale(router, layoutRegion)
+    : router.locale
 
   // Add fallback data if data is null
   const safeData = data || {
@@ -32,9 +36,9 @@ const Footer = ({ data }) => {
   const [isAu, setIsAu] = useState(false)
 
   useEffect(() => {
-    setIsUk(router.locale == 'en-GB')
-    setIsAu(router.locale == 'en-AU')
-  }, [router.locale])
+    setIsUk(activeLocale === 'en-GB')
+    setIsAu(activeLocale === 'en-AU')
+  }, [activeLocale])
 
   const noBannerPaths = ['/demo', '/en-GB/demo', '/en-AU/demo'];
   const path = router.pathname; // better for static paths
@@ -147,7 +151,7 @@ const Footer = ({ data }) => {
                         {columnFeatures.map((feature: any, featureIndex: number) => {
                           const slug = feature?.basicInfo?.slug?.current || feature?.basicInfo?.slug || '';
                           const title = feature?.basicInfo?.title || '';
-                          const featureUrl = slug ? (router.locale === 'en-AU' || router.locale === 'en-GB') ? `/dental-phones/features/${slug}` : `/phone-system/features/${slug}` : '#';
+                          const featureUrl = slug ? (activeLocale === 'en-AU' || activeLocale === 'en-GB') ? `/dental-phones/features/${slug}` : `/phone-system/features/${slug}` : '#';
                           
                           return (
                             <li key={`${feature._id || slug}-${colIndex}-${featureIndex}`}>

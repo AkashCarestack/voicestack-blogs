@@ -19,7 +19,7 @@ import { createObservedUser, createSession, createUser, getUserData, TrackUserPr
 import { getSession } from '~/utils/tracker/session'
 import { getUser } from '~/utils/tracker/user'
 import { getClient } from '~/lib/sanity.client'
-import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData, getSchemaData, getFeaturesForLayout, getFeaturesList } from '~/lib/sanity.queries'
+import { getHeaderData, getFooterData, getALLSiteSettings, getContactData, getDemoFormData, getSchemaData, getFeaturesForLayout, getFeaturesForHeaderMenu } from '~/lib/sanity.queries'
 import {
   isResourcesRoute,
   ResourcesApp,
@@ -309,7 +309,7 @@ App.getInitialProps = async (appContext: AppContext) => {
       getDemoFormData(client, locale),
       getSchemaData(client, locale),
       getFeaturesForLayout(client, locale),
-      getFeaturesList(getClient(), locale)
+      getFeaturesForHeaderMenu(client, locale),
     ]);
 
     return {

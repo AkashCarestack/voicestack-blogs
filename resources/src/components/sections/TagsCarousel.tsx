@@ -5,7 +5,6 @@ import 'swiper/css/pagination'
 import { ChevronLeftIcon } from '@sanity/icons'
 import { ChevronRightIcon } from '@sanity/icons'
 import siteConfig from '~/resources-config/siteConfig'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useEffect, useMemo,useRef } from 'react'
 import { Navigation, Pagination } from 'swiper/modules'
@@ -81,7 +80,10 @@ const TagsCarousel: React.FC<TagsCarouselProps> = ({
   if (!tags) return null
 
   return (
-    <div className=' flex items-center justify-center w-full overflow-hidden' ref={containerRef}>
+    <div
+      className="relative flex items-center justify-center w-full overflow-hidden px-8"
+      ref={containerRef}
+    >
       <Swiper
         modules={[Navigation, Pagination]}
         // spaceBetween={30}
@@ -109,44 +111,45 @@ const TagsCarousel: React.FC<TagsCarouselProps> = ({
           swiperRef.current = swiper
         }}
       >
-        {sortedTags && sortedTags?.map((tag,i) => {
-          let hrefTemplate = `/${siteConfig.paginationBaseUrls.base}/${tag?.slug?.current}`
-          return(
+        {sortedTags && sortedTags?.map((tag) => {
+          const hrefTemplate = `/${siteConfig.paginationBaseUrls.base}/${tag?.slug?.current}`
+          const isSelected = selectedTag === tag?.slug?.current
+
+          return (
           <SwiperSlide
             key={tag._id}
-            className="!flex items-center justify-center px-2 md:px-3"
+            className="!flex items-center justify-center px-1 md:px-1.5"
           >
-            <span
+            <Anchor
+              href={generateHref(locale as string, hrefTemplate)}
+              scroll={false}
               onClick={() => onTagChanges(tag)}
-              className={`flex py-1 text-[14px] font-medium leading-[1.5] text-center cursor-pointer justify-center
-                ${
-                  selectedTag === tag?.slug?.current
-                    ? 'text-zinc-200'
-                    : 'text-zinc-400 hover:text-zinc-300'
-                }`}
+              className={`text-[14px] font-medium leading-[1.5] rounded-full px-4 py-2 transition-all duration-200 hover:bg-zinc-100 hover:text-zinc-900 whitespace-nowrap ${
+                isSelected
+                  ? 'text-zinc-900 bg-zinc-100'
+                  : 'text-zinc-600'
+              }`}
             >
-              <Anchor   href={generateHref(locale as string, hrefTemplate)}scroll={false}>
-                <span>{tag?.tagName}</span>
-              </Anchor> 
-            </span>
+              {tag?.tagName}
+            </Anchor>
           </SwiperSlide>
         )})}
       </Swiper>
       <button
         disabled={isBeginning}
-        className={`swiper-prev absolute left-0 top-[50%] translate-y-[-50%] select-none ${
+        className={`swiper-prev absolute left-0 top-[50%] translate-y-[-50%] select-none z-10 ${
           isBeginning ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
         }`}
       >
-        <ChevronLeftIcon className="text-zinc-200 w-6 h-6 hover:text-white" />
+        <ChevronLeftIcon className="text-zinc-500 w-6 h-6 hover:text-zinc-900" />
       </button>
       <button
         disabled={isEnd}
-        className={`swiper-next absolute right-0 top-[50%] translate-y-[-50%] select-none ${
+        className={`swiper-next absolute right-0 top-[50%] translate-y-[-50%] select-none z-10 ${
           isEnd ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
         }`}
       >
-        <ChevronRightIcon className="text-zinc-200 w-6 h-6 hover:text-white" />
+        <ChevronRightIcon className="text-zinc-500 w-6 h-6 hover:text-zinc-900" />
       </button>
     </div>
   )

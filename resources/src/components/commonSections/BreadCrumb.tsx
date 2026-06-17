@@ -1,5 +1,4 @@
 import { ArrowRightIcon } from '@sanity/icons'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { Fragment, useEffect, useMemo, useRef,useState } from 'react'
 
@@ -46,17 +45,19 @@ const Breadcrumb = ({ className }: BreadCrumbProps) => {
     setBreadcrumbs(breadcrumbList)
   }, [router.asPath, breadcrumbLabels, pathSegments, excludedSegments])
   const breadcrumbLd = breadCrumbJsonLd(breadcrumbs)
+  const breadcrumbLinkClass =
+    'text-zinc-600 text-xs font-medium uppercase rounded-full px-2.5 py-1 transition-all duration-200 hover:bg-zinc-100 hover:text-zinc-900'
 
   return (
     <Fragment>
       <CustomHead props={breadcrumbs} type="breadCrumbs" />
       <nav
-        className={`cursor-pointer mb-4 ${className}`}
+        className={`relative z-10 cursor-pointer mb-4 pt-1 ${className}`}
         aria-label="Breadcrumb"
       >
         <div className="line-clamdiv-1 uppercase overflow-hidden text-ellipsis flex items-center flex-wrap">
           <span className="flex items-center">
-            <Anchor href={generateHref(router.query.locale as string, '')} className="zinc-300 text-xs font-500">{`Home`}</Anchor>
+            <Anchor href={generateHref(router.query.locale as string, '')} className={breadcrumbLinkClass}>{`Home`}</Anchor>
             <span className="mx-3 text-zinc-500 uppercase">
               <ArrowRightIcon width={24} height={24} />
             </span>
@@ -71,14 +72,14 @@ const Breadcrumb = ({ className }: BreadCrumbProps) => {
                 {isLast ? (
                   <span
                     aria-current="page"
-                    className="zinc-400 text-xs font-500 uppercase opacity-50 mt-2"
+                    className="text-zinc-900 text-xs font-medium uppercase mt-2 rounded-full px-2.5 py-1 "
                   >
                     {removeUnwantedCharacters(breadcrumb.label)}
                   </span>
                 ) : (
                   <Anchor
                     href={breadcrumb.href}
-                    className="zinc-300 text-xs font-500 uppercase"
+                    className={breadcrumbLinkClass}
                   >
                     {removeUnwantedCharacters(breadcrumb.label)}
                   </Anchor>

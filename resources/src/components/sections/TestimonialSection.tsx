@@ -52,7 +52,7 @@ const TestimonialSection = ({ testimonials }: TestimonialSectionProps) => {
                       />
                     </svg>
                     <div>
-                      <p className="text-zinc-900 text-xl lg:text-3xl font-bold leading-[1.1] tracking-[-0.72px] font-manrope">
+                      <p className="font-geist text-zinc-900 text-xl lg:text-3xl font-bold leading-[1.1] tracking-[-0.72px]">
                         {testimonialItem.testimonialName}
                       </p>
                       <p className="mt-4 text-zinc-700 text-base lg:text-xl leading-[1.6] md:leading-[1.4]">
@@ -72,7 +72,7 @@ const TestimonialSection = ({ testimonials }: TestimonialSectionProps) => {
                           )}
                       </div>
                       <div className="gap-y-1">
-                        <p className="text-zinc-900 text-[18px] font-manrope font-bold leading-[1.6]">
+                        <p className="font-geist text-zinc-900 text-[18px] font-bold leading-[1.6]">
                           {testimonialItem.customer?.name}
                         </p>
                         <span className="text-zinc-700 text-base">

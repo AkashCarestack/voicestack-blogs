@@ -154,7 +154,7 @@ const PressReleasePage = ({
       <GlobalDataProvider data={categories} featuredTags={homeSettings?.featuredTags} footerData={footerData}>
         <Layout>
           <MainImageSection enableDate={true} post={pressRelease} />
-          <Section className="justify-center !pt-24 !pb-12">
+          <Section className="justify-center !pt-8 !pb-12">
             <Wrapper className={'flex-col'}>
               <div className="flex md:flex-row flex-col gap-6 md:gap-12 justify-between">
                 <div className="md:mt-12 flex-1 flex md:flex-col flex-col-reverse md:w-2/3 w-full md:max-w-[710px]">

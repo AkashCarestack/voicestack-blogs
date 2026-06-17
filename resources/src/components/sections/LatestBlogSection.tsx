@@ -56,7 +56,7 @@ const LatestBlogs: React.FC<LatestBlogsProps> = ({
 
     return (
       <React.Fragment>
-      <Section className="justify-center    bg-zinc-900 text-white ">
+      <Section className="justify-center bg-white text-zinc-900">
         <Wrapper
           className={`md:flex-row md:pt-16 pt-8 flex-col ${reverse ? 'md:flex-row-reverse' : ''} gap-8 md:gap-12 xl:gap-36`}
         >
@@ -82,7 +82,7 @@ const LatestBlogs: React.FC<LatestBlogsProps> = ({
 
     return(
       <React.Fragment>
-      <Section className="justify-center  md:pb-24  bg-zinc-900 text-white ">
+      <Section className="justify-center md:pb-24 bg-white text-zinc-900">
         <Wrapper
           className={`md:flex-row md:pt-16 pt-8 flex-col ${reverse ? 'md:flex-row-reverse' : ''} gap-2 md:gap-12 xl:gap-16`}
         >
@@ -124,7 +124,7 @@ const LatestBlogs: React.FC<LatestBlogsProps> = ({
 
   return (
     <React.Fragment>
-      <Section className="justify-center  bg-zinc-900 text-white md:pt-headerSpacer pt-headerSpacerMob">
+      <Section className="justify-center bg-white text-zinc-900">
         <Wrapper
           className={`md:flex-row md:pt-16 pt-8 flex-col ${reverse ? 'md:flex-row-reverse' : ''} gap-8 md:gap-12 xl:gap-36`}
         >
@@ -141,6 +141,7 @@ const LatestBlogs: React.FC<LatestBlogsProps> = ({
                   isLast={i === otherBlogs.length - 1}
                   post={blog}
                   locale={locale}
+                  lightTheme
                 />
               ))}
             </div>

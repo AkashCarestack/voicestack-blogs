@@ -28,7 +28,7 @@ import UKFlag from '../../../public/assets/flags/uk.svg';
 import AUFlag from '../../../public/assets/flags/au.svg';
 import IcLogoSm from '~/v2/icons/icLogoSm';
 import EventStrip from '~/v2/components/common/eventStrip';
-// import RegionStrip from '../revamp/components/regionStrip';
+import { getResourcesCmsLocale } from '~/resources/utils/common';
 
 // Constants
 const GEO_PATH = '/api/geo';
@@ -176,7 +176,7 @@ const buildFeaturesSubmenu = (
     }));
 };
 
-const Header = ({ data, refer = null }) => {
+const Header = ({ data, refer = null, variant = 'default' }: { data?: any; refer?: any; variant?: 'default' | 'resources' }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [headerFixed, setHeaderFixed] = useState(false);
   const [openSwitcher, setOpenSwitcher] = useState(false);
@@ -193,11 +193,28 @@ const Header = ({ data, refer = null }) => {
 
 
   const router = useRouter();
-  const matchedRegion = REGIONS.find((region) => region.locale === router.locale);
   const toggleRef = useRef<HTMLSpanElement>(null);
   const isMobile = useMediaQuery(767);
-  const { siteSettings,schemaData,footerData,featuresData ,featureDataWithCategory} = useLayoutData();
-  const { setShowTopStrip: setContextShowTopStrip, setShowMainHeader: setContextShowMainHeader } = useHeaderContext();
+  const { siteSettings,schemaData,footerData,featuresData ,featureDataWithCategory, region: layoutRegion} = useLayoutData();
+  const {
+    setShowTopStrip: setContextShowTopStrip,
+    setShowMainHeader: setContextShowMainHeader,
+    showTopStrip: contextShowTopStrip,
+    showMainHeader: contextShowMainHeader,
+    isResourcesPage,
+    setHasRegionStrip,
+  } = useHeaderContext();
+
+  const isResourcesVariant = variant === 'resources' || isResourcesPage;
+  const activeLocale = isResourcesVariant
+    ? getResourcesCmsLocale(router, layoutRegion)
+    : (currentLocale || router.locale || 'en');
+  const matchedRegion = REGIONS.find((region) => region.locale === activeLocale);
+  const regionSwitcherLocale = isResourcesVariant
+    ? (router.locale ?? 'en')
+    : currentLocale;
+  const effectiveShowTopStrip = isResourcesVariant ? contextShowTopStrip : showTopStrip;
+  const effectiveShowMainHeader = isResourcesVariant ? contextShowMainHeader : showMainHeader;
 
   const { query } = router;
   const queryString = new URLSearchParams(query as Record<string, string>).toString();
@@ -231,13 +248,13 @@ const Header = ({ data, refer = null }) => {
     const menu = safeData?.navigationMenu || [];
     const featuresSubmenu = buildFeaturesSubmenu(
       featuresByCategory,
-      currentLocale || router.locale,
+      activeLocale,
     );
 
     if (!featuresSubmenu.length) return menu;
 
     return menu.map((menuItem: any) => {
-      const locale = currentLocale || router.locale;
+      const locale = activeLocale;
 
       if (isAiReceptionistMenuItem(menuItem)) {
         return {
@@ -255,9 +272,9 @@ const Header = ({ data, refer = null }) => {
         submenu: featuresSubmenu,
       };
     });
-  }, [safeData?.navigationMenu, featuresByCategory, currentLocale, router.locale]);
+  }, [safeData?.navigationMenu, featuresByCategory, activeLocale]);
 
-  const ICBanner = router.locale === 'en';
+  const ICBanner = activeLocale === 'en';
 
   // Geo location detection
   useEffect(() => {
@@ -294,18 +311,23 @@ const Header = ({ data, refer = null }) => {
   }, [countryCode]);
 
   useEffect(() => {
-    setCurrentLocale(router.locale);
-  }, [router?.locale]);
+    setCurrentLocale(
+      isResourcesVariant
+        ? getResourcesCmsLocale(router, layoutRegion)
+        : router.locale,
+    );
+  }, [router?.locale, router?.asPath, router?.query, isResourcesVariant, layoutRegion]);
 
-  // Sync initial showTopStrip state to context
   useEffect(() => {
+    if (isResourcesVariant) return;
     setContextShowTopStrip(showTopStrip);
-  }, [showTopStrip, setContextShowTopStrip]);
+  }, [showTopStrip, setContextShowTopStrip, isResourcesVariant]);
 
   // Sync showMainHeader state to context
   useEffect(() => {
+    if (isResourcesVariant) return;
     setContextShowMainHeader(showMainHeader);
-  }, [showMainHeader, setContextShowMainHeader]);
+  }, [showMainHeader, setContextShowMainHeader, isResourcesVariant]);
 
   const closeMenu = () => {
     setShowMenu(false);
@@ -365,28 +387,30 @@ const Header = ({ data, refer = null }) => {
   }, []);
 
   useEffect(() => {
+    if (isResourcesVariant) return;
     window.addEventListener('scroll', handleScrollMob);
     return () => window.removeEventListener('scroll', handleScrollMob);
   });
 
   const closeRegionPopup = () => {
     setRegionSwitcher(false);
-    setCookie('__vs_pl', router.locale ?? 'en');
+    setCookie('__vs_pl', activeLocale ?? 'en');
   };
 
   const shouldRenderPopup = () => {
+    if (isResourcesVariant) return false;
     // Check if flag=true is in the URL - if so, don't show popup
     if (router.query.flag === 'true') {
       return false;
     }
     const countryCd = getCookie('__vs_ver') ? getCookie('__vs_ver') : '1';
-    return router.locale !== getLocaleFromCountry(country) && router.asPath === '/' && countryCd !== 'undefined';
+    return activeLocale !== getLocaleFromCountry(country) && router.asPath === '/' && countryCd !== 'undefined';
   };
 
   const shouldRenderPopupTop = () => {
     return (
       !router.asPath.includes("/legal") &&
-      router.locale !== getLocaleFromCountry(country) &&
+      activeLocale !== getLocaleFromCountry(country) &&
       // router.locale !== getRegionFromCountryCode(countryCode) &&
       router.asPath !== '/' &&
       !router.query.flag
@@ -403,6 +427,10 @@ const Header = ({ data, refer = null }) => {
   useEffect(() => {
     setRegionSwitcherTop(shouldRenderPopupTop());
   }, [router.query.flag]);
+
+  useEffect(() => {
+    setHasRegionStrip(regionSwitcherTop);
+  }, [regionSwitcherTop, setHasRegionStrip]);
 
   const openDemoPopup = () => {
     router.push('/demo');
@@ -485,7 +513,7 @@ const Header = ({ data, refer = null }) => {
           <>
           <script
               type="application/ld+json"
-              id={`organization-schema-${router.locale}`}
+              id={`organization-schema-${activeLocale}`}
               dangerouslySetInnerHTML={{ __html: JSON.stringify(OrganizationSchemaData) }}
             />
           </>
@@ -494,16 +522,16 @@ const Header = ({ data, refer = null }) => {
           <>
           <script
               type="application/ld+json"
-              id={`software-schema-${router.locale}`}
+              id={`software-schema-${activeLocale}`}
               dangerouslySetInnerHTML={{ __html: JSON.stringify(SoftwareSchemaData) }}
             />
           </>
         )}
       </Head>
 
-      <ProgressBar />
+      {!isResourcesVariant && <ProgressBar />}
 
-      {regionSwitcher && process.env.NEXT_PUBLIC_ENV  !='develop' && (
+      {regionSwitcher && process.env.NEXT_PUBLIC_ENV  !='develop' && !isResourcesVariant && (
         <RegionPopup
           currentRegion={currentRegion}
           preferredLocale={preferredLocale}
@@ -515,16 +543,16 @@ const Header = ({ data, refer = null }) => {
 
       <div
         className={`${
-          !showMainHeader
+          !effectiveShowMainHeader
             ? 'lg:-translate-y-[105px] -translate-y-[90px]'
-            : showTopStrip
+            : effectiveShowTopStrip
             ? 'lg:translate-y-0'
             : 'lg:-translate-y-[42px]'
         } fixed top-0 left-0 z-30 transition-transform duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}
       >
         {/* top region switcher */}
         {regionSwitcherTop && (
-          <RegionStrip locale={router.locale} setRegionSwitcherTop={setRegionSwitcherTop} className={`${
+          <RegionStrip locale={activeLocale} setRegionSwitcherTop={setRegionSwitcherTop} className={`${
             regionSwitcherTopShow ? 'lg:mt-0' : 'lg:mt-[-42px] mt-[-48px]'
           } fixed lg:static top-0 left-0 z-30 transition-all duration-300 ease-in-out w-full before:content-[''] before:-z-0 before:h-[100px] before:absolute before:left-0 before:right-0 before:top-[-100px] before:bg-gray-100`}  />
         )}
@@ -534,7 +562,7 @@ const Header = ({ data, refer = null }) => {
           className={`hidden z-20 lg:flex justify-center w-full bg-gray-100 relative transition-transform duration-300 ease-in-out h-[42px]`}
         >
           <div className={`flex w-full lg:px-12 ${ICBanner ? 'justify-between gap-5' : 'justify-end'}`}>           
-            {router.locale === 'en' ? (
+            {activeLocale === 'en' ? (
               <EventStrip
               href={"https://events.carestack.com/inner-circle-2027"}
               target={"_blank"}
@@ -548,7 +576,7 @@ const Header = ({ data, refer = null }) => {
               {REGIONS.length > 0 && (
                 <RegionSwitcherDropdown
                   regions={REGIONS}
-                  currentLocale={currentLocale}
+                  currentLocale={regionSwitcherLocale}
                   queryString={queryParam}
                   toggleRef={toggleRef}
                   openSwitcher={openSwitcher}
@@ -605,7 +633,7 @@ const Header = ({ data, refer = null }) => {
                           </Button>
                         </div>
 
-                        {router.locale === 'en' ? (
+                        {activeLocale === 'en' ? (
                           <EventStrip
                           href={"https://events.carestack.com/inner-circle-2027"}
                           target={"_blank"}
@@ -616,7 +644,7 @@ const Header = ({ data, refer = null }) => {
                         />
                         ): null }
                         
-                        <MobileRegionSwitcher regions={REGIONS} currentLocale={currentLocale} queryString={queryParam} onClose={closeMenu} />
+                        <MobileRegionSwitcher regions={REGIONS} currentLocale={regionSwitcherLocale} queryString={queryParam} onClose={closeMenu} />
                         <div className="flex flex-wrap justify-center items-center gap-2 lg:hidden">
                           <TopNavigationMenu safeData={safeData} currentLocale={currentLocale} />
                         </div>

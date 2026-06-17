@@ -21,7 +21,7 @@ const FeaturedAndPopularBlogs = ({
   if([featuredBlog]?.length > 0 && (popularBlogs.length <= 10)) return null  
 
   return (
-    <Section className="justify-center md:pt-24 md:pb-12">
+    <Section className="justify-center md:pt-24 md:pb-12 bg-white text-zinc-900">
       <Wrapper 
         className={`justify-between md:flex-row flex-col gap-8 md:gap-12 xl:gap-24`}
       >
