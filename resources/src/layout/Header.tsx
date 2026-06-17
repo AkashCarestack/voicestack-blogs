@@ -19,7 +19,13 @@ import { useHeaderContext } from '~/providers/HeaderContextProvider'
 import { NavPopover } from './overlaynav/NavPopover'
 import { ShortNavPopover } from './overlaynav/ShortNavPopover'
 
-export const navigationLinks = [
+type NavigationLink = {
+  href: string
+  label: string
+  icon?: React.ComponentType
+}
+
+export const navigationLinks: NavigationLink[] = [
   // { href: siteConfig.pageURLs.article, label: 'Articles', icon: ArticlesIcon },
   { href: siteConfig.categoryBaseUrls.base, label: 'All Topics' },
 ]
